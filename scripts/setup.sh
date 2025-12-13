@@ -10,7 +10,7 @@ set -euo pipefail
 log_info()  { echo "[INFO] $*"; }
 log_step()  { echo "[STEP] $*"; }
 log_ok()    { echo "[OK] $*"; }
-log_warn()  { echo "[WARN] $*" >&2; exit 1; }
+log_warn()  { echo "[WARN] $*" >&2; }
 log_error() { echo "[ERROR] $*" >&2; exit 1; }
 log_debug() { [ "${DEBUG:-0}" = "1" ] && echo "[DEBUG] $*" || true; }
 

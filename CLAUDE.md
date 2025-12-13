@@ -28,10 +28,15 @@ On peut librement :
 
 ## Structure
 ```
-rom.gb, src/, build/, Makefile, ROADMAP.md
+Makefile        # Build + verify (cible principale)
+ROADMAP.md      # Tâches et progression
+checksum.*      # Hash de référence (SHA256 + MD5)
+src/            # Code source désassemblé
 scripts/        # Scripts utilitaires (.sh + .ps1)
 docs/adr/       # Architecture Decision Records
 ```
+
+**Note** : `rom.gb` n'est pas dans git. L'utilisateur fournit sa propre ROM, validée via les checksums.
 
 ## Scripts (voir ADR-0001, ADR-0002)
 - Emplacement : `scripts/`

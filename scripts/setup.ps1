@@ -9,7 +9,7 @@ $ErrorActionPreference = "Stop"
 function Log-Info  { param($m) Write-Host "[INFO] $m" }
 function Log-Step  { param($m) Write-Host "[STEP] $m" -ForegroundColor Cyan }
 function Log-Ok    { param($m) Write-Host "[OK] $m" -ForegroundColor Green }
-function Log-Warn  { param($m) Write-Host "[WARN] $m" -ForegroundColor Yellow; exit 1 }
+function Log-Warn  { param($m) Write-Host "[WARN] $m" -ForegroundColor Yellow }
 function Log-Error { param($m) Write-Host "[ERROR] $m" -ForegroundColor Red; exit 1 }
 function Log-Debug { param($m) if ($env:DEBUG -eq "1") { Write-Host "[DEBUG] $m" -ForegroundColor Gray } }
 
