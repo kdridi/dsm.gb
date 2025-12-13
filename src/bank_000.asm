@@ -364,11 +364,7 @@ Jump_000_0185:
     ldh [$ffa4], a
     ld a, $80
     ldh [rLCDC], a
-
-jr_000_019b:
-    ldh a, [rLY]
-    cp $94
-    jr nz, jr_000_019b
+    WAIT_LY $94             ; Attendre VBlank (ligne 148)
 
     ld a, $03
     ldh [rLCDC], a
@@ -388,54 +384,26 @@ jr_000_019b:
     ld hl, $dfff
     ld c, $40
     ld b, $00
-
-jr_000_01c5:
-    ld [hl-], a
-    dec b
-    jr nz, jr_000_01c5
-
-    dec c
-    jr nz, jr_000_01c5
+    CLEAR_LOOP_BC           ; Clear WRAM ($C000-$DFFF)
 
     ld hl, $9fff
     ld c, $20
     xor a
     ld b, $00
-
-jr_000_01d4:
-    ld [hl-], a
-    dec b
-    jr nz, jr_000_01d4
-
-    dec c
-    jr nz, jr_000_01d4
+    CLEAR_LOOP_BC           ; Clear VRAM ($8000-$9FFF)
 
     ld hl, $feff
     ld b, $00
-
-jr_000_01e0:
-    ld [hl-], a
-    dec b
-    jr nz, jr_000_01e0
+    CLEAR_LOOP_B            ; Clear OAM + zone interdite
 
     ld hl, $fffe
     ld b, $80
-
-jr_000_01e9:
-    ld [hl-], a
-    dec b
-    jr nz, jr_000_01e9
+    CLEAR_LOOP_B            ; Clear HRAM ($FF80-$FFFE)
 
     ld c, $b6
     ld b, $0c
     ld hl, $3f7d
-
-jr_000_01f4:
-    ld a, [hl+]
-    ldh [c], a
-    inc c
-    dec b
-    jr nz, jr_000_01f4
+    COPY_TO_HRAM_LOOP       ; Copie routine VBlank vers HRAM ($FFB6)
 
     xor a
     ldh [$ffe4], a
