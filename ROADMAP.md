@@ -4,7 +4,7 @@
 - [x] [000001] Créer scripts setup (vérifie/installe mgbdis + rgbds, cross-platform)
 - [x] [000002] Calculer et stocker hash original (SHA256 + MD5)
 - [x] [000003] Désassembler rom.gb avec mgbdis
-- [ ] [000004] Créer Makefile (build + verify) et valider recompilation bit-perfect
+- [x] [000004] Créer Makefile (build + verify) et valider recompilation bit-perfect
 
 ## Phase 2 : Analyse
 <!-- À définir selon les besoins - exemples :
