@@ -351,59 +351,27 @@ Call_000_0166:
     ret
 
 
+;; ==========================================================================
+;; SystemInit - Initialisation complète du système Game Boy
+;; ==========================================================================
+;; Appelé par : RST_00 (soft reset), Boot ($0150)
+;; Entrée    : Aucune
+;; Sortie    : Système prêt, LCD OFF, mémoire effacée
+;; Modifie   : A, HL, BC, SP, tous les registres hardware
+;; ==========================================================================
 Jump_000_0185:
-    ld a, $03
-    di
-    ldh [rIF], a
-    ldh [rIE], a
-    ld a, $40
-    ldh [rSTAT], a
-    xor a
-    ldh [rSCY], a
-    ldh [rSCX], a
-    ldh [$ffa4], a
-    ld a, $80
-    ldh [rLCDC], a
-    WAIT_LY $94             ; Attendre VBlank (ligne 148)
-
-    ld a, $03
-    ldh [rLCDC], a
-    ld a, $e4
-    ldh [rBGP], a
-    ldh [rOBP0], a
-    ld a, $54
-    ldh [rOBP1], a
-    ld hl, $ff26
-    ld a, $80
-    ld [hl-], a
-    ld a, $ff
-    ld [hl-], a
-    ld [hl], $77
-    ld sp, $cfff
-    xor a
-    ld hl, $dfff
-    ld c, $40
-    ld b, $00
-    CLEAR_LOOP_BC           ; Clear WRAM ($C000-$DFFF)
-
-    ld hl, $9fff
-    ld c, $20
-    xor a
-    ld b, $00
-    CLEAR_LOOP_BC           ; Clear VRAM ($8000-$9FFF)
-
-    ld hl, $feff
-    ld b, $00
-    CLEAR_LOOP_B            ; Clear OAM + zone interdite
-
-    ld hl, $fffe
-    ld b, $80
-    CLEAR_LOOP_B            ; Clear HRAM ($FF80-$FFFE)
-
-    ld c, $b6
-    ld b, $0c
-    ld hl, $3f7d
-    COPY_TO_HRAM_LOOP       ; Copie routine VBlank vers HRAM ($FFB6)
+    ConfigureInterrupts         ; DI + config VBlank/STAT
+    ConfigureLCDStat            ; Mode LYC interrupt
+    ResetScroll                 ; SCX/SCY = 0
+    WaitVBlankAndDisableLCD     ; Attendre VBlank puis LCD OFF
+    ConfigurePalettes           ; BGP, OBP0, OBP1
+    EnableAudio                 ; NR50/51/52 = ON + volume max
+    SetupStack                  ; SP = $CFFF
+    ClearWRAM                   ; $C000-$DFFF = 0
+    ClearVRAM                   ; $8000-$9FFF = 0
+    ClearOAM                    ; $FE00-$FEFF = 0
+    ClearHRAM                   ; $FF80-$FFFE = 0
+    CopyVBlankRoutine           ; Copie DMA handler vers $FFB6
 
     xor a
     ldh [$ffe4], a
