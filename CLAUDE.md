@@ -29,6 +29,19 @@ Si le fichier `.initialized` n'existe pas à la racine :
 ./scripts/install-hooks.sh   # Installe le hook pre-commit + crée .initialized
 ```
 
+## Début de session
+
+Avant de travailler, vérifier que l'environnement est opérationnel :
+
+| Vérification | Commande | Attendu |
+|--------------|----------|---------|
+| Toolchain | `which rgbasm` | Chemin affiché |
+| Hook pre-commit | `ls .git/hooks/pre-commit` | Fichier présent (pas `.sample`) |
+| Fichier init | `ls .initialized` | Fichier présent |
+| Build OK | `make verify` | `HASH VERIFIED` |
+
+Si quelque chose manque → exécuter les scripts de "Premier lancement".
+
 ## Toolchain
 - **rgbds** : rgbasm, rgblink, rgbfix
 
