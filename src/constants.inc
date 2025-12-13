@@ -58,20 +58,38 @@ DEF AUDTERM_ALL     EQU $FF     ; Tous canaux (1-4) sur sorties L et R
 
 DEF hVBlankFlag     EQU $FF85   ; Flag VBlank (0=attente, 1=VBlank reçu)
 DEF hUnknown9A      EQU $FF9A   ; Variable HRAM (init à 0)
+DEF hUnknown9F      EQU $FF9F   ; Flag bloquant mise à jour
 DEF hShadowSCX      EQU $FFA4   ; Shadow register SCX (effets raster)
+DEF hFrameCounter   EQU $FFAC   ; Compteur de frames
+DEF hPauseFlag      EQU $FFB2   ; Flag pause (0=normal, 1=pause)
 DEF hGameState      EQU $FFB3   ; État du jeu ($0E initial)
 DEF hUnknownB4      EQU $FFB4   ; Variable HRAM ($11 initial)
 DEF hDmaRoutine     EQU $FFB6   ; Début routine DMA copiée en HRAM
+DEF hSavedBank      EQU $FFE1   ; Bank sauvegardée (temporaire)
 DEF hUnknownE4      EQU $FFE4   ; Variable HRAM (init à 0)
+DEF hScrollColumn   EQU $FFE9   ; Colonne courante scrolling tilemap
+DEF hScrollPhase    EQU $FFEA   ; Phase mise à jour tilemap (1=active, 2=done)
 DEF hCurrentBank    EQU $FFFD   ; Bank ROM courante
 
 ; === Variables WRAM ($C000-$DFFF) ===
 ; Convention: wXxxYyy (w minuscule + CamelCase)
 
+DEF wScoreBCD       EQU $C0A2   ; Score en BCD (3 octets)
+DEF wUpdateCounter  EQU $C0A3   ; Flag mise à jour compteur
 DEF wUnknownA4      EQU $C0A4   ; Variable WRAM ($03 initial)
 DEF wUnknownA8      EQU $C0A8   ; Variable WRAM ($11 initial)
+DEF wScrollBuffer   EQU $C0B0   ; Buffer colonne tilemap (16 octets)
 DEF wUnknownDC      EQU $C0DC   ; Variable WRAM ($02 initial)
 DEF wUnknownE1      EQU $C0E1   ; Variable WRAM (init à 0)
+DEF wPlayerData     EQU $C200   ; Données joueur (structure)
+DEF wAnimBuffer     EQU $C600   ; Buffer animation
+
+; === Variables extended WRAM ($D000-$DFFF) ===
+
+DEF wLevelData      EQU $DA00   ; Données niveau (DA00=type, DA01-02=BCD)
+DEF wAnimFlag       EQU $D014   ; Flag animation active
+DEF wLivesCounter   EQU $DA15   ; Compteur vies/niveau (BCD)
+DEF wSpecialState   EQU $DA1D   ; Trigger état spécial
 
 ; === Adresses ROM ===
 

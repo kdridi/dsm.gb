@@ -38,12 +38,12 @@ Objectif : comprendre le code via décomposition en "free functions" (macros).
 
 ### À faire
 
-- [ ] Documenter routines VBlank restantes :
-  - Call_000_224f (UpdateGameLogic début)
-  - Call_000_1c2a (UpdateGameLogic suite)
-  - Call_000_3d61 (routine VBlank)
-  - Call_000_23f8 (routine VBlank)
-- [ ] Décoder la jump table StateDispatcher ($02A5) → identifier les handlers d'état
+- [x] Documenter routines VBlank restantes :
+  - Call_000_224f (UpdateScrollColumn)
+  - Call_000_1c2a (UpdateLivesDisplay)
+  - Call_000_3d61 (UpdateLevelScore)
+  - Call_000_23f8 (UpdateAnimTiles)
+- [x] Décoder la jump table StateDispatcher ($02A5) → 60 états identifiés
 - [ ] Identifier variables HRAM/WRAM restantes (hUnknownXX → noms explicites)
 
 ## Phase 3 : Enrichissement (en cours)
@@ -89,16 +89,25 @@ Objectif : rendre le code plus lisible sans changer le binaire.
 | $C0DC | `wUnknownDC` | À identifier ($02 init) |
 | $C0E1 | `wUnknownE1` | À identifier |
 
-### Variables à ajouter (découvertes mais pas encore dans constants.inc)
+### Variables ajoutées (session 2025-12-14)
 
-| Adresse | Nom proposé | Usage |
-|---------|-------------|-------|
-| $FFAC | frame_counter | Compteur de frames |
-| $FFB2 | pause_flag | 0=normal, 1=pause |
-| $FFE1 | saved_bank | Bank sauvegardée (temp) |
-| $C200 | player_data | Données joueur (struct) |
-| $C0A2 | score_bcd | Score en BCD (3 octets) |
-| $DA1D | special_state | Trigger état spécial |
+| Adresse | Constante | Usage |
+|---------|-----------|-------|
+| $FF9F | `hUnknown9F` | Flag bloquant mise à jour |
+| $FFAC | `hFrameCounter` | Compteur de frames |
+| $FFB2 | `hPauseFlag` | 0=normal, 1=pause |
+| $FFE1 | `hSavedBank` | Bank sauvegardée (temp) |
+| $FFE9 | `hScrollColumn` | Colonne courante scrolling |
+| $FFEA | `hScrollPhase` | Phase mise à jour tilemap |
+| $C0A2 | `wScoreBCD` | Score en BCD (3 octets) |
+| $C0A3 | `wUpdateCounter` | Flag mise à jour compteur |
+| $C0B0 | `wScrollBuffer` | Buffer colonne tilemap |
+| $C200 | `wPlayerData` | Données joueur (struct) |
+| $C600 | `wAnimBuffer` | Buffer animation |
+| $D014 | `wAnimFlag` | Flag animation active |
+| $DA00 | `wLevelData` | Données niveau (BCD) |
+| $DA15 | `wLivesCounter` | Compteur vies/niveau |
+| $DA1D | `wSpecialState` | Trigger état spécial |
 
 ### Routines identifiées
 
@@ -108,8 +117,12 @@ Objectif : rendre le code plus lisible sans changer le binaire.
 | $0226 | GameLoop | Boucle principale |
 | $0296 | WaitVBlank | Attente frame (halt) |
 | $0040 | VBlankHandler | Handler interruption |
-| $02A3 | StateDispatcher | Dispatch selon game_state |
+| $02A3 | StateDispatcher | Dispatch selon game_state (60 états) |
 | $07C3 | CheckInputAndPause | Soft reset + pause |
 | $09E8 | InitGameState | Init état $03 |
 | $172D | CallBank3_4823 | Wrapper bank switch |
+| $1C2A | UpdateLivesDisplay | Mise à jour vies (BCD) |
+| $224F | UpdateScrollColumn | Scrolling vertical tilemap |
+| $23F8 | UpdateAnimTiles | Animation eau/lave |
+| $3D61 | UpdateLevelScore | Affichage score niveau |
 | $3F24 | UpdateScoreDisplay | Score BCD→tilemap |

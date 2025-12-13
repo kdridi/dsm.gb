@@ -526,6 +526,36 @@ jr_000_02a1:
 ;; NOTE: Le code après "rst $28" est une TABLE DE POINTEURS mal désassemblée.
 ;; Les "db", "ld b, $xx", etc. sont en fait des adresses 16-bit.
 ;; Ne pas modifier ce code sans comprendre la structure de la table !
+;;
+;; === JUMP TABLE DÉCODÉE (60 états, $00-$3B) ===
+;;
+;; | État | Adresse | Description (hypothèse)          |
+;; |------|---------|-----------------------------------|
+;; | $00  | $0610   | ?                                 |
+;; | $01  | $06A5   | ?                                 |
+;; | $02  | $06C5   | ?                                 |
+;; | $03  | $0B84   | InitGameState cible               |
+;; | $04  | $0BCD   | ?                                 |
+;; | $05  | $0C6A   | ?                                 |
+;; | $06  | $0CC2   | ?                                 |
+;; | $07  | $0C37   | ?                                 |
+;; | $08  | $0D40   | ?                                 |
+;; | $09  | $1612   | ?                                 |
+;; | $0A  | $1626   | ?                                 |
+;; | $0B  | $1663   | ?                                 |
+;; | $0C  | $16D1   | ?                                 |
+;; | $0D  | $236D   | ?                                 |
+;; | $0E  | $0322   | État initial (INIT_GAME_STATE)    |
+;; | $0F  | $04C3   | ?                                 |
+;; | $10  | $05B7   | ?                                 |
+;; | $11  | $055F   | ?                                 |
+;; | $12  | $3D8E   | Écran fin (UpdateLevelScore skip) |
+;; | $13  | $3DCE   | ?                                 |
+;; | $14  | $5832   | (bank switch requis)              |
+;; | ...  | ...     | (voir bytes à $02A5)              |
+;; | $39  | $????   | Game over (depuis UpdateLives)    |
+;; | $3A  | $????   | État spécial window               |
+;;
 ;; ==========================================================================
 Call_000_02a3:
     ldh a, [$ffb3]          ; Lire game_state (0-N)
@@ -5338,6 +5368,25 @@ jr_000_1c12:
     ret
 
 
+; =============================================================================
+; Call_000_1c2a - UpdateLivesDisplay
+; =============================================================================
+; QUOI : Met à jour l'affichage du compteur de vies/niveau à l'écran.
+;
+; ALGORITHME :
+;   1. Vérifie hUnknown9F == 0 (pas bloqué)
+;   2. Vérifie wUpdateCounter ($C0A3) != 0 (update demandée)
+;   3. Si wLivesCounter == $99, c'est le max → ne pas incrémenter
+;   4. Si wUpdateCounter == $FF, décrémente le compteur (perte de vie)
+;   5. Sinon incrémente le compteur (gain de vie) avec DAA (BCD)
+;   6. Affiche les chiffres BCD aux positions $9806-$9807
+;   7. Si compteur tombe à 0, déclenche état spécial ($39 = game over?)
+;   8. Remet wUpdateCounter à 0
+;
+; ENTRÉE : wUpdateCounter ($C0A3) = direction ($FF=down, autre=up)
+; SORTIE : wLivesCounter ($DA15) mis à jour, tilemap modifié
+; MODIFIE : A, B
+; =============================================================================
 Call_000_1c2a:
     ldh a, [$ff9f]
     and a
@@ -6601,6 +6650,24 @@ jr_000_2246:
     jp Jump_000_21df
 
 
+; =============================================================================
+; Call_000_224f - UpdateScrollColumn
+; =============================================================================
+; QUOI : Met à jour une colonne du tilemap pour le scrolling vertical.
+;
+; ALGORITHME :
+;   1. Vérifie si phase d'update active (hScrollPhase == 1)
+;   2. Incrémente la colonne courante ($40-$5F, wrap à $40)
+;   3. Copie 16 tiles depuis wScrollBuffer vers le tilemap ($98xx)
+;   4. Pour chaque tile, vérifie les valeurs spéciales ($70, $80, $5F, $81)
+;      et appelle les handlers appropriés
+;   5. Avance de $20 (32) pour passer à la ligne suivante
+;   6. Met hScrollPhase à 2 (terminé)
+;
+; ENTRÉE : hScrollPhase ($FFEA) = 1 pour activer
+; SORTIE : hScrollPhase = 2 quand terminé
+; MODIFIE : A, B, DE, HL
+; =============================================================================
 Call_000_224f:
     ldh a, [$ffea]
     cp $01
@@ -6908,6 +6975,28 @@ Call_000_235a:
     ret
 
 
+; =============================================================================
+; Call_000_23f8 - UpdateAnimTiles
+; =============================================================================
+; QUOI : Met à jour les tiles d'animation (eau, lave, etc.) périodiquement.
+;
+; CONDITIONS :
+;   - wAnimFlag ($D014) != 0 (animation active)
+;   - hGameState < $0D (en jeu)
+;   - hFrameCounter ($FFAC) & 7 == 0 (toutes les 8 frames)
+;
+; ALGORITHME :
+;   1. Selon bit 3 de hFrameCounter :
+;      - Si 1 : lit depuis wAnimBuffer ($C600)
+;      - Si 0 : lit depuis table ROM $3FAF (selon hUnknownB4)
+;   2. Copie 8 octets vers $95D1 (tiles VRAM)
+;
+; NOTE : Crée l'effet d'animation de l'eau/lave toutes les 8 frames
+;        en alternant entre deux frames d'animation.
+;
+; SORTIE : Tiles VRAM mis à jour
+; MODIFIE : A, B, DE, HL
+; =============================================================================
 Call_000_23f8:
     ld a, [$d014]
     and a
@@ -11933,6 +12022,23 @@ jr_000_3d56:
     ret
 
 
+; =============================================================================
+; Call_000_3d61 - UpdateLevelScore
+; =============================================================================
+; QUOI : Met à jour l'affichage du score de niveau à l'écran.
+;
+; CONDITIONS :
+;   - wUnknownA4 ($C0A4) == 0 (pas en état spécial)
+;   - hGameState < $12 (pas en écran de fin)
+;   - wLevelData ($DA00) == $28 (type de niveau spécifique?)
+;
+; ALGORITHME :
+;   Appelle Call_000_3d75 qui affiche le score BCD de $DA01-$DA02
+;   aux positions $9831-$9833 du tilemap.
+;
+; SORTIE : Tilemap mis à jour avec le score
+; MODIFIE : A, B, DE
+; =============================================================================
 Call_000_3d61:
     ld a, [$c0a4]
     and a
