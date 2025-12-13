@@ -1,0 +1,8 @@
+# Dépendances externes (clonées par setup.sh)
+tools/
+
+# Build
+build/
+
+# macOS
+.DS_Store

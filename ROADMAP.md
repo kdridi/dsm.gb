@@ -1,7 +1,7 @@
 # ROADMAP
 
 ## Phase 1 : Setup
-- [ ] [000001] Installer mgbdis et rgbds
+- [x] [000001] Créer scripts setup (vérifie/installe mgbdis + rgbds, cross-platform)
 - [ ] [000002] Calculer et stocker hash original (SHA256 + MD5)
 - [ ] [000003] Désassembler rom.gb avec mgbdis
 - [ ] [000004] Créer Makefile avec target build + verify
