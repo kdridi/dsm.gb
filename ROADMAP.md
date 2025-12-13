@@ -29,6 +29,13 @@ Objectif : comprendre le code via décomposition en "free functions" (macros).
   - Call_000_02a3 (StateDispatcher + jump table)
   - Call_000_3f24 (UpdateScoreDisplay - BCD→tiles)
 
+- [x] Créer `constants.inc` avec constantes nommées (remplacer magic values)
+  - Variables HRAM : hVBlankFlag, hGameState, hShadowSCX, hCurrentBank, etc.
+  - Variables WRAM : wUnknownA4, wUnknownA8, wUnknownDC, wUnknownE1
+  - Zones mémoire : _VRAM_END, _WRAM_END, _HRAM_END, _OAM_END, _STACK_TOP
+  - Config : PALETTE_STANDARD, AUDVOL_MAX, IE_VBLANK_STAT, etc.
+- [x] Documenter convention "constantes nommées" dans CLAUDE.md
+
 ### À faire
 
 - [ ] Documenter routines VBlank restantes :
@@ -37,18 +44,22 @@ Objectif : comprendre le code via décomposition en "free functions" (macros).
   - Call_000_3d61 (routine VBlank)
   - Call_000_23f8 (routine VBlank)
 - [ ] Décoder la jump table StateDispatcher ($02A5) → identifier les handlers d'état
-- [ ] Identifier et nommer les variables HRAM ($FFxx)
-- [ ] Identifier et nommer les variables WRAM ($C0xx, $D0xx)
+- [ ] Identifier variables HRAM/WRAM restantes (hUnknownXX → noms explicites)
 
-## Phase 3 : Enrichissement
+## Phase 3 : Enrichissement (en cours)
 
 Objectif : rendre le code plus lisible sans changer le binaire.
 
+### Terminé ✓
+
+- [x] Créer `constants.inc` avec DEF/EQU pour adresses connues
+  - hGameState ($FFB3), hVBlankFlag ($FF85), hCurrentBank ($FFFD), etc.
+  - Voir `src/constants.inc` pour liste complète
+
+### À faire
+
 - [ ] Renommer les labels `Jump_000_XXXX` → noms explicites
-- [ ] Créer des DEF/EQU pour les adresses connues :
-  - `DEF game_state EQU $FFB3`
-  - `DEF frame_ready EQU $FF85`
-  - `DEF player_data EQU $C200`
+- [ ] Renommer hUnknownXX/wUnknownXX → noms explicites (reverse engineering)
 - [ ] Extraire les données en fichiers séparés (si possible bit-perfect)
 - [ ] Documenter les structures de données (player, enemies, level)
 
@@ -61,17 +72,30 @@ Objectif : rendre le code plus lisible sans changer le binaire.
 
 ## Découvertes
 
-### Variables identifiées
+### Variables identifiées (dans constants.inc)
+
+| Adresse | Constante | Usage |
+|---------|-----------|-------|
+| $FF85 | `hVBlankFlag` | Flag VBlank→GameLoop |
+| $FF9A | `hUnknown9A` | À identifier |
+| $FFA4 | `hShadowSCX` | Shadow register SCX |
+| $FFB3 | `hGameState` | État du jeu (0-$0E+) |
+| $FFB4 | `hUnknownB4` | À identifier ($11 init) |
+| $FFB6 | `hDmaRoutine` | Routine DMA copiée |
+| $FFE4 | `hUnknownE4` | À identifier |
+| $FFFD | `hCurrentBank` | Bank ROM courante |
+| $C0A4 | `wUnknownA4` | À identifier ($03 init) |
+| $C0A8 | `wUnknownA8` | À identifier ($11 init) |
+| $C0DC | `wUnknownDC` | À identifier ($02 init) |
+| $C0E1 | `wUnknownE1` | À identifier |
+
+### Variables à ajouter (découvertes mais pas encore dans constants.inc)
 
 | Adresse | Nom proposé | Usage |
 |---------|-------------|-------|
-| $FFB3 | game_state | État du jeu (0-$0E+) |
-| $FF85 | frame_ready | Flag VBlank→GameLoop |
 | $FFAC | frame_counter | Compteur de frames |
 | $FFB2 | pause_flag | 0=normal, 1=pause |
-| $FFFD | current_bank | Bank ROM courante |
 | $FFE1 | saved_bank | Bank sauvegardée (temp) |
-| $FFA4 | scx_shadow | Shadow register SCX |
 | $C200 | player_data | Données joueur (struct) |
 | $C0A2 | score_bcd | Score en BCD (3 octets) |
 | $DA1D | special_state | Trigger état spécial |
