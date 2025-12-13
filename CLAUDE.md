@@ -76,3 +76,12 @@ Build = SHA256 + MD5 identiques à la référence
 1. Suivre ROADMAP.md pour les tâches structurantes
 2. Pour chaque modification du source : **toujours valider avec `make verify`**
 3. Capitaliser les découvertes (voir convention ci-dessus)
+
+## Fin de session
+Avant un `/clear` ou une pause, faire un briefing concis :
+1. **Ce qu'on a fait** - résumé factuel
+2. **À capitaliser** - si quelque chose mérite d'aller dans CLAUDE.md, ROADMAP.md ou un ADR, le faire ou le signaler
+3. **Prochaines pistes** - options concrètes avec avis critique sur les priorités
+4. **Ou "à plus !"** - la porte reste ouverte
+
+Ton : enthousiaste sur l'élan, honnête sur les priorités.
