@@ -1,8 +1,5 @@
-# ROM originale (fournie par l'utilisateur, validée via checksum)
-rom.gb
-
-# Dépendances externes (clonées par setup.sh)
-tools/
+# Fichiers locaux
+*.gb
 
 # Build
 build/

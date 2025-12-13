@@ -1,5 +1,5 @@
 # =============================================================================
-# setup.ps1 - Installation des dépendances pour le désassemblage Game Boy
+# setup.ps1 - Installation des dépendances pour le projet Game Boy ASM
 # Plateforme : Windows
 # =============================================================================
 
@@ -16,21 +16,17 @@ function Log-Debug { param($m) if ($env:DEBUG -eq "1") { Write-Host "[DEBUG] $m"
 # --- Variables ---
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectRoot = Split-Path -Parent $ScriptDir
-$ToolsDir = Join-Path $ProjectRoot "tools"
-$MgbdisDir = Join-Path $ToolsDir "mgbdis"
-$MgbdisScript = Join-Path $MgbdisDir "mgbdis.py"
 
 # --- Header d'intention ---
 Write-Host "============================================================================="
 Write-Host "SCRIPT  : setup.ps1"
-Write-Host "OBJECTIF: Verifier et installer les dependances (rgbds, mgbdis)"
-Write-Host "PREREQS : Git, gestionnaire de paquets (Chocolatey ou Scoop)"
+Write-Host "OBJECTIF: Verifier et installer les dependances (rgbds)"
+Write-Host "PREREQS : Gestionnaire de paquets (Chocolatey ou Scoop)"
 Write-Host "============================================================================="
 Write-Host ""
 
 Log-Debug "ScriptDir=$ScriptDir"
 Log-Debug "ProjectRoot=$ProjectRoot"
-Log-Debug "ToolsDir=$ToolsDir"
 
 # --- Fonctions utilitaires ---
 function Test-Command {
@@ -55,18 +51,7 @@ if (Test-Command "choco") {
     Log-Error "Aucun gestionnaire de paquets detecte. Installer Chocolatey (https://chocolatey.org/install) ou Scoop (https://scoop.sh)"
 }
 
-# --- Etape 2 : Verification de Git ---
-Log-Step "Verification de Git..."
-
-if (Test-Command "git") {
-    $gitVersion = git --version
-    Log-Ok "Git est installe ($gitVersion)"
-    Log-Debug "git path = $(Get-Command git | Select-Object -ExpandProperty Source)"
-} else {
-    Log-Error "Git n'est pas installe. Installer Git avant de continuer."
-}
-
-# --- Etape 3 : Verification/installation de rgbds ---
+# --- Etape 2 : Verification/installation de rgbds ---
 Log-Step "Verification de rgbds (rgbasm, rgblink, rgbfix)..."
 
 if ((Test-Command "rgbasm") -and (Test-Command "rgblink") -and (Test-Command "rgbfix")) {
@@ -92,28 +77,6 @@ if ((Test-Command "rgbasm") -and (Test-Command "rgblink") -and (Test-Command "rg
     }
 }
 
-# --- Etape 4 : Verification/installation de mgbdis ---
-Log-Step "Verification de mgbdis..."
-
-if (Test-Path $MgbdisScript) {
-    Log-Ok "mgbdis est present dans $MgbdisDir"
-} else {
-    Log-Info "mgbdis n'est pas present. Clonage depuis GitHub..."
-
-    Log-Debug "Creation du dossier: $ToolsDir"
-    New-Item -ItemType Directory -Force -Path $ToolsDir | Out-Null
-
-    Log-Debug "Execution: git clone https://github.com/mattcurrie/mgbdis.git $MgbdisDir"
-    git clone https://github.com/mattcurrie/mgbdis.git $MgbdisDir
-
-    # Verification post-clonage
-    if (Test-Path $MgbdisScript) {
-        Log-Ok "mgbdis clone avec succes dans $MgbdisDir"
-    } else {
-        Log-Error "Echec du clonage de mgbdis"
-    }
-}
-
 # --- Resume final ---
 Write-Host ""
 Write-Host "============================================================================="
@@ -124,7 +87,6 @@ Log-Info "Toutes les dependances sont installees"
 Write-Host ""
 Write-Host "Commandes disponibles :"
 Write-Host "  - rgbasm, rgblink, rgbfix (rgbds)"
-Write-Host "  - python $MgbdisScript"
 Write-Host ""
 
 exit 0

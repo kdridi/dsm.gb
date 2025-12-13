@@ -1,8 +1,3 @@
-; Disassembly of "rom.gb"
-; This file was created with:
-; mgbdis v3.0 - Game Boy ROM disassembler by Matt Currie and contributors.
-; https://github.com/mattcurrie/mgbdis
-
 SECTION "ROM Bank $002", ROMX[$4000], BANK[$2]
 
     sub d

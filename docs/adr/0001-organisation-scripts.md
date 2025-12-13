@@ -25,8 +25,8 @@ Tous les scripts utilitaires sont placés dans le dossier `scripts/` à la racin
 **Exemples :**
 | ❌ Mauvais | ✅ Bon | Pourquoi |
 |-----------|--------|----------|
-| `hash.sh` | `store-original-hash.sh` | "hash" ne dit pas l'intention (calculer ? vérifier ? stocker ?) |
-| `build.sh` | `build-rom.sh` | Plus explicite sur ce qu'on construit |
+| `check.sh` | `verify-build.sh` | "check" ne dit pas l'intention (vérifier quoi ?) |
+| `build.sh` | `build-game.sh` | Plus explicite sur ce qu'on construit |
 | `tools.sh` | `setup-toolchain.sh` | Le verbe clarifie l'action |
 
 ### Structure

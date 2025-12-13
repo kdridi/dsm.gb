@@ -1,5 +1,5 @@
 # =============================================================================
-# Makefile - Build et vérification bit-perfect de la ROM Game Boy
+# Makefile - Build et vérification bit-perfect
 # =============================================================================
 
 .PHONY: all build verify clean
@@ -8,7 +8,7 @@ ROM := src/game.gb
 
 all: build
 
-# Build la ROM depuis les sources désassemblées
+# Compile le projet
 build:
 	cd src && rgbasm -o game.o game.asm
 	cd src && rgblink -n game.sym -m game.map -o game.gb game.o

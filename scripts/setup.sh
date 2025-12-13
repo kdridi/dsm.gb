@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# setup.sh - Installation des dépendances pour le désassemblage Game Boy
+# setup.sh - Installation des dépendances pour le projet Game Boy ASM
 # Plateformes : Linux / macOS
 # =============================================================================
 
@@ -17,20 +17,17 @@ log_debug() { [ "${DEBUG:-0}" = "1" ] && echo "[DEBUG] $*" || true; }
 # --- Variables ---
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-TOOLS_DIR="$PROJECT_ROOT/tools"
-MGBDIS_DIR="$TOOLS_DIR/mgbdis"
 
 # --- Header d'intention ---
 echo "============================================================================="
 echo "SCRIPT  : setup.sh"
-echo "OBJECTIF: Vérifier et installer les dépendances (rgbds, mgbdis)"
-echo "PREREQS : Git, gestionnaire de paquets (brew/apt/pacman/dnf)"
+echo "OBJECTIF: Vérifier et installer les dépendances (rgbds)"
+echo "PREREQS : Gestionnaire de paquets (brew/apt/pacman/dnf)"
 echo "============================================================================="
 echo ""
 
 log_debug "SCRIPT_DIR=$SCRIPT_DIR"
 log_debug "PROJECT_ROOT=$PROJECT_ROOT"
-log_debug "TOOLS_DIR=$TOOLS_DIR"
 
 # --- Fonctions utilitaires ---
 check_command() {
@@ -77,17 +74,7 @@ elif [ "$OS_TYPE" = "linux" ]; then
     log_debug "PKG_INSTALL=$PKG_INSTALL"
 fi
 
-# --- Étape 3 : Vérification de Git ---
-log_step "Vérification de Git..."
-
-if ! check_command git; then
-    log_error "Git n'est pas installé. Installer Git avant de continuer."
-fi
-
-log_ok "Git est installé ($(git --version))"
-log_debug "git path = $(which git)"
-
-# --- Étape 4 : Vérification/installation de rgbds ---
+# --- Étape 3 : Vérification/installation de rgbds ---
 log_step "Vérification de rgbds (rgbasm, rgblink, rgbfix)..."
 
 if check_command rgbasm && check_command rgblink && check_command rgbfix; then
@@ -109,26 +96,6 @@ else
     fi
 fi
 
-# --- Étape 5 : Vérification/installation de mgbdis ---
-log_step "Vérification de mgbdis..."
-
-if [ -f "$MGBDIS_DIR/mgbdis.py" ]; then
-    log_ok "mgbdis est présent dans $MGBDIS_DIR"
-else
-    log_info "mgbdis n'est pas présent. Clonage depuis GitHub..."
-    log_debug "Création du dossier: $TOOLS_DIR"
-    mkdir -p "$TOOLS_DIR"
-
-    log_debug "Exécution: git clone https://github.com/mattcurrie/mgbdis.git $MGBDIS_DIR"
-    git clone https://github.com/mattcurrie/mgbdis.git "$MGBDIS_DIR"
-
-    if [ -f "$MGBDIS_DIR/mgbdis.py" ]; then
-        log_ok "mgbdis cloné avec succès dans $MGBDIS_DIR"
-    else
-        log_error "Échec du clonage de mgbdis"
-    fi
-fi
-
 # --- Résumé final ---
 echo ""
 echo "============================================================================="
@@ -139,7 +106,6 @@ log_info "Toutes les dépendances sont installées"
 echo ""
 echo "Commandes disponibles :"
 echo "  - rgbasm, rgblink, rgbfix (rgbds)"
-echo "  - python3 $MGBDIS_DIR/mgbdis.py"
 echo ""
 
 exit 0

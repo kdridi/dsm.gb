@@ -1,17 +1,16 @@
-# Projet Désassemblage Game Boy
+# Projet Game Boy ASM
 
 ## Objectif
-Désassembler `rom.gb`, analyser et annoter le code source tout en garantissant une recompilation bit-perfect.
+Comprendre, documenter et enrichir des sources ASM Game Boy tout en garantissant une compilation bit-perfect.
 
 ## Principe fondamental
 **Le hash identique est notre test de non-régression.**
 
 Cycle de travail :
 ```
-1. Désassembler (une fois)
-2. Recompiler → Valider hash identique
-3. Annoter/Modifier le source → Recompiler → Valider
-4. Répéter étape 3
+1. Modifier le source (renommer, commenter, restructurer)
+2. Compiler → Valider hash identique
+3. Répéter
 ```
 
 On peut librement :
@@ -20,10 +19,9 @@ On peut librement :
 - Restructurer le code (sections, includes)
 - Documenter les routines et structures de données
 
-...tant que `make verify` confirme que le binaire reste identique à l'original.
+...tant que `make verify` confirme que le binaire reste identique.
 
 ## Toolchain
-- **mgbdis** : désassembleur
 - **rgbds** : rgbasm, rgblink, rgbfix
 
 ## Structure
@@ -31,27 +29,25 @@ On peut librement :
 Makefile        # Build + verify (cible principale)
 ROADMAP.md      # Tâches et progression
 checksum.*      # Hash de référence (SHA256 + MD5)
-src/            # Code source désassemblé
+src/            # Code source ASM
 scripts/        # Scripts utilitaires (.sh + .ps1)
 docs/adr/       # Architecture Decision Records
 ```
-
-**Note** : `rom.gb` n'est pas dans git. L'utilisateur fournit sa propre ROM, validée via les checksums.
 
 ## Scripts (voir ADR-0001, ADR-0002)
 - Emplacement : `scripts/`
 - Unix : `scripts/<nom>.sh`
 - Windows : `scripts/<nom>.ps1`
-- **Nommage** : verbe + objet (ex: `setup-toolchain.sh`, pas `hash.sh`)
+- **Nommage** : verbe + objet (ex: `setup-toolchain.sh`)
 - Règle : chaque script a son équivalent cross-platform
 - Logging : header d'intention, log par étape, mode DEBUG=1
 - Erreurs : arrêt immédiat, message clair, code de sortie approprié
 
 ## Vérification
-Build = SHA256 + MD5 identiques à l'original
+Build = SHA256 + MD5 identiques à la référence
 
 ## Conventions
-- Process générique (indépendant du jeu)
+- Process générique
 - Commits : `[ROADMAP-XXXXXX] description`
 - Code/labels : anglais | Docs/commentaires : français
 - 1 tâche ROADMAP = 1 commit
