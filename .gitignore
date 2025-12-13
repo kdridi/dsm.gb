@@ -3,6 +3,10 @@ tools/
 
 # Build
 build/
+src/*.o
+src/*.gb
+src/*.sym
+src/*.map
 
 # macOS
 .DS_Store
