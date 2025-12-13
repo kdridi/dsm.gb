@@ -67,6 +67,26 @@ docs/adr/       # Architecture Decision Records
 ## Vérification
 Build = SHA256 + MD5 identiques à la référence
 
+## Macros RGBASM
+
+Les macros permettent d'abstraire les patterns répétitifs **sans changer le binaire**.
+
+**Principe** : Les macros s'expandent à l'assemblage → code machine identique → hash vérifié.
+
+**Convention** :
+- Fichier : `src/macros.inc` (inclus avant les banks)
+- Nommage : `VERBE_OBJET` en majuscules (ex: `CLEAR_LOOP_BC`, `WAIT_LY`)
+- Documentation : chaque macro explique **QUOI** + **POURQUOI** + **PRÉREQUIS**
+- Factoriser uniquement la **boucle**, pas le setup des registres
+  - Raison : l'ordre des instructions de setup peut varier dans l'original
+
+**Pourquoi cette approche ?**
+1. Le nom de la macro documente l'intention
+2. Les commentaires d'usage dans bank_000.asm expliquent le contexte
+3. Le binaire reste bit-perfect (vérifié par `make verify`)
+
+**Macros existantes** : voir `src/macros.inc` pour la liste complète.
+
 ## Conventions
 - Process générique
 - Commits : `[ROADMAP-XXXXXX] description`
