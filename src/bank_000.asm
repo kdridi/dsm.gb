@@ -1800,22 +1800,37 @@ Call_000_09d7:
     ret
 
 
+;; ==========================================================================
+;; InitGameState - Initialise l'état de jeu (appelé quand $DA1D == 3)
+;; ==========================================================================
+;; Appelé par : GameLoop (CheckSpecialState)
+;; Condition  : $D007 == 0 (sinon early return)
+;; Effet      : Configure game_state = $03 et initialise les variables
+;; ==========================================================================
 Call_000_09e8:
+    ; --- Early return si $D007 != 0 ---
     ld a, [$d007]
     and a
     ret nz
 
+    ; --- SetGameState($03) ---
     ld a, $03
-    ldh [$ffb3], a
+    ldh [$ffb3], a          ; game_state = $03
+
+    ; --- ResetTimerAndVariables ---
     xor a
-    ldh [$ffb5], a
-    ldh [rTMA], a
+    ldh [$ffb5], a          ; Variable = 0
+    ldh [rTMA], a           ; Timer Modulo = 0 (désactive timer)
+
     ld a, $02
-    ld [$dfe8], a
+    ld [$dfe8], a           ; Variable WRAM = $02
+
+    ; --- InitPlayerState ---
     ld a, $80
-    ld [$c200], a
-    ld a, [$c201]
-    ld [$c0dd], a
+    ld [$c200], a           ; Player state = $80
+
+    ld a, [$c201]           ; Lire position/état
+    ld [$c0dd], a           ; Copier vers variable de travail
     ret
 
 
@@ -4343,23 +4358,39 @@ jr_000_1727:
 
     jr jr_000_170d
 
+;; ==========================================================================
+;; CallBank3_4823 - Appelle la routine $4823 en bank 3
+;; ==========================================================================
+;; Appelé par : GameLoop (CheckSpecialState, après InitGameState)
+;; Pattern    : Save bank → Switch bank 3 → Call → Restore bank
+;; Variables  : $FF8E=$0C, $FF8D=$C0, $FF8F=$05, HL=$C200
+;; ==========================================================================
 Call_000_172d:
+    ; --- SetupParameters ---
     ld a, $0c
-    ldh [$ff8e], a
-    ld hl, $c200
+    ldh [$ff8e], a          ; Paramètre 1 = $0C
+    ld hl, $c200            ; HL = adresse player data
     ld a, $c0
-    ldh [$ff8d], a
+    ldh [$ff8d], a          ; Paramètre 2 = $C0
     ld a, $05
-    ldh [$ff8f], a
-    ldh a, [$fffd]
-    ldh [$ffe1], a
+    ldh [$ff8f], a          ; Paramètre 3 = $05
+
+    ; --- SaveCurrentBank ---
+    ldh a, [$fffd]          ; Lire bank courante
+    ldh [$ffe1], a          ; Sauvegarder dans temp
+
+    ; --- SwitchToBank3 ---
     ld a, $03
-    ldh [$fffd], a
-    ld [$2000], a
-    call $4823
-    ldh a, [$ffe1]
-    ldh [$fffd], a
-    ld [$2000], a
+    ldh [$fffd], a          ; Mettre à jour shadow register
+    ld [$2000], a           ; MBC: switch vers bank 3
+
+    ; --- CallTargetRoutine ---
+    call $4823              ; Appeler routine en bank 3
+
+    ; --- RestorePreviousBank ---
+    ldh a, [$ffe1]          ; Récupérer bank sauvegardée
+    ldh [$fffd], a          ; Restaurer shadow register
+    ld [$2000], a           ; MBC: restaurer bank
     ret
 
 
