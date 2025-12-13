@@ -73,17 +73,84 @@ Les macros permettent d'abstraire les patterns répétitifs **sans changer le bi
 
 **Principe** : Les macros s'expandent à l'assemblage → code machine identique → hash vérifié.
 
-**Convention** :
-- Fichier : `src/macros.inc` (inclus avant les banks)
-- Nommage : `VERBE_OBJET` en majuscules (ex: `CLEAR_LOOP_BC`, `WAIT_LY`)
-- Documentation : chaque macro explique **QUOI** + **POURQUOI** + **PRÉREQUIS**
-- Factoriser uniquement la **boucle**, pas le setup des registres
-  - Raison : l'ordre des instructions de setup peut varier dans l'original
+### Deux types de macros
 
-**Pourquoi cette approche ?**
-1. Le nom de la macro documente l'intention
-2. Les commentaires d'usage dans bank_000.asm expliquent le contexte
-3. Le binaire reste bit-perfect (vérifié par `make verify`)
+#### 1. Macros utilitaires (boucles réutilisables)
+Pour les patterns répétés plusieurs fois (clear mémoire, copies, attentes).
+
+```asm
+; Définition dans macros.inc
+MACRO CLEAR_LOOP_B
+.clear\@:
+    ld [hl-], a
+    dec b
+    jr nz, .clear\@
+ENDM
+
+; Usage - le setup reste explicite
+ld hl, $fffe
+ld b, $80
+CLEAR_LOOP_B            ; Clear HRAM
+```
+
+#### 2. Macros "free function" (décomposition algorithmique)
+Pour comprendre un algorithme complexe en le découpant en étapes nommées.
+
+**Objectif** : Lire le code ASM comme du C++ avec des appels de fonctions.
+
+```asm
+; === MACROS = "free functions" encapsulant chaque étape ===
+
+MACRO DisableInterruptsAndConfigure
+    ld a, $03
+    di
+    ldh [rIF], a
+    ldh [rIE], a
+ENDM
+
+MACRO ConfigureLCDStat
+    ld a, $40
+    ldh [rSTAT], a
+ENDM
+
+MACRO ResetScroll
+    xor a
+    ldh [rSCY], a
+    ldh [rSCX], a
+    ldh [$ffa4], a
+ENDM
+
+; === CODE = séquence d'appels lisible ===
+
+SystemInit::
+    DisableInterruptsAndConfigure   ; Comme DisableInterruptsAndConfigure()
+    ConfigureLCDStat                ; Comme ConfigureLCDStat()
+    ResetScroll                     ; Comme ResetScroll()
+    ; ...
+```
+
+**Équivalent C++ mental** :
+```cpp
+void SystemInit() {
+    DisableInterruptsAndConfigure();
+    ConfigureLCDStat();
+    ResetScroll();
+}
+```
+
+### Convention de nommage
+
+| Type | Nommage | Exemple |
+|------|---------|---------|
+| Utilitaire | `VERBE_OBJET` majuscules | `CLEAR_LOOP_BC`, `WAIT_LY` |
+| Free function | `VerbeCamelCase` | `DisableInterrupts`, `ConfigurePalettes` |
+
+### Fichiers
+- `src/macros.inc` : toutes les macros (utilitaires + free functions)
+- Inclus avant les banks dans `game.asm`
+
+### Prochaine étape
+Décomposer `Jump_000_0185` (init système) en macros free function pour documenter l'algorithme d'initialisation.
 
 **Macros existantes** : voir `src/macros.inc` pour la liste complète.
 
