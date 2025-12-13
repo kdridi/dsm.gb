@@ -39,8 +39,8 @@
 ;
 ; USAGE :
 ;   xor a                   ; A = 0
-;   ld hl, $dfff            ; Fin WRAM
-;   ld c, $40               ; 64 blocs
+;   ld hl, _WRAM_END        ; Fin WRAM
+;   ld c, WRAM_BLOCKS       ; 64 blocs
 ;   ld b, $00               ; de 256 octets = 16KB
 ;   CLEAR_LOOP_BC
 ; -----------------------------------------------------------------------------
@@ -68,8 +68,8 @@ ENDM
 ;
 ; USAGE :
 ;   ; A contient déjà 0 du clear précédent
-;   ld hl, $fffe            ; Fin HRAM
-;   ld b, $80               ; 128 octets
+;   ld hl, _HRAM_END        ; Fin HRAM
+;   ld b, HRAM_SIZE         ; 128 octets
 ;   CLEAR_LOOP_B
 ; -----------------------------------------------------------------------------
 MACRO CLEAR_LOOP_B
@@ -95,9 +95,9 @@ ENDM
 ;   B  = nombre d'octets à copier
 ;
 ; USAGE :
-;   ld c, $b6               ; Destination $FFB6
-;   ld b, $0c               ; 12 octets
-;   ld hl, $3f7d            ; Source en ROM
+;   ld c, LOW(hDmaRoutine)  ; Destination $FFB6
+;   ld b, DMA_ROUTINE_SIZE  ; 12 octets
+;   ld hl, ROM_DMA_ROUTINE  ; Source en ROM
 ;   COPY_TO_HRAM_LOOP
 ; -----------------------------------------------------------------------------
 MACRO COPY_TO_HRAM_LOOP
@@ -123,10 +123,10 @@ ENDM
 ;   \1 = numéro de ligne LCD à attendre (ex: $94 pour VBlank)
 ;
 ; USAGE :
-;   ld a, $80
+;   ld a, LCDCF_ON
 ;   ldh [rLCDC], a          ; LCD ON minimal
-;   WAIT_LY $94             ; Attendre VBlank
-;   ld a, $03
+;   WAIT_LY LY_VBLANK_SAFE  ; Attendre VBlank
+;   ld a, IE_VBLANK_STAT
 ;   ldh [rLCDC], a          ; LCD OFF (safe maintenant)
 ; -----------------------------------------------------------------------------
 MACRO WAIT_LY
@@ -151,7 +151,7 @@ ENDM
 ; Active VBlank + LCD STAT dans IE, clear les pending dans IF, puis DI.
 ; Les interruptions restent désactivées pendant toute l'init.
 MACRO ConfigureInterrupts
-    ld a, $03
+    ld a, IE_VBLANK_STAT
     di
     ldh [rIF], a
     ldh [rIE], a
@@ -162,7 +162,7 @@ ENDM
 ; -----------------------------------------------------------------------------
 ; Bit 6 = LYC interrupt enable. Permet les effets raster mid-screen.
 MACRO ConfigureLCDStat
-    ld a, $40
+    ld a, STATF_LYC
     ldh [rSTAT], a
 ENDM
 
@@ -174,7 +174,7 @@ MACRO ResetScroll
     xor a
     ldh [rSCY], a
     ldh [rSCX], a
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
 ENDM
 
 ; -----------------------------------------------------------------------------
@@ -184,10 +184,10 @@ ENDM
 ; sinon on risque d'endommager le hardware. On allume d'abord minimalement
 ; ($80), on attend la ligne 148 (plein VBlank), puis on éteint ($03).
 MACRO WaitVBlankAndDisableLCD
-    ld a, $80
+    ld a, LCDCF_ON
     ldh [rLCDC], a
-    WAIT_LY $94
-    ld a, $03
+    WAIT_LY LY_VBLANK_SAFE
+    ld a, IE_VBLANK_STAT
     ldh [rLCDC], a
 ENDM
 
@@ -197,10 +197,10 @@ ENDM
 ; $E4 = %11100100 = couleurs 3,2,1,0 (noir→blanc standard)
 ; $54 = %01010100 = palette alternative pour sprites (plus claire)
 MACRO ConfigurePalettes
-    ld a, $e4
+    ld a, PALETTE_STANDARD
     ldh [rBGP], a
     ldh [rOBP0], a
-    ld a, $54
+    ld a, PALETTE_SPRITE_ALT
     ldh [rOBP1], a
 ENDM
 
@@ -210,12 +210,12 @@ ENDM
 ; NR52 = $80 (master ON), NR51 = $FF (tous canaux L+R), NR50 = $77 (vol max)
 ; Utilise ld [hl-] pour économiser des octets (astuce classique).
 MACRO EnableAudio
-    ld hl, $ff26
-    ld a, $80
+    ld hl, rNR52
+    ld a, AUDENA_ON
     ld [hl-], a
-    ld a, $ff
+    ld a, AUDTERM_ALL
     ld [hl-], a
-    ld [hl], $77
+    ld [hl], AUDVOL_MAX
 ENDM
 
 ; -----------------------------------------------------------------------------
@@ -223,7 +223,7 @@ ENDM
 ; -----------------------------------------------------------------------------
 ; SP = $CFFF = haut de WRAM bank 0. La pile descend vers $C000.
 MACRO SetupStack
-    ld sp, $cfff
+    ld sp, _STACK_TOP
 ENDM
 
 ; -----------------------------------------------------------------------------
@@ -232,9 +232,9 @@ ENDM
 ; $C000-$DFFF = 16384 octets = 64 blocs de 256 octets
 MACRO ClearWRAM
     xor a
-    ld hl, $dfff
-    ld c, $40
-    ld b, $00
+    ld hl, _WRAM_END
+    ld c, WRAM_BLOCKS
+    ld b, $00               ; 256 octets par bloc
     CLEAR_LOOP_BC
 ENDM
 
@@ -244,10 +244,10 @@ ENDM
 ; $8000-$9FFF = 8192 octets = 32 blocs de 256 octets
 ; Note: xor a est APRÈS ld hl/ld c dans l'original (ordre préservé)
 MACRO ClearVRAM
-    ld hl, $9fff
-    ld c, $20
+    ld hl, _VRAM_END
+    ld c, VRAM_BLOCKS
     xor a
-    ld b, $00
+    ld b, $00               ; 256 octets par bloc
     CLEAR_LOOP_BC
 ENDM
 
@@ -257,8 +257,8 @@ ENDM
 ; $FE00-$FEFF = 256 octets (OAM = 160, reste = zone interdite)
 ; Note: A contient déjà 0 du ClearVRAM précédent
 MACRO ClearOAM
-    ld hl, $feff
-    ld b, $00
+    ld hl, _OAM_END
+    ld b, $00               ; 256 octets (OAM + zone interdite)
     CLEAR_LOOP_B
 ENDM
 
@@ -267,8 +267,8 @@ ENDM
 ; -----------------------------------------------------------------------------
 ; $FF80-$FFFE = 128 octets de RAM rapide
 MACRO ClearHRAM
-    ld hl, $fffe
-    ld b, $80
+    ld hl, _HRAM_END
+    ld b, HRAM_SIZE
     CLEAR_LOOP_B
 ENDM
 
@@ -278,9 +278,9 @@ ENDM
 ; POURQUOI : Pendant le DMA OAM, seul HRAM est accessible.
 ; La routine à $3F7D (12 octets) est copiée vers $FFB6.
 MACRO CopyVBlankRoutine
-    ld c, $b6
-    ld b, $0c
-    ld hl, $3f7d
+    ld c, LOW(hDmaRoutine)
+    ld b, DMA_ROUTINE_SIZE
+    ld hl, ROM_DMA_ROUTINE
     COPY_TO_HRAM_LOOP
 ENDM
 
@@ -293,24 +293,24 @@ ENDM
 ; Appelle la routine d'init en bank 3, puis switch vers bank 2.
 MACRO InitGameVariables
     xor a
-    ldh [$ffe4], a
-    ld a, $11
-    ldh [$ffb4], a
-    ld [$c0a8], a
-    ld a, $02
-    ld [$c0dc], a
-    ld a, $0e
-    ldh [$ffb3], a
-    ld a, $03
-    ld [$2000], a
-    ld [$c0a4], a
+    ldh [hUnknownE4], a
+    ld a, INIT_UNKNOWN_B4
+    ldh [hUnknownB4], a
+    ld [wUnknownA8], a
+    ld a, INIT_UNKNOWN_DC
+    ld [wUnknownDC], a
+    ld a, INIT_GAME_STATE
+    ldh [hGameState], a
+    ld a, INIT_UNKNOWN_A4
+    ld [rROMB0], a
+    ld [wUnknownA4], a
     ld a, $00
-    ld [$c0e1], a
-    ldh [$ff9a], a
-    call $7ff3
-    ld a, $02
-    ld [$2000], a
-    ldh [$fffd], a
+    ld [wUnknownE1], a
+    ldh [hUnknown9A], a
+    call ROM_INIT_BANK3
+    ld a, INIT_UNKNOWN_DC
+    ld [rROMB0], a
+    ldh [hCurrentBank], a
 ENDM
 
 ; -----------------------------------------------------------------------------
@@ -321,9 +321,9 @@ ENDM
 MACRO WaitForNextFrame
 .wait\@:
     halt
-    ldh a, [$ff85]
+    ldh a, [hVBlankFlag]
     and a
     jr z, .wait\@
     xor a
-    ldh [$ff85], a
+    ldh [hVBlankFlag], a
 ENDM

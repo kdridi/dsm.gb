@@ -88,8 +88,8 @@ MACRO CLEAR_LOOP_B
 ENDM
 
 ; Usage - le setup reste explicite
-ld hl, $fffe
-ld b, $80
+ld hl, _HRAM_END
+ld b, HRAM_SIZE
 CLEAR_LOOP_B            ; Clear HRAM
 ```
 
@@ -102,14 +102,14 @@ Pour comprendre un algorithme complexe en le découpant en étapes nommées.
 ; === MACROS = "free functions" encapsulant chaque étape ===
 
 MACRO DisableInterruptsAndConfigure
-    ld a, $03
+    ld a, IE_VBLANK_STAT
     di
     ldh [rIF], a
     ldh [rIE], a
 ENDM
 
 MACRO ConfigureLCDStat
-    ld a, $40
+    ld a, STATF_LYC
     ldh [rSTAT], a
 ENDM
 
@@ -117,7 +117,7 @@ MACRO ResetScroll
     xor a
     ldh [rSCY], a
     ldh [rSCX], a
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
 ENDM
 
 ; === CODE = séquence d'appels lisible ===
@@ -153,6 +153,46 @@ void SystemInit() {
 Décomposer `Jump_000_0185` (init système) en macros free function pour documenter l'algorithme d'initialisation.
 
 **Macros existantes** : voir `src/macros.inc` pour la liste complète.
+
+## Constantes nommées
+
+**Règle d'or** : Jamais de magic value dans `macros.inc` - toujours utiliser une constante nommée.
+
+### Organisation des fichiers
+
+| Fichier | Contenu |
+|---------|---------|
+| `hardware.inc` | Constantes hardware standard Game Boy (ne pas modifier) |
+| `constants.inc` | Constantes spécifiques au projet |
+| `macros.inc` | Macros utilisant les constantes |
+
+### Conventions de nommage
+
+| Type | Préfixe/Format | Exemple | Fichier |
+|------|----------------|---------|---------|
+| Registre hardware | `rXXX` | `rNR52`, `rLCDC` | hardware.inc |
+| Zone mémoire début | `_XXXX` | `_VRAM`, `_HRAM` | hardware.inc |
+| Zone mémoire fin | `_XXXX_END` | `_VRAM_END`, `_WRAM_END` | constants.inc |
+| Flag/constante | `XXXF_YYY` | `LCDCF_ON`, `STATF_LYC` | hardware.inc |
+| Variable HRAM | `hXxxYyy` | `hVBlankFlag`, `hGameState` | constants.inc |
+| Variable WRAM | `wXxxYyy` | `wUnknownA8`, `wUnknownDC` | constants.inc |
+| Constante config | `XXX_YYY` | `PALETTE_STANDARD`, `AUDVOL_MAX` | constants.inc |
+| Valeur init | `INIT_XXX` | `INIT_GAME_STATE` | constants.inc |
+| Adresse ROM | `ROM_XXX` | `ROM_DMA_ROUTINE` | constants.inc |
+
+### Exemples
+
+```asm
+; AVANT (magic values)
+ld hl, $ff26
+ld a, $80
+ld [hl-], a
+
+; APRÈS (constantes nommées)
+ld hl, rNR52
+ld a, AUDENA_ON
+ld [hl-], a
+```
 
 ## Conventions
 - Process générique

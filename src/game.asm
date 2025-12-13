@@ -1,4 +1,5 @@
 INCLUDE "hardware.inc"
+INCLUDE "constants.inc"
 INCLUDE "macros.inc"
 INCLUDE "bank_000.asm"
 INCLUDE "bank_001.asm"
