@@ -283,3 +283,47 @@ MACRO CopyVBlankRoutine
     ld hl, $3f7d
     COPY_TO_HRAM_LOOP
 ENDM
+
+; -----------------------------------------------------------------------------
+; InitGameVariables - Initialise les variables de jeu
+; -----------------------------------------------------------------------------
+; Configure les variables HRAM/WRAM initiales et fait le premier bank switch.
+; $FFE4 = 0, $FFB4 = $11, $C0A8 = $11, $C0DC = $02
+; $FFB3 = $0E (game_state), $C0A4 = $03, $C0E1 = 0, $FF9A = 0
+; Appelle la routine d'init en bank 3, puis switch vers bank 2.
+MACRO InitGameVariables
+    xor a
+    ldh [$ffe4], a
+    ld a, $11
+    ldh [$ffb4], a
+    ld [$c0a8], a
+    ld a, $02
+    ld [$c0dc], a
+    ld a, $0e
+    ldh [$ffb3], a
+    ld a, $03
+    ld [$2000], a
+    ld [$c0a4], a
+    ld a, $00
+    ld [$c0e1], a
+    ldh [$ff9a], a
+    call $7ff3
+    ld a, $02
+    ld [$2000], a
+    ldh [$fffd], a
+ENDM
+
+; -----------------------------------------------------------------------------
+; WaitForNextFrame - Attend le prochain VBlank
+; -----------------------------------------------------------------------------
+; HALT économise la batterie en suspendant le CPU jusqu'à interruption.
+; Le VBlank handler met $FF85 à 1, on le remet à 0 et on continue.
+MACRO WaitForNextFrame
+.wait\@:
+    halt
+    ldh a, [$ff85]
+    and a
+    jr z, .wait\@
+    xor a
+    ldh [$ff85], a
+ENDM

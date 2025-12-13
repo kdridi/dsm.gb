@@ -120,43 +120,70 @@ SerialTransferCompleteInterrupt::
     reti
 
 
+;; ==========================================================================
+;; VBlankHandler - Handler d'interruption VBlank
+;; ==========================================================================
+;; Appelé 60 fois par seconde pendant le VBlank.
+;; Structure :
+;;   1. SaveRegisters      → push af/bc/de/hl
+;;   2. UpdateGameLogic    → Appels aux routines de mise à jour
+;;   3. DMATransfer        → call $FFB6 (routine en HRAM)
+;;   4. IncrementFrame     → $FFAC++
+;;   5. CheckWindowEnable  → Active Window si game_state == $3A
+;;   6. ResetScrollAndFlag → SCX/SCY = 0, frame_ready = 1
+;;   7. RestoreRegisters   → pop + reti
+;; ==========================================================================
 JoypadTransitionInterrupt::
+    ; --- 1. SaveRegisters ---
     push af
     push bc
     push de
     push hl
+
+    ; --- 2. UpdateGameLogic ---
+    ; Note: db $cd est probablement un CALL mal désassemblé
     call Call_000_224f
     db $cd
 
     ld a, l
     dec de
     call Call_000_1c2a
-    call $ffb6
+
+    ; --- 3. DMATransfer ---
+    call $ffb6              ; Routine OAM DMA copiée en HRAM
+
+    ; --- UpdateGameLogic (suite) ---
     call Call_000_3f24
     call Call_000_3d61
     call Call_000_23f8
+
+    ; --- 4. IncrementFrame ---
     ld hl, $ffac
-    inc [hl]
+    inc [hl]                ; frame_counter++
 
+    ; --- 5. CheckWindowEnable ---
 Call_000_007d:
-    ldh a, [$ffb3]
-    cp $3a
-    jr nz, jr_000_0088
+    ldh a, [$ffb3]          ; Lire game_state
+    cp $3a                  ; État spécial $3A ?
+    jr nz, jr_000_0088      ; Non → sauter
 
-    ld hl, $ff40
-    set 5, [hl]
+    ld hl, $ff40            ; rLCDC
+    set 5, [hl]             ; Activer le Window (bit 5)
 
+    ; --- 6. ResetScrollAndFlag ---
 jr_000_0088:
     xor a
-    ldh [rSCX], a
-    ldh [rSCY], a
-    inc a
-    ldh [$ff85], a
+    ldh [rSCX], a           ; Scroll X = 0
+    ldh [rSCY], a           ; Scroll Y = 0
+    inc a                   ; A = 1
+    ldh [$ff85], a          ; frame_ready = 1 → réveille la game loop
+
+    ; --- 7. RestoreRegisters ---
     pop hl
     pop de
     pop bc
     pop af
-    reti
+    reti                    ; Retour d'interruption
 
 
 Jump_000_0095:
@@ -372,115 +399,117 @@ Jump_000_0185:
     ClearOAM                    ; $FE00-$FEFF = 0
     ClearHRAM                   ; $FF80-$FFFE = 0
     CopyVBlankRoutine           ; Copie DMA handler vers $FFB6
+    InitGameVariables           ; Variables + bank switch → bank 2
 
-    xor a
-    ldh [$ffe4], a
-    ld a, $11
-    ldh [$ffb4], a
-    ld [$c0a8], a
-    ld a, $02
-    ld [$c0dc], a
-    ld a, $0e
-    ldh [$ffb3], a
-    ld a, $03
-    ld [$2000], a
-    ld [$c0a4], a
-    ld a, $00
-    ld [$c0e1], a
-    ldh [$ff9a], a
-    call $7ff3
-    ld a, $02
-    ld [$2000], a
-    ldh [$fffd], a
+;; ==========================================================================
+;; GameLoop - Boucle principale du jeu
+;; ==========================================================================
+;; Structure :
+;;   1. CheckSpecialState  → Vérifie $DA1D == 3 (état spécial ?)
+;;   2. CallBank3Logic     → Appelle la logique en bank 3
+;;   3. CheckPauseOrSkip   → Vérifie si on doit sauter le frame
+;;   4. DecrementTimers    → Décrémente 2 timers en $FFA6-$FFA7
+;;   5. HandleGameState    → Gestion état de jeu complexe
+;;   6. CallStateHandler   → Appelle le handler d'état (Call_000_02a3)
+;;   7. WaitForNextFrame   → HALT + attend flag VBlank
+;; ==========================================================================
 
+; --- 1. CheckSpecialState ---
 jr_000_0226:
-    ld a, [$da1d]
-    cp $03
-    jr nz, jr_000_0238
+    ld a, [$da1d]           ; Lire état spécial
+    cp $03                  ; Est-ce == 3 ?
+    jr nz, jr_000_0238      ; Non → sauter
 
-    ld a, $ff
+    ld a, $ff               ; Oui → reset à $FF
     ld [$da1d], a
-    call Call_000_09e8
+    call Call_000_09e8      ; Appeler routine spéciale
     call Call_000_172d
 
+; --- 2. CallBank3Logic ---
 jr_000_0238:
-    ldh a, [$fffd]
+    ldh a, [$fffd]          ; Sauvegarder bank courante
     ldh [$ffe1], a
-    ld a, $03
+    ld a, $03               ; Switch vers bank 3
     ldh [$fffd], a
     ld [$2000], a
-    call $47f2
-    ldh a, [$ffe1]
+    call $47f2              ; Appeler logique bank 3
+    ldh a, [$ffe1]          ; Restaurer bank
     ldh [$fffd], a
     ld [$2000], a
-    ldh a, [$ff9f]
-    and a
-    jr nz, jr_000_025a
 
-    call Call_000_07c3
-    ldh a, [$ffb2]
+; --- 3. CheckPauseOrSkip ---
+    ldh a, [$ff9f]          ; Flag pause ?
     and a
-    jr nz, jr_000_0296
+    jr nz, jr_000_025a      ; Si pause → sauter vers timers
 
+    call Call_000_07c3      ; Vérifier input ?
+    ldh a, [$ffb2]          ; Flag skip frame ?
+    and a
+    jr nz, jr_000_0296      ; Si skip → aller directement au wait
+
+; --- 4. DecrementTimers ---
 jr_000_025a:
-    ld hl, $ffa6
-    ld b, $02
+    ld hl, $ffa6            ; Adresse timer 1
+    ld b, $02               ; 2 timers à décrémenter
 
 jr_000_025f:
-    ld a, [hl]
+    ld a, [hl]              ; Lire timer
     and a
-    jr z, jr_000_0264
+    jr z, jr_000_0264       ; Si 0 → ne pas décrémenter
 
-    dec [hl]
+    dec [hl]                ; Décrémenter timer
 
 jr_000_0264:
-    inc l
+    inc l                   ; Timer suivant
     dec b
-    jr nz, jr_000_025f
+    jr nz, jr_000_025f      ; Boucle 2 fois
 
-    ldh a, [$ff9f]
+; --- 5. HandleGameState ---
+    ldh a, [$ff9f]          ; Flag pause ?
     and a
-    jr z, jr_000_0293
+    jr z, jr_000_0293       ; Non → aller au handler
 
-    ldh a, [$ff80]
-    bit 3, a
-    jr nz, jr_000_0283
+    ldh a, [$ff80]          ; Lire joypad
+    bit 3, a                ; Start pressé ?
+    jr nz, jr_000_0283      ; Oui → traitement spécial
 
-    ldh a, [$ffac]
-    and $0f
-    jr nz, jr_000_0293
+    ldh a, [$ffac]          ; Frame counter
+    and $0f                 ; Modulo 16
+    jr nz, jr_000_0293      ; Si != 0 → aller au handler
 
-    ld hl, $c0d7
+    ld hl, $c0d7            ; Timer spécial
     ld a, [hl]
     and a
-    jr z, jr_000_0283
+    jr z, jr_000_0283       ; Si 0 → traitement spécial
 
-    dec [hl]
-    jr jr_000_0293
+    dec [hl]                ; Décrémenter
+    jr jr_000_0293          ; Aller au handler
 
 jr_000_0283:
-    ldh a, [$ffb3]
+    ldh a, [$ffb3]          ; Game state
     and a
-    jr nz, jr_000_0293
+    jr nz, jr_000_0293      ; Si != 0 → aller au handler
 
-    ld a, $02
+    ld a, $02               ; Switch vers bank 2
     ld [$2000], a
     ldh [$fffd], a
-    ld a, $0e
+    ld a, $0e               ; Game state = $0E
     ldh [$ffb3], a
 
+; --- 6. CallStateHandler ---
 jr_000_0293:
-    call Call_000_02a3
+    call Call_000_02a3      ; Dispatch selon $FFB3 (game state)
 
+; --- 7. WaitForNextFrame ---
 jr_000_0296:
-    halt
-    ldh a, [$ff85]
+    halt                    ; Suspend CPU (économie batterie)
+    ldh a, [$ff85]          ; Lire frame_ready flag
     and a
-    jr z, jr_000_0296
+    jr z, jr_000_0296       ; Si 0 → continuer à attendre
 
     xor a
-    ldh [$ff85], a
-    jr jr_000_0226
+    ldh [$ff85], a          ; Clear flag
+    jr jr_000_0226          ; Retour au début de la game loop
 
 jr_000_02a1:
     jr jr_000_02a1
