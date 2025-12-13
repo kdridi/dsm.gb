@@ -12,8 +12,22 @@ Le projet nécessite des scripts utilitaires (setup, build, etc.) et doit être 
 Tous les scripts utilitaires sont placés dans le dossier `scripts/` à la racine.
 
 ### Convention de nommage
+
+#### Extensions
 - `<nom>.sh` : Linux / macOS (Bash)
 - `<nom>.ps1` : Windows (PowerShell)
+
+#### Nom du script
+- **Doit commencer par un verbe d'action** qui exprime l'intention
+- Le nom doit être explicite sur ce que fait le script
+- Format recommandé : `verbe-objet` (ex: `setup-toolchain`, `compute-hash`, `verify-build`)
+
+**Exemples :**
+| ❌ Mauvais | ✅ Bon | Pourquoi |
+|-----------|--------|----------|
+| `hash.sh` | `store-original-hash.sh` | "hash" ne dit pas l'intention (calculer ? vérifier ? stocker ?) |
+| `build.sh` | `build-rom.sh` | Plus explicite sur ce qu'on construit |
+| `tools.sh` | `setup-toolchain.sh` | Le verbe clarifie l'action |
 
 ### Structure
 ```

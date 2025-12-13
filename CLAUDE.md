@@ -37,6 +37,7 @@ docs/adr/       # Architecture Decision Records
 - Emplacement : `scripts/`
 - Unix : `scripts/<nom>.sh`
 - Windows : `scripts/<nom>.ps1`
+- **Nommage** : verbe + objet (ex: `setup-toolchain.sh`, pas `hash.sh`)
 - Règle : chaque script a son équivalent cross-platform
 - Logging : header d'intention, log par étape, mode DEBUG=1
 - Erreurs : arrêt immédiat, message clair, code de sortie approprié
