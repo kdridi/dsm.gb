@@ -514,9 +514,25 @@ jr_000_0296:
 jr_000_02a1:
     jr jr_000_02a1
 
+;; ==========================================================================
+;; StateDispatcher - Dispatch vers le handler selon game_state ($FFB3)
+;; ==========================================================================
+;; Appelé par : GameLoop (CallStateHandler)
+;; Mécanisme  : rst $28 = jump table indirect
+;;   - Lit A (game_state)
+;;   - A *= 2 (chaque entrée = 2 octets)
+;;   - Saute à l'adresse dans la table
+;;
+;; NOTE: Le code après "rst $28" est une TABLE DE POINTEURS mal désassemblée.
+;; Les "db", "ld b, $xx", etc. sont en fait des adresses 16-bit.
+;; Ne pas modifier ce code sans comprendre la structure de la table !
+;; ==========================================================================
 Call_000_02a3:
-    ldh a, [$ffb3]
-    rst $28
+    ldh a, [$ffb3]          ; Lire game_state (0-N)
+    rst $28                 ; → Jump table dispatcher (voir RST_28)
+    ; === JUMP TABLE (mal désassemblée) ===
+    ; Format: 2 octets par état = adresse du handler
+    ; État $00 → $0610, État $01 → $06A5, etc.
     db $10
     ld b, $a5
     ld b, $c5
@@ -1384,40 +1400,53 @@ jr_000_07b1:
     ld b, $06
     dec b
 
+;; ==========================================================================
+;; CheckInputAndPause - Vérifie input pour soft reset ou toggle pause
+;; ==========================================================================
+;; Appelé par : GameLoop (CheckPauseOrSkip)
+;; Effets :
+;;   - Si A+B+Start+Select pressés → SOFT RESET (jp Jump_000_0185)
+;;   - Si Start pressé (nouveau) → Toggle pause ($FFB2)
+;; ==========================================================================
 Call_000_07c3:
-    ldh a, [$ff80]
-    and $0f
-    cp $0f
-    jr nz, jr_000_07ce
+    ; --- CheckSoftReset ---
+    ; Si D-pad = $0F (toutes directions), c'est la combo reset
+    ldh a, [$ff80]          ; Lire joypad (directions)
+    and $0f                 ; Masquer les 4 bits bas
+    cp $0f                  ; Toutes les directions ?
+    jr nz, jr_000_07ce      ; Non → vérifier pause
 
-    jp Jump_000_0185
+    jp Jump_000_0185        ; OUI → SOFT RESET !
 
-
+; --- CheckStartPressed ---
 jr_000_07ce:
-    ldh a, [$ff81]
-    bit 3, a
-    ret z
+    ldh a, [$ff81]          ; Lire joypad (boutons, edge detect)
+    bit 3, a                ; Start pressé (nouveau) ?
+    ret z                   ; Non → return
 
-    ldh a, [$ffb3]
-    cp $0e
-    ret nc
+    ; --- CheckCanPause ---
+    ldh a, [$ffb3]          ; Lire game_state
+    cp $0e                  ; État >= $0E ?
+    ret nc                  ; Oui → ne peut pas pauser
 
-    ld hl, $ff40
-    ldh a, [$ffb2]
-    xor $01
-    ldh [$ffb2], a
-    jr z, jr_000_07ea
+    ; --- TogglePause ---
+    ld hl, $ff40            ; HL = rLCDC
+    ldh a, [$ffb2]          ; Lire flag pause
+    xor $01                 ; Toggle (0↔1)
+    ldh [$ffb2], a          ; Sauvegarder
+    jr z, jr_000_07ea       ; Si maintenant 0 → unpause
 
-    set 5, [hl]
+    ; --- EnterPause ---
+    set 5, [hl]             ; Activer Window (afficher "PAUSE")
     ld a, $01
 
 jr_000_07e7:
-    ldh [$ffdf], a
+    ldh [$ffdf], a          ; Sauvegarder état audio ?
     ret
 
-
+; --- ExitPause ---
 jr_000_07ea:
-    res 5, [hl]
+    res 5, [hl]             ; Désactiver Window
     ld a, $02
     jr jr_000_07e7
 
@@ -12235,81 +12264,100 @@ jr_000_3f06:
     ret
 
 
+;; ==========================================================================
+;; UpdateScoreDisplay - Met à jour l'affichage du score dans la tilemap
+;; ==========================================================================
+;; Appelé par : VBlankHandler
+;; Source     : $C0A2 (score en BCD, 3 octets = 6 chiffres)
+;; Destination: $9820 (tilemap, ligne du HUD)
+;; Format     : BCD → tiles ($00-$09 = chiffres, $2C = espace/zéro leading)
+;; ==========================================================================
 Call_000_3f24:
-    ldh a, [$ffb1]
+    ; --- EarlyReturnChecks ---
+    ldh a, [$ffb1]          ; Flag "needs update" ?
     and a
-    ret z
+    ret z                   ; Non → return
 
-    ld a, [$c0e2]
+    ld a, [$c0e2]           ; Flag blocker ?
     and a
-    ret nz
+    ret nz                  ; Oui → return
 
-    ldh a, [$ffea]
+    ldh a, [$ffea]          ; État spécial ?
     cp $02
-    ret z
+    ret z                   ; Oui → return
 
-    ld de, $c0a2
-    ld hl, $9820
+    ; --- SetupPointers ---
+    ld de, $c0a2            ; DE = source (score BCD, high byte first)
+    ld hl, $9820            ; HL = destination (tilemap)
 
+;; --- ConvertBCDToTiles ---
+;; Convertit 3 octets BCD en 6 tiles avec suppression des zéros de tête
 Call_000_3f38:
     xor a
-    ldh [$ffb1], a
-    ld c, $03
+    ldh [$ffb1], a          ; Clear "needs update" flag
+    ld c, $03               ; 3 octets à traiter
 
 jr_000_3f3d:
-    ld a, [de]
-    ld b, a
-    swap a
-    and $0f
-    jr nz, jr_000_3f6d
+    ; --- ProcessHighNibble ---
+    ld a, [de]              ; Lire octet BCD
+    ld b, a                 ; Sauvegarder dans B
+    swap a                  ; High nibble → low nibble
+    and $0f                 ; Masquer
+    jr nz, jr_000_3f6d      ; Si != 0 → afficher chiffre
 
-    ldh a, [$ffb1]
+    ; Chiffre = 0, vérifier si leading zero
+    ldh a, [$ffb1]          ; Déjà affiché un chiffre non-zéro ?
     and a
-    ld a, $00
-    jr nz, jr_000_3f4e
+    ld a, $00               ; Tile "0"
+    jr nz, jr_000_3f4e      ; Oui → afficher "0"
 
-    ld a, $2c
+    ld a, $2c               ; Non → afficher espace (leading zero suppression)
 
 jr_000_3f4e:
-    ld [hl+], a
-    ld a, b
-    and $0f
-    jr nz, jr_000_3f75
+    ld [hl+], a             ; Écrire tile, avancer
 
-    ldh a, [$ffb1]
+    ; --- ProcessLowNibble ---
+    ld a, b                 ; Récupérer octet original
+    and $0f                 ; Low nibble
+    jr nz, jr_000_3f75      ; Si != 0 → afficher chiffre
+
+    ; Chiffre = 0, vérifier si leading zero
+    ldh a, [$ffb1]          ; Déjà affiché un chiffre non-zéro ?
     and a
-    ld a, $00
-    jr nz, jr_000_3f64
+    ld a, $00               ; Tile "0"
+    jr nz, jr_000_3f64      ; Oui → afficher "0"
 
+    ; Cas spécial : dernier octet, afficher au moins "0"
     ld a, $01
-    cp c
+    cp c                    ; Est-ce le dernier octet ?
     ld a, $00
-    jr z, jr_000_3f64
+    jr z, jr_000_3f64       ; Oui → afficher "0" (pas d'espace)
 
-    ld a, $2c
+    ld a, $2c               ; Non → espace (leading zero)
 
 jr_000_3f64:
-    ld [hl+], a
-    dec e
-    dec c
-    jr nz, jr_000_3f3d
+    ld [hl+], a             ; Écrire tile, avancer
+    dec e                   ; Octet BCD suivant
+    dec c                   ; Compteur--
+    jr nz, jr_000_3f3d      ; Boucle 3 fois
 
     xor a
-    ldh [$ffb1], a
+    ldh [$ffb1], a          ; Clear flag
     ret
 
-
+; --- MarkNonZeroSeen (high nibble) ---
 jr_000_3f6d:
     push af
     ld a, $01
-    ldh [$ffb1], a
+    ldh [$ffb1], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
     jr jr_000_3f4e
 
+; --- MarkNonZeroSeen (low nibble) ---
 jr_000_3f75:
     push af
     ld a, $01
-    ldh [$ffb1], a
+    ldh [$ffb1], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
     jr jr_000_3f64
 
