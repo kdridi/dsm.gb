@@ -1,5 +1,6 @@
 # Fichiers locaux
 *.gb
+.initialized
 
 # Build
 build/

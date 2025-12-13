@@ -32,5 +32,10 @@ EOF
 chmod +x "$HOOKS_DIR/pre-commit"
 
 echo "[OK] Hook pre-commit installé"
+
+# Créer le fichier marqueur .initialized
+touch "$PROJECT_ROOT/.initialized"
+echo "[OK] Fichier .initialized créé"
+
 echo ""
-echo "Chaque commit vérifiera automatiquement que le build est bit-perfect."
+echo "Environnement configuré. Chaque commit vérifiera le build bit-perfect."

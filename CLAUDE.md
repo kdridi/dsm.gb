@@ -21,6 +21,14 @@ On peut librement :
 
 ...tant que `make verify` confirme que le binaire reste identique.
 
+## Premier lancement
+
+Si le fichier `.initialized` n'existe pas à la racine :
+```bash
+./scripts/setup.sh           # Installe rgbds
+./scripts/install-hooks.sh   # Installe le hook pre-commit + crée .initialized
+```
+
 ## Toolchain
 - **rgbds** : rgbasm, rgblink, rgbfix
 

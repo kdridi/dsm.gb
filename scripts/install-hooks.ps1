@@ -32,5 +32,11 @@ $PreCommitPath = Join-Path $HooksDir "pre-commit"
 $PreCommitContent | Out-File -FilePath $PreCommitPath -Encoding ASCII -NoNewline
 
 Write-Host "[OK] Hook pre-commit installe" -ForegroundColor Green
+
+# Créer le fichier marqueur .initialized
+$InitializedPath = Join-Path $ProjectRoot ".initialized"
+New-Item -ItemType File -Force -Path $InitializedPath | Out-Null
+Write-Host "[OK] Fichier .initialized cree" -ForegroundColor Green
+
 Write-Host ""
-Write-Host "Chaque commit verifiera automatiquement que le build est bit-perfect."
+Write-Host "Environnement configure. Chaque commit verifiera le build bit-perfect."
