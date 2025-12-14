@@ -1581,21 +1581,21 @@ CheckStartButtonForPause:
     ldh a, [hPauseFlag]          ; Lire flag pause
     xor $01                 ; Toggle (0↔1)
     ldh [hPauseFlag], a          ; Sauvegarder
-    jr z, jr_000_07ea       ; Si maintenant 0 → unpause
+    jr z, ExitPause       ; Si maintenant 0 → unpause
 
     ; --- EnterPause ---
     set 5, [hl]             ; Activer Window (afficher "PAUSE")
     ld a, $01
 
-jr_000_07e7:
+SaveAudioStatePause:
     ldh [hSavedAudio], a          ; Sauvegarder état audio ?
     ret
 
 ; --- ExitPause ---
-jr_000_07ea:
+ExitPause:
     res 5, [hl]             ; Désactiver Window
     ld a, $02
-    jr jr_000_07e7
+    jr SaveAudioStatePause
 
 LoadLevelData:
     ld hl, $2114
@@ -1655,13 +1655,13 @@ InitScrollState:
 UpdateAnimatedObjectState::
     ldh a, [hAnimObjCount]
     and a
-    jr z, jr_000_083f
+    jr z, SkipAnimObjectLoop
 
 DecAnimObjCount:
     dec a
     ldh [hAnimObjCount], a
 
-jr_000_083f:
+SkipAnimObjectLoop:
     ld de, hCurrentTile
     ld b, $0a
     ld hl, wAudioBuffer
@@ -1669,7 +1669,7 @@ jr_000_083f:
 ScanObjectLoop:
     ld a, [hl]
     cp $ff
-    jr nz, jr_000_0851
+    jr nz, ProcessAudioSlot
 
 Jump_000_084c:
     add hl, de
@@ -1679,7 +1679,7 @@ Jump_000_084c:
     ret
 
 
-jr_000_0851:
+ProcessAudioSlot:
     ldh [hOAMIndex], a
     ld a, l
     ldh [hOAMAddrLow], a
@@ -1696,17 +1696,17 @@ jr_000_0851:
     ld b, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, jr_000_0877
+    jr nz, AdjustPlayerXForCollision
 
     ld a, [wPlayerDir]
     cp $18
-    jr z, jr_000_0877
+    jr z, AdjustPlayerXForCollision
 
     ld a, $fe
     add b
     ld b, a
 
-jr_000_0877:
+AdjustPlayerXForCollision:
     ld a, b
 
 CheckPlayerCollisionWithObject:
@@ -6561,7 +6561,7 @@ CheckAnimObjectState:
     cp $0d
     jr nz, .not_gameplay
 
-    call Call_000_2aa4
+    call HandleGameplayObjectSound
     jr .end_check
 
 .not_gameplay:
@@ -8638,7 +8638,7 @@ jr_000_2a80:
     ret
 
 
-Call_000_2aa4:
+HandleGameplayObjectSound:
     push hl
     ld a, l
     add $0c
