@@ -3863,14 +3863,14 @@ jr_001_5052:
     add b
     add $02
     ldh [hSpriteX], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $60
     jr nc, jr_001_5071
 
     ldh a, [hSpriteX]
     add $fa
     ldh [hSpriteX], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $60
     ret c
 
@@ -3907,14 +3907,14 @@ Call_001_5089:
     add b
     add $fe
     ldh [hSpriteX], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $60
     jr nc, jr_001_50b4
 
     ldh a, [hSpriteX]
     add $04
     ldh [hSpriteX], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $e1
     jp z, Jump_000_1b3c
 
@@ -3967,7 +3967,7 @@ jr_001_50d8:
     add b
     ldh [hSpriteX], a
     push de
-    call Call_000_0153
+    call ReadTileUnderSprite
     pop de
     cp $60
     jr c, jr_001_5101

@@ -418,7 +418,14 @@ AfterHeader:
     jp SystemInit
 
 
-Call_000_0153:
+; -----------------------------------------------------------------------------
+; ReadTileUnderSprite - Lit le tile BG sous le sprite de manière sûre
+; -----------------------------------------------------------------------------
+; Entrées : hSpriteY, hSpriteX (coordonnées OAM en pixels)
+; Sortie  : A = numéro du tile BG sous le sprite
+; Note    : Double lecture + AND pour filtrer les erreurs VRAM
+; -----------------------------------------------------------------------------
+ReadTileUnderSprite:
     call GetTileAddrFromSprite
 
     WAIT_FOR_HBLANK
@@ -4839,7 +4846,7 @@ Call_000_17b3:
     add b
     add $fe
     ldh [hSpriteX], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $70
     jr z, jr_000_175c
 
@@ -4864,7 +4871,7 @@ jr_000_17ec:
     ldh a, [hSpriteX]
     add b
     ldh [hSpriteX], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $60
     jr nc, jr_000_1815
 
@@ -5173,7 +5180,7 @@ Call_000_1983:
     add b
     add $02
     ldh [hSpriteX], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     jp z, Jump_000_1872
 
@@ -5183,7 +5190,7 @@ Call_000_1983:
     ldh a, [hSpriteX]
     add $fc
     ldh [hSpriteX], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     jp z, Jump_000_1872
 
@@ -5417,7 +5424,7 @@ jr_000_1acf:
     add b
     ldh [hSpriteX], a
     push de
-    call Call_000_0153
+    call ReadTileUnderSprite
     call Call_000_1a62
     pop de
     and a
@@ -6417,7 +6424,7 @@ Call_000_1fc9:
     ldh [hSpriteX], a
     push de
     push hl
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $f4
     jr nz, jr_000_1ff2
 
@@ -8775,7 +8782,7 @@ Call_000_2b4d:
 jr_000_2b6d:
     ldh a, [hSoundParam1]
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 
@@ -8792,7 +8799,7 @@ Call_000_2b7b:
     ldh [hSpriteX], a
     ldh a, [hSoundParam1]
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 
@@ -8816,7 +8823,7 @@ Call_000_2b91:
     ldh [hSpriteX], a
     ldh a, [hSoundParam1]
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 
@@ -8847,7 +8854,7 @@ jr_000_2bcb:
     ldh a, [hSoundParam1]
     add $08
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 
@@ -8866,7 +8873,7 @@ Call_000_2bdb:
     ldh a, [hSoundParam1]
     add $08
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 
@@ -8891,7 +8898,7 @@ Call_000_2bf5:
     ldh a, [hSoundParam1]
     add $08
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 
@@ -8928,7 +8935,7 @@ jr_000_2c31:
     ldh a, [hSoundParam1]
     sub c
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 
@@ -8952,7 +8959,7 @@ jr_000_2c31:
     ldh a, [hSoundParam1]
     sub c
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 
@@ -8982,7 +8989,7 @@ jr_000_2c31:
     ldh a, [hSoundParam1]
     sub c
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     cp $5f
     ret c
 

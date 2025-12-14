@@ -6668,7 +6668,7 @@ jr_002_5ba0:
 
     ld a, $01
     ld [bc], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     ld a, [hl]
     cp $2e
     jr z, jr_002_5bd8
@@ -6961,7 +6961,7 @@ jr_002_5d17:
     ld a, [hl]
     add $08
     ldh [hSpriteY], a
-    call Call_000_0153
+    call ReadTileUnderSprite
     ld a, [hl]
     cp $03
     jr z, jr_002_5d4a
