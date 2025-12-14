@@ -179,9 +179,13 @@ DEF hCurrentBank    EQU $FFFD   ; Bank ROM courante
 ; === Variables WRAM ($C000-$DFFF) ===
 ; Convention: wXxxYyy (w minuscule + CamelCase)
 
+; --- OAM et sprites ($C000-$C0A0) ---
 DEF wOamBuffer      EQU $C000   ; Buffer OAM pour DMA (160 octets)
 DEF wUnknown04      EQU $C004   ; Variable WRAM
 DEF wUnknown08      EQU $C008   ; Variable WRAM
+DEF wSpriteTemp     EQU $C030   ; Buffer sprite temporaire
+
+; --- Variables de jeu ($C0A0-$C0FF) ---
 DEF wUnknownA0      EQU $C0A0   ; Variable WRAM (score/compteur?)
 DEF wUnknownA1      EQU $C0A1   ; Variable WRAM
 DEF wScoreBCD       EQU $C0A2   ; Score en BCD (3 octets)
@@ -195,26 +199,70 @@ DEF wUnknownAD      EQU $C0AD   ; Variable WRAM
 DEF wScrollBuffer   EQU $C0B0   ; Buffer colonne tilemap (16 octets)
 DEF wUnknownC2      EQU $C0C2   ; Variable WRAM (buffer copie?)
 DEF wUnknownCE      EQU $C0CE   ; Variable WRAM
+DEF wUnknownD2      EQU $C0D2   ; Variable WRAM
+DEF wUnknownD3      EQU $C0D3   ; Variable WRAM
 DEF wTimerSpecial   EQU $C0D7   ; Timer spécial
 DEF wUnknownD8      EQU $C0D8   ; Variable WRAM
+DEF wUnknownDA      EQU $C0DA   ; Variable WRAM
 DEF wUnknownDC      EQU $C0DC   ; Variable WRAM ($02 initial)
 DEF wUnknownDE      EQU $C0DE   ; Variable WRAM
 DEF wUnknownDF      EQU $C0DF   ; Variable WRAM
 DEF wUnknownE1      EQU $C0E1   ; Variable WRAM (init à 0)
+
+; --- Structure joueur ($C200-$C217) ---
 DEF wPlayerData     EQU $C200   ; Données joueur (structure)
+DEF wPlayerY        EQU $C200   ; Position Y joueur
+DEF wPlayerX        EQU $C201   ; Position X joueur
+DEF wPlayerState    EQU $C202   ; État joueur
+DEF wPlayerDir      EQU $C203   ; Direction joueur
+DEF wPlayerUnk05    EQU $C205   ; Variable joueur
+DEF wPlayerUnk07    EQU $C207   ; Variable joueur
+DEF wPlayerUnk0B    EQU $C20B   ; Variable joueur
+DEF wPlayerUnk0C    EQU $C20C   ; Variable joueur
+DEF wPlayerUnk0E    EQU $C20E   ; Variable joueur
+DEF wPlayerUnk10    EQU $C210   ; Variable joueur
+DEF wPlayerUnk13    EQU $C213   ; Variable joueur
+
+; --- Slots objets ($C208-$C25F) ---
 DEF wObject1        EQU $C208   ; Slot objet 1
 DEF wObject2        EQU $C218   ; Slot objet 2
 DEF wObject3        EQU $C228   ; Slot objet 3
 DEF wObject4        EQU $C238   ; Slot objet 4
 DEF wObject5        EQU $C248   ; Slot objet 5
+
+; --- Buffer animation ---
 DEF wAnimBuffer     EQU $C600   ; Buffer animation
 
 ; === Variables extended WRAM ($D000-$DFFF) ===
 
+; --- Zone données ($D000-$D100) ---
+DEF wUnknownD002    EQU $D002   ; Variable WRAM
+DEF wUnknownD003    EQU $D003   ; Variable WRAM
+DEF wUnknownD007    EQU $D007   ; Variable WRAM
+DEF wUnknownD010    EQU $D010   ; Variable WRAM
+DEF wUnknownD011    EQU $D011   ; Variable WRAM
+DEF wUnknownD013    EQU $D013   ; Variable WRAM
 DEF wAnimFlag       EQU $D014   ; Flag animation active
+DEF wObjectBuffer   EQU $D100   ; Buffer objets
+
+; --- Zone niveau ($DA00-$DA20) ---
 DEF wLevelData      EQU $DA00   ; Données niveau (DA00=type, DA01-02=BCD)
+DEF wUnknownDA14    EQU $DA14   ; Variable niveau
 DEF wLivesCounter   EQU $DA15   ; Compteur vies/niveau (BCD)
+DEF wUnknownDA17    EQU $DA17   ; Variable niveau
+DEF wUnknownDA1C    EQU $DA1C   ; Variable niveau
 DEF wSpecialState   EQU $DA1D   ; Trigger état spécial
+DEF wUnknownDA1F    EQU $DA1F   ; Variable niveau
+DEF wUnknownDA20    EQU $DA20   ; Variable niveau
+
+; --- Zone état ($DFE0-$DFF9) ---
+DEF wStateBuffer    EQU $DFE0   ; Buffer état jeu
+DEF wUnknownDFE1    EQU $DFE1   ; Variable état
+DEF wUnknownDFE4    EQU $DFE4   ; Variable état
+DEF wUnknownDFE8    EQU $DFE8   ; Variable état
+DEF wUnknownDFE9    EQU $DFE9   ; Variable état
+DEF wUnknownDFF8    EQU $DFF8   ; Variable état
+DEF wUnknownDFF9    EQU $DFF9   ; Variable état
 
 ; === Adresses ROM ===
 
