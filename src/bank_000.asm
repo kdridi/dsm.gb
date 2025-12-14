@@ -763,7 +763,7 @@ SelectLevelAudioTable:
     ld de, wScorePrevious
     ld b, $03
 
-jr_000_03c7:
+CompareBCDScoresLoop:
     ld a, [de]
     sub [hl]
     jr c, jr_000_03d4
@@ -773,7 +773,7 @@ jr_000_03c7:
     dec e
     dec l
     dec b
-    jr nz, jr_000_03c7
+    jr nz, CompareBCDScoresLoop
 
     jr jr_000_03e2
 
