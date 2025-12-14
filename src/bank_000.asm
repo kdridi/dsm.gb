@@ -12293,7 +12293,7 @@ jr_000_3d17:
     ld [hl+], a
     ld a, $04
     ld [hl+], a
-    call Call_000_3d75
+    call DisplayLevelBCDScore
     ld a, $20
     ld [hl+], a
     ld [hl+], a
@@ -12357,7 +12357,7 @@ jr_000_3d56:
 ;   - wLevelData ($DA00) == $28 (type de niveau spécifique?)
 ;
 ; ALGORITHME :
-;   Appelle Call_000_3d75 qui affiche le score BCD de $DA01-$DA02
+;   Appelle DisplayLevelBCDScore qui affiche le score BCD de $DA01-$DA02
 ;   aux positions $9831-$9833 du tilemap.
 ;
 ; SORTIE : Tilemap mis à jour avec le score
@@ -12376,11 +12376,11 @@ UpdateLevelScore:
     cp $28
     ret nz
 
-    call Call_000_3d75
+    call DisplayLevelBCDScore
     ret
 
 
-Call_000_3d75:
+DisplayLevelBCDScore:
     ld de, $9833
     ld a, [$da01]
     ld b, a
