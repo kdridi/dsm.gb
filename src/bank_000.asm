@@ -1169,7 +1169,7 @@ jr_000_0581:
     ldh [hScrollColumn], a
     call $2439
     call Call_000_3d11
-    call Call_000_1c12
+    call UpdateCoinDisplay
     call Call_000_1c4d
     ldh a, [hAnimTileIndex]
     call Call_000_0d64
@@ -2851,7 +2851,7 @@ State1B_BonusComplete::
     xor a
     ldh [rLCDC], a
     call Call_000_05f8
-    call Call_000_1c12
+    call UpdateCoinDisplay
     call Call_000_1c4d
     xor a
     ldh [rIF], a
@@ -5698,21 +5698,20 @@ CollectCoin:
     daa
     ldh [hCoinCount], a
     and a
-    jr nz, jr_000_1c12
+    jr nz, UpdateCoinDisplay
 
     inc a
     ld [wUpdateCounter], a
 
-Call_000_1c12:
-jr_000_1c12:
+UpdateCoinDisplay:
     ldh a, [hCoinCount]
     ld b, a
     and $0f
-    ld [$982a], a
+    ld [VRAM_COIN_UNITS], a
     ld a, b
     and $f0
     swap a
-    ld [VRAM_SCORE_POS2], a
+    ld [VRAM_COIN_TENS], a
     xor a
     ldh [_HRAM_END], a
     inc a
