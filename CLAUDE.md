@@ -47,12 +47,47 @@ Si quelque chose manque → exécuter les scripts de "Premier lancement".
 
 ## Structure
 ```
-Makefile        # Build + verify (cible principale)
-ROADMAP.md      # Tâches et progression
-checksum.*      # Hash de référence (SHA256 + MD5)
-src/            # Code source ASM
-scripts/        # Scripts utilitaires (.sh + .ps1)
-docs/adr/       # Architecture Decision Records
+Makefile            # Build + verify (cible principale)
+ROADMAP.md          # Tâches et progression
+checksum.*          # Hash de référence (SHA256 + MD5)
+src/                # Code source ASM
+scripts/            # Scripts utilitaires (.sh + .ps1)
+docs/adr/           # Architecture Decision Records
+docs/exploration.md # Parcours systématique du code
+```
+
+## Protocole d'exploration
+
+**Fichier** : `docs/exploration.md`
+
+Algorithme de parcours de graphe pour comprendre le code de manière systématique.
+
+### Principe
+
+1. **Frontière** : liste d'adresses à analyser (points d'entrée, références découvertes)
+2. **Analyser** : comprendre le code/données, renommer, commenter, éliminer magic values
+3. **Enrichir** : ajouter les nouvelles adresses découvertes (jumps, calls, tables)
+4. **Marquer** : cocher `[x]` et déplacer vers "Analysé"
+5. **Itérer** : répéter jusqu'à frontière vide
+
+### Format des entrées
+
+```markdown
+- [ ] `$XXXX` (type) - Description, depuis SOURCE
+```
+
+**Types** : `(code)`, `(data)`, `(handler)`, `(unknown)`
+
+### Workflow typique
+
+```
+1. Ouvrir docs/exploration.md
+2. Prendre la première entrée non cochée de la frontière
+3. Analyser l'adresse (lire, comprendre, renommer, commenter)
+4. Ajouter les références sortantes à la frontière
+5. Cocher et déplacer vers "Analysé"
+6. make verify (toujours !)
+7. Répéter
 ```
 
 ## Scripts (voir ADR-0001, ADR-0002)

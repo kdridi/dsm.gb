@@ -83,17 +83,27 @@
 
 **Objectif** : Remplacer les instructions absurdes par des directives `db`/`dw`/`INCBIN`.
 
-### 4.5 Carte mémoire ROM (nouveau)
+### 4.5 Protocole d'exploration systématique (nouveau)
 
-**Objectif** : Documenter la structure de chaque bank.
+**Fichier** : `docs/exploration.md`
 
-- [ ] Identifier zones code vs données dans bank_000
-- [ ] Identifier zones code vs données dans bank_001
-- [ ] Identifier zones code vs données dans bank_002
-- [ ] Identifier zones code vs données dans bank_003
-- [ ] Créer `docs/memory-map.md` avec schéma visuel
+**Méthode** : Parcours de graphe - chaque adresse analysée révèle de nouvelles adresses.
 
-### 4.6 Extraction graphiques (optionnel, futur)
+**État actuel** :
+- [x] Créer `docs/exploration.md` avec protocole documenté
+- [x] Initialiser la frontière (80 points d'entrée)
+- [ ] Analyser les 8 handlers RST ($0000-$0038)
+- [ ] Analyser les 60 handlers d'état (StateJumpTable)
+- [ ] Analyser les 12 routines identifiées
+- [ ] Itérer jusqu'à couverture complète
+
+**Note** : Ce protocole remplace les approches ad-hoc des phases 5-7. La progression se mesure dans `docs/exploration.md`.
+
+### 4.6 Carte mémoire ROM (optionnel)
+
+- [ ] Créer `docs/memory-map.md` avec schéma visuel (généré depuis exploration)
+
+### 4.7 Extraction graphiques (optionnel, futur)
 
 - [ ] Localiser les blocs de tiles dans la ROM
 - [ ] Extraire en fichiers `.2bpp` ou `.png`
@@ -104,6 +114,8 @@
 ## Phase 5 : Documentation des structures
 
 **Objectif** : Comprendre toutes les structures de données du jeu.
+
+**Note** : Ces tâches seront complétées via le protocole d'exploration (Phase 4.5).
 
 ### 5.1 Structure Joueur ($C200, 20 bytes)
 
