@@ -739,7 +739,7 @@ jr_000_0368:
     push af
     ld a, $0c
     ldh [hRenderContext], a
-    call Call_000_07f0
+    call LoadLevelData
     pop af
     ldh [hRenderContext], a
     ld a, $3c
@@ -1432,7 +1432,7 @@ jr_000_070c:
     ld [hl], $00
     ld a, c
     ld [wPlayerVarAB], a
-    call Call_000_07f0
+    call LoadLevelData
     ld hl, $982b
     ld [hl], $2c
     inc l
@@ -1597,7 +1597,7 @@ jr_000_07ea:
     ld a, $02
     jr jr_000_07e7
 
-Call_000_07f0:
+LoadLevelData:
     ld hl, $2114
     ld de, wPlayerY
     ld b, $51
@@ -4533,7 +4533,7 @@ State0A_LoadSubLevel::
     call ClearTilemapBuffer
     ldh a, [hRenderCounter]
     ldh [hTilemapScrollX], a
-    call Call_000_07f0
+    call LoadLevelData
     call Call_000_2453
     ld hl, wPlayerX
     ld [hl], $20
@@ -4606,7 +4606,7 @@ State0B_PipeEnterDown::
     ldh a, [$fff6]               ; Position Y destination
     ld e, a
     push de
-    call Call_000_07f0
+    call LoadLevelData
     pop de
     ld a, $80
     ld [$c204], a                ; Flag joueur actif
