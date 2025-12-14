@@ -69,7 +69,7 @@ Call_002_4002:
     nop
     add b
     add b
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ldh [rLCDC], a
     ldh a, [rP1]
     nop
@@ -124,7 +124,7 @@ jr_002_4083:
     nop
     add b
     add b
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ldh [rLCDC], a
     ldh a, [rP1]
     ldh a, [$ff60]
@@ -149,7 +149,7 @@ jr_002_4083:
     ld b, e
     ld a, h
     sbc h
-    ldh [$ffb0], a
+    ldh [hSpriteAttr], a
     ret nz
 
     and b
@@ -212,8 +212,8 @@ jr_002_4083:
     nop
     add b
     add b
-    ldh [$ffe0], a
-    ldh a, [$fff0]
+    ldh [hVramPtrLow], a
+    ldh a, [hUnknownF0]
     ld hl, sp-$60
     ld hl, sp+$20
     rlca
@@ -229,9 +229,9 @@ jr_002_4083:
     ld a, $3f
     ld a, $3f
     ccf
-    ldh [$ffe0], a
-    ldh a, [$fff0]
-    ldh a, [$ffd0]
+    ldh [hVramPtrLow], a
+    ldh a, [hUnknownF0]
+    ldh a, [hUnknownD0]
     ldh [rP1], a
     ldh a, [rLCDC]
     ldh [rP1], a
@@ -356,10 +356,10 @@ jr_002_417c:
     nop
     and b
     nop
-    ldh [$ffc0], a
+    ldh [hSoundId], a
     ret nz
 
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     add b
     add b
     rra
@@ -412,7 +412,7 @@ jr_002_41ab:
     ld hl, sp+$78
     ldh a, [rNR10]
     and b
-    ldh [$ffc4], a
+    ldh [hSoundCh1], a
     db $e4
     inc c
     call c, $fc0c
@@ -435,16 +435,16 @@ jr_002_41ab:
     nop
     nop
     nop
-    ldh [$ffc0], a
+    ldh [hSoundId], a
     jr nc, jr_002_4167
 
     ld [hl], b
 
 jr_002_41e8:
-    ldh [$fff0], a
+    ldh [hUnknownF0], a
     ret nz
 
-    ldh [$ffa8], a
+    ldh [hUnknownA8], a
     add sp, $78
     ld hl, sp+$70
     ld [hl], b
@@ -470,7 +470,7 @@ jr_002_41ff:
     ret nz
 
     nop
-    ldh [$ff80], a
+    ldh [hJoypadState], a
     ld h, b
     add b
     ld [hl], b
@@ -520,11 +520,11 @@ jr_002_41ff:
 
     ret nz
 
-    ldh a, [$fff0]
-    ldh [$ff80], a
+    ldh a, [hUnknownF0]
+    ldh [hJoypadState], a
     ld hl, sp+$00
     ld hl, sp+$40
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
 
 jr_002_424e:
     ldh [rP1], a
@@ -548,7 +548,7 @@ jr_002_424e:
     inc b
     nop
     nop
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ld hl, sp-$08
 
 jr_002_4268:
@@ -579,11 +579,11 @@ jr_002_426b:
 
     ret nz
 
-    ldh a, [$fff0]
-    ldh [$ff80], a
+    ldh a, [hUnknownF0]
+    ldh [hJoypadState], a
     ld hl, sp+$00
     ld hl, sp+$40
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
 
 jr_002_428e:
     ldh [rP1], a
@@ -670,7 +670,7 @@ jr_002_42d0:
     call z, $c0b0
     jr nz, jr_002_42ad
 
-    ldh a, [$ffe0]
+    ldh a, [hVramPtrLow]
     jr c, @-$1e
 
     jr jr_002_42f3
@@ -728,9 +728,9 @@ jr_002_430c:
     ld a, $3f
     ld a, $00
     nop
-    ldh [$ffe0], a
-    ldh a, [$fff0]
-    ldh a, [$ffd0]
+    ldh [hVramPtrLow], a
+    ldh a, [hUnknownF0]
+    ldh a, [hUnknownD0]
     ldh [rP1], a
     ldh a, [rLCDC]
     ldh [rP1], a
@@ -755,7 +755,7 @@ jr_002_4341:
     and b
 
 jr_002_4343:
-    ldh [$ffb0], a
+    ldh [hSpriteAttr], a
     ldh a, [$ff38]
     cp b
     jr c, jr_002_430a
@@ -792,8 +792,8 @@ jr_002_4343:
 
 jr_002_4366:
     db $fc
-    ldh [$fffc], a
-    ldh [$ff80], a
+    ldh [hUnknownFC], a
+    ldh [hJoypadState], a
     ldh [rP1], a
     ldh [rSVBK], a
     ld [hl], b
@@ -819,12 +819,12 @@ jr_002_4380:
     ret nz
 
     add b
-    ldh [$ff80], a
+    ldh [hJoypadState], a
     ld h, b
     add b
     nop
-    ldh [$ff80], a
-    ldh [$ffc0], a
+    ldh [hJoypadState], a
+    ldh [hSoundId], a
     ret nz
 
     ld b, b
@@ -973,7 +973,7 @@ jr_002_43bd:
     ld b, b
     and b
     nop
-    ldh [$ffb0], a
+    ldh [hSpriteAttr], a
     ld b, b
 
 jr_002_442a:
@@ -1014,8 +1014,8 @@ jr_002_4445:
     ret nz
 
 jr_002_444e:
-    ldh a, [$fff0]
-    ldh [$ff80], a
+    ldh a, [hUnknownF0]
+    ldh [hJoypadState], a
     rra
     ld d, $1f
     db $10
@@ -1033,7 +1033,7 @@ jr_002_444e:
     inc a
     ld hl, sp+$00
     ld hl, sp+$40
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
 
 jr_002_4468:
     ld hl, sp+$18
@@ -1067,8 +1067,8 @@ jr_002_4468:
 jr_002_4485:
     ret nz
 
-    ldh a, [$fff0]
-    ldh [$ff80], a
+    ldh a, [hUnknownF0]
+    ldh [hJoypadState], a
     ld hl, sp+$00
     ld hl, sp+$40
     cp $f0
@@ -1089,7 +1089,7 @@ jr_002_4490:
     ld l, h
     ld b, b
     ld b, b
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     add b
     ret nz
 
@@ -1097,7 +1097,7 @@ jr_002_4490:
     ret nz
 
     ld b, b
-    ldh [$ff80], a
+    ldh [hJoypadState], a
     ldh [rP1], a
     ldh [rSVBK], a
     ld [hl], b
@@ -1125,12 +1125,12 @@ jr_002_44be:
 
     ret nz
 
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ldh a, [rSVBK]
     ldh a, [rNR10]
     ldh a, [$ff50]
     ldh a, [rNR10]
-    ldh [$ff80], a
+    ldh [hJoypadState], a
     ret nz
 
     ld b, b
@@ -1162,8 +1162,8 @@ jr_002_44be:
     ldh [rP1], a
     ldh [rP1], a
     nop
-    ldh [$ffe0], a
-    ldh a, [$ff90]
+    ldh [hVramPtrLow], a
+    ldh a, [hUnknown90]
     adc b
     adc b
     add h
@@ -1183,7 +1183,7 @@ jr_002_44be:
 
 jr_002_450d:
     db $fc
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     nop
     nop
     rlca
@@ -1525,8 +1525,8 @@ jr_002_4670:
     nop
     nop
     nop
-    ldh [$ffe0], a
-    ldh a, [$fff0]
+    ldh [hVramPtrLow], a
+    ldh a, [hUnknownF0]
     ldh a, [$ffa0]
     ld hl, sp-$80
     ld [hl], a
@@ -1591,8 +1591,8 @@ jr_002_4685:
     nop
 
 jr_002_46c4:
-    ldh [$ffe0], a
-    ldh a, [$fff0]
+    ldh [hVramPtrLow], a
+    ldh a, [hUnknownF0]
     ldh a, [rLCDC]
     db $fc
     nop
@@ -1606,7 +1606,7 @@ jr_002_46c4:
     adc a
     adc a
     ld hl, sp-$08
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ld l, a
     ld a, a
     inc a
@@ -1628,12 +1628,12 @@ jr_002_46c4:
     dec de
     ei
     di
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     jp RST_00
 
 
-    ldh [$ffe0], a
-    ldh a, [$fff0]
+    ldh [hVramPtrLow], a
+    ldh a, [hUnknownF0]
     ldh a, [rLCDC]
 
 jr_002_46fa:
@@ -1656,7 +1656,7 @@ jr_002_46fa:
     adc b
     ld hl, sp+$18
     ld hl, sp-$10
-    ldh a, [$ffc0]
+    ldh a, [hSoundId]
     ret nz
 
     nop
@@ -2035,7 +2035,7 @@ jr_002_489a:
 
 
     dec a
-    jp $ffc3
+    jp hSoundParam2
 
 
     rst $38
@@ -2119,7 +2119,7 @@ jr_002_48d6:
     ret nz
 
     add b
-    ldh [$ff80], a
+    ldh [hJoypadState], a
 
 jr_002_48f8:
     ld [hl], b
@@ -2514,13 +2514,13 @@ jr_002_4a68:
     ld b, b
     ret nz
 
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     or b
     db $10
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     or b
     db $10
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ld b, b
     ret nz
 
@@ -2546,7 +2546,7 @@ jr_002_4a92:
 
     and b
     ld h, b
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ld e, b
     adc b
     ld hl, sp-$08
@@ -2569,7 +2569,7 @@ jr_002_4a92:
     add b
     add b
     ld h, b
-    ldh [$ff90], a
+    ldh [hUnknown90], a
     ld [hl], b
     call c, $d23c
     ld [hl-], a
@@ -2586,7 +2586,7 @@ jr_002_4a92:
     rrca
     rrca
     ld a, $3e
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     nop
     nop
     rst $38
@@ -2708,7 +2708,7 @@ jr_002_4b2e:
     ld d, a
     ld e, h
     ld e, h
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ret nz
 
     ld b, b
@@ -2743,7 +2743,7 @@ jr_002_4b2e:
     ret nz
 
     ld b, b
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     jr c, jr_002_4baa
 
     ld a, a
@@ -3012,9 +3012,9 @@ jr_002_4c69:
     nop
     add b
     add b
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ld hl, sp-$08
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ret nz
 
     ret nz
@@ -3039,7 +3039,7 @@ jr_002_4c69:
     nop
     nop
     nop
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     jr c, jr_002_4ce2
 
     db $ec
@@ -3256,7 +3256,7 @@ jr_002_4d82:
     nop
     nop
     nop
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ld a, $fe
     jr nc, jr_002_4d7c
 
@@ -3288,7 +3288,7 @@ jr_002_4d82:
     db $fc
     ld c, h
     ldh a, [$ff30]
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     nop
     nop
     nop
@@ -3554,7 +3554,7 @@ jr_002_4eae:
     jr c, jr_002_4f00
 
     ld hl, sp-$08
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     nop
     nop
     nop
@@ -3670,7 +3670,7 @@ jr_002_4f32:
     jr nz, jr_002_4f70
 
     daa
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     or b
     ld [hl], b
     or b
@@ -3867,7 +3867,7 @@ jr_002_4ff2:
     nop
     nop
     nop
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ld hl, sp-$08
     jr c, jr_002_5036
 
@@ -4248,7 +4248,7 @@ jr_002_50e8:
     nop
     rst $38
     rst $38
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     rst $08
     ret nz
 
@@ -5119,7 +5119,7 @@ jr_002_5487:
     db $10
     db $10
     db $10
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ld a, $3e
     inc b
     inc b
@@ -5153,7 +5153,7 @@ jr_002_54e8:
     rst $38
     nop
     nop
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     inc c
     inc c
     ld [bc], a
@@ -6022,7 +6022,7 @@ jr_002_5886:
 
 
 Call_002_5892:
-    ldh a, [$ffed]
+    ldh a, [hPtrBank]
     ld b, a
     and a
     jp z, Jump_002_59a5
@@ -6102,9 +6102,9 @@ jr_002_58f9:
     ld [$da0f], a
 
 jr_002_5909:
-    ldh a, [$ffec]
+    ldh a, [hPtrHigh]
     ld [hl+], a
-    ldh a, [$ffeb]
+    ldh a, [hPtrLow]
     ld [hl+], a
     ld a, b
     ld de, $5958
@@ -6159,17 +6159,17 @@ jr_002_5950:
     ld a, d
     ld [hl+], a
     inc hl
-    ldh a, [$ffec]
+    ldh a, [hPtrHigh]
     ld [hl+], a
-    ldh a, [$ffeb]
+    ldh a, [hPtrLow]
     add $08
     ld [hl+], a
     ld a, e
     ld [hl], a
     xor a
-    ldh [$ffed], a
-    ldh [$ffec], a
-    ldh [$ffeb], a
+    ldh [hPtrBank], a
+    ldh [hPtrHigh], a
+    ldh [hPtrLow], a
     ld a, b
     ld de, $0100
     cp $01
@@ -6414,7 +6414,7 @@ jr_002_5a7d:
     ld [hl+], a
     xor a
     ld d, a
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_002_5a93
 
@@ -6454,7 +6454,7 @@ jr_002_5a93:
     ld a, d
     ld [hl], a
     ld a, $15
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -6463,7 +6463,7 @@ Jump_002_5abb:
     bit 0, a
     jr z, jr_002_5ac9
 
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     bit 0, a
     jp nz, Jump_002_5b56
 
@@ -6577,7 +6577,7 @@ jr_002_5b45:
 
 jr_002_5b51:
     ld a, $16
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -6587,7 +6587,7 @@ Jump_002_5b56:
     ld [$da27], a
     ld [$da1a], a
     ld a, $17
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -6630,7 +6630,7 @@ jr_002_5b85:
     ld c, a
 
 jr_002_5b96:
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_002_5ba0
 
@@ -6656,10 +6656,10 @@ jr_002_5ba0:
     jr nc, jr_002_5be2
 
     add $04
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     ld a, [hl]
     add $10
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     ld bc, $da16
     ld a, [bc]
     dec a
@@ -6681,13 +6681,13 @@ jr_002_5ba0:
 
 jr_002_5bd8:
     ld a, $18
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
 jr_002_5bdd:
     ld a, $19
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -6695,7 +6695,7 @@ jr_002_5be2:
     xor a
     ld [$da1c], a
     ld a, $1a
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -6730,7 +6730,7 @@ jr_002_5bfe:
     ld c, a
 
 jr_002_5c10:
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_002_5c1a
 
@@ -6767,7 +6767,7 @@ jr_002_5c3a:
     ld a, $08
     ld [$da16], a
     ld a, $17
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -6802,7 +6802,7 @@ jr_002_5c57:
     ld c, a
 
 jr_002_5c69:
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_002_5c73
 
@@ -6839,7 +6839,7 @@ jr_002_5c93:
     ld a, $08
     ld [$da16], a
     ld a, $17
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -6957,10 +6957,10 @@ jr_002_5d17:
     ld hl, $c031
     ld a, [hl-]
     add $18
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     ld a, [hl]
     add $08
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     call Call_000_0153
     ld a, [hl]
     cp $03
@@ -6993,7 +6993,7 @@ jr_002_5d4a:
     jr jr_002_5d3c
 
 jr_002_5d51:
-    ldh a, [$ffb5]
+    ldh a, [hSubState]
     and a
     jr z, jr_002_5d62
 
@@ -7036,7 +7036,7 @@ Jump_002_5d69:
     ld a, $40
     ld [$da1f], a
     ld a, $1b
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -7063,7 +7063,7 @@ jr_002_5da0:
     ld hl, $dfe0
     ld a, $04
     ld [hl], a
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr z, jr_002_5df7
 
@@ -7111,8 +7111,8 @@ jr_002_5df7:
     ld a, $01
     ld [$da17], a
     inc a
-    ldh [$ff99], a
-    ldh [$ffb5], a
+    ldh [hTimerAux], a
+    ldh [hSubState], a
     ret
 
 
@@ -7178,7 +7178,7 @@ jr_002_5e3f:
     inc l
     ld a, $08
     ld b, a
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_002_5e5e
 
@@ -7290,7 +7290,7 @@ Jump_002_5eda:
     inc l
     xor a
     ld b, a
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_002_5eea
 
@@ -13133,7 +13133,7 @@ Call_002_7875:
     rst $38
     nop
     nop
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     db $10
     db $10
     rst $30
@@ -13232,7 +13232,7 @@ Call_002_7875:
     nop
     nop
     nop
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     jr jr_002_79f2
 
     rst $38
@@ -13961,7 +13961,7 @@ jr_002_7c9a:
     add hl, bc
     ld sp, hl
     add hl, bc
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     db $10
     db $10
     ldh a, [rNR10]
@@ -14526,7 +14526,7 @@ jr_002_7de8:
     nop
     nop
     nop
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     jr jr_002_7eec
 
     inc b
@@ -14591,8 +14591,8 @@ jr_002_7ef0:
     ld hl, sp-$78
     ld hl, sp-$70
     ldh a, [rNR10]
-    ldh a, [$ffe0]
-    ldh [$ffc0], a
+    ldh a, [hVramPtrLow]
+    ldh [hSoundId], a
     ld b, b
     ldh [rNR41], a
     rst $38

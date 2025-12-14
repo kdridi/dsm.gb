@@ -294,8 +294,8 @@ ENDM
 MACRO InitGameVariables
     xor a
     ldh [hUnknownE4], a
-    ld a, INIT_UNKNOWN_B4
-    ldh [hUnknownB4], a
+    ld a, INIT_ANIM_TILE_IDX
+    ldh [hAnimTileIndex], a
     ld [wUnknownA8], a
     ld a, INIT_UNKNOWN_DC
     ld [wUnknownDC], a

@@ -159,7 +159,7 @@ Jump_003_407f:
     adc b
     nop
     nop
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ret c
 
     jr c, jr_003_4071
@@ -202,7 +202,7 @@ jr_003_40c0:
 
     ret nz
 
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     sbc [hl]
     sbc [hl]
     rst $38
@@ -416,9 +416,9 @@ jr_003_4190:
     cp $9e
     db $10
     db $10
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ld h, b
-    ldh [$ffc0], a
+    ldh [hSoundId], a
     ret nz
 
     add b
@@ -580,7 +580,7 @@ jr_003_425e:
     adc h
     nop
     nop
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     db $fc
     inc e
     or $0e
@@ -606,7 +606,7 @@ jr_003_425e:
     ld [$9088], sp
     ld d, b
     ld h, b
-    ldh [$ffd2], a
+    ldh [hUnknownD2], a
     ld [hl-], a
     ld [hl], h
     db $f4
@@ -813,7 +813,7 @@ jr_003_4330:
     ld a, $8e
     cp $3c
     db $fc
-    ldh a, [$fff0]
+    ldh a, [hUnknownF0]
     ld [hl+], a
     inc l
     ld c, a
@@ -922,7 +922,7 @@ jr_003_43a5:
 
 
     dec a
-    jp $ffc3
+    jp hSoundParam2
 
 
     rst $38
@@ -1945,12 +1945,12 @@ jr_003_47c0:
     and $0f
     or b
     ld c, a
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     xor c
     and c
-    ldh [$ff81], a
+    ldh [hUnknown81], a
     ld a, c
-    ldh [$ff80], a
+    ldh [hJoypadState], a
     ld a, $30
     ldh [rP1], a
     ret
@@ -1958,9 +1958,9 @@ jr_003_47c0:
 
 jr_003_4823:
     ld a, h
-    ldh [$ff96], a
+    ldh [hUnknown96], a
     ld a, l
-    ldh [$ff97], a
+    ldh [hUnknown97], a
     ld a, [hl]
     and a
     jr z, jr_003_484a
@@ -1969,26 +1969,26 @@ jr_003_4823:
     jr z, jr_003_4848
 
 jr_003_4831:
-    ldh a, [$ff96]
+    ldh a, [hUnknown96]
     ld h, a
-    ldh a, [$ff97]
+    ldh a, [hUnknown97]
     ld l, a
     ld de, $0010
     add hl, de
-    ldh a, [$ff8f]
+    ldh a, [hParam3]
     dec a
-    ldh [$ff8f], a
+    ldh [hParam3], a
     ret z
 
     jr jr_003_4823
 
 jr_003_4843:
     xor a
-    ldh [$ff95], a
+    ldh [hUnknown95], a
     jr jr_003_4831
 
 jr_003_4848:
-    ldh [$ff95], a
+    ldh [hUnknown95], a
 
 jr_003_484a:
     ld b, $07
@@ -2001,7 +2001,7 @@ jr_003_484f:
     dec b
     jr nz, jr_003_484f
 
-    ldh a, [$ff89]
+    ldh a, [hUnknown89]
     ld hl, $4c37
     rlca
     ld e, a
@@ -2017,10 +2017,10 @@ jr_003_484f:
     ld h, a
     inc de
     ld a, [de]
-    ldh [$ff90], a
+    ldh [hUnknown90], a
     inc de
     ld a, [de]
-    ldh [$ff91], a
+    ldh [hUnknown91], a
     ld e, [hl]
     inc hl
     ld d, [hl]
@@ -2029,7 +2029,7 @@ Jump_003_4872:
 jr_003_4872:
     inc hl
     ldh a, [$ff8c]
-    ldh [$ff94], a
+    ldh [hUnknown94], a
     ld a, [hl]
     cp $ff
     jr z, jr_003_4843
@@ -2039,7 +2039,7 @@ jr_003_4872:
 
     ldh a, [$ff8c]
     xor $10
-    ldh [$ff94], a
+    ldh [hUnknown94], a
     jr jr_003_4872
 
 jr_003_4888:
@@ -2051,7 +2051,7 @@ jr_003_488c:
     cp $fe
     jr z, jr_003_4888
 
-    ldh [$ff89], a
+    ldh [hUnknown89], a
     ldh a, [$ff87]
     ld b, a
     ld a, [de]
@@ -2060,7 +2060,7 @@ jr_003_488c:
     bit 6, a
     jr nz, jr_003_48a3
 
-    ldh a, [$ff90]
+    ldh a, [hUnknown90]
     add b
     adc c
     jr jr_003_48ad
@@ -2068,7 +2068,7 @@ jr_003_488c:
 jr_003_48a3:
     ld a, b
     push af
-    ldh a, [$ff90]
+    ldh a, [hUnknown90]
     ld b, a
     pop af
     sub b
@@ -2076,7 +2076,7 @@ jr_003_48a3:
     sbc $08
 
 jr_003_48ad:
-    ldh [$ff93], a
+    ldh [hUnknown93], a
     ldh a, [$ff88]
     ld b, a
     inc de
@@ -2087,7 +2087,7 @@ jr_003_48ad:
     bit 5, a
     jr nz, jr_003_48c2
 
-    ldh a, [$ff91]
+    ldh a, [hUnknown91]
     add b
     adc c
     jr jr_003_48cc
@@ -2095,7 +2095,7 @@ jr_003_48ad:
 jr_003_48c2:
     ld a, b
     push af
-    ldh a, [$ff91]
+    ldh a, [hUnknown91]
     ld b, a
     pop af
     sub b
@@ -2103,13 +2103,13 @@ jr_003_48c2:
     sbc $08
 
 jr_003_48cc:
-    ldh [$ff92], a
+    ldh [hUnknown92], a
     push hl
-    ldh a, [$ff8d]
+    ldh a, [hParam1]
     ld h, a
-    ldh a, [$ff8e]
+    ldh a, [hParam2]
     ld l, a
-    ldh a, [$ff95]
+    ldh a, [hUnknown95]
     and a
     jr z, jr_003_48de
 
@@ -2117,15 +2117,15 @@ jr_003_48cc:
     jr jr_003_48e0
 
 jr_003_48de:
-    ldh a, [$ff93]
+    ldh a, [hUnknown93]
 
 jr_003_48e0:
     ld [hl+], a
-    ldh a, [$ff92]
+    ldh a, [hUnknown92]
     ld [hl+], a
-    ldh a, [$ff89]
+    ldh a, [hUnknown89]
     ld [hl+], a
-    ldh a, [$ff94]
+    ldh a, [hUnknown94]
     ld b, a
     ldh a, [$ff8b]
     or b
@@ -2134,9 +2134,9 @@ jr_003_48e0:
     or b
     ld [hl+], a
     ld a, h
-    ldh [$ff8d], a
+    ldh [hParam1], a
     ld a, l
-    ldh [$ff8e], a
+    ldh [hParam2], a
     pop hl
     jp Jump_003_4872
 
@@ -2287,14 +2287,14 @@ jr_003_4988:
     pop af
     jr jr_003_49ac
 
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0d
     jp z, Jump_003_4a7f
 
     ld de, $c207
-    ldh a, [$ff81]
+    ldh a, [hUnknown81]
     ld b, a
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     bit 1, a
     jr nz, jr_003_4975
 
@@ -2385,12 +2385,12 @@ jr_003_49fd:
 
 Jump_003_4a0c:
 jr_003_4a0c:
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0d
     ld b, $03
     jr z, jr_003_4a1a
 
-    ldh a, [$ffb5]
+    ldh a, [hSubState]
     and a
     ret z
 
@@ -2436,7 +2436,7 @@ jr_003_4a41:
     ld [de], a
     ld c, $60
     inc e
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0d
     jr nz, jr_003_4a57
 
@@ -2479,11 +2479,11 @@ Jump_003_4a77:
 
 
 Jump_003_4a7f:
-    ldh a, [$ff81]
+    ldh a, [hUnknown81]
     and $03
     jr nz, jr_003_4a0c
 
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     bit 0, a
     ret z
 
@@ -2540,11 +2540,11 @@ jr_003_4aa7:
     ld [$c0d9], a
 
 jr_003_4ad1:
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     ld [$c0db], a
     ld a, [$c0da]
-    ldh [$ff80], a
-    ldh [$ff81], a
+    ldh [hJoypadState], a
+    ldh [hUnknown81], a
     ret
 
 
@@ -2592,9 +2592,9 @@ jr_003_4afa:
     jr nz, jr_003_4b25
 
     inc [hl]
-    ldh a, [$fff3]
+    ldh a, [hUnknownF3]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     sub c
     ld c, a
     ld a, [hl]
@@ -2607,16 +2607,16 @@ jr_003_4b1b:
     dec b
     jr nz, jr_003_4af2
 
-    ldh a, [$ffa4]
-    ldh [$fff3], a
+    ldh a, [hShadowSCX]
+    ldh [hUnknownF3], a
     ret
 
 
 jr_003_4b25:
     dec [hl]
-    ldh a, [$fff3]
+    ldh a, [hUnknownF3]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     sub c
     ld c, a
     ld a, [hl]
@@ -2633,12 +2633,12 @@ jr_003_4b32:
     ld [hl], $ff
     jr jr_003_4b1b
 
-    ldh a, [$ffee]
+    ldh a, [hUnknownEE]
     cp $03
     ret nz
 
     ld hl, $c02d
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     ld b, a
     ldh a, [$fff2]
     sub b
@@ -2663,7 +2663,7 @@ jr_003_4b32:
 jr_003_4b62:
     ld [hl], $00
     ld a, $04
-    ldh [$ffee], a
+    ldh [hUnknownEE], a
     ret
 
 
@@ -2682,22 +2682,22 @@ jr_003_4b69:
     ret nc
 
     xor a
-    ldh [$ff99], a
-    ldh [$ffb5], a
+    ldh [hTimerAux], a
+    ldh [hSubState], a
     inc a
-    ldh [$ffb3], a
+    ldh [hGameState], a
     inc a
     ld [$dfe8], a
     ld a, $90
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ret
 
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $01
     ret nz
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     jr z, jr_003_4ba4
 
@@ -2714,7 +2714,7 @@ jr_003_4b69:
 
 jr_003_4ba4:
     ld a, $02
-    ldh [$ff99], a
+    ldh [hTimerAux], a
     xor a
     ld [$c200], a
     ld a, [$c203]
@@ -2723,14 +2723,14 @@ jr_003_4ba4:
     ret
 
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $04
     jr z, jr_003_4be0
 
     cp $03
     ret nz
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     jr z, jr_003_4bcf
 
@@ -2745,9 +2745,9 @@ jr_003_4ba4:
 
 jr_003_4bcf:
     ld a, $04
-    ldh [$ff99], a
+    ldh [hTimerAux], a
     ld a, $40
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ld a, [$c203]
     and $0f
     ld [$c203], a
@@ -2755,7 +2755,7 @@ jr_003_4bcf:
 
 
 jr_003_4be0:
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     jr z, jr_003_4bf1
 
@@ -2770,7 +2770,7 @@ jr_003_4be0:
 
 jr_003_4bf1:
     xor a
-    ldh [$ff99], a
+    ldh [hTimerAux], a
     ld [$c200], a
     ld a, [$c203]
     and $0f
@@ -2782,7 +2782,7 @@ jr_003_4bf1:
     cp $ff
     ret nz
 
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     ld b, a
     ld a, [$c0da]
     cp b
@@ -8811,14 +8811,14 @@ Jump_003_6762:
     ld a, $03
     ldh [rIE], a
     ei
-    ldh a, [$ffdf]
+    ldh a, [hSavedAudio]
     cp $01
     jr z, jr_003_67b1
 
     cp $02
     jr z, jr_003_67cf
 
-    ldh a, [$ffde]
+    ldh a, [hUnknownDE]
     and a
     jr nz, jr_003_67d4
 
@@ -8846,7 +8846,7 @@ jr_003_6799:
     ld [$dfe8], a
     ld [$dff0], a
     ld [$dff8], a
-    ldh [$ffdf], a
+    ldh [hSavedAudio], a
     ld a, $07
     ldh [rIE], a
     pop hl
@@ -8863,7 +8863,7 @@ jr_003_67b1:
     ld [$dff1], a
     ld [$dff9], a
     ld a, $30
-    ldh [$ffde], a
+    ldh [hUnknownDE], a
 
 jr_003_67c2:
     ld hl, $67ec
@@ -8878,11 +8878,11 @@ jr_003_67ca:
 
 jr_003_67cf:
     xor a
-    ldh [$ffde], a
+    ldh [hUnknownDE], a
     jr jr_003_6787
 
 jr_003_67d4:
-    ld hl, $ffde
+    ld hl, hUnknownDE
     dec [hl]
     ld a, [hl]
     cp $28
@@ -9475,7 +9475,7 @@ Call_003_6ab9:
 Jump_003_6ab9:
     push af
     dec e
-    ldh a, [$ffd1]
+    ldh a, [hUnknownD1]
     ld [de], a
     inc e
     pop af
@@ -9541,7 +9541,7 @@ jr_003_6af2:
 
 Call_003_6afa:
     inc e
-    ldh [$ffd1], a
+    ldh [hUnknownD1], a
 
 Call_003_6afd:
     inc e
@@ -9604,12 +9604,12 @@ Jump_003_6b26:
     ld [$df2f], a
     ld [$df3f], a
     ld [$df4f], a
-    ldh [$ffdf], a
-    ldh [$ffde], a
+    ldh [hSavedAudio], a
+    ldh [hUnknownDE], a
     ld a, $ff
     ldh [rNR51], a
     ld a, $03
-    ldh [$ffd8], a
+    ldh [hUnknownD8], a
 
 Call_003_6b4b:
     ld a, $01
@@ -9722,16 +9722,16 @@ jr_003_6bc1:
 
 jr_003_6bca:
     ld a, [hl+]
-    ldh [$ffd8], a
+    ldh [hUnknownD8], a
     ld a, [hl+]
-    ldh [$ffd6], a
+    ldh [hUnknownD6], a
     ld a, [hl+]
-    ldh [$ffd9], a
+    ldh [hUnknownD9], a
     ld a, [hl+]
-    ldh [$ffda], a
+    ldh [hUnknownDA], a
     xor a
-    ldh [$ffd5], a
-    ldh [$ffd7], a
+    ldh [hUnknownD5], a
+    ldh [hUnknownD7], a
     ret
 
 
@@ -9757,13 +9757,13 @@ Call_003_6bef:
     and a
     jr z, jr_003_6c23
 
-    ld hl, $ffd5
+    ld hl, hUnknownD5
     call Call_003_6bdc
-    ld a, [$ffb3]
+    ld a, [hGameState]
     cp $05
     jr z, jr_003_6c23
 
-    ldh a, [$ffd8]
+    ldh a, [hUnknownD8]
     cp $01
     jr z, jr_003_6c27
 
@@ -9780,11 +9780,11 @@ Call_003_6bef:
     inc l
     inc l
     inc [hl]
-    ldh a, [$ffd9]
+    ldh a, [hUnknownD9]
     bit 0, [hl]
     jp z, Jump_003_6c1f
 
-    ldh a, [$ffda]
+    ldh a, [hUnknownDA]
 
 Call_003_6c1f:
 Jump_003_6c1f:
@@ -9799,7 +9799,7 @@ jr_003_6c23:
     jr jr_003_6c1f
 
 jr_003_6c27:
-    ldh a, [$ffd9]
+    ldh a, [hUnknownD9]
     jr jr_003_6c1f
 
     ld [bc], a
@@ -9887,8 +9887,8 @@ Call_003_6c82:
 Call_003_6c88:
     call Call_003_6b4b
     xor a
-    ld [$ffd5], a
-    ld [$ffd7], a
+    ld [hUnknownD5], a
+    ld [hUnknownD7], a
     ld de, $df00
     ld b, $00
     ld a, [hl+]
@@ -9967,7 +9967,7 @@ Jump_003_6cfe:
     dec l
     dec l
     push hl
-    ld hl, $ffd0
+    ld hl, hUnknownD0
     ld a, [hl]
     pop hl
     cp $03
@@ -10020,7 +10020,7 @@ jr_003_6d4a:
     jr jr_003_6d78
 
 Jump_003_6d4d:
-    ldh a, [$ffd0]
+    ldh a, [hUnknownD0]
     cp $03
     jr nz, jr_003_6d63
 
@@ -10114,7 +10114,7 @@ Call_003_6db8:
     ret z
 
     ld a, $01
-    ldh [$ffd0], a
+    ldh [hUnknownD0], a
     ld hl, $df10
 
 Jump_003_6dc5:
@@ -10166,7 +10166,7 @@ jr_003_6dfe:
     ld c, a
     ld b, $00
     call Call_003_6d2e
-    ldh a, [$ffd0]
+    ldh a, [hUnknownD0]
     cp $04
     jp z, Jump_003_6e2e
 
@@ -10220,7 +10220,7 @@ jr_003_6e36:
 Jump_003_6e45:
 jr_003_6e45:
     push hl
-    ldh a, [$ffd0]
+    ldh a, [hUnknownD0]
     cp $01
     jr z, jr_003_6e6d
 
@@ -10318,7 +10318,7 @@ jr_003_6ea5:
     dec l
 
 Jump_003_6eaa:
-    ld de, $ffd0
+    ld de, hUnknownD0
     ld a, [de]
     cp $04
     jr z, jr_003_6ebb
@@ -10366,8 +10366,8 @@ Call_003_6ed8:
     and $0f
     jr z, jr_003_6ef8
 
-    ldh [$ffd1], a
-    ldh a, [$ffd0]
+    ldh [hUnknownD1], a
+    ldh a, [hUnknownD0]
     ld c, $13
     cp $01
     jr z, jr_003_6efa
@@ -10398,7 +10398,7 @@ Call_003_6efd:
     add $04
     ld l, a
     ld b, [hl]
-    ldh a, [$ffd1]
+    ldh a, [hUnknownD1]
     cp $01
     jr jr_003_6f14
 

@@ -114,7 +114,7 @@ Call_000_0053:
 
 SerialTransferCompleteInterrupt::
     ld a, a
-    ldh a, [$fffd]
+    ldh a, [hCurrentBank]
     ld [$2000], a
     pop af
     reti
@@ -158,12 +158,12 @@ JoypadTransitionInterrupt::
     call UpdateAnimTiles
 
     ; --- 4. IncrementFrame ---
-    ld hl, $ffac
+    ld hl, hFrameCounter
     inc [hl]                ; frame_counter++
 
     ; --- 5. CheckWindowEnable ---
 Call_000_007d:
-    ldh a, [$ffb3]          ; Lire game_state
+    ldh a, [hGameState]          ; Lire game_state
     cp $3a                  ; État spécial $3A ?
     jr nz, jr_000_0088      ; Non → sauter
 
@@ -176,7 +176,7 @@ jr_000_0088:
     ldh [rSCX], a           ; Scroll X = 0
     ldh [rSCY], a           ; Scroll Y = 0
     inc a                   ; A = 1
-    ldh [$ff85], a          ; frame_ready = 1 → réveille la game loop
+    ldh [hVBlankFlag], a          ; frame_ready = 1 → réveille la game loop
 
     ; --- 7. RestoreRegisters ---
     pop hl
@@ -199,7 +199,7 @@ jr_000_0097:
     and a
     jr nz, jr_000_00cf
 
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     ldh [rSCX], a
     ld a, [$c0de]
     and a
@@ -209,7 +209,7 @@ jr_000_0097:
     ldh [rSCY], a
 
 jr_000_00b2:
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $3a
     jr nz, jr_000_00cc
 
@@ -250,12 +250,12 @@ jr_000_00cf:
 
 jr_000_00de:
     push af
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     and a
     jr z, jr_000_00ea
 
     dec a
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
 
 jr_000_00e7:
     pop af
@@ -350,7 +350,7 @@ jr_000_015d:
 
 
 Call_000_0166:
-    ldh a, [$ff9f]
+    ldh a, [hUnknown9F]
     and a
     ret nz
 
@@ -368,7 +368,7 @@ Call_000_0166:
     daa
     ld [hl], a
     ld a, $01
-    ldh [$ffb1], a
+    ldh [hUnknownB1], a
     ret nc
 
     ld a, $99
@@ -427,29 +427,29 @@ GameLoop:
 
 ; --- 2. CallBank3Logic ---
 jr_000_0238:
-    ldh a, [$fffd]          ; Sauvegarder bank courante
-    ldh [$ffe1], a
+    ldh a, [hCurrentBank]          ; Sauvegarder bank courante
+    ldh [hSavedBank], a
     ld a, $03               ; Switch vers bank 3
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     call $47f2              ; Appeler logique bank 3
-    ldh a, [$ffe1]          ; Restaurer bank
-    ldh [$fffd], a
+    ldh a, [hSavedBank]          ; Restaurer bank
+    ldh [hCurrentBank], a
     ld [$2000], a
 
 ; --- 3. CheckPauseOrSkip ---
-    ldh a, [$ff9f]          ; Flag pause ?
+    ldh a, [hUnknown9F]          ; Flag pause ?
     and a
     jr nz, jr_000_025a      ; Si pause → sauter vers timers
 
     call CheckInputAndPause      ; Vérifier input ?
-    ldh a, [$ffb2]          ; Flag skip frame ?
+    ldh a, [hPauseFlag]          ; Flag skip frame ?
     and a
     jr nz, jr_000_0296      ; Si skip → aller directement au wait
 
 ; --- 4. DecrementTimers ---
 jr_000_025a:
-    ld hl, $ffa6            ; Adresse timer 1
+    ld hl, hTimer1            ; Adresse timer 1
     ld b, $02               ; 2 timers à décrémenter
 
 jr_000_025f:
@@ -465,15 +465,15 @@ jr_000_0264:
     jr nz, jr_000_025f      ; Boucle 2 fois
 
 ; --- 5. HandleGameState ---
-    ldh a, [$ff9f]          ; Flag pause ?
+    ldh a, [hUnknown9F]          ; Flag pause ?
     and a
     jr z, jr_000_0293       ; Non → aller au handler
 
-    ldh a, [$ff80]          ; Lire joypad
+    ldh a, [hJoypadState]          ; Lire joypad
     bit 3, a                ; Start pressé ?
     jr nz, jr_000_0283      ; Oui → traitement spécial
 
-    ldh a, [$ffac]          ; Frame counter
+    ldh a, [hFrameCounter]          ; Frame counter
     and $0f                 ; Modulo 16
     jr nz, jr_000_0293      ; Si != 0 → aller au handler
 
@@ -486,15 +486,15 @@ jr_000_0264:
     jr jr_000_0293          ; Aller au handler
 
 jr_000_0283:
-    ldh a, [$ffb3]          ; Game state
+    ldh a, [hGameState]          ; Game state
     and a
     jr nz, jr_000_0293      ; Si != 0 → aller au handler
 
     ld a, $02               ; Switch vers bank 2
     ld [$2000], a
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld a, $0e               ; Game state = $0E
-    ldh [$ffb3], a
+    ldh [hGameState], a
 
 ; --- 6. CallStateHandler ---
 jr_000_0293:
@@ -503,12 +503,12 @@ jr_000_0293:
 ; --- 7. WaitForNextFrame ---
 jr_000_0296:
     halt                    ; Suspend CPU (économie batterie)
-    ldh a, [$ff85]          ; Lire frame_ready flag
+    ldh a, [hVBlankFlag]          ; Lire frame_ready flag
     and a
     jr z, jr_000_0296       ; Si 0 → continuer à attendre
 
     xor a
-    ldh [$ff85], a          ; Clear flag
+    ldh [hVBlankFlag], a          ; Clear flag
     jr GameLoop          ; Retour au début de la game loop
 
 jr_000_02a1:
@@ -558,7 +558,7 @@ jr_000_02a1:
 ;;
 ;; ==========================================================================
 StateDispatcher:
-    ldh a, [$ffb3]          ; Lire game_state (0-N)
+    ldh a, [hGameState]          ; Lire game_state (0-N)
     rst $28                 ; → Jump table dispatcher (voir RST_28)
     ; === JUMP TABLE (mal désassemblée) ===
     ; Format: 2 octets par état = adresse du handler
@@ -663,7 +663,7 @@ StateDispatcher:
     ld b, $af
     ldh [rLCDC], a
     di
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     ld hl, $c000
     ld b, $9f
 
@@ -672,7 +672,7 @@ jr_000_032d:
     dec b
     jr nz, jr_000_032d
 
-    ldh [$ff99], a
+    ldh [hTimerAux], a
     ld [$c0a5], a
     ld [$c0ad], a
     ld hl, $c0d8
@@ -680,7 +680,7 @@ jr_000_032d:
     ld [hl+], a
     ld [hl+], a
     ld a, [$c0e1]
-    ldh [$ff9a], a
+    ldh [hUnknown9A], a
     ld hl, $791a
     ld de, $9300
     ld bc, $0500
@@ -690,7 +690,7 @@ jr_000_032d:
     ld bc, $0170
     call Call_000_05c7
     ld hl, $4862
-    ldh a, [$ff9a]
+    ldh a, [hUnknown9A]
     cp $01
     jr c, jr_000_0368
 
@@ -710,14 +710,14 @@ jr_000_0368:
     call Call_000_05c7
     call Call_000_05b8
     xor a
-    ldh [$ffe5], a
-    ldh a, [$ffe4]
+    ldh [hUnknownE5], a
+    ldh a, [hUnknownE4]
     push af
     ld a, $0c
-    ldh [$ffe4], a
+    ldh [hUnknownE4], a
     call Call_000_07f0
     pop af
-    ldh [$ffe4], a
+    ldh [hUnknownE4], a
     ld a, $3c
     ld hl, $9800
     call Call_000_0558
@@ -775,7 +775,7 @@ jr_000_03e2:
     and a
     jr z, jr_000_041f
 
-    ldh a, [$ff9a]
+    ldh a, [hUnknown9A]
     cp $02
     jr c, jr_000_03fe
 
@@ -816,12 +816,12 @@ jr_000_041f:
     ldh [rLCDC], a
     ei
     ld a, $0f
-    ldh [$ffb3], a
+    ldh [hGameState], a
     xor a
-    ldh [$fff9], a
+    ldh [hUnknownF9], a
     ld a, $28
     ld [$c0d7], a
-    ldh [$ff9f], a
+    ldh [hUnknown9F], a
     ld hl, $c0dc
     inc [hl]
     ld a, [hl]
@@ -851,7 +851,7 @@ jr_000_0450:
     dec a
     ld [$c0a6], a
     ld a, [$c0a8]
-    ldh [$ffb4], a
+    ldh [hAnimTileIndex], a
     ld e, $00
     cp $11
     jr z, jr_000_049c
@@ -902,19 +902,19 @@ jr_000_049c:
     ld a, e
 
 jr_000_049d:
-    ldh [$ffe4], a
+    ldh [hUnknownE4], a
     jp Jump_000_053d
 
 
 jr_000_04a2:
     xor a
     ld [$c0a6], a
-    ldh a, [$ff9a]
+    ldh a, [hUnknown9A]
     cp $02
     jp nc, Jump_000_053d
 
     ld a, $11
-    ldh [$ffb4], a
+    ldh [hAnimTileIndex], a
     xor a
     jr jr_000_049d
 
@@ -938,14 +938,14 @@ jr_000_04b4:
     jr nz, jr_000_04b4
 
 jr_000_04ce:
-    ldh a, [$ff9a]
+    ldh a, [hUnknown9A]
     cp $02
     jr c, jr_000_0519
 
     bit 0, b
     jr z, jr_000_04f5
 
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     inc a
     ld b, a
     and $0f
@@ -956,22 +956,22 @@ jr_000_04ce:
     add $0d
 
 jr_000_04e5:
-    ldh [$ffb4], a
-    ldh a, [$ffe4]
+    ldh [hAnimTileIndex], a
+    ldh a, [hUnknownE4]
     inc a
     cp $0c
     jr nz, jr_000_04f3
 
     ld a, $11
-    ldh [$ffb4], a
+    ldh [hAnimTileIndex], a
     xor a
 
 jr_000_04f3:
-    ldh [$ffe4], a
+    ldh [hUnknownE4], a
 
 jr_000_04f5:
     ld hl, $c008
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     ld b, $78
     ld c, a
     and $f0
@@ -1010,26 +1010,26 @@ Jump_000_051c:
     ld hl, $0552
     add hl, de
     ld a, [hl+]
-    ldh [$ffb4], a
+    ldh [hAnimTileIndex], a
     ld a, [hl]
-    ldh [$ffe4], a
+    ldh [hUnknownE4], a
 
 Jump_000_0530:
     ld a, $50
     ld [$c0d7], a
     ld a, $11
-    ldh [$ffb3], a
+    ldh [hGameState], a
     xor a
-    ldh [$ff9a], a
+    ldh [hUnknown9A], a
     ret
 
 
 Jump_000_053d:
     ld a, $11
-    ldh [$ffb3], a
+    ldh [hGameState], a
     xor a
     ldh [rIF], a
-    ldh [$ff9f], a
+    ldh [hUnknown9F], a
     ld [$c0a4], a
     dec a
     ld [$dfe8], a
@@ -1055,7 +1055,7 @@ jr_000_055a:
     xor a
     ldh [rLCDC], a
     di
-    ldh a, [$ff9f]
+    ldh a, [hUnknown9F]
     and a
     jr nz, jr_000_0574
 
@@ -1063,7 +1063,7 @@ jr_000_055a:
     ld [$c0a0], a
     ld [$c0a1], a
     ld [$c0a2], a
-    ldh [$fffa], a
+    ldh [hUnknownFA], a
 
 jr_000_0574:
     call Call_000_05d0
@@ -1090,15 +1090,15 @@ jr_000_0581:
     ldh [rTMA], a
     ldh [rIF], a
     dec a
-    ldh [$ffa7], a
-    ldh [$ffb1], a
+    ldh [hTimer2], a
+    ldh [hUnknownB1], a
     ld a, $5b
-    ldh [$ffe9], a
+    ldh [hScrollColumn], a
     call $2439
     call Call_000_3d11
     call Call_000_1c12
     call Call_000_1c4d
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     call Call_000_0d64
     ret
 
@@ -1179,10 +1179,10 @@ jr_000_0600:
 
     call Call_000_218f
     call Call_000_0837
-    ldh a, [$fffd]
-    ldh [$ffe1], a
+    ldh a, [hCurrentBank]
+    ldh [hSavedBank], a
     ld a, $03
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     call $48fc
     ld bc, $c208
@@ -1207,19 +1207,19 @@ jr_000_0600:
     call $4b6f
     call $4b8a
     call $4bb5
-    ldh a, [$ffe1]
-    ldh [$fffd], a
+    ldh a, [hSavedBank]
+    ldh [hCurrentBank], a
     ld [$2000], a
     call Call_000_1f24
     call Call_000_2488
-    ldh a, [$fffd]
-    ldh [$ffe1], a
+    ldh a, [hCurrentBank]
+    ldh [hSavedBank], a
     ld a, $02
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     call $5844
-    ldh a, [$ffe1]
-    ldh [$fffd], a
+    ldh a, [hSavedBank]
+    ldh [hCurrentBank], a
     ld [$2000], a
     call Call_000_1983
     call Call_000_16ec
@@ -1237,7 +1237,7 @@ jr_000_0600:
     ret
 
 
-    ld hl, $ffa6
+    ld hl, hTimer1
     ld a, [hl]
     and a
     ret nz
@@ -1253,11 +1253,11 @@ jr_000_06b3:
     jr nz, jr_000_06b3
 
     xor a
-    ldh [$ff99], a
+    ldh [hTimerAux], a
     dec a
     ld [$c0a3], a
     ld a, $02
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -1266,14 +1266,14 @@ jr_000_06b3:
     ldh [rLCDC], a
     call $1ecb
     call Call_000_1655
-    ld hl, $ffe5
-    ldh a, [$fff9]
+    ld hl, hUnknownE5
+    ldh a, [hUnknownF9]
     and a
     jr z, jr_000_06e0
 
     xor a
-    ldh [$fff9], a
-    ldh a, [$fff5]
+    ldh [hUnknownF9], a
+    ldh a, [hUnknownF5]
     inc a
     jr jr_000_06e1
 
@@ -1319,7 +1319,7 @@ jr_000_070c:
     ld hl, $982b
     ld [hl], $2c
     inc l
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     ld b, a
     and $f0
     swap a
@@ -1340,16 +1340,16 @@ jr_000_0732:
     jr nz, jr_000_0732
 
     xor a
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld [$c0d3], a
     ld a, $c3
     ldh [rLCDC], a
     call Call_000_078c
     xor a
     ldh [rIF], a
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     ld [$c0d2], a
-    ldh [$ffee], a
+    ldh [hUnknownEE], a
     ld [$da1d], a
     ldh [rTMA], a
     ld hl, $da01
@@ -1358,8 +1358,8 @@ jr_000_0732:
     ld a, $28
     ld [$da00], a
     ld a, $5b
-    ldh [$ffe9], a
-    ldh a, [$ffe4]
+    ldh [hScrollColumn], a
+    ldh a, [hUnknownE4]
     ld c, $0a
     cp $05
     jr z, jr_000_0771
@@ -1370,7 +1370,7 @@ jr_000_0732:
 
 jr_000_0771:
     ld a, $0d
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld a, [$c203]
     and $f0
     or c
@@ -1398,13 +1398,13 @@ Call_000_078c:
     ld a, $03
     ld [$2000], a
     call $7ff3
-    ldh a, [$fffd]
+    ldh a, [hCurrentBank]
     ld [$2000], a
-    ldh a, [$fff4]
+    ldh a, [hUnknownF4]
     and a
     jr nz, jr_000_07b1
 
-    ldh a, [$ffe4]
+    ldh a, [hUnknownE4]
     ld hl, $07b7
     ld e, a
     ld d, $00
@@ -1441,7 +1441,7 @@ jr_000_07b1:
 CheckInputAndPause:
     ; --- CheckSoftReset ---
     ; Si D-pad = $0F (toutes directions), c'est la combo reset
-    ldh a, [$ff80]          ; Lire joypad (directions)
+    ldh a, [hJoypadState]          ; Lire joypad (directions)
     and $0f                 ; Masquer les 4 bits bas
     cp $0f                  ; Toutes les directions ?
     jr nz, jr_000_07ce      ; Non → vérifier pause
@@ -1455,15 +1455,15 @@ jr_000_07ce:
     ret z                   ; Non → return
 
     ; --- CheckCanPause ---
-    ldh a, [$ffb3]          ; Lire game_state
+    ldh a, [hGameState]          ; Lire game_state
     cp $0e                  ; État >= $0E ?
     ret nc                  ; Oui → ne peut pas pauser
 
     ; --- TogglePause ---
     ld hl, $ff40            ; HL = rLCDC
-    ldh a, [$ffb2]          ; Lire flag pause
+    ldh a, [hPauseFlag]          ; Lire flag pause
     xor $01                 ; Toggle (0↔1)
-    ldh [$ffb2], a          ; Sauvegarder
+    ldh [hPauseFlag], a          ; Sauvegarder
     jr z, jr_000_07ea       ; Si maintenant 0 → unpause
 
     ; --- EnterPause ---
@@ -1471,7 +1471,7 @@ jr_000_07ce:
     ld a, $01
 
 jr_000_07e7:
-    ldh [$ffdf], a          ; Sauvegarder état audio ?
+    ldh [hSavedAudio], a          ; Sauvegarder état audio ?
     ret
 
 ; --- ExitPause ---
@@ -1492,7 +1492,7 @@ jr_000_07f8:
     dec b
     jr nz, jr_000_07f8
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     and a
     jr z, jr_000_0808
 
@@ -1501,7 +1501,7 @@ jr_000_07f8:
 
 Call_000_0808:
 jr_000_0808:
-    ld hl, $ffe6
+    ld hl, hUnknownE6
     xor a
     ld b, $06
 
@@ -1510,16 +1510,16 @@ jr_000_080e:
     dec b
     jr nz, jr_000_080e
 
-    ldh [$ffa3], a
+    ldh [hTemp3], a
     ld [$c0aa], a
     ld a, $40
-    ldh [$ffe9], a
+    ldh [hScrollColumn], a
     ld b, $14
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0a
     jr z, jr_000_082b
 
-    ldh a, [$ffe4]
+    ldh a, [hUnknownE4]
     cp $0c
     jr z, jr_000_082b
 
@@ -1537,16 +1537,16 @@ jr_000_082b:
 
 
 Call_000_0837:
-    ldh a, [$ff9c]
+    ldh a, [hUnknown9C]
     and a
     jr z, jr_000_083f
 
 Call_000_083c:
     dec a
-    ldh [$ff9c], a
+    ldh [hUnknown9C], a
 
 jr_000_083f:
-    ld de, $fff0
+    ld de, hUnknownF0
     ld b, $0a
     ld hl, $d190
 
@@ -1564,9 +1564,9 @@ Jump_000_084c:
 
 
 jr_000_0851:
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld a, l
-    ldh [$fffc], a
+    ldh [hUnknownFC], a
     push bc
     push hl
     ld bc, $000a
@@ -1575,10 +1575,10 @@ jr_000_0851:
     inc l
     inc l
     ld a, [hl]
-    ldh [$ff9b], a
+    ldh [hUnknown9B], a
     ld a, [$c201]
     ld b, a
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_000_0877
 
@@ -1594,32 +1594,32 @@ jr_000_0877:
     ld a, b
 
 Call_000_0878:
-    ldh [$ffa0], a
+    ldh [hTemp0], a
     ld a, [$c201]
     add $06
-    ldh [$ffa1], a
+    ldh [hTemp1], a
     ld a, [$c202]
     ld b, a
     sub $03
-    ldh [$ffa2], a
+    ldh [hTemp2], a
     ld a, $02
     add b
-    ldh [$ff8f], a
+    ldh [hParam3], a
     pop hl
     push hl
     call Call_000_0aa6
     and a
     jp z, Jump_000_0958
 
-    ldh a, [$fffc]
+    ldh a, [hUnknownFC]
     cp $90
     jp z, Jump_000_096a
 
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     cp $33
     jp z, Jump_000_09ce
 
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0d
     jr z, jr_000_08b1
 
@@ -1685,26 +1685,26 @@ jr_000_08fb:
     ld [$dfe0], a
     ld a, [$c202]
     add $fc
-    ldh [$ffeb], a
+    ldh [hPtrLow], a
     ld a, [$c201]
     sub $10
-    ldh [$ffec], a
-    ldh a, [$ff9e]
-    ldh [$ffed], a
-    ldh a, [$ff9c]
+    ldh [hPtrHigh], a
+    ldh a, [hUnknown9E]
+    ldh [hPtrBank], a
+    ldh a, [hUnknown9C]
     and a
     jr z, jr_000_0934
 
-    ldh a, [$ff9d]
+    ldh a, [hUnknown9D]
     cp $03
     jr z, jr_000_0920
 
     inc a
-    ldh [$ff9d], a
+    ldh [hUnknown9D], a
 
 jr_000_0920:
     ld b, a
-    ldh a, [$ffed]
+    ldh a, [hPtrBank]
     cp $50
     jr z, jr_000_0934
 
@@ -1713,16 +1713,16 @@ jr_000_0927:
     dec b
     jr nz, jr_000_0927
 
-    ldh [$ffed], a
+    ldh [hPtrBank], a
 
 jr_000_092e:
     ld a, $32
-    ldh [$ff9c], a
+    ldh [hUnknown9C], a
     jr jr_000_0955
 
 jr_000_0934:
     xor a
-    ldh [$ff9d], a
+    ldh [hUnknown9D], a
     jr jr_000_092e
 
 Jump_000_0939:
@@ -1733,7 +1733,7 @@ jr_000_0939:
     and a
     jr nz, jr_000_0962
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $03
     jr nc, jr_000_0955
 
@@ -1741,7 +1741,7 @@ jr_000_0939:
     and a
     jr z, jr_000_0955
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     and a
     jr nz, jr_000_095d
 
@@ -1771,7 +1771,7 @@ jr_000_0962:
     jr jr_000_08fb
 
 Jump_000_096a:
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     cp $29
     jr z, jr_000_09a2
 
@@ -1784,11 +1784,11 @@ Jump_000_096a:
     cp $2e
     jr nz, jr_000_0955
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_000_09a8
 
-    ldh [$ffb5], a
+    ldh [hSubState], a
 
 jr_000_0984:
     ld a, $04
@@ -1796,15 +1796,15 @@ jr_000_0984:
 
 jr_000_0989:
     ld a, $10
-    ldh [$ffed], a
+    ldh [hPtrBank], a
 
 jr_000_098d:
     ld a, [$c202]
     add $fc
-    ldh [$ffeb], a
+    ldh [hPtrLow], a
     ld a, [$c201]
     sub $10
-    ldh [$ffec], a
+    ldh [hPtrHigh], a
 
 jr_000_099b:
     dec l
@@ -1814,15 +1814,15 @@ jr_000_099b:
     jr jr_000_0955
 
 jr_000_09a2:
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr z, jr_000_0989
 
 jr_000_09a8:
     ld a, $01
-    ldh [$ff99], a
+    ldh [hTimerAux], a
     ld a, $50
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     jr jr_000_0984
 
 jr_000_09b2:
@@ -1834,7 +1834,7 @@ jr_000_09b2:
 
 jr_000_09be:
     ld a, $ff
-    ldh [$ffed], a
+    ldh [hPtrBank], a
     ld a, $08
     ld [$dfe0], a
     ld a, $01
@@ -1842,18 +1842,18 @@ jr_000_09be:
     jr jr_000_098d
 
 Jump_000_09ce:
-    ldh [$fffe], a
+    ldh [_HRAM_END], a
     ld a, $05
     ld [$dfe0], a
     jr jr_000_099b
 
 Call_000_09d7:
     ld a, $03
-    ldh [$ff99], a
+    ldh [hTimerAux], a
     xor a
-    ldh [$ffb5], a
+    ldh [hSubState], a
     ld a, $50
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ld a, $06
     ld [$dfe0], a
     ret
@@ -1874,11 +1874,11 @@ InitGameState:
 
     ; --- SetGameState($03) ---
     ld a, $03
-    ldh [$ffb3], a          ; game_state = $03
+    ldh [hGameState], a          ; game_state = $03
 
     ; --- ResetTimerAndVariables ---
     xor a
-    ldh [$ffb5], a          ; Variable = 0
+    ldh [hSubState], a          ; Variable = 0
     ldh [rTMA], a           ; Timer Modulo = 0 (désactive timer)
 
     ld a, $02
@@ -1896,7 +1896,7 @@ InitGameState:
 Call_000_0a07:
     push hl
     push de
-    ldh a, [$ff9b]
+    ldh a, [hUnknown9B]
     and $c0
     swap a
     srl a
@@ -1906,7 +1906,7 @@ Call_000_0a07:
     ld hl, $0a20
     add hl, de
     ld a, [hl]
-    ldh [$ff9e], a
+    ldh [hUnknown9E], a
     pop de
     pop hl
     ret
@@ -1916,7 +1916,7 @@ Call_000_0a07:
     ld d, b
 
 Call_000_0a24:
-    ldh a, [$ffee]
+    ldh a, [hUnknownEE]
     and a
     ret z
 
@@ -1952,7 +1952,7 @@ jr_000_0a3d:
     inc l
     inc l
     ld a, [hl]
-    ldh [$ff9b], a
+    ldh [hUnknown9B], a
     pop hl
     push hl
     inc l
@@ -2006,12 +2006,12 @@ jr_000_0a6a:
 
     ld a, [$c202]
     add $fc
-    ldh [$ffeb], a
+    ldh [hPtrLow], a
     ld a, [$c201]
     sub $10
-    ldh [$ffec], a
-    ldh a, [$ff9e]
-    ldh [$ffed], a
+    ldh [hPtrHigh], a
+    ldh a, [hUnknown9E]
+    ldh [hPtrBank], a
 
 jr_000_0aa1:
     pop hl
@@ -2025,7 +2025,7 @@ Call_000_0aa6:
     ld a, [hl]
     add $08
     ld b, a
-    ldh a, [$ffa0]
+    ldh a, [hTemp0]
     sub b
     jr nc, jr_000_0adf
 
@@ -2043,12 +2043,12 @@ jr_000_0ab6:
 
 jr_000_0abd:
     ld b, a
-    ldh a, [$ffa1]
+    ldh a, [hTemp1]
     sub b
     jr c, jr_000_0adf
 
     inc l
-    ldh a, [$ff8f]
+    ldh a, [hParam3]
     ld b, [hl]
     sub b
     jr c, jr_000_0adf
@@ -2065,7 +2065,7 @@ jr_000_0ad1:
     jr nz, jr_000_0ad1
 
     ld b, a
-    ldh a, [$ffa2]
+    ldh a, [hTemp2]
     sub b
     jr nc, jr_000_0adf
 
@@ -2110,10 +2110,10 @@ jr_000_0af9:
 
     ld a, [hl]
     and $0f
-    ldh [$ffa0], a
-    ld bc, $fff8
+    ldh [hTemp0], a
+    ld bc, hUnknownF8
     add hl, bc
-    ldh a, [$ffa0]
+    ldh a, [hTemp0]
     ld b, a
     ld a, [hl]
 
@@ -2126,7 +2126,7 @@ jr_000_0b11:
 
 jr_000_0b18:
     ld c, a
-    ldh [$ffa0], a
+    ldh [hTemp0], a
     ld a, [$c201]
     add $06
     ld b, a
@@ -2176,7 +2176,7 @@ jr_000_0b44:
 
 jr_000_0b54:
     dec l
-    ldh a, [$ffa0]
+    ldh a, [hTemp0]
     sub $0a
     ld [$c201], a
     push hl
@@ -2254,11 +2254,11 @@ jr_000_0b7f:
     inc l
     ld [hl], $20
     ld a, $04
-    ldh [$ffb3], a
+    ldh [hGameState], a
     xor a
     ld [$c0ac], a
-    ldh [$ff99], a
-    ldh [$fff4], a
+    ldh [hTimerAux], a
+    ldh [hUnknownF4], a
     call $1ecb
     ret
 
@@ -2305,11 +2305,11 @@ jr_000_0bf2:
 
 jr_000_0c07:
     ld a, $90
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ld a, $01
 
 jr_000_0c0d:
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -2342,7 +2342,7 @@ Jump_000_0c22:
     ld bc, $0101
     ld bc, $0101
     ld bc, $7f01
-    ld hl, $ffa6
+    ld hl, hTimer1
     ld a, [hl]
     and a
     jr z, jr_000_0c42
@@ -2357,30 +2357,30 @@ jr_000_0c42:
     jr nz, jr_000_0c4c
 
     ld a, $40
-    ldh [$ffa6], a
+    ldh [hTimer1], a
 
 jr_000_0c4c:
     ld a, $05
-    ldh [$ffb3], a
+    ldh [hGameState], a
     xor a
     ld [$da1d], a
     ldh [rTMA], a
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     and $0f
     cp $03
     ret nz
 
     call Call_000_2b21
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     cp $43
     ret nz
 
     ld a, $06
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     and $0f
     cp $03
     jr nz, jr_000_0c79
@@ -2390,7 +2390,7 @@ jr_000_0c4c:
     call Call_000_2488
 
 jr_000_0c79:
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
@@ -2402,19 +2402,19 @@ jr_000_0c79:
 
     ld a, $01
     ld [$da00], a
-    ldh a, [$fffd]
-    ldh [$ffe1], a
+    ldh a, [hCurrentBank]
+    ldh [hSavedBank], a
     ld a, $02
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     call $5844
-    ldh a, [$ffe1]
-    ldh [$fffd], a
+    ldh a, [hSavedBank]
+    ldh [hCurrentBank], a
     ld [$2000], a
     ld de, $0010
     call Call_000_0166
     ld a, $01
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     xor a
     ld [$da1d], a
     ld a, [$da01]
@@ -2428,20 +2428,20 @@ jr_000_0c79:
 
 jr_000_0cb9:
     ld a, $06
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld a, $26
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ret
 
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
     xor a
     ld [$da1d], a
     ldh [rTMA], a
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     and $0f
     cp $03
     ld a, $1c
@@ -2461,50 +2461,50 @@ Call_000_0cdb:
 
 jr_000_0ce5:
     ld a, $02
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     ld a, $12
 
 jr_000_0cee:
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
 jr_000_0cf1:
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld a, $03
     ld [$2000], a
-    ldh [$fffd], a
-    ld hl, $ffe4
+    ldh [hCurrentBank], a
+    ld hl, hUnknownE4
     ld a, [hl]
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld [hl], $0c
     inc l
     xor a
     ld [hl+], a
     ld [hl+], a
-    ldh [$ffa3], a
+    ldh [hTemp3], a
     inc l
     inc l
     ld a, [hl]
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ld a, $06
-    ldh [$ffa6], a
-    ldh a, [$ffb4]
+    ldh [hTimer1], a
+    ldh a, [hAnimTileIndex]
     and $f0
     cp $40
     ret nz
 
     xor a
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld a, $01
     ld [$c0de], a
     ld a, $bf
-    ldh [$fffc], a
+    ldh [hUnknownFC], a
     ld a, $ff
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ld a, $27
-    ldh [$ffb3], a
+    ldh [hGameState], a
     call $7ff3
     ret
 
@@ -2513,14 +2513,14 @@ jr_000_0d30:
     di
     ld a, c
     ld [$2000], a
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     xor a
     ldh [rLCDC], a
     call Call_000_05d0
     jp Jump_000_0dca
 
 
-    ld hl, $ffa6
+    ld hl, hTimer1
     ld a, [hl]
     and a
     ret nz
@@ -2529,7 +2529,7 @@ jr_000_0d30:
     and a
     ret nz
 
-    ldh a, [$ffe4]
+    ldh a, [hUnknownE4]
     inc a
     cp $0c
     jr nz, jr_000_0d53
@@ -2537,8 +2537,8 @@ jr_000_0d30:
     xor a
 
 jr_000_0d53:
-    ldh [$ffe4], a
-    ldh a, [$ffb4]
+    ldh [hUnknownE4], a
+    ldh a, [hAnimTileIndex]
     inc a
     ld b, a
     and $0f
@@ -2549,7 +2549,7 @@ jr_000_0d53:
     add $0d
 
 jr_000_0d62:
-    ldh [$ffb4], a
+    ldh [hAnimTileIndex], a
 
 Call_000_0d64:
     and $f0
@@ -2573,7 +2573,7 @@ jr_000_0d7c:
     di
     ld a, c
     ld [$2000], a
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     xor a
     ldh [rLCDC], a
     ld a, b
@@ -2638,12 +2638,12 @@ Jump_000_0dca:
     ldh [rLCDC], a
     ei
     ld a, $03
-    ldh [$ffe5], a
+    ldh [hUnknownE5], a
     xor a
     ld [$c0d2], a
-    ldh [$fff9], a
+    ldh [hUnknownF9], a
     ld a, $02
-    ldh [$ffb3], a
+    ldh [hGameState], a
     call $2439
     ret
 
@@ -2671,12 +2671,12 @@ Jump_000_0dca:
     ldh [rLCDC], a
     ei
     ld a, $08
-    ldh [$ffb3], a
-    ldh [$ffb1], a
+    ldh [hGameState], a
+    ldh [hUnknownB1], a
     ret
 
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     jr z, jr_000_0e1f
 
@@ -2690,8 +2690,8 @@ Jump_000_0dca:
 
 jr_000_0e1f:
     ld a, $40
-    ldh [$ffa6], a
-    ld hl, $ffb3
+    ldh [hTimer1], a
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -2699,11 +2699,11 @@ jr_000_0e1f:
     xor a
     ld [$c0ab], a
     call Call_000_2488
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
-    ldh a, [$ffe0]
+    ldh a, [hVramPtrLow]
     sub $02
     cp $40
     jr nc, jr_000_0e3d
@@ -2716,30 +2716,30 @@ jr_000_0e3d:
     ld de, $0120
     add hl, de
     ld a, l
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
     ld a, $05
-    ldh [$fffc], a
+    ldh [hUnknownFC], a
     ld a, $08
-    ldh [$ffa6], a
-    ld hl, $ffb3
+    ldh [hTimer1], a
+    ld hl, hGameState
     inc [hl]
     ret
 
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
-    ldh a, [$fffc]
+    ldh a, [hUnknownFC]
     dec a
     jr z, jr_000_0e7a
 
-    ldh [$fffc], a
-    ldh a, [$ffe0]
+    ldh [hUnknownFC], a
+    ldh a, [hVramPtrLow]
     ld l, a
     ld h, $99
     sub $20
-    ldh [$ffe0], a
+    ldh [hVramPtrLow], a
 
 jr_000_0e68:
     ldh a, [rSTAT]
@@ -2748,7 +2748,7 @@ jr_000_0e68:
 
     ld [hl], $2c
     ld a, $08
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ld a, $0b
     ld [$dfe0], a
     ret
@@ -2756,17 +2756,17 @@ jr_000_0e68:
 
 jr_000_0e7a:
     ld a, $10
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ld a, $03
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     call $7ff3
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
@@ -2774,8 +2774,8 @@ jr_000_0e7a:
     ld [$c0d2], a
     ld [$c207], a
     inc a
-    ldh [$fff9], a
-    ld hl, $ffb3
+    ldh [hUnknownF9], a
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -2786,15 +2786,15 @@ jr_000_0e7a:
     ret c
 
     ld a, $20
-    ldh [$ffa6], a
-    ld hl, $ffb3
+    ldh [hTimer1], a
+    ld hl, hGameState
     inc [hl]
     ret
 
 
 Call_000_0eb2:
     ld a, $10
-    ldh [$ff80], a
+    ldh [hJoypadState], a
     ld a, [$c203]
     and $0f
     cp $0a
@@ -2803,19 +2803,19 @@ Call_000_0eb2:
     ret
 
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
     call Call_000_0ede
     xor a
-    ldh [$ffea], a
-    ldh [$ffa3], a
+    ldh [hScrollPhase], a
+    ldh [hTemp3], a
     ld a, $a1
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ld a, $0f
     ld [$dfe8], a
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -2852,11 +2852,11 @@ jr_000_0ef3:
     ret
 
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     jr z, jr_000_0f21
 
-    ld hl, $ffa4
+    ld hl, hShadowSCX
     inc [hl]
     call Call_000_218f
     ld hl, $c202
@@ -2870,15 +2870,15 @@ jr_000_0f1d:
 
 
 jr_000_0f21:
-    ldh a, [$fffb]
-    ldh [$ffe4], a
-    ld hl, $ffb3
+    ldh a, [hUnknownFB]
+    ldh [hUnknownE4], a
+    ld hl, hGameState
     inc [hl]
     ret
 
 
     ld a, $10
-    ldh [$ff80], a
+    ldh [hJoypadState], a
     call Call_000_17b3
     call Call_000_16ec
     ld a, [$c202]
@@ -2888,7 +2888,7 @@ jr_000_0f21:
     ld a, [$c203]
     and $f0
     ld [$c203], a
-    ldh a, [$ffe0]
+    ldh a, [hVramPtrLow]
     sub $40
     add $04
     ld b, a
@@ -2900,12 +2900,12 @@ jr_000_0f21:
     sub $20
 
 jr_000_0f52:
-    ldh [$ffe3], a
+    ldh [hCopyDstHigh], a
     ld a, $98
-    ldh [$ffe2], a
+    ldh [hCopyDstLow], a
     xor a
-    ldh [$fffb], a
-    ld hl, $ffb3
+    ldh [hUnknownFB], a
+    ld hl, hGameState
     inc [hl]
     jr jr_000_0f1d
 
@@ -2914,25 +2914,25 @@ jr_000_0f52:
     cp $ff
     ret nz
 
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ld a, $80
     ld [$c210], a
     ld a, $08
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ld a, $08
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld a, $12
     ld [$dfe8], a
     ret
 
 
 Call_000_0f81:
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     ld e, a
     ld d, $00
     add hl, de
@@ -2946,9 +2946,9 @@ Call_000_0f8f:
     cp $ff
     ret z
 
-    ldh a, [$ffe2]
+    ldh a, [hCopyDstLow]
     ld h, a
-    ldh a, [$ffe3]
+    ldh a, [hCopyDstHigh]
     ld l, a
 
 jr_000_0f9a:
@@ -2964,7 +2964,7 @@ jr_000_0fa0:
     ld [hl], b
     inc hl
     ld a, h
-    ldh [$ffe2], a
+    ldh [hCopyDstLow], a
     ld a, l
     and $0f
     jr nz, jr_000_0fc2
@@ -2976,12 +2976,12 @@ jr_000_0fa0:
     sub $20
 
 jr_000_0fb7:
-    ldh [$ffe3], a
+    ldh [hCopyDstHigh], a
     inc e
     ld a, e
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld a, $0c
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ret
 
 
@@ -2996,9 +2996,9 @@ jr_000_0fc5:
     ld b, $00
     ld a, [hl]
     push af
-    ldh a, [$ffe2]
+    ldh a, [hCopyDstLow]
     ld h, a
-    ldh a, [$ffe3]
+    ldh a, [hCopyDstHigh]
     ld l, a
     add hl, bc
     pop bc
@@ -3030,16 +3030,16 @@ jr_000_0fc5:
     inc e
     ld [hl+], a
     rst $38
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     dec a
     jr z, jr_000_1016
 
 jr_000_0ffd:
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
 
 jr_000_0fff:
     and $01
@@ -3055,14 +3055,14 @@ jr_000_100b:
 jr_000_100e:
     call Call_000_1020
     ld a, $08
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ret
 
 
 jr_000_1016:
     ld hl, $c210
     ld [hl], $00
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -3109,7 +3109,7 @@ jr_000_1025:
     ld h, b
     rlca
     ld h, b
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
@@ -3129,10 +3129,10 @@ jr_000_1025:
     ld hl, $c213
     ld [hl], $21
     ld a, $40
-    ldh [$ffa6], a
+    ldh [hTimer1], a
 
 jr_000_1070:
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $01
     jr nz, jr_000_107f
 
@@ -3148,35 +3148,35 @@ jr_000_107f:
 
 
 jr_000_1083:
-    ld hl, $ffb3
+    ld hl, hGameState
     ld [hl], $12
     ld a, $02
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     ret
 
 
-    ldh a, [$ffa7]
+    ldh a, [hTimer2]
     and a
     jr nz, jr_000_109e
 
     ld a, $01
     ld [$dff8], a
     ld a, $20
-    ldh [$ffa7], a
+    ldh [hTimer2], a
 
 jr_000_109e:
     xor a
     ld [$c0ab], a
     call Call_000_2488
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     ld c, a
     and $03
     jr nz, jr_000_10bf
 
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     xor $01
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld b, $fc
     jr z, jr_000_10b8
 
@@ -3197,7 +3197,7 @@ jr_000_10bf:
 
     ld hl, $8dd0
     ld bc, $0220
-    ldh a, [$fffc]
+    ldh a, [hUnknownFC]
     ld d, a
 
 jr_000_10cf:
@@ -3229,14 +3229,14 @@ jr_000_10e8:
     or b
     jr nz, jr_000_10cf
 
-    ldh a, [$fffc]
+    ldh a, [hUnknownFC]
     sla a
     jr z, jr_000_10fe
 
     swap a
-    ldh [$fffc], a
+    ldh [hUnknownFC], a
     ld a, $3f
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ret
 
 
@@ -3245,8 +3245,8 @@ jr_000_10fe:
     ld [$c0df], a
     ld [$c0d2], a
     inc a
-    ldh [$fff9], a
-    ld hl, $ffb3
+    ldh [hUnknownF9], a
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -3254,7 +3254,7 @@ jr_000_10fe:
     di
     xor a
     ldh [rLCDC], a
-    ldh [$fff9], a
+    ldh [hUnknownF9], a
     ld hl, $9c00
     ld bc, $0100
     call Call_000_05be
@@ -3268,9 +3268,9 @@ jr_000_10fe:
     ld [hl], $78
     xor a
     ldh [rIF], a
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     ld [$c0df], a
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld hl, $c000
     ld b, $0c
 
@@ -3281,15 +3281,15 @@ jr_000_113e:
 
     call CallBank3Handler
     ld a, $98
-    ldh [$ffe2], a
+    ldh [hCopyDstLow], a
     ld a, $a5
-    ldh [$ffe3], a
+    ldh [hCopyDstHigh], a
     ld a, $0f
     ld [$dfe8], a
     ld a, $c3
     ldh [rLCDC], a
     ei
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -3300,14 +3300,14 @@ jr_000_113e:
     ret nz
 
     xor a
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld a, $99
-    ldh [$ffe2], a
+    ldh [hCopyDstLow], a
     ld a, $02
-    ldh [$ffe3], a
+    ldh [hCopyDstHigh], a
     ld a, $23
     ld [$c213], a
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -3330,7 +3330,7 @@ jr_000_113e:
     rst $38
     ld hl, $11b6
     call Call_000_0f81
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $03
     ret nz
 
@@ -3345,7 +3345,7 @@ jr_000_113e:
 
 
 jr_000_11a3:
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ld hl, $c030
 
@@ -3374,7 +3374,7 @@ jr_000_11aa:
     jr jr_000_11e9
 
     rst $38
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $01
     ret nz
 
@@ -3384,7 +3384,7 @@ jr_000_11aa:
     cp $20
     jr c, jr_000_11e9
 
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     and a
     ld a, [hl]
     jr nz, jr_000_11e2
@@ -3394,7 +3394,7 @@ jr_000_11aa:
     ret nc
 
 jr_000_11df:
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ret
 
 
@@ -3427,12 +3427,12 @@ jr_000_11f6:
     jr nz, jr_000_11f0
 
     xor a
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld a, $99
-    ldh [$ffe2], a
+    ldh [hCopyDstLow], a
     ld a, $00
-    ldh [$ffe3], a
-    ld hl, $ffb3
+    ldh [hCopyDstHigh], a
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -3455,7 +3455,7 @@ jr_000_11f6:
     inc l
     inc l
     ld [hl], $00
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -3479,7 +3479,7 @@ jr_000_11f6:
     ld c, $1b
     add hl, hl
     rst $38
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $03
     jr nz, jr_000_1258
 
@@ -3512,18 +3512,18 @@ jr_000_126e:
     ld a, $80
     ld [$c210], a
     ld a, $40
-    ldh [$ffa6], a
-    ld hl, $ffb3
+    ldh [hTimer1], a
+    ld hl, hGameState
     inc [hl]
 
 jr_000_127f:
     call Call_000_0eb2
     call Call_000_218f
-    ldh a, [$ffe5]
+    ldh a, [hUnknownE5]
     cp $03
     ret nz
 
-    ldh a, [$ffe6]
+    ldh a, [hUnknownE6]
     and a
     ret nz
 
@@ -3535,7 +3535,7 @@ jr_000_127f:
     ret
 
 
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
@@ -3554,13 +3554,13 @@ jr_000_12a4:
     ld [hl], $26
     ld hl, $c241
     ld [hl], $f0
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
 
     call CallBank3Handler
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     ld b, a
     and $01
     ret nz
@@ -3578,15 +3578,15 @@ jr_000_12a4:
 
 
 jr_000_12d4:
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ld a, $04
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ret
 
 
 Call_000_12dd:
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $03
     ret nz
 
@@ -3599,12 +3599,12 @@ Call_000_12dd:
 
     call Call_000_1305
     call Call_000_218f
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     inc a
     call z, Call_000_130f
     inc a
     call z, Call_000_130f
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     ld a, [$dfe9]
     and a
     ret nz
@@ -3623,16 +3623,16 @@ Call_000_1305:
 
 Call_000_130f:
     push af
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     dec a
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     jr nz, jr_000_1343
 
     ldh [rLYC], a
     ld a, $21
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ld a, $54
-    ldh [$ffe9], a
+    ldh [hScrollColumn], a
     call Call_000_1345
     ld hl, $c210
     ld de, $1376
@@ -3643,7 +3643,7 @@ Call_000_130f:
     ld hl, $c230
     ld de, $1380
     call Call_000_136d
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
 
 jr_000_1343:
@@ -3662,9 +3662,9 @@ jr_000_134c:
     jr nz, jr_000_134c
 
     ld a, $01
-    ldh [$ffea], a
+    ldh [hScrollPhase], a
     ld b, $02
-    ldh a, [$ffe9]
+    ldh a, [hScrollColumn]
     sub $20
     ld l, a
     ld h, $98
@@ -3713,36 +3713,36 @@ jr_000_136f:
     add hl, hl
     add b
     call Call_000_1547
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     inc a
     inc a
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     and $08
     ld b, a
-    ldh a, [$ffa3]
+    ldh a, [hTemp3]
     cp b
     ret nz
 
     xor $08
-    ldh [$ffa3], a
+    ldh [hTemp3], a
     call Call_000_1345
-    ldh a, [$fffb]
+    ldh a, [hUnknownFB]
     dec a
-    ldh [$fffb], a
+    ldh [hUnknownFB], a
     ret nz
 
     xor a
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     ld a, $60
     ldh [rLYC], a
     ld hl, $154e
     ld a, h
-    ldh [$ffe2], a
+    ldh [hCopyDstLow], a
     ld a, l
-    ldh [$ffe3], a
+    ldh [hCopyDstHigh], a
     ld a, $f0
-    ldh [$ffa6], a
-    ld hl, $ffb3
+    ldh [hTimer1], a
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -3789,13 +3789,13 @@ jr_000_13e2:
 
 
     call Call_000_1547
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
-    ldh a, [$ffe2]
+    ldh a, [hCopyDstLow]
     ld h, a
-    ldh a, [$ffe3]
+    ldh a, [hCopyDstHigh]
     ld l, a
     ld de, $9a42
 
@@ -3849,16 +3849,16 @@ jr_000_1422:
 
 jr_000_142d:
     ld a, h
-    ldh [$ffe2], a
+    ldh [hCopyDstLow], a
     ld a, l
-    ldh [$ffe3], a
-    ld hl, $ffb3
+    ldh [hCopyDstHigh], a
+    ld hl, hGameState
     inc [hl]
     ret
 
 
     call Call_000_1547
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $03
     ret nz
 
@@ -3868,25 +3868,25 @@ jr_000_142d:
     cp $20
     ret nz
 
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ld a, $50
-    ldh [$ffa6], a
+    ldh [hTimer1], a
     ret
 
 
     call Call_000_1547
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
 
     call Call_000_1547
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $03
     ret nz
 
@@ -3906,7 +3906,7 @@ jr_000_142d:
     ld a, $37
 
 jr_000_147c:
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -3944,12 +3944,12 @@ jr_000_14a6:
     jr nz, jr_000_14a6
 
     ld a, $90
-    ldh [$ffa6], a
-    ldh a, [$ff9a]
+    ldh [hTimer1], a
+    ldh a, [hUnknown9A]
     inc a
-    ldh [$ff9a], a
+    ldh [hUnknown9A], a
     ld [$c0e1], a
-    ld hl, $ffb3
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -3973,7 +3973,7 @@ jr_000_14a6:
     ld d, [hl]
     nop
     call Call_000_1547
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
@@ -4017,12 +4017,12 @@ jr_000_14e6:
 
     call Call_000_1520
     xor a
-    ldh [$ffe4], a
-    ldh [$ff99], a
-    ldh [$ffb5], a
+    ldh [hUnknownE4], a
+    ldh [hTimerAux], a
+    ldh [hSubState], a
     ld [$c0a6], a
     ld a, $11
-    ldh [$ffb4], a
+    ldh [hAnimTileIndex], a
     ret
 
 
@@ -4035,7 +4035,7 @@ Call_000_1520:
 
 Call_000_1527:
     ld a, $02
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     ld [$c0dc], a
     ld [$c0a4], a
@@ -4046,7 +4046,7 @@ Call_000_1527:
     ld a, $03
     ldh [rIE], a
     ld a, $0e
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -4217,7 +4217,7 @@ Jump_000_1603:
 
 jr_000_1612:
     ld hl, $c201
-    ldh a, [$fff8]
+    ldh a, [hUnknownF8]
 
 jr_000_1617:
     cp [hl]
@@ -4231,19 +4231,19 @@ jr_000_161a:
 
 jr_000_161f:
     ld a, $0a
-    ldh [$ffb3], a
-    ldh [$fff9], a
+    ldh [hGameState], a
+    ldh [hUnknownF9], a
     ret
 
 
     di
     xor a
     ldh [rLCDC], a
-    ldh [$ffe6], a
+    ldh [hUnknownE6], a
     call $1ecb
     call Call_000_1655
-    ldh a, [$fff4]
-    ldh [$ffe5], a
+    ldh a, [hUnknownF4]
+    ldh [hUnknownE5], a
     call Call_000_07f0
     call Call_000_2453
     ld hl, $c201
@@ -4255,8 +4255,8 @@ jr_000_161f:
     ld [hl], $00
     xor a
     ldh [rIF], a
-    ldh [$ffb3], a
-    ldh [$ffa4], a
+    ldh [hGameState], a
+    ldh [hShadowSCX], a
     ld a, $c3
     ldh [rLCDC], a
     ei
@@ -4278,12 +4278,12 @@ jr_000_165b:
     ret
 
 
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $01
     ret z
 
     ld hl, $c202
-    ldh a, [$fff8]
+    ldh a, [hUnknownF8]
     cp [hl]
     jr c, jr_000_1679
 
@@ -4296,13 +4296,13 @@ jr_000_165b:
 
 jr_000_1679:
     di
-    ldh a, [$fff5]
-    ldh [$ffe5], a
+    ldh a, [hUnknownF5]
+    ldh [hUnknownE5], a
     xor a
     ldh [rLCDC], a
-    ldh [$ffe6], a
+    ldh [hUnknownE6], a
     call Call_000_1655
-    ld hl, $fff4
+    ld hl, hUnknownF4
     ld [hl+], a
     ld [hl+], a
     ldh a, [$fff7]
@@ -4318,10 +4318,10 @@ jr_000_1679:
     ld a, d
     ld [hl+], a
     sub $12
-    ldh [$fff8], a
+    ldh [hUnknownF8], a
     ld a, e
     ld [hl], a
-    ldh a, [$ffe5]
+    ldh a, [hUnknownE5]
     sub $04
     ld b, a
     rlca
@@ -4333,26 +4333,26 @@ jr_000_1679:
     ld [$c0ab], a
     xor a
     ldh [rIF], a
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     ld a, $5b
-    ldh [$ffe9], a
+    ldh [hScrollColumn], a
     call Call_000_2453
     call $1ecb
     ld a, $c3
     ldh [rLCDC], a
     ld a, $0c
-    ldh [$ffb3], a
+    ldh [hGameState], a
     call Call_000_078c
     ei
     ret
 
 
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $01
     ret z
 
     ld hl, $c201
-    ldh a, [$fff8]
+    ldh a, [hUnknownF8]
     cp [hl]
     jr z, jr_000_16e3
 
@@ -4363,9 +4363,9 @@ jr_000_1679:
 
 jr_000_16e3:
     xor a
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld [$c204], a
-    ldh [$fff9], a
+    ldh [hUnknownF9], a
     ret
 
 
@@ -4427,34 +4427,34 @@ jr_000_1727:
 CallBank3Handler:
     ; --- SetupParameters ---
     ld a, $0c
-    ldh [$ff8e], a          ; Paramètre 1 = $0C
+    ldh [hParam2], a          ; Paramètre 1 = $0C
     ld hl, $c200            ; HL = adresse player data
     ld a, $c0
-    ldh [$ff8d], a          ; Paramètre 2 = $C0
+    ldh [hParam1], a          ; Paramètre 2 = $C0
     ld a, $05
-    ldh [$ff8f], a          ; Paramètre 3 = $05
+    ldh [hParam3], a          ; Paramètre 3 = $05
 
     ; --- SaveCurrentBank ---
-    ldh a, [$fffd]          ; Lire bank courante
-    ldh [$ffe1], a          ; Sauvegarder dans temp
+    ldh a, [hCurrentBank]          ; Lire bank courante
+    ldh [hSavedBank], a          ; Sauvegarder dans temp
 
     ; --- SwitchToBank3 ---
     ld a, $03
-    ldh [$fffd], a          ; Mettre à jour shadow register
+    ldh [hCurrentBank], a          ; Mettre à jour shadow register
     ld [$2000], a           ; MBC: switch vers bank 3
 
     ; --- CallTargetRoutine ---
     call $4823              ; Appeler routine en bank 3
 
     ; --- RestorePreviousBank ---
-    ldh a, [$ffe1]          ; Récupérer bank sauvegardée
-    ldh [$fffd], a          ; Restaurer shadow register
+    ldh a, [hSavedBank]          ; Récupérer bank sauvegardée
+    ldh [hCurrentBank], a          ; Restaurer shadow register
     ld [$2000], a           ; MBC: restaurer bank
     ret
 
 
 Jump_000_1752:
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0e
     jp nc, Jump_000_1815
 
@@ -4462,19 +4462,19 @@ Jump_000_1752:
 
 
 jr_000_175c:
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     bit 7, a
     jp z, Jump_000_1854
 
-    ld bc, $ffe0
+    ld bc, hVramPtrLow
     ld a, h
-    ldh [$ffb0], a
+    ldh [hSpriteAttr], a
     ld a, l
-    ldh [$ffaf], a
+    ldh [hSpriteTile], a
     ld a, h
     add $30
     ld h, a
-    ld de, $fff4
+    ld de, hUnknownF4
     ld a, [hl]
     and a
     jp z, Jump_000_1854
@@ -4500,16 +4500,16 @@ jr_000_175c:
     ld a, [hl+]
     add $10
     ld [de], a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     ld b, a
-    ldh a, [$ffae]
+    ldh a, [hSpriteX]
     sub b
     add $08
     ld [hl+], a
     inc l
     ld [hl], $80
     ld a, $09
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld a, [$c0d3]
     and a
     jr nz, jr_000_17ad
@@ -4531,13 +4531,13 @@ Call_000_17b3:
     ld hl, $c201
     ld a, [hl+]
     add $0b
-    ldh [$ffad], a
-    ldh a, [$ffa4]
+    ldh [hSpriteY], a
+    ldh a, [hShadowSCX]
     ld b, a
     ld a, [hl]
     add b
     add $fe
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     call Call_000_0153
     cp $70
     jr z, jr_000_175c
@@ -4560,9 +4560,9 @@ Call_000_17b3:
     ld b, $08
 
 jr_000_17ec:
-    ldh a, [$ffae]
+    ldh a, [hSpriteX]
     add b
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     call Call_000_0153
     cp $60
     jr nc, jr_000_1815
@@ -4598,7 +4598,7 @@ jr_000_1815:
     and a
     jr nz, jr_000_1839
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     and a
     jr z, jr_000_1833
 
@@ -4624,7 +4624,7 @@ jr_000_1839:
 
     push hl
     pop de
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld a, [hl]
     and a
     jr nz, jr_000_17f8
@@ -4663,7 +4663,7 @@ jr_000_1854:
 
 
 Jump_000_1872:
-    ldh a, [$ffee]
+    ldh a, [hUnknownEE]
     and a
     ret nz
 
@@ -4677,7 +4677,7 @@ Jump_000_1872:
     ret z
 
 Jump_000_187f:
-    ldh a, [$ffee]
+    ldh a, [hUnknownEE]
     and a
     ret nz
 
@@ -4701,7 +4701,7 @@ Jump_000_1892:
     ld [$c0ce], a
 
 Jump_000_189b:
-    ldh a, [$ffee]
+    ldh a, [hUnknownEE]
     and a
     ret nz
 
@@ -4709,10 +4709,10 @@ Jump_000_189b:
     ld [$dfe0], a
     ld a, [$c201]
     sub $10
-    ldh [$ffec], a
+    ldh [hPtrHigh], a
     ld a, $c0
-    ldh [$ffed], a
-    ldh [$fffe], a
+    ldh [hPtrBank], a
+    ldh [_HRAM_END], a
     ld a, [$c0ce]
     and a
     jr nz, jr_000_191a
@@ -4723,14 +4723,14 @@ jr_000_18b7:
     jr jr_000_192e
 
 jr_000_18be:
-    ldh [$ffa0], a
+    ldh [hTemp0], a
     ld a, $80
     ld [$c02e], a
     ld a, $07
     ld [$dfe0], a
     push hl
     pop de
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld a, [hl]
     and a
     ret nz
@@ -4741,40 +4741,40 @@ jr_000_18be:
     inc l
     ld [hl], e
     ld a, d
-    ldh [$ffb0], a
+    ldh [hSpriteAttr], a
     ld a, e
-    ldh [$ffaf], a
+    ldh [hSpriteTile], a
     ld a, d
     add $30
     ld d, a
     ld a, [de]
-    ldh [$ffa0], a
+    ldh [hTemp0], a
     call Call_000_3efe
     ld hl, $c02c
     ld a, [$c201]
     sub $0b
     ld [hl+], a
-    ldh [$ffc2], a
-    ldh [$fff1], a
-    ldh a, [$ffa4]
+    ldh [hSoundParam1], a
+    ldh [hUnknownF1], a
+    ldh a, [hShadowSCX]
     ld b, a
-    ldh a, [$ffae]
-    ldh [$fff2], a
+    ldh a, [hSpriteX]
+    ldh [hUnknownF2], a
 
 Call_000_18fc:
     sub b
     ld [hl+], a
-    ldh [$ffc3], a
+    ldh [hSoundParam2], a
     inc l
     ld [hl], $00
-    ldh a, [$ffa0]
+    ldh a, [hTemp0]
     cp $f0
     ret z
 
     cp $28
     jr nz, jr_000_1916
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     ld a, $28
     jr nz, jr_000_1916
@@ -4788,7 +4788,7 @@ jr_000_1916:
 
 Jump_000_191a:
 jr_000_191a:
-    ldh a, [$ffee]
+    ldh a, [hUnknownEE]
     and a
     ret nz
 
@@ -4804,37 +4804,37 @@ jr_000_191a:
 jr_000_192e:
     push hl
     pop de
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld [hl], $02
     inc l
     ld [hl], d
     inc l
     ld [hl], e
     ld a, d
-    ldh [$ffb0], a
+    ldh [hSpriteAttr], a
     ld a, e
-    ldh [$ffaf], a
+    ldh [hSpriteTile], a
     call Call_000_3efe
     ld hl, $c02c
     ld a, [$c201]
     sub $0b
     ld [hl+], a
-    ldh [$fff1], a
-    ldh a, [$ffa4]
+    ldh [hUnknownF1], a
+    ldh a, [hShadowSCX]
     ld b, a
-    ldh a, [$ffae]
+    ldh a, [hSpriteX]
     ld c, a
-    ldh [$fff2], a
+    ldh [hUnknownF2], a
     sub b
     ld [hl+], a
     inc l
     ld [hl], $00
-    ldh [$ffeb], a
+    ldh [hPtrLow], a
     ret
 
 
 jr_000_195d:
-    ldh a, [$ffee]
+    ldh a, [hUnknownEE]
     and a
     ret nz
 
@@ -4853,9 +4853,9 @@ jr_000_195d:
     ld [$c02e], a
     ld a, [$c201]
     sub $10
-    ldh [$ffec], a
+    ldh [hPtrHigh], a
     ld a, $c0
-    ldh [$ffed], a
+    ldh [hPtrBank], a
     jr jr_000_192e
 
 Call_000_1983:
@@ -4866,12 +4866,12 @@ Call_000_1983:
     ld hl, $c201
     ld a, [hl+]
     add $fd
-    ldh [$ffad], a
-    ldh a, [$ffa4]
+    ldh [hSpriteY], a
+    ldh a, [hShadowSCX]
     ld b, [hl]
     add b
     add $02
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     call Call_000_0153
     cp $5f
     jp z, Jump_000_1872
@@ -4879,9 +4879,9 @@ Call_000_1983:
     cp $60
     jr nc, jr_000_19b6
 
-    ldh a, [$ffae]
+    ldh a, [hSpriteX]
     add $fc
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     call Call_000_0153
     cp $5f
     jp z, Jump_000_1872
@@ -4924,13 +4924,13 @@ jr_000_19d8:
     cp $c0
     jp z, Jump_000_189b
 
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jp nz, Jump_000_191a
 
     push hl
     pop de
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld a, [hl]
     and a
     ret nz
@@ -4982,8 +4982,8 @@ jr_000_1a01:
     ld [hl], $0b
     ld hl, $c248
     ld [hl], $0b
-    ldh a, [$ffa4]
-    ldh [$fff3], a
+    ldh a, [hShadowSCX]
+    ldh [hUnknownF3], a
     ld a, $02
     ld [$dff8], a
     ld de, $0050
@@ -4996,7 +4996,7 @@ jr_000_1a01:
 Jump_000_1a4e:
     push hl
     pop de
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld a, [hl]
     and a
     ret nz
@@ -5015,7 +5015,7 @@ Call_000_1a62:
     push hl
     push af
     ld b, a
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     and $f0
     swap a
     dec a
@@ -5080,12 +5080,12 @@ jr_000_1a86:
     db $fd
 
 Call_000_1aa4:
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0e
     jr nc, jr_000_1b03
 
     ld de, $0701
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_000_1abd
 
@@ -5099,7 +5099,7 @@ jr_000_1abd:
     ld hl, $c201
     ld a, [hl+]
     add d
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     ld a, [$c205]
     ld b, [hl]
     ld c, $fa
@@ -5112,9 +5112,9 @@ jr_000_1acf:
     ld a, c
     add b
     ld b, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add b
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     push de
     call Call_000_0153
     call Call_000_1a62
@@ -5156,7 +5156,7 @@ jr_000_1b03:
 jr_000_1b05:
     push hl
     pop de
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld a, [hl]
     and a
     ret nz
@@ -5173,18 +5173,18 @@ jr_000_1b05:
 
 
 jr_000_1b1a:
-    ldh a, [$fff9]
+    ldh a, [hUnknownF9]
     and a
     jr z, jr_000_1af2
 
     ld a, $0b
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld a, $80
     ld [$c204], a
     ld hl, $c202
     ld a, [hl-]
     add $18
-    ldh [$fff8], a
+    ldh [hUnknownF8], a
     ld a, [hl]
     and $f8
     add $06
@@ -5197,14 +5197,14 @@ jr_000_1b1a:
 Call_000_1b3c:
 Jump_000_1b3c:
 jr_000_1b3c:
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     ld b, $ff
     jr z, jr_000_1b49
 
     ld b, $0f
     xor a
-    ldh [$ff99], a
+    ldh [hTimerAux], a
 
 jr_000_1b49:
     ld a, [$c203]
@@ -5221,7 +5221,7 @@ jr_000_1b49:
 
 jr_000_1b5d:
     ld a, $07
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld a, [$d007]
     and a
     jr nz, jr_000_1b70
@@ -5229,7 +5229,7 @@ jr_000_1b5d:
     ld a, $01
     ld [$dfe8], a
     ld a, $f0
-    ldh [$ffa6], a
+    ldh [hTimer1], a
 
 jr_000_1b70:
     call $1ecb
@@ -5243,10 +5243,10 @@ jr_000_1b70:
 Call_000_1b7d:
     xor a
     ld [$c0e2], a
-    ldh a, [$fffe]
+    ldh a, [_HRAM_END]
     and a
     call nz, Call_000_1bf6
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld a, [hl]
     cp $01
     jr z, jr_000_1bb1
@@ -5293,7 +5293,7 @@ jr_000_1bb4:
     cp $c0
     jr z, jr_000_1bf2
 
-    ld hl, $ffe0
+    ld hl, hVramPtrLow
     add hl, de
     ld a, [hl]
     cp $f4
@@ -5303,20 +5303,20 @@ jr_000_1bb4:
     ld a, $05
     ld [$dfe0], a
     ld a, h
-    ldh [$ffb0], a
+    ldh [hSpriteAttr], a
     ld a, l
-    ldh [$ffaf], a
+    ldh [hSpriteTile], a
     call Call_000_3efe
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     ld b, a
-    ldh a, [$ffae]
+    ldh a, [hSpriteX]
     sub b
-    ldh [$ffeb], a
-    ldh a, [$ffad]
+    ldh [hPtrLow], a
+    ldh a, [hSpriteY]
     add $14
-    ldh [$ffec], a
+    ldh [hPtrHigh], a
     ld a, $c0
-    ldh [$ffed], a
+    ldh [hPtrBank], a
     call Call_000_1bf6
     ret
 
@@ -5331,7 +5331,7 @@ jr_000_1bf2:
 
 
 Call_000_1bf6:
-    ldh a, [$ff9f]
+    ldh a, [hUnknown9F]
     and a
     ret nz
 
@@ -5341,10 +5341,10 @@ Call_000_1bf6:
     call Call_000_0166
     pop hl
     pop de
-    ldh a, [$fffa]
+    ldh a, [hUnknownFA]
     add $01
     daa
-    ldh [$fffa], a
+    ldh [hUnknownFA], a
     and a
     jr nz, jr_000_1c12
 
@@ -5353,7 +5353,7 @@ Call_000_1bf6:
 
 Call_000_1c12:
 jr_000_1c12:
-    ldh a, [$fffa]
+    ldh a, [hUnknownFA]
     ld b, a
     and $0f
     ld [$982a], a
@@ -5362,7 +5362,7 @@ jr_000_1c12:
     swap a
     ld [$9829], a
     xor a
-    ldh [$fffe], a
+    ldh [_HRAM_END], a
     inc a
     ld [$c0e2], a
     ret
@@ -5388,7 +5388,7 @@ jr_000_1c12:
 ; MODIFIE : A, B
 ; =============================================================================
 UpdateLivesDisplay:
-    ldh a, [$ff9f]
+    ldh a, [hUnknown9F]
     and a
     ret nz
 
@@ -5406,7 +5406,7 @@ UpdateLivesDisplay:
     push af
     ld a, $08
     ld [$dfe0], a
-    ldh [$ffd3], a
+    ldh [hUnknownD3], a
     pop af
     add $01
 
@@ -5432,7 +5432,7 @@ jr_000_1c5e:
 
 jr_000_1c63:
     ld a, $39
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ld [$c0a4], a
     jr jr_000_1c5e
 
@@ -5469,7 +5469,7 @@ jr_000_1c83:
 
     ld a, $10
     ld [$dfe8], a
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     ld [$c0a8], a
     ld a, [$c0a2]
     and $f0
@@ -5500,8 +5500,8 @@ jr_000_1cb4:
     inc hl
     ld [hl], $07
     ld a, $ff
-    ldh [$fffb], a
-    ld hl, $ffb3
+    ldh [hUnknownFB], a
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -5551,8 +5551,8 @@ jr_000_1cfa:
     ld hl, $ff40
     set 5, [hl]
     ld a, $a0
-    ldh [$ffa6], a
-    ld hl, $ffb3
+    ldh [hTimer1], a
+    ld hl, hGameState
     inc [hl]
     ret
 
@@ -5564,12 +5564,12 @@ jr_000_1cfa:
     inc l
     ld e, $19
     inc l
-    ldh a, [$ffa6]
+    ldh a, [hTimer1]
     and a
     ret nz
 
     ld a, $01
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -5608,7 +5608,7 @@ jr_000_1d31:
 
 jr_000_1d40:
     ld de, $c207
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     bit 7, a
     jr nz, jr_000_1d7e
 
@@ -5656,7 +5656,7 @@ jr_000_1d68:
 
 jr_000_1d7e:
     push af
-    ldh a, [$ff99]
+    ldh a, [hTimerAux]
     cp $02
     jr nz, jr_000_1d9a
 
@@ -5666,7 +5666,7 @@ jr_000_1d7e:
 
     ld a, $18
     ld [$c203], a
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     and $30
     jr nz, jr_000_1d9d
 
@@ -5701,7 +5701,7 @@ jr_000_1dae:
     and a
     ret nz
 
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     bit 4, a
     jr z, jr_000_1ddb
 
@@ -5726,7 +5726,7 @@ jr_000_1dcf:
 
 jr_000_1ddb:
     ld hl, $c202
-    ldh a, [$fff9]
+    ldh a, [hUnknownF9]
     and a
     jr nz, jr_000_1e18
 
@@ -5734,7 +5734,7 @@ jr_000_1ddb:
     cp $07
     jr c, jr_000_1df0
 
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     and $0c
     jr z, jr_000_1e18
 
@@ -5745,7 +5745,7 @@ jr_000_1df0:
 
     call Call_000_1eab
     ld b, a
-    ld hl, $ffa4
+    ld hl, hShadowSCX
     add [hl]
     ld [hl], a
     call Call_000_1e9b
@@ -5772,7 +5772,7 @@ jr_000_1e18:
     call Call_000_1eab
     add [hl]
     ld [hl], a
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0d
     jr z, jr_000_1e13
 
@@ -5780,9 +5780,9 @@ jr_000_1e18:
     and a
     jr z, jr_000_1e13
 
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     and $fc
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     ld a, [hl]
     cp $a0
     jr c, jr_000_1e13
@@ -5827,7 +5827,7 @@ jr_000_1e58:
     jr c, jr_000_1e96
 
     push hl
-    ldh a, [$ff80]
+    ldh a, [hJoypadState]
     bit 5, a
     jr z, jr_000_1e8e
 
@@ -5921,9 +5921,9 @@ jr_000_1edd:
     dec b
     jr nz, jr_000_1edd
 
-    ldh [$ffa9], a
-    ldh [$ffaa], a
-    ldh [$ffab], a
+    ldh [hUnknownA9], a
+    ldh [hUnknownAA], a
+    ldh [hUnknownAB], a
     ld hl, $c210
     ld de, $0010
     ld b, $04
@@ -5942,7 +5942,7 @@ jr_000_1ef1:
 
 
 Call_000_1efa:
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $03
     ret nz
 
@@ -5972,7 +5972,7 @@ jr_000_1f19:
 
 Call_000_1f24:
     ld b, $01
-    ld hl, $ffa9
+    ld hl, hUnknownA9
     ld de, $c001
 
 jr_000_1f2c:
@@ -6024,7 +6024,7 @@ jr_000_1f59:
     push af
     dec e
     ld a, [de]
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     pop af
     call Call_000_1fc9
     jr c, jr_000_1f6c
@@ -6046,7 +6046,7 @@ jr_000_1f6c:
     jr c, jr_000_1f52
 
     sub $01
-    ldh [$ffad], a
+    ldh [hSpriteY], a
 
 Call_000_1f7c:
     inc e
@@ -6075,7 +6075,7 @@ jr_000_1f91:
     jr nc, jr_000_1f52
 
     add $04
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     inc e
     ld a, [de]
     call Call_000_1fc9
@@ -6099,7 +6099,7 @@ jr_000_1fac:
     push af
     dec e
     ld a, [de]
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     pop af
     call Call_000_1fc9
     jr c, jr_000_1f6c
@@ -6112,22 +6112,22 @@ jr_000_1fac:
 
 Call_000_1fc9:
     ld b, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add b
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     push de
     push hl
     call Call_000_0153
     cp $f4
     jr nz, jr_000_1ff2
 
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0d
     jr z, jr_000_1ffc
 
     push hl
     pop de
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld a, [hl]
     and a
     jr nz, jr_000_1ffc
@@ -6198,17 +6198,17 @@ jr_000_2020:
     inc l
     inc l
     ld a, [hl]
-    ldh [$ff9b], a
+    ldh [hUnknown9B], a
     ld a, [de]
-    ldh [$ffa2], a
+    ldh [hTemp2], a
     add $04
-    ldh [$ff8f], a
+    ldh [hParam3], a
     dec e
     ld a, [de]
-    ldh [$ffa0], a
+    ldh [hTemp0], a
     ld a, [de]
     add $03
-    ldh [$ffa1], a
+    ldh [hTemp1], a
     pop hl
     push hl
     call Call_000_0aa6
@@ -6220,7 +6220,7 @@ jr_000_2020:
     dec l
     call Call_000_0a07
     push de
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
 
 Call_000_2052:
     cp $0d
@@ -6240,25 +6240,25 @@ jr_000_205e:
     push af
     ld a, [de]
     sub $08
-    ldh [$ffec], a
+    ldh [hPtrHigh], a
     inc e
     ld a, [de]
-    ldh [$ffeb], a
+    ldh [hPtrLow], a
     pop af
     cp $ff
     jr nz, jr_000_207a
 
     ld a, $03
     ld [$dfe0], a
-    ldh a, [$ff9e]
-    ldh [$ffed], a
+    ldh a, [hUnknown9E]
+    ldh [hPtrBank], a
 
 jr_000_207a:
     xor a
     ld [de], a
     dec e
     ld [de], a
-    ld hl, $ffab
+    ld hl, hUnknownAB
     bit 3, e
     jr nz, jr_000_208b
 
@@ -6277,13 +6277,13 @@ Call_000_208e:
     push bc
     push de
     push af
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0d
     jr nz, jr_000_2105
 
     push hl
     pop de
-    ld hl, $ffee
+    ld hl, hUnknownEE
     ld a, [hl]
     and a
     jr nz, jr_000_2105
@@ -6316,11 +6316,11 @@ jr_000_20c0:
     push hl
     ld [hl], $00
     inc l
-    ldh a, [$ffad]
+    ldh a, [hSpriteY]
     add $00
     ld [hl], a
     inc l
-    ldh a, [$ffa1]
+    ldh a, [hTemp1]
     add $00
     ld [hl], a
     inc l
@@ -6348,8 +6348,8 @@ jr_000_20c0:
     ld [hl], $0b
     ld hl, $c248
     ld [hl], $0b
-    ldh a, [$ffa4]
-    ldh [$fff3], a
+    ldh a, [hShadowSCX]
+    ldh [hUnknownF3], a
     ld de, $0050
     call Call_000_0166
     ld a, $02
@@ -6364,12 +6364,12 @@ jr_000_2105:
 
 
 Call_000_210a:
-    ldh a, [$ff9f]
+    ldh a, [hUnknown9F]
     and a
     ret z
 
     ld a, [$c0db]
-    ldh [$ff80], a
+    ldh [hJoypadState], a
     ret
 
 
@@ -6469,26 +6469,26 @@ jr_000_215b:
 
 jr_000_217f:
     ld a, $03
-    ldh [$ffea], a
-    ldh a, [$ffa4]
+    ldh [hScrollPhase], a
+    ldh a, [hShadowSCX]
     ld b, a
     ld a, [$c0aa]
     cp b
     ret z
 
     xor a
-    ldh [$ffea], a
+    ldh [hScrollPhase], a
     ret
 
 
 Call_000_218f:
-    ldh a, [$ffea]
+    ldh a, [hScrollPhase]
     and a
     jr nz, jr_000_217f
 
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     and $08
-    ld hl, $ffa3
+    ld hl, hTemp3
     cp [hl]
     ret nz
 
@@ -6512,19 +6512,19 @@ jr_000_21af:
     dec b
     jr nz, jr_000_21af
 
-    ldh a, [$ffe6]
+    ldh a, [hUnknownE6]
     and a
     jr z, jr_000_21c0
 
-    ldh a, [$ffe7]
+    ldh a, [hUnknownE7]
     ld h, a
-    ldh a, [$ffe8]
+    ldh a, [hUnknownE8]
     ld l, a
     jr jr_000_21df
 
 jr_000_21c0:
     ld hl, $4000
-    ldh a, [$ffe4]
+    ldh a, [hUnknownE4]
     add a
     ld e, a
     ld d, $00
@@ -6534,7 +6534,7 @@ jr_000_21c0:
     ld d, [hl]
     push de
     pop hl
-    ldh a, [$ffe5]
+    ldh a, [hUnknownE5]
     add a
     ld e, a
     ld d, $00
@@ -6616,24 +6616,24 @@ jr_000_2222:
 
 jr_000_2227:
     ld a, h
-    ldh [$ffe7], a
+    ldh [hUnknownE7], a
     ld a, l
-    ldh [$ffe8], a
-    ldh a, [$ffe6]
+    ldh [hUnknownE8], a
+    ldh a, [hUnknownE6]
     inc a
     cp $14
     jr nz, jr_000_2239
 
-    ld hl, $ffe5
+    ld hl, hUnknownE5
     inc [hl]
     xor a
 
 jr_000_2239:
-    ldh [$ffe6], a
-    ldh a, [$ffa4]
+    ldh [hUnknownE6], a
+    ldh a, [hShadowSCX]
     ld [$c0aa], a
     ld a, $01
-    ldh [$ffea], a
+    ldh [hScrollPhase], a
     ret
 
 
@@ -6669,11 +6669,11 @@ jr_000_2246:
 ; MODIFIE : A, B, DE, HL
 ; =============================================================================
 UpdateScrollColumn:
-    ldh a, [$ffea]
+    ldh a, [hScrollPhase]
     cp $01
     ret nz
 
-    ldh a, [$ffe9]
+    ldh a, [hScrollColumn]
     ld l, a
     inc a
     cp $60
@@ -6682,7 +6682,7 @@ UpdateScrollColumn:
     ld a, $40
 
 jr_000_225e:
-    ldh [$ffe9], a
+    ldh [hScrollColumn], a
     ld h, $98
     ld de, $c0b0
     ld b, $10
@@ -6730,7 +6730,7 @@ jr_000_2291:
     jr nz, jr_000_2267
 
     ld a, $02
-    ldh [$ffea], a
+    ldh [hScrollPhase], a
     ret
 
 
@@ -6738,16 +6738,16 @@ Call_000_22a0:
     push hl
     push de
     push bc
-    ldh a, [$fff9]
+    ldh a, [hUnknownF9]
     and a
     jr nz, jr_000_22f0
 
-    ldh a, [$fffd]
-    ldh [$ffe1], a
+    ldh a, [hCurrentBank]
+    ldh [hSavedBank], a
     ld a, $03
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
-    ldh a, [$ffe4]
+    ldh a, [hUnknownE4]
     add a
     ld e, a
     ld d, $00
@@ -6760,7 +6760,7 @@ Call_000_22a0:
     pop hl
 
 jr_000_22c2:
-    ldh a, [$ffe5]
+    ldh a, [hUnknownE5]
     cp [hl]
     jr z, jr_000_22d4
 
@@ -6779,13 +6779,13 @@ jr_000_22cd:
     jr jr_000_22c2
 
 jr_000_22d4:
-    ldh a, [$ffe6]
+    ldh a, [hUnknownE6]
     inc hl
     cp [hl]
     jr nz, jr_000_22cd
 
     inc hl
-    ld de, $fff4
+    ld de, hUnknownF4
     ld a, [hl+]
     ld [de], a
     inc e
@@ -6799,8 +6799,8 @@ jr_000_22d4:
     ld [de], a
 
 jr_000_22e9:
-    ldh a, [$ffe1]
-    ldh [$fffd], a
+    ldh a, [hSavedBank]
+    ldh [hCurrentBank], a
     ld [$2000], a
 
 jr_000_22f0:
@@ -6811,20 +6811,20 @@ jr_000_22f0:
 
 
 Call_000_22f4:
-    ldh a, [$fff4]
+    ldh a, [hUnknownF4]
     and a
     ret z
 
     push hl
     push de
-    ld de, $ffe0
+    ld de, hVramPtrLow
     push af
     ld a, h
     add $30
     ld h, a
     pop af
     ld [hl], a
-    ldh a, [$fff5]
+    ldh a, [hUnknownF5]
     add hl, de
     ld [hl], a
     ldh a, [$fff6]
@@ -6834,8 +6834,8 @@ Call_000_22f4:
     add hl, de
     ld [hl], a
     xor a
-    ldh [$fff4], a
-    ldh [$fff5], a
+    ldh [hUnknownF4], a
+    ldh [hUnknownF5], a
     pop de
     pop hl
     ret
@@ -6845,12 +6845,12 @@ Call_000_2318:
     push hl
     push de
     push bc
-    ldh a, [$fffd]
-    ldh [$ffe1], a
+    ldh a, [hCurrentBank]
+    ldh [hSavedBank], a
     ld a, $03
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
-    ldh a, [$ffe4]
+    ldh a, [hUnknownE4]
     add a
     ld e, a
     ld d, $00
@@ -6863,7 +6863,7 @@ Call_000_2318:
     pop hl
 
 jr_000_2335:
-    ldh a, [$ffe5]
+    ldh a, [hUnknownE5]
     cp [hl]
     jr z, jr_000_2344
 
@@ -6879,7 +6879,7 @@ jr_000_2340:
     jr jr_000_2335
 
 jr_000_2344:
-    ldh a, [$ffe6]
+    ldh a, [hUnknownE6]
     inc hl
     cp [hl]
     jr nz, jr_000_2340
@@ -6889,8 +6889,8 @@ jr_000_2344:
     ld [$c0cd], a
 
 jr_000_234f:
-    ldh a, [$ffe1]
-    ldh [$fffd], a
+    ldh a, [hSavedBank]
+    ldh [hCurrentBank], a
     ld [$2000], a
     pop bc
     pop de
@@ -6916,7 +6916,7 @@ Call_000_235a:
     ret
 
 
-    ldh a, [$ffb2]
+    ldh a, [hPauseFlag]
     and a
     ret nz
 
@@ -6928,10 +6928,10 @@ Call_000_235a:
     call Call_000_0837
     call $4fec
     call $5118
-    ldh a, [$fffd]
-    ldh [$ffe1], a
+    ldh a, [hCurrentBank]
+    ldh [hSavedBank], a
     ld a, $03
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     call $498b
     ld bc, $c218
@@ -6949,23 +6949,23 @@ Call_000_235a:
     call $4aea
     call $4b8a
     call $4bb5
-    ldh a, [$ffe1]
-    ldh [$fffd], a
+    ldh a, [hSavedBank]
+    ldh [hCurrentBank], a
     ld [$2000], a
     call Call_000_2488
-    ldh a, [$fffd]
-    ldh [$ffe1], a
+    ldh a, [hCurrentBank]
+    ldh [hSavedBank], a
     ld a, $02
-    ldh [$fffd], a
+    ldh [hCurrentBank], a
     ld [$2000], a
     call $5844
-    ldh a, [$ffe1]
-    ldh [$fffd], a
+    ldh a, [hSavedBank]
+    ldh [hCurrentBank], a
     ld [$2000], a
     call CallBank3Handler
     call $515e
     call Call_000_1efa
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $03
     ret nz
 
@@ -7002,15 +7002,15 @@ UpdateAnimTiles:
     and a
     ret z
 
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $0d
     ret nc
 
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     and $07
     ret nz
 
-    ldh a, [$ffac]
+    ldh a, [hFrameCounter]
     bit 3, a
     jr z, jr_000_2412
 
@@ -7019,7 +7019,7 @@ UpdateAnimTiles:
 
 jr_000_2412:
     ld hl, $3faf
-    ldh a, [$ffb4]
+    ldh a, [hAnimTileIndex]
     and $f0
     sub $10
     rrca
@@ -7055,7 +7055,7 @@ jr_000_2425:
     xor a
     ld [$d007], a
     ld hl, $242d
-    ldh a, [$ffe4]
+    ldh a, [hUnknownE4]
     ld d, $00
     ld e, a
     add hl, de
@@ -7066,7 +7066,7 @@ jr_000_2425:
 
 Call_000_2453:
     ld hl, $401a
-    ldh a, [$ffe4]
+    ldh a, [hUnknownE4]
     rlca
     ld d, $00
     ld e, a
@@ -7139,13 +7139,13 @@ jr_000_2492:
     rlca
     rlca
     add $10
-    ldh [$ffc2], a
+    ldh [hSoundParam1], a
     ld a, [hl+]
     and $c0
     swap a
     add $d0
     sub c
-    ldh [$ffc3], a
+    ldh [hSoundParam2], a
     call Call_000_24e6
     pop hl
     ld de, $0003
@@ -7160,7 +7160,7 @@ Call_000_24c4:
 
 Call_000_24cd:
     ld a, [$d003]
-    ldh [$ffc0], a
+    ldh [hSoundId], a
     cp $ff
     ret z
 
@@ -7173,11 +7173,11 @@ Call_000_24cd:
     ld hl, $336c
     add hl, de
     ld a, [hl+]
-    ldh [$ffc7], a
+    ldh [hSoundCh4], a
     jr jr_000_2502
 
 Call_000_24e6:
-    ldh a, [$ff9a]
+    ldh a, [hUnknown9A]
     and a
     jr nz, jr_000_24ee
 
@@ -7187,7 +7187,7 @@ Call_000_24e6:
 jr_000_24ee:
     ld a, [hl]
     and $7f
-    ldh [$ffc0], a
+    ldh [hSoundId], a
     ld d, $00
     ld e, a
     rlca
@@ -7197,16 +7197,16 @@ jr_000_24ee:
     ld hl, $336c
     add hl, de
     ld a, [hl]
-    ldh [$ffc7], a
+    ldh [hSoundCh4], a
 
 jr_000_2502:
     xor a
-    ldh [$ffc4], a
-    ldh [$ffc5], a
-    ldh [$ffc8], a
-    ldh [$ffc9], a
-    ldh [$ffcb], a
-    ldh a, [$ffc0]
+    ldh [hSoundCh1], a
+    ldh [hSoundCh2], a
+    ldh [hSoundVar1], a
+    ldh [hSoundVar2], a
+    ldh [hSoundVar4], a
+    ldh a, [hSoundId]
     ld d, $00
     ld e, a
     rlca
@@ -7217,9 +7217,9 @@ jr_000_2502:
     add hl, de
     inc hl
     ld a, [hl+]
-    ldh [$ffca], a
+    ldh [hSoundVar3], a
     ld a, [hl]
-    ldh [$ffcc], a
+    ldh [hSoundVar5], a
     cp $c0
     jr c, jr_000_252b
 
@@ -7254,11 +7254,11 @@ jr_000_253f:
 Call_000_2544:
     ld hl, $d190
     ld [hl], a
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     and $f8
     add $07
     ld [$d192], a
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld [$d193], a
     call Call_000_2cb2
     ld a, $0b
@@ -7287,19 +7287,19 @@ jr_000_2565:
 
     ld a, c
     call Call_000_2cdc
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     cp $e0
     jr c, jr_000_258b
 
 jr_000_2581:
     ld a, $ff
-    ldh [$ffc0], a
+    ldh [hSoundId], a
     ld a, c
     call Call_000_2cee
     jr jr_000_2594
 
 jr_000_258b:
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     cp $c0
     jr nc, jr_000_2581
 
@@ -7350,14 +7350,14 @@ Call_000_25b7:
     ld b, h
     ld c, l
     ld hl, $2fd9
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     and $01
     jr nz, jr_000_25d5
 
     ld hl, $30ab
 
 jr_000_25d5:
-    ldh a, [$ffc6]
+    ldh a, [hSoundCh3]
     rlca
     ld d, $00
     ld e, a
@@ -7389,46 +7389,46 @@ jr_000_25e8:
     bit 3, a
     jr z, jr_000_2602
 
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     sub $08
-    ldh [$ffc2], a
+    ldh [hSoundParam1], a
     ld a, [hl]
 
 jr_000_2602:
     bit 2, a
     jr z, jr_000_260d
 
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     add $08
-    ldh [$ffc2], a
+    ldh [hSoundParam1], a
     ld a, [hl]
 
 jr_000_260d:
     bit 1, a
     jr z, jr_000_2618
 
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     sub $08
-    ldh [$ffc3], a
+    ldh [hSoundParam2], a
     ld a, [hl]
 
 jr_000_2618:
     bit 0, a
     jr z, jr_000_2622
 
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     add $08
-    ldh [$ffc3], a
+    ldh [hSoundParam2], a
 
 jr_000_2622:
     inc hl
     jr jr_000_25e8
 
 jr_000_2625:
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     ld [bc], a
     inc bc
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld [bc], a
     inc bc
     ld a, [hl]
@@ -7454,7 +7454,7 @@ Jump_000_2642:
     push hl
     call Call_000_2ce2
     ld hl, $3495
-    ldh a, [$ffc0]
+    ldh a, [hSoundId]
     rlca
     ld d, $00
     ld e, a
@@ -7484,34 +7484,34 @@ jr_000_2663:
 Call_000_266d:
 Jump_000_266d:
 jr_000_266d:
-    ldh a, [$ffc8]
+    ldh a, [hSoundVar1]
     and a
     jr z, jr_000_26ac
 
-    ldh a, [$ffc7]
+    ldh a, [hSoundCh4]
     bit 1, a
     jr z, jr_000_2689
 
     call Call_000_2bb2
     jr nc, jr_000_2683
 
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     inc a
-    ldh [$ffc2], a
+    ldh [hSoundParam1], a
     ret
 
 
 jr_000_2683:
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     and $f8
-    ldh [$ffc2], a
+    ldh [hSoundParam1], a
 
 jr_000_2689:
-    ldh a, [$ffc9]
+    ldh a, [hSoundVar2]
     and $f0
     swap a
     ld b, a
-    ldh a, [$ffc9]
+    ldh a, [hSoundVar2]
     and $0f
     cp b
     jr z, jr_000_269e
@@ -7519,17 +7519,17 @@ jr_000_2689:
     inc b
     swap b
     or b
-    ldh [$ffc9], a
+    ldh [hSoundVar2], a
     ret
 
 
 jr_000_269e:
-    ldh a, [$ffc9]
+    ldh a, [hSoundVar2]
     and $0f
-    ldh [$ffc9], a
-    ldh a, [$ffc8]
+    ldh [hSoundVar2], a
+    ldh a, [hSoundVar1]
     dec a
-    ldh [$ffc8], a
+    ldh [hSoundVar1], a
     jp Jump_000_2870
 
 
@@ -7537,7 +7537,7 @@ Jump_000_26ac:
 jr_000_26ac:
     push hl
     ld d, $00
-    ldh a, [$ffc4]
+    ldh a, [hSoundCh1]
     ld e, a
     add hl, de
     ld a, [hl]
@@ -7546,14 +7546,14 @@ jr_000_26ac:
     jr nz, jr_000_26c1
 
     xor a
-    ldh [$ffc4], a
+    ldh [hSoundCh1], a
     pop hl
     jr jr_000_26ac
 
 jr_000_26c1:
-    ldh a, [$ffc4]
+    ldh a, [hSoundCh1]
     inc a
-    ldh [$ffc4], a
+    ldh [hSoundCh1], a
     ld a, [$d002]
     and $f0
     cp $f0
@@ -7566,23 +7566,23 @@ jr_000_26c1:
 
     ld a, [$d002]
     and $0f
-    ldh [$ffc8], a
+    ldh [hSoundVar1], a
     pop hl
     jr jr_000_266d
 
 jr_000_26e2:
     ld a, [$d002]
-    ldh [$ffc1], a
+    ldh [hSoundFlag], a
     ld a, $01
-    ldh [$ffc8], a
+    ldh [hSoundVar1], a
     pop hl
     jp Jump_000_266d
 
 
 jr_000_26ef:
-    ldh a, [$ffc4]
+    ldh a, [hSoundCh1]
     inc a
-    ldh [$ffc4], a
+    ldh [hSoundCh1], a
     inc hl
     ld a, [hl]
     ld [$d003], a
@@ -7591,7 +7591,7 @@ jr_000_26ef:
     jr nz, jr_000_2708
 
     ld a, [$d003]
-    ldh [$ffc6], a
+    ldh [hSoundCh3], a
     pop hl
     jr jr_000_26ac
 
@@ -7606,18 +7606,18 @@ jr_000_2708:
     bit 7, a
     jr z, jr_000_272a
 
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     and $fd
     ld b, a
     ld a, [$c201]
     ld c, a
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     sub c
     rla
     rlca
     and $02
     or b
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
 
 jr_000_272a:
     ld a, [$d003]
@@ -7626,9 +7626,9 @@ jr_000_272a:
 
     ld a, [$c202]
     ld c, a
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld b, a
-    ldh a, [$ffca]
+    ldh a, [hSoundVar3]
     and $70
     rrca
     rrca
@@ -7637,10 +7637,10 @@ jr_000_272a:
     rla
     and $01
     ld b, a
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     and $fe
     or b
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
 
 jr_000_274b:
     ld a, [$d003]
@@ -7650,9 +7650,9 @@ jr_000_274b:
     rra
     rra
     ld b, a
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     xor b
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
 
 jr_000_275a:
     ld a, [$d003]
@@ -7662,10 +7662,10 @@ jr_000_275a:
     and $02
     or $fd
     ld b, a
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     set 1, a
     and b
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
 
 jr_000_276d:
     ld a, [$d003]
@@ -7675,10 +7675,10 @@ jr_000_276d:
     and $01
     or $fe
     ld b, a
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     set 0, a
     and b
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
 
 jr_000_2780:
     pop hl
@@ -7703,7 +7703,7 @@ jr_000_2799:
     jr nz, jr_000_27a6
 
     ld a, [$d003]
-    ldh [$ffc7], a
+    ldh [hSoundCh4], a
     pop hl
     jp Jump_000_26ac
 
@@ -7713,15 +7713,15 @@ jr_000_27a6:
     jr nz, jr_000_27ce
 
     ld a, [$d003]
-    ldh [$ffc0], a
+    ldh [hSoundId], a
     cp $ff
     jp z, Jump_000_286e
 
-    ld hl, $ffc0
+    ld hl, hSoundId
     call Call_000_2cb2
     pop hl
     ld hl, $3495
-    ldh a, [$ffc0]
+    ldh a, [hSoundId]
     rlca
     ld d, $00
     ld e, a
@@ -7740,7 +7740,7 @@ jr_000_27ce:
     jr nz, jr_000_27db
 
     ld a, [$d003]
-    ldh [$ffc9], a
+    ldh [hSoundVar2], a
     pop hl
     jp Jump_000_26ac
 
@@ -7764,7 +7764,7 @@ jr_000_27eb:
 
     ld a, [$c202]
     ld b, a
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     sub b
     add $14
     cp $20
@@ -7777,10 +7777,10 @@ jr_000_27eb:
 jr_000_2801:
     jr c, jr_000_280b
 
-    ldh a, [$ffc4]
+    ldh a, [hSoundCh1]
     dec a
     dec a
-    ldh [$ffc4], a
+    ldh [hSoundCh1], a
     pop hl
     ret
 
@@ -7827,13 +7827,13 @@ jr_000_2830:
     ld c, a
     ld a, [$c202]
     ld b, a
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     sub b
     cp c
     jr c, jr_000_2849
 
     xor a
-    ldh [$ffc4], a
+    ldh [hSoundCh1], a
     pop hl
     jp Jump_000_26ac
 
@@ -7848,9 +7848,9 @@ jr_000_284d:
     jr nz, jr_000_285e
 
     ld a, [$d003]
-    ldh [$ffc2], a
+    ldh [hSoundParam1], a
     ld a, $70
-    ldh [$ffc3], a
+    ldh [hSoundParam2], a
     pop hl
     jp Jump_000_26ac
 
@@ -7876,18 +7876,18 @@ Jump_000_286e:
 
 
 Jump_000_2870:
-    ldh a, [$ffc1]
+    ldh a, [hSoundFlag]
     and $0f
     jp z, Jump_000_296c
 
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     bit 0, a
     jr nz, jr_000_28e7
 
     call Call_000_2b7b
     jr nc, jr_000_28c5
 
-    ldh a, [$ffc7]
+    ldh a, [hSoundCh4]
     bit 0, a
     jr z, jr_000_288d
 
@@ -7895,13 +7895,13 @@ Jump_000_2870:
     jr c, jr_000_28d1
 
 jr_000_288d:
-    ldh a, [$ffc1]
+    ldh a, [hSoundFlag]
     and $0f
     ld b, a
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     sub b
-    ldh [$ffc3], a
-    ldh a, [$ffcb]
+    ldh [hSoundParam2], a
+    ldh a, [hSoundVar4]
     and a
     jp z, Jump_000_296c
 
@@ -7931,7 +7931,7 @@ jr_000_28be:
 
 
 jr_000_28c5:
-    ldh a, [$ffc7]
+    ldh a, [hSoundCh4]
     and $0c
     cp $00
     jr z, jr_000_288d
@@ -7940,9 +7940,9 @@ jr_000_28c5:
     jr nz, jr_000_28da
 
 jr_000_28d1:
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     set 0, a
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
     jp Jump_000_296c
 
 
@@ -7951,8 +7951,8 @@ jr_000_28da:
     jp nz, Jump_000_296c
 
     xor a
-    ldh [$ffc4], a
-    ldh [$ffc8], a
+    ldh [hSoundCh1], a
+    ldh [hSoundVar1], a
     jp Jump_000_296c
 
 
@@ -7960,7 +7960,7 @@ jr_000_28e7:
     call Call_000_2b91
     jr nc, jr_000_294f
 
-    ldh a, [$ffc7]
+    ldh a, [hSoundCh4]
     bit 0, a
     jr z, jr_000_28f7
 
@@ -7968,13 +7968,13 @@ jr_000_28e7:
     jr c, jr_000_295b
 
 jr_000_28f7:
-    ldh a, [$ffc1]
+    ldh a, [hSoundFlag]
     and $0f
     ld b, a
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     add b
-    ldh [$ffc3], a
-    ldh a, [$ffcb]
+    ldh [hSoundParam2], a
+    ldh a, [hSoundVar4]
     and a
     jr z, jr_000_296c
 
@@ -8004,9 +8004,9 @@ jr_000_2928:
     ld b, a
     ld a, $50
     ld [$c202], a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add b
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     call Call_000_2c96
 
 jr_000_293b:
@@ -8015,17 +8015,17 @@ jr_000_293b:
     jr jr_000_296c
 
 jr_000_2941:
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     and $0c
     jr nz, jr_000_2928
 
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     and $fc
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     jr jr_000_293b
 
 jr_000_294f:
-    ldh a, [$ffc7]
+    ldh a, [hSoundCh4]
     and $0c
     cp $00
     jr z, jr_000_28f7
@@ -8034,9 +8034,9 @@ jr_000_294f:
     jr nz, jr_000_2963
 
 jr_000_295b:
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     res 0, a
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
     jr jr_000_296c
 
 jr_000_2963:
@@ -8044,16 +8044,16 @@ jr_000_2963:
     jr nz, jr_000_296c
 
     xor a
-    ldh [$ffc4], a
-    ldh [$ffc8], a
+    ldh [hSoundCh1], a
+    ldh [hSoundVar1], a
 
 Jump_000_296c:
 jr_000_296c:
-    ldh a, [$ffc1]
+    ldh a, [hSoundFlag]
     and $f0
     jp z, Jump_000_29f4
 
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     bit 1, a
     jr nz, jr_000_29b8
 
@@ -8061,14 +8061,14 @@ jr_000_296c:
     jr nc, jr_000_2998
 
 jr_000_297e:
-    ldh a, [$ffc1]
+    ldh a, [hSoundFlag]
     and $f0
     swap a
     ld b, a
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     sub b
-    ldh [$ffc2], a
-    ldh a, [$ffcb]
+    ldh [hSoundParam1], a
+    ldh a, [hSoundVar4]
     and a
     jr z, jr_000_29f4
 
@@ -8078,7 +8078,7 @@ jr_000_297e:
     jr jr_000_29f4
 
 jr_000_2998:
-    ldh a, [$ffc7]
+    ldh a, [hSoundCh4]
     and $c0
     cp $00
     jr z, jr_000_297e
@@ -8086,9 +8086,9 @@ jr_000_2998:
     cp $40
     jp nz, Jump_000_29ad
 
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     set 1, a
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
     jr jr_000_29f4
 
 Jump_000_29ad:
@@ -8096,8 +8096,8 @@ Jump_000_29ad:
     jr nz, jr_000_29f4
 
     xor a
-    ldh [$ffc4], a
-    ldh [$ffc8], a
+    ldh [hSoundCh1], a
+    ldh [hSoundVar1], a
     jr jr_000_29f4
 
 jr_000_29b8:
@@ -8105,14 +8105,14 @@ jr_000_29b8:
     jr nc, jr_000_29d7
 
 jr_000_29bd:
-    ldh a, [$ffc1]
+    ldh a, [hSoundFlag]
     and $f0
     swap a
     ld b, a
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     add b
-    ldh [$ffc2], a
-    ldh a, [$ffcb]
+    ldh [hSoundParam1], a
+    ldh a, [hSoundVar4]
     and a
     jr z, jr_000_29f4
 
@@ -8122,7 +8122,7 @@ jr_000_29bd:
     jr jr_000_29f4
 
 jr_000_29d7:
-    ldh a, [$ffc7]
+    ldh a, [hSoundCh4]
     and $30
     cp $00
     jr z, jr_000_29bd
@@ -8130,9 +8130,9 @@ jr_000_29d7:
     cp $10
     jr nz, jr_000_29eb
 
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     res 1, a
-    ldh [$ffc5], a
+    ldh [hSoundCh2], a
     jr jr_000_29f4
 
 jr_000_29eb:
@@ -8140,13 +8140,13 @@ jr_000_29eb:
     jr nz, jr_000_29f4
 
     xor a
-    ldh [$ffc4], a
-    ldh [$ffc8], a
+    ldh [hSoundCh1], a
+    ldh [hSoundVar1], a
 
 Jump_000_29f4:
 jr_000_29f4:
     xor a
-    ldh [$ffcb], a
+    ldh [hSoundVar4], a
     ret
 
 
@@ -8432,37 +8432,37 @@ jr_000_2b3e:
     jr c, jr_000_2b24
 
     ld a, $27
-    ldh [$ffc0], a
+    ldh [hSoundId], a
     xor a
-    ldh [$ffc4], a
+    ldh [hSoundCh1], a
 
 Call_000_2b4d:
-    ldh [$ffc7], a
+    ldh [hSoundCh4], a
     inc a
     ld [$dff8], a
     ret
 
 
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
     add $04
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     ld c, a
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     bit 0, a
     jr jr_000_2b6d
 
-    ldh a, [$ffca]
+    ldh a, [hSoundVar3]
     and $70
     rrca
     add c
-    ldh [$ffae], a
+    ldh [hSpriteX], a
 
 jr_000_2b6d:
-    ldh a, [$ffc2]
-    ldh [$ffad], a
+    ldh a, [hSoundParam1]
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8473,13 +8473,13 @@ jr_000_2b6d:
 
 
 Call_000_2b7b:
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
-    ldh [$ffae], a
-    ldh a, [$ffc2]
-    ldh [$ffad], a
+    ldh [hSpriteX], a
+    ldh a, [hSoundParam1]
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8490,20 +8490,20 @@ Call_000_2b7b:
 
 
 Call_000_2b91:
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
     add $08
     ld c, a
-    ldh a, [$ffca]
+    ldh a, [hSoundVar3]
     and $70
     rrca
     add c
     sub $08
-    ldh [$ffae], a
-    ldh a, [$ffc2]
-    ldh [$ffad], a
+    ldh [hSpriteX], a
+    ldh a, [hSoundParam1]
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8514,27 +8514,27 @@ Call_000_2b91:
 
 
 Call_000_2bb2:
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
     add $04
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     ld c, a
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     bit 0, a
     jr jr_000_2bcb
 
-    ldh a, [$ffca]
+    ldh a, [hSoundVar3]
     and $70
     rrca
     add c
-    ldh [$ffae], a
+    ldh [hSpriteX], a
 
 jr_000_2bcb:
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     add $08
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8545,15 +8545,15 @@ jr_000_2bcb:
 
 
 Call_000_2bdb:
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
     add $03
-    ldh [$ffae], a
-    ldh a, [$ffc2]
+    ldh [hSpriteX], a
+    ldh a, [hSoundParam1]
     add $08
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8564,21 +8564,21 @@ Call_000_2bdb:
 
 
 Call_000_2bf5:
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
     add $05
     ld c, a
-    ldh a, [$ffca]
+    ldh a, [hSoundVar3]
     and $70
     rrca
     add c
     sub $08
-    ldh [$ffae], a
-    ldh a, [$ffc2]
+    ldh [hSpriteX], a
+    ldh a, [hSoundParam1]
     add $08
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8589,33 +8589,33 @@ Call_000_2bf5:
 
 
 Call_000_2c18:
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
     add $04
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     ld c, a
-    ldh a, [$ffc5]
+    ldh a, [hSoundCh2]
     bit 0, a
     jr jr_000_2c31
 
-    ldh a, [$ffca]
+    ldh a, [hSoundVar3]
     and $70
     rrca
     add c
-    ldh [$ffae], a
+    ldh [hSpriteX], a
 
 jr_000_2c31:
-    ldh a, [$ffca]
+    ldh a, [hSoundVar3]
     and $07
     dec a
     swap a
     rrca
     ld c, a
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     sub c
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8625,21 +8625,21 @@ jr_000_2c31:
     ret
 
 
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
     add $03
-    ldh [$ffae], a
-    ldh a, [$ffca]
+    ldh [hSpriteX], a
+    ldh a, [hSoundVar3]
     and $07
     dec a
     swap a
     rrca
     ld c, a
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     sub c
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8649,27 +8649,27 @@ jr_000_2c31:
     ret
 
 
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     ld c, a
-    ldh a, [$ffa4]
+    ldh a, [hShadowSCX]
     add c
     add $05
     ld c, a
-    ldh a, [$ffca]
+    ldh a, [hSoundVar3]
     and $70
     rrca
     sub c
     sub $08
-    ldh [$ffae], a
-    ldh a, [$ffca]
+    ldh [hSpriteX], a
+    ldh a, [hSoundVar3]
     and $07
     dec a
     swap a
     rrca
     ld c, a
-    ldh a, [$ffc2]
+    ldh a, [hSoundParam1]
     sub c
-    ldh [$ffad], a
+    ldh [hSpriteY], a
     call Call_000_0153
     cp $5f
     ret c
@@ -8685,9 +8685,9 @@ Call_000_2c96:
     ret z
 
 jr_000_2c99:
-    ldh a, [$ffc3]
+    ldh a, [hSoundParam2]
     sub b
-    ldh [$ffc3], a
+    ldh [hSoundParam2], a
     push hl
     push de
     ld hl, $d103
@@ -8757,7 +8757,7 @@ Call_000_2cdc:
     ld l, a
 
 Call_000_2ce2:
-    ld de, $ffc0
+    ld de, hSoundId
     ld b, $0d
 
 jr_000_2ce7:
@@ -8776,7 +8776,7 @@ Call_000_2cee:
     ld l, a
 
 Call_000_2cf4:
-    ld de, $ffc0
+    ld de, hSoundId
     ld b, $0d
 
 jr_000_2cf9:
@@ -8852,18 +8852,18 @@ jr_000_2d12:
     rst $38
     db $10
     sbc h
-    ld de, $ff8d
+    ld de, hParam1
     adc l
-    ld bc, $ff9c
+    ld bc, hUnknown9C
     jr nz, @-$71
 
-    ld hl, $ff9c
+    ld hl, hUnknown9C
     sbc e
     rst $38
     sbc l
-    ld de, $ff9d
+    ld de, hUnknown9D
     sbc [hl]
-    ld de, $ff9e
+    ld de, hUnknown9E
     rst $28
     ld bc, $01ef
     rst $28
@@ -8874,14 +8874,14 @@ jr_000_2d12:
 
     ld sp, $0a9d
     sbc l
-    ld de, $ff9d
+    ld de, hUnknown9D
 
 jr_000_2d72:
     jr nz, jr_000_2d12
 
     ld sp, $0a9e
     sbc [hl]
-    ld de, $ff9e
+    ld de, hUnknown9E
     add e
     rst $38
     add h
@@ -8913,12 +8913,12 @@ jr_000_2d9c:
     or b
     ld bc, $0ab1
     and b
-    ld bc, $ffa1
+    ld bc, hTemp1
     db $10
     or c
     ld de, $1ab0
     and c
-    ld de, $ffa0
+    ld de, hTemp0
     jr nc, jr_000_2d72
 
     ld sp, $3ac2
@@ -8929,12 +8929,12 @@ jr_000_2d9c:
 
 jr_000_2dba:
     and d
-    ld bc, $ffa3
+    ld bc, hTemp3
     db $10
     or e
     ld de, $1ab2
     and e
-    ld de, $ffa2
+    ld de, hTemp2
     or h
     ld bc, $0ab5
     and h
@@ -8943,24 +8943,24 @@ jr_000_2dba:
     or l
     ld de, $1ab4
     and l
-    ld de, $ffa4
+    ld de, hShadowSCX
     or [hl]
     ld bc, $0ab7
     and [hl]
-    ld bc, $ffa7
+    ld bc, hTimer2
     db $10
     or a
     ld de, $1ab6
     and a
-    ld de, $ffa6
+    ld de, hTimer1
     xor b
-    ld bc, $ffa9
+    ld bc, hUnknownA9
     db $10
     xor c
     ld de, $ffa8
     jr nz, jr_000_2d9c
 
-    ld hl, $ffa9
+    ld hl, hUnknownA9
     cp b
     ld bc, $ffb9
     db $10
@@ -8974,12 +8974,12 @@ jr_000_2dba:
     ld bc, $0ad1
     ret nz
 
-    ld bc, $ffc1
+    ld bc, hSoundFlag
     db $10
     pop de
     ld de, $1ad0
     pop bc
-    ld de, $ffc0
+    ld de, hSoundId
     jp nc, $d301
 
     ld a, [bc]
@@ -9001,7 +9001,7 @@ jr_000_2dba:
     push de
     ld de, $1ad4
     push bc
-    ld de, $ffc4
+    ld de, hSoundCh1
     sub $01
 
 jr_000_2e3a:
@@ -9014,18 +9014,18 @@ jr_000_2e3a:
     rst $10
     ld de, $1ad6
     rst $00
-    ld de, $ffc6
+    ld de, hSoundCh3
     ret z
 
-    ld bc, $ffc9
+    ld bc, hSoundVar2
     db $10
     ret
 
 
-    ld de, $ffc8
+    ld de, hSoundVar1
     jr nz, @-$36
 
-    ld hl, $ffc9
+    ld hl, hSoundVar2
     ret c
 
     ld bc, $ffd9
@@ -9061,7 +9061,7 @@ jr_000_2e3a:
     rst $38
     jr nz, @-$38
 
-    ld hl, $ffc7
+    ld hl, hSoundCh4
     sub $01
     rst $10
     rst $38
@@ -9083,7 +9083,7 @@ jr_000_2e89:
     pop bc
     rst $38
     cp h
-    ld [$ffac], sp
+    ld [hFrameCounter], sp
     ldh [c], a
     rst $38
     db $e3
@@ -9108,7 +9108,7 @@ jr_000_2e89:
     cp d
     ld bc, $0abb
     xor d
-    ld bc, $ffab
+    ld bc, hUnknownAB
     ld b, b
     and $ff
     cp e
@@ -9168,12 +9168,12 @@ jr_000_2e89:
 
     ld sp, $0aaa
     xor d
-    ld de, $ffaa
+    ld de, hUnknownAA
     jr nz, @-$53
 
     ld sp, $0aab
     xor e
-    ld de, $ffab
+    ld de, hUnknownAB
     cp h
     ld bc, $0abd
     adc $01
@@ -9182,7 +9182,7 @@ jr_000_2e89:
     cp [hl]
     ld bc, $0abf
     xor [hl]
-    ld bc, $ffaf
+    ld bc, hSpriteTile
     call z, $cd01
     ld a, [bc]
     jp c, $db01
@@ -9199,9 +9199,9 @@ jr_000_2e89:
     add a
     rst $38
     ld sp, hl
-    ld bc, $fffb
+    ld bc, hUnknownFB
     ld sp, hl
-    ld bc, $fffa
+    ld bc, hUnknownFA
     db $10
     ld sp, hl
     ld [de], a
@@ -9215,7 +9215,7 @@ jr_000_2e89:
     cp [hl]
     ld bc, $0abf
     xor [hl]
-    ld bc, $ffaf
+    ld bc, hSpriteTile
     jp z, $cb01
 
     ld a, [bc]
@@ -9228,11 +9228,11 @@ jr_000_2e89:
     ld de, $0ad0
     ret nz
 
-    ld de, $ffc0
+    ld de, hSoundId
     pop de
     ld de, $0ad1
     pop bc
-    ld de, $ffc1
+    ld de, hSoundFlag
     cp d
     ld bc, $01bb
     cp h
@@ -10532,7 +10532,7 @@ jr_000_354b:
     db $f4
     ld [bc], a
     ld bc, $f8e2
-    ld bc, $ffe3
+    ld bc, hCopyDstHigh
     ld hl, sp+$02
     nop
     rst $28
@@ -11001,7 +11001,7 @@ Call_000_3755:
     db $e4
     rst $38
     ld hl, sp+$45
-    ldh a, [$ffc0]
+    ldh a, [hSoundId]
     db $f4
     ld bc, $ef12
 
@@ -12044,7 +12044,7 @@ UpdateLevelScore:
     and a
     ret nz
 
-    ldh a, [$ffb3]
+    ldh a, [hGameState]
     cp $12
     ret nc
 
@@ -12079,7 +12079,7 @@ Call_000_3d75:
     ld [hl], a
     xor a
     ldh [rLCDC], a
-    ldh [$ffa4], a
+    ldh [hShadowSCX], a
     ld hl, $c000
     ld b, $a0
 
@@ -12115,7 +12115,7 @@ jr_000_3dab:
     ld a, $83
     ldh [rLCDC], a
     ld a, $13
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -12272,7 +12272,7 @@ jr_000_3e8c:
     ld a, $83
     ldh [rLCDC], a
     ld a, $14
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
@@ -12305,12 +12305,12 @@ jr_000_3eac:
     ld a, $11
     ld [$da29], a
     ld a, $15
-    ldh [$ffb3], a
+    ldh [hGameState], a
     ret
 
 
 Call_000_3ed1:
-    ldh a, [$ffad]
+    ldh a, [hSpriteY]
     sub $10
     srl a
     srl a
@@ -12325,7 +12325,7 @@ jr_000_3ee4:
     dec b
     jr nz, jr_000_3ee4
 
-    ldh a, [$ffae]
+    ldh a, [hSpriteX]
     sub $08
     srl a
     srl a
@@ -12334,16 +12334,16 @@ jr_000_3ee4:
     ld e, a
     add hl, de
     ld a, h
-    ldh [$ffb0], a
+    ldh [hSpriteAttr], a
     ld a, l
-    ldh [$ffaf], a
+    ldh [hSpriteTile], a
     ret
 
 
 Call_000_3efe:
-    ldh a, [$ffb0]
+    ldh a, [hSpriteAttr]
     ld d, a
-    ldh a, [$ffaf]
+    ldh a, [hSpriteTile]
     ld e, a
     ld b, $04
 
@@ -12359,14 +12359,14 @@ jr_000_3f06:
     rlca
     rlca
     add $08
-    ldh [$ffad], a
-    ldh a, [$ffaf]
+    ldh [hSpriteY], a
+    ldh a, [hSpriteTile]
     and $1f
     rla
     rla
     rla
     add $08
-    ldh [$ffae], a
+    ldh [hSpriteX], a
     ret
 
 
@@ -12380,7 +12380,7 @@ jr_000_3f06:
 ;; ==========================================================================
 UpdateScoreDisplay:
     ; --- EarlyReturnChecks ---
-    ldh a, [$ffb1]          ; Flag "needs update" ?
+    ldh a, [hUnknownB1]          ; Flag "needs update" ?
     and a
     ret z                   ; Non → return
 
@@ -12388,7 +12388,7 @@ UpdateScoreDisplay:
     and a
     ret nz                  ; Oui → return
 
-    ldh a, [$ffea]          ; État spécial ?
+    ldh a, [hScrollPhase]          ; État spécial ?
     cp $02
     ret z                   ; Oui → return
 
@@ -12400,7 +12400,7 @@ UpdateScoreDisplay:
 ;; Convertit 3 octets BCD en 6 tiles avec suppression des zéros de tête
 Call_000_3f38:
     xor a
-    ldh [$ffb1], a          ; Clear "needs update" flag
+    ldh [hUnknownB1], a          ; Clear "needs update" flag
     ld c, $03               ; 3 octets à traiter
 
 jr_000_3f3d:
@@ -12412,7 +12412,7 @@ jr_000_3f3d:
     jr nz, jr_000_3f6d      ; Si != 0 → afficher chiffre
 
     ; Chiffre = 0, vérifier si leading zero
-    ldh a, [$ffb1]          ; Déjà affiché un chiffre non-zéro ?
+    ldh a, [hUnknownB1]          ; Déjà affiché un chiffre non-zéro ?
     and a
     ld a, $00               ; Tile "0"
     jr nz, jr_000_3f4e      ; Oui → afficher "0"
@@ -12428,7 +12428,7 @@ jr_000_3f4e:
     jr nz, jr_000_3f75      ; Si != 0 → afficher chiffre
 
     ; Chiffre = 0, vérifier si leading zero
-    ldh a, [$ffb1]          ; Déjà affiché un chiffre non-zéro ?
+    ldh a, [hUnknownB1]          ; Déjà affiché un chiffre non-zéro ?
     and a
     ld a, $00               ; Tile "0"
     jr nz, jr_000_3f64      ; Oui → afficher "0"
@@ -12448,14 +12448,14 @@ jr_000_3f64:
     jr nz, jr_000_3f3d      ; Boucle 3 fois
 
     xor a
-    ldh [$ffb1], a          ; Clear flag
+    ldh [hUnknownB1], a          ; Clear flag
     ret
 
 ; --- MarkNonZeroSeen (high nibble) ---
 jr_000_3f6d:
     push af
     ld a, $01
-    ldh [$ffb1], a          ; Marquer "a vu un chiffre non-zéro"
+    ldh [hUnknownB1], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
     jr jr_000_3f4e
 
@@ -12463,7 +12463,7 @@ jr_000_3f6d:
 jr_000_3f75:
     push af
     ld a, $01
-    ldh [$ffb1], a          ; Marquer "a vu un chiffre non-zéro"
+    ldh [hUnknownB1], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
     jr jr_000_3f64
 
@@ -12527,7 +12527,7 @@ jr_000_3fab:
     nop
 
 jr_000_3fb8:
-    ldh [$ffb1], a
+    ldh [hUnknownB1], a
     ld e, e
     rst $38
     rst $38

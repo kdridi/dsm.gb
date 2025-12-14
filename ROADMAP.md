@@ -56,17 +56,21 @@ Objectif : rendre le code plus lisible sans changer le binaire.
   - hGameState ($FFB3), hVBlankFlag ($FF85), hCurrentBank ($FFFD), etc.
   - Voir `src/constants.inc` pour liste complète
 
-### En cours
-
 - [x] Renommer les labels clés → noms explicites :
   - SystemInit, GameLoop, StateDispatcher
   - CheckInputAndPause, InitGameState, CallBank3Handler
   - UpdateScoreDisplay, UpdateScrollColumn, UpdateLivesDisplay
   - UpdateLevelScore, UpdateAnimTiles
 
+- [x] Remplacer toutes les adresses HRAM hex ($FFxx) par constantes nommées
+  - 70+ constantes HRAM définies dans `constants.inc`
+  - Catégories : Joypad, Timers, Sprites, Audio, État jeu, Pointeurs
+  - Exemples : hJoypadState, hTimer1, hSpriteY/X, hSoundId, hGameState
+
 ### À faire
 
 - [ ] Renommer hUnknownXX/wUnknownXX → noms explicites (reverse engineering)
+- [ ] Remplacer adresses WRAM ($Cxxx, $Dxxx) par constantes nommées
 - [ ] Extraire les données en fichiers séparés (si possible bit-perfect)
 - [ ] Documenter les structures de données (player, enemies, level)
 
