@@ -4057,7 +4057,7 @@ jr_001_5143:
     add $06
     ldh [hSpriteY], a
     pop af
-    call Call_000_1fc9
+    call CheckTileForCoin
     jr c, jr_001_5156
 
     jr jr_001_513c

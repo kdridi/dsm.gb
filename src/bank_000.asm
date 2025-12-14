@@ -5204,7 +5204,7 @@ CheckPlayerFeetCollision:
     ret c
 
 jr_000_19b6:
-    call Call_000_1a62
+    call ClassifyTileType
     and a
     ret z
 
@@ -5325,7 +5325,13 @@ Jump_000_1a4e:
     ret
 
 
-Call_000_1a62:
+; -----------------------------------------------------------------------------
+; ClassifyTileType - Vérifie si un tile est dans la liste des tiles spéciaux
+; -----------------------------------------------------------------------------
+; Entrée  : A = numéro du tile à classifier
+; Sortie  : A = type si trouvé, sinon A inchangé
+; -----------------------------------------------------------------------------
+ClassifyTileType:
     push hl
     push af
     ld b, a
@@ -5393,7 +5399,10 @@ jr_000_1a86:
     ld a, h
     db $fd
 
-Call_000_1aa4:
+; -----------------------------------------------------------------------------
+; CheckPlayerSideCollision - Vérifie collision latérale du joueur
+; -----------------------------------------------------------------------------
+CheckPlayerSideCollision:
     ldh a, [hGameState]
     cp $0e
     jr nc, jr_000_1b03
@@ -5431,7 +5440,7 @@ jr_000_1acf:
     ldh [hSpriteX], a
     push de
     call ReadTileUnderSprite
-    call Call_000_1a62
+    call ClassifyTileType
     pop de
     and a
     jr z, jr_000_1afe
@@ -6010,7 +6019,7 @@ jr_000_1da3:
 jr_000_1dae:
     ld hl, $c205
     ld [hl], $00
-    call Call_000_1aa4
+    call CheckPlayerSideCollision
     and a
     ret nz
 
@@ -6130,7 +6139,7 @@ Jump_000_1e3f:
 jr_000_1e58:
     ld hl, $c205
     ld [hl], $20
-    call Call_000_1aa4
+    call CheckPlayerSideCollision
     and a
     ret nz
 
@@ -6339,7 +6348,7 @@ jr_000_1f59:
     ld a, [de]
     ldh [hSpriteY], a
     pop af
-    call Call_000_1fc9
+    call CheckTileForCoin
     jr c, jr_000_1f6c
 
     ld a, [hl]
@@ -6364,7 +6373,7 @@ jr_000_1f6c:
 Call_000_1f7c:
     inc e
     ld a, [de]
-    call Call_000_1fc9
+    call CheckTileForCoin
     jr c, jr_000_1f89
 
     ld a, [hl]
@@ -6391,7 +6400,7 @@ jr_000_1f91:
     ldh [hSpriteY], a
     inc e
     ld a, [de]
-    call Call_000_1fc9
+    call CheckTileForCoin
     jr c, jr_000_1f89
 
     ld a, [hl]
@@ -6414,7 +6423,7 @@ jr_000_1fac:
     ld a, [de]
     ldh [hSpriteY], a
     pop af
-    call Call_000_1fc9
+    call CheckTileForCoin
     jr c, jr_000_1f6c
 
     ld a, [hl]
@@ -6423,7 +6432,10 @@ jr_000_1fac:
     ld [hl], a
     jr jr_000_1f6c
 
-Call_000_1fc9:
+; -----------------------------------------------------------------------------
+; CheckTileForCoin - Vérifie si tile est une pièce ($F4) et gère la collecte
+; -----------------------------------------------------------------------------
+CheckTileForCoin:
     ld b, a
     ldh a, [hShadowSCX]
     add b
@@ -8235,7 +8247,7 @@ jr_000_288d:
     push bc
     ld a, $20
     ld [$c205], a
-    call Call_000_1aa4
+    call CheckPlayerSideCollision
     pop bc
     and a
     jr nz, jr_000_28be
@@ -8308,7 +8320,7 @@ jr_000_28f7:
     push bc
     xor a
     ld [$c205], a
-    call Call_000_1aa4
+    call CheckPlayerSideCollision
     pop bc
     and a
     jr nz, jr_000_293b
