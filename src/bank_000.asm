@@ -173,12 +173,8 @@ VBlankHandler::
     push hl
 
     ; --- 2. UpdateGameLogic ---
-    ; Note: db $cd est probablement un CALL mal désassemblé
     call UpdateScrollColumn
-    db $cd
-
-    ld a, l
-    dec de
+    call Call_000_1b7d
     call UpdateLivesDisplay
 
     ; --- 3. DMATransfer ---
