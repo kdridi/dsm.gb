@@ -3114,7 +3114,7 @@ jr_000_0f52:
 ; ===========================================================================
 State24_DisplayText::
     ld hl, $0fd8
-    call Call_000_0f81
+    call WriteCharToVRAM
     cp $ff
     ret nz
 
@@ -3131,7 +3131,7 @@ State24_DisplayText::
     ret
 
 ; --- Routine : écrit un caractère de texte en VRAM ---
-Call_000_0f81:
+WriteCharToVRAM:
     ldh a, [hTimer1]
     and a
     ret nz
@@ -3517,7 +3517,7 @@ jr_000_113e:
 ; ===========================================================================
 State2A_DisplayEndText::
     ld hl, $117a
-    call Call_000_0f81
+    call WriteCharToVRAM
     cp $ff
     ret nz
 
@@ -3559,7 +3559,7 @@ TextData_117A:
 ; ===========================================================================
 State2B_PrincessDescending::
     ld hl, $11b6
-    call Call_000_0f81
+    call WriteCharToVRAM
     ldh a, [hFrameCounter]
     and $03
     ret nz
@@ -3673,7 +3673,7 @@ jr_000_11e9:
 ; ===========================================================================
 State2D_DisplayText2::
     ld hl, $1236
-    call Call_000_0f81
+    call WriteCharToVRAM
     cp $ff
     ret nz
 
