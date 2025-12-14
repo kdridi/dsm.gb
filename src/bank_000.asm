@@ -1779,7 +1779,7 @@ jr_000_08b5:
     pop hl
     jr nz, jr_000_0955
 
-    call Call_000_0a07
+    call SelectAnimationBank
     call Call_000_29f8
     and a
     jr z, jr_000_0955
@@ -2010,7 +2010,7 @@ InitGameState:
     ret
 
 
-Call_000_0a07:
+SelectAnimationBank:
     push hl
     push de
     ldh a, [hAnimObjSubState]
@@ -2115,7 +2115,7 @@ jr_000_0a6a:
     dec l
     dec l
     push de
-    call Call_000_0a07
+    call SelectAnimationBank
     call Call_000_2a1a
     pop de
     and a
@@ -6554,7 +6554,7 @@ jr_000_2020:
     dec l
     dec l
     dec l
-    call Call_000_0a07
+    call SelectAnimationBank
     push de
     ldh a, [hGameState]
 
