@@ -6396,7 +6396,7 @@ jr_000_1f89:
     pop bc
     pop de
     pop hl
-    call Call_000_2001
+    call ProcessObjectCollisions
     jr jr_000_1f30
 
 jr_000_1f91:
@@ -6489,7 +6489,7 @@ jr_000_1ffc:
     ret
 
 
-Call_000_2001:
+ProcessObjectCollisions:
     push hl
     push de
     push bc

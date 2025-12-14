@@ -4066,7 +4066,7 @@ jr_001_5156:
     pop bc
     pop de
     pop hl
-    call Call_000_2001
+    call ProcessObjectCollisions
     jr jr_001_5124
 
     ld a, [$c202]
