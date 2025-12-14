@@ -418,7 +418,7 @@ jr_001_4181:
     db $ed
     rst $08
     ld c, c
-    call Call_000_2b4d
+    call StoreAudioChannel4
     dec hl
     jr c, @+$3a
 

@@ -8783,7 +8783,7 @@ jr_000_2b3e:
     xor a
     ldh [hSoundCh1], a
 
-Call_000_2b4d:
+StoreAudioChannel4:
     ldh [hSoundCh4], a
     inc a
     ld [$dff8], a
