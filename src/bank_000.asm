@@ -691,10 +691,10 @@ State0E_LevelInit::
     ld hl, wOamBuffer
     ld b, $9f
 
-jr_000_032d:
+ClearOamLoop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_032d
+    jr nz, ClearOamLoop
 
     ldh [hTimerAux], a
     ld [wGameConfigA5], a
