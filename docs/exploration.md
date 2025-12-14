@@ -420,6 +420,21 @@ xxd -s 0x02A5 -l 120 src/game.gb
 xxd -s 0x02A5 -l 60 -c 2 src/game.gb
 ```
 
+#### Recherche automatisée des zones data
+
+```bash
+# Trouver les jump tables (rst $28 suivi de données)
+grep -n "rst \$28" src/bank_*.asm
+
+# Trouver les séquences suspectes (db répétés)
+grep -n "db \$" src/bank_*.asm | head -50
+
+# Zones à investiguer prioritairement
+# - Jump tables après `rst $28` ou `jp hl`
+# - Blocs de données après les routines (fin de bank)
+# - Séquences répétitives d'instructions absurdes
+```
+
 #### Reconstruction des données
 
 | Type | Directive | Exemple |
@@ -428,6 +443,20 @@ xxd -s 0x02A5 -l 60 -c 2 src/game.gb
 | Mot 16-bit | `dw` | `dw $0610, $06A5` |
 | Espace réservé | `ds` | `ds 16` |
 | Fichier binaire | `INCBIN` | `INCBIN "tiles.bin"` |
+
+#### Convention de nommage pour tables de données
+
+| Type | Suffixe | Exemple |
+|------|---------|---------|
+| Jump table | `*JumpTable` | `StateJumpTable`, `LevelJumpTable_Bank1` |
+| Données d'animation | `*AnimData` | `PlayerAnimData` |
+| Tilemaps | `*Tilemap` | `HUDTilemap` |
+| Palettes | `*Palette` | `LevelPalette` |
+| Graphiques | `*Tiles` ou `*Gfx` | `PlayerTiles`, `TileData_Bank1` |
+| Données de fin | `*EndData` | `TilemapEndData` |
+| Texte | `TextData_*` | `TextData_GameOver` |
+| Configuration audio | `Audio*Table` | `AudioConfigTable` |
+| Frames animation | `*Frames` | `AnimTilesFrames` |
 
 ### Organisation des banks (découverte Phase 4.5 + 5)
 
@@ -598,8 +627,8 @@ Les tâches suivantes sont gérées dans `ROADMAP.md` :
 ### Fichiers clés modifiés
 
 - `src/bank_000.asm` : 60 handlers d'état documentés
-- `src/constants.inc` : 100+ constantes HRAM/WRAM
-- `src/macros.inc` : Macros free-function pour SystemInit
+- `src/constants.inc` : 285 constantes (96 HRAM + 151 WRAM + 38 ROM/VRAM/Config)
+- `src/macros.inc` : 18 macros (4 utilitaires + 14 free functions)
 - `docs/exploration.md` : Ce fichier (protocole + résultats)
 
 ### Références croisées
@@ -613,16 +642,39 @@ Les tâches suivantes sont gérées dans `ROADMAP.md` :
 
 ### Conventions appliquées (depuis CLAUDE.md)
 
+#### Patterns et registres
 - **RST $28** : Dispatcher de jump table (pattern clé identifié)
-- **Nommage labels** : `VerbeCamelCase` pour les routines
-- **Nommage tables** : suffixe `*JumpTable`, `*AnimData`, `*Tilemap`, `*Tiles`, `*Gfx`, `*Palette`
-- **Constantes HRAM** : préfixe `h` (ex: `hGameState`)
-- **Constantes WRAM** : préfixe `w` (ex: `wLevelData`)
-- **Constantes ROM** : préfixe `ROM_` (ex: `ROM_DMA_ROUTINE`)
-- **Zones mémoire fin** : suffixe `_END` (ex: `_VRAM_END`, `_WRAM_END`)
+- **Registres hardware** : préfixe `r` (ex: `rNR52`, `rLCDC`) - depuis hardware.inc
+- **Flags hardware** : format `XXXF_YYY` (ex: `LCDCF_ON`, `STATF_LYC`) - depuis hardware.inc
+- **Zones mémoire début** : préfixe `_` (ex: `_VRAM`, `_HRAM`) - depuis hardware.inc
+- **Zones mémoire fin** : suffixe `_END` (ex: `_VRAM_END`, `_WRAM_END`) - depuis constants.inc
+
+#### Nommage des labels
+- **Routines** : `VerbeCamelCase` (ex: `UpdateScrollColumn`, `ClearTilemapBuffer`)
+- **Handlers** : `*Handler` (ex: `VBlankHandler`, `JoypadReadHandler`)
+- **États** : `State*` ou `State*_*` (ex: `State12_EndLevelSetup`)
+
+#### Nommage des tables de données
+- **Jump tables** : `*JumpTable` (ex: `StateJumpTable`, `LevelJumpTable_Bank1`)
+- **Données animation** : `*AnimData` ou `*Frames` (ex: `AnimTilesFrames`)
+- **Tilemaps** : `*Tilemap` ou `*EndData` (ex: `TilemapEndData`)
+- **Graphiques** : `*Tiles` ou `*Gfx` (ex: `TileData_Bank1`)
+- **Audio** : `Audio*` (ex: `AudioConfigTable`, `AudioData_Track1`)
+- **Texte** : `TextData_*` (ex: `TextData_GameOver`)
+
+#### Constantes
+- **HRAM** : préfixe `h` (ex: `hGameState`, `hVBlankFlag`)
+- **WRAM** : préfixe `w` (ex: `wLevelData`, `wPlayerX`)
+- **ROM** : préfixe `ROM_` (ex: `ROM_DMA_ROUTINE`)
+- **Config** : format `XXX_YYY` (ex: `PALETTE_STANDARD`, `AUDVOL_MAX`)
+- **Init** : préfixe `INIT_` (ex: `INIT_GAME_STATE`)
 - **Magic values** : toujours remplacées par constantes nommées
-- **Macros utilitaires** : `VERBE_OBJET` en majuscules (ex: `CLEAR_LOOP_B`)
-- **Macros free function** : `VerbeCamelCase` (ex: `DisableInterrupts`)
+
+#### Macros
+- **Utilitaires** : `VERBE_OBJET` majuscules (ex: `CLEAR_LOOP_B`, `WAIT_LY`)
+- **Free functions** : `VerbeCamelCase` (ex: `DisableInterrupts`, `ConfigurePalettes`)
+
+#### Reconstruction et validation
 - **Reconstruction données** : `db` (octets), `dw` (mots 16-bit), `ds` (réservé), `INCBIN` (binaire)
 - **Validation** : `make verify` après chaque modification (hash SHA256 + MD5)
 
@@ -825,6 +877,44 @@ Si de nouvelles adresses sont découvertes lors des phases suivantes :
 3. Ajouter les références sortantes
 4. Cocher et déplacer vers "Analysé"
 5. `make verify` après chaque modification
+
+---
+
+## Annexe : Principe fondamental du projet
+
+**Le hash identique est notre test de non-régression.**
+
+Ce fichier d'exploration fait partie d'un projet de rétro-ingénierie où l'objectif est de comprendre, documenter et enrichir des sources ASM Game Boy **tout en garantissant une compilation bit-perfect**.
+
+### Cycle de travail
+
+```
+1. Modifier le source (renommer, commenter, restructurer)
+2. Compiler → Valider hash identique (make verify)
+3. Répéter
+```
+
+### Ce qu'on peut faire librement
+
+- Renommer les labels pour les rendre explicites
+- Ajouter des commentaires pour documenter la logique
+- Restructurer le code (sections, includes)
+- Documenter les routines et structures de données
+- Créer des macros qui s'expandent en code identique
+- Remplacer les magic values par des constantes nommées
+
+...tant que `make verify` confirme que le binaire reste identique (SHA256 + MD5).
+
+### Fichiers de référence
+
+| Fichier | Rôle |
+|---------|------|
+| `CLAUDE.md` | Instructions projet et conventions |
+| `ROADMAP.md` | Suivi des tâches et progression |
+| `docs/exploration.md` | Ce fichier - parcours systématique |
+| `src/constants.inc` | Constantes spécifiques au projet |
+| `src/macros.inc` | Macros utilitaires et free functions |
+| `src/hardware.inc` | Constantes hardware Game Boy (standard) |
 
 ---
 
