@@ -239,7 +239,7 @@ DEF wScorePrevious  EQU $C0C2   ; Score précédent (comparaison)
 DEF wLevelConfig    EQU $C0CE   ; Configuration niveau
 DEF wCollisionFlag  EQU $C0D2   ; Flag collision
 DEF wPlayerInvuln   EQU $C0D3   ; Flag invulnérabilité joueur
-DEF wTimerSpecial   EQU $C0D7   ; Timer spécial
+DEF wAttractModeTimer   EQU $C0D7   ; Timer pour l'Attract Mode (démo auto)
 DEF wLevelVarD8     EQU $C0D8   ; Variable niveau
 DEF wLevelVarD9     EQU $C0D9   ; Variable niveau D9
 DEF wLevelVarDA     EQU $C0DA   ; Variable niveau
@@ -405,6 +405,8 @@ DEF POINTS_PER_COIN     EQU $0100 ; Points par pièce (100 en BCD)
 ; === Valeurs d'initialisation ===
 
 DEF INIT_GAME_STATE     EQU $0E ; État jeu initial (hGameState)
+DEF GAME_STATE_TITLE    EQU $00 ; Écran titre (attente Start / timeout)
+DEF GAME_STATE_DEMO     EQU $0E ; Lancement démo automatique (Attract Mode)
 DEF GAME_STATE_WINDOW   EQU $3A ; État spécial window (animation écran)
 DEF INIT_ANIM_TILE_IDX  EQU $11 ; Valeur initiale hAnimTileIndex et wUnknownA8
 DEF INIT_UNKNOWN_DC     EQU $02 ; Valeur initiale wUnknownDC (et bank switch)

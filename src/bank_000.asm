@@ -491,20 +491,50 @@ SystemInit:
 ;; GameLoop - Boucle principale du jeu
 ;; ==========================================================================
 ;; Structure :
-;;   1. CheckSpecialState  → Vérifie $DA1D == 3 (état spécial ?)
+;;   1. CheckSpecialState  → Vérifie wSpecialState == 3 (reset ?)
 ;;   2. CallBank3Logic     → Appelle la logique en bank 3
 ;;   3. CheckPauseOrSkip   → Vérifie si on doit sauter le frame
-;;   4. DecrementTimers    → Décrémente 2 timers en $FFA6-$FFA7
-;;   5. HandleGameState    → Gestion état de jeu complexe
+;;   4. DecrementTimers    → Décrémente 2 timers (hTimer1, hTimer2)
+;;   5. HandleAttractMode  → Gestion de l'Attract Mode (voir ci-dessous)
 ;;   6. CallStateHandler   → Appelle le handler d'état (StateDispatcher)
 ;;   7. WaitForNextFrame   → HALT + attend flag VBlank
+;;
+;; --------------------------------------------------------------------------
+;; ATTRACT MODE (étape 5)
+;; --------------------------------------------------------------------------
+;; Pattern classique Nintendo : écran titre → timeout → démo auto → boucle
+;;
+;;   ┌─────────────────────────────────────────────────────────┐
+;;   │                                                         │
+;;   │  ┌───────────────────┐  timeout   ┌──────────────────┐  │
+;;   │  │   Écran titre     │ ────────→  │   Démo auto      │  │
+;;   │  │ (GAME_STATE_TITLE)│            │ (GAME_STATE_DEMO)│  │
+;;   │  └───────────────────┘            └──────────────────┘  │
+;;   │           ↑                              │              │
+;;   │           │       timeout / fin démo     │              │
+;;   │           └──────────────────────────────┘              │
+;;   │           │                                             │
+;;   │           │ Start pressé                                │
+;;   │           ↓                                             │
+;;   │  ┌──────────────────┐                                   │
+;;   │  │  Démarrer le jeu │                                   │
+;;   │  └──────────────────┘                                   │
+;;   └─────────────────────────────────────────────────────────┘
+;;
+;; Mécanisme :
+;;   - wAttractModeTimer : compteur décrémenté toutes les 16 frames
+;;   - Quand timer = 0 ET hGameState = GAME_STATE_TITLE ($00)
+;;     → Switch vers bank 2, hGameState = GAME_STATE_DEMO ($0E)
+;;   - Start pressé : bypass le timer (déclenchement immédiat)
+;;
+;; Timing : ~256 × 16 frames ÷ 60fps ≈ 68 secondes avant démo
 ;; ==========================================================================
 
 ; --- 1. CheckSpecialState ---
 GameLoop:
     ld a, [wSpecialState]           ; Lire état spécial
     cp $03                  ; Est-ce == 3 ?
-    jr nz, jr_000_0238      ; Non → sauter
+    jr nz, .callBank3Logic      ; Non → sauter
 
     ld a, $ff               ; Oui → reset à $FF
     ld [wSpecialState], a
@@ -512,7 +542,7 @@ GameLoop:
     call CallBank3Handler
 
 ; --- 2. CallBank3Logic ---
-jr_000_0238:
+.callBank3Logic:
     ldh a, [hCurrentBank]          ; Sauvegarder bank courante
     ldh [hSavedBank], a
     ld a, $03               ; Switch vers bank 3
@@ -524,77 +554,79 @@ jr_000_0238:
     ld [$2000], a
 
 ; --- 3. CheckPauseOrSkip ---
-    JumpIfLocked jr_000_025a          ; Si verrouillé → sauter vers timers
+    JumpIfLocked .decrementTimers          ; Si verrouillé → sauter vers timers
 
     call CheckInputAndPause      ; Vérifier input ?
     ldh a, [hPauseFlag]          ; Flag skip frame ?
     and a
-    jr nz, jr_000_0296      ; Si skip → aller directement au wait
+    jr nz, .waitVBlank      ; Si skip → aller directement au wait
 
 ; --- 4. DecrementTimers ---
-jr_000_025a:
+.decrementTimers:
     ld hl, hTimer1            ; Adresse timer 1
     ld b, $02               ; 2 timers à décrémenter
 
-jr_000_025f:
+.timerLoop:
     ld a, [hl]              ; Lire timer
     and a
-    jr z, jr_000_0264       ; Si 0 → ne pas décrémenter
+    jr z, .nextTimer       ; Si 0 → ne pas décrémenter
 
     dec [hl]                ; Décrémenter timer
 
-jr_000_0264:
+.nextTimer:
     inc l                   ; Timer suivant
     dec b
-    jr nz, jr_000_025f      ; Boucle 2 fois
+    jr nz, .timerLoop      ; Boucle 2 fois
 
-; --- 5. HandleGameState ---
-    JumpIfUnlocked jr_000_0293        ; Si déverrouillé → aller au handler
+; --- 5. HandleAttractMode ---
+; Gère le timer et le déclenchement de la démo automatique
+    JumpIfUnlocked .callStateHandler        ; Si déverrouillé → aller au handler
 
     ldh a, [hJoypadState]          ; Lire joypad
     bit 3, a                ; Start pressé ?
-    jr nz, jr_000_0283      ; Oui → traitement spécial
+    jr nz, .triggerAttractDemo     ; Oui → déclencher immédiatement
 
-    ldh a, [hFrameCounter]          ; Frame counter
-    and $0f                 ; Modulo 16
-    jr nz, jr_000_0293      ; Si != 0 → aller au handler
+    ldh a, [hFrameCounter]         ; Frame counter
+    and $0f                 ; Modulo 16 (décrémente toutes les 16 frames)
+    jr nz, .callStateHandler       ; Pas encore → continuer
 
-    ld hl, wTimerSpecial
+    ld hl, wAttractModeTimer       ; Timer Attract Mode
     ld a, [hl]
     and a
-    jr z, jr_000_0283       ; Si 0 → traitement spécial
+    jr z, .triggerAttractDemo      ; Timer expiré → déclencher démo
 
-    dec [hl]                ; Décrémenter
-    jr jr_000_0293          ; Aller au handler
+    dec [hl]                ; Décrémenter le timer
+    jr .callStateHandler          ; Continuer
 
-jr_000_0283:
-    ldh a, [hGameState]          ; Game state
-    and a
-    jr nz, jr_000_0293      ; Si != 0 → aller au handler
+.triggerAttractDemo:
+    ldh a, [hGameState]          ; Game state actuel
+    and a                        ; == GAME_STATE_TITLE ($00) ?
+    jr nz, .callStateHandler     ; Non → pas sur écran titre, continuer
 
+    ; Sur écran titre + timeout/Start → lancer la démo
     ld a, $02               ; Switch vers bank 2
     ld [$2000], a
     ldh [hCurrentBank], a
-    ld a, $0e               ; Game state = $0E
+    ld a, GAME_STATE_DEMO        ; Lancer la démo automatique
     ldh [hGameState], a
 
 ; --- 6. CallStateHandler ---
-jr_000_0293:
+.callStateHandler:
     call StateDispatcher      ; Dispatch selon $FFB3 (game state)
 
 ; --- 7. WaitForNextFrame ---
-jr_000_0296:
+.waitVBlank:
     halt                    ; Suspend CPU (économie batterie)
     ldh a, [hVBlankFlag]          ; Lire frame_ready flag
     and a
-    jr z, jr_000_0296       ; Si 0 → continuer à attendre
+    jr z, .waitVBlank       ; Si 0 → continuer à attendre
 
     xor a
     ldh [hVBlankFlag], a          ; Clear flag
     jr GameLoop          ; Retour au début de la game loop
 
-jr_000_02a1:
-    jr jr_000_02a1
+DeadLoop:
+    jr DeadLoop
 
 ;; ==========================================================================
 ;; StateDispatcher - Dispatch vers le handler selon game_state ($FFB3)
@@ -875,7 +907,7 @@ jr_000_041f:
     xor a
     ldh [hVBlankMode], a
     ld a, $28
-    ld [wTimerSpecial], a
+    ld [wAttractModeTimer], a
     ldh [hUpdateLockFlag], a
     ld hl, wCurrentROMBank
     inc [hl]
@@ -1058,7 +1090,7 @@ jr_000_04f5:
     ld [hl], $29
 
 jr_000_0519:
-    ld a, [wTimerSpecial]
+    ld a, [wAttractModeTimer]
 
 Jump_000_051c:
     and a
@@ -1077,7 +1109,7 @@ Jump_000_051c:
 
 Jump_000_0530:
     ld a, $50
-    ld [wTimerSpecial], a
+    ld [wAttractModeTimer], a
     ld a, $11
     ldh [hGameState], a
     xor a
