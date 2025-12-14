@@ -970,7 +970,7 @@ State0F_LevelSelect::
 UpdateLevelSelectDisplay:
     ldh a, [hLevelIndex]
     cp $02
-    jr c, jr_000_0519
+    jr c, InitAttractModeDisplay
 
     bit 0, b
     jr z, jr_000_04f5
@@ -1026,7 +1026,7 @@ jr_000_04f5:
     inc l
     ld [hl], $29
 
-jr_000_0519:
+InitAttractModeDisplay:
     ld a, [wAttractModeTimer]
 
 Jump_000_051c:
