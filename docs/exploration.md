@@ -56,10 +56,10 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$0100` (code) - Entry point ROM → header + `jp SystemInit`
 
 ### Handlers d'état (depuis StateJumpTable $02A5)
-*Adresses corrigées depuis le code source*
+*60 entrées - Tous analysés et documentés*
 
-| État | Adresse | Rôle supposé |
-|------|---------|--------------|
+| État | Adresse | Rôle |
+|------|---------|------|
 | $00 | $0610 | **Main gameplay** - boucle de jeu principale |
 | $01 | $06A5 | **Reset objets** - clear buffers → état $02 |
 | $02 | $06C5 | **Chargement niveau** - LCD off, config, → état $00 |
@@ -78,53 +78,56 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | $0F | $04C3 | **Menu sélection** - navigation joypad, affiche indices → $11 |
 | $10 | $05B7 | **Noop** - état vide (placeholder, ret immédiat) |
 | $11 | $055F | **Démarrage niveau** - reset score, config timers, init display |
-| $12 | $3D8E | ? |
-| $13 | $3DCE | ? |
-| $14 | $5832 | Bank 1 |
-| $15 | $5835 | Bank 1 |
-| $16 | $3E9E | ? |
-| $17 | $5838 | Bank 1 |
-| $18 | $583B | Bank 1 |
-| $19 | $583E | Bank 1 |
-| $1A | $5841 | Bank 1 |
-| $1B | $0DF0 | ? |
-| $1C | $0E0C | ? |
-| $1D | $0E28 | ? |
-| $1E | $0E54 | ? |
-| $1F | $0E8D | ? |
-| $20 | $0EA0 | ? |
-| $21 | $0EC4 | ? |
-| $22 | $0F09 | ? |
-| $23 | $0F2A | ? |
-| $24 | $0F61 | ? |
-| $25 | $0FF4 | ? |
-| $26 | $104C | ? |
-| $27 | $1090 | ? |
-| $28 | $0EA0 | ? (même que $20) |
-| $29 | $110D | ? |
-| $2A | $115C | ? |
-| $2B | $118B | ? |
-| $2C | $11C7 | ? |
-| $2D | $1212 | ? |
-| $2E | $124B | ? |
-| $2F | $1298 | ? |
-| $30 | $12B9 | ? |
-| $31 | $12E8 | ? |
-| $32 | $1385 | ? |
-| $33 | $13E7 | ? |
-| $34 | $1438 | ? |
-| $35 | $1451 | ? |
-| $36 | $145D | ? |
-| $37 | $147F | ? |
-| $38 | $14D3 | ? |
-| $39 | $1C73 | **Game over** |
-| $3A | $1CDF | **État spécial window** |
-| $3B | $1CE7 | ? |
+| $12 | $3D8E | **State12_EndLevelSetup** - LCD off, clear OAM, fill tilemap → $13 |
+| $13 | $3DCE | **State13_DrawEndBorder** - bordure décorative, texte → $14 |
+| $14 | $5832 | (Bank 1, zone données - non analysable) |
+| $15 | $5835 | (Bank 1, zone données - non analysable) |
+| $16 | $3E9E | **State16_CopyTilemapData** - copie données vers tilemap → $15 |
+| $17 | $5838 | (Bank 1, zone données - non analysable) |
+| $18 | $583B | (Bank 1, zone données - non analysable) |
+| $19 | $583E | (Bank 1, zone données - non analysable) |
+| $1A | $5841 | (Bank 1, zone données - non analysable) |
+| $1B | $0DF0 | **State1B_BonusComplete** - LCD off, charge tiles, LCD on → $08 |
+| $1C | $0E0C | **State1C_WaitTimerGameplay** - attente timer + call bank3 |
+| $1D | $0E28 | **State1D_SetupVRAMPointer** - configure pointeur VRAM/bank |
+| $1E | $0E54 | **State1E_ClearTilemapColumn** - efface colonne tilemap |
+| $1F | $0E8D | **State1F_EnableVBlankMode** - configure mode VBlank |
+| $20 | $0EA0 | **State20_WaitPlayerPosition** - attente position joueur cible |
+| $21 | $0EC4 | **State21_SetupEndCutscene** - configure cutscene fin niveau |
+| $22 | $0F09 | **State22_ScrollCutscene** - scrolling cutscene |
+| $23 | $0F2A | **State23_WalkToDoor** - marche vers porte château |
+| $24 | $0F61 | **State24_DisplayText** - affichage texte écran |
+| $25 | $0FF4 | **State25_SpriteBlinkAnimation** - animation clignotement |
+| $26 | $104C | **State26_PrincessRising** - animation princesse qui monte |
+| $27 | $1090 | **State27_PlayerOscillation** - oscillation joueur |
+| $28 | $0EA0 | (= État $20 - WaitPlayerPosition) |
+| $29 | $110D | **State29_SetupEndScreen** - config écran fin |
+| $2A | $115C | **State2A_DrawEndBackground** - dessine fond fin |
+| $2B | $118B | **State2B_LoadEndTiles** - charge tiles fin niveau |
+| $2C | $11C7 | **State2C_SetupCreditsScroll** - config scroll crédits |
+| $2D | $1212 | **State2D_DrawCreditsLine** - dessine ligne crédits |
+| $2E | $124B | **State2E_WaitCreditsScroll** - attente scroll crédits |
+| $2F | $1298 | **State2F_FadeTransition** - transition fondu |
+| $30 | $12B9 | **State30_EndingSequence** - séquence fin |
+| $31 | $12E8 | **State31_DrawEndingSprites** - sprites fin |
+| $32 | $1385 | **State32_ConfigureLYC** - configure LYC pour effets |
+| $33 | $13E7 | **State33_DisplayCreditsText** - affiche texte crédits vers VRAM |
+| $34 | $1438 | **State34_WaitCreditsCounter** - compteur crédits → timer |
+| $35 | $1451 | **State35_WaitTimer** - attente timer simple |
+| $36 | $145D | **State36_CreditsFinalTransition** - transition finale crédits |
+| $37 | $147F | **State37_FinalSpriteAnimation** - animation sprite finale |
+| $38 | $14D3 | **State38_CreditsAnimation** - animation crédits finale |
+| $39 | $1C73 | **State39_GameOver** - affiche écran GAME OVER, clear OAM |
+| $3A | $1CDF | **State3A_WindowUpdate** - mise à jour window |
+| $3B | $1CE7 | **State3B_WindowSetup** - copie données vers window, active |
 
 ### Tables de données connues
 - [x] `$02A5` (data) - StateJumpTable, 60 entrées × 2 bytes
 - [x] `$336C` (data) - AudioConfigTable, 21 sons × 3 bytes
 - [x] `$3FAF` (data) - AnimTilesFrames, 10 frames × 8 bytes
+- [x] `$0DE4` (data) - GraphicsTableA, 12 bytes (mal désassemblé)
+- [x] `$14BB` (data) - TilemapEndData, 24 bytes (mal désassemblé)
+- [x] `$1CCE` (data) - TextData_GameOver, 17 bytes (mal désassemblé)
 
 ### Routines identifiées
 *Toutes analysées et documentées dans le code source*
@@ -137,6 +140,12 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | StateDispatcher | $02A3 | Dispatch états via RST $28 |
 | CheckInputAndPause | $07C3 | Soft reset + toggle pause |
 | InitGameState | $09E8 | Init état $03 |
+| SimulateRightInput | $0EB2 | Simule input droite joueur |
+| ResetPlayerPositionForCutscene | $0EDE | Reset position pour cutscene |
+| WriteTextCharacter | $0F81 | Écrit caractère texte vers VRAM |
+| CopyOAMData | $1020 | Copie données vers OAM |
+| ClearTilemapBuffer | $1655 | Clear zone $c800-$ca3f (576 bytes) |
+| UpdatePipeAnimation | $16EC | Animation joueur pendant transition tuyau |
 | CallBank3Handler | $172D | Wrapper bank switch |
 | UpdateLivesDisplay | $1C2A | BCD vies → tilemap |
 | UpdateScrollColumn | $224F | Scrolling colonne tilemap |
@@ -175,13 +184,17 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$3FAF` (data) - **AnimTilesFrames** : 10 frames animation tiles
 - [x] `$3F87` (data) - **Zone fin bank 0** : 121 bytes données + padding
 
-### Routines principales (14/14)
+### Routines principales (18/18)
 - [x] `$0185` **SystemInit** - Init LCD, audio, mémoire, variables (macros)
 - [x] `$0226` **GameLoop** - Boucle principale : bank3 → timers → state → halt
 - [x] `$0296` **WaitVBlank** - Halt + attente flag hVBlankFlag
 - [x] `$02A3` **StateDispatcher** - `ldh a, [hGameState]` + `rst $28` + table
 - [x] `$07C3` **CheckInputAndPause** - Combo A+B+Start+Select = reset, Start = pause
 - [x] `$09E8` **InitGameState** - Configure état $03, reset variables
+- [x] `$0EB2` **SimulateRightInput** - Simule input droite pour cutscenes
+- [x] `$0EDE` **ResetPlayerPositionForCutscene** - Reset position joueur
+- [x] `$0F81` **WriteTextCharacter** - Écrit caractère vers VRAM avec attente STAT
+- [x] `$1020` **CopyOAMData** - Copie données sprite vers buffer OAM
 - [x] `$1655` **ClearTilemapBuffer** - Clear zone $c800-$ca3f (576 bytes)
 - [x] `$16EC` **UpdatePipeAnimation** - Animation joueur pendant transition tuyau
 - [x] `$172D` **CallBank3Handler** - Save bank → switch $03 → call $4823 → restore
@@ -191,6 +204,83 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$3D61` **UpdateLevelScore** - Affiche score niveau si wLevelData == $28
 - [x] `$3F24` **UpdateScoreDisplay** - Convertit 3 bytes BCD en 6 tiles avec leading zero suppression
 
+### Handlers d'état analysés (54/60)
+*6 états Bank 1 non analysables (zone données)*
+
+#### Gameplay principal ($00-$0D)
+- [x] `$0610` État $00 - Main gameplay
+- [x] `$06A5` État $01 - Reset objets
+- [x] `$06C5` État $02 - Chargement niveau
+- [x] `$0B84` État $03 - Setup sprites
+- [x] `$0BCD` État $04 - Animation transition
+- [x] `$0C6A` État $05 - Niveau spécial
+- [x] `$0CC2` État $06 - Post-niveau
+- [x] `$0C37` État $07 - Attente timer
+- [x] `$0D40` État $08 - Progression
+- [x] `$1612` État $09 - Entrée tuyau droite
+- [x] `$1626` État $0A - Chargement sous-niveau
+- [x] `$1663` État $0B - Descente tuyau
+- [x] `$16D1` État $0C - Sortie tuyau gauche
+- [x] `$236D` État $0D - Gameplay complet
+
+#### Menu et initialisation ($0E-$11)
+- [x] `$0322` État $0E - Init niveau
+- [x] `$04C3` État $0F - Menu sélection
+- [x] `$05B7` État $10 - Noop
+- [x] `$055F` État $11 - Démarrage niveau
+
+#### Écran fin niveau ($12-$13, $16)
+- [x] `$3D8E` État $12 - EndLevelSetup
+- [x] `$3DCE` État $13 - DrawEndBorder
+- [x] `$3E9E` État $16 - CopyTilemapData
+
+#### Bank 1 (non analysables - zone données)
+- [ ] `$5832` État $14
+- [ ] `$5835` État $15
+- [ ] `$5838` État $17
+- [ ] `$583B` État $18
+- [ ] `$583E` État $19
+- [ ] `$5841` État $1A
+
+#### Transitions et bonus ($1B-$28)
+- [x] `$0DF0` État $1B - BonusComplete
+- [x] `$0E0C` État $1C - WaitTimerGameplay
+- [x] `$0E28` État $1D - SetupVRAMPointer
+- [x] `$0E54` État $1E - ClearTilemapColumn
+- [x] `$0E8D` État $1F - EnableVBlankMode
+- [x] `$0EA0` État $20 - WaitPlayerPosition
+- [x] `$0EC4` État $21 - SetupEndCutscene
+- [x] `$0F09` État $22 - ScrollCutscene
+- [x] `$0F2A` État $23 - WalkToDoor
+- [x] `$0F61` État $24 - DisplayText
+- [x] `$0FF4` État $25 - SpriteBlinkAnimation
+- [x] `$104C` État $26 - PrincessRising
+- [x] `$1090` État $27 - PlayerOscillation
+- [x] `$0EA0` État $28 - (= $20)
+
+#### Crédits et fin de jeu ($29-$38)
+- [x] `$110D` État $29 - SetupEndScreen
+- [x] `$115C` État $2A - DrawEndBackground
+- [x] `$118B` État $2B - LoadEndTiles
+- [x] `$11C7` État $2C - SetupCreditsScroll
+- [x] `$1212` État $2D - DrawCreditsLine
+- [x] `$124B` État $2E - WaitCreditsScroll
+- [x] `$1298` État $2F - FadeTransition
+- [x] `$12B9` État $30 - EndingSequence
+- [x] `$12E8` État $31 - DrawEndingSprites
+- [x] `$1385` État $32 - ConfigureLYC
+- [x] `$13E7` État $33 - DisplayCreditsText
+- [x] `$1438` État $34 - WaitCreditsCounter
+- [x] `$1451` État $35 - WaitTimer
+- [x] `$145D` État $36 - CreditsFinalTransition
+- [x] `$147F` État $37 - FinalSpriteAnimation
+- [x] `$14D3` État $38 - CreditsAnimation
+
+#### Game Over et Window ($39-$3B)
+- [x] `$1C73` État $39 - GameOver
+- [x] `$1CDF` État $3A - WindowUpdate
+- [x] `$1CE7` État $3B - WindowSetup
+
 ---
 
 ## Découvertes
@@ -199,19 +289,49 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - `rst $28` : Dispatcher de jump table (lit adresse depuis table suivante)
 - `ldh [hGameState], a` + `ret` : Transition d'état
 - `call CallBank3_XXXX` : Appel cross-bank vers bank 3
+- `ld hl, hGameState` + `inc [hl]` : Transition vers état suivant
 
 ### Systèmes découverts
-- **Système de tuyaux (pipes)** : États $09-$0C gèrent l'entrée/sortie des tuyaux
-  - $09 : Entrée horizontale (joueur avance vers la droite)
-  - $0A : Chargement sous-niveau (LCD off, clear mémoire, repositionner)
-  - $0B : Descente verticale + chargement destination
-  - $0C : Sortie horizontale (joueur recule vers la gauche)
-  - Utilise hVBlankSelector comme position cible et $fff6/$fff7 pour destination
+
+#### Système de tuyaux (pipes) - États $09-$0C
+- $09 : Entrée horizontale (joueur avance vers la droite)
+- $0A : Chargement sous-niveau (LCD off, clear mémoire, repositionner)
+- $0B : Descente verticale + chargement destination
+- $0C : Sortie horizontale (joueur recule vers la gauche)
+- Utilise hVBlankSelector comme position cible et $fff6/$fff7 pour destination
+
+#### Système de crédits - États $29-$38
+- Séquence complexe d'états pour afficher les crédits
+- Utilise LYC pour effets de scroll mid-screen
+- Tables de texte mal désassemblées ($0FD8, $14BB, etc.)
+- Animation finale avec timer et positions tilemap
+
+#### Système d'écran de fin - États $12-$13, $16
+- $12 : Prépare l'écran (LCD off, clear)
+- $13 : Dessine la bordure décorative
+- $16 : Copie les données tilemap depuis WRAM
+
+#### Game Over - États $39-$3B
+- $39 : Affiche "GAME OVER", sauvegarde score, clear OAM
+- $3A : Mise à jour de la window (effet visuel)
+- $3B : Configuration finale de la window
+
+### Zones de données mal désassemblées identifiées
+- `$0DE4-$0DEF` : GraphicsTableA/B (12 bytes)
+- `$0FD8-$1018` : Tables de texte pour cutscenes
+- `$14BB-$14D2` : TilemapEndData (24 bytes)
+- `$1CCE-$1CDE` : TextData_GameOver (17 bytes)
+- `$5832-$5841` : Zone Bank 1 (handlers $14-$1A - non code)
+
+### Questions résolues
+- États $12-$3B : Tous documentés avec rôles identifiés
+- Système de crédits : Compris (états $29-$38)
+- Game Over : États $39-$3B gèrent l'écran de fin
 
 ### Questions ouvertes
-- Quel état correspond à quoi ? (menu, jeu, pause, game over...)
-- Comment sont organisés les niveaux ?
-- Où sont les graphiques des sprites/backgrounds ?
+- Pourquoi les handlers Bank 1 ($14-$1A) pointent vers une zone données ?
+- Organisation précise des niveaux dans les banks
+- Localisation des graphiques sprites/backgrounds
 
 ---
 
@@ -222,9 +342,11 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | Handlers RST | 0 | 8 | 8 |
 | Interruptions | 0 | 6 | 6 |
 | Entry point | 0 | 3 | 3 |
-| Handlers état | 42 | 18 | 60 |
-| Routines | 0 | 14 | 14 |
-| Tables données | 0 | 4 | 4 |
-| **Total** | **42** | **53** | **95** |
+| Handlers état | 6* | 54 | 60 |
+| Routines | 0 | 18 | 18 |
+| Tables données | 0 | 7 | 7 |
+| **Total** | **6** | **96** | **102** |
 
-**Progression** : 56% analysé (53/95)
+*Les 6 handlers Bank 1 restants pointent vers des zones données non analysables comme code.
+
+**Progression** : 94% analysé (96/102)

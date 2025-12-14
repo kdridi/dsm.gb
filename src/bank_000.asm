@@ -680,29 +680,29 @@ StateJumpTable:
     dw State0F_LevelSelect     ; État $0F - Menu sélection
     dw State10_Noop            ; État $10 - Vide (placeholder)
     dw State11_LevelStart      ; État $11 - Démarrage niveau
-    dw $3d8e    ; État $12
-    dw $3dce    ; État $13
-    dw $5832    ; État $14
-    dw $5835    ; État $15
-    dw $3e9e    ; État $16
-    dw $5838    ; État $17
-    dw $583b    ; État $18
-    dw $583e    ; État $19
-    dw $5841    ; État $1A
-    dw $0df0    ; État $1B
-    dw $0e0c    ; État $1C
-    dw $0e28    ; État $1D
-    dw $0e54    ; État $1E
-    dw $0e8d    ; État $1F
-    dw $0ea0    ; État $20
-    dw $0ec4    ; État $21
-    dw $0f09    ; État $22
-    dw $0f2a    ; État $23
-    dw $0f61    ; État $24
-    dw $0ff4    ; État $25
-    dw $104c    ; État $26
-    dw $1090    ; État $27
-    dw $0ea0    ; État $28
+    dw $3d8e    ; État $12 - State12_EndLevelSetup
+    dw $3dce    ; État $13 - State13_DrawEndBorder
+    dw $5832    ; État $14 - (Bank 1, zone données)
+    dw $5835    ; État $15 - (Bank 1, zone données)
+    dw $3e9e    ; État $16 - State16_CopyTilemapData
+    dw $5838    ; État $17 - (Bank 1, zone données)
+    dw $583b    ; État $18 - (Bank 1, zone données)
+    dw $583e    ; État $19 - (Bank 1, zone données)
+    dw $5841    ; État $1A - (Bank 1, zone données)
+    dw $0df0    ; État $1B - State1B_BonusComplete
+    dw $0e0c    ; État $1C - State1C_WaitTimerGameplay
+    dw $0e28    ; État $1D - State1D_SetupVRAMPointer
+    dw $0e54    ; État $1E - State1E_ClearTilemapColumn
+    dw $0e8d    ; État $1F - State1F_EnableVBlankMode
+    dw $0ea0    ; État $20 - State20_WaitPlayerPosition
+    dw $0ec4    ; État $21 - State21_SetupEndCutscene
+    dw $0f09    ; État $22 - State22_ScrollCutscene
+    dw $0f2a    ; État $23 - State23_WalkToDoor
+    dw $0f61    ; État $24 - State24_DisplayText
+    dw $0ff4    ; État $25 - State25_SpriteBlinkAnimation
+    dw $104c    ; État $26 - State26_PrincessRising
+    dw $1090    ; État $27 - State27_PlayerOscillation
+    dw $0ea0    ; État $28 - (= État $20)
     dw $110d    ; État $29
     dw $115c    ; État $2A
     dw $118b    ; État $2B
@@ -2834,19 +2834,30 @@ Jump_000_0dca:
     call $2439
     ret
 
-
+; === Tables de pointeurs graphiques ($0DE4-$0DEF) ===
+; NOTE: Code mal désassemblé - ce sont des données (adresses pour chargement tiles)
+; Utilisées par StateHandler_08 pour charger les tiles selon le monde
+; GraphicsTableA ($0DE4): dw $4032, $4032, $47F2 (3 pointeurs)
+; GraphicsTableB ($0DEA): dw $4402, $4402, $4BC2 (3 pointeurs)
+GraphicsTableA:
     ld [hl-], a
     ld b, b
     ld [hl-], a
     ld b, b
     ldh a, [c]
     ld b, a
+GraphicsTableB:
     ld [bc], a
     ld b, h
     ld [bc], a
     ld b, h
     jp nz, $f34b
 
+; ===========================================================================
+; État $1B - Transition bonus complété ($0DF0)
+; Recharge l'écran après zone bonus, LCD off → charge tiles → LCD on → état $08
+; ===========================================================================
+State1B_BonusComplete::
     xor a
     ldh [rLCDC], a
     call Call_000_05f8
@@ -2862,7 +2873,11 @@ Jump_000_0dca:
     ldh [hScoreNeedsUpdate], a
     ret
 
-
+; ===========================================================================
+; État $1C - Attente timer gameplay ($0E0C)
+; Exécute logique tant que timer actif, sinon configure timer → état suivant
+; ===========================================================================
+State1C_WaitTimerGameplay::
     ldh a, [hTimer1]
     and a
     jr z, jr_000_0e1f
@@ -2882,7 +2897,11 @@ jr_000_0e1f:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $1D - Setup VRAM pointer ($0E28)
+; Calcule la position VRAM pour le scroll, configure le compteur OAM
+; ===========================================================================
+State1D_SetupVRAMPointer::
     xor a
     ld [wPlayerVarAB], a
     call Call_000_2488
@@ -2912,7 +2931,11 @@ jr_000_0e3d:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $1E - Clear tilemap progressif ($0E54)
+; Efface une colonne de tiles à chaque frame, puis appelle bank 3
+; ===========================================================================
+State1E_ClearTilemapColumn::
     ldh a, [hTimer1]
     and a
     ret nz
@@ -2952,7 +2975,11 @@ jr_000_0e7a:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $1F - Activation VBlank mode ($0E8D)
+; Attente timer, clear collision flags, active le mode VBlank
+; ===========================================================================
+State1F_EnableVBlankMode::
     ldh a, [hTimer1]
     and a
     ret nz
@@ -2966,7 +2993,11 @@ jr_000_0e7a:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; États $20/$28 - Attente position joueur ($0EA0)
+; Simule input droite, attend que joueur atteigne position cible
+; ===========================================================================
+State20_WaitPlayerPosition::
     call Call_000_0eb2
     ld a, [wPlayerState]
     cp $c0
@@ -2978,7 +3009,7 @@ jr_000_0e7a:
     inc [hl]
     ret
 
-
+; --- Routine : simule input droite pour animation ---
 Call_000_0eb2:
     ld a, $10
     ldh [hJoypadState], a
@@ -2989,7 +3020,11 @@ Call_000_0eb2:
     call UpdatePipeAnimation
     ret
 
-
+; ===========================================================================
+; État $21 - Setup cutscene fin niveau ($0EC4)
+; Attente timer, reset position joueur, configure scroll et timer
+; ===========================================================================
+State21_SetupEndCutscene::
     ldh a, [hTimer1]
     and a
     ret nz
@@ -3006,7 +3041,7 @@ Call_000_0eb2:
     inc [hl]
     ret
 
-
+; --- Routine : reset position joueur pour cutscene ---
 Call_000_0ede:
     ld hl, wPlayerX
     ld [hl], $7e
@@ -3038,7 +3073,11 @@ jr_000_0ef3:
     ld [hl], $20
     ret
 
-
+; ===========================================================================
+; État $22 - Animation scroll cutscene ($0F09)
+; Scroll horizontal + déplace joueur pendant timer actif
+; ===========================================================================
+State22_ScrollCutscene::
     ldh a, [hTimer1]
     and a
     jr z, jr_000_0f21
@@ -3063,7 +3102,11 @@ jr_000_0f21:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $23 - Animation joueur vers porte ($0F2A)
+; Simule input droite, anime le joueur, calcule position VRAM destination
+; ===========================================================================
+State23_WalkToDoor::
     ld a, $10
     ldh [hJoypadState], a
     call Call_000_17b3
@@ -3096,6 +3139,11 @@ jr_000_0f52:
     inc [hl]
     jr jr_000_0f1d
 
+; ===========================================================================
+; État $24 - Affichage texte cutscene ($0F61)
+; Affiche le texte depuis table $0FD8 caractère par caractère
+; ===========================================================================
+State24_DisplayText::
     ld hl, $0fd8
     call Call_000_0f81
     cp $ff
@@ -3113,7 +3161,7 @@ jr_000_0f52:
     ld [wStateRender], a
     ret
 
-
+; --- Routine : écrit un caractère de texte en VRAM ---
 Call_000_0f81:
     ldh a, [hTimer1]
     and a
@@ -3193,6 +3241,10 @@ jr_000_0fc5:
     inc de
     jr jr_000_0f9a
 
+; === Table de texte cutscene ($0FD8-$0FF3) ===
+; NOTE: Mal désassemblé - données de texte (indices de tiles)
+; Contenu: "THANK YOU MARIO!" terminé par $FF
+TextData_0FD8:
     dec e
     ld de, $170a
     inc d
@@ -3217,6 +3269,12 @@ jr_000_0fc5:
     inc e
     ld [hl+], a
     rst $38
+
+; ===========================================================================
+; État $25 - Animation sprite clignotant ($0FF4)
+; Alterne entre deux configs sprite, décrémenter compteur jusqu'à 0
+; ===========================================================================
+State25_SpriteBlinkAnimation::
     ldh a, [hTimer1]
     and a
     ret nz
@@ -3253,7 +3311,7 @@ jr_000_1016:
     inc [hl]
     ret
 
-
+; --- Routine : copie données OAM depuis table ---
 Call_000_1020:
     ld de, wOamVar1C
     ld b, $10
@@ -3267,7 +3325,11 @@ jr_000_1025:
 
     ret
 
-
+; === Tables de données sprites cutscene ($102C-$104B) ===
+; NOTE: Mal désassemblé - données de configuration sprite
+; SpriteConfig1 ($102C): 16 bytes pour position sprite normal
+; SpriteConfig2 ($103C): 16 bytes pour position sprite alternatif
+SpriteConfigTable:
     ld a, b
     ld e, b
     ld b, $00
@@ -3296,6 +3358,12 @@ jr_000_1025:
     ld h, b
     rlca
     ld h, b
+
+; ===========================================================================
+; État $26 - Animation princesse montante ($104C)
+; Déplace sprite princesse vers le haut, appelle bank externe pour animation
+; ===========================================================================
+State26_PrincessRising::
     ldh a, [hTimer1]
     and a
     ret nz
@@ -3342,7 +3410,11 @@ jr_000_1083:
     ld [$2000], a
     ret
 
-
+; ===========================================================================
+; État $27 - Animation joueur oscillante ($1090)
+; Animation avec oscillation horizontale du joueur, toggle timer
+; ===========================================================================
+State27_PlayerOscillation::
     ldh a, [hTimer2]
     and a
     jr nz, jr_000_109e
@@ -3437,7 +3509,11 @@ jr_000_10fe:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $29 - Setup écran fin de jeu ($110D)
+; LCD off, clear VRAM, configure sprites, LCD on → état suivant
+; ===========================================================================
+State29_SetupEndScreen::
     di
     xor a
     ldh [rLCDC], a
@@ -3480,7 +3556,11 @@ jr_000_113e:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $2A - Affichage texte fin ($115C)
+; Affiche texte depuis table $117A, puis configure sprite princesse
+; ===========================================================================
+State2A_DisplayEndText::
     ld hl, $117a
     call Call_000_0f81
     cp $ff
@@ -3498,7 +3578,9 @@ jr_000_113e:
     inc [hl]
     ret
 
-
+; === Table de données texte fin ($117A-$118A) ===
+; NOTE: Mal désassemblé - données de texte
+TextData_117A:
     jr @+$13
 
     jr z, jr_000_11aa
@@ -3515,6 +3597,12 @@ jr_000_113e:
     inc e
     ld [hl+], a
     rst $38
+
+; ===========================================================================
+; État $2B - Animation descente princesse ($118B)
+; Descend sprite princesse, affiche texte depuis $11B6
+; ===========================================================================
+State2B_PrincessDescending::
     ld hl, $11b6
     call Call_000_0f81
     ldh a, [hFrameCounter]
@@ -3546,7 +3634,9 @@ jr_000_11aa:
     ld [hl], $00
     ret
 
-
+; === Table de données texte ($11B6-$11C6) ===
+; NOTE: Mal désassemblé - données de texte
+TextData_11B6:
     dec e
     ld de, $170a
     inc d
@@ -3561,6 +3651,12 @@ jr_000_11aa:
     jr jr_000_11e9
 
     rst $38
+
+; ===========================================================================
+; État $2C - Animation sprite oscillante ($11C7)
+; Anime sprite avec oscillation, clear écran quand terminé
+; ===========================================================================
+State2C_SpriteOscillation::
     ldh a, [hFrameCounter]
     and $01
     ret nz
@@ -3623,7 +3719,11 @@ jr_000_11f6:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $2D - Affichage texte deuxième partie ($1212)
+; Affiche texte depuis $1236, configure sprites Mario et Peach
+; ===========================================================================
+State2D_DisplayText2::
     ld hl, $1236
     call Call_000_0f81
     cp $ff
@@ -3646,7 +3746,9 @@ jr_000_11f6:
     inc [hl]
     ret
 
-
+; === Table de données texte ($1236-$124A) ===
+; NOTE: Mal désassemblé - données de texte
+TextData_1236:
     add hl, hl
     ld [hl+], a
     jr jr_000_1258
@@ -3666,6 +3768,12 @@ jr_000_11f6:
     ld c, $1b
     add hl, hl
     rst $38
+
+; ===========================================================================
+; État $2E - Animation sprites ensemble ($124B)
+; Anime Mario et Peach ensemble, toggle sprite frame
+; ===========================================================================
+State2E_DuoAnimation::
     ldh a, [hFrameCounter]
     and $03
     jr nz, jr_000_1258
@@ -3721,7 +3829,11 @@ jr_000_127f:
     ld [hl], $c0
     ret
 
-
+; ===========================================================================
+; État $2F - Transfer données sprite ($1298)
+; Attend timer, copie données vers position sprite joueur
+; ===========================================================================
+State2F_TransferSpriteData::
     ldh a, [hTimer1]
     and a
     ret nz
@@ -3745,7 +3857,11 @@ jr_000_12a4:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $30 - Animation marche gauche ($12B9)
+; Déplace sprite vers la gauche avec animation de marche
+; ===========================================================================
+State30_WalkLeft::
     call CallBank3Handler
     ldh a, [hFrameCounter]
     ld b, a
@@ -3771,7 +3887,7 @@ jr_000_12d4:
     ldh [hOAMIndex], a
     ret
 
-
+; --- Routine : toggle frame animation ---
 Call_000_12dd:
     ldh a, [hFrameCounter]
     and $03
@@ -3783,7 +3899,11 @@ Call_000_12dd:
     ld [hl], a
     ret
 
-
+; ===========================================================================
+; État $31 - Scroll horizontal cutscene ($12E8)
+; Scroll l'écran horizontalement, prépare transition finale
+; ===========================================================================
+State31_HorizontalScroll::
     call Call_000_1305
     call Call_000_218f
     ldh a, [hShadowSCX]
@@ -3800,14 +3920,14 @@ Call_000_12dd:
     ld [wStateRender], a
     ret
 
-
+; --- Routine : animation + bank 3 ---
 Call_000_1305:
     ld hl, wPlayerState
     call Call_000_12dd
     call CallBank3Handler
     ret
 
-
+; --- Routine : setup écran final ---
 Call_000_130f:
     push af
     ldh a, [hOAMIndex]
@@ -3837,7 +3957,7 @@ jr_000_1343:
     pop af
     ret
 
-
+; --- Routine : clear scroll buffer ---
 Call_000_1345:
     ld hl, wScrollBuffer
     ld b, $10
@@ -3870,7 +3990,7 @@ jr_000_135d:
 
     ret
 
-
+; --- Routine : copie 5 bytes de config sprite ---
 Call_000_136d:
     ld b, $05
 
@@ -3883,7 +4003,9 @@ jr_000_136f:
 
     ret
 
-
+; === Tables de données sprites finaux ($1376-$1384) ===
+; NOTE: Mal désassemblé - config sprites pour écran final
+SpriteEndData:
     nop
     jr nc, @-$2e
 
@@ -3899,6 +4021,12 @@ jr_000_136f:
     ld [hl], b
     add hl, hl
     add b
+
+; ===========================================================================
+; État $32 - Animation scroll crédits ($1385)
+; Scroll avec animation des sprites, transition vers écran suivant
+; ===========================================================================
+State32_CreditsScroll::
     call Call_000_1547
     ldh a, [hShadowSCX]
     inc a
@@ -3974,7 +4102,11 @@ jr_000_13e2:
 
     ret
 
-
+; ===========================================================================
+; État $33 - Affichage texte crédits ($13E7)
+; Affiche le texte des crédits ligne par ligne vers VRAM
+; ===========================================================================
+State33_DisplayCreditsText::
     call Call_000_1547
     ldh a, [hTimer1]
     and a
@@ -4043,7 +4175,11 @@ jr_000_142d:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $34 - Attente compteur crédits ($1438)
+; Incrémente compteur jusqu'à $20, puis configure timer et état suivant
+; ===========================================================================
+State34_WaitCreditsCounter::
     call Call_000_1547
     ldh a, [hFrameCounter]
     and $03
@@ -4061,7 +4197,11 @@ jr_000_142d:
     ldh [hTimer1], a
     ret
 
-
+; ===========================================================================
+; État $35 - Attente timer simple ($1451)
+; Attend timer, puis état suivant
+; ===========================================================================
+State35_WaitTimer::
     call Call_000_1547
     ldh a, [hTimer1]
     and a
@@ -4071,7 +4211,11 @@ jr_000_142d:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; État $36 - Transition crédits finale ($145D)
+; Compteur jusqu'à $50, puis transition vers $33 ou $37 selon flag
+; ===========================================================================
+State36_CreditsFinalTransition::
     call Call_000_1547
     ldh a, [hFrameCounter]
     and $03
@@ -4096,7 +4240,11 @@ jr_000_147c:
     ldh [hGameState], a
     ret
 
-
+; ===========================================================================
+; État $37 - Animation sprite finale ($147F)
+; Anime sprite vers $D0, copie données tilemap, incrémente niveau
+; ===========================================================================
+State37_FinalSpriteAnimation::
     call Call_000_1547
     ld hl, wPlayerState
     inc [hl]
@@ -4140,7 +4288,9 @@ jr_000_14a6:
     inc [hl]
     ret
 
-
+; === Table de données tilemap ($14BB-$14D2) ===
+; NOTE: Mal désassemblé - données tilemap pour écran final (24 bytes)
+TilemapEndData:
     ld c, [hl]
     call z, $0052
     ld c, [hl]
@@ -4159,6 +4309,12 @@ jr_000_14a6:
     db $fc
     ld d, [hl]
     nop
+
+; ===========================================================================
+; État $38 - Animation crédits finale ($14D3)
+; Attend timer, anime les positions tilemap jusqu'à valeurs finales
+; ===========================================================================
+State38_CreditsAnimation::
     call Call_000_1547
     ldh a, [hTimer1]
     and a
@@ -5649,6 +5805,11 @@ jr_000_1c6c:
     sub $01
     jr jr_000_1c49
 
+; ===========================================================================
+; État $39 - Game Over ($1C73)
+; Affiche l'écran GAME OVER, sauvegarde score, clear OAM, configure window
+; ===========================================================================
+State39_GameOver::
     ld hl, $9c00
     ld de, $1cce
     ld b, $11
@@ -5711,7 +5872,9 @@ jr_000_1cb4:
     inc [hl]
     ret
 
-
+; === Données texte GAME OVER ($1CCE-$1CDE) ===
+; NOTE: Mal désassemblé - 17 bytes pour tilemap window "GAME OVER"
+TextData_GameOver:
     inc l
     inc l
     inc l
@@ -5724,6 +5887,11 @@ jr_000_1cb4:
     inc l
     jr jr_000_1cfa
 
+; ===========================================================================
+; État $3A - Mise à jour window ($1CDF)
+; Vérifie variable player et appelle routine de mise à jour si != 0
+; ===========================================================================
+State3A_WindowUpdate::
     ld c, $1b
     inc l
     inc l
@@ -5732,7 +5900,11 @@ jr_000_1cb4:
     call nz, Call_000_1527
     ret
 
-
+; ===========================================================================
+; État $3B - Setup window finale ($1CE7)
+; Copie 9 bytes vers $9C00 (window), active window, configure timer
+; ===========================================================================
+State3B_WindowSetup::
     ld hl, $9c00
     ld de, $1d0b
     ld c, $09
@@ -12277,6 +12449,11 @@ Call_000_3d75:
     ret
 
 
+; ===========================================================================
+; État $12 - Configuration écran fin de niveau ($3D8E)
+; LCD off, clear OAM, fill tilemap avec tiles vides, affiche vies → état $13
+; ===========================================================================
+State12_EndLevelSetup::
     ld hl, wStateRender
     ld a, $09
     ld [hl], a
@@ -12321,7 +12498,11 @@ jr_000_3dab:
     ldh [hGameState], a
     ret
 
-
+; ===========================================================================
+; État $13 - Dessin bordure écran fin ($3DCE)
+; Dessine la bordure décorative, texte "BONUS GAME", sélection → état $14
+; ===========================================================================
+State13_DrawEndBorder::
     xor a
     ldh [rLCDC], a
     ld hl, $9800
@@ -12478,7 +12659,11 @@ jr_000_3e8c:
     ldh [hGameState], a
     ret
 
-
+; ===========================================================================
+; État $16 - Copie données tilemap ($3E9E)
+; Copie données depuis $DA23 vers tilemap, avec compteur $DA28/$DA29 → état $15
+; ===========================================================================
+State16_CopyTilemapData::
     ld bc, $0020
 
 jr_000_3ea1:
