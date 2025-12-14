@@ -1118,7 +1118,7 @@ jr_000_0581:
     dec b
     jr nz, jr_000_0581
 
-    call Call_000_05f8
+    call CopyHudTilemap
     ld a, $0f
     ldh [rLYC], a
     ld a, $07
@@ -1217,7 +1217,7 @@ jr_000_05f0:
     ret
 
 
-Call_000_05f8:
+CopyHudTilemap:
     ld hl, $3f87
     ld de, $9800
     ld b, $02
@@ -2833,7 +2833,7 @@ GraphicsTableB:
 State1B_BonusComplete::
     xor a
     ldh [rLCDC], a
-    call Call_000_05f8
+    call CopyHudTilemap
     call UpdateCoinDisplay
     call DisplayLivesCount
     xor a
