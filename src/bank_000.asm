@@ -7499,7 +7499,7 @@ jr_000_2492:
     add hl, de
     ld a, l
 
-Call_000_24c4:
+StoreAudioState:
     ld [wAudioState0], a
     ld a, h
     ld [wAudioState1], a

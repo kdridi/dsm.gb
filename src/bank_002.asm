@@ -4780,7 +4780,7 @@ jr_002_5312:
     ld [hl], b
     adc b
     adc b
-    call nz, Call_000_24c4
+    call nz, StoreAudioState
     inc h
     db $10
     db $10
