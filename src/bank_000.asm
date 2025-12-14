@@ -5074,16 +5074,16 @@ ProcessSoundParams:
     ret z
 
     cp $28
-    jr nz, jr_000_1916
+    jr nz, PlaySoundExit
 
     ldh a, [hTimerAux]
     cp $02
     ld a, $28
-    jr nz, jr_000_1916
+    jr nz, PlaySoundExit
 
     ld a, $2d
 
-jr_000_1916:
+PlaySoundExit:
     call PlaySound
     ret
 
@@ -6614,14 +6614,14 @@ HandleBlockCollision:
     push af
     ldh a, [hGameState]
     cp $0d
-    jr nz, jr_000_2105
+    jr nz, ProcessAnimObjectExit
 
     push hl
     pop de
     ld hl, hBlockHitType
     ld a, [hl]
     and a
-    jr nz, jr_000_2105
+    jr nz, ProcessAnimObjectExit
 
     ld [hl], $01
     inc l
@@ -6690,7 +6690,7 @@ jr_000_20c0:
     ld a, $02
     ld [$dff8], a
 
-jr_000_2105:
+ProcessAnimObjectExit:
     pop af
     pop de
     pop bc
@@ -6873,7 +6873,7 @@ jr_000_21c0:
     add hl, de
     ld a, [hl+]
     cp $ff
-    jr z, jr_000_2222
+    jr z, UpdateCollisionFlag
 
     ld e, a
     ld d, [hl]
@@ -6940,7 +6940,7 @@ ProcessColumnAnimation_End:
 
     jr ProcessScrollEntry
 
-jr_000_2222:
+UpdateCollisionFlag:
     ld hl, wCollisionFlag
     inc [hl]
     ret
@@ -6954,13 +6954,13 @@ jr_000_2227:
     ldh a, [hTilemapScrollY]
     inc a
     cp $14
-    jr nz, jr_000_2239
+    jr nz, UpdateTilemapScrollConfig
 
     ld hl, hTilemapScrollX
     inc [hl]
     xor a
 
-jr_000_2239:
+UpdateTilemapScrollConfig:
     ldh [hTilemapScrollY], a
     ldh a, [hShadowSCX]
     ld [wGameVarAA], a
@@ -6972,11 +6972,11 @@ jr_000_2239:
 jr_000_2245:
     ld a, [hl]
 
-jr_000_2246:
+CopyTileDataLoop:
     ld [de], a
     inc e
     dec b
-    jr nz, jr_000_2246
+    jr nz, CopyTileDataLoop
 
     inc hl
     jp Jump_000_21df
@@ -7019,7 +7019,7 @@ jr_000_225e:
     ld de, wScrollBuffer
     ld b, $10
 
-jr_000_2267:
+ClearTilemapColumn:
     push hl
     ld a, h
     add $30
@@ -7059,7 +7059,7 @@ TilemapScrollLoop:
     add hl, de
     pop de
     dec b
-    jr nz, jr_000_2267
+    jr nz, ClearTilemapColumn
 
     ld a, $02
     ldh [hScrollPhase], a
@@ -7377,13 +7377,13 @@ jr_000_2420:
     ld de, VRAM_ANIM_DEST
     ld b, $08
 
-jr_000_2425:
+CopyAnimTileData:
     ld a, [hl+]
     ld [de], a
     inc de
     inc de
     dec b
-    jr nz, jr_000_2425
+    jr nz, CopyAnimTileData
 
     ret
 
@@ -7628,7 +7628,7 @@ jr_000_2565:
     ld l, a
     ld a, [hl]
     inc a
-    jr z, jr_000_2594
+    jr z, AudioSlotLoopEnd
 
     ld a, c
     call LoadSoundDataFromSlot
@@ -7641,7 +7641,7 @@ jr_000_2581:
     ldh [hSoundId], a
     ld a, c
     call SaveSoundDataToSlot
-    jr jr_000_2594
+    jr AudioSlotLoopEnd
 
 jr_000_258b:
     ldh a, [hSoundParam1]
@@ -7650,7 +7650,7 @@ jr_000_258b:
 
     call ProcessAudioChannelData
 
-jr_000_2594:
+AudioSlotLoopEnd:
     pop bc
     inc c
     ld a, c
