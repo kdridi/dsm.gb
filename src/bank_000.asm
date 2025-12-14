@@ -3260,7 +3260,7 @@ jr_000_100b:
     ld [$dff8], a
 
 jr_000_100e:
-    call Call_000_1020
+    call Copy16BytesToOam
     ld a, $08
     ldh [hTimer1], a
     ret
@@ -3274,7 +3274,7 @@ jr_000_1016:
     ret
 
 ; --- Routine : copie données OAM depuis table ---
-Call_000_1020:
+Copy16BytesToOam:
     ld de, wOamVar1C
     ld b, $10
 
