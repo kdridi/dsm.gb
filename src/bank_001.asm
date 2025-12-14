@@ -3833,7 +3833,7 @@ jr_001_5022:
     jr jr_001_4ff6
 
 jr_001_5034:
-    call Call_001_5046
+    call CheckPlayerCollisionWithTile
     cp $ff
     jr z, jr_001_4ff6
 
@@ -3845,16 +3845,16 @@ jr_001_5034:
     dec [hl]
     jr jr_001_4ff6
 
-Call_001_5046:
+CheckPlayerCollisionWithTile:
     ld hl, $c201
     ldh a, [hTimerAux]
     ld b, $fd
     and a
-    jr z, jr_001_5052
+    jr z, .checkFirstTile
 
     ld b, $fc
 
-jr_001_5052:
+.checkFirstTile:
     ld a, [hl+]
     add b
     ldh [hSpriteY], a
@@ -3865,7 +3865,7 @@ jr_001_5052:
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $60
-    jr nc, jr_001_5071
+    jr nc, .tileIsSolid
 
     ldh a, [hSpriteX]
     add $fa
@@ -3874,15 +3874,15 @@ jr_001_5052:
     cp $60
     ret c
 
-jr_001_5071:
+.tileIsSolid:
     cp $f4
-    jr z, jr_001_5078
+    jr z, .activateCollision
 
     ld a, $ff
     ret
 
 
-jr_001_5078:
+.activateCollision:
     push hl
     pop de
     ld hl, $ffee

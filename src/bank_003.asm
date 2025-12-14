@@ -8828,8 +8828,8 @@ Jump_003_6762:
     ld [$dfe0], a
 
 jr_003_6787:
-    call Call_003_6b59
-    call Call_003_6b79
+    call CheckAudioChannel1
+    call CheckAudioChannel4
     call Call_003_67f4
     call Call_003_6b9d
     call Call_003_6db8
@@ -8852,7 +8852,7 @@ jr_003_6799:
 
 
 jr_003_67b1:
-    call Call_003_6b4b
+    call ResetAudioChannelEnvelopes
     xor a
     ld [$dfe1], a
     ld [$dff1], a
@@ -8929,7 +8929,7 @@ Call_003_67f4:
     ld [$dff4], a
     ldh [rNR30], a
     ld hl, $7047
-    call Call_003_6b19
+    call LoadAudioRegisterRange
     ldh a, [rDIV]
     and $1f
     ld b, a
@@ -8984,7 +8984,7 @@ jr_003_6851:
     inc c
     ld a, [bc]
     ld h, a
-    call Call_003_6b19
+    call LoadAudioRegisterRange
     ret
 
 
@@ -9572,23 +9572,23 @@ jr_003_6b17:
     ret
 
 
-Call_003_6b19:
+LoadAudioRegisterRange:
     push bc
     ld c, $30
 
-jr_003_6b1c:
+.audioRegisterLoop:
     ld a, [hl+]
     ldh [c], a
     inc c
     ld a, c
     cp $40
-    jr nz, jr_003_6b1c
+    jr nz, .audioRegisterLoop
 
     pop bc
     ret
 
 
-Call_003_6b26:
+ClearAudioChannels:
 Jump_003_6b26:
     xor a
     ld [$dfe1], a
@@ -9606,7 +9606,7 @@ Jump_003_6b26:
     ld a, $03
     ldh [hAudioEnvCounter], a
 
-Call_003_6b4b:
+ResetAudioChannelEnvelopes:
     ld a, $01
     ldh [rNR12], a
     ldh [rNR22], a
@@ -9617,11 +9617,11 @@ Call_003_6b4b:
     ret
 
 
-Call_003_6b59:
+CheckAudioChannel1:
     ld de, $dfe0
     ld a, [de]
     and a
-    jr z, jr_003_6b6c
+    jr z, .audioChannel1Path
 
     ld hl, $df1f
     set 7, [hl]
@@ -9630,26 +9630,26 @@ Call_003_6b59:
     jp hl
 
 
-jr_003_6b6c:
+.audioChannel1Path:
     inc e
     ld a, [de]
     and a
-    jr z, jr_003_6b78
+    jr z, .audioChannelEnd
 
     ld hl, $6716
     call Call_003_6afd
     jp hl
 
 
-jr_003_6b78:
+.audioChannelEnd:
     ret
 
 
-Call_003_6b79:
+CheckAudioChannel4:
     ld de, $dff8
     ld a, [de]
     and a
-    jr z, jr_003_6b8c
+    jr z, .audioChannel4Path
 
     ld hl, $df4f
     set 7, [hl]
@@ -9658,23 +9658,23 @@ Call_003_6b79:
     jp hl
 
 
-jr_003_6b8c:
+.audioChannel4Path:
     inc e
     ld a, [de]
     and a
-    jr z, jr_003_6b98
+    jr z, .audioChannel4End
 
     ld hl, $6734
     call Call_003_6afd
     jp hl
 
 
-jr_003_6b98:
+.audioChannel4End:
     ret
 
 
 jr_003_6b99:
-    call Call_003_6b26
+    call ClearAudioChannels
     ret
 
 
@@ -9694,28 +9694,28 @@ Call_003_6b9d:
     and $1f
     call Call_003_6afd
     call Call_003_6c88
-    call Call_003_6bb9
+    call LookupAudioEnvelope
     ret
 
 
-Call_003_6bb9:
+LookupAudioEnvelope:
     ld a, [$dfe9]
     and a
     ret z
 
     ld hl, $6c2b
 
-jr_003_6bc1:
+.envelopeTableSearchLoop:
     dec a
-    jr z, jr_003_6bca
+    jr z, .envelopeTableFound
 
     inc hl
     inc hl
     inc hl
     inc hl
-    jr jr_003_6bc1
+    jr .envelopeTableSearchLoop
 
-jr_003_6bca:
+.envelopeTableFound:
     ld a, [hl+]
     ldh [hAudioEnvCounter], a
     ld a, [hl+]
@@ -9730,7 +9730,7 @@ jr_003_6bca:
     ret
 
 
-Call_003_6bdc:
+UpdateAudioPan:
     ld a, [$dff9]
     cp $01
     ret nz
@@ -9738,11 +9738,11 @@ Call_003_6bdc:
     ld a, [hl]
     bit 1, a
     ld a, $f7
-    jr z, jr_003_6beb
+    jr z, .panUpdateDisabled
 
     ld a, $7f
 
-jr_003_6beb:
+.panUpdateDisabled:
     call Call_003_6c1f
     ret
 
@@ -9753,7 +9753,7 @@ Call_003_6bef:
     jr z, jr_003_6c23
 
     ld hl, hAudioEnvPos
-    call Call_003_6bdc
+    call UpdateAudioPan
     ld a, [hGameState]
     cp $05
     jr z, jr_003_6c23
@@ -9880,7 +9880,7 @@ Call_003_6c82:
 
 
 Call_003_6c88:
-    call Call_003_6b4b
+    call ResetAudioChannelEnvelopes
     xor a
     ld [hAudioEnvPos], a
     ld [hAudioEnvRate], a
@@ -9936,7 +9936,7 @@ jr_003_6cf2:
     ldh [rNR30], a
     ld l, e
     ld h, d
-    call Call_003_6b19
+    call LoadAudioRegisterRange
     pop hl
     jr jr_003_6d28
 
@@ -10098,7 +10098,7 @@ jr_003_6d98:
 jr_003_6daf:
     ld hl, $dfe9
     ld [hl], $00
-    call Call_003_6b4b
+    call ResetAudioChannelEnvelopes
     ret
 
 

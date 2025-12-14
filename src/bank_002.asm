@@ -5929,7 +5929,7 @@ jr_002_580a:
     rst $38
     ld a, [hl]
     ld a, [hl]
-    jp Jump_002_5a72
+    jp ComputeAnimationSpeed
 
 
     jp Jump_002_5abb
@@ -6025,7 +6025,7 @@ Call_002_5892:
     ldh a, [hPtrBank]
     ld b, a
     and a
-    jp z, Jump_002_59a5
+    jp z, ProcessSpriteAnimation
 
     ld a, [$da0b]
     ld l, a
@@ -6217,7 +6217,7 @@ jr_002_5950:
 jr_002_59a2:
     call AddScore
 
-Jump_002_59a5:
+ProcessSpriteAnimation:
 jr_002_59a5:
     ld hl, $c030
 
@@ -6225,7 +6225,7 @@ Jump_002_59a8:
     push hl
     ld a, [hl]
     and a
-    jp z, Jump_002_5a66
+    jp z, ExitSpriteHandler
 
     ld a, l
     ld bc, $da06
@@ -6257,7 +6257,7 @@ Jump_002_59a8:
     inc a
     ld [hl], a
     cp $02
-    jp nz, Jump_002_5a66
+    jp nz, ExitSpriteHandler
 
     xor a
     ld [hl], a
@@ -6272,7 +6272,7 @@ jr_002_59e0:
     inc a
     ld [hl], a
     cp $02
-    jp nz, Jump_002_5a66
+    jp nz, ExitSpriteHandler
 
     xor a
     ld [hl], a
@@ -6382,7 +6382,7 @@ jr_002_5a62:
     add hl, bc
     ld [hl], a
 
-Jump_002_5a66:
+ExitSpriteHandler:
 jr_002_5a66:
     pop hl
     ld de, $0008
@@ -6394,7 +6394,7 @@ jr_002_5a66:
     ret
 
 
-Jump_002_5a72:
+ComputeAnimationSpeed:
     ld hl, $c030
     ldh a, [rDIV]
     and $03
@@ -6402,10 +6402,10 @@ Jump_002_5a72:
     ld b, a
     ld a, $20
 
-jr_002_5a7d:
+.frequencyCalculationLoop:
     add $18
     dec b
-    jr nz, jr_002_5a7d
+    jr nz, .frequencyCalculationLoop
 
     ld b, a
     ld [hl+], a
