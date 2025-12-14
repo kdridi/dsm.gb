@@ -2116,7 +2116,7 @@ jr_000_0a6a:
     dec l
     push de
     call SelectAnimationBank
-    call Call_000_2a1a
+    call CheckObjectBottomCollision
     pop de
     and a
     jr z, jr_000_0aa1
@@ -8524,7 +8524,7 @@ GetAnimationDataPointer:
     ret
 
 
-Call_000_2a1a:
+CheckObjectBottomCollision:
     push hl
     ld a, [hl]
     ld e, a
