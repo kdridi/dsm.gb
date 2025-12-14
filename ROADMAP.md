@@ -44,7 +44,7 @@ Objectif : comprendre le code via décomposition en "free functions" (macros).
   - Call_000_3d61 (UpdateLevelScore)
   - Call_000_23f8 (UpdateAnimTiles)
 - [x] Décoder la jump table StateDispatcher ($02A5) → 60 états identifiés
-- [ ] Identifier variables HRAM/WRAM restantes (hUnknownXX → noms explicites)
+- [x] Identifier variables HRAM/WRAM → 40+ constantes dans constants.inc
 
 ## Phase 3 : Enrichissement (en cours)
 
@@ -91,23 +91,12 @@ Objectif : rendre le code plus lisible sans changer le binaire.
 
 ### Variables ajoutées (session 2025-12-14)
 
-| Adresse | Constante | Usage |
-|---------|-----------|-------|
-| $FF9F | `hUnknown9F` | Flag bloquant mise à jour |
-| $FFAC | `hFrameCounter` | Compteur de frames |
-| $FFB2 | `hPauseFlag` | 0=normal, 1=pause |
-| $FFE1 | `hSavedBank` | Bank sauvegardée (temp) |
-| $FFE9 | `hScrollColumn` | Colonne courante scrolling |
-| $FFEA | `hScrollPhase` | Phase mise à jour tilemap |
-| $C0A2 | `wScoreBCD` | Score en BCD (3 octets) |
-| $C0A3 | `wUpdateCounter` | Flag mise à jour compteur |
-| $C0B0 | `wScrollBuffer` | Buffer colonne tilemap |
-| $C200 | `wPlayerData` | Données joueur (struct) |
-| $C600 | `wAnimBuffer` | Buffer animation |
-| $D014 | `wAnimFlag` | Flag animation active |
-| $DA00 | `wLevelData` | Données niveau (BCD) |
-| $DA15 | `wLivesCounter` | Compteur vies/niveau |
-| $DA1D | `wSpecialState` | Trigger état spécial |
+Voir `src/constants.inc` pour la liste complète (40+ constantes).
+
+Nouvelles variables clés :
+- **HRAM** : hTimerAux, hTimer1, hTimer2, hFrameCounter, hPauseFlag, hSavedBank, hScrollColumn, hScrollPhase
+- **WRAM** : wOamBuffer, wScoreBCD, wPlayerData, wObject1-5, wAnimBuffer, wTimerSpecial
+- **Extended WRAM** : wAnimFlag, wLevelData, wLivesCounter, wSpecialState
 
 ### Routines identifiées
 
