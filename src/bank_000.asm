@@ -7942,14 +7942,14 @@ ProcessAudioQueue_Type_F0:
 
 ProcessAudioQueue_Type_F0_NotF8:
     cp $f0
-    jr nz, jr_000_2784
+    jr nz, CheckAudioCommand_F1
 
     ld a, [wAudioQueueId]
     and $c0
-    jr z, jr_000_274b
+    jr z, CheckAudioQueueBits54
 
     bit 7, a
-    jr z, jr_000_272a
+    jr z, CheckAudioQueueBit6
 
     ldh a, [hSoundCh2]
     and $fd
@@ -7964,10 +7964,10 @@ ProcessAudioQueue_Type_F0_NotF8:
     or b
     ldh [hSoundCh2], a
 
-jr_000_272a:
+CheckAudioQueueBit6:
     ld a, [wAudioQueueId]
     bit 6, a
-    jr z, jr_000_274b
+    jr z, CheckAudioQueueBits54
 
     ld a, [wPlayerState]
     ld c, a
@@ -7987,10 +7987,10 @@ jr_000_272a:
     or b
     ldh [hSoundCh2], a
 
-jr_000_274b:
+CheckAudioQueueBits54:
     ld a, [wAudioQueueId]
     and $0c
-    jr z, jr_000_275a
+    jr z, CheckAudioQueueBit5
 
     rra
     rra
@@ -7999,10 +7999,10 @@ jr_000_274b:
     xor b
     ldh [hSoundCh2], a
 
-jr_000_275a:
+CheckAudioQueueBit5:
     ld a, [wAudioQueueId]
     bit 5, a
-    jr z, jr_000_276d
+    jr z, CheckAudioQueueBit4
 
     and $02
     or $fd
@@ -8012,10 +8012,10 @@ jr_000_275a:
     and b
     ldh [hSoundCh2], a
 
-jr_000_276d:
+CheckAudioQueueBit4:
     ld a, [wAudioQueueId]
     bit 4, a
-    jr z, jr_000_2780
+    jr z, AudioQueueProcessDone
 
     and $01
     or $fe
@@ -8025,14 +8025,14 @@ jr_000_276d:
     and b
     ldh [hSoundCh2], a
 
-jr_000_2780:
+AudioQueueProcessDone:
     pop hl
     jp Jump_000_26ac
 
 
-jr_000_2784:
+CheckAudioCommand_F1:
     cp $f1
-    jr nz, jr_000_2799
+    jr nz, CheckAudioCommand_F2
 
     ld a, $0a
     call SaveSoundDataToSlot
@@ -8043,9 +8043,9 @@ jr_000_2784:
     jp Jump_000_26ac
 
 
-jr_000_2799:
+CheckAudioCommand_F2:
     cp $f2
-    jr nz, jr_000_27a6
+    jr nz, CheckAudioCommand_F3
 
     ld a, [wAudioQueueId]
     ldh [hSoundCh4], a
@@ -8053,9 +8053,9 @@ jr_000_2799:
     jp Jump_000_26ac
 
 
-jr_000_27a6:
+CheckAudioCommand_F3:
     cp $f3
-    jr nz, jr_000_27ce
+    jr nz, CheckAudioCommand_F4
 
     ld a, [wAudioQueueId]
     ldh [hSoundId], a
@@ -8080,9 +8080,9 @@ jr_000_27a6:
     jp Jump_000_26ac
 
 
-jr_000_27ce:
+CheckAudioCommand_F4:
     cp $f4
-    jr nz, jr_000_27db
+    jr nz, CheckAudioCommand_F5
 
     ld a, [wAudioQueueId]
     ldh [hSoundVar2], a
@@ -8090,22 +8090,22 @@ jr_000_27ce:
     jp Jump_000_26ac
 
 
-jr_000_27db:
+CheckAudioCommand_F5:
     cp $f5
-    jr nz, jr_000_27eb
+    jr nz, CheckAudioCommand_F6
 
     ldh a, [rDIV]
     and $03
     ld a, $f1
-    jr z, jr_000_2784
+    jr z, CheckAudioCommand_F1
 
     pop hl
     jp Jump_000_26ac
 
 
-jr_000_27eb:
+CheckAudioCommand_F6:
     cp $f6
-    jr nz, jr_000_280f
+    jr nz, CheckAudioCommand_F7
 
     ld a, [wPlayerState]
     ld b, a
@@ -8115,12 +8115,12 @@ jr_000_27eb:
     cp $20
     ld a, [wAudioQueueId]
     dec a
-    jr z, jr_000_2801
+    jr z, AudioCommand_F6_CheckTiming
 
     ccf
 
-jr_000_2801:
-    jr c, jr_000_280b
+AudioCommand_F6_CheckTiming:
+    jr c, AudioCommand_F6_Return
 
     ldh a, [hSoundCh1]
     dec a
@@ -8130,23 +8130,23 @@ jr_000_2801:
     ret
 
 
-jr_000_280b:
+AudioCommand_F6_Return:
     pop hl
     jp Jump_000_26ac
 
 
-jr_000_280f:
+CheckAudioCommand_F7:
     cp $f7
-    jr nz, jr_000_2818
+    jr nz, CheckAudioCommand_F9
 
     call DestroyAllObjects
     pop hl
     ret
 
 
-jr_000_2818:
+CheckAudioCommand_F9:
     cp $f9
-    jr nz, jr_000_2824
+    jr nz, CheckAudioCommand_FA
 
     ld a, [wAudioQueueId]
     ld [$dff8], a
@@ -8154,9 +8154,9 @@ jr_000_2818:
     ret
 
 
-jr_000_2824:
+CheckAudioCommand_FA:
     cp $fa
-    jr nz, jr_000_2830
+    jr nz, CheckAudioCommand_FB
 
     ld a, [wAudioQueueId]
     ld [wStateBuffer], a
@@ -8164,9 +8164,9 @@ jr_000_2824:
     ret
 
 
-jr_000_2830:
+CheckAudioCommand_FB:
     cp $fb
-    jr nz, jr_000_284d
+    jr nz, CheckAudioCommand_FC
 
     ld a, [wAudioQueueId]
     ld c, a
@@ -8175,7 +8175,7 @@ jr_000_2830:
     ldh a, [hSoundParam2]
     sub b
     cp c
-    jr c, jr_000_2849
+    jr c, AudioCommand_FB_CarryJump
 
     xor a
     ldh [hSoundCh1], a
@@ -8183,14 +8183,14 @@ jr_000_2830:
     jp Jump_000_26ac
 
 
-jr_000_2849:
+AudioCommand_FB_CarryJump:
     pop hl
     jp Jump_000_26ac
 
 
-jr_000_284d:
+CheckAudioCommand_FC:
     cp $fc
-    jr nz, jr_000_285e
+    jr nz, CheckAudioCommand_FD
 
     ld a, [wAudioQueueId]
     ldh [hSoundParam1], a
@@ -8200,9 +8200,9 @@ jr_000_284d:
     jp Jump_000_26ac
 
 
-jr_000_285e:
+CheckAudioCommand_FD:
     cp $fd
-    jr nz, jr_000_286a
+    jr nz, AudioCommand_Default
 
     ld a, [wAudioQueueId]
     ld [wStateRender], a
@@ -8210,7 +8210,7 @@ jr_000_285e:
     ret
 
 
-jr_000_286a:
+AudioCommand_Default:
     pop hl
     jp Jump_000_26ac
 
@@ -8227,7 +8227,7 @@ Jump_000_2870:
 
     ldh a, [hSoundCh2]
     bit 0, a
-    jr nz, jr_000_28e7
+    jr nz, CollisionCheckTileRight
 
     call CheckObjectTileBase
     jr nc, jr_000_28c5
@@ -8301,18 +8301,18 @@ jr_000_28da:
     jp Jump_000_296c
 
 
-jr_000_28e7:
+CollisionCheckTileRight:
     call CheckObjectTileRight
-    jr nc, jr_000_294f
+    jr nc, CheckObjectTileRight_Path
 
     ldh a, [hSoundCh4]
     bit 0, a
-    jr z, jr_000_28f7
+    jr z, ProcessVerticalCollision
 
     call CheckObjectTileBottomRight
-    jr c, jr_000_295b
+    jr c, ResetSoundCh2Bit0
 
-jr_000_28f7:
+ProcessVerticalCollision:
     ldh a, [hSoundFlag]
     and $0f
     ld b, a
@@ -8369,22 +8369,22 @@ AlignCameraTo4PixelBoundary:
     ldh [hShadowSCX], a
     jr RestoreCollisionFlagAndExit
 
-jr_000_294f:
+CheckObjectTileRight_Path:
     ldh a, [hSoundCh4]
     and $0c
     cp $00
-    jr z, jr_000_28f7
+    jr z, ProcessVerticalCollision
 
     cp $04
-    jr nz, jr_000_2963
+    jr nz, ClearSoundCh1AndVar1_Collision
 
-jr_000_295b:
+ResetSoundCh2Bit0:
     ldh a, [hSoundCh2]
     res 0, a
     ldh [hSoundCh2], a
     jr UpdatePhysicsCollision
 
-jr_000_2963:
+ClearSoundCh1AndVar1_Collision:
     cp $0c
     jr nz, UpdatePhysicsCollision
 
@@ -8400,12 +8400,12 @@ UpdatePhysicsCollision:
 
     ldh a, [hSoundCh2]
     bit 1, a
-    jr nz, jr_000_29b8
+    jr nz, CheckObjectTileBottomLeft_Path
 
     call CheckObjectTileTop
-    jr nc, jr_000_2998
+    jr nc, CheckObjectTileTop_Alternatives
 
-jr_000_297e:
+SubtractSoundFlagFromParam1:
     ldh a, [hSoundFlag]
     and $f0
     swap a
@@ -8415,18 +8415,18 @@ jr_000_297e:
     ldh [hSoundParam1], a
     ldh a, [hSoundVar4]
     and a
-    jr z, jr_000_29f4
+    jr z, CollisionEnd
 
     ld a, [wPlayerX]
     sub b
     ld [wPlayerX], a
-    jr jr_000_29f4
+    jr CollisionEnd
 
-jr_000_2998:
+CheckObjectTileTop_Alternatives:
     ldh a, [hSoundCh4]
     and $c0
     cp $00
-    jr z, jr_000_297e
+    jr z, SubtractSoundFlagFromParam1
 
     cp $40
     jp nz, Jump_000_29ad
@@ -8434,22 +8434,22 @@ jr_000_2998:
     ldh a, [hSoundCh2]
     set 1, a
     ldh [hSoundCh2], a
-    jr jr_000_29f4
+    jr CollisionEnd
 
 Jump_000_29ad:
     cp $c0
-    jr nz, jr_000_29f4
+    jr nz, CollisionEnd
 
     xor a
     ldh [hSoundCh1], a
     ldh [hSoundVar1], a
-    jr jr_000_29f4
+    jr CollisionEnd
 
-jr_000_29b8:
+CheckObjectTileBottomLeft_Path:
     call CheckObjectTileBottomLeft
-    jr nc, jr_000_29d7
+    jr nc, CheckObjectTileBottomLeft_Alternatives
 
-jr_000_29bd:
+AddSoundFlagToParam1:
     ldh a, [hSoundFlag]
     and $f0
     swap a
@@ -8459,37 +8459,37 @@ jr_000_29bd:
     ldh [hSoundParam1], a
     ldh a, [hSoundVar4]
     and a
-    jr z, jr_000_29f4
+    jr z, CollisionEnd
 
     ld a, [wPlayerX]
     add b
     ld [wPlayerX], a
-    jr jr_000_29f4
+    jr CollisionEnd
 
-jr_000_29d7:
+CheckObjectTileBottomLeft_Alternatives:
     ldh a, [hSoundCh4]
     and $30
     cp $00
-    jr z, jr_000_29bd
+    jr z, AddSoundFlagToParam1
 
     cp $10
-    jr nz, jr_000_29eb
+    jr nz, ClearSoundCh1AndVar1_Collision2
 
     ldh a, [hSoundCh2]
     res 1, a
     ldh [hSoundCh2], a
-    jr jr_000_29f4
+    jr CollisionEnd
 
-jr_000_29eb:
+ClearSoundCh1AndVar1_Collision2:
     cp $30
-    jr nz, jr_000_29f4
+    jr nz, CollisionEnd
 
     xor a
     ldh [hSoundCh1], a
     ldh [hSoundVar1], a
 
 Jump_000_29f4:
-jr_000_29f4:
+CollisionEnd:
     xor a
     ldh [hSoundVar4], a
     ret
