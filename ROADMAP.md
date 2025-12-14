@@ -2,7 +2,7 @@
 
 **Objectif** : Comprendre 100% du code, le documenter de manière compréhensible, et transformer le désassemblage brut en code source lisible et maintenable.
 
-**Progression globale** : ~35% (estimé)
+**Progression globale** : ~45% (estimé)
 
 ---
 
@@ -83,21 +83,21 @@
 
 **Objectif** : Remplacer les instructions absurdes par des directives `db`/`dw`/`INCBIN`.
 
-### 4.5 Protocole d'exploration systématique (nouveau)
+### 4.5 Protocole d'exploration systématique ✅
 
 **Fichier** : `docs/exploration.md`
 
 **Méthode** : Parcours de graphe - chaque adresse analysée révèle de nouvelles adresses.
 
-**État actuel** :
+**État** : ✅ COMPLET (102/102 entrées analysées)
 - [x] Créer `docs/exploration.md` avec protocole documenté
 - [x] Initialiser la frontière (80 points d'entrée)
-- [ ] Analyser les 8 handlers RST ($0000-$0038)
-- [ ] Analyser les 60 handlers d'état (StateJumpTable)
-- [ ] Analyser les 12 routines identifiées
-- [ ] Itérer jusqu'à couverture complète
+- [x] Analyser les 8 handlers RST ($0000-$0038)
+- [x] Analyser les 60 handlers d'état (StateJumpTable)
+- [x] Analyser les 18 routines identifiées
+- [x] Itérer jusqu'à couverture complète
 
-**Note** : Ce protocole remplace les approches ad-hoc des phases 5-7. La progression se mesure dans `docs/exploration.md`.
+**Découverte** : 6 états Bank 1 ($14-$1A) pointent vers des données tilemap, pas du code (entrées invalides dans StateJumpTable).
 
 ### 4.6 Carte mémoire ROM (optionnel)
 
@@ -260,12 +260,13 @@
 | Constantes ROM/VRAM | 13 | ~15 | 87% |
 | Adresses WRAM en dur éliminées | ~220 | ~220 | 100% |
 | Labels renommés | ~15 | ~1700 | 1% |
-| Routines documentées | ~15 | ~200 | 8% |
+| Routines documentées | 18 | ~200 | 9% |
 | Structures définies | 5 | 5 | 100% |
 | Structures comprises | 0 | 5 | 0% |
-| Systèmes documentés | 0 | 5 | 0% |
+| Systèmes documentés | 2 | 5 | 40% |
+| Exploration (docs/exploration.md) | 102 | 102 | 100% |
 
-*Note: Phase 4 quasi-terminée. Reste StateDispatcher ($02A5) mal désassemblé à traiter séparément.*
+*Note: Phase 4.5 (exploration systématique) terminée. 60 handlers d'état, 18 routines et 8 handlers RST documentés.*
 
 ## Découvertes
 
