@@ -6739,9 +6739,9 @@ LoadDemoInput:
     ld bc, $0000
     rrca
     nop
-    jr nz, jr_000_213b
+    jr nz, Padding_213b
 
-jr_000_213b:
+Padding_213b:
     nop
     nop
     nop
@@ -6768,9 +6768,9 @@ jr_000_213b:
     ld bc, $0000
     rrca
     nop
-    jr nz, jr_000_215b
+    jr nz, Padding_215b
 
-jr_000_215b:
+Padding_215b:
     nop
     nop
     nop
@@ -9174,7 +9174,7 @@ SaveSoundDataLoop:
     sub l
     ld c, b
 
-jr_000_2d12:
+AudioAnimData_2d12:
     sub h
     rst $38
     sub a
@@ -9242,8 +9242,8 @@ jr_000_2d12:
     sbc l
     ld de, hAnimScaleCounter
 
-jr_000_2d72:
-    jr nz, jr_000_2d12
+AudioAnimData_2d72:
+    jr nz, AudioAnimData_2d12
 
     ld sp, $0a9e
     sbc [hl]
@@ -9275,7 +9275,7 @@ jr_000_2d72:
     rst $28
     ld bc, $ffef
 
-jr_000_2d9c:
+AudioAnimData_2d9c:
     or b
     ld bc, $0ab1
     and b
@@ -9285,7 +9285,7 @@ jr_000_2d9c:
     ld de, $1ab0
     and c
     ld de, hTemp0
-    jr nc, jr_000_2d72
+    jr nc, AudioAnimData_2d72
 
     ld sp, $3ac2
     db $d3
@@ -9293,7 +9293,7 @@ jr_000_2d9c:
     or d
     ld bc, $0ab3
 
-jr_000_2dba:
+AudioAnimData_2dba:
     and d
     ld bc, hTemp3
     db $10
@@ -9324,7 +9324,7 @@ jr_000_2dba:
     db $10
     xor c
     ld de, $ffa8
-    jr nz, jr_000_2d9c
+    jr nz, AudioAnimData_2d9c
 
     ld hl, hObjParamBuf1
     cp b
@@ -9332,7 +9332,7 @@ jr_000_2dba:
     db $10
     cp c
     ld de, $ffb8
-    jr nz, jr_000_2dba
+    jr nz, AudioAnimData_2dba
 
     ld hl, $ffb9
     ret nc
@@ -9370,7 +9370,7 @@ jr_000_2dba:
     ld de, hSoundCh1
     sub $01
 
-jr_000_2e3a:
+AudioAnimData_2e3a:
     rst $10
     ld a, [bc]
     add $01
@@ -9400,7 +9400,7 @@ jr_000_2e3a:
 
 
     ld de, $ffd8
-    jr nz, jr_000_2e3a
+    jr nz, AudioAnimData_2e3a
 
     ld hl, $ffd9
     xor h
@@ -9432,7 +9432,7 @@ jr_000_2e3a:
     rst $10
     rst $38
 
-jr_000_2e89:
+AudioAnimData_2e89:
     jr nz, @-$28
 
     ld hl, $ffd7
@@ -9499,7 +9499,7 @@ jr_000_2e89:
     ld bc, $11ad
     xor h
     rst $38
-    jr nz, jr_000_2e89
+    jr nz, AudioAnimData_2e89
 
     ld hl, $31ad
     xor h
@@ -9688,7 +9688,7 @@ jr_000_2e89:
     dec l
     ld hl, $262d
     dec l
-    jr z, jr_000_301a
+    jr z, DispatchData_301a
 
     dec l
     dec l
@@ -9736,7 +9736,7 @@ jr_000_2e89:
     dec l
     sub e
 
-jr_000_301a:
+DispatchData_301a:
     dec l
     sub l
     dec l
@@ -9849,10 +9849,10 @@ jr_000_301a:
     dec l
     inc d
     dec l
-    jr jr_000_30e8
+    jr DispatchData_30e8
 
     ld h, $2d
-    jr z, jr_000_30ec
+    jr z, DispatchData_30ec
 
     dec sp
     dec l
@@ -9896,13 +9896,13 @@ jr_000_301a:
     dec l
     adc [hl]
 
-jr_000_30e8:
+DispatchData_30e8:
     dec l
     sub c
     dec l
     sub e
 
-jr_000_30ec:
+DispatchData_30ec:
     dec l
     sub l
     dec l
@@ -10209,9 +10209,9 @@ Jump_000_31c2:
     nop
     nop
     nop
-    jr z, jr_000_324d
+    jr z, DispatchData_324d
 
-jr_000_324d:
+DispatchData_324d:
     nop
     nop
     nop
@@ -10600,7 +10600,7 @@ AudioConfigTable::
     nop
     and c
     nop
-    jr nc, jr_000_3434
+    jr nc, JumpDispatchTable_3434
 
     add d
     ld [bc], a
@@ -10613,7 +10613,7 @@ AudioConfigTable::
     ld hl, $0000
     ld [hl+], a
 
-jr_000_3434:
+JumpDispatchTable_3434:
     add b
     ld [bc], a
     ld hl, $0000
@@ -11132,7 +11132,7 @@ Call_Stack_Frame_Init_00:
     rst $28
     rst $28
 
-jr_000_36bc:
+JumpDispatchTable_36bc:
     rst $28
     rst $28
     rst $28
@@ -11147,8 +11147,8 @@ jr_000_36bc:
     ld hl, sp+$42
     ldh a, [rNR41]
 
-jr_000_36cc:
-    jr nz, jr_000_36bc
+JumpDispatchTable_36cc:
+    jr nz, JumpDispatchTable_36bc
 
     ld hl, sp+$43
     rst $28
@@ -11165,7 +11165,7 @@ jr_000_36cc:
     db $e3
     db $10
     rst $20
-    jr nz, jr_000_36cc
+    jr nz, JumpDispatchTable_36cc
 
     ld hl, sp+$43
     rst $28
@@ -11228,7 +11228,7 @@ Jump_000_370c:
     jp hl
 
 
-jr_000_372b:
+TableContinuation_372b:
     ld hl, sp+$33
     jp hl
 
@@ -11236,7 +11236,7 @@ jr_000_372b:
     pop af
     rla
     di
-    jr jr_000_372b
+    jr TableContinuation_372b
 
     ld a, $70
     ldh a, [rNR41]
@@ -11354,7 +11354,7 @@ Call_Stack_Frame_Init_01:
     db $f4
     ld bc, $ef12
 
-jr_000_37d6:
+TableContinuation_37d6:
     rst $28
     rst $28
     rst $28
@@ -11369,7 +11369,7 @@ jr_000_37d6:
     rst $38
     ld hl, sp+$2a
     ldh a, [$ff60]
-    jr nz, jr_000_37d6
+    jr nz, TableContinuation_37d6
 
     ld hl, sp+$2b
     rst $28
@@ -11530,18 +11530,18 @@ jr_000_37d6:
     ld bc, $ef01
     ld b, c
     pop af
-    jr nc, jr_000_38e6
+    jr nc, TableContinuation_38e6
 
     rst $28
 
-jr_000_38e6:
+TableContinuation_38e6:
     ld b, c
     pop af
-    jr nc, jr_000_38eb
+    jr nc, TableContinuation_38eb
 
     rst $28
 
-jr_000_38eb:
+TableContinuation_38eb:
     ld b, c
     di
     jr nc, @-$0e
@@ -11783,7 +11783,7 @@ jr_000_38eb:
     rst $38
     ld hl, sp+$2e
 
-jr_000_3a56:
+TableContinuation_3a56:
     nop
     rst $28
     rst $28
@@ -11791,7 +11791,7 @@ jr_000_3a56:
     di
     ld b, c
 
-jr_000_3a5c:
+TableContinuation_3a5c:
     ld sp, hl
     inc bc
     ld hl, sp+$2f
@@ -11801,11 +11801,11 @@ jr_000_3a5c:
     ldh a, [rNR10]
     ld bc, $f8e8
     ld sp, $f8e8
-    jr nc, jr_000_3a56
+    jr nc, TableContinuation_3a56
 
     ld hl, sp+$31
     add sp, -$08
-    jr nc, jr_000_3a5c
+    jr nc, TableContinuation_3a5c
 
     ld hl, sp+$31
     nop
@@ -11918,7 +11918,7 @@ jr_000_3a5c:
     rst $28
     rst $28
 
-jr_000_3b06:
+TableContinuation_3b06:
     ldh a, [rNR43]
     db $10
     rst $28
@@ -11930,7 +11930,7 @@ jr_000_3b06:
     ld hl, sp+$1f
     ldh a, [$ff30]
     ld [hl], b
-    jr nc, jr_000_3b06
+    jr nc, TableContinuation_3b06
 
     ld b, b
     di
@@ -11968,7 +11968,7 @@ jr_000_3b06:
     rst $28
     ld sp, hl
 
-jr_000_3b46:
+TableContinuation_3b46:
     ld bc, $f8f7
     rra
     ldh a, [$ff91]
@@ -11979,7 +11979,7 @@ jr_000_3b46:
     ld [hl], h
     db $f4
     nop
-    jr nz, jr_000_3b46
+    jr nz, TableContinuation_3b46
 
     add sp, $10
     rst $28
