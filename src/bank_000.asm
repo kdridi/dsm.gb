@@ -1130,7 +1130,7 @@ jr_000_0581:
     call $2439
     call Call_000_3d11
     call UpdateCoinDisplay
-    call Call_000_1c4d
+    call DisplayLivesCount
     ldh a, [hAnimTileIndex]
     call Call_000_0d64
 ; ===========================================================================
@@ -2827,7 +2827,7 @@ State1B_BonusComplete::
     ldh [rLCDC], a
     call Call_000_05f8
     call UpdateCoinDisplay
-    call Call_000_1c4d
+    call DisplayLivesCount
     xor a
     ldh [rIF], a
     ld a, $c3
@@ -5716,7 +5716,7 @@ jr_000_1c49:
     daa
     ld [wLivesCounter], a
 
-Call_000_1c4d:
+DisplayLivesCount:
     ld a, [wLivesCounter]
     ld b, a
     and $0f
