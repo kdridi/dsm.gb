@@ -57,6 +57,15 @@ DEF AUDTERM_ALL     EQU $FF     ; Tous canaux (1-4) sur sorties L et R
 ; === ROM Banks ===
 
 DEF BANK_AUDIO      EQU $03     ; Bank 3 = routines audio
+DEF BANK_DEMO       EQU $02     ; Bank 2 = démo automatique (Attract Mode)
+
+; === GameLoop - Constantes ===
+
+DEF SPECIAL_STATE_TRIGGER   EQU $03     ; wSpecialState = 3 déclenche reset
+DEF SPECIAL_STATE_RESET     EQU $FF     ; Valeur reset de wSpecialState
+DEF ROM_BANK3_MAIN_LOGIC    EQU $47F2   ; Routine principale en bank 3
+DEF GAMELOOP_TIMER_COUNT    EQU $02     ; Nombre de timers à décrémenter
+DEF ATTRACT_FRAME_MASK      EQU $0F     ; Masque décrémentation (16 frames)
 
 ; === Variables HRAM ($FF80-$FFFE) ===
 ; Convention: hXxxYyy (h minuscule + CamelCase)

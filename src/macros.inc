@@ -408,3 +408,194 @@ MACRO JumpIfUnlocked
     and a
     jr z, \1
 ENDM
+
+;* ============================================================================
+;* GAMELOOP MACROS - Décomposition de la boucle principale
+;* ============================================================================
+;*
+;* Ces macros découpent GameLoop en étapes nommées et documentées.
+;* Chaque macro génère exactement le même code machine que l'original.
+;*
+;* GARANTIE : Le binaire reste bit-perfect (vérifié par `make verify`).
+;*
+;* ============================================================================
+
+; -----------------------------------------------------------------------------
+; CheckSpecialStateAndReset - Vérifie et reset l'état spécial si nécessaire
+; -----------------------------------------------------------------------------
+; QUOI : Si wSpecialState == SPECIAL_STATE_TRIGGER ($03), reset à $FF et
+;        appelle les routines d'initialisation.
+;
+; PARAMÈTRE :
+;   \1 = label destination si wSpecialState != $03
+;
+; INSTRUCTIONS GÉNÉRÉES :
+;   ld a, [wSpecialState]
+;   cp $03
+;   jr nz, \1
+;   ld a, $ff
+;   ld [wSpecialState], a
+;   call InitGameState
+;   call CallBank3Handler
+; -----------------------------------------------------------------------------
+MACRO CheckSpecialStateAndReset
+    ld a, [wSpecialState]
+    cp SPECIAL_STATE_TRIGGER
+    jr nz, \1
+    ld a, SPECIAL_STATE_RESET
+    ld [wSpecialState], a
+    call InitGameState
+    call CallBank3Handler
+ENDM
+
+; -----------------------------------------------------------------------------
+; CallBank3Routine - Appelle une routine en bank 3 avec switch sécurisé
+; -----------------------------------------------------------------------------
+; QUOI : Sauvegarde la bank courante, switch vers bank 3, appelle la routine,
+;        puis restaure la bank originale.
+;
+; PARAMÈTRE :
+;   \1 = adresse de la routine à appeler en bank 3
+;
+; INSTRUCTIONS GÉNÉRÉES :
+;   ldh a, [hCurrentBank]
+;   ldh [hSavedBank], a
+;   ld a, $03
+;   ldh [hCurrentBank], a
+;   ld [$2000], a
+;   call \1
+;   ldh a, [hSavedBank]
+;   ldh [hCurrentBank], a
+;   ld [$2000], a
+; -----------------------------------------------------------------------------
+MACRO CallBank3Routine
+    ldh a, [hCurrentBank]
+    ldh [hSavedBank], a
+    ld a, BANK_AUDIO
+    ldh [hCurrentBank], a
+    ld [rROMB0], a
+    call \1
+    ldh a, [hSavedBank]
+    ldh [hCurrentBank], a
+    ld [rROMB0], a
+ENDM
+
+; -----------------------------------------------------------------------------
+; CheckPauseAndSkip - Vérifie si on doit sauter les updates de frame
+; -----------------------------------------------------------------------------
+; QUOI : Si verrouillé, saute vers les timers. Sinon, vérifie pause et peut
+;        sauter directement au wait VBlank.
+;
+; PARAMÈTRES :
+;   \1 = label si verrouillé (vers DecrementTimers)
+;   \2 = label si pause active (vers WaitVBlank)
+;
+; INSTRUCTIONS GÉNÉRÉES :
+;   JumpIfLocked \1
+;   call CheckInputAndPause
+;   ldh a, [hPauseFlag]
+;   and a
+;   jr nz, \2
+; -----------------------------------------------------------------------------
+MACRO CheckPauseAndSkip
+    JumpIfLocked \1
+    call CheckInputAndPause
+    ldh a, [hPauseFlag]
+    and a
+    jr nz, \2
+ENDM
+
+; -----------------------------------------------------------------------------
+; DECREMENT_TIMERS_LOOP - Boucle de décrémentation de N timers consécutifs
+; -----------------------------------------------------------------------------
+; QUOI : Décrémente B timers consécutifs en mémoire, sautant ceux déjà à 0.
+;
+; PRÉREQUIS :
+;   HL = adresse du premier timer
+;   B  = nombre de timers à traiter
+;
+; NOTE : La boucle utilise inc l (pas inc hl) car les timers sont dans la
+;        même page mémoire ($FFA6, $FFA7).
+; -----------------------------------------------------------------------------
+MACRO DECREMENT_TIMERS_LOOP
+.timerLoop\@:
+    ld a, [hl]
+    and a
+    jr z, .nextTimer\@
+    dec [hl]
+.nextTimer\@:
+    inc l
+    dec b
+    jr nz, .timerLoop\@
+ENDM
+
+; -----------------------------------------------------------------------------
+; CheckAttractModeTimer - Vérifie le timer Attract Mode et déclenche la démo
+; -----------------------------------------------------------------------------
+; QUOI : Si déverrouillé, saute au handler. Sinon, vérifie si Start est pressé
+;        ou si le timer est expiré pour déclencher la démo automatique.
+;
+; PARAMÈTRES :
+;   \1 = label si déverrouillé ou timer non expiré (vers CallStateHandler)
+;   \2 = label si Start pressé ou timer expiré (vers TriggerAttractDemo)
+;
+; INSTRUCTIONS GÉNÉRÉES :
+;   JumpIfUnlocked \1
+;   ldh a, [hJoypadState]
+;   bit 3, a
+;   jr nz, \2
+;   ldh a, [hFrameCounter]
+;   and $0f
+;   jr nz, \1
+;   ld hl, wAttractModeTimer
+;   ld a, [hl]
+;   and a
+;   jr z, \2
+;   dec [hl]
+;   jr \1
+; -----------------------------------------------------------------------------
+MACRO CheckAttractModeTimer
+    JumpIfUnlocked \1
+    ldh a, [hJoypadState]
+    bit PADB_START, a
+    jr nz, \2
+    ldh a, [hFrameCounter]
+    and ATTRACT_FRAME_MASK
+    jr nz, \1
+    ld hl, wAttractModeTimer
+    ld a, [hl]
+    and a
+    jr z, \2
+    dec [hl]
+    jr \1
+ENDM
+
+; -----------------------------------------------------------------------------
+; TriggerAttractDemoIfOnTitle - Déclenche la démo si on est sur l'écran titre
+; -----------------------------------------------------------------------------
+; QUOI : Vérifie si hGameState == GAME_STATE_TITLE. Si oui, switch vers bank 2
+;        et lance la démo automatique. Sinon, saute vers le handler d'état.
+;
+; PARAMÈTRE :
+;   \1 = label si pas sur écran titre (vers CallStateHandler)
+;
+; INSTRUCTIONS GÉNÉRÉES :
+;   ldh a, [hGameState]
+;   and a
+;   jr nz, \1
+;   ld a, $02
+;   ld [$2000], a
+;   ldh [hCurrentBank], a
+;   ld a, GAME_STATE_DEMO
+;   ldh [hGameState], a
+; -----------------------------------------------------------------------------
+MACRO TriggerAttractDemoIfOnTitle
+    ldh a, [hGameState]
+    and a
+    jr nz, \1
+    ld a, BANK_DEMO
+    ld [rROMB0], a
+    ldh [hCurrentBank], a
+    ld a, GAME_STATE_DEMO
+    ldh [hGameState], a
+ENDM
