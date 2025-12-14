@@ -3856,9 +3856,9 @@ State31_HorizontalScroll::
     call UpdateScroll
     ldh a, [hShadowSCX]
     inc a
-    call z, Call_000_130f
+    call z, SetupFinalScreen
     inc a
-    call z, Call_000_130f
+    call z, SetupFinalScreen
     ldh [hShadowSCX], a
     ld a, [$dfe9]
     and a
@@ -3876,7 +3876,7 @@ AnimateAndCallBank3:
     ret
 
 ; --- Routine : setup écran final ---
-Call_000_130f:
+SetupFinalScreen:
     push af
     ldh a, [hOAMIndex]
     dec a
