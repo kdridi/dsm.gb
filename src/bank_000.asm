@@ -2967,7 +2967,7 @@ State1F_EnableVBlankMode::
 ; Simule input droite, attend que joueur atteigne position cible
 ; ===========================================================================
 State20_WaitPlayerPosition::
-    call Call_000_0eb2
+    call AutoMovePlayerRight
     ld a, [wPlayerState]
     cp $c0
     ret c
@@ -2979,7 +2979,7 @@ State20_WaitPlayerPosition::
     ret
 
 ; --- Routine : simule input droite pour animation ---
-Call_000_0eb2:
+AutoMovePlayerRight:
     ld a, $10
     ldh [hJoypadState], a
     ld a, [wPlayerDir]
@@ -3760,7 +3760,7 @@ jr_000_126e:
     inc [hl]
 
 jr_000_127f:
-    call Call_000_0eb2
+    call AutoMovePlayerRight
     call Call_000_218f
     ldh a, [hTilemapScrollX]
     cp $03
