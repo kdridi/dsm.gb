@@ -4912,17 +4912,17 @@ CheckBlockProperties_OnCollide:
 
     pop af
     call StartGameplayPhase
-    jr jr_000_1854
+    jr InitPlayerX
 
 InitGameAfterBlock_OnCollide:
     pop af
     call InitGameState
-    jr jr_000_1854
+    jr InitPlayerX
 
 ProcessBlockEnd_OnCollide:
     pop af
     cp $f4
-    jr nz, jr_000_1854
+    jr nz, InitPlayerX
 
     push hl
     pop de
@@ -4941,7 +4941,7 @@ ProcessBlockEnd_OnCollide:
     jr HandleBlockType_Collision
 
 Jump_000_1854:
-jr_000_1854:
+InitPlayerX:
     ld hl, wPlayerX
     ld a, [hl]
     dec a
@@ -5022,7 +5022,7 @@ Jump_000_189b:
 jr_000_18b7:
     ld a, $80
     ld [wOamVar2E], a
-    jr jr_000_192e
+    jr SetupSpriteProperties
 
 jr_000_18be:
     ldh [hTemp0], a
@@ -5098,12 +5098,12 @@ jr_000_191a:
     ld [wOamVar2E], a
     ld a, [wStateBuffer]
     and a
-    jr nz, jr_000_192e
+    jr nz, SetupSpriteProperties
 
     ld a, $07
     ld [wStateBuffer], a
 
-jr_000_192e:
+SetupSpriteProperties:
     push hl
     pop de
     ld hl, hBlockHitType
@@ -5158,7 +5158,7 @@ jr_000_195d:
     ldh [hPtrHigh], a
     ld a, $c0
     ldh [hPtrBank], a
-    jr jr_000_192e
+    jr SetupSpriteProperties
 
 ; -----------------------------------------------------------------------------
 ; CheckPlayerFeetCollision - Vérifie collision pieds du joueur (vers le bas)
@@ -5339,7 +5339,7 @@ ClassifyTileType:
     inc hl
     ld d, [hl]
 
-jr_000_1a78:
+SearchByteLoop:
     ld a, [de]
     cp $fd
     jr z, jr_000_1a83
@@ -5348,7 +5348,7 @@ jr_000_1a78:
     jr z, jr_000_1a86
 
     inc de
-    jr jr_000_1a78
+    jr SearchByteLoop
 
 jr_000_1a83:
     pop af
@@ -5710,7 +5710,7 @@ UpdateLivesDisplay:
     jr z, jr_000_1c6c
 
     cp $99
-    jr z, jr_000_1c5e
+    jr z, ClearUpdateCounter
 
     push af
     ld a, $08
@@ -5733,7 +5733,7 @@ DisplayLivesCount:
     swap a
     ld [VRAM_SCORE_POS1], a
 
-jr_000_1c5e:
+ClearUpdateCounter:
     xor a
     ld [wUpdateCounter], a
     ret
@@ -5743,7 +5743,7 @@ jr_000_1c63:
     ld a, $39
     ldh [hGameState], a
     ld [wROMBankInit], a
-    jr jr_000_1c5e
+    jr ClearUpdateCounter
 
 jr_000_1c6c:
     and a
@@ -5899,7 +5899,7 @@ ProcessAnimationState:
 
     inc l
     ld [hl], $00
-    jr jr_000_1d68
+    jr ResetPlayerDirection
 
 jr_000_1d2f:
     dec [hl]
@@ -5951,7 +5951,7 @@ jr_000_1d62:
     and a
     ret nz
 
-jr_000_1d68:
+ResetPlayerDirection:
     ld a, [$c207]
     and a
     ret nz
@@ -6852,7 +6852,7 @@ InitScrollBuffer:
     ld h, a
     ldh a, [hTilemapOffsetY]
     ld l, a
-    jr jr_000_21df
+    jr ProcessScrollEntry
 
 jr_000_21c0:
     ld hl, $4000
@@ -6881,7 +6881,7 @@ jr_000_21c0:
     pop hl
 
 Jump_000_21df:
-jr_000_21df:
+ProcessScrollEntry:
     ld a, [hl+]
     cp $fe
     jr z, jr_000_2227
@@ -6938,7 +6938,7 @@ ProcessColumnAnimation_End:
     dec b
     jr nz, jr_000_21f6
 
-    jr jr_000_21df
+    jr ProcessScrollEntry
 
 jr_000_2222:
     ld hl, wCollisionFlag
@@ -7032,27 +7032,27 @@ jr_000_2267:
     jr nz, jr_000_227a
 
     call ProcessRenderQueue
-    jr jr_000_2291
+    jr TilemapScrollLoop
 
 jr_000_227a:
     cp $80
     jr nz, jr_000_2283
 
     call ApplyLevelConfig
-    jr jr_000_2291
+    jr TilemapScrollLoop
 
 jr_000_2283:
     cp $5f
     jr nz, jr_000_228c
 
     call ApplyLevelConfig
-    jr jr_000_2291
+    jr TilemapScrollLoop
 
 jr_000_228c:
     cp $81
     call z, ApplyLevelConfig
 
-jr_000_2291:
+TilemapScrollLoop:
     inc e
     push de
     ld de, $0020
@@ -7519,7 +7519,7 @@ LoadQueuedAudioConfig:
     add hl, de
     ld a, [hl+]
     ldh [hSoundCh4], a
-    jr jr_000_2502
+    jr InitAudioChannels
 
 InitSoundConditional:
     ldh a, [hLevelIndex]
@@ -7544,7 +7544,7 @@ jr_000_24ee:
     ld a, [hl]
     ldh [hSoundCh4], a
 
-jr_000_2502:
+InitAudioChannels:
     xor a
     ldh [hSoundCh1], a
     ldh [hSoundCh2], a
@@ -7665,7 +7665,7 @@ jr_000_2594:
     ld e, a
     add hl, de
 
-jr_000_25a7:
+FillAudioBufferLoop:
     ld a, l
     cp $a0
     jp nc, Jump_000_25b6
@@ -7676,7 +7676,7 @@ jr_000_25a7:
     inc hl
     inc hl
     inc hl
-    jr jr_000_25a7
+    jr FillAudioBufferLoop
 
 Jump_000_25b6:
     ret
@@ -8321,7 +8321,7 @@ jr_000_28f7:
     ldh [hSoundParam2], a
     ldh a, [hSoundVar4]
     and a
-    jr z, jr_000_296c
+    jr z, UpdatePhysicsCollision
 
     ld a, [$c205]
     ld c, a
@@ -8357,7 +8357,7 @@ jr_000_2928:
 jr_000_293b:
     ld a, c
     ld [$c205], a
-    jr jr_000_296c
+    jr UpdatePhysicsCollision
 
 jr_000_2941:
     ldh a, [hShadowSCX]
@@ -8382,18 +8382,18 @@ jr_000_295b:
     ldh a, [hSoundCh2]
     res 0, a
     ldh [hSoundCh2], a
-    jr jr_000_296c
+    jr UpdatePhysicsCollision
 
 jr_000_2963:
     cp $0c
-    jr nz, jr_000_296c
+    jr nz, UpdatePhysicsCollision
 
     xor a
     ldh [hSoundCh1], a
     ldh [hSoundVar1], a
 
 Jump_000_296c:
-jr_000_296c:
+UpdatePhysicsCollision:
     ldh a, [hSoundFlag]
     and $f0
     jp z, Jump_000_29f4
