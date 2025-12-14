@@ -1297,7 +1297,7 @@ StateHandler_00::
 
     ; Mises à jour locales
     call Call_000_1f24
-    call Call_000_2488
+    call UpdateAudio
 
     ; Switch vers bank 2
     ldh a, [hCurrentBank]
@@ -2534,7 +2534,7 @@ StateHandler_05::
 
     xor a
     ld [wPlayerVarAB], a
-    call Call_000_2488
+    call UpdateAudio
 
 jr_000_0c79:
     ldh a, [hTimer1]
@@ -2858,7 +2858,7 @@ State1C_WaitTimerGameplay::
     call InitScrollBuffer
     xor a
     ld [wPlayerVarAB], a
-    call Call_000_2488
+    call UpdateAudio
     call CallBank3Handler
     ret
 
@@ -2877,7 +2877,7 @@ jr_000_0e1f:
 State1D_SetupVRAMPointer::
     xor a
     ld [wPlayerVarAB], a
-    call Call_000_2488
+    call UpdateAudio
     ldh a, [hTimer1]
     and a
     ret nz
@@ -3389,7 +3389,7 @@ State27_PlayerOscillation::
 jr_000_109e:
     xor a
     ld [wPlayerVarAB], a
-    call Call_000_2488
+    call UpdateAudio
     ldh a, [hTimer1]
     ld c, a
     and $03
@@ -7294,7 +7294,7 @@ State0D_GameplayFull::
     ld [$2000], a
 
     ; Update collision/physics
-    call Call_000_2488
+    call UpdateAudio
 
     ; Bank 2 : mise à jour spéciale
     ldh a, [hCurrentBank]
@@ -7455,7 +7455,7 @@ Jump_000_247e:
     ret
 
 
-Call_000_2488:
+UpdateAudio:
     call Call_000_2492
     call Call_000_263f
     call Call_000_255f
