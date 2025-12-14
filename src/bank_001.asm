@@ -4898,7 +4898,7 @@ jr_001_5436:
     ld l, $05
 
 jr_001_550a:
-    jp nc, Jump_000_0530
+    jp nc, InitLevelStartWithAttractMode
 
     ld d, d
     inc [hl]

@@ -927,7 +927,7 @@ SelectTileIndexForLevel:
 
 ApplyRenderContext:
     ldh [hRenderContext], a
-    jp Jump_000_053d
+    jp InitLevelStartFull
 
 
 ResetRenderForHighLevels:
@@ -935,7 +935,7 @@ ResetRenderForHighLevels:
     ld [wGameConfigA6], a
     ldh a, [hLevelIndex]
     cp $02
-    jp nc, Jump_000_053d
+    jp nc, InitLevelStartFull
 
     ld a, $11
     ldh [hAnimTileIndex], a
@@ -1044,7 +1044,7 @@ Jump_000_051c:
     ld a, [hl]
     ldh [hRenderContext], a
 
-Jump_000_0530:
+InitLevelStartWithAttractMode:
     ld a, $50
     ld [wAttractModeTimer], a
     ld a, $11
@@ -1054,7 +1054,7 @@ Jump_000_0530:
     ret
 
 
-Jump_000_053d:
+InitLevelStartFull:
     ld a, $11
     ldh [hGameState], a
     xor a
@@ -1671,7 +1671,7 @@ ScanObjectLoop:
     cp $ff
     jr nz, ProcessAudioSlot
 
-Jump_000_084c:
+NextAudioSlotCheck:
     add hl, de
     dec b
     jr nz, ScanObjectLoop
@@ -1725,7 +1725,7 @@ CheckPlayerCollisionWithObject:
     push hl
     call CheckBoundingBoxCollision
     and a
-    jp z, Jump_000_0958
+    jp z, NoCollisionReturn
 
     ldh a, [hOAMAddrLow]
     cp $90
@@ -1745,7 +1745,7 @@ CheckPlayerCollisionWithObject:
 
 SkipInvulnCheck:
     dec l
-    jp Jump_000_0939
+    jp PlayerDamageCheckEntry
 
 
 ProcessPlayerInteraction:
@@ -1841,7 +1841,7 @@ ResetAnimScale:
     ldh [hAnimScaleCounter], a
     jr AnimObjCountSet
 
-Jump_000_0939:
+PlayerDamageCheckEntry:
 PlayerInteractionCheckDamage:
     dec l
     dec l
@@ -1869,10 +1869,10 @@ PlayerInteractionDone:
     ret
 
 
-Jump_000_0958:
+NoCollisionReturn:
     pop hl
     pop bc
-    jp Jump_000_084c
+    jp NextAudioSlotCheck
 
 
 StartGameplayPhaseJump:
@@ -2048,7 +2048,7 @@ FindObjectLoop:
     cp $ff
     jr nz, ProcessFoundObject
 
-Jump_000_0a38:
+NextObjectSlotCheck:
     add hl, de
     dec b
     jr nz, FindObjectLoop
@@ -2132,7 +2132,7 @@ Loop_AddValueByEight:
 ContinueObjectScan:
     pop hl
     pop bc
-    jp Jump_000_0a38
+    jp NextObjectSlotCheck
 
 
 CheckBoundingBoxCollision:
@@ -4482,7 +4482,7 @@ InfiniteLockup_Render:
     cp $14
     ld a, [bc]
 
-Jump_000_1603:
+PipeEnterRightMoveCheck:
     rla
     jr State09_PipeEnterRight.checkTarget
 
@@ -4752,10 +4752,10 @@ CallBank3Handler:
     ret
 
 
-Jump_000_1752:
+TileE1CollisionHandler:
     ldh a, [hGameState]
     cp $0e
-    jp nc, Jump_000_1815
+    jp nc, BlockCollisionPropertyHandler
 
     jp Jump_000_1b3c
 
@@ -4763,7 +4763,7 @@ Jump_000_1752:
 CheckJoypadUp_GameplayLoop:
     ldh a, [hJoypadState]
     bit 7, a
-    jp z, Jump_000_1854
+    jp z, PlayerXPositionReset
 
     ld bc, hVramPtrLow
     ld a, h
@@ -4776,7 +4776,7 @@ CheckJoypadUp_GameplayLoop:
     ld de, hRenderCounter
     ld a, [hl]
     and a
-    jp z, Jump_000_1854
+    jp z, PlayerXPositionReset
 
     ld [de], a
     inc e
@@ -4818,7 +4818,7 @@ CheckJoypadUp_GameplayLoop:
 
 SkipIfInvuln_OnTile:
     call $1ecb
-    jp Jump_000_1854
+    jp PlayerXPositionReset
 
 
 ; -----------------------------------------------------------------------------
@@ -4845,7 +4845,7 @@ CheckPlayerHeadCollision:
     jr z, CheckJoypadUp_GameplayLoop
 
     cp $e1
-    jp z, Jump_000_1752
+    jp z, TileE1CollisionHandler
 
     cp $60
     jr nc, CheckBlockProperties_OnCollide
@@ -4890,7 +4890,7 @@ HandleBlockType_Collision:
     ret
 
 
-Jump_000_1815:
+BlockCollisionPropertyHandler:
 CheckBlockProperties_OnCollide:
     cp $ed
     push af
@@ -4940,7 +4940,7 @@ ProcessBlockEnd_OnCollide:
     ld [wStateBuffer], a
     jr HandleBlockType_Collision
 
-Jump_000_1854:
+PlayerXPositionReset:
 InitPlayerX:
     ld hl, wPlayerX
     ld a, [hl]
@@ -4990,19 +4990,19 @@ Jump_000_187f:
     ld a, [hl]
     pop hl
     and a
-    jp z, Jump_000_19d8
+    jp z, PlayerWaterCollisionEntry
 
     cp $f0
     jr z, HandleTileValueF0
 
-Jump_000_1892:
+TileC0Handler:
     cp $c0
     jr nz, HandleNonC0TileValue
 
     ld a, $ff
     ld [wLevelConfig], a
 
-Jump_000_189b:
+PlatformCollisionSetup:
     ldh a, [hBlockHitType]
     and a
     ret nz
@@ -5147,7 +5147,7 @@ HandlePlayerUpCollision:
     ld a, [hl]
     pop hl
     and a
-    jp nz, Jump_000_1892
+    jp nz, TileC0Handler
 
     ld a, $05
     ld [wStateBuffer], a
@@ -5218,7 +5218,7 @@ ClassifyTileTypeEntry:
     ret
 
 
-Jump_000_19d8:
+PlayerWaterCollisionEntry:
 HandlePlayerWaterCollision:
     push hl
     ld a, h
@@ -5227,7 +5227,7 @@ HandlePlayerWaterCollision:
     ld a, [hl]
     pop hl
     cp $c0
-    jp z, Jump_000_189b
+    jp z, PlatformCollisionSetup
 
     ldh a, [hTimerAux]
     cp $02
@@ -7791,7 +7791,7 @@ WriteAudioOutput:
 UpdateAllObjectSounds:
     ld hl, wObjectBuffer
 
-Jump_000_2642:
+AudioObjectLoopIteration:
     ld a, [hl]
     inc a
     jr z, NextSoundObject
@@ -7821,7 +7821,7 @@ NextSoundObject:
     add $10
     ld l, a
     cp $a0
-    jp nz, Jump_000_2642
+    jp nz, AudioObjectLoopIteration
 
     ret
 
@@ -7878,7 +7878,7 @@ SoundAnimResetVar2:
     jp Jump_000_2870
 
 
-Jump_000_26ac:
+AudioQueueProcessing:
 ProcessAudioQueue_Loop:
     push hl
     ld d, $00
@@ -8027,7 +8027,7 @@ CheckAudioQueueBit4:
 
 AudioQueueProcessDone:
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_F1:
@@ -8040,7 +8040,7 @@ CheckAudioCommand_F1:
     ld a, $0a
     call LoadSoundDataFromSlot
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_F2:
@@ -8050,7 +8050,7 @@ CheckAudioCommand_F2:
     ld a, [wAudioQueueId]
     ldh [hSoundCh4], a
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_F3:
@@ -8077,7 +8077,7 @@ CheckAudioCommand_F3:
     ld d, a
     ld h, d
     ld l, e
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_F4:
@@ -8087,7 +8087,7 @@ CheckAudioCommand_F4:
     ld a, [wAudioQueueId]
     ldh [hSoundVar2], a
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_F5:
@@ -8100,7 +8100,7 @@ CheckAudioCommand_F5:
     jr z, CheckAudioCommand_F1
 
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_F6:
@@ -8132,7 +8132,7 @@ AudioCommand_F6_CheckTiming:
 
 AudioCommand_F6_Return:
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_F7:
@@ -8180,12 +8180,12 @@ CheckAudioCommand_FB:
     xor a
     ldh [hSoundCh1], a
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 AudioCommand_FB_CarryJump:
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_FC:
@@ -8197,7 +8197,7 @@ CheckAudioCommand_FC:
     ld a, $70
     ldh [hSoundParam2], a
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 CheckAudioCommand_FD:
@@ -8212,7 +8212,7 @@ CheckAudioCommand_FD:
 
 AudioCommand_Default:
     pop hl
-    jp Jump_000_26ac
+    jp AudioQueueProcessing
 
 
 Jump_000_286e:

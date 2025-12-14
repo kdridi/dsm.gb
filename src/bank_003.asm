@@ -10495,7 +10495,7 @@ jr_003_6f30:
     inc bc
     sbc e
     inc bc
-    jp c, Jump_000_1603
+    jp c, PipeEnterRightMoveCheck
 
     inc b
     ld c, [hl]
