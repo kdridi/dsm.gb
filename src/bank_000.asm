@@ -1206,13 +1206,13 @@ LoadGameTiles:
     ld de, $c600
     ld b, $08
 
-jr_000_05f0:
+LoadGameTiles_TileCopyLoop:
     ld a, [hl+]
     ld [de], a
     inc hl
     inc de
     dec b
-    jr nz, jr_000_05f0
+    jr nz, LoadGameTiles_TileCopyLoop
 
     ret
 
