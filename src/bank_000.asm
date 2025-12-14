@@ -4007,7 +4007,7 @@ State32_CreditsScroll::
     ret
 
 
-Call_000_13bb:
+UpdateCreditsStars:
     ld hl, $c212
     ld de, $0010
     ld b, $03
@@ -4333,7 +4333,7 @@ Call_000_1527:
 
 Call_000_1547:
     call AnimateAndCallBank3
-    call Call_000_13bb
+    call UpdateCreditsStars
     ret
 
 
