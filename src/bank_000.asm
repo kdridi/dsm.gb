@@ -1889,32 +1889,32 @@ LoadAudioAndSetupAnim:
 Jump_000_096a:
     ldh a, [hOAMIndex]
     cp $29
-    jr z, jr_000_09a2
+    jr z, ObjectInteraction_CoinHit
 
     cp $34
-    jr z, jr_000_09b2
+    jr z, ObjectInteraction_EnemyHit
 
     cp $2b
-    jr z, jr_000_09be
+    jr z, ObjectInteraction_SpecialHit
 
     cp $2e
     jr nz, PlayerInteractionDone
 
     ldh a, [hTimerAux]
     cp $02
-    jr nz, jr_000_09a8
+    jr nz, ObjectInteraction_SetupTimer
 
     ldh [hSubState], a
 
-jr_000_0984:
+ObjectInteraction_SetupStateBuffer:
     ld a, $04
     ld [wStateBuffer], a
 
-jr_000_0989:
+ObjectInteraction_SetupAnimBank:
     ld a, $10
     ldh [hPtrBank], a
 
-jr_000_098d:
+ObjectInteraction_CalcAnimPtr:
     ld a, [wPlayerState]
     add $fc
     ldh [hPtrLow], a
@@ -1922,46 +1922,46 @@ jr_000_098d:
     sub $10
     ldh [hPtrHigh], a
 
-jr_000_099b:
+ObjectInteraction_MarkSpriteHandled:
     dec l
     dec l
     dec l
     ld [hl], $ff
     jr PlayerInteractionDone
 
-jr_000_09a2:
+ObjectInteraction_CoinHit:
     ldh a, [hTimerAux]
     cp $02
-    jr z, jr_000_0989
+    jr z, ObjectInteraction_SetupAnimBank
 
-jr_000_09a8:
+ObjectInteraction_SetupTimer:
     ld a, $01
     ldh [hTimerAux], a
     ld a, $50
     ldh [hTimer1], a
-    jr jr_000_0984
+    jr ObjectInteraction_SetupStateBuffer
 
-jr_000_09b2:
+ObjectInteraction_EnemyHit:
     ld a, $f8
     ld [wPlayerInvuln], a
     ld a, $0c
     ld [wStateRender], a
-    jr jr_000_0989
+    jr ObjectInteraction_SetupAnimBank
 
-jr_000_09be:
+ObjectInteraction_SpecialHit:
     ld a, $ff
     ldh [hPtrBank], a
     ld a, $08
     ld [wStateBuffer], a
     ld a, $01
     ld [wUpdateCounter], a
-    jr jr_000_098d
+    jr ObjectInteraction_CalcAnimPtr
 
 Jump_000_09ce:
     ldh [hPendingCoin], a
     ld a, $05
     ld [wStateBuffer], a
-    jr jr_000_099b
+    jr ObjectInteraction_MarkSpriteHandled
 
 StartGameplayPhase:
     ld a, $03
@@ -12779,77 +12779,77 @@ ConvertBCDToTiles:
     ldh [hScoreNeedsUpdate], a          ; Clear "needs update" flag
     ld c, $03               ; 3 octets à traiter
 
-jr_000_3f3d:
+BCD_ProcessByte:
     ; --- ProcessHighNibble ---
     ld a, [de]              ; Lire octet BCD
     ld b, a                 ; Sauvegarder dans B
     swap a                  ; High nibble → low nibble
     and $0f                 ; Masquer
-    jr nz, jr_000_3f6d      ; Si != 0 → afficher chiffre
+    jr nz, BCD_MarkNonZeroHigh      ; Si != 0 → afficher chiffre
 
     ; Chiffre = 0, vérifier si leading zero
     ldh a, [hScoreNeedsUpdate]          ; Déjà affiché un chiffre non-zéro ?
     and a
     ld a, $00               ; Tile "0"
-    jr nz, jr_000_3f4e      ; Oui → afficher "0"
+    jr nz, BCD_WriteTile      ; Oui → afficher "0"
 
     ld a, $2c               ; Non → afficher espace (leading zero suppression)
 
-jr_000_3f4e:
+BCD_WriteTile:
     ld [hl+], a             ; Écrire tile, avancer
 
     ; --- ProcessLowNibble ---
     ld a, b                 ; Récupérer octet original
     and $0f                 ; Low nibble
-    jr nz, jr_000_3f75      ; Si != 0 → afficher chiffre
+    jr nz, BCD_MarkNonZeroLow      ; Si != 0 → afficher chiffre
 
     ; Chiffre = 0, vérifier si leading zero
     ldh a, [hScoreNeedsUpdate]          ; Déjà affiché un chiffre non-zéro ?
     and a
     ld a, $00               ; Tile "0"
-    jr nz, jr_000_3f64      ; Oui → afficher "0"
+    jr nz, BCD_WriteLowNibble      ; Oui → afficher "0"
 
     ; Cas spécial : dernier octet, afficher au moins "0"
     ld a, $01
     cp c                    ; Est-ce le dernier octet ?
     ld a, $00
-    jr z, jr_000_3f64       ; Oui → afficher "0" (pas d'espace)
+    jr z, BCD_WriteLowNibble       ; Oui → afficher "0" (pas d'espace)
 
     ld a, $2c               ; Non → espace (leading zero)
 
-jr_000_3f64:
+BCD_WriteLowNibble:
     ld [hl+], a             ; Écrire tile, avancer
     dec e                   ; Octet BCD suivant
     dec c                   ; Compteur--
-    jr nz, jr_000_3f3d      ; Boucle 3 fois
+    jr nz, BCD_ProcessByte      ; Boucle 3 fois
 
     xor a
     ldh [hScoreNeedsUpdate], a          ; Clear flag
     ret
 
 ; --- MarkNonZeroSeen (high nibble) ---
-jr_000_3f6d:
+BCD_MarkNonZeroHigh:
     push af
     ld a, $01
     ldh [hScoreNeedsUpdate], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
-    jr jr_000_3f4e
+    jr BCD_WriteTile
 
 ; --- MarkNonZeroSeen (low nibble) ---
-jr_000_3f75:
+BCD_MarkNonZeroLow:
     push af
     ld a, $01
     ldh [hScoreNeedsUpdate], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
-    jr jr_000_3f64
+    jr BCD_WriteLowNibble
 
     ld a, $c0
     ldh [rDMA], a
     ld a, $28
 
-jr_000_3f83:
+DMA_WaitLoop:
     dec a
-    jr nz, jr_000_3f83
+    jr nz, DMA_WaitLoop
 
     ret
 
