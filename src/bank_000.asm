@@ -3824,7 +3824,7 @@ State30_WalkLeft::
     cp $58
     jr z, jr_000_12d4
 
-    call Call_000_12dd
+    call ToggleAnimFrame
     ret
 
 
@@ -3836,7 +3836,7 @@ jr_000_12d4:
     ret
 
 ; --- Routine : toggle frame animation ---
-Call_000_12dd:
+ToggleAnimFrame:
     ldh a, [hFrameCounter]
     and $03
     ret nz
@@ -3871,7 +3871,7 @@ State31_HorizontalScroll::
 ; --- Routine : animation + bank 3 ---
 Call_000_1305:
     ld hl, wPlayerState
-    call Call_000_12dd
+    call ToggleAnimFrame
     call CallBank3Handler
     ret
 
