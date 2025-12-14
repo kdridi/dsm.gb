@@ -2599,7 +2599,7 @@ jr_001_4ad1:
     rst $38
     rst $20
     push hl
-    jp $c043
+    jp wJumpTarget43
 
 
     ret nz
@@ -4009,7 +4009,7 @@ jr_001_5107:
 
     ld b, $03
     ld hl, $ffa9
-    ld de, $c001
+    ld de, wOamAttrY
 
 jr_001_5120:
     ld a, [hl+]
@@ -4852,7 +4852,7 @@ jr_001_5436:
     cp a
     adc e
     ld [hl], $c0
-    ld [$c036], sp
+    ld [wSpriteVar36], sp
     add [hl]
     ld [hl], $ff
     db $10
@@ -8993,7 +8993,7 @@ Call_001_5c5b:
     ld h, c
     add sp, -$02
     ld [bc], a
-    ld sp, $c149
+    ld sp, wStackWRAM
     dec [hl]
     ldh [c], a
     ld h, b
@@ -10454,7 +10454,7 @@ Call_001_6afd:
     pop af
     ld e, l
     cp $02
-    ld sp, $c149
+    ld sp, wStackWRAM
     ld l, b
     pop af
     ld e, l

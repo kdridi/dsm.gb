@@ -2466,9 +2466,9 @@ jr_003_4a66:
     ld hl, $dfe0
     ld [hl], $02
     ld a, $0c
-    ld [$c0ae], a
+    ld [wGameVarAE], a
     ld a, $ff
-    ld [$c0a9], a
+    ld [wGameVarA9], a
     ret
 
 
@@ -2487,7 +2487,7 @@ Jump_003_4a7f:
     bit 0, a
     ret z
 
-    ld hl, $c0ae
+    ld hl, wGameVarAE
     ld a, [hl]
     and a
     jp z, Jump_003_4a0c
@@ -2523,7 +2523,7 @@ jr_003_4aa7:
     ld d, [hl]
     push de
     pop hl
-    ld a, [$c0d9]
+    ld a, [wLevelVarD9]
     ld d, $00
     ld e, a
     add hl, de
@@ -2537,7 +2537,7 @@ jr_003_4aa7:
     inc e
     inc e
     ld a, e
-    ld [$c0d9], a
+    ld [wLevelVarD9], a
 
 jr_003_4ad1:
     ldh a, [hJoypadState]
@@ -2637,7 +2637,7 @@ jr_003_4b32:
     cp $03
     ret nz
 
-    ld hl, $c02d
+    ld hl, wOamVar2D
     ldh a, [hShadowSCX]
     ld b, a
     ldh a, [$fff2]
@@ -2789,7 +2789,7 @@ jr_003_4bf1:
     jr z, jr_003_4c2f
 
     ld hl, $c300
-    ld a, [$c0d9]
+    ld a, [wLevelVarD9]
     ld e, a
     ld d, $00
     add hl, de
@@ -2800,7 +2800,7 @@ jr_003_4bf1:
     inc e
     inc e
     ld a, e
-    ld [$c0d9], a
+    ld [wLevelVarD9], a
     ld a, b
     ld [$c0da], a
     xor a
@@ -2855,7 +2855,7 @@ jr_003_4c2f:
 
 
     ld c, h
-    call $d14c
+    call wRoutineWRAM
     ld c, h
     push de
     ld c, h
@@ -4042,7 +4042,7 @@ jr_003_5166:
     jr z, jr_003_519f
 
     ld [$ff2a], sp
-    ld bc, $c009
+    ld bc, wOamVar09
     ld [bc], a
     inc b
     ldh a, [rSC]

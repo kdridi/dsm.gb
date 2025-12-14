@@ -1511,7 +1511,7 @@ jr_000_080e:
     jr nz, jr_000_080e
 
     ldh [hTemp3], a
-    ld [$c0aa], a
+    ld [wGameVarAA], a
     ld a, $40
     ldh [hScrollColumn], a
     ld b, $14
@@ -1548,7 +1548,7 @@ Call_000_083c:
 jr_000_083f:
     ld de, hCurrentTile
     ld b, $0a
-    ld hl, $d190
+    ld hl, wAudioBuffer
 
 jr_000_0847:
     ld a, [hl]
@@ -1868,7 +1868,7 @@ Call_000_09d7:
 ;; ==========================================================================
 InitGameState:
     ; --- Early return si $D007 != 0 ---
-    ld a, [$d007]
+    ld a, [wAudioCondition]
     and a
     ret nz
 
@@ -1889,7 +1889,7 @@ InitGameState:
     ld [wPlayerY], a           ; Player state = $80
 
     ld a, [wPlayerX]           ; Lire position/état
-    ld [$c0dd], a           ; Copier vers variable de travail
+    ld [wLevelVarDD], a           ; Copier vers variable de travail
     ret
 
 
@@ -2213,8 +2213,8 @@ jr_000_0b7f:
     jp Jump_000_0af4
 
 
-    ld hl, $c00c
-    ld a, [$c0dd]
+    ld hl, wOamVar0C
+    ld a, [wLevelVarDD]
     ld c, a
     sub $08
     ld d, a
@@ -2256,17 +2256,17 @@ jr_000_0b7f:
     ld a, $04
     ldh [hGameState], a
     xor a
-    ld [$c0ac], a
+    ld [wGameVarAC], a
     ldh [hTimerAux], a
     ldh [hRenderCounter], a
     call $1ecb
     ret
 
 
-    ld a, [$c0ac]
+    ld a, [wGameVarAC]
     ld e, a
     inc a
-    ld [$c0ac], a
+    ld [wGameVarAC], a
     ld d, $00
     ld hl, $0c10
     add hl, de
@@ -2275,13 +2275,13 @@ jr_000_0b7f:
     cp $7f
     jr nz, jr_000_0bea
 
-    ld a, [$c0ac]
+    ld a, [wGameVarAC]
     dec a
-    ld [$c0ac], a
+    ld [wGameVarAC], a
     ld b, $02
 
 jr_000_0bea:
-    ld hl, $c00c
+    ld hl, wOamVar0C
     ld de, $0004
     ld c, $04
 
@@ -2352,7 +2352,7 @@ Jump_000_0c22:
 
 
 jr_000_0c42:
-    ld a, [$d007]
+    ld a, [wAudioCondition]
     and a
     jr nz, jr_000_0c4c
 
@@ -3068,7 +3068,7 @@ jr_000_1016:
 
 
 Call_000_1020:
-    ld de, $c01c
+    ld de, wOamVar1C
     ld b, $10
 
 jr_000_1025:
@@ -3924,7 +3924,7 @@ jr_000_147c:
     pop hl
     dec l
     ld [hl], $ff
-    ld hl, $c070
+    ld hl, wTilemapBuf70
     ld de, $14bb
     ld b, $18
 
@@ -3977,7 +3977,7 @@ jr_000_14a6:
     and a
     ret nz
 
-    ld hl, $c071
+    ld hl, wTilemapBuf71
     ld a, [hl]
     cp $3c
     jr z, jr_000_14e6
@@ -3990,27 +3990,27 @@ jr_000_14e2:
 
 
 jr_000_14e6:
-    ld hl, $c075
+    ld hl, wTilemapBuf75
     ld a, [hl]
     cp $44
     jr nz, jr_000_14e2
 
-    ld hl, $c079
+    ld hl, wTilemapBuf79
     ld a, [hl]
     cp $4c
     jr nz, jr_000_14e2
 
-    ld hl, $c07d
+    ld hl, wTilemapBuf7D
     ld a, [hl]
     cp $5c
     jr nz, jr_000_14e2
 
-    ld hl, $c081
+    ld hl, wTilemapBuf81
     ld a, [hl]
     cp $64
     jr nz, jr_000_14e2
 
-    ld hl, $c085
+    ld hl, wTilemapBuf85
     ld a, [hl]
     cp $6c
     jr nz, jr_000_14e2
@@ -4719,13 +4719,13 @@ Jump_000_189b:
 
 jr_000_18b7:
     ld a, $80
-    ld [$c02e], a
+    ld [wOamVar2E], a
     jr jr_000_192e
 
 jr_000_18be:
     ldh [hTemp0], a
     ld a, $80
-    ld [$c02e], a
+    ld [wOamVar2E], a
     ld a, $07
     ld [wStateBuffer], a
     push hl
@@ -4750,7 +4750,7 @@ jr_000_18be:
     ld a, [de]
     ldh [hTemp0], a
     call Call_000_3efe
-    ld hl, $c02c
+    ld hl, wOamVar2C
     ld a, [wPlayerX]
     sub $0b
     ld [hl+], a
@@ -4793,7 +4793,7 @@ jr_000_191a:
     ret nz
 
     ld a, $82
-    ld [$c02e], a
+    ld [wOamVar2E], a
     ld a, [wStateBuffer]
     and a
     jr nz, jr_000_192e
@@ -4815,7 +4815,7 @@ jr_000_192e:
     ld a, e
     ldh [hSpriteTile], a
     call Call_000_3efe
-    ld hl, $c02c
+    ld hl, wOamVar2C
     ld a, [wPlayerX]
     sub $0b
     ld [hl+], a
@@ -4850,7 +4850,7 @@ jr_000_195d:
     ld a, $05
     ld [wStateBuffer], a
     ld a, $81
-    ld [$c02e], a
+    ld [wOamVar2E], a
     ld a, [wPlayerX]
     sub $10
     ldh [hPtrHigh], a
@@ -5222,7 +5222,7 @@ jr_000_1b49:
 jr_000_1b5d:
     ld a, $07
     ldh [hGameState], a
-    ld a, [$d007]
+    ld a, [wAudioCondition]
     and a
     jr nz, jr_000_1b70
 
@@ -5242,7 +5242,7 @@ jr_000_1b70:
 
 Call_000_1b7d:
     xor a
-    ld [$c0e2], a
+    ld [wGameVarE2], a
     ldh a, [_HRAM_END]
     and a
     call nz, Call_000_1bf6
@@ -5265,7 +5265,7 @@ Call_000_1b7d:
     ld d, [hl]
     inc l
     ld e, [hl]
-    ld a, [$c02e]
+    ld a, [wOamVar2E]
     cp $82
     jr z, jr_000_1baf
 
@@ -5364,7 +5364,7 @@ jr_000_1c12:
     xor a
     ldh [_HRAM_END], a
     inc a
-    ld [$c0e2], a
+    ld [wGameVarE2], a
     ret
 
 
@@ -5750,7 +5750,7 @@ jr_000_1df0:
     ld [hl], a
     call Call_000_1e9b
     call Call_000_2c96
-    ld hl, $c001
+    ld hl, wOamAttrY
     ld de, $0004
     ld c, $03
 
@@ -5865,7 +5865,7 @@ jr_000_1e96:
 
 
 Call_000_1e9b:
-    ld hl, $c031
+    ld hl, wSpriteVar31
     ld de, $0004
     ld c, $08
 
@@ -5904,7 +5904,7 @@ Call_000_1eab:
     ld bc, $e502
     push bc
     push de
-    ld hl, $c01c
+    ld hl, wOamVar1C
     ld b, $34
     xor a
 
@@ -5973,7 +5973,7 @@ jr_000_1f19:
 Call_000_1f24:
     ld b, $01
     ld hl, hObjParamBuf1
-    ld de, $c001
+    ld de, wOamAttrY
 
 jr_000_1f2c:
     ld a, [hl+]
@@ -5996,12 +5996,12 @@ jr_000_1f38:
     push de
     push bc
     dec l
-    ld a, [$c0a9]
+    ld a, [wGameVarA9]
     and a
     jr z, jr_000_1f52
 
     dec a
-    ld [$c0a9], a
+    ld [wGameVarA9], a
     bit 0, [hl]
     jr z, jr_000_1fac
 
@@ -6472,7 +6472,7 @@ jr_000_217f:
     ldh [hScrollPhase], a
     ldh a, [hShadowSCX]
     ld b, a
-    ld a, [$c0aa]
+    ld a, [wGameVarAA]
     cp b
     ret z
 
@@ -6631,7 +6631,7 @@ jr_000_2227:
 jr_000_2239:
     ldh [hTilemapScrollY], a
     ldh a, [hShadowSCX]
-    ld [$c0aa], a
+    ld [wGameVarAA], a
     ld a, $01
     ldh [hScrollPhase], a
     ret
@@ -6922,7 +6922,7 @@ Call_000_235a:
 
     call Call_000_218f
     call $4fb2
-    ld a, [$d007]
+    ld a, [wAudioCondition]
     and a
     call nz, Call_000_1b3c
     call Call_000_0837
@@ -6998,7 +6998,7 @@ Call_000_235a:
 ; MODIFIE : A, B, DE, HL
 ; =============================================================================
 UpdateAnimTiles:
-    ld a, [$d014]
+    ld a, [wAnimFlag]
     and a
     ret z
 
@@ -7053,14 +7053,14 @@ jr_000_2425:
     ld [$c0ab], a
     call Call_000_2453
     xor a
-    ld [$d007], a
+    ld [wAudioCondition], a
     ld hl, $242d
     ldh a, [hRenderContext]
     ld d, $00
     ld e, a
     add hl, de
     ld a, [hl]
-    ld [$d014], a
+    ld [wAnimFlag], a
     ret
 
 
@@ -7092,9 +7092,9 @@ jr_000_2467:
 
 jr_000_2470:
     ld a, l
-    ld [$d010], a
+    ld [wAudioState0], a
     ld a, h
-    ld [$d011], a
+    ld [wAudioState1], a
     ld hl, wObjectBuffer
     ld de, $0010
 
@@ -7117,9 +7117,9 @@ Call_000_2488:
 
 Call_000_2492:
 jr_000_2492:
-    ld a, [$d010]
+    ld a, [wAudioState0]
     ld l, a
-    ld a, [$d011]
+    ld a, [wAudioState1]
     ld h, a
     ld a, [hl]
     ld b, a
@@ -7153,9 +7153,9 @@ jr_000_2492:
     ld a, l
 
 Call_000_24c4:
-    ld [$d010], a
+    ld [wAudioState0], a
     ld a, h
-    ld [$d011], a
+    ld [wAudioState1], a
     jr jr_000_2492
 
 Call_000_24cd:
@@ -7252,14 +7252,14 @@ jr_000_253f:
 
 
 Call_000_2544:
-    ld hl, $d190
+    ld hl, wAudioBuffer
     ld [hl], a
     ldh a, [hSoundParam1]
     and $f8
     add $07
-    ld [$d192], a
+    ld [wAudioBufVar2], a
     ldh a, [hSoundParam2]
-    ld [$d193], a
+    ld [wAudioBufVar3], a
     call Call_000_2cb2
     ld a, $0b
     ld [wStateBuffer], a
@@ -7268,11 +7268,11 @@ Call_000_2544:
 
 Call_000_255f:
     xor a
-    ld [$d013], a
+    ld [wAudioState2], a
     ld c, $00
 
 jr_000_2565:
-    ld a, [$d013]
+    ld a, [wAudioState2]
     cp $14
     ret nc
 
@@ -7312,8 +7312,8 @@ jr_000_2594:
     cp $0a
     jr nz, jr_000_2565
 
-    ld hl, $c050
-    ld a, [$d013]
+    ld hl, wSpriteVar50
+    ld a, [wAudioState2]
     rlca
     rlca
     ld d, $00
@@ -7339,9 +7339,9 @@ Jump_000_25b6:
 
 Call_000_25b7:
     xor a
-    ld [$d000], a
-    ld hl, $c050
-    ld a, [$d013]
+    ld [wAudioData], a
+    ld hl, wSpriteVar50
+    ld a, [wAudioState2]
     rlca
     rlca
     ld d, $00
@@ -7370,7 +7370,7 @@ jr_000_25d5:
     ld l, e
 
 jr_000_25e2:
-    ld a, [$d013]
+    ld a, [wAudioState2]
     cp $14
     ret nc
 
@@ -7384,7 +7384,7 @@ jr_000_25e8:
 
     rlca
     res 4, a
-    ld [$d000], a
+    ld [wAudioData], a
     ld a, [hl]
     bit 3, a
     jr z, jr_000_2602
@@ -7434,13 +7434,13 @@ jr_000_2625:
     ld a, [hl]
     ld [bc], a
     inc bc
-    ld a, [$d000]
+    ld a, [wAudioData]
     ld [bc], a
     inc bc
     inc hl
-    ld a, [$d013]
+    ld a, [wAudioState2]
     inc a
-    ld [$d013], a
+    ld [wAudioState2], a
     jr jr_000_25e2
 
 Call_000_263f:
@@ -7541,7 +7541,7 @@ jr_000_26ac:
     ld e, a
     add hl, de
     ld a, [hl]
-    ld [$d002], a
+    ld [wAudioQueueType], a
     cp $ff
     jr nz, jr_000_26c1
 
@@ -7554,24 +7554,24 @@ jr_000_26c1:
     ldh a, [hSoundCh1]
     inc a
     ldh [hSoundCh1], a
-    ld a, [$d002]
+    ld a, [wAudioQueueType]
     and $f0
     cp $f0
     jr z, jr_000_26ef
 
-    ld a, [$d002]
+    ld a, [wAudioQueueType]
     and $e0
     cp $e0
     jr nz, jr_000_26e2
 
-    ld a, [$d002]
+    ld a, [wAudioQueueType]
     and $0f
     ldh [hSoundVar1], a
     pop hl
     jr jr_000_266d
 
 jr_000_26e2:
-    ld a, [$d002]
+    ld a, [wAudioQueueType]
     ldh [hSoundFlag], a
     ld a, $01
     ldh [hSoundVar1], a
@@ -7586,7 +7586,7 @@ jr_000_26ef:
     inc hl
     ld a, [hl]
     ld [wAudioQueueId], a
-    ld a, [$d002]
+    ld a, [wAudioQueueType]
     cp $f8
     jr nz, jr_000_2708
 
@@ -8339,7 +8339,7 @@ jr_000_2ad0:
     cp $60
     jr nz, jr_000_2ada
 
-    ld [$d007], a
+    ld [wAudioCondition], a
 
 jr_000_2ada:
     ld a, [hl]
@@ -8690,7 +8690,7 @@ jr_000_2c99:
     ldh [hSoundParam2], a
     push hl
     push de
-    ld hl, $d103
+    ld hl, wObjBufferVar03
     ld de, $0010
 
 jr_000_2ca6:
@@ -12384,7 +12384,7 @@ UpdateScoreDisplay:
     and a
     ret z                   ; Non → return
 
-    ld a, [$c0e2]           ; Flag blocker ?
+    ld a, [wGameVarE2]           ; Flag blocker ?
     and a
     ret nz                  ; Oui → return
 

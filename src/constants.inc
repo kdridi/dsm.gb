@@ -191,9 +191,28 @@ DEF hCurrentBank    EQU $FFFD   ; Bank ROM courante
 
 ; --- OAM et sprites ($C000-$C0A0) ---
 DEF wOamBuffer      EQU $C000   ; Buffer OAM pour DMA (160 octets)
+DEF wOamAttrY       EQU $C001   ; Attribut Y OAM
 DEF wUnknown04      EQU $C004   ; Variable WRAM
 DEF wUnknown08      EQU $C008   ; Variable WRAM
+DEF wOamVar09       EQU $C009   ; Variable OAM +09
+DEF wOamVar0C       EQU $C00C   ; Variable OAM +0C
+DEF wOamVar1C       EQU $C01C   ; Variable OAM +1C
+DEF wOamVar2C       EQU $C02C   ; Variable OAM +2C
+DEF wOamVar2D       EQU $C02D   ; Variable OAM +2D
+DEF wOamVar2E       EQU $C02E   ; Variable OAM +2E
 DEF wSpriteTemp     EQU $C030   ; Buffer sprite temporaire
+DEF wSpriteVar31    EQU $C031   ; Variable sprite +01
+DEF wSpriteVar32    EQU $C032   ; Variable sprite +02
+DEF wSpriteVar36    EQU $C036   ; Variable sprite +06
+DEF wJumpTarget43   EQU $C043   ; Cible de saut en WRAM
+DEF wSpriteVar50    EQU $C050   ; Variable sprite +20
+DEF wTilemapBuf70   EQU $C070   ; Buffer tilemap +00
+DEF wTilemapBuf71   EQU $C071   ; Buffer tilemap +01
+DEF wTilemapBuf75   EQU $C075   ; Buffer tilemap +05
+DEF wTilemapBuf79   EQU $C079   ; Buffer tilemap +09
+DEF wTilemapBuf7D   EQU $C07D   ; Buffer tilemap +0D
+DEF wTilemapBuf81   EQU $C081   ; Buffer tilemap +11
+DEF wTilemapBuf85   EQU $C085   ; Buffer tilemap +15
 
 ; --- Variables de jeu ($C0A0-$C0FF) ---
 DEF wScoreBCDHigh   EQU $C0A0   ; Score BCD (octet haut)
@@ -204,8 +223,12 @@ DEF wROMBankInit    EQU $C0A4   ; Bank ROM init ($03 initial)
 DEF wGameConfigA5   EQU $C0A5   ; Configuration jeu
 DEF wGameConfigA6   EQU $C0A6   ; Configuration jeu
 DEF wAnimTileIdx    EQU $C0A8   ; Index tile animation ($11 initial)
+DEF wGameVarA9      EQU $C0A9   ; Variable jeu A9
+DEF wGameVarAA      EQU $C0AA   ; Variable jeu AA
 DEF wPlayerVarAB    EQU $C0AB   ; Variable joueur
+DEF wGameVarAC      EQU $C0AC   ; Variable jeu AC
 DEF wPlayerVarAD    EQU $C0AD   ; Variable joueur
+DEF wGameVarAE      EQU $C0AE   ; Variable jeu AE
 DEF wScrollBuffer   EQU $C0B0   ; Buffer colonne tilemap (16 octets)
 DEF wScorePrevious  EQU $C0C2   ; Score précédent (comparaison)
 DEF wLevelConfig    EQU $C0CE   ; Configuration niveau
@@ -213,11 +236,16 @@ DEF wCollisionFlag  EQU $C0D2   ; Flag collision
 DEF wPlayerInvuln   EQU $C0D3   ; Flag invulnérabilité joueur
 DEF wTimerSpecial   EQU $C0D7   ; Timer spécial
 DEF wLevelVarD8     EQU $C0D8   ; Variable niveau
+DEF wLevelVarD9     EQU $C0D9   ; Variable niveau D9
 DEF wLevelVarDA     EQU $C0DA   ; Variable niveau
 DEF wCurrentROMBank EQU $C0DC   ; Bank ROM courante ($02 initial)
+DEF wLevelVarDD     EQU $C0DD   ; Variable niveau DD
 DEF wAudioSaveDE    EQU $C0DE   ; Sauvegarde audio
 DEF wLevelInitFlag  EQU $C0DF   ; Flag init niveau
 DEF wLevelType      EQU $C0E1   ; Type de niveau (init à 0)
+DEF wGameVarE2      EQU $C0E2   ; Variable jeu E2
+DEF wGameVarFE      EQU $C0FE   ; Variable jeu FE
+DEF wGameVarFF      EQU $C0FF   ; Variable jeu FF
 
 ; --- Structure joueur ($C200-$C217) ---
 DEF wPlayerData     EQU $C200   ; Données joueur (structure)
@@ -232,6 +260,9 @@ DEF wPlayerUnk0C    EQU $C20C   ; Variable joueur
 DEF wPlayerUnk0E    EQU $C20E   ; Variable joueur
 DEF wPlayerUnk10    EQU $C210   ; Variable joueur
 DEF wPlayerUnk13    EQU $C213   ; Variable joueur
+
+; --- Stack WRAM ($C149) ---
+DEF wStackWRAM      EQU $C149   ; Stack pointer en WRAM
 
 ; --- Slots objets ($C208-$C25F) ---
 DEF OBJECT_SLOT_SIZE EQU $10    ; Taille d'un slot objet (16 octets)
@@ -248,6 +279,7 @@ DEF wAnimBuffer     EQU $C600   ; Buffer animation
 ; === Variables extended WRAM ($D000-$DFFF) ===
 
 ; --- Zone données ($D000-$D100) ---
+DEF wAudioData      EQU $D000   ; Données audio
 DEF wAudioQueueType EQU $D002   ; Type de son en queue
 DEF wAudioQueueId   EQU $D003   ; ID son en queue
 DEF wAudioCondition EQU $D007   ; Condition audio
@@ -256,6 +288,13 @@ DEF wAudioState1    EQU $D011   ; État audio 1
 DEF wAudioState2    EQU $D013   ; État audio 2
 DEF wAnimFlag       EQU $D014   ; Flag animation active
 DEF wObjectBuffer   EQU $D100   ; Buffer objets (10 × 16 bytes)
+DEF wObjBufferVar03 EQU $D103   ; Variable buffer objets +03
+DEF wObjBufferVar3D EQU $D13D   ; Variable buffer objets +3D
+DEF wRoutineWRAM    EQU $D14C   ; Routine copiée en WRAM
+DEF wStackInit      EQU $D157   ; Stack pointer initial
+DEF wAudioBuffer    EQU $D190   ; Buffer audio
+DEF wAudioBufVar2   EQU $D192   ; Buffer audio +2
+DEF wAudioBufVar3   EQU $D193   ; Buffer audio +3
 
 ; --- Zone niveau ($DA00-$DA29) ---
 DEF wLevelData      EQU $DA00   ; Type de niveau

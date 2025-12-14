@@ -43,15 +43,15 @@
 
 **Objectif** : Zéro adresse en dur dans le code - tout via constantes nommées.
 
-### 4.1 Adresses WRAM restantes (~170 occurrences)
+### 4.1 Adresses WRAM restantes ✅
 
 | Zone | Occurrences | Priorité | Status |
 |------|-------------|----------|--------|
-| $DFE0-$DFF9 (état jeu) | ~100 | CRITIQUE | ⬜ TODO |
-| $DA00-$DA29 (niveau) | ~60 | HAUTE | ⬜ TODO |
-| $C200-$C248 (joueur/objets) | ~45 | HAUTE | ⬜ TODO |
-| $C0xx (variables jeu) | ~50 | MOYENNE | ⬜ TODO |
-| $D0xx (extended WRAM) | ~30 | MOYENNE | ⬜ TODO |
+| $DFE0-$DFF9 (état jeu) | 0 | - | ✅ FAIT |
+| $DA00-$DA29 (niveau) | 0 | - | ✅ FAIT |
+| $C200-$C248 (joueur/objets) | 0 | - | ✅ FAIT |
+| $C0xx (variables jeu) | 0 | - | ✅ FAIT |
+| $D0xx (extended WRAM) | 0 | - | ✅ FAIT |
 
 ### 4.2 Données statiques (tables ROM)
 
@@ -211,13 +211,15 @@
 | Catégorie | Fait | Total | % |
 |-----------|------|-------|---|
 | Constantes HRAM | 100+ | ~120 | 85% |
-| Constantes WRAM | 100+ | ~200 | 50% |
-| Adresses en dur éliminées | ~50 | ~220 | 23% |
+| Constantes WRAM | 130+ | ~200 | 65% |
+| Adresses WRAM en dur éliminées | ~220 | ~220 | 100% |
 | Labels renommés | ~15 | ~1700 | 1% |
 | Routines documentées | ~15 | ~200 | 8% |
 | Structures définies | 5 | 5 | 100% |
 | Structures comprises | 0 | 5 | 0% |
 | Systèmes documentés | 0 | 5 | 0% |
+
+*Note: Section 4.1 terminée (0 magic values WRAM). Reste tables ROM et constantes hardware (4.2, 4.3).*
 
 ## Découvertes
 

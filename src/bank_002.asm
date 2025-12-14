@@ -1171,7 +1171,7 @@ jr_002_44be:
     adc h
     adc h
     ld a, [$fdfa]
-    ld de, $d13d
+    ld de, wObjBufferVar3D
     ld a, l
     ld d, e
     ld sp, hl
@@ -5795,7 +5795,7 @@ Call_002_5777:
     rst $38
     ld [$08ff], sp
     rst $38
-    ld [$c0ff], sp
+    ld [wGameVarFF], sp
     rst $38
     ld h, b
     rst $38
@@ -6603,7 +6603,7 @@ Jump_002_5b65:
     ld [hl], a
 
 jr_002_5b73:
-    ld hl, $c031
+    ld hl, wSpriteVar31
     ld de, $5c9d
     ld b, $04
     ld a, [$da14]
@@ -6650,7 +6650,7 @@ jr_002_5ba0:
     ld a, [$da14]
     add $04
     ld [$da14], a
-    ld hl, $c031
+    ld hl, wSpriteVar31
     ld a, [hl-]
     cp $80
     jr nc, jr_002_5be2
@@ -6954,7 +6954,7 @@ jr_002_5d17:
     dec c
     jr nz, jr_002_5ce7
 
-    ld hl, $c031
+    ld hl, wSpriteVar31
     ld a, [hl-]
     add $18
     ldh [hSpriteX], a
@@ -7068,7 +7068,7 @@ jr_002_5da0:
     jr z, jr_002_5df7
 
 jr_002_5dce:
-    ld hl, $c032
+    ld hl, wSpriteVar32
     ld b, $04
     ld a, [$da1e]
     and a
@@ -11831,7 +11831,7 @@ Call_002_7371:
     cp $02
     ld h, [hl]
     ld l, l
-    ld sp, $d157
+    ld sp, wStackInit
     ld l, e
     pop af
     ld h, h
@@ -13368,7 +13368,7 @@ jr_002_79f2:
 
 jr_002_7a62:
     ld sp, hl
-    ld bc, $c0fe
+    ld bc, wGameVarFE
     ld a, a
     ld [hl], b
     dec de
