@@ -3758,7 +3758,7 @@ jr_001_4fcb:
     inc a
     ldh [hShadowSCX], a
     ld b, $01
-    call Call_000_1e9b
+    call OffsetSpritesY
     call Call_000_2c96
     ld hl, $c202
     dec [hl]

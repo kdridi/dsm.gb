@@ -6062,7 +6062,7 @@ jr_000_1df0:
     ld hl, hShadowSCX
     add [hl]
     ld [hl], a
-    call Call_000_1e9b
+    call OffsetSpritesY
     call Call_000_2c96
     ld hl, wOamAttrY
     ld de, $0004
@@ -6178,7 +6178,7 @@ jr_000_1e96:
     ret
 
 
-Call_000_1e9b:
+OffsetSpritesY:
     ld hl, wSpriteVar31
     ld de, $0004
     ld c, $08
