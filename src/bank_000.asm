@@ -1136,7 +1136,7 @@ jr_000_0581:
     ld a, $5b
     ldh [hScrollColumn], a
     call $2439
-    call Call_000_3d11
+    call InitLevelData
     call UpdateCoinDisplay
     call DisplayLivesCount
     ldh a, [hAnimTileIndex]
@@ -12303,7 +12303,7 @@ Jump_000_3cc2:
     di
     ld e, e
 
-Call_000_3d11:
+InitLevelData:
     ld hl, wSpriteTemp
     ld b, $20
     xor a
