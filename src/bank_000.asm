@@ -3972,7 +3972,7 @@ SpriteEndData:
 ; Scroll avec animation des sprites, transition vers écran suivant
 ; ===========================================================================
 State32_CreditsScroll::
-    call Call_000_1547
+    call AnimateCreditsFrame
     ldh a, [hShadowSCX]
     inc a
     inc a
@@ -4052,7 +4052,7 @@ jr_000_13e2:
 ; Affiche le texte des crédits ligne par ligne vers VRAM
 ; ===========================================================================
 State33_DisplayCreditsText::
-    call Call_000_1547
+    call AnimateCreditsFrame
     ldh a, [hTimer1]
     and a
     ret nz
@@ -4118,7 +4118,7 @@ jr_000_142d:
 ; Incrémente compteur jusqu'à $20, puis configure timer et état suivant
 ; ===========================================================================
 State34_WaitCreditsCounter::
-    call Call_000_1547
+    call AnimateCreditsFrame
     ldh a, [hFrameCounter]
     and $03
     ret nz
@@ -4140,7 +4140,7 @@ State34_WaitCreditsCounter::
 ; Attend timer, puis état suivant
 ; ===========================================================================
 State35_WaitTimer::
-    call Call_000_1547
+    call AnimateCreditsFrame
     ldh a, [hTimer1]
     and a
     ret nz
@@ -4154,7 +4154,7 @@ State35_WaitTimer::
 ; Compteur jusqu'à $50, puis transition vers $33 ou $37 selon flag
 ; ===========================================================================
 State36_CreditsFinalTransition::
-    call Call_000_1547
+    call AnimateCreditsFrame
     ldh a, [hFrameCounter]
     and $03
     ret nz
@@ -4183,7 +4183,7 @@ jr_000_147c:
 ; Anime sprite vers $D0, copie données tilemap, incrémente niveau
 ; ===========================================================================
 State37_FinalSpriteAnimation::
-    call Call_000_1547
+    call AnimateCreditsFrame
     ld hl, wPlayerState
     inc [hl]
     ld a, [hl]
@@ -4253,7 +4253,7 @@ TilemapEndData:
 ; Attend timer, anime les positions tilemap jusqu'à valeurs finales
 ; ===========================================================================
 State38_CreditsAnimation::
-    call Call_000_1547
+    call AnimateCreditsFrame
     ldh a, [hTimer1]
     and a
     ret nz
@@ -4331,7 +4331,7 @@ Call_000_1527:
     ret
 
 
-Call_000_1547:
+AnimateCreditsFrame:
     call AnimateAndCallBank3
     call UpdateCreditsStars
     ret
