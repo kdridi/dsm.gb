@@ -7796,7 +7796,7 @@ Jump_000_2642:
     call Call_000_266d
     pop hl
     push hl
-    call Call_000_2cf4
+    call SaveSoundDataToHL
     pop hl
 
 jr_000_2663:
@@ -9124,7 +9124,7 @@ Call_000_2cee:
     ld hl, wObjectBuffer
     ld l, a
 
-Call_000_2cf4:
+SaveSoundDataToHL:
     ld de, hSoundId
     ld b, $0d
 
