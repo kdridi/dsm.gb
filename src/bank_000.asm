@@ -869,7 +869,7 @@ FinalizeGameStateAfterScore:
 StartSelectedLevel:
     ld a, [wUnknown04]
     cp $78
-    jr z, jr_000_04a2
+    jr z, ResetRenderForHighLevels
 
     ld a, [wGameConfigA6]
     dec a
@@ -878,59 +878,59 @@ StartSelectedLevel:
     ldh [hAnimTileIndex], a
     ld e, $00
     cp $11
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $12
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $13
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $21
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $22
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $23
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $31
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $32
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $33
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $41
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
     cp $42
-    jr z, jr_000_049c
+    jr z, SelectTileIndexForLevel
 
     inc e
 
-jr_000_049c:
+SelectTileIndexForLevel:
     ld a, e
 
-jr_000_049d:
+ApplyRenderContext:
     ldh [hRenderContext], a
     jp Jump_000_053d
 
 
-jr_000_04a2:
+ResetRenderForHighLevels:
     xor a
     ld [wGameConfigA6], a
     ldh a, [hLevelIndex]
@@ -940,7 +940,7 @@ jr_000_04a2:
     ld a, $11
     ldh [hAnimTileIndex], a
     xor a
-    jr jr_000_049d
+    jr ApplyRenderContext
 
 jr_000_04b4:
     ld a, [wGameConfigA6]
