@@ -1724,7 +1724,7 @@ Call_000_0878:
     ldh [hParam3], a
     pop hl
     push hl
-    call Call_000_0aa6
+    call CheckBoundingBoxCollision
     and a
     jp z, Jump_000_0958
 
@@ -2136,7 +2136,7 @@ jr_000_0aa1:
     jp Jump_000_0a38
 
 
-Call_000_0aa6:
+CheckBoundingBoxCollision:
     inc l
     inc l
     ld a, [hl]
@@ -6547,7 +6547,7 @@ jr_000_2020:
     ldh [hTemp1], a
     pop hl
     push hl
-    call Call_000_0aa6
+    call CheckBoundingBoxCollision
     and a
     jr z, jr_000_201b
 
