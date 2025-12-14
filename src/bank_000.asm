@@ -1316,7 +1316,7 @@ StateHandler_00::
     call CheckPlayerFeetCollision
     call UpdatePipeAnimation
     call CheckPlayerHeadCollision
-    call Call_000_0ae1
+    call CheckPlayerObjectCollision
     call HandleObjectAnimationOnBlockHit
     call UpdatePlayerInvulnBlink
 
@@ -2195,7 +2195,7 @@ jr_000_0adf:
     ret
 
 
-Call_000_0ae1:
+CheckPlayerObjectCollision:
     ld a, [$c207]
     cp $01
     ret z
