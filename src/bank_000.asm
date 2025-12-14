@@ -1243,7 +1243,7 @@ jr_000_0600:
 ;; ==========================================================================
 ;; Premier état du jeu. Probablement l'initialisation du menu/écran titre.
 ;; Structure :
-;;   1. Init animations et graphiques (UpdateScroll, Call_000_0837)
+;;   1. Init animations et graphiques (UpdateScroll, UpdateAnimatedObjectState)
 ;;   2. Appels multiples vers bank 3 (init objets $c208-$c248)
 ;;   3. Appels vers bank 2 ($5844)
 ;;   4. Mise à jour diverses (scroll, tiles, etc.)
@@ -1251,7 +1251,7 @@ jr_000_0600:
 ;; ==========================================================================
 StateHandler_00::
     call UpdateScroll
-    call Call_000_0837
+    call UpdateAnimatedObjectState
 
     ; Switch vers bank 3 pour initialisation objets
     ldh a, [hCurrentBank]
@@ -1653,7 +1653,7 @@ jr_000_082b:
     ret
 
 
-Call_000_0837:
+UpdateAnimatedObjectState::
     ldh a, [hAnimObjCount]
     and a
     jr z, jr_000_083f
@@ -7263,7 +7263,7 @@ State0D_GameplayFull::
     ld a, [wAudioCondition]
     and a
     call nz, Call_000_1b3c       ; Trigger son si condition
-    call Call_000_0837           ; Update collisions?
+    call UpdateAnimatedObjectState           ; Update collisions?
     call $4fec                   ; Bank 1: update objects?
     call $5118                   ; Bank 1: update sprites?
 
