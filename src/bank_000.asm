@@ -7493,7 +7493,7 @@ jr_000_2492:
     add $d0
     sub c
     ldh [hSoundParam2], a
-    call Call_000_24e6
+    call InitSoundConditional
     pop hl
     ld de, $0003
     add hl, de
@@ -7523,7 +7523,7 @@ Call_000_24cd:
     ldh [hSoundCh4], a
     jr jr_000_2502
 
-Call_000_24e6:
+InitSoundConditional:
     ldh a, [hLevelIndex]
     and a
     jr nz, jr_000_24ee
