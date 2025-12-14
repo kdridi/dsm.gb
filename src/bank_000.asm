@@ -1776,12 +1776,12 @@ jr_000_08b5:
     add hl, bc
     bit 7, [hl]
     pop hl
-    jr nz, jr_000_0955
+    jr nz, PlayerInteractionDone
 
     call SelectAnimationBank
     call GetAnimationDataPointer
     and a
-    jr z, jr_000_0955
+    jr z, PlayerInteractionDone
 
     ld hl, $c20a
     ld [hl], $00
@@ -1834,7 +1834,7 @@ jr_000_0927:
 jr_000_092e:
     ld a, $32
     ldh [hAnimObjCount], a
-    jr jr_000_0955
+    jr PlayerInteractionDone
 
 jr_000_0934:
     xor a
@@ -1851,11 +1851,11 @@ jr_000_0939:
 
     ldh a, [hTimerAux]
     cp $03
-    jr nc, jr_000_0955
+    jr nc, PlayerInteractionDone
 
     call TriggerObjectSound
     and a
-    jr z, jr_000_0955
+    jr z, PlayerInteractionDone
 
     ldh a, [hTimerAux]
     and a
@@ -1863,7 +1863,7 @@ jr_000_0939:
 
     call InitGameState
 
-jr_000_0955:
+PlayerInteractionDone:
     pop hl
     pop bc
     ret
@@ -1877,12 +1877,12 @@ Jump_000_0958:
 
 jr_000_095d:
     call StartGameplayPhase
-    jr jr_000_0955
+    jr PlayerInteractionDone
 
 jr_000_0962:
     call LoadAudioSlotConfiguration
     and a
-    jr z, jr_000_0955
+    jr z, PlayerInteractionDone
 
     jr jr_000_08fb
 
@@ -1898,7 +1898,7 @@ Jump_000_096a:
     jr z, jr_000_09be
 
     cp $2e
-    jr nz, jr_000_0955
+    jr nz, PlayerInteractionDone
 
     ldh a, [hTimerAux]
     cp $02
@@ -1927,7 +1927,7 @@ jr_000_099b:
     dec l
     dec l
     ld [hl], $ff
-    jr jr_000_0955
+    jr PlayerInteractionDone
 
 jr_000_09a2:
     ldh a, [hTimerAux]
@@ -2046,7 +2046,7 @@ HandleObjectAnimationOnBlockHit:
 FindObjectLoop:
     ld a, [hl]
     cp $ff
-    jr nz, jr_000_0a3d
+    jr nz, ProcessFoundObject
 
 Jump_000_0a38:
     add hl, de
@@ -2056,13 +2056,13 @@ Jump_000_0a38:
     ret
 
 
-jr_000_0a3d:
+ProcessFoundObject:
     push bc
     push hl
     ld bc, $000a
     add hl, bc
     bit 7, [hl]
-    jr nz, jr_000_0aa1
+    jr nz, ContinueObjectScan
 
     ld c, [hl]
     inc l
@@ -2076,15 +2076,15 @@ jr_000_0a3d:
     ld b, [hl]
     ld a, [wPlayerX]
     sub b
-    jr c, jr_000_0aa1
+    jr c, ContinueObjectScan
 
     ld b, a
     ld a, $14
     sub b
-    jr c, jr_000_0aa1
+    jr c, ContinueObjectScan
 
     cp $07
-    jr nc, jr_000_0aa1
+    jr nc, ContinueObjectScan
 
     inc l
     ld a, c
@@ -2103,12 +2103,12 @@ jr_000_0a6a:
     ld a, [wPlayerState]
     sub $06
     sub c
-    jr nc, jr_000_0aa1
+    jr nc, ContinueObjectScan
 
     ld a, [wPlayerState]
     add $06
     sub b
-    jr c, jr_000_0aa1
+    jr c, ContinueObjectScan
 
     dec l
     dec l
@@ -2118,7 +2118,7 @@ jr_000_0a6a:
     call CheckObjectBottomCollision
     pop de
     and a
-    jr z, jr_000_0aa1
+    jr z, ContinueObjectScan
 
     ld a, [wPlayerState]
     add $fc
@@ -2129,7 +2129,7 @@ jr_000_0a6a:
     ldh a, [hAnimStructBank]
     ldh [hPtrBank], a
 
-jr_000_0aa1:
+ContinueObjectScan:
     pop hl
     pop bc
     jp Jump_000_0a38
@@ -2233,12 +2233,12 @@ jr_000_0af9:
     ld b, a
     ld a, [hl]
 
-jr_000_0b11:
+SubtractPositionOffset:
     dec b
     jr z, jr_000_0b18
 
     sub $08
-    jr jr_000_0b11
+    jr SubtractPositionOffset
 
 jr_000_0b18:
     ld c, a
@@ -2277,10 +2277,10 @@ jr_000_0b34:
     pop hl
     ld a, [hl]
 
-jr_000_0b44:
+AddHeightOffset:
     add $08
     dec b
-    jr nz, jr_000_0b44
+    jr nz, AddHeightOffset
 
     ld b, a
     ld a, [wPlayerState]
@@ -3339,7 +3339,7 @@ State26_PrincessRising::
     dec l
     ld a, [hl]
     and a
-    jr nz, jr_000_1070
+    jr nz, UpdateAnimationFrame
 
     ld [hl], $01
     ld hl, $c213
@@ -3347,7 +3347,7 @@ State26_PrincessRising::
     ld a, $40
     ldh [hTimer1], a
 
-jr_000_1070:
+UpdateAnimationFrame:
     ldh a, [hFrameCounter]
     and $01
     jr nz, jr_000_107f
@@ -3910,10 +3910,10 @@ ClearScrollBuffer:
     ld b, $10
     ld a, $2c
 
-jr_000_134c:
+ClearBufferLoop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_134c
+    jr nz, ClearBufferLoop
 
     ld a, $01
     ldh [hScrollPhase], a
@@ -3938,12 +3938,12 @@ jr_000_134c:
 Copy5Bytes:
     ld b, $05
 
-jr_000_136f:
+CopyByteLoop:
     ld a, [de]
     ld [hl+], a
     inc de
     dec b
-    jr nz, jr_000_136f
+    jr nz, CopyByteLoop
 
     ret
 
@@ -4011,7 +4011,7 @@ UpdateCreditsStars:
     ld de, $0010
     ld b, $03
 
-jr_000_13c3:
+ScrollAnimationLoop:
     dec [hl]
     ld a, [hl]
     cp $01
@@ -4042,7 +4042,7 @@ jr_000_13de:
 jr_000_13e2:
     add hl, de
     dec b
-    jr nz, jr_000_13c3
+    jr nz, ScrollAnimationLoop
 
     ret
 
@@ -4062,7 +4062,7 @@ State33_DisplayCreditsText::
     ld l, a
     ld de, $9a42
 
-jr_000_13f7:
+DisplayCreditsLoop:
     ld a, [hl]
     cp $fe
     jr z, .clearTile
@@ -4083,7 +4083,7 @@ jr_000_13f7:
     cp $93
     jr z, jr_000_1422
 
-    jr jr_000_13f7
+    jr DisplayCreditsLoop
 
 .clearTile:
     ld b, $2c
@@ -4092,7 +4092,7 @@ jr_000_13f7:
 jr_000_141c:
     ld de, $9a87
     inc hl
-    jr jr_000_13f7
+    jr DisplayCreditsLoop
 
 jr_000_1422:
     inc hl
