@@ -73,11 +73,11 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | $0A | $1626 | **Chargement sous-niveau** - LCD off, clear, repositionne → $00 |
 | $0B | $1663 | **Descente tuyau** - déplace joueur vers bas → charge dest → $0C |
 | $0C | $16D1 | **Sortie tuyau gauche** - déplace joueur vers X cible → $00 |
-| $0D | $236D | ? |
-| $0E | $0322 | **Init niveau** (INIT_GAME_STATE) |
-| $0F | $04C3 | ? |
-| $10 | $05B7 | ? |
-| $11 | $055F | ? |
+| $0D | $236D | **Gameplay complet** - update objets/ennemis, 4 slots, multi-bank |
+| $0E | $0322 | **Init niveau** - charge tiles VRAM, config HUD → $0F |
+| $0F | $04C3 | **Menu sélection** - navigation joypad, affiche indices → $11 |
+| $10 | $05B7 | **Noop** - état vide (placeholder, ret immédiat) |
+| $11 | $055F | **Démarrage niveau** - reset score, config timers, init display |
 | $12 | $3D8E | ? |
 | $13 | $3DCE | ? |
 | $14 | $5832 | Bank 1 |
@@ -222,9 +222,9 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | Handlers RST | 0 | 8 | 8 |
 | Interruptions | 0 | 6 | 6 |
 | Entry point | 0 | 3 | 3 |
-| Handlers état | 47 | 13 | 60 |
+| Handlers état | 42 | 18 | 60 |
 | Routines | 0 | 14 | 14 |
 | Tables données | 0 | 4 | 4 |
-| **Total** | **47** | **48** | **95** |
+| **Total** | **42** | **53** | **95** |
 
-**Progression** : 51% analysé (48/95)
+**Progression** : 56% analysé (53/95)

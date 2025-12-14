@@ -675,11 +675,11 @@ StateJumpTable:
     dw State0A_LoadSubLevel    ; État $0A - Chargement sous-niveau
     dw State0B_PipeEnterDown   ; État $0B - Descente tuyau
     dw State0C_PipeExitLeft    ; État $0C - Sortie tuyau gauche
-    dw $236d    ; État $0D
-    dw $0322    ; État $0E
-    dw $04c3    ; État $0F
-    dw $05b7    ; État $10
-    dw $055f    ; État $11
+    dw State0D_GameplayFull    ; État $0D - Gameplay avec objets
+    dw State0E_LevelInit       ; État $0E - Init niveau + HUD
+    dw State0F_LevelSelect     ; État $0F - Menu sélection
+    dw State10_Noop            ; État $10 - Vide (placeholder)
+    dw State11_LevelStart      ; État $11 - Démarrage niveau
     dw $3d8e    ; État $12
     dw $3dce    ; État $13
     dw $5832    ; État $14
@@ -727,10 +727,11 @@ StateJumpTable:
 ; Peut-être du padding ou des données obsolètes
     db $14, $1d, $a4, $06
 
-; === Handler État $0E ($0322) ===
-; Note: L'octet $AF ci-dessous forme "ld b, $af" avec le $06 précédent
-; si lu linéairement, mais l'état $0E saute directement ici.
-Jump_000_0322::
+; ===========================================================================
+; État $0E - Initialisation niveau (chargement tiles et HUD)
+; LCD off → charge tiles VRAM → configure HUD → LCD on → état $0F
+; ===========================================================================
+State0E_LevelInit::
     xor a                   ; A = 0 ($AF)
     ldh [rLCDC], a          ; Désactiver LCD
     di
@@ -1000,12 +1001,18 @@ jr_000_04b4:
     ld [hl], a
     jr jr_000_04ce
 
-    ldh a, [$ff81]
+; ===========================================================================
+; État $0F - Menu/Écran sélection niveau
+; Gère la navigation avec le joypad, affiche les indices de niveau
+; Attend timer ou action → état $11
+; ===========================================================================
+State0F_LevelSelect::
+    ldh a, [$ff81]               ; Joypad state
     ld b, a
-    bit 3, b
+    bit 3, b                     ; Start pressé ?
     jr nz, jr_000_0450
 
-    bit 2, b
+    bit 2, b                     ; Select pressé ?
     jr nz, jr_000_04b4
 
 jr_000_04ce:
@@ -1122,21 +1129,26 @@ jr_000_055a:
 
     ret
 
-
+; ===========================================================================
+; État $11 - Démarrage niveau (reset score, config timers, init display)
+; LCD off → clear score si pas lock → config timers → init routines
+; ===========================================================================
+State11_LevelStart::
     xor a
-    ldh [rLCDC], a
+    ldh [rLCDC], a               ; LCD off
     di
     ldh a, [hUpdateLockFlag]
     and a
-    jr nz, jr_000_0574
+    jr nz, .skipScoreReset
 
+    ; Reset score si pas verrouillé
     xor a
     ld [wScoreBCDHigh], a
     ld [wScoreBCDMid], a
     ld [wScoreBCD], a
     ldh [hDMACounter], a
 
-jr_000_0574:
+.skipScoreReset:
     call Call_000_05d0
     call Call_000_05b8
     ld hl, $9c00
@@ -1171,6 +1183,11 @@ jr_000_0581:
     call Call_000_1c4d
     ldh a, [hAnimTileIndex]
     call Call_000_0d64
+; ===========================================================================
+; État $10 - État vide (placeholder)
+; Retourne immédiatement sans action
+; ===========================================================================
+State10_Noop::
     ret
 
 
@@ -7104,56 +7121,71 @@ Call_000_235a:
     pop hl
     ret
 
-
+; ===========================================================================
+; État $0D - Gameplay principal avec objets/ennemis actifs
+; C'est le mode de jeu normal où les ennemis et bonus sont mis à jour.
+; ===========================================================================
+State0D_GameplayFull::
     ldh a, [hPauseFlag]
     and a
-    ret nz
+    ret nz                       ; Skip si pause
 
-    call Call_000_218f
-    call $4fb2
+    ; Mise à jour logique du jeu
+    call Call_000_218f           ; Update scrolling/player?
+    call $4fb2                   ; Bank 1: update level?
     ld a, [wAudioCondition]
     and a
-    call nz, Call_000_1b3c
-    call Call_000_0837
-    call $4fec
-    call $5118
+    call nz, Call_000_1b3c       ; Trigger son si condition
+    call Call_000_0837           ; Update collisions?
+    call $4fec                   ; Bank 1: update objects?
+    call $5118                   ; Bank 1: update sprites?
+
+    ; Bank 3 : mise à jour des 4 slots d'objets
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
     ld a, $03
     ldh [hCurrentBank], a
     ld [$2000], a
-    call $498b
-    ld bc, $c218
+    call $498b                   ; Bank 3: init update
+    ld bc, $c218                 ; Slot objet 1
     ld hl, $2164
     call $490d
-    ld bc, $c228
+    ld bc, $c228                 ; Slot objet 2
     ld hl, $2164
     call $490d
-    ld bc, $c238
+    ld bc, $c238                 ; Slot objet 3
     ld hl, $2164
     call $490d
-    ld bc, $c248
+    ld bc, $c248                 ; Slot objet 4
     ld hl, $2164
     call $490d
-    call $4aea
+    call $4aea                   ; Bank 3: finalize
     call $4b8a
     call $4bb5
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [$2000], a
+
+    ; Update collision/physics
     call Call_000_2488
+
+    ; Bank 2 : mise à jour spéciale
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
     ld a, $02
     ldh [hCurrentBank], a
     ld [$2000], a
-    call $5844
+    call $5844                   ; Bank 2: special update
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [$2000], a
+
+    ; Finalize
     call CallBank3Handler
-    call $515e
-    call Call_000_1efa
+    call $515e                   ; Bank 1: final update
+    call Call_000_1efa           ; Update display?
+
+    ; Toggle direction joueur toutes les 4 frames (animation idle)
     ldh a, [hFrameCounter]
     and $03
     ret nz
@@ -7162,7 +7194,6 @@ Call_000_235a:
     xor $01
     ld [wPlayerDir], a
     ret
-
 
 ; =============================================================================
 ; UpdateAnimTiles - UpdateAnimTiles
