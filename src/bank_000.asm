@@ -1483,7 +1483,7 @@ ApplyLevelStyleConfig:
 
     ld c, $0c
     cp $0b
-    jr nz, jr_000_077e
+    jr nz, ContinueAfterStateSetup
 
 EnterGameplayState:
     ld a, $0d
@@ -1493,7 +1493,7 @@ EnterGameplayState:
     or c
     ld [wPlayerDir], a
 
-jr_000_077e:
+ContinueAfterStateSetup:
     call FindAudioTableEntry
     ei
     ret
@@ -1519,7 +1519,7 @@ RenderPlayerUpdate:
     ld [$2000], a
     ldh a, [hRenderCounter]
     and a
-    jr nz, jr_000_07b1
+    jr nz, SetStateRenderEnd
 
     ldh a, [hRenderContext]
     ld hl, $07b7
@@ -1531,7 +1531,7 @@ RenderPlayerUpdate:
     ret
 
 
-jr_000_07b1:
+SetStateRenderEnd:
     ld a, $04
     ld [wStateRender], a
     ret
@@ -2093,10 +2093,10 @@ ProcessFoundObject:
     ld c, a
     ld a, [hl]
 
-jr_000_0a6a:
+Loop_AddValueByEight:
     add $08
     dec c
-    jr nz, jr_000_0a6a
+    jr nz, Loop_AddValueByEight
 
     ld c, a
     ld b, [hl]
@@ -2143,31 +2143,31 @@ CheckBoundingBoxCollision:
     ld b, a
     ldh a, [hTemp0]
     sub b
-    jr nc, jr_000_0adf
+    jr nc, ReturnZero
 
     ld a, c
     and $0f
     ld b, a
     ld a, [hl]
 
-jr_000_0ab6:
+Loop_SubtractValueByEight:
     dec b
-    jr z, jr_000_0abd
+    jr z, Loop_SubtractValueByEightEnd
 
     sub $08
-    jr jr_000_0ab6
+    jr Loop_SubtractValueByEight
 
-jr_000_0abd:
+Loop_SubtractValueByEightEnd:
     ld b, a
     ldh a, [hTemp1]
     sub b
-    jr c, jr_000_0adf
+    jr c, ReturnZero
 
     inc l
     ldh a, [hParam3]
     ld b, [hl]
     sub b
-    jr c, jr_000_0adf
+    jr c, ReturnZero
 
     ld a, c
     and $70
@@ -2175,21 +2175,21 @@ jr_000_0abd:
     ld b, a
     ld a, [hl]
 
-jr_000_0ad1:
+Loop_AddValueByEightV2:
     add $08
     dec b
-    jr nz, jr_000_0ad1
+    jr nz, Loop_AddValueByEightV2
 
     ld b, a
     ldh a, [hTemp2]
     sub b
-    jr nc, jr_000_0adf
+    jr nc, ReturnZero
 
     ld a, $01
     ret
 
 
-jr_000_0adf:
+ReturnZero:
     xor a
     ret
 
