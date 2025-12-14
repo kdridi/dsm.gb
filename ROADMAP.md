@@ -1,95 +1,223 @@
-# ROADMAP
+# ROADMAP - Reverse Engineering Complet
 
-## Phase 1 : Setup & Validation bit-perfect ✓
+**Objectif** : Comprendre 100% du code, le documenter de manière compréhensible, et transformer le désassemblage brut en code source lisible et maintenable.
+
+**Progression globale** : ~35% (estimé)
+
+---
+
+## Phase 1 : Setup & Validation bit-perfect ✅
 *Terminée le 2025-12-13*
 
-- [x] [000001] Créer scripts setup (vérifie/installe rgbds, cross-platform)
-- [x] [000002] Stocker hash de référence (SHA256 + MD5)
-- [x] [000003] Obtenir les sources ASM initiales
-- [x] [000004] Créer Makefile (build + verify) et valider compilation bit-perfect
-- [x] [000005] Hook pre-commit pour protection anti-régression
+- [x] Créer scripts setup (vérifie/installe rgbds, cross-platform)
+- [x] Stocker hash de référence (SHA256 + MD5)
+- [x] Obtenir les sources ASM initiales
+- [x] Créer Makefile (build + verify) et valider compilation bit-perfect
+- [x] Hook pre-commit pour protection anti-régression
 
-## Phase 2 : Analyse & Documentation (en cours)
-*Démarrée le 2025-12-14*
+---
 
-Objectif : comprendre le code via décomposition en "free functions" (macros).
+## Phase 2 : Analyse initiale ✅
+*Terminée le 2025-12-14*
 
-### Terminé ✓
+- [x] Identifier le point d'entrée et la boucle principale
+- [x] Créer `macros.inc` avec macros utilitaires
+- [x] Décomposer SystemInit en 14 free functions
+- [x] Documenter GameLoop, VBlankHandler
+- [x] Documenter routines clés (StateDispatcher, UpdateScoreDisplay, etc.)
+- [x] Créer `constants.inc` avec constantes de base
 
-- [x] Identifier le point d'entrée (reset vector) et la boucle principale
-- [x] Créer `macros.inc` avec macros utilitaires (CLEAR_LOOP_*, WAIT_LY, etc.)
-- [x] Documenter convention "free function" dans CLAUDE.md
-- [x] Décomposer SystemInit (Jump_000_0185) en 14 free functions
-- [x] Documenter GameLoop (jr_000_0226) - 7 étapes
-- [x] Documenter VBlankHandler (JoypadTransitionInterrupt) - 7 étapes
-- [x] Documenter routines clés :
-  - Call_000_09e8 (InitGameState)
-  - Call_000_172d (CallBank3_4823)
-  - Call_000_07c3 (CheckInputAndPause)
-  - Call_000_02a3 (StateDispatcher + jump table)
-  - Call_000_3f24 (UpdateScoreDisplay - BCD→tiles)
+---
 
-- [x] Créer `constants.inc` avec constantes nommées (remplacer magic values)
-  - Variables HRAM : hVBlankFlag, hGameState, hShadowSCX, hCurrentBank, etc.
-  - Variables WRAM : wUnknownA4, wUnknownA8, wUnknownDC, wUnknownE1
-  - Zones mémoire : _VRAM_END, _WRAM_END, _HRAM_END, _OAM_END, _STACK_TOP
-  - Config : PALETTE_STANDARD, AUDVOL_MAX, IE_VBLANK_STAT, etc.
-- [x] Documenter convention "constantes nommées" dans CLAUDE.md
+## Phase 3 : Nommage & Constantes ✅
+*Terminée le 2025-12-14*
 
-### À faire
+- [x] Renommer les labels clés → noms explicites (11 routines)
+- [x] Remplacer adresses HRAM hex → 100+ constantes nommées
+- [x] Renommer hUnknownXX/wUnknownXX → 70+ noms explicites
+- [x] Définir zones WRAM critiques ($DA00, $DFE0, $DF00)
 
-- [x] Documenter routines VBlank restantes :
-  - Call_000_224f (UpdateScrollColumn)
-  - Call_000_1c2a (UpdateLivesDisplay)
-  - Call_000_3d61 (UpdateLevelScore)
-  - Call_000_23f8 (UpdateAnimTiles)
-- [x] Décoder la jump table StateDispatcher ($02A5) → 60 états identifiés
-- [x] Identifier variables HRAM/WRAM → 40+ constantes dans constants.inc
+---
 
-## Phase 3 : Enrichissement (en cours)
+## Phase 4 : Élimination des magic values (en cours)
 
-Objectif : rendre le code plus lisible sans changer le binaire.
+**Objectif** : Zéro adresse en dur dans le code - tout via constantes nommées.
 
-### Terminé ✓
+### 4.1 Adresses WRAM restantes (~170 occurrences)
 
-- [x] Créer `constants.inc` avec DEF/EQU pour adresses connues
-  - hGameState ($FFB3), hVBlankFlag ($FF85), hCurrentBank ($FFFD), etc.
-  - Voir `src/constants.inc` pour liste complète
+| Zone | Occurrences | Priorité | Status |
+|------|-------------|----------|--------|
+| $DFE0-$DFF9 (état jeu) | ~100 | CRITIQUE | ⬜ TODO |
+| $DA00-$DA29 (niveau) | ~60 | HAUTE | ⬜ TODO |
+| $C200-$C248 (joueur/objets) | ~45 | HAUTE | ⬜ TODO |
+| $C0xx (variables jeu) | ~50 | MOYENNE | ⬜ TODO |
+| $D0xx (extended WRAM) | ~30 | MOYENNE | ⬜ TODO |
 
-- [x] Renommer les labels clés → noms explicites :
-  - SystemInit, GameLoop, StateDispatcher
-  - CheckInputAndPause, InitGameState, CallBank3Handler
-  - UpdateScoreDisplay, UpdateScrollColumn, UpdateLivesDisplay
-  - UpdateLevelScore, UpdateAnimTiles
+### 4.2 Données statiques (tables ROM)
 
-- [x] Remplacer toutes les adresses HRAM hex ($FFxx) par constantes nommées
-  - 70+ constantes HRAM définies dans `constants.inc`
-  - Catégories : Joypad, Timers, Sprites, Audio, État jeu, Pointeurs
-  - Exemples : hJoypadState, hTimer1, hSpriteY/X, hSoundId, hGameState
+- [ ] Table de jump StateDispatcher ($02A5) → 60 états
+- [ ] Table d'animation ($3FAF)
+- [ ] Table audio ($336C)
+- [ ] Données de style ($030C, $0734, $0B5C, etc.)
+- [ ] Tilemaps initiaux ($0783)
 
-- [x] Renommer hUnknownXX/wUnknownXX → noms explicites (session 2025-12-14)
-  - 50+ variables HRAM renommées (hJoypadDelta, hAnimFrameIndex, hAnimObjX/Y, etc.)
-  - 20+ variables WRAM renommées (wScoreBCDHigh, wROMBankInit, wStateRender, etc.)
-  - Variables audio : hAudioControl, hAudioEnvPos, hAudioEnvDiv, etc.
-  - Variables rendu : hRenderContext, hTilemapScrollX/Y, hCurrentTile, etc.
+### 4.3 Constantes hardware manquantes
 
-- [x] Définir zones WRAM critiques avec constantes nommées
-  - Zone niveau $DA00-$DA29 : wLevelData, wLevelParam03-29, wLivesCounter, etc.
-  - Zone état $DFE0-$DFF9 : wStateBuffer, wStateDisplay, wStateRender, etc.
-  - Zone complexe $DF00-$DF46 : wComplexState, wComplexState1E, etc.
+- [ ] Adresses tilemap HUD ($9806, $9820, $9829, etc.)
+- [ ] Adresses tiles spécifiques ($95D1)
 
-### À faire
+---
 
-- [ ] Remplacer adresses WRAM restantes en dur ($Cxxx, $Dxxx) - ~170 occurrences
-- [ ] Extraire les données en fichiers séparés (si possible bit-perfect)
-- [ ] Documenter les structures de données (player, enemies, level)
+## Phase 5 : Documentation des structures
 
-## Phase 4 : Compréhension approfondie
+**Objectif** : Comprendre toutes les structures de données du jeu.
 
-- [ ] Cartographier les game states ($00-$0E+)
-- [ ] Documenter le système de collision
-- [ ] Documenter le système de niveau/scrolling
-- [ ] Documenter le système audio
+### 5.1 Structure Joueur ($C200, 20 bytes)
+
+- [x] Définir constantes de base (wPlayerY, wPlayerX, wPlayerState, wPlayerDir)
+- [ ] Comprendre les variables wPlayerUnk05/07/0B/0C/0E/10/13
+- [ ] Créer macros RSRESET pour offsets structurés
+
+### 5.2 Structure Objets ($C208-$C248, 5 slots × 16 bytes)
+
+- [x] Définir constantes slots (wObject1-5, OBJECT_SLOT_SIZE)
+- [ ] Documenter les 16 bytes de chaque slot (offsets internes)
+- [ ] Comprendre le système d'activation (bit 7)
+- [ ] Identifier les types d'objets
+
+### 5.3 Buffer OAM ($C000, 160 bytes)
+
+- [x] Définir constante de base (wOamBuffer)
+- [ ] Documenter l'usage des 40 sprites
+- [ ] Comprendre l'allocation dynamique
+
+### 5.4 Zone Niveau ($DA00-$DA29)
+
+- [x] Définir constantes (wLevelData, wLevelParam03-29, wLivesCounter, etc.)
+- [ ] Identifier le rôle de chaque wLevelParam* (reverse engineering)
+- [ ] Comprendre le format des données de niveau
+
+### 5.5 Buffer État ($DFE0-$DFF9)
+
+- [x] Définir constantes (wStateBuffer, wStateDisplay, wStateRender, etc.)
+- [ ] Identifier le rôle de chaque wState* (reverse engineering)
+- [ ] Comprendre les transitions d'état
+
+---
+
+## Phase 6 : Documentation des systèmes
+
+**Objectif** : Comprendre la logique métier du jeu.
+
+### 6.1 Système de Game States (60 états)
+
+- [ ] Cartographier les 60 états du StateDispatcher
+- [ ] Documenter les transitions entre états
+- [ ] Identifier les états : menu, jeu, pause, game over, etc.
+- [ ] Créer un diagramme d'états
+
+### 6.2 Système de Collision
+
+- [ ] Identifier les routines de collision
+- [ ] Comprendre les hitboxes joueur/ennemis
+- [ ] Documenter les types de collision (sol, mur, ennemi, bonus)
+
+### 6.3 Système de Scrolling
+
+- [ ] Comprendre UpdateScrollColumn
+- [ ] Documenter le système de tilemap dynamique
+- [ ] Analyser le chargement de niveau
+
+### 6.4 Système Audio
+
+- [ ] Documenter les 4 canaux (NR10-NR44)
+- [ ] Comprendre les enveloppes (hAudioEnv*)
+- [ ] Identifier tous les sons/musiques
+- [ ] Documenter le système de queue audio
+
+### 6.5 Système d'Animation
+
+- [ ] Comprendre hAnimFrameIndex, hAnimObjX/Y
+- [ ] Documenter les frames d'animation joueur
+- [ ] Documenter les animations d'objets
+
+---
+
+## Phase 7 : Renommage des labels
+
+**Objectif** : Tous les labels Jump_XXX/Call_XXX → noms explicites.
+
+### Bank 0 (~500 labels)
+
+- [ ] Routines d'init (SystemInit fait)
+- [ ] Routines de jeu
+- [ ] Routines audio
+- [ ] Routines d'affichage
+
+### Bank 1 (~400 labels)
+
+- [ ] Identifier le contenu principal
+- [ ] Renommer les routines clés
+
+### Bank 2 (~400 labels)
+
+- [ ] Identifier le contenu principal
+- [ ] Renommer les routines clés
+
+### Bank 3 (~400 labels)
+
+- [ ] Routines audio (identifiées)
+- [ ] Renommer les routines clés
+
+---
+
+## Phase 8 : Extraction et organisation
+
+**Objectif** : Code modulaire et organisé.
+
+- [ ] Extraire les données en fichiers séparés (data/*.asm)
+- [ ] Séparer les routines par fonction (audio.asm, collision.asm, etc.)
+- [ ] Créer un fichier de constantes par catégorie si nécessaire
+- [ ] Vérifier bit-perfect après chaque extraction
+
+---
+
+## Phase 9 : Documentation finale
+
+**Objectif** : Documentation complète et publiable.
+
+- [ ] Créer docs/memory-map.md (schéma mémoire complet)
+- [ ] Créer docs/game-states.md (diagramme d'états)
+- [ ] Créer docs/data-structures.md (structures détaillées)
+- [ ] Créer docs/audio-system.md (système audio)
+- [ ] Créer docs/technical-notes.md (astuces, optimisations)
+- [ ] README.md complet avec guide de contribution
+
+---
+
+## Phase 10 : Au-delà (futur)
+
+*À faire après reverse engineering complet*
+
+- [ ] Créer un éditeur de niveau
+- [ ] Ajouter des features (sauvegarde, nouveaux niveaux)
+- [ ] Port vers autre plateforme
+- [ ] Tutoriel "Comprendre un jeu Game Boy"
+
+---
+
+## Métriques de progression
+
+| Catégorie | Fait | Total | % |
+|-----------|------|-------|---|
+| Constantes HRAM | 100+ | ~120 | 85% |
+| Constantes WRAM | 100+ | ~200 | 50% |
+| Adresses en dur éliminées | ~50 | ~220 | 23% |
+| Labels renommés | ~15 | ~1700 | 1% |
+| Routines documentées | ~15 | ~200 | 8% |
+| Structures définies | 5 | 5 | 100% |
+| Structures comprises | 0 | 5 | 0% |
+| Systèmes documentés | 0 | 5 | 0% |
 
 ## Découvertes
 
