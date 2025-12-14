@@ -8230,16 +8230,16 @@ Jump_000_2870:
     jr nz, CollisionCheckTileRight
 
     call CheckObjectTileBase
-    jr nc, jr_000_28c5
+    jr nc, CheckSoundChannel
 
     ldh a, [hSoundCh4]
     bit 0, a
-    jr z, jr_000_288d
+    jr z, SoundParamProcessing
 
     call CheckObjectTileBottom
-    jr c, jr_000_28d1
+    jr c, SetSoundFrequency
 
-jr_000_288d:
+SoundParamProcessing:
     ldh a, [hSoundFlag]
     and $0f
     ld b, a
@@ -8258,33 +8258,33 @@ jr_000_288d:
     call CheckPlayerSideCollision
     pop bc
     and a
-    jr nz, jr_000_28be
+    jr nz, RestoreSoundConfig
 
     ld a, [wPlayerState]
     sub b
     ld [wPlayerState], a
     cp $0f
-    jr nc, jr_000_28be
+    jr nc, RestoreSoundConfig
 
     ld a, $0f
     ld [wPlayerState], a
 
-jr_000_28be:
+RestoreSoundConfig:
     ld a, c
     ld [$c205], a
     jp Jump_000_296c
 
 
-jr_000_28c5:
+CheckSoundChannel:
     ldh a, [hSoundCh4]
     and $0c
     cp $00
-    jr z, jr_000_288d
+    jr z, SoundParamProcessing
 
     cp $04
     jr nz, jr_000_28da
 
-jr_000_28d1:
+SetSoundFrequency:
     ldh a, [hSoundCh2]
     set 0, a
     ldh [hSoundCh2], a
@@ -8746,10 +8746,10 @@ LoadAudioSlotConfiguration:
 DestroyAllObjects:
     ld hl, wObjectBuffer
 
-jr_000_2b24:
+ScanObjectBuffer:
     ld a, [hl]
     cp $ff
-    jr z, jr_000_2b3e
+    jr z, NextObjectEntry
 
     push hl
     ld [hl], $27
@@ -8769,12 +8769,12 @@ jr_000_2b24:
     ld [hl], $00
     pop hl
 
-jr_000_2b3e:
+NextObjectEntry:
     ld a, l
     add $10
     ld l, a
     cp $a0
-    jr c, jr_000_2b24
+    jr c, ScanObjectBuffer
 
     ld a, $27
     ldh [hSoundId], a
@@ -8797,7 +8797,7 @@ StoreAudioChannel4:
     ld c, a
     ldh a, [hSoundCh2]
     bit 0, a
-    jr jr_000_2b6d
+    jr LoadSpriteCoordinates
 
     ldh a, [hSoundVar3]
     and $70
@@ -8805,7 +8805,7 @@ StoreAudioChannel4:
     add c
     ldh [hSpriteX], a
 
-jr_000_2b6d:
+LoadSpriteCoordinates:
     ldh a, [hSoundParam1]
     ldh [hSpriteY], a
     call ReadTileUnderSprite
@@ -12306,10 +12306,10 @@ InitLevelData:
     ld b, $20
     xor a
 
-jr_000_3d17:
+ClearMemoryLoop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3d17
+    jr nz, ClearMemoryLoop
 
     ld hl, wLevelData
     ld a, $28
@@ -12334,10 +12334,10 @@ jr_000_3d17:
     xor a
     ld b, $09
 
-jr_000_3d3b:
+InitLoop_9Bytes:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3d3b
+    jr nz, InitLoop_9Bytes
 
     ld a, $02
     ld [hl+], a
@@ -12359,10 +12359,10 @@ jr_000_3d3b:
     xor a
     ld b, $08
 
-jr_000_3d56:
+InitLoop_8Bytes:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3d56
+    jr nz, InitLoop_8Bytes
 
     ld a, $04
     ld [hl+], a
@@ -12437,24 +12437,24 @@ State12_EndLevelSetup::
     ld hl, wOamBuffer
     ld b, $a0
 
-jr_000_3d9e:
+InitLoop_160Bytes:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3d9e
+    jr nz, InitLoop_160Bytes
 
     ld hl, $9800
     ld b, $ff
     ld c, $03
     ld a, $2c
 
-jr_000_3dab:
+FillTilemap_MainLoop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3dab
+    jr nz, FillTilemap_MainLoop
 
     ld b, $ff
     dec c
-    jr nz, jr_000_3dab
+    jr nz, FillTilemap_MainLoop
 
     ld de, $988b
     ld a, [wLivesCounter]
@@ -12485,10 +12485,10 @@ State13_DrawEndBorder::
     ld b, $12
     ld a, $9f
 
-jr_000_3ddb:
+FillBorderRow:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3ddb
+    jr nz, FillBorderRow
 
     ld a, $fc
     ld [hl], a
@@ -12498,18 +12498,18 @@ jr_000_3ddb:
     ld c, $02
     ld a, $f8
 
-jr_000_3dec:
+FillBorderColumn:
     ld [hl], a
     add hl, de
     dec b
-    jr nz, jr_000_3dec
+    jr nz, FillBorderColumn
 
     ld l, $33
     dec h
     dec h
     ld b, $10
     dec c
-    jr nz, jr_000_3dec
+    jr nz, FillBorderColumn
 
     ld hl, $9a20
     ld a, $ff
@@ -12517,10 +12517,10 @@ jr_000_3dec:
     ld b, $12
     ld a, $9f
 
-jr_000_3e04:
+FillBorderRow_2:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3e04
+    jr nz, FillBorderRow_2
 
     ld a, $e9
     ld [hl], a
@@ -12554,10 +12554,10 @@ jr_000_3e04:
     ld a, $2d
     ld b, $12
 
-jr_000_3e39:
+FillTextLine_1:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3e39
+    jr nz, FillTextLine_1
 
     ld l, $d1
     ld a, $2b
@@ -12567,10 +12567,10 @@ jr_000_3e39:
     ld a, $2d
     ld b, $12
 
-jr_000_3e49:
+FillTextLine_2:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3e49
+    jr nz, FillTextLine_2
 
     ld l, $31
     ld a, $2b
@@ -12579,10 +12579,10 @@ jr_000_3e49:
     ld a, $2d
     ld b, $12
 
-jr_000_3e58:
+FillTextLine_3:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3e58
+    jr nz, FillTextLine_3
 
     ld l, $91
     ld a, $2b
@@ -12592,10 +12592,10 @@ jr_000_3e58:
     ld a, $2d
     ld b, $12
 
-jr_000_3e68:
+FillTextLine_4:
     ld [hl+], a
     dec b
-    jr nz, jr_000_3e68
+    jr nz, FillTextLine_4
 
     ld l, $f1
     dec h
@@ -12610,22 +12610,22 @@ jr_000_3e68:
     and $03
     inc a
 
-jr_000_3e82:
+SkipFrames:
     inc de
     dec a
-    jr nz, jr_000_3e82
+    jr nz, SkipFrames
 
     ld hl, $98d2
     ld bc, $0060
 
-jr_000_3e8c:
+CopyToBackBuffer:
     ld a, [de]
     ld [hl], a
     inc de
     add hl, bc
     ld a, l
     cp $52
-    jr nz, jr_000_3e8c
+    jr nz, CopyToBackBuffer
 
     ld a, $83
     ldh [rLCDC], a
@@ -12640,14 +12640,14 @@ jr_000_3e8c:
 State16_CopyTilemapData::
     ld bc, $0020
 
-jr_000_3ea1:
+CopyTilemapOuter:
     ld de, $da23
     ld a, [$da18]
     ld h, a
     ld a, [$da19]
     ld l, a
 
-jr_000_3eac:
+CopyTilemapInner:
     ld a, [de]
     ld [hl], a
     inc de
@@ -12655,14 +12655,14 @@ jr_000_3eac:
     ld a, [$da28]
     dec a
     ld [$da28], a
-    jr nz, jr_000_3eac
+    jr nz, CopyTilemapInner
 
     ld a, $04
     ld [$da28], a
     ld a, [$da29]
     dec a
     ld [$da29], a
-    jr nz, jr_000_3ea1
+    jr nz, CopyTilemapOuter
 
     ld a, $11
     ld [$da29], a
