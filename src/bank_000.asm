@@ -1327,7 +1327,7 @@ StateHandler_00::
     ret z                         ; Si 0, fin
 
     dec [hl]                      ; Sinon décrémente
-    call Call_000_210a
+    call LoadDemoInput
     ret
 
 
@@ -6699,7 +6699,7 @@ jr_000_2105:
     ret
 
 
-Call_000_210a:
+LoadDemoInput:
     ReturnIfUnlocked
 
     ld a, [wLevelVarDB]
