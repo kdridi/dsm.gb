@@ -3144,7 +3144,7 @@ WriteCharToVRAM:
     cp $fe
 
 ValidateAndWriteTextCharToVram:
-    jr z, jr_000_0fc5
+    jr z, LoadOffsetAndCopy
 
     cp $ff
     ret z
@@ -3163,15 +3163,15 @@ WaitAndStoreVram:
     ldh [hCopyDstLow], a
     ld a, l
     and $0f
-    jr nz, jr_000_0fc2
+    jr nz, AdjustDestHighByte
 
     bit 4, l
-    jr nz, jr_000_0fc2
+    jr nz, AdjustDestHighByte
 
     ld a, l
     sub $20
 
-jr_000_0fb7:
+StoreDestHighByte:
     ldh [hCopyDstHigh], a
     inc e
     ld a, e
@@ -3181,11 +3181,11 @@ jr_000_0fb7:
     ret
 
 
-jr_000_0fc2:
+AdjustDestHighByte:
     ld a, l
-    jr jr_000_0fb7
+    jr StoreDestHighByte
 
-jr_000_0fc5:
+LoadOffsetAndCopy:
     inc hl
     ld a, [hl+]
     ld c, a
@@ -3277,12 +3277,12 @@ Copy16BytesToOam:
     ld de, wOamVar1C
     ld b, $10
 
-jr_000_1025:
+Copy16BytesOam_Loop:
     ld a, [hl+]
     ld [de], a
     inc e
     dec b
-    jr nz, jr_000_1025
+    jr nz, Copy16BytesOam_Loop
 
     ret
 
@@ -3310,7 +3310,7 @@ SpriteConfigTable:
     ld a, b
     ld h, b
     rlca
-    jr nz, jr_000_0fc5
+    jr nz, LoadOffsetAndCopy
 
     ld e, b
     rlca
@@ -3444,7 +3444,7 @@ State27_CheckTimer:
 
     ldh a, [hOAMAddrLow]
     sla a
-    jr z, jr_000_10fe
+    jr z, ResetCollisionFlags
 
     swap a
     ldh [hOAMAddrLow], a
@@ -3453,7 +3453,7 @@ State27_CheckTimer:
     ret
 
 
-jr_000_10fe:
+ResetCollisionFlags:
     xor a
     ld [wLevelInitFlag], a
     ld [wCollisionFlag], a
@@ -3491,10 +3491,10 @@ State29_SetupEndScreen::
     ld hl, wOamBuffer
     ld b, $0c
 
-jr_000_113e:
+ClearOamBuffer_Loop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_113e
+    jr nz, ClearOamBuffer_Loop
 
     call CallBank3Handler
     ld a, $98
@@ -3789,12 +3789,12 @@ State2F_TransferSpriteData::
     ld de, wPlayerY
     ld b, $06
 
-jr_000_12a4:
+CopySpriteDataToOam_Loop:
     ld a, [hl+]
     ld [de], a
     inc e
     dec b
-    jr nz, jr_000_12a4
+    jr nz, CopySpriteDataToOam_Loop
 
     ld hl, wPlayerDir
     ld [hl], $26
@@ -3821,13 +3821,13 @@ State30_WalkLeft::
     dec [hl]
     ld a, [hl+]
     cp $58
-    jr z, jr_000_12d4
+    jr z, AdvanceToNextState
 
     call ToggleAnimFrame
     ret
 
 
-jr_000_12d4:
+AdvanceToNextState:
     ld hl, hGameState
     inc [hl]
     ld a, $04
@@ -3880,7 +3880,7 @@ SetupFinalScreen:
     ldh a, [hOAMIndex]
     dec a
     ldh [hOAMIndex], a
-    jr nz, jr_000_1343
+    jr nz, PopAndReturn
 
     ldh [rLYC], a
     ld a, $21
@@ -3900,7 +3900,7 @@ SetupFinalScreen:
     ld hl, hGameState
     inc [hl]
 
-jr_000_1343:
+PopAndReturn:
     pop af
     ret
 
@@ -4169,11 +4169,11 @@ State36_CreditsFinalTransition::
     ld a, [wAudioSaveDE]
     cp $ff
     ld a, $33
-    jr nz, jr_000_147c
+    jr nz, SetGameStateRegister
 
     ld a, $37
 
-jr_000_147c:
+SetGameStateRegister:
     ldh [hGameState], a
     ret
 
@@ -4260,40 +4260,40 @@ State38_CreditsAnimation::
     ld hl, wTilemapBuf71
     ld a, [hl]
     cp $3c
-    jr z, jr_000_14e6
+    jr z, CheckTilemapCompletion
 
-jr_000_14e2:
+DecrementTilemapPositions:
     dec [hl]
     dec [hl]
     dec [hl]
     ret
 
 
-jr_000_14e6:
+CheckTilemapCompletion:
     ld hl, wTilemapBuf75
     ld a, [hl]
     cp $44
-    jr nz, jr_000_14e2
+    jr nz, DecrementTilemapPositions
 
     ld hl, wTilemapBuf79
     ld a, [hl]
     cp $4c
-    jr nz, jr_000_14e2
+    jr nz, DecrementTilemapPositions
 
     ld hl, wTilemapBuf7D
     ld a, [hl]
     cp $5c
-    jr nz, jr_000_14e2
+    jr nz, DecrementTilemapPositions
 
     ld hl, wTilemapBuf81
     ld a, [hl]
     cp $64
-    jr nz, jr_000_14e2
+    jr nz, DecrementTilemapPositions
 
     ld hl, wTilemapBuf85
     ld a, [hl]
     cp $6c
-    jr nz, jr_000_14e2
+    jr nz, DecrementTilemapPositions
 
     call InitializeCreditsMode
     xor a
