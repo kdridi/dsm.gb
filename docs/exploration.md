@@ -69,10 +69,10 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | $06 | $0CC2 | **Post-niveau** - transition selon position |
 | $07 | $0C37 | **Attente timer** - appel bank 3 → état $05 |
 | $08 | $0D40 | **Progression** - changement monde/niveau |
-| $09 | $1612 | ? |
-| $0A | $1626 | ? |
-| $0B | $1663 | ? |
-| $0C | $16D1 | ? |
+| $09 | $1612 | **Entrée tuyau droite** - déplace joueur vers X cible → $0A |
+| $0A | $1626 | **Chargement sous-niveau** - LCD off, clear, repositionne → $00 |
+| $0B | $1663 | **Descente tuyau** - déplace joueur vers bas → charge dest → $0C |
+| $0C | $16D1 | **Sortie tuyau gauche** - déplace joueur vers X cible → $00 |
 | $0D | $236D | ? |
 | $0E | $0322 | **Init niveau** (INIT_GAME_STATE) |
 | $0F | $04C3 | ? |
@@ -175,13 +175,15 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$3FAF` (data) - **AnimTilesFrames** : 10 frames animation tiles
 - [x] `$3F87` (data) - **Zone fin bank 0** : 121 bytes données + padding
 
-### Routines principales (12/12)
+### Routines principales (14/14)
 - [x] `$0185` **SystemInit** - Init LCD, audio, mémoire, variables (macros)
 - [x] `$0226` **GameLoop** - Boucle principale : bank3 → timers → state → halt
 - [x] `$0296` **WaitVBlank** - Halt + attente flag hVBlankFlag
 - [x] `$02A3` **StateDispatcher** - `ldh a, [hGameState]` + `rst $28` + table
 - [x] `$07C3` **CheckInputAndPause** - Combo A+B+Start+Select = reset, Start = pause
 - [x] `$09E8` **InitGameState** - Configure état $03, reset variables
+- [x] `$1655` **ClearTilemapBuffer** - Clear zone $c800-$ca3f (576 bytes)
+- [x] `$16EC` **UpdatePipeAnimation** - Animation joueur pendant transition tuyau
 - [x] `$172D` **CallBank3Handler** - Save bank → switch $03 → call $4823 → restore
 - [x] `$1C2A` **UpdateLivesDisplay** - Affiche wLivesCounter en BCD sur tilemap
 - [x] `$224F` **UpdateScrollColumn** - Met à jour 16 tiles d'une colonne (wScrollBuffer)
@@ -198,6 +200,14 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - `ldh [hGameState], a` + `ret` : Transition d'état
 - `call CallBank3_XXXX` : Appel cross-bank vers bank 3
 
+### Systèmes découverts
+- **Système de tuyaux (pipes)** : États $09-$0C gèrent l'entrée/sortie des tuyaux
+  - $09 : Entrée horizontale (joueur avance vers la droite)
+  - $0A : Chargement sous-niveau (LCD off, clear mémoire, repositionner)
+  - $0B : Descente verticale + chargement destination
+  - $0C : Sortie horizontale (joueur recule vers la gauche)
+  - Utilise hVBlankSelector comme position cible et $fff6/$fff7 pour destination
+
 ### Questions ouvertes
 - Quel état correspond à quoi ? (menu, jeu, pause, game over...)
 - Comment sont organisés les niveaux ?
@@ -212,9 +222,9 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | Handlers RST | 0 | 8 | 8 |
 | Interruptions | 0 | 6 | 6 |
 | Entry point | 0 | 3 | 3 |
-| Handlers état | 51 | 9 | 60 |
-| Routines | 0 | 12 | 12 |
+| Handlers état | 47 | 13 | 60 |
+| Routines | 0 | 14 | 14 |
 | Tables données | 0 | 4 | 4 |
-| **Total** | **51** | **42** | **93** |
+| **Total** | **47** | **48** | **95** |
 
-**Progression** : 45% analysé (42/93)
+**Progression** : 51% analysé (48/95)

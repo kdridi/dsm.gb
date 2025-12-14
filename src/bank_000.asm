@@ -671,10 +671,10 @@ StateJumpTable:
     dw StateHandler_06  ; État $06 - Transition post-niveau
     dw StateHandler_07  ; État $07 - Attente + bank 3
     dw StateHandler_08  ; État $08 - Progression monde/niveau
-    dw $1612    ; État $09
-    dw $1626    ; État $0A
-    dw $1663    ; État $0B
-    dw $16d1    ; État $0C
+    dw State09_PipeEnterRight  ; État $09 - Entrée tuyau droite
+    dw State0A_LoadSubLevel    ; État $0A - Chargement sous-niveau
+    dw State0B_PipeEnterDown   ; État $0B - Descente tuyau
+    dw State0C_PipeExitLeft    ; État $0C - Sortie tuyau gauche
     dw $236d    ; État $0D
     dw $0322    ; État $0E
     dw $04c3    ; État $0F
@@ -1324,7 +1324,7 @@ StateHandler_00::
 
     ; Mises à jour finales
     call Call_000_1983
-    call Call_000_16ec
+    call UpdatePipeAnimation
     call Call_000_17b3
     call Call_000_0ae1
     call Call_000_0a24
@@ -1392,7 +1392,7 @@ StateHandler_02::
     ld a, $00
     ldh [rLCDC], a
     call $1ecb
-    call Call_000_1655
+    call ClearTilemapBuffer
     ld hl, hTilemapScrollX
     ldh a, [hVBlankMode]
     and a
@@ -2969,7 +2969,7 @@ Call_000_0eb2:
     and $0f
     cp $0a
     call c, Call_000_17b3
-    call Call_000_16ec
+    call UpdatePipeAnimation
     ret
 
 
@@ -3050,7 +3050,7 @@ jr_000_0f21:
     ld a, $10
     ldh [hJoypadState], a
     call Call_000_17b3
-    call Call_000_16ec
+    call UpdatePipeAnimation
     ld a, [wPlayerState]
     cp $4c
     ret c
@@ -4353,7 +4353,7 @@ jr_000_15d9:
     inc e
     inc l
     dec e
-    jr jr_000_1612
+    jr State09_PipeEnterRight
 
     cp $1d
     ld a, [bc]
@@ -4374,44 +4374,52 @@ jr_000_15d9:
 
 Jump_000_1603:
     rla
-    jr jr_000_1617
+    jr State09_PipeEnterRight.checkTarget
 
     cp $17
     ld [de], a
     inc e
     ld de, $2712
     ld a, [bc]
-    jr nz, jr_000_161a
+    jr nz, State09_PipeEnterRight.moveRight
 
     cp $ff
 
-jr_000_1612:
+; ===========================================================================
+; État $09 - Entrée tuyau (déplacement vers la DROITE)
+; Déplace le joueur horizontalement vers la position cible (hVBlankSelector)
+; puis transite vers état $0A pour charger le sous-niveau
+; ===========================================================================
+State09_PipeEnterRight::
     ld hl, wPlayerX
-    ldh a, [hVBlankSelector]
+    ldh a, [hVBlankSelector]     ; Position X cible
 
-jr_000_1617:
-    cp [hl]
-    jr z, jr_000_161f
+.checkTarget:
+    cp [hl]                      ; Atteint la cible ?
+    jr z, .reachedTarget
 
-jr_000_161a:
-    inc [hl]
-    call Call_000_16ec
+.moveRight:
+    inc [hl]                     ; Avance vers la droite
+    call UpdatePipeAnimation
     ret
 
-
-jr_000_161f:
+.reachedTarget:
     ld a, $0a
-    ldh [hGameState], a
+    ldh [hGameState], a          ; Transition vers état $0A
     ldh [hVBlankMode], a
     ret
 
-
+; ===========================================================================
+; État $0A - Chargement sous-niveau (après entrée tuyau)
+; LCD off, clear mémoire, repositionne joueur, retour état $00
+; ===========================================================================
+State0A_LoadSubLevel::
     di
     xor a
     ldh [rLCDC], a
     ldh [hTilemapScrollY], a
     call $1ecb
-    call Call_000_1655
+    call ClearTilemapBuffer
     ldh a, [hRenderCounter]
     ldh [hTilemapScrollX], a
     call Call_000_07f0
@@ -4433,64 +4441,71 @@ jr_000_161f:
     ret
 
 
-Call_000_1655:
+; ---------------------------------------------------------------------------
+; Routine utilitaire : Clear buffer tilemap ($c800-$ca3f, 576 bytes)
+; ---------------------------------------------------------------------------
+ClearTilemapBuffer::
     ld hl, $ca3f
     ld bc, $0240
 
-jr_000_165b:
+.loop:
     xor a
     ld [hl-], a
     dec bc
     ld a, b
     or c
-    jr nz, jr_000_165b
+    jr nz, .loop
 
     ret
 
-
+; ===========================================================================
+; État $0B - Descente dans tuyau vertical
+; Déplace le joueur vers le BAS jusqu'à position cible
+; puis charge le niveau de destination et transite vers état $0C
+; ===========================================================================
+State0B_PipeEnterDown::
     ldh a, [hFrameCounter]
-    and $01
+    and $01                      ; 1 frame sur 2 seulement
     ret z
 
     ld hl, wPlayerState
-    ldh a, [hVBlankSelector]
-    cp [hl]
-    jr c, jr_000_1679
+    ldh a, [hVBlankSelector]     ; Position Y cible
+    cp [hl]                      ; Atteint la cible ?
+    jr c, .loadDestLevel
 
-    inc [hl]
+    inc [hl]                     ; Descend d'un pixel
     ld hl, $c20b
-    inc [hl]
-    call Call_000_16ec
+    inc [hl]                     ; Compteur animation
+    call UpdatePipeAnimation
     ret
 
-
-jr_000_1679:
+.loadDestLevel:
     di
     ldh a, [hRenderMode]
     ldh [hTilemapScrollX], a
     xor a
-    ldh [rLCDC], a
+    ldh [rLCDC], a               ; LCD off
     ldh [hTilemapScrollY], a
-    call Call_000_1655
+    call ClearTilemapBuffer
     ld hl, hRenderCounter
     ld [hl+], a
     ld [hl+], a
-    ldh a, [$fff7]
+    ldh a, [$fff7]               ; Position X destination
     ld d, a
-    ldh a, [$fff6]
+    ldh a, [$fff6]               ; Position Y destination
     ld e, a
     push de
     call Call_000_07f0
     pop de
     ld a, $80
-    ld [$c204], a
+    ld [$c204], a                ; Flag joueur actif
     ld hl, wPlayerX
     ld a, d
-    ld [hl+], a
+    ld [hl+], a                  ; wPlayerX = destination X
     sub $12
-    ldh [hVBlankSelector], a
+    ldh [hVBlankSelector], a     ; Cible X pour sortie
     ld a, e
-    ld [hl], a
+    ld [hl], a                   ; wPlayerY = destination Y
     ldh a, [hTilemapScrollX]
     sub $04
     ld b, a
@@ -4509,29 +4524,33 @@ jr_000_1679:
     call Call_000_2453
     call $1ecb
     ld a, $c3
-    ldh [rLCDC], a
+    ldh [rLCDC], a               ; LCD on
     ld a, $0c
-    ldh [hGameState], a
+    ldh [hGameState], a          ; Transition vers état $0C
     call Call_000_078c
     ei
     ret
 
-
+; ===========================================================================
+; État $0C - Sortie tuyau (déplacement vers la GAUCHE)
+; Déplace le joueur horizontalement vers la position cible
+; puis retourne à l'état $00 (gameplay normal)
+; ===========================================================================
+State0C_PipeExitLeft::
     ldh a, [hFrameCounter]
-    and $01
+    and $01                      ; 1 frame sur 2 seulement
     ret z
 
     ld hl, wPlayerX
-    ldh a, [hVBlankSelector]
-    cp [hl]
-    jr z, jr_000_16e3
+    ldh a, [hVBlankSelector]     ; Position X cible
+    cp [hl]                      ; Atteint la cible ?
+    jr z, .exitComplete
 
-    dec [hl]
-    call Call_000_16ec
+    dec [hl]                     ; Avance vers la gauche
+    call UpdatePipeAnimation
     ret
 
-
-jr_000_16e3:
+.exitComplete:
     xor a
     ldh [hGameState], a
     ld [$c204], a
@@ -4539,7 +4558,7 @@ jr_000_16e3:
     ret
 
 
-Call_000_16ec:
+UpdatePipeAnimation:
     call CallBank3Handler
     ld a, [$c20a]
     and a
