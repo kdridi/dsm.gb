@@ -1616,7 +1616,7 @@ jr_000_07f8:
     ld a, $10
     ld [wPlayerDir], a
 
-Call_000_0808:
+InitScrollState:
 jr_000_0808:
     ld hl, hTilemapScrollY
     xor a
@@ -3476,7 +3476,7 @@ State29_SetupEndScreen::
     ld hl, $9c00
     ld bc, $0100
     call FillTilemapLoop
-    call Call_000_0808
+    call InitScrollState
     call Call_000_0ede
     ld hl, wPlayerState
     ld [hl], $38
