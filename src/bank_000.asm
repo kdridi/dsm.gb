@@ -4993,11 +4993,11 @@ Jump_000_187f:
     jp z, Jump_000_19d8
 
     cp $f0
-    jr z, jr_000_18b7
+    jr z, HandleTileValueF0
 
 Jump_000_1892:
     cp $c0
-    jr nz, jr_000_18be
+    jr nz, HandleNonC0TileValue
 
     ld a, $ff
     ld [wLevelConfig], a
@@ -5017,14 +5017,14 @@ Jump_000_189b:
     ldh [hPendingCoin], a
     ld a, [wLevelConfig]
     and a
-    jr nz, jr_000_191a
+    jr nz, ApplyAltSpriteAttributeIfConfigSet
 
-jr_000_18b7:
+HandleTileValueF0:
     ld a, $80
     ld [wOamVar2E], a
     jr SetupSpriteProperties
 
-jr_000_18be:
+HandleNonC0TileValue:
     ldh [hTemp0], a
     ld a, $80
     ld [wOamVar2E], a
@@ -5089,7 +5089,7 @@ PlaySoundExit:
 
 
 Jump_000_191a:
-jr_000_191a:
+ApplyAltSpriteAttributeIfConfigSet:
     ldh a, [hBlockHitType]
     and a
     ret nz
@@ -6107,7 +6107,7 @@ Jump_000_1e37:
     ld hl, $c20d
     ld a, [hl]
     cp $10
-    jr nz, jr_000_1e58
+    jr nz, HandlePlayerMovement
 
 Jump_000_1e3f:
     ld [hl], $01
@@ -6127,7 +6127,7 @@ Jump_000_1e3f:
     ret
 
 
-jr_000_1e58:
+HandlePlayerMovement:
     ld hl, $c205
     ld [hl], $20
     call CheckPlayerSideCollision
@@ -6146,14 +6146,14 @@ jr_000_1e58:
 
     ld a, [wPlayerDir]
     cp $18
-    jr nz, jr_000_1e82
+    jr nz, CheckOscillationCounter
 
     ld a, [wPlayerDir]
     and $f0
     or $01
     ld [wPlayerDir], a
 
-jr_000_1e82:
+CheckOscillationCounter:
     ld hl, $c20c
     ld a, [hl]
     cp $06
@@ -6330,28 +6330,28 @@ ProcessAnimEntry:
     dec l
     ld a, [wGameVarA9]
     and a
-    jr z, jr_000_1f52
+    jr z, ClearSpriteState
 
     dec a
     ld [wGameVarA9], a
     bit 0, [hl]
-    jr z, jr_000_1fac
+    jr z, DecrementYIfConfigBit0Clear
 
     ld a, [de]
     inc a
     inc a
     ld [de], a
     cp $a2
-    jr c, jr_000_1f59
+    jr c, IncrementYAndCheckCoin
 
-jr_000_1f52:
+ClearSpriteState:
     xor a
     res 0, e
     ld [de], a
     ld [hl], a
     jr SpriteCollisionProcessing
 
-jr_000_1f59:
+IncrementYAndCheckCoin:
     add $03
     push af
     dec e
@@ -6359,23 +6359,23 @@ jr_000_1f59:
     ldh [hSpriteY], a
     pop af
     call CheckTileForCoin
-    jr c, jr_000_1f6c
+    jr c, CheckBit2AndProcessY
 
     ld a, [hl]
     and $fc
     or $02
     ld [hl], a
 
-jr_000_1f6c:
+CheckBit2AndProcessY:
     bit 2, [hl]
-    jr z, jr_000_1f91
+    jr z, IncrementYIfBit2Clear
 
     ld a, [de]
     dec a
     dec a
     ld [de], a
     cp $10
-    jr c, jr_000_1f52
+    jr c, ClearSpriteState
 
     sub $01
     ldh [hSpriteY], a
@@ -6398,13 +6398,13 @@ SpriteCollisionProcessing:
     call ProcessObjectCollisions
     jr NextAnimEntry
 
-jr_000_1f91:
+IncrementYIfBit2Clear:
     ld a, [de]
     inc a
     inc a
     ld [de], a
     cp $a8
-    jr nc, jr_000_1f52
+    jr nc, ClearSpriteState
 
     add $04
     ldh [hSpriteY], a
@@ -6419,13 +6419,13 @@ jr_000_1f91:
     ld [hl], a
     jr SpriteCollisionProcessing
 
-jr_000_1fac:
+DecrementYIfConfigBit0Clear:
     ld a, [de]
     dec a
     dec a
     ld [de], a
     cp $04
-    jr c, jr_000_1f52
+    jr c, ClearSpriteState
 
     sub $02
     push af
@@ -6434,13 +6434,13 @@ jr_000_1fac:
     ldh [hSpriteY], a
     pop af
     call CheckTileForCoin
-    jr c, jr_000_1f6c
+    jr c, CheckBit2AndProcessY
 
     ld a, [hl]
     and $fc
     or $01
     ld [hl], a
-    jr jr_000_1f6c
+    jr CheckBit2AndProcessY
 
 ; -----------------------------------------------------------------------------
 ; CheckTileForCoin - Vérifie si tile est une pièce ($F4) et gère la collecte
@@ -6454,18 +6454,18 @@ CheckTileForCoin:
     push hl
     call ReadTileUnderSprite
     cp $f4
-    jr nz, jr_000_1ff2
+    jr nz, NotCoinTile
 
     ldh a, [hGameState]
     cp $0d
-    jr z, jr_000_1ffc
+    jr z, ReturnAfterCoinCheck
 
     push hl
     pop de
     ld hl, hBlockHitType
     ld a, [hl]
     and a
-    jr nz, jr_000_1ffc
+    jr nz, ReturnAfterCoinCheck
 
     ld [hl], $c0
     inc l
@@ -6475,13 +6475,13 @@ CheckTileForCoin:
     ld a, $05
     ld [wStateBuffer], a
 
-jr_000_1ff2:
+NotCoinTile:
     cp $82
     call z, HandleBlockCollision
     cp $80
     call z, HandleBlockCollision
 
-jr_000_1ffc:
+ReturnAfterCoinCheck:
     pop hl
     pop de
     cp $60
