@@ -7456,14 +7456,13 @@ Jump_000_247e:
 
 
 UpdateAudio:
-    call Call_000_2492
+    call UpdateAudioState
     call UpdateAllObjectSounds
     call Call_000_255f
     ret
 
 
-Call_000_2492:
-jr_000_2492:
+UpdateAudioState:
     ld a, [wAudioState0]
     ld l, a
     ld a, [wAudioState1]
@@ -7503,7 +7502,7 @@ StoreAudioState:
     ld [wAudioState0], a
     ld a, h
     ld [wAudioState1], a
-    jr jr_000_2492
+    jr UpdateAudioState
 
 LoadQueuedAudioConfig:
     ld a, [wAudioQueueId]
