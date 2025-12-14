@@ -1296,7 +1296,7 @@ StateHandler_00::
     ld [$2000], a
 
     ; Mises à jour locales
-    call Call_000_1f24
+    call ProcessAllObjectCollisions
     call UpdateAudio
 
     ; Switch vers bank 2
@@ -6303,7 +6303,7 @@ UpdatePlayerInvulnBlink:
     ret
 
 
-Call_000_1f24:
+ProcessAllObjectCollisions:
     ld b, $01
     ld hl, hObjParamBuf1
     ld de, wOamAttrY
