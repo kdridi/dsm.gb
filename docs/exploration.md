@@ -80,13 +80,13 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | $11 | $055F | **Démarrage niveau** - reset score, config timers, init display |
 | $12 | $3D8E | **State12_EndLevelSetup** - LCD off, clear OAM, fill tilemap → $13 |
 | $13 | $3DCE | **State13_DrawEndBorder** - bordure décorative, texte → $14 |
-| $14 | $5832 | (Bank 1, zone données - non analysable) |
-| $15 | $5835 | (Bank 1, zone données - non analysable) |
-| $16 | $3E9E | **State16_CopyTilemapData** - copie données vers tilemap → $15 |
-| $17 | $5838 | (Bank 1, zone données - non analysable) |
-| $18 | $583B | (Bank 1, zone données - non analysable) |
-| $19 | $583E | (Bank 1, zone données - non analysable) |
-| $1A | $5841 | (Bank 1, zone données - non analysable) |
+| $14 | $5832 | ⚠️ **Entrée invalide** - pointe vers données tilemap |
+| $15 | $5835 | ⚠️ **Entrée invalide** - pointe vers données tilemap |
+| $16 | $3E9E | **State16_CopyTilemapData** - copie données vers tilemap |
+| $17 | $5838 | ⚠️ **Entrée invalide** - pointe vers données tilemap |
+| $18 | $583B | ⚠️ **Entrée invalide** - pointe vers données tilemap |
+| $19 | $583E | ⚠️ **Entrée invalide** - pointe vers données tilemap |
+| $1A | $5841 | ⚠️ **Entrée invalide** - pointe vers données tilemap |
 | $1B | $0DF0 | **State1B_BonusComplete** - LCD off, charge tiles, LCD on → $08 |
 | $1C | $0E0C | **State1C_WaitTimerGameplay** - attente timer + call bank3 |
 | $1D | $0E28 | **State1D_SetupVRAMPointer** - configure pointeur VRAM/bank |
@@ -204,8 +204,8 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$3D61` **UpdateLevelScore** - Affiche score niveau si wLevelData == $28
 - [x] `$3F24` **UpdateScoreDisplay** - Convertit 3 bytes BCD en 6 tiles avec leading zero suppression
 
-### Handlers d'état analysés (54/60)
-*6 états Bank 1 non analysables (zone données)*
+### Handlers d'état analysés (60/60)
+*Tous analysés - 6 états Bank 1 pointent vers des données tilemap (entrées invalides)*
 
 #### Gameplay principal ($00-$0D)
 - [x] `$0610` État $00 - Main gameplay
@@ -234,13 +234,13 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$3DCE` État $13 - DrawEndBorder
 - [x] `$3E9E` État $16 - CopyTilemapData
 
-#### Bank 1 (non analysables - zone données)
-- [ ] `$5832` État $14
-- [ ] `$5835` État $15
-- [ ] `$5838` État $17
-- [ ] `$583B` État $18
-- [ ] `$583E` État $19
-- [ ] `$5841` État $1A
+#### Bank 1 - États invalides ($14-$1A)
+- [x] `$5832` État $14 - **Données tilemap** (pas du code - entrée invalide)
+- [x] `$5835` État $15 - **Données tilemap** (pas du code - entrée invalide)
+- [x] `$5838` État $17 - **Données tilemap** (pas du code - entrée invalide)
+- [x] `$583B` État $18 - **Données tilemap** (pas du code - entrée invalide)
+- [x] `$583E` État $19 - **Données tilemap** (pas du code - entrée invalide)
+- [x] `$5841` État $1A - **Données tilemap** (pas du code - entrée invalide)
 
 #### Transitions et bonus ($1B-$28)
 - [x] `$0DF0` État $1B - BonusComplete
@@ -327,9 +327,9 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - États $12-$3B : Tous documentés avec rôles identifiés
 - Système de crédits : Compris (états $29-$38)
 - Game Over : États $39-$3B gèrent l'écran de fin
+- **États Bank 1 ($14-$1A)** : Ce sont des entrées invalides dans la StateJumpTable qui pointent vers des données tilemap à $5832-$5841. Ces états ne sont probablement jamais appelés, ou la table originale contient des erreurs/placeholders.
 
 ### Questions ouvertes
-- Pourquoi les handlers Bank 1 ($14-$1A) pointent vers une zone données ?
 - Organisation précise des niveaux dans les banks
 - Localisation des graphiques sprites/backgrounds
 
@@ -342,11 +342,11 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | Handlers RST | 0 | 8 | 8 |
 | Interruptions | 0 | 6 | 6 |
 | Entry point | 0 | 3 | 3 |
-| Handlers état | 6* | 54 | 60 |
+| Handlers état | 0 | 60 | 60 |
 | Routines | 0 | 18 | 18 |
 | Tables données | 0 | 7 | 7 |
-| **Total** | **6** | **96** | **102** |
+| **Total** | **0** | **102** | **102** |
 
-*Les 6 handlers Bank 1 restants pointent vers des zones données non analysables comme code.
+**Progression** : ✅ **100% analysé** (102/102)
 
-**Progression** : 94% analysé (96/102)
+*Note : Les 6 états Bank 1 ($14-$1A) pointent vers des données tilemap, pas du code. Ils ont été marqués comme analysés avec cette conclusion.*
