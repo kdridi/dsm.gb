@@ -4296,7 +4296,7 @@ jr_000_14e6:
     cp $6c
     jr nz, jr_000_14e2
 
-    call Call_000_1520
+    call InitializeCreditsMode
     xor a
     ldh [hRenderContext], a
     ldh [hTimerAux], a
@@ -4307,7 +4307,7 @@ jr_000_14e6:
     ret
 
 
-Call_000_1520:
+InitializeCreditsMode:
     ldh a, [$ff81]
     and a
     ret z
