@@ -7575,7 +7575,7 @@ jr_000_2533:
 
 jr_000_253f:
     ld a, b
-    call Call_000_2cee
+    call SaveSoundDataToSlot
     ret
 
 
@@ -7623,7 +7623,7 @@ jr_000_2581:
     ld a, $ff
     ldh [hSoundId], a
     ld a, c
-    call Call_000_2cee
+    call SaveSoundDataToSlot
     jr jr_000_2594
 
 jr_000_258b:
@@ -8018,7 +8018,7 @@ jr_000_2784:
     jr nz, jr_000_2799
 
     ld a, $0a
-    call Call_000_2cee
+    call SaveSoundDataToSlot
     call Call_000_24cd
     ld a, $0a
     call LoadSoundDataFromSlot
@@ -9119,7 +9119,7 @@ jr_000_2ce7:
     ret
 
 
-Call_000_2cee:
+SaveSoundDataToSlot:
     swap a
     ld hl, wObjectBuffer
     ld l, a
