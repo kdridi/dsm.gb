@@ -8585,7 +8585,7 @@ DecrementObjectAnimationCounter:
     ld l, a
     ld a, [hl]
     and $3f
-    jr z, jr_000_2a80
+    jr z, AnimationCounterZero
 
     ld a, [hl]
     dec a
@@ -8593,23 +8593,23 @@ DecrementObjectAnimationCounter:
     pop hl
     ld a, [hl]
     cp $32
-    jr z, jr_000_2a78
+    jr z, AnimationObjectTriggerSound
 
     cp $08
-    jr z, jr_000_2a78
+    jr z, AnimationObjectTriggerSound
 
-    jr jr_000_2a7d
+    jr AnimationObjectSoundDone
 
-jr_000_2a78:
+AnimationObjectTriggerSound:
     ld a, $01
     ld [$dff0], a
 
-jr_000_2a7d:
+AnimationObjectSoundDone:
     ld a, $fe
     ret
 
 
-jr_000_2a80:
+AnimationCounterZero:
     pop hl
     push hl
     ld a, [hl]
@@ -8645,7 +8645,7 @@ HandleGameplayObjectSound:
     ld l, a
     ld a, [hl]
     and $3f
-    jr z, jr_000_2ad0
+    jr z, GameplayCounterZero
 
     ld a, [hl]
     dec a
@@ -8653,40 +8653,40 @@ HandleGameplayObjectSound:
     pop hl
     ld a, [hl]
     cp $1a
-    jr z, jr_000_2ac8
+    jr z, GameplayObjectTriggerSound
 
     cp $61
-    jr z, jr_000_2ac8
+    jr z, GameplayObjectTriggerSound
 
     cp $60
-    jr z, jr_000_2ac1
+    jr z, GameplayObject60TriggerSound
 
-    jr jr_000_2acd
+    jr GameplayObjectSoundDone
 
-jr_000_2ac1:
+GameplayObject60TriggerSound:
     ld a, $01
     ld [$dff8], a
-    jr jr_000_2acd
+    jr GameplayObjectSoundDone
 
-jr_000_2ac8:
+GameplayObjectTriggerSound:
     ld a, $01
     ld [$dff0], a
 
-jr_000_2acd:
+GameplayObjectSoundDone:
     ld a, $fe
     ret
 
 
-jr_000_2ad0:
+GameplayCounterZero:
     pop hl
     push hl
     ld a, [hl]
     cp $60
-    jr nz, jr_000_2ada
+    jr nz, GameplayObject60NotFound
 
     ld [wAudioCondition], a
 
-jr_000_2ada:
+GameplayObject60NotFound:
     ld a, [hl]
     ld e, a
     ld d, $00
