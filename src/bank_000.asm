@@ -7505,7 +7505,7 @@ Call_000_24c4:
     ld [wAudioState1], a
     jr jr_000_2492
 
-Call_000_24cd:
+LoadQueuedAudioConfig:
     ld a, [wAudioQueueId]
     ldh [hSoundId], a
     cp $ff
@@ -8038,7 +8038,7 @@ jr_000_2784:
 
     ld a, $0a
     call SaveSoundDataToSlot
-    call Call_000_24cd
+    call LoadQueuedAudioConfig
     ld a, $0a
     call LoadSoundDataFromSlot
     pop hl
