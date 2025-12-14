@@ -7458,7 +7458,7 @@ Jump_000_247e:
 UpdateAudio:
     call UpdateAudioState
     call UpdateAllObjectSounds
-    call Call_000_255f
+    call ProcessAudioSlots
     ret
 
 
@@ -7612,7 +7612,7 @@ PlaySound:
     ret
 
 
-Call_000_255f:
+ProcessAudioSlots:
     xor a
     ld [wAudioState2], a
     ld c, $00
