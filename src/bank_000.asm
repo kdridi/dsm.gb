@@ -4802,7 +4802,7 @@ jr_000_175c:
     ld [de], a
     inc e
     push de
-    call Call_000_3efe
+    call GetSpritePosFromTileAddr
     pop de
     ld hl, wPlayerX
     ld a, [hl+]
@@ -5057,7 +5057,7 @@ jr_000_18be:
     ld d, a
     ld a, [de]
     ldh [hTemp0], a
-    call Call_000_3efe
+    call GetSpritePosFromTileAddr
     ld hl, wOamVar2C
     ld a, [wPlayerX]
     sub $0b
@@ -5122,7 +5122,7 @@ jr_000_192e:
     ldh [hSpriteAttr], a
     ld a, e
     ldh [hSpriteTile], a
-    call Call_000_3efe
+    call GetSpritePosFromTileAddr
     ld hl, wOamVar2C
     ld a, [wPlayerX]
     sub $0b
@@ -5614,7 +5614,7 @@ jr_000_1bb4:
     ldh [hSpriteAttr], a
     ld a, l
     ldh [hSpriteTile], a
-    call Call_000_3efe
+    call GetSpritePosFromTileAddr
     ldh a, [hShadowSCX]
     ld b, a
     ldh a, [hSpriteX]
@@ -12662,18 +12662,25 @@ GetTileAddrFromSprite:
     ret
 
 
-Call_000_3efe:
+; -----------------------------------------------------------------------------
+; GetSpritePosFromTileAddr - Convertit adresse tilemap en coordonnées sprite
+; -----------------------------------------------------------------------------
+; Entrées : hSpriteAttr/hSpriteTile (adresse tilemap)
+; Sorties : hSpriteY, hSpriteX (coordonnées OAM en pixels)
+; Note    : Fonction inverse de GetTileAddrFromSprite
+; -----------------------------------------------------------------------------
+GetSpritePosFromTileAddr:
     ldh a, [hSpriteAttr]
     ld d, a
     ldh a, [hSpriteTile]
     ld e, a
     ld b, $04
 
-jr_000_3f06:
+.shiftRight:
     rr d
     rr e
     dec b
-    jr nz, jr_000_3f06
+    jr nz, .shiftRight
 
     ld a, e
     sub $84
