@@ -792,7 +792,7 @@ jr_000_03dc:
 jr_000_03e2:
     ld de, wScorePrevious
     ld hl, $9969
-    call Call_000_3f38
+    call ConvertBCDToTiles
     ld hl, wUnknown04
     ld [hl], $78
     ld a, [wGameConfigA6]
@@ -12740,7 +12740,7 @@ UpdateScoreDisplay:
 
 ;; --- ConvertBCDToTiles ---
 ;; Convertit 3 octets BCD en 6 tiles avec suppression des zéros de tête
-Call_000_3f38:
+ConvertBCDToTiles:
     xor a
     ldh [hScoreNeedsUpdate], a          ; Clear "needs update" flag
     ld c, $03               ; 3 octets à traiter
