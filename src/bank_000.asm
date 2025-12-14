@@ -1140,7 +1140,7 @@ jr_000_0581:
     call UpdateCoinDisplay
     call DisplayLivesCount
     ldh a, [hAnimTileIndex]
-    call Call_000_0d64
+    call LoadAnimTilesByIndex
 ; ===========================================================================
 ; État $10 - État vide (placeholder)
 ; Retourne immédiatement sans action
@@ -2711,7 +2711,7 @@ jr_000_0d53:
 jr_000_0d62:
     ldh [hAnimTileIndex], a
 
-Call_000_0d64:
+LoadAnimTilesByIndex:
     and $f0
     swap a
     cp $01
