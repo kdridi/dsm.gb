@@ -1318,7 +1318,7 @@ StateHandler_00::
     call CheckPlayerHeadCollision
     call Call_000_0ae1
     call Call_000_0a24
-    call Call_000_1efa
+    call UpdatePlayerInvulnBlink
 
     ; Gestion compteur niveau
     ld hl, wLevelConfig
@@ -6255,7 +6255,26 @@ jr_000_1ef1:
     ret
 
 
-Call_000_1efa:
+; =============================================================================
+; UpdatePlayerInvulnBlink - Gère le clignotement du joueur pendant l'invulnérabilité
+; =============================================================================
+; QUOI : Fait clignoter le joueur (toggle Y visible/invisible) pendant
+;        la période d'invulnérabilité après avoir pris un dégât.
+;
+; CONDITIONS :
+;   - S'exécute toutes les 4 frames (hFrameCounter & $03 == 0)
+;   - wPlayerInvuln > 0 (joueur invulnérable)
+;
+; ALGORITHME :
+;   1. Vérifie si c'est une frame d'update (toutes les 4 frames)
+;   2. Si invulnérabilité == 1, la termine
+;   3. Sinon décrémente le compteur et toggle la visibilité Y
+;   4. Si $dfe9 != 0, garde le joueur visible
+;
+; SORTIE : wPlayerInvuln mis à jour, wPlayerY togglé pour effet clignotement
+; MODIFIE : A
+; =============================================================================
+UpdatePlayerInvulnBlink:
     ldh a, [hFrameCounter]
     and $03
     ret nz
@@ -6265,7 +6284,7 @@ Call_000_1efa:
     ret z
 
     cp $01
-    jr z, jr_000_1f19
+    jr z, .end_invuln
 
     dec a
     ld [wPlayerInvuln], a
@@ -6276,7 +6295,7 @@ Call_000_1efa:
     and a
     ret nz
 
-jr_000_1f19:
+.end_invuln:
     xor a
     ld [wPlayerInvuln], a
     ld [wPlayerY], a
@@ -7291,7 +7310,7 @@ State0D_GameplayFull::
     ; Finalize
     call CallBank3Handler
     call $515e                   ; Bank 1: final update
-    call Call_000_1efa           ; Update display?
+    call UpdatePlayerInvulnBlink  ; Clignotement invulnérabilité
 
     ; Toggle direction joueur toutes les 4 frames (animation idle)
     ldh a, [hFrameCounter]
