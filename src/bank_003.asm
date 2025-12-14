@@ -12594,7 +12594,7 @@ jr_003_789d:
     ld a, l
     nop
     nop
-    call Call_000_007d
+    call CheckWindowEnable
     ld [hl], a
     ld [hl], b
     ld h, d

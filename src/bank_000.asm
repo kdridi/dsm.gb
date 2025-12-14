@@ -190,16 +190,16 @@ VBlankHandler::
     inc [hl]                ; frame_counter++
 
     ; --- 5. CheckWindowEnable ---
-Call_000_007d:
+CheckWindowEnable:
     ldh a, [hGameState]          ; Lire game_state
     cp $3a                  ; État spécial $3A ?
-    jr nz, jr_000_0088      ; Non → sauter
+    jr nz, .resetScrollAndFlag   ; Non → sauter
 
     ld hl, $ff40            ; rLCDC
     set 5, [hl]             ; Activer le Window (bit 5)
 
     ; --- 6. ResetScrollAndFlag ---
-jr_000_0088:
+.resetScrollAndFlag:
     xor a
     ldh [rSCX], a           ; Scroll X = 0
     ldh [rSCY], a           ; Scroll Y = 0
