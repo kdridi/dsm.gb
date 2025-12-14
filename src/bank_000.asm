@@ -5509,7 +5509,7 @@ jr_000_1b1a:
     ret
 
 
-Call_000_1b3c:
+TriggerBlockCollisionSound:
 Jump_000_1b3c:
 jr_000_1b3c:
     ldh a, [hTimerAux]
@@ -7262,7 +7262,7 @@ State0D_GameplayFull::
     call $4fb2                   ; Bank 1: update level?
     ld a, [wAudioCondition]
     and a
-    call nz, Call_000_1b3c       ; Trigger son si condition
+    call nz, TriggerBlockCollisionSound       ; Trigger son si condition
     call UpdateAnimatedObjectState           ; Update collisions?
     call $4fec                   ; Bank 1: update objects?
     call $5118                   ; Bank 1: update sprites?
