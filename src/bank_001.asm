@@ -2516,7 +2516,7 @@ Call_001_4a56:
     ld b, $12
     ld c, $74
     inc c
-    call nz, Call_000_083c
+    call nz, DecAnimObjCount
     ld hl, sp-$10
     ldh a, [rP1]
     nop

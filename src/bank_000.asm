@@ -1658,7 +1658,7 @@ Call_000_0837:
     and a
     jr z, jr_000_083f
 
-Call_000_083c:
+DecAnimObjCount:
     dec a
     ldh [hAnimObjCount], a
 
