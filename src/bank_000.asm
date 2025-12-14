@@ -1854,7 +1854,7 @@ jr_000_0939:
     cp $03
     jr nc, jr_000_0955
 
-    call Call_000_2a3b
+    call TriggerObjectSound
     and a
     jr z, jr_000_0955
 
@@ -8550,7 +8550,7 @@ Call_000_2a1a:
     ret
 
 
-Call_000_2a3b:
+TriggerObjectSound:
     push hl
     ld a, [hl]
     ld e, a
