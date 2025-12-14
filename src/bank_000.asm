@@ -9126,12 +9126,12 @@ LoadSoundDataFromHL:
     ld de, hSoundId
     ld b, $0d
 
-jr_000_2ce7:
+CopySoundDataLoop:
     ld a, [hl+]
     ld [de], a
     inc de
     dec b
-    jr nz, jr_000_2ce7
+    jr nz, CopySoundDataLoop
 
     ret
 
@@ -9145,12 +9145,12 @@ SaveSoundDataToHL:
     ld de, hSoundId
     ld b, $0d
 
-jr_000_2cf9:
+SaveSoundDataLoop:
     ld a, [de]
     ld [hl+], a
     inc de
     dec b
-    jr nz, jr_000_2cf9
+    jr nz, SaveSoundDataLoop
 
     ret
 
