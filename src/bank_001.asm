@@ -4653,7 +4653,7 @@ jr_001_5354:
     rst $08
     ld [$cf56], sp
     ld c, $56
-    call nc, Call_000_3690
+    call nc, Call_Stack_Frame_Init_00
     push de
     db $10
     ld [hl], $d7
@@ -4710,7 +4710,7 @@ jr_001_5428:
 
     ccf
     inc [hl]
-    call Call_000_3755
+    call Call_Stack_Frame_Init_01
     add hl, bc
     inc b
     scf

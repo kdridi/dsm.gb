@@ -10692,7 +10692,7 @@ jr_000_3434:
     and c
     dec [hl]
 
-jr_000_349f:
+AnimState_Handler_00:
     xor e
     dec [hl]
     jp z, $da35
@@ -10702,7 +10702,7 @@ jr_000_349f:
     dec [hl]
     ld [bc], a
 
-jr_000_34a8:
+AnimState_Data_00:
     ld [hl], $2f
     ld [hl], $41
     ld [hl], $53
@@ -10710,7 +10710,7 @@ jr_000_34a8:
     ld [hl], $8a
     ld [hl], $c0
 
-jr_000_34b4:
+AnimState_Data_01:
     ld [hl], $c8
     ld [hl], $f2
     ld [hl], $f6
@@ -10721,7 +10721,7 @@ jr_000_34b4:
     rla
     scf
 
-jr_000_34c3:
+AnimState_Handler_01:
     ld [hl-], a
     scf
     ld c, a
@@ -10733,7 +10733,7 @@ jr_000_34c3:
     ld [hl], d
     scf
 
-jr_000_34cd:
+AnimState_Handler_02:
     ld a, d
     scf
     add h
@@ -10753,9 +10753,9 @@ jr_000_34cd:
 
 AnimStateDispatcher:
     inc d
-    jr c, jr_000_3547
+    jr c, AnimState_Dispatcher_00
 
-    jr c, jr_000_354b
+    jr c, AnimState_Dispatcher_01
 
 AnimStateLoop:
     jr c, @+$78
@@ -10764,15 +10764,15 @@ AnimStateLoop:
 
     jr c, @-$66
 
-    jr c, jr_000_349f
+    jr c, AnimState_Handler_00
 
-    jr c, jr_000_34a8
+    jr c, AnimState_Data_00
 
-    jr c, jr_000_34b4
+    jr c, AnimState_Data_01
 
-    jr c, jr_000_34c3
+    jr c, AnimState_Handler_01
 
-    jr c, jr_000_34cd
+    jr c, AnimState_Handler_02
 
     jr c, AnimStateLoop
 
@@ -10854,13 +10854,13 @@ AnimShiftState:
     dec [hl]
     inc a
 
-jr_000_3547:
+AnimState_Dispatcher_00:
     dec a
     inc a
     ld e, d
     inc a
 
-jr_000_354b:
+AnimState_Dispatcher_01:
     ld h, h
     inc a
     ld a, b
@@ -11096,7 +11096,7 @@ jr_000_354b:
     db $f4
     ld [bc], a
 
-Call_000_3690:
+Call_Stack_Frame_Init_00:
     nop
     db $e4
     ld hl, sp+$29
@@ -11259,7 +11259,7 @@ jr_000_372b:
     rst $28
     rst $28
 
-Call_000_3755:
+Call_Stack_Frame_Init_01:
     rst $28
     rst $28
     rst $28
