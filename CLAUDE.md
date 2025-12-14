@@ -194,6 +194,62 @@ ld a, AUDENA_ON
 ld [hl-], a
 ```
 
+## Analyse des zones de données
+
+### Problème du désassemblage complet
+
+Un désassembleur interprète **tout** comme des instructions, y compris les données :
+- Jump tables (adresses 16-bit)
+- Tilemaps et graphiques
+- Tables de sons/palettes
+- Textes
+
+**Symptômes** d'une zone data mal désassemblée :
+- Instructions qui n'ont pas de sens (`db $10`, `ld b, $xx` répétés)
+- Labels `Jump_XXX` au milieu de données
+- Pas de structure logique (pas de `ret`, `jp`, `call` cohérents)
+
+### Technique : xxd sur la ROM bit-perfect
+
+Puisque `make verify` confirme que `src/game.gb` est identique à l'originale, on peut analyser les données brutes :
+
+```bash
+# Voir 120 octets à partir de l'adresse $02A5
+xxd -s 0x02A5 -l 120 src/game.gb
+
+# Voir en format plus lisible (1 octet par ligne)
+xxd -s 0x02A5 -l 60 -c 2 src/game.gb
+```
+
+### Reconstruction des données
+
+| Type de données | Directive RGBASM | Exemple |
+|-----------------|------------------|---------|
+| Octet simple | `db` | `db $10, $20, $30` |
+| Mot 16-bit (adresse) | `dw` | `dw $0610, $06A5` |
+| Espace réservé | `ds` | `ds 16` (16 octets à 0) |
+| Fichier binaire | `INCBIN` | `INCBIN "tiles.bin"` |
+
+### Exemple : Jump table
+
+```asm
+; AVANT (mal désassemblé)
+    db $10
+    ld b, $a5
+    ld b, $c5
+
+; APRÈS (reconstruit)
+    dw $0610    ; État $00 → Handler à $0610
+    dw $06A5    ; État $01 → Handler à $06A5
+    dw $06C5    ; État $02 → Handler à $06C5
+```
+
+### Zones à investiguer
+
+- Jump tables après `rst $28` ou `jp hl`
+- Blocs de données après les routines (fin de bank)
+- Séquences répétitives d'instructions absurdes
+
 ## Conventions
 - Process générique
 - Commits : `[ROADMAP-XXXXXX] description`

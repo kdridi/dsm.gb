@@ -67,6 +67,21 @@
 - [x] Adresses tilemap HUD ($9806, $9820, $9829) → VRAM_SCORE_POS1/2, VRAM_HUD_LINE
 - [x] Adresses tiles spécifiques ($95D1) → VRAM_ANIM_DEST
 
+### 4.4 Reconstruction des zones de données (nouveau)
+
+**Problème** : Le désassembleur a interprété les données comme du code.
+
+**Technique** : Utiliser `xxd -s ADDR -l LEN src/game.gb` pour voir les données brutes.
+
+**Zones identifiées** :
+- [ ] Jump table StateDispatcher ($02A5, 120 octets) → 60 × `dw`
+- [ ] Table audio ($336C) → à analyser
+- [ ] Tables animation ($3FAF) → à analyser
+- [ ] Graphiques/tilemaps (fin des banks) → à identifier
+- [ ] Autres jump tables après `rst $28` → à rechercher
+
+**Objectif** : Remplacer les instructions absurdes par des directives `db`/`dw`/`INCBIN`.
+
 ---
 
 ## Phase 5 : Documentation des structures
