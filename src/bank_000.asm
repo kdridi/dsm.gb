@@ -3852,7 +3852,7 @@ ToggleAnimFrame:
 ; Scroll l'écran horizontalement, prépare transition finale
 ; ===========================================================================
 State31_HorizontalScroll::
-    call Call_000_1305
+    call AnimateAndCallBank3
     call UpdateScroll
     ldh a, [hShadowSCX]
     inc a
@@ -3869,7 +3869,7 @@ State31_HorizontalScroll::
     ret
 
 ; --- Routine : animation + bank 3 ---
-Call_000_1305:
+AnimateAndCallBank3:
     ld hl, wPlayerState
     call ToggleAnimFrame
     call CallBank3Handler
@@ -4332,7 +4332,7 @@ Call_000_1527:
 
 
 Call_000_1547:
-    call Call_000_1305
+    call AnimateAndCallBank3
     call Call_000_13bb
     ret
 
