@@ -1636,7 +1636,7 @@ jr_000_080e:
 
 jr_000_082b:
     push bc
-    call Call_000_21a8
+    call InitScrollBuffer
     call UpdateScrollColumn
     pop bc
     dec b
@@ -2847,7 +2847,7 @@ State1C_WaitTimerGameplay::
     and a
     jr z, jr_000_0e1f
 
-    call Call_000_21a8
+    call InitScrollBuffer
     xor a
     ld [wPlayerVarAB], a
     call Call_000_2488
@@ -6803,21 +6803,20 @@ Call_000_218f:
     xor $08
     ld [hl], a
     and a
-    jr nz, jr_000_21a8
+    jr nz, InitScrollBuffer
 
     ld hl, wPlayerVarAB
     inc [hl]
 
-Call_000_21a8:
-jr_000_21a8:
+InitScrollBuffer:
     ld b, $10
     ld hl, wScrollBuffer
-    ld a, $2c
+    ld a, TILE_EMPTY
 
-jr_000_21af:
+.fill:
     ld [hl+], a
     dec b
-    jr nz, jr_000_21af
+    jr nz, .fill
 
     ldh a, [hTilemapScrollY]
     and a
