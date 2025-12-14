@@ -1494,7 +1494,7 @@ jr_000_0771:
     ld [wPlayerDir], a
 
 jr_000_077e:
-    call Call_000_2453
+    call FindAudioTableEntry
     ei
     ret
 
@@ -4534,7 +4534,7 @@ State0A_LoadSubLevel::
     ldh a, [hRenderCounter]
     ldh [hTilemapScrollX], a
     call LoadLevelData
-    call Call_000_2453
+    call FindAudioTableEntry
     ld hl, wPlayerX
     ld [hl], $20
     inc l
@@ -4632,7 +4632,7 @@ State0B_PipeEnterDown::
     ldh [hShadowSCX], a
     ld a, $5b
     ldh [hScrollColumn], a
-    call Call_000_2453
+    call FindAudioTableEntry
     call $1ecb
     ld a, $c3
     ldh [rLCDC], a               ; LCD on
@@ -7398,7 +7398,7 @@ jr_000_2425:
     ld bc, $3e00
     inc c
     ld [wPlayerVarAB], a
-    call Call_000_2453
+    call FindAudioTableEntry
     xor a
     ld [wAudioCondition], a
     ld hl, $242d
@@ -7411,7 +7411,7 @@ jr_000_2425:
     ret
 
 
-Call_000_2453:
+FindAudioTableEntry:
     ld hl, $401a
     ldh a, [hRenderContext]
     rlca
@@ -7427,17 +7427,17 @@ Call_000_2453:
     ld a, [wPlayerVarAB]
     ld b, a
 
-jr_000_2467:
+FindAudioTableEntry_SearchLoop:
     ld a, [hl]
     cp b
-    jr nc, jr_000_2470
+    jr nc, FindAudioTableEntry_Found
 
     inc hl
     inc hl
     inc hl
-    jr jr_000_2467
+    jr FindAudioTableEntry_SearchLoop
 
-jr_000_2470:
+FindAudioTableEntry_Found:
     ld a, l
     ld [wAudioState0], a
     ld a, h
