@@ -6581,14 +6581,14 @@ CheckAnimObjectState:
     ldh [hPtrLow], a
     pop af
     cp $ff
-    jr nz, jr_000_207a
+    jr nz, ClearAnimObjectSlot
 
     ld a, $03
     ld [wStateBuffer], a
     ldh a, [hAnimStructBank]
     ldh [hPtrBank], a
 
-jr_000_207a:
+ClearAnimObjectSlot:
     xor a
     ld [de], a
     dec e
@@ -6631,23 +6631,23 @@ HandleBlockCollision:
     pop af
     push af
     cp $80
-    jr nz, jr_000_20b8
+    jr nz, InitBlockHitSprites
 
     ld a, d
     add $30
     ld d, a
     ld a, [de]
     and a
-    jr z, jr_000_20b8
+    jr z, InitBlockHitSprites
 
     call PlaySound
 
-jr_000_20b8:
+InitBlockHitSprites:
     ld hl, $c210
     ld de, $0010
     ld b, $04
 
-jr_000_20c0:
+SpriteSetupLoop:
     push hl
     ld [hl], $00
     inc l
@@ -6669,7 +6669,7 @@ jr_000_20c0:
     pop hl
     add hl, de
     dec b
-    jr nz, jr_000_20c0
+    jr nz, SpriteSetupLoop
 
     ld hl, $c222
     ld a, [hl]
@@ -7009,11 +7009,11 @@ UpdateScrollColumn:
     ld l, a
     inc a
     cp $60
-    jr nz, jr_000_225e
+    jr nz, ScrollColumnWrapAround
 
     ld a, $40
 
-jr_000_225e:
+ScrollColumnWrapAround:
     ldh [hScrollColumn], a
     ld h, $98
     ld de, wScrollBuffer
@@ -7029,26 +7029,26 @@ ClearTilemapColumn:
     ld a, [de]
     ld [hl], a
     cp $70
-    jr nz, jr_000_227a
+    jr nz, CheckIfNotLevelConfigTile
 
     call ProcessRenderQueue
     jr TilemapScrollLoop
 
-jr_000_227a:
+CheckIfNotLevelConfigTile:
     cp $80
-    jr nz, jr_000_2283
+    jr nz, CheckIfNotCompressedTile
 
     call ApplyLevelConfig
     jr TilemapScrollLoop
 
-jr_000_2283:
+CheckIfNotCompressedTile:
     cp $5f
-    jr nz, jr_000_228c
+    jr nz, HandleSpecialMarkerTile
 
     call ApplyLevelConfig
     jr TilemapScrollLoop
 
-jr_000_228c:
+HandleSpecialMarkerTile:
     cp $81
     call z, ApplyLevelConfig
 
@@ -8331,19 +8331,19 @@ jr_000_28f7:
     call CheckPlayerSideCollision
     pop bc
     and a
-    jr nz, jr_000_293b
+    jr nz, RestoreCollisionFlagAndExit
 
     ld a, [wPlayerState]
     add b
     ld [wPlayerState], a
     cp $51
-    jr c, jr_000_293b
+    jr c, RestoreCollisionFlagAndExit
 
     ld a, [wCollisionFlag]
     cp $07
-    jr nc, jr_000_2941
+    jr nc, AlignCameraTo4PixelBoundary
 
-jr_000_2928:
+ApplyHorizontalScrollOffset:
     ld a, [wPlayerState]
     sub $50
     ld b, a
@@ -8354,20 +8354,20 @@ jr_000_2928:
     ldh [hShadowSCX], a
     call OffsetSpritesX
 
-jr_000_293b:
+RestoreCollisionFlagAndExit:
     ld a, c
     ld [$c205], a
     jr UpdatePhysicsCollision
 
-jr_000_2941:
+AlignCameraTo4PixelBoundary:
     ldh a, [hShadowSCX]
     and $0c
-    jr nz, jr_000_2928
+    jr nz, ApplyHorizontalScrollOffset
 
     ldh a, [hShadowSCX]
     and $fc
     ldh [hShadowSCX], a
-    jr jr_000_293b
+    jr RestoreCollisionFlagAndExit
 
 jr_000_294f:
     ldh a, [hSoundCh4]
