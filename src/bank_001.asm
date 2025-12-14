@@ -5036,7 +5036,7 @@ jr_001_550a:
 
 
     add a
-    call nc, Call_000_0cdb
+    call nc, CheckPlayerCenterPosition
     ld d, h
     call c, $860d
     ldh [$ff08], a

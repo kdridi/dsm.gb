@@ -2604,7 +2604,7 @@ StateHandler_06::
     ld a, [wPlayerX]
     cp $60
 
-Call_000_0cdb:
+CheckPlayerCenterPosition:
     jr c, StateHandler_06_SwitchBank2
 
     cp $a0
