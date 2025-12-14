@@ -10103,48 +10103,31 @@ jr_000_324d:
     nop
     nop
     nop
-    ld b, $11
-    nop
-    ld [bc], a
-    ld de, $0100
-    ld de, $0000
-    ld de, $0700
-    ld de, $0200
-    ld de, $0000
-    ld [hl+], a
-    nop
-    nop
-    sub c
-    nop
-    add hl, bc
-    inc sp
-    call nz, Call_000_2207
-    add c
-    nop
-    or c
-    nop
-    nop
-    or c
-    nop
-    nop
-    and c
-    nop
-    nop
-    nop
-    nop
-    inc [hl]
-    ld [hl+], a
-    ld b, c
-    ld [bc], a
-    ld hl, $0000
-    ld [de], a
-    nop
-    nop
-    ld de, $0000
-    ld de, $0000
-    sub c
-    nop
-    ld [$0091], sp
+
+; === Table configuration audio ($336C, 63 bytes) ===
+; Format: 3 bytes par son, indexé par sound_id * 3
+AudioConfigTable::
+    db $06, $11, $00  ; Son 00
+    db $02, $11, $00  ; Son 01
+    db $01, $11, $00  ; Son 02
+    db $00, $11, $00  ; Son 03
+    db $07, $11, $00  ; Son 04
+    db $02, $11, $00  ; Son 05
+    db $00, $22, $00  ; Son 06
+    db $00, $91, $00  ; Son 07
+    db $09, $33, $c4  ; Son 08
+    db $07, $22, $81  ; Son 09
+    db $00, $b1, $00  ; Son 0A
+    db $00, $b1, $00  ; Son 0B
+    db $00, $a1, $00  ; Son 0C
+    db $00, $00, $00  ; Son 0D
+    db $34, $22, $41  ; Son 0E
+    db $02, $21, $00  ; Son 0F
+    db $00, $12, $00  ; Son 10
+    db $00, $11, $00  ; Son 11
+    db $00, $11, $00  ; Son 12
+    db $00, $91, $00  ; Son 13
+    db $08, $91, $00  ; Son 14
     nop
     ld hl, $0700
     ld [hl+], a
@@ -12450,127 +12433,22 @@ jr_000_3f83:
     ret
 
 
-    ld d, $0a
-    dec de
-    ld [de], a
-    jr jr_000_3fb8
+; === Données fin de bank 0 ($3F87-$3FFF, 121 bytes) ===
 
-    inc l
-    inc l
-    inc l
-    inc l
-    jr nz, jr_000_3fab
+; Données texte/tilemap ($3F87-$3FAE, 40 bytes)
+    db $16, $0a, $1b, $12, $18, $2b, $2c, $2c  ; $3F87
+    db $2c, $2c, $20, $18, $1b, $15, $0d, $2c  ; $3F8F
+    db $1d, $12, $16, $0e, $2c, $2c, $2c, $2c  ; $3F97
+    db $2c, $2c, $2c, $2a, $2b, $2c, $2c, $2c  ; $3F9F
+    db $01, $29, $01, $2c, $2c, $00, $00, $00  ; $3FA7
 
-    dec de
-    dec d
-    dec c
-    inc l
-    dec e
-    ld [de], a
-    ld d, $0e
-    inc l
-    inc l
-    inc l
-    inc l
-    inc l
-    inc l
-    inc l
-    ld a, [hl+]
-    dec hl
-    inc l
-    inc l
-    inc l
-    ld bc, $0129
-    inc l
+; Table animation tiles ($3FAF, 80 bytes)
+AnimTilesFrames::
+    db $00, $00, $00, $10, $38, $38, $28, $10  ; Frame 0
+    db $00, $e0, $b1, $5b, $ff, $ff, $ff, $ff  ; Frame 1
+    db $7e, $3c, $18, $00, $00, $81, $42, $a5  ; Frame 2
+    db $00, $e1, $33, $de, $ff, $e7, $db, $ff  ; Frame 3
+    ds 48, $ff                                  ; Frames 4-9 (padding)
 
-jr_000_3fab:
-    inc l
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    db $10
-    jr c, jr_000_3fed
-
-    jr z, jr_000_3fc7
-
-    nop
-
-jr_000_3fb8:
-    ldh [hScoreNeedsUpdate], a
-    ld e, e
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    ld a, [hl]
-    inc a
-    jr jr_000_3fc3
-
-jr_000_3fc3:
-    nop
-    add c
-    ld b, d
-    and l
-
-jr_000_3fc7:
-    nop
-    pop hl
-    inc sp
-    sbc $ff
-    rst $20
-    db $db
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-
-jr_000_3fed:
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
+; Padding fin de bank ($3FFF, 1 byte)
+    db $ff

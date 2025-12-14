@@ -75,10 +75,11 @@
 
 **Zones identifiées** :
 - [x] Jump table StateDispatcher ($02A5, 120 octets) → 60 × `dw`
-- [ ] Table audio ($336C) → à analyser
-- [ ] Tables animation ($3FAF) → à analyser
-- [ ] Graphiques/tilemaps (fin des banks) → à identifier
-- [ ] Autres jump tables après `rst $28` → à rechercher
+- [x] Table audio ($336C, 63 octets) → 21 × `db` (AudioConfigTable)
+- [x] Tables animation ($3FAF, 80 octets) → 10 frames × 8 octets (AnimTilesFrames)
+- [x] Zone fin de bank 0 ($3F87-$3FFF, 121 octets) → données + animation + padding
+- [ ] Graphiques/tilemaps (autres banks) → à identifier
+- [x] Autres jump tables après `rst $28` → aucune autre trouvée (326 occurrences analysées)
 
 **Objectif** : Remplacer les instructions absurdes par des directives `db`/`dw`/`INCBIN`.
 
