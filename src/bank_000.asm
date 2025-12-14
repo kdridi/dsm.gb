@@ -5135,7 +5135,7 @@ SetupSpriteProperties:
     ret
 
 
-jr_000_195d:
+HandlePlayerUpCollision:
     ldh a, [hBlockHitType]
     and a
     ret nz
@@ -5200,13 +5200,13 @@ ClassifyTileTypeEntry:
     ret z
 
     cp $82
-    jr z, jr_000_19d8
+    jr z, HandlePlayerWaterCollision
 
     cp $f4
     jp z, Jump_000_1a4e
 
     cp $81
-    jr z, jr_000_195d
+    jr z, HandlePlayerUpCollision
 
     cp $80
     jp z, Jump_000_187f
@@ -5219,7 +5219,7 @@ ClassifyTileTypeEntry:
 
 
 Jump_000_19d8:
-jr_000_19d8:
+HandlePlayerWaterCollision:
     push hl
     ld a, h
     add $30
@@ -5440,10 +5440,10 @@ CollisionConfig_Offset2:
     jr c, NoCollisionRestartLoop
 
     cp $f4
-    jr z, jr_000_1b05
+    jr z, HandlePlayerSpikeCollision
 
     cp $77
-    jr z, jr_000_1b1a
+    jr z, HandlePlayerSlideCollision
 
     cp $f2
     jr z, TriggerBlockCollisionSound_TimerCheck
@@ -5467,7 +5467,7 @@ NoCollisionFound:
     ret
 
 
-jr_000_1b05:
+HandlePlayerSpikeCollision:
     push hl
     pop de
     ld hl, hBlockHitType
@@ -5486,7 +5486,7 @@ jr_000_1b05:
     ret
 
 
-jr_000_1b1a:
+HandlePlayerSlideCollision:
     ldh a, [hVBlankMode]
     and a
     jr z, CollisionDefaultHandler
@@ -7697,11 +7697,11 @@ ProcessAudioChannelData:
     ld hl, $2fd9
     ldh a, [hSoundCh2]
     and $01
-    jr nz, jr_000_25d5
+    jr nz, LoadSoundChannel3Data
 
     ld hl, $30ab
 
-jr_000_25d5:
+LoadSoundChannel3Data:
     ldh a, [hSoundCh3]
     rlca
     ld d, $00
@@ -7714,18 +7714,18 @@ jr_000_25d5:
     ld h, d
     ld l, e
 
-jr_000_25e2:
+ProcessAudioCommandLoop:
     ld a, [wAudioState2]
     cp $14
     ret nc
 
-jr_000_25e8:
+NextAudioCommand:
     ld a, [hl]
     cp $ff
     ret z
 
     bit 7, a
-    jr nz, jr_000_2625
+    jr nz, WriteAudioOutput
 
     rlca
     res 4, a
@@ -7750,14 +7750,14 @@ SkipParam1Sub:
 
 SkipParam1Add:
     bit 1, a
-    jr z, jr_000_2618
+    jr z, ProcessAudioParam2
 
     ldh a, [hSoundParam2]
     sub $08
     ldh [hSoundParam2], a
     ld a, [hl]
 
-jr_000_2618:
+ProcessAudioParam2:
     bit 0, a
     jr z, NextAudioData
 
@@ -7767,9 +7767,9 @@ jr_000_2618:
 
 NextAudioData:
     inc hl
-    jr jr_000_25e8
+    jr NextAudioCommand
 
-jr_000_2625:
+WriteAudioOutput:
     ldh a, [hSoundParam1]
     ld [bc], a
     inc bc
@@ -7786,7 +7786,7 @@ jr_000_2625:
     ld a, [wAudioState2]
     inc a
     ld [wAudioState2], a
-    jr jr_000_25e2
+    jr ProcessAudioCommandLoop
 
 UpdateAllObjectSounds:
     ld hl, wObjectBuffer
@@ -7794,7 +7794,7 @@ UpdateAllObjectSounds:
 Jump_000_2642:
     ld a, [hl]
     inc a
-    jr z, jr_000_2663
+    jr z, NextSoundObject
 
     push hl
     call LoadSoundDataFromHL
@@ -7816,7 +7816,7 @@ Jump_000_2642:
     call SaveSoundDataToHL
     pop hl
 
-jr_000_2663:
+NextSoundObject:
     ld a, l
     add $10
     ld l, a
@@ -7828,7 +7828,7 @@ jr_000_2663:
 
 ProcessSoundAnimation:
 Jump_000_266d:
-jr_000_266d:
+ProcessSoundAnimationLoop:
     ldh a, [hSoundVar1]
     and a
     jr z, ProcessAudioQueue_Loop
@@ -7913,7 +7913,7 @@ ProcessAudioQueue_Found:
     and $0f
     ldh [hSoundVar1], a
     pop hl
-    jr jr_000_266d
+    jr ProcessSoundAnimationLoop
 
 ProcessAudioQueue_Type_Other:
     ld a, [wAudioQueueType]
