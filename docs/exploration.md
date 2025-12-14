@@ -60,15 +60,15 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 
 | État | Adresse | Rôle supposé |
 |------|---------|--------------|
-| $00 | $0610 | ? (init/menu) |
-| $01 | $06A5 | ? |
-| $02 | $06C5 | ? |
-| $03 | $0B84 | ? |
-| $04 | $0BCD | ? |
-| $05 | $0C6A | ? |
-| $06 | $0CC2 | ? |
-| $07 | $0C37 | ? |
-| $08 | $0D40 | ? |
+| $00 | $0610 | **Main gameplay** - boucle de jeu principale |
+| $01 | $06A5 | **Reset objets** - clear buffers → état $02 |
+| $02 | $06C5 | **Chargement niveau** - LCD off, config, → état $00 |
+| $03 | $0B84 | **Setup sprites** - transition visuelle → état $04 |
+| $04 | $0BCD | **Animation transition** - via table $0C10 |
+| $05 | $0C6A | **Niveau spécial** - gestion monde 3? |
+| $06 | $0CC2 | **Post-niveau** - transition selon position |
+| $07 | $0C37 | **Attente timer** - appel bank 3 → état $05 |
+| $08 | $0D40 | **Progression** - changement monde/niveau |
 | $09 | $1612 | ? |
 | $0A | $1626 | ? |
 | $0B | $1663 | ? |
@@ -212,9 +212,9 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | Handlers RST | 0 | 8 | 8 |
 | Interruptions | 0 | 6 | 6 |
 | Entry point | 0 | 3 | 3 |
-| Handlers état | 60 | 0 | 60 |
+| Handlers état | 51 | 9 | 60 |
 | Routines | 0 | 12 | 12 |
 | Tables données | 0 | 4 | 4 |
-| **Total** | **60** | **33** | **93** |
+| **Total** | **51** | **42** | **93** |
 
-**Progression** : 35% analysé (33/93)
+**Progression** : 45% analysé (42/93)

@@ -665,12 +665,12 @@ StateJumpTable:
     dw StateHandler_00  ; État $00 - Init/main gameplay
     dw StateHandler_01  ; État $01 - Reset objets
     dw StateHandler_02  ; État $02 - Préparation rendu
-    dw $0b84    ; État $03
-    dw $0bcd    ; État $04
-    dw $0c6a    ; État $05
-    dw $0cc2    ; État $06
-    dw $0c37    ; État $07
-    dw $0d40    ; État $08
+    dw StateHandler_03  ; État $03 - Setup sprites transition
+    dw StateHandler_04  ; État $04 - Animation transition
+    dw StateHandler_05  ; État $05 - Niveau spécial gestion
+    dw StateHandler_06  ; État $06 - Transition post-niveau
+    dw StateHandler_07  ; État $07 - Attente + bank 3
+    dw StateHandler_08  ; État $08 - Progression monde/niveau
     dw $1612    ; État $09
     dw $1626    ; État $0A
     dw $1663    ; État $0B
@@ -2340,46 +2340,56 @@ jr_000_0b7f:
     jp Jump_000_0af4
 
 
+;; ==========================================================================
+;; StateHandler_03 - Handler d'état $03 ($0B84)
+;; ==========================================================================
+;; Configure les sprites OAM pour un effet visuel (transition ?).
+;; Place 4 sprites dans wOamVar0C puis passe à l'état $04.
+;; ==========================================================================
+StateHandler_03::
+    ; Configurer 4 sprites OAM pour effet de transition
     ld hl, wOamVar0C
     ld a, [wLevelVarDD]
     ld c, a
     sub $08
     ld d, a
-    ld [hl], a
+    ld [hl], a                    ; Sprite 0: Y
     inc l
     ld a, [wPlayerState]
     add $f8
     ld b, a
-    ld [hl+], a
-    ld [hl], $0f
+    ld [hl+], a                   ; Sprite 0: X
+    ld [hl], $0f                  ; Sprite 0: tile
     inc l
-    ld [hl], $00
+    ld [hl], $00                  ; Sprite 0: attr
     inc l
-    ld [hl], c
+    ld [hl], c                    ; Sprite 1: Y
     inc l
-    ld [hl], b
+    ld [hl], b                    ; Sprite 1: X
     inc l
-    ld [hl], $1f
+    ld [hl], $1f                  ; Sprite 1: tile
     inc l
-    ld [hl], $00
+    ld [hl], $00                  ; Sprite 1: attr
     inc l
-    ld [hl], d
+    ld [hl], d                    ; Sprite 2: Y
     inc l
     ld a, b
     add $08
     ld b, a
-    ld [hl+], a
-    ld [hl], $0f
+    ld [hl+], a                   ; Sprite 2: X
+    ld [hl], $0f                  ; Sprite 2: tile
     inc l
-    ld [hl], $20
+    ld [hl], $20                  ; Sprite 2: attr (flipped)
     inc l
-    ld [hl], c
+    ld [hl], c                    ; Sprite 3: Y
     inc l
-    ld [hl], b
+    ld [hl], b                    ; Sprite 3: X
     inc l
-    ld [hl], $1f
+    ld [hl], $1f                  ; Sprite 3: tile
     inc l
-    ld [hl], $20
+    ld [hl], $20                  ; Sprite 3: attr (flipped)
+
+    ; Transition vers état $04
     ld a, $04
     ldh [hGameState], a
     xor a
@@ -2390,6 +2400,12 @@ jr_000_0b7f:
     ret
 
 
+;; ==========================================================================
+;; StateHandler_04 - Handler d'état $04 ($0BCD)
+;; ==========================================================================
+;; Animation/progression d'un effet visuel via wGameVarAC.
+;; ==========================================================================
+StateHandler_04::
     ld a, [wGameVarAC]
     ld e, a
     inc a
@@ -2457,6 +2473,7 @@ jr_000_0c0d:
     nop
     rst $38
 
+;; Zone de données ($0C10-$0C36)
 Jump_000_0c22:
     nop
     nop
@@ -2469,24 +2486,31 @@ Jump_000_0c22:
     ld bc, $0101
     ld bc, $0101
     ld bc, $7f01
+
+;; ==========================================================================
+;; StateHandler_07 - Handler d'état $07 ($0C37)
+;; ==========================================================================
+;; Attente timer puis appel bank 3, transition vers état $05.
+;; ==========================================================================
+StateHandler_07::
     ld hl, hTimer1
     ld a, [hl]
     and a
-    jr z, jr_000_0c42
+    jr z, .timerDone
 
     call CallBank3Handler
     ret
 
 
-jr_000_0c42:
+.timerDone:
     ld a, [wAudioCondition]
     and a
-    jr nz, jr_000_0c4c
+    jr nz, .skipTimerInit
 
     ld a, $40
     ldh [hTimer1], a
 
-jr_000_0c4c:
+.skipTimerInit:
     ld a, $05
     ldh [hGameState], a
     xor a
@@ -2507,6 +2531,12 @@ jr_000_0c4c:
     ret
 
 
+;; ==========================================================================
+;; StateHandler_05 - Handler d'état $05 ($0C6A)
+;; ==========================================================================
+;; Gestion niveau spécial (monde 3?), peut passer à état $06.
+;; ==========================================================================
+StateHandler_05::
     ldh a, [hAnimTileIndex]
     and $0f
     cp $03
@@ -2561,6 +2591,12 @@ jr_000_0cb9:
     ret
 
 
+;; ==========================================================================
+;; StateHandler_06 - Handler d'état $06 ($0CC2)
+;; ==========================================================================
+;; Transition après niveau, choix état suivant selon position et niveau.
+;; ==========================================================================
+StateHandler_06::
     ldh a, [hTimer1]
     and a
     ret nz
@@ -2571,33 +2607,34 @@ jr_000_0cb9:
     ldh a, [hAnimTileIndex]
     and $0f
     cp $03
-    ld a, $1c
-    jr z, jr_000_0cf1
+    ld a, $1c                     ; État $1C si niveau spécial
+    jr z, StateHandler_06_SpecialLevel
 
+    ; Vérifier position X du joueur
     ld a, [wPlayerX]
     cp $60
 
 Call_000_0cdb:
-    jr c, jr_000_0ce5
+    jr c, StateHandler_06_SwitchBank2
 
     cp $a0
-    jr nc, jr_000_0ce5
+    jr nc, StateHandler_06_SwitchBank2
 
-    ld a, $08
-    jr jr_000_0cee
+    ld a, $08                     ; État $08 si position centrale
+    jr StateHandler_06_SetNextState
 
-jr_000_0ce5:
+StateHandler_06_SwitchBank2:
     ld a, $02
     ldh [hCurrentBank], a
     ld [$2000], a
-    ld a, $12
+    ld a, $12                     ; État $12 si hors centre
 
-jr_000_0cee:
+StateHandler_06_SetNextState:
     ldh [hGameState], a
     ret
 
 
-jr_000_0cf1:
+StateHandler_06_SpecialLevel:
     ldh [hGameState], a
     ld a, $03
     ld [$2000], a
@@ -2647,6 +2684,12 @@ jr_000_0d30:
     jp Jump_000_0dca
 
 
+;; ==========================================================================
+;; StateHandler_08 - Handler d'état $08 ($0D40)
+;; ==========================================================================
+;; Gestion progression monde/niveau, change bank et contexte.
+;; ==========================================================================
+StateHandler_08::
     ld hl, hTimer1
     ld a, [hl]
     and a
