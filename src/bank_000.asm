@@ -6478,9 +6478,9 @@ CheckTileForCoin:
 
 jr_000_1ff2:
     cp $82
-    call z, Call_000_208e
+    call z, HandleBlockCollision
     cp $80
-    call z, Call_000_208e
+    call z, HandleBlockCollision
 
 jr_000_1ffc:
     pop hl
@@ -6608,7 +6608,7 @@ jr_000_208b:
     ld [hl], a
     jr jr_000_201b
 
-Call_000_208e:
+HandleBlockCollision:
     push hl
     push bc
     push de
