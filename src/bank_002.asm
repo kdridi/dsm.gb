@@ -6215,7 +6215,7 @@ jr_002_5950:
     jr jr_002_59a5
 
 jr_002_59a2:
-    call Call_000_0166
+    call AddScore
 
 Jump_002_59a5:
 jr_002_59a5:

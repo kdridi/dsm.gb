@@ -172,7 +172,7 @@ DEF hTilemapOffsetY EQU $FFE8   ; Décalage Y tilemap
 DEF hPtrLow         EQU $FFEB   ; Pointeur générique (bas)
 DEF hPtrHigh        EQU $FFEC   ; Pointeur générique (haut)
 DEF hPtrBank        EQU $FFED   ; Bank du pointeur
-DEF hTilemapPtrLow  EQU $FFEE   ; Pointeur tilemap (bas)
+DEF hBlockHitType  EQU $FFEE   ; Type collision bloc (0=rien, 1/2/4/$c0=actions)
 
 ; --- Rendu tilemap (état machine) ---
 DEF hCurrentTile    EQU $FFF0   ; Tile courant en rendu
@@ -185,7 +185,7 @@ DEF hRenderMode     EQU $FFF5   ; Mode rendu
 ; --- VBlank et OAM ---
 DEF hVBlankSelector EQU $FFF8   ; Sélecteur routine VBlank
 DEF hVBlankMode     EQU $FFF9   ; Mode VBlank
-DEF hDMACounter     EQU $FFFA   ; Compteur DMA
+DEF hCoinCount     EQU $FFFA   ; Compteur DMA
 DEF hOAMIndex       EQU $FFFB   ; Index entrée OAM
 DEF hOAMAddrLow     EQU $FFFC   ; Adresse OAM (bas)
 DEF hCurrentBank    EQU $FFFD   ; Bank ROM courante

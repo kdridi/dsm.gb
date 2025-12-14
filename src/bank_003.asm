@@ -2633,7 +2633,7 @@ jr_003_4b32:
     ld [hl], $ff
     jr jr_003_4b1b
 
-    ldh a, [hTilemapPtrLow]
+    ldh a, [hBlockHitType]
     cp $03
     ret nz
 
@@ -2663,7 +2663,7 @@ jr_003_4b32:
 jr_003_4b62:
     ld [hl], $00
     ld a, $04
-    ldh [hTilemapPtrLow], a
+    ldh [hBlockHitType], a
     ret
 
 

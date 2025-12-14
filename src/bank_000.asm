@@ -174,7 +174,7 @@ VBlankHandler::
 
     ; --- 2. UpdateGameLogic ---
     call UpdateScrollColumn
-    call Call_000_1b7d
+    call ProcessBlockCollision
     call UpdateLivesDisplay
 
     ; --- 3. DMATransfer ---
@@ -438,7 +438,7 @@ jr_000_015d:
     ret
 
 
-Call_000_0166:
+AddScore:
     ldh a, [hUpdateLockFlag]
     and a
     ret nz
@@ -1136,7 +1136,7 @@ State11_LevelStart::
     ld [wScoreBCDHigh], a
     ld [wScoreBCDMid], a
     ld [wScoreBCD], a
-    ldh [hDMACounter], a
+    ldh [hCoinCount], a
 
 .skipScoreReset:
     call Call_000_05d0
@@ -1483,7 +1483,7 @@ jr_000_0732:
     ldh [rIF], a
     ldh [hShadowSCX], a
     ld [wCollisionFlag], a
-    ldh [hTilemapPtrLow], a
+    ldh [hBlockHitType], a
     ld [wSpecialState], a
     ldh [rTMA], a
     ld hl, $da01
@@ -2050,7 +2050,7 @@ Call_000_0a07:
     ld d, b
 
 Call_000_0a24:
-    ldh a, [hTilemapPtrLow]
+    ldh a, [hBlockHitType]
     and a
     ret z
 
@@ -2576,7 +2576,7 @@ jr_000_0c79:
     ldh [hCurrentBank], a
     ld [$2000], a
     ld de, $0010
-    call Call_000_0166
+    call AddScore
     ld a, $01
     ldh [hTimer1], a
     xor a
@@ -4976,7 +4976,7 @@ jr_000_1839:
 
     push hl
     pop de
-    ld hl, hTilemapPtrLow
+    ld hl, hBlockHitType
     ld a, [hl]
     and a
     jr nz, jr_000_17f8
@@ -5015,7 +5015,7 @@ jr_000_1854:
 
 
 Jump_000_1872:
-    ldh a, [hTilemapPtrLow]
+    ldh a, [hBlockHitType]
     and a
     ret nz
 
@@ -5029,7 +5029,7 @@ Jump_000_1872:
     ret z
 
 Jump_000_187f:
-    ldh a, [hTilemapPtrLow]
+    ldh a, [hBlockHitType]
     and a
     ret nz
 
@@ -5053,7 +5053,7 @@ Jump_000_1892:
     ld [wLevelConfig], a
 
 Jump_000_189b:
-    ldh a, [hTilemapPtrLow]
+    ldh a, [hBlockHitType]
     and a
     ret nz
 
@@ -5082,7 +5082,7 @@ jr_000_18be:
     ld [wStateBuffer], a
     push hl
     pop de
-    ld hl, hTilemapPtrLow
+    ld hl, hBlockHitType
     ld a, [hl]
     and a
     ret nz
@@ -5140,7 +5140,7 @@ jr_000_1916:
 
 Jump_000_191a:
 jr_000_191a:
-    ldh a, [hTilemapPtrLow]
+    ldh a, [hBlockHitType]
     and a
     ret nz
 
@@ -5156,7 +5156,7 @@ jr_000_191a:
 jr_000_192e:
     push hl
     pop de
-    ld hl, hTilemapPtrLow
+    ld hl, hBlockHitType
     ld [hl], $02
     inc l
     ld [hl], d
@@ -5186,7 +5186,7 @@ jr_000_192e:
 
 
 jr_000_195d:
-    ldh a, [hTilemapPtrLow]
+    ldh a, [hBlockHitType]
     and a
     ret nz
 
@@ -5282,7 +5282,7 @@ jr_000_19d8:
 
     push hl
     pop de
-    ld hl, hTilemapPtrLow
+    ld hl, hBlockHitType
     ld a, [hl]
     and a
     ret nz
@@ -5339,7 +5339,7 @@ jr_000_1a01:
     ld a, $02
     ld [$dff8], a
     ld de, $0050
-    call Call_000_0166
+    call AddScore
     ld a, $02
     ld [$c207], a
     ret
@@ -5348,7 +5348,7 @@ jr_000_1a01:
 Jump_000_1a4e:
     push hl
     pop de
-    ld hl, hTilemapPtrLow
+    ld hl, hBlockHitType
     ld a, [hl]
     and a
     ret nz
@@ -5508,7 +5508,7 @@ jr_000_1b03:
 jr_000_1b05:
     push hl
     pop de
-    ld hl, hTilemapPtrLow
+    ld hl, hBlockHitType
     ld a, [hl]
     and a
     ret nz
@@ -5592,13 +5592,13 @@ jr_000_1b70:
     ret
 
 
-Call_000_1b7d:
+ProcessBlockCollision:
     xor a
     ld [wGameVarE2], a
     ldh a, [_HRAM_END]
     and a
-    call nz, Call_000_1bf6
-    ld hl, hTilemapPtrLow
+    call nz, CollectCoin
+    ld hl, hBlockHitType
     ld a, [hl]
     cp $01
     jr z, jr_000_1bb1
@@ -5622,7 +5622,7 @@ Call_000_1b7d:
     jr z, jr_000_1baf
 
     cp $81
-    call z, Call_000_1bf6
+    call z, CollectCoin
     ld a, $7f
 
 jr_000_1baf:
@@ -5669,7 +5669,7 @@ jr_000_1bb4:
     ldh [hPtrHigh], a
     ld a, $c0
     ldh [hPtrBank], a
-    call Call_000_1bf6
+    call CollectCoin
     ret
 
 
@@ -5678,11 +5678,11 @@ Jump_000_1bee:
     jr jr_000_1bb4
 
 jr_000_1bf2:
-    call Call_000_1bf6
+    call CollectCoin
     ret
 
 
-Call_000_1bf6:
+CollectCoin:
     ldh a, [hUpdateLockFlag]
     and a
     ret nz
@@ -5690,13 +5690,13 @@ Call_000_1bf6:
     push de
     push hl
     ld de, $0100
-    call Call_000_0166
+    call AddScore
     pop hl
     pop de
-    ldh a, [hDMACounter]
+    ldh a, [hCoinCount]
     add $01
     daa
-    ldh [hDMACounter], a
+    ldh [hCoinCount], a
     and a
     jr nz, jr_000_1c12
 
@@ -5705,7 +5705,7 @@ Call_000_1bf6:
 
 Call_000_1c12:
 jr_000_1c12:
-    ldh a, [hDMACounter]
+    ldh a, [hCoinCount]
     ld b, a
     and $0f
     ld [$982a], a
@@ -6495,7 +6495,7 @@ Call_000_1fc9:
 
     push hl
     pop de
-    ld hl, hTilemapPtrLow
+    ld hl, hBlockHitType
     ld a, [hl]
     and a
     jr nz, jr_000_1ffc
@@ -6651,7 +6651,7 @@ Call_000_208e:
 
     push hl
     pop de
-    ld hl, hTilemapPtrLow
+    ld hl, hBlockHitType
     ld a, [hl]
     and a
     jr nz, jr_000_2105
@@ -6719,7 +6719,7 @@ jr_000_20c0:
     ldh a, [hShadowSCX]
     ldh [hRenderAttr], a
     ld de, $0050
-    call Call_000_0166
+    call AddScore
     ld a, $02
     ld [$dff8], a
 
@@ -9583,7 +9583,7 @@ jr_000_2e89:
     ld sp, hl
     ld bc, hOAMIndex
     ld sp, hl
-    ld bc, hDMACounter
+    ld bc, hCoinCount
     db $10
     ld sp, hl
     ld [de], a

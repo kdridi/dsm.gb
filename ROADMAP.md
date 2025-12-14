@@ -310,7 +310,7 @@ Voir `src/constants.inc` pour la liste complète (100+ constantes).
 | **Timers** | hTimer1, hTimer2, hTimerAux, hFrameCounter |
 | **Audio** | hAudioControl, hAudioStatus, hAudioEnvPos/Div/Rate/Counter |
 | **Rendu** | hRenderContext, hTilemapScrollX/Y, hCurrentTile, hRenderX/Y/Attr/Mode |
-| **VBlank/OAM** | hVBlankSelector, hVBlankMode, hDMACounter, hOAMIndex, hOAMAddrLow |
+| **VBlank/OAM** | hVBlankSelector, hVBlankMode, hCoinCount, hOAMIndex, hOAMAddrLow |
 | **État jeu** | hGameState, hSubState, hScoreNeedsUpdate, hUpdateLockFlag |
 
 ### Variables WRAM identifiées

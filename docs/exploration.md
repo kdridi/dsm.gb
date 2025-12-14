@@ -705,7 +705,7 @@ L'exploration a permis d'identifier et nommer **285 constantes** dans `src/const
 | **Timers** | `hTimer1`, `hTimer2`, `hTimerAux`, `hFrameCounter` | GameLoop ($0226) |
 | **Audio** | `hAudioControl`, `hAudioStatus`, `hAudioEnv*` | TimerOverflowInterrupt ($0050) |
 | **Rendu** | `hRenderContext`, `hTilemapScrollX/Y`, `hCurrentTile` | VBlankHandler ($0060) |
-| **VBlank/OAM** | `hVBlankSelector`, `hVBlankMode`, `hDMACounter`, `hOAMIndex` | VBlankHandler ($0060) |
+| **VBlank/OAM** | `hVBlankSelector`, `hVBlankMode`, `hCoinCount`, `hOAMIndex` | VBlankHandler ($0060) |
 | **État jeu** | `hGameState`, `hSubState`, `hScoreNeedsUpdate` | StateDispatcher ($02A3) |
 
 ### Variables WRAM ($C000-$DFFF) : 151 constantes
