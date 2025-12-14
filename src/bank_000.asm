@@ -5707,7 +5707,7 @@ UpdateLivesDisplay:
 
     cp $ff
     ld a, [wLivesCounter]
-    jr z, jr_000_1c6c
+    jr z, DisplayLivesDecrement
 
     cp $99
     jr z, ClearUpdateCounter
@@ -5719,7 +5719,7 @@ UpdateLivesDisplay:
     pop af
     add $01
 
-jr_000_1c49:
+DisplayLivesDAA:
     daa
     ld [wLivesCounter], a
 
@@ -5739,18 +5739,18 @@ ClearUpdateCounter:
     ret
 
 
-jr_000_1c63:
+DisplayLivesGameOver:
     ld a, $39
     ldh [hGameState], a
     ld [wROMBankInit], a
     jr ClearUpdateCounter
 
-jr_000_1c6c:
+DisplayLivesDecrement:
     and a
-    jr z, jr_000_1c63
+    jr z, DisplayLivesGameOver
 
     sub $01
-    jr jr_000_1c49
+    jr DisplayLivesDAA
 
 ; ===========================================================================
 ; État $39 - Game Over ($1C73)
@@ -6182,13 +6182,13 @@ OffsetSpritesY:
     ld de, $0004
     ld c, $08
 
-jr_000_1ea3:
+OffsetSpritesY_Loop:
     ld a, [hl]
     sub b
     ld [hl], a
     add hl, de
     dec c
-    jr nz, jr_000_1ea3
+    jr nz, OffsetSpritesY_Loop
 
     ret
 
@@ -6221,18 +6221,18 @@ GetOscillatingOffset:
     ld b, $34
     xor a
 
-jr_000_1ed4:
+ClearOamVar_Loop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_1ed4
+    jr nz, ClearOamVar_Loop
 
     ld hl, wOamBuffer
     ld b, $0b
 
-jr_000_1edd:
+ClearOamBuffer2_Loop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_1edd
+    jr nz, ClearOamBuffer2_Loop
 
     ldh [hObjParamBuf1], a
     ldh [hObjParamBuf2], a
@@ -6242,11 +6242,11 @@ jr_000_1edd:
     ld b, $04
     ld a, $80
 
-jr_000_1ef1:
+InitSpriteProperties_Loop:
     ld [hl], a
     add hl, de
     dec b
-    jr nz, jr_000_1ef1
+    jr nz, InitSpriteProperties_Loop
 
     pop de
     pop bc
@@ -6495,7 +6495,7 @@ ProcessObjectCollisions:
     ld b, $0a
     ld hl, wObjectBuffer
 
-jr_000_2009:
+IterateAnimObjects_Loop:
     ld a, [hl]
     cp $ff
     jr nz, ProcessAnimObject
@@ -6506,7 +6506,7 @@ NextObjectSlot:
     add hl, de
     pop de
     dec b
-    jr nz, jr_000_2009
+    jr nz, IterateAnimObjects_Loop
 
     pop bc
     pop de
@@ -6514,7 +6514,7 @@ NextObjectSlot:
     ret
 
 
-jr_000_201b:
+IterateAnimObjects_NextSlot:
     pop hl
     pop de
     pop bc
@@ -6527,7 +6527,7 @@ ProcessAnimObject:
     ld bc, $000a
     add hl, bc
     bit 7, [hl]
-    jr nz, jr_000_201b
+    jr nz, IterateAnimObjects_NextSlot
 
     ld c, [hl]
     inc l
@@ -6548,7 +6548,7 @@ ProcessAnimObject:
     push hl
     call CheckBoundingBoxCollision
     and a
-    jr z, jr_000_201b
+    jr z, IterateAnimObjects_NextSlot
 
     dec l
     dec l
@@ -6570,7 +6570,7 @@ CheckAnimObjectState:
 .end_check:
     pop de
     and a
-    jr z, jr_000_201b
+    jr z, IterateAnimObjects_NextSlot
 
     push af
     ld a, [de]
@@ -6595,17 +6595,17 @@ jr_000_207a:
     ld [de], a
     ld hl, hObjParamBuf3
     bit 3, e
-    jr nz, jr_000_208b
+    jr nz, StoreAnimObjectData
 
     dec l
     bit 2, e
-    jr nz, jr_000_208b
+    jr nz, StoreAnimObjectData
 
     dec l
 
-jr_000_208b:
+StoreAnimObjectData:
     ld [hl], a
-    jr jr_000_201b
+    jr IterateAnimObjects_NextSlot
 
 HandleBlockCollision:
     push hl
@@ -7091,30 +7091,30 @@ UpdateTilemapScrolling:
     push de
     pop hl
 
-jr_000_22c2:
+SearchTilemapEntry_CheckX:
     ldh a, [hTilemapScrollX]
     cp [hl]
-    jr z, jr_000_22d4
+    jr z, SearchTilemapEntry_CheckY
 
     ld a, [hl]
     cp $ff
-    jr z, jr_000_22e9
+    jr z, SearchTilemapEntry_Exit
 
     inc hl
 
-jr_000_22cd:
+SearchTilemapEntry_NextEntry:
     inc hl
     inc hl
     inc hl
     inc hl
     inc hl
-    jr jr_000_22c2
+    jr SearchTilemapEntry_CheckX
 
-jr_000_22d4:
+SearchTilemapEntry_CheckY:
     ldh a, [hTilemapScrollY]
     inc hl
     cp [hl]
-    jr nz, jr_000_22cd
+    jr nz, SearchTilemapEntry_NextEntry
 
     inc hl
     ld de, hRenderCounter
@@ -7130,7 +7130,7 @@ jr_000_22d4:
     ld a, [hl]
     ld [de], a
 
-jr_000_22e9:
+SearchTilemapEntry_Exit:
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [$2000], a
@@ -7358,12 +7358,12 @@ UpdateAnimTiles:
 
     ldh a, [hFrameCounter]
     bit 3, a
-    jr z, jr_000_2412
+    jr z, AnimTile_FromROM
 
     ld hl, $c600
-    jr jr_000_2420
+    jr AnimTile_Setup
 
-jr_000_2412:
+AnimTile_FromROM:
     ld hl, ROM_ANIM_TILES
     ldh a, [hAnimTileIndex]
     and $f0
@@ -7373,7 +7373,7 @@ jr_000_2412:
     ld e, a
     add hl, de
 
-jr_000_2420:
+AnimTile_Setup:
     ld de, VRAM_ANIM_DEST
     ld b, $08
 
@@ -7524,12 +7524,12 @@ LoadQueuedAudioConfig:
 InitSoundConditional:
     ldh a, [hLevelIndex]
     and a
-    jr nz, jr_000_24ee
+    jr nz, InitAudioFromSound
 
     bit 7, [hl]
     ret nz
 
-jr_000_24ee:
+InitAudioFromSound:
     ld a, [hl]
     and $7f
     ldh [hSoundId], a
@@ -7566,31 +7566,31 @@ InitAudioChannels:
     ld a, [hl]
     ldh [hSoundVar5], a
     cp $c0
-    jr c, jr_000_252b
+    jr c, ConfigAudioChannel
 
     ld a, $0b
     ld [wStateRender], a
 
-jr_000_252b:
+ConfigAudioChannel:
     ld de, $0010
     ld b, $00
     ld hl, wObjectBuffer
 
-jr_000_2533:
+IterateObjects_Loop:
     ld a, [hl]
     inc a
-    jr z, jr_000_253f
+    jr z, IterateObjects_End
 
     inc b
     add hl, de
     ld a, l
     cp $90
-    jr nz, jr_000_2533
+    jr nz, IterateObjects_Loop
 
     ret
 
 
-jr_000_253f:
+IterateObjects_End:
     ld a, b
     call SaveSoundDataToSlot
     ret
@@ -7616,7 +7616,7 @@ ProcessAudioSlots:
     ld [wAudioState2], a
     ld c, $00
 
-jr_000_2565:
+ProcessAudioSlot_Loop:
     ld a, [wAudioState2]
     cp $14
     ret nc
@@ -7634,19 +7634,19 @@ jr_000_2565:
     call LoadSoundDataFromSlot
     ldh a, [hSoundParam2]
     cp $e0
-    jr c, jr_000_258b
+    jr c, ProcessAudioSlot_CheckParam1
 
-jr_000_2581:
+ProcessAudioSlot_Disable:
     ld a, $ff
     ldh [hSoundId], a
     ld a, c
     call SaveSoundDataToSlot
     jr AudioSlotLoopEnd
 
-jr_000_258b:
+ProcessAudioSlot_CheckParam1:
     ldh a, [hSoundParam1]
     cp $c0
-    jr nc, jr_000_2581
+    jr nc, ProcessAudioSlot_Disable
 
     call ProcessAudioChannelData
 
@@ -7655,7 +7655,7 @@ AudioSlotLoopEnd:
     inc c
     ld a, c
     cp $0a
-    jr nz, jr_000_2565
+    jr nz, ProcessAudioSlot_Loop
 
     ld hl, wSpriteVar50
     ld a, [wAudioState2]
@@ -7831,7 +7831,7 @@ Jump_000_266d:
 jr_000_266d:
     ldh a, [hSoundVar1]
     and a
-    jr z, jr_000_26ac
+    jr z, ProcessAudioQueue_Loop
 
     ldh a, [hSoundCh4]
     bit 1, a
@@ -7879,7 +7879,7 @@ jr_000_269e:
 
 
 Jump_000_26ac:
-jr_000_26ac:
+ProcessAudioQueue_Loop:
     push hl
     ld d, $00
     ldh a, [hSoundCh1]
@@ -7888,26 +7888,26 @@ jr_000_26ac:
     ld a, [hl]
     ld [wAudioQueueType], a
     cp $ff
-    jr nz, jr_000_26c1
+    jr nz, ProcessAudioQueue_Found
 
     xor a
     ldh [hSoundCh1], a
     pop hl
-    jr jr_000_26ac
+    jr ProcessAudioQueue_Loop
 
-jr_000_26c1:
+ProcessAudioQueue_Found:
     ldh a, [hSoundCh1]
     inc a
     ldh [hSoundCh1], a
     ld a, [wAudioQueueType]
     and $f0
     cp $f0
-    jr z, jr_000_26ef
+    jr z, ProcessAudioQueue_Type_F0
 
     ld a, [wAudioQueueType]
     and $e0
     cp $e0
-    jr nz, jr_000_26e2
+    jr nz, ProcessAudioQueue_Type_Other
 
     ld a, [wAudioQueueType]
     and $0f
@@ -7915,7 +7915,7 @@ jr_000_26c1:
     pop hl
     jr jr_000_266d
 
-jr_000_26e2:
+ProcessAudioQueue_Type_Other:
     ld a, [wAudioQueueType]
     ldh [hSoundFlag], a
     ld a, $01
@@ -7924,7 +7924,7 @@ jr_000_26e2:
     jp Jump_000_266d
 
 
-jr_000_26ef:
+ProcessAudioQueue_Type_F0:
     ldh a, [hSoundCh1]
     inc a
     ldh [hSoundCh1], a
@@ -7933,14 +7933,14 @@ jr_000_26ef:
     ld [wAudioQueueId], a
     ld a, [wAudioQueueType]
     cp $f8
-    jr nz, jr_000_2708
+    jr nz, ProcessAudioQueue_Type_F0_NotF8
 
     ld a, [wAudioQueueId]
     ldh [hSoundCh3], a
     pop hl
-    jr jr_000_26ac
+    jr ProcessAudioQueue_Loop
 
-jr_000_2708:
+ProcessAudioQueue_Type_F0_NotF8:
     cp $f0
     jr nz, jr_000_2784
 
