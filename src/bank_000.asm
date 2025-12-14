@@ -5446,7 +5446,7 @@ CollisionConfig_Offset2:
     jr z, jr_000_1b1a
 
     cp $f2
-    jr z, jr_000_1b3c
+    jr z, TriggerBlockCollisionSound_TimerCheck
 
 CollisionDefaultHandler:
     ld hl, $c20b
@@ -5510,42 +5510,42 @@ jr_000_1b1a:
 
 TriggerBlockCollisionSound:
 Jump_000_1b3c:
-jr_000_1b3c:
+TriggerBlockCollisionSound_TimerCheck:
     ldh a, [hTimerAux]
     cp $02
     ld b, $ff
-    jr z, jr_000_1b49
+    jr z, TriggerBlockCollisionSound_TimerCheck_IsTwo
 
     ld b, $0f
     xor a
     ldh [hTimerAux], a
 
-jr_000_1b49:
+TriggerBlockCollisionSound_TimerCheck_IsTwo:
     ld a, [wPlayerDir]
     and b
     ld [wPlayerDir], a
     ld b, a
     and $0f
     cp $0a
-    jr nc, jr_000_1b5d
+    jr nc, TriggerBlockCollisionSound_ApplyMask
 
     ld a, b
     and $f0
     ld [wPlayerDir], a
 
-jr_000_1b5d:
+TriggerBlockCollisionSound_ApplyMask:
     ld a, $07
     ldh [hGameState], a
     ld a, [wAudioCondition]
     and a
-    jr nz, jr_000_1b70
+    jr nz, TriggerBlockCollisionSound_AudioCheck
 
     ld a, $01
     ld [wStateRender], a
     ld a, $f0
     ldh [hTimer1], a
 
-jr_000_1b70:
+TriggerBlockCollisionSound_AudioCheck:
     call $1ecb
     xor a
     ld [wPlayerY], a
@@ -5563,13 +5563,13 @@ ProcessBlockCollision:
     ld hl, hBlockHitType
     ld a, [hl]
     cp $01
-    jr z, jr_000_1bb1
+    jr z, ProcessBlockCollision_HandleSoftBlock
 
     cp $02
     jp z, Jump_000_1bee
 
     cp $c0
-    jr z, jr_000_1bb1
+    jr z, ProcessBlockCollision_HandleSoftBlock
 
     cp $04
     ret nz
@@ -5581,22 +5581,22 @@ ProcessBlockCollision:
     ld e, [hl]
     ld a, [wOamVar2E]
     cp $82
-    jr z, jr_000_1baf
+    jr z, ProcessBlockCollision_IsType82
 
     cp $81
     call z, CollectCoin
     ld a, $7f
 
-jr_000_1baf:
+ProcessBlockCollision_IsType82:
     ld [de], a
     ret
 
 
-jr_000_1bb1:
+ProcessBlockCollision_HandleSoftBlock:
     ld b, [hl]
     ld [hl], $00
 
-jr_000_1bb4:
+ProcessBlockCollision_CommonExit:
     inc l
     ld d, [hl]
     inc l
@@ -5605,7 +5605,7 @@ jr_000_1bb4:
     ld [de], a
     ld a, b
     cp $c0
-    jr z, jr_000_1bf2
+    jr z, ProcessBlockCollision_Special
 
     ld hl, hVramPtrLow
     add hl, de
@@ -5637,9 +5637,9 @@ jr_000_1bb4:
 
 Jump_000_1bee:
     ld [hl], $03
-    jr jr_000_1bb4
+    jr ProcessBlockCollision_CommonExit
 
-jr_000_1bf2:
+ProcessBlockCollision_Special:
     call CollectCoin
     ret
 
@@ -5890,44 +5890,44 @@ ProcessAnimationState:
     ld hl, $c20d
     ld a, [hl]
     cp $01
-    jr nz, jr_000_1d31
+    jr nz, ProcessAnimationState_CheckType
 
     dec l
     ld a, [hl]
     and a
-    jr nz, jr_000_1d2f
+    jr nz, ProcessAnimationState_DecrementFlag
 
     inc l
     ld [hl], $00
     jr ResetPlayerDirection
 
-jr_000_1d2f:
+ProcessAnimationState_DecrementFlag:
     dec [hl]
     ret
 
 
-jr_000_1d31:
+ProcessAnimationState_CheckType:
     ld hl, $c20c
     ld a, [hl+]
     cp $06
-    jr nz, jr_000_1d40
+    jr nz, ProcessAnimationState_AfterTypeCheck
 
     inc l
     ld a, [hl]
     and a
-    jr nz, jr_000_1d40
+    jr nz, ProcessAnimationState_AfterTypeCheck
 
     ld [hl], $02
 
-jr_000_1d40:
+ProcessAnimationState_AfterTypeCheck:
     ld de, $c207
     ldh a, [hJoypadState]
     bit 7, a
-    jr nz, jr_000_1d7e
+    jr nz, ProcessAnimationState_JoypadUp
 
-jr_000_1d49:
+ProcessAnimationState_JoypadTests:
     bit 4, a
-    jr nz, jr_000_1da3
+    jr nz, ProcessAnimationState_JoypadLeft
 
     bit 5, a
     jp nz, Jump_000_1e37
@@ -5935,16 +5935,16 @@ jr_000_1d49:
     ld hl, $c20c
     ld a, [hl]
     and a
-    jr z, jr_000_1d62
+    jr z, ProcessAnimationState_ResetAnimation
 
     xor a
     ld [$c20e], a
     dec [hl]
     inc l
     ld a, [hl]
-    jr jr_000_1d49
+    jr ProcessAnimationState_JoypadTests
 
-jr_000_1d62:
+ProcessAnimationState_ResetAnimation:
     inc l
     ld [hl], $00
     ld a, [de]
@@ -5967,47 +5967,47 @@ ResetPlayerDirection:
     ret
 
 
-jr_000_1d7e:
+ProcessAnimationState_JoypadUp:
     push af
     ldh a, [hTimerAux]
     cp $02
-    jr nz, jr_000_1d9a
+    jr nz, ProcessAnimationState_JoypadUp_ContinueTests
 
     ld a, [de]
     and a
-    jr nz, jr_000_1d9a
+    jr nz, ProcessAnimationState_JoypadUp_ContinueTests
 
     ld a, $18
     ld [wPlayerDir], a
     ldh a, [hJoypadState]
     and $30
-    jr nz, jr_000_1d9d
+    jr nz, ProcessAnimationState_JoypadUp_ResetAndReturn
 
     ld a, [$c20c]
     and a
-    jr z, jr_000_1d9d
+    jr z, ProcessAnimationState_JoypadUp_ResetAndReturn
 
-jr_000_1d9a:
+ProcessAnimationState_JoypadUp_ContinueTests:
     pop af
-    jr jr_000_1d49
+    jr ProcessAnimationState_JoypadTests
 
-jr_000_1d9d:
+ProcessAnimationState_JoypadUp_ResetAndReturn:
     xor a
     ld [$c20c], a
     pop af
     ret
 
 
-jr_000_1da3:
+ProcessAnimationState_JoypadLeft:
     ld hl, $c20d
     ld a, [hl]
     cp $20
-    jr nz, jr_000_1dae
+    jr nz, ProcessAnimationState_JoypadLeft_CheckCollision
 
     jp Jump_000_1e3f
 
 
-jr_000_1dae:
+ProcessAnimationState_JoypadLeft_CheckCollision:
     ld hl, $c205
     ld [hl], $00
     call CheckPlayerSideCollision
@@ -6016,45 +6016,45 @@ jr_000_1dae:
 
     ldh a, [hJoypadState]
     bit 4, a
-    jr z, jr_000_1ddb
+    jr z, ProcessAnimationState_JoypadLeft_Done
 
     ld a, [wPlayerDir]
     cp $18
-    jr nz, jr_000_1dcf
+    jr nz, ProcessAnimationState_JoypadLeft_Increment
 
     ld a, [wPlayerDir]
     and $f0
     or $01
     ld [wPlayerDir], a
 
-jr_000_1dcf:
+ProcessAnimationState_JoypadLeft_Increment:
     ld hl, $c20c
     ld a, [hl]
     cp $06
-    jr z, jr_000_1ddb
+    jr z, ProcessAnimationState_JoypadLeft_Done
 
     inc [hl]
     inc l
     ld [hl], $10
 
-jr_000_1ddb:
+ProcessAnimationState_JoypadLeft_Done:
     ld hl, wPlayerState
     ldh a, [hVBlankMode]
     and a
-    jr nz, jr_000_1e18
+    jr nz, CheckOscillationCollision_Skip
 
     ld a, [wCollisionFlag]
     cp $07
-    jr c, jr_000_1df0
+    jr c, CheckOscillationCollision_CheckScroll
 
     ldh a, [hShadowSCX]
     and $0c
-    jr z, jr_000_1e18
+    jr z, CheckOscillationCollision_Skip
 
-jr_000_1df0:
+CheckOscillationCollision_CheckScroll:
     ld a, $50
     cp [hl]
-    jr nc, jr_000_1e18
+    jr nc, CheckOscillationCollision_Skip
 
     call GetOscillatingOffset
     ld b, a
@@ -6067,40 +6067,40 @@ jr_000_1df0:
     ld de, $0004
     ld c, $03
 
-jr_000_1e0c:
+CheckOscillationCollision_LoopSprites:
     ld a, [hl]
     sub b
     ld [hl], a
     add hl, de
     dec c
-    jr nz, jr_000_1e0c
+    jr nz, CheckOscillationCollision_LoopSprites
 
-jr_000_1e13:
+CheckOscillationCollision_Done:
     ld hl, $c20b
     inc [hl]
     ret
 
 
-jr_000_1e18:
+CheckOscillationCollision_Skip:
     call GetOscillatingOffset
     add [hl]
     ld [hl], a
     ldh a, [hGameState]
     cp $0d
-    jr z, jr_000_1e13
+    jr z, CheckOscillationCollision_Done
 
     ld a, [wCollisionFlag]
     and a
-    jr z, jr_000_1e13
+    jr z, CheckOscillationCollision_Done
 
     ldh a, [hShadowSCX]
     and $fc
     ldh [hShadowSCX], a
     ld a, [hl]
     cp $a0
-    jr c, jr_000_1e13
+    jr c, CheckOscillationCollision_Done
 
-    jp Jump_000_1b3c
+    jp TriggerBlockCollisionSound_TimerCheck
 
 
 Jump_000_1e37:
