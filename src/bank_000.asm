@@ -6057,7 +6057,7 @@ jr_000_1df0:
     cp [hl]
     jr nc, jr_000_1e18
 
-    call Call_000_1eab
+    call GetOscillatingOffset
     ld b, a
     ld hl, hShadowSCX
     add [hl]
@@ -6083,7 +6083,7 @@ jr_000_1e13:
 
 
 jr_000_1e18:
-    call Call_000_1eab
+    call GetOscillatingOffset
     add [hl]
     ld [hl], a
     ldh a, [hGameState]
@@ -6166,7 +6166,7 @@ jr_000_1e82:
 
 jr_000_1e8e:
     pop hl
-    call Call_000_1eab
+    call GetOscillatingOffset
     cpl
     inc a
     add [hl]
@@ -6194,7 +6194,7 @@ jr_000_1ea3:
     ret
 
 
-Call_000_1eab:
+GetOscillatingOffset:
     push de
     push hl
     ld hl, $1ec5
