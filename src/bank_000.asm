@@ -716,11 +716,11 @@ ClearOamLoop:
     ld hl, $4862
     ldh a, [hLevelIndex]
     cp $01
-    jr c, jr_000_0368
+    jr c, SelectLevelAudioTable
 
     ld hl, $4e72
 
-jr_000_0368:
+SelectLevelAudioTable:
     ld de, $8ac0
     ld bc, $0010
     call MemCopy
