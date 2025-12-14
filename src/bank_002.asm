@@ -7654,7 +7654,7 @@ jr_002_6017:
 
     ld b, d
     ld e, $08
-    jp nz, Jump_000_0c22
+    jp nz, DataPadding_0c22
 
     inc b
     inc h

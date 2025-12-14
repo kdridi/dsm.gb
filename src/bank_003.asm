@@ -385,7 +385,7 @@ jr_003_4180:
     db $fc
     ld a, h
     cp $0e
-    jp nz, Jump_000_31c2
+    jp nz, DataPadding_31c2
 
     pop af
     ld hl, $61e1

@@ -2463,7 +2463,7 @@ SetGameStateValue:
     rst $38
 
 ;; Zone de données ($0C10-$0C36)
-Jump_000_0c22:
+DataPadding_0c22:
     nop
     nop
     rst $38
@@ -5930,7 +5930,7 @@ ProcessAnimationState_JoypadTests:
     jr nz, ProcessAnimationState_JoypadLeft
 
     bit 5, a
-    jp nz, Jump_000_1e37
+    jp nz, HandleJoypadRight
 
     ld hl, $c20c
     ld a, [hl]
@@ -6004,7 +6004,7 @@ ProcessAnimationState_JoypadLeft:
     cp $20
     jr nz, ProcessAnimationState_JoypadLeft_CheckCollision
 
-    jp Jump_000_1e3f
+    jp HandleJoypadRight_Setup
 
 
 ProcessAnimationState_JoypadLeft_CheckCollision:
@@ -6103,13 +6103,13 @@ CheckOscillationCollision_Skip:
     jp TriggerBlockCollisionSound_TimerCheck
 
 
-Jump_000_1e37:
+HandleJoypadRight:
     ld hl, $c20d
     ld a, [hl]
     cp $10
     jr nz, HandlePlayerMovement
 
-Jump_000_1e3f:
+HandleJoypadRight_Setup:
     ld [hl], $01
     dec l
     ld [hl], $08
@@ -7875,7 +7875,7 @@ SoundAnimResetVar2:
     ldh a, [hSoundVar1]
     dec a
     ldh [hSoundVar1], a
-    jp Jump_000_2870
+    jp ProcessSoundCollisionCheck
 
 
 AudioQueueProcessing:
@@ -8220,7 +8220,7 @@ AudioCommand_CompleteExit:
     ret
 
 
-Jump_000_2870:
+ProcessSoundCollisionCheck:
     ldh a, [hSoundFlag]
     and $0f
     jp z, UpdatePhysicsCollision
@@ -10073,7 +10073,7 @@ AnimFrameDataLookup:
     nop
     nop
 
-Jump_000_31c2:
+DataPadding_31c2:
     nop
     rrca
     dec d
@@ -11196,7 +11196,7 @@ JumpDispatchTable_36cc:
     rst $28
     add sp, -$0c
 
-Jump_000_370c:
+DataPadding_370c:
     rrca
     nop
     rst $28
@@ -12242,7 +12242,7 @@ TableContinuation_3b46:
     db $f4
     ld bc, $ea21
 
-Jump_000_3cc2:
+DataPadding_3cc2:
     db $f4
     nop
     add sp, $02
