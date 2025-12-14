@@ -642,7 +642,7 @@ Les tâches suivantes sont gérées dans `ROADMAP.md` :
 
 ## Constantes créées durant l'exploration
 
-L'exploration a permis d'identifier et nommer **263 constantes** dans `src/constants.inc` :
+L'exploration a permis d'identifier et nommer **285 constantes** dans `src/constants.inc` :
 
 ### Variables HRAM ($FF80-$FFFE) : 96 constantes
 
@@ -667,15 +667,21 @@ L'exploration a permis d'identifier et nommer **263 constantes** dans `src/const
 | **Niveau** | `wLevelData`, `wLevelParam*`, `wLivesCounter` | $DA00-$DA29 |
 | **État** | `wStateBuffer`, `wStateDisplay`, `wStateRender` | $DFE0-$DFF9 |
 
-### Constantes ROM/VRAM : 16 constantes
+### Constantes ROM/VRAM/Config : 38 constantes
 
-| Constante | Adresse | Usage |
-|-----------|---------|-------|
-| `ROM_ANIM_TILES` | $3FAF | Table de 10 frames × 8 bytes |
-| `ROM_AUDIO_CONFIG` | $336C | Table de 21 sons × 3 bytes |
-| `ROM_DMA_ROUTINE` | $3F7D | Source routine DMA (12 bytes) |
-| `VRAM_SCORE_POS1` | $9806 | Position score HUD |
-| `VRAM_ANIM_DEST` | $95D1 | Destination tiles animés |
+| Catégorie | Constantes clés | Usage |
+|-----------|-----------------|-------|
+| **Zones mémoire** | `_VRAM_END`, `_WRAM_END`, `_OAM_END`, `_HRAM_END`, `_STACK_TOP` | Adresses de fin |
+| **Tailles** | `WRAM_BLOCKS`, `VRAM_BLOCKS`, `HRAM_SIZE`, `DMA_ROUTINE_SIZE` | Boucles de clear |
+| **LCD** | `LY_VBLANK_SAFE` | Ligne 148 sûre en VBlank |
+| **Interruptions** | `IE_VBLANK_STAT` | VBlank + LCD STAT |
+| **Palettes** | `PALETTE_STANDARD`, `PALETTE_SPRITE_ALT` | $E4, $54 |
+| **Audio** | `AUDVOL_MAX`, `AUDTERM_ALL`, `BANK_AUDIO` | Config son |
+| **ROM tables** | `ROM_DMA_ROUTINE`, `ROM_INIT_BANK3`, `ROM_AUDIO_CONFIG`, `ROM_ANIM_TILES` | Adresses ROM |
+| **ROM style** | `ROM_STYLE_LVL_0` à `ROM_STYLE_LVL_23`, `ROM_TILEMAP_INIT` | Tables par niveau |
+| **VRAM** | `VRAM_SCORE_POS1`, `VRAM_HUD_LINE`, `VRAM_SCORE_POS2`, `VRAM_ANIM_DEST` | Positions HUD |
+| **Init** | `INIT_GAME_STATE`, `GAME_STATE_WINDOW`, `INIT_ANIM_TILE_IDX`, `INIT_UNKNOWN_DC/A4` | Valeurs initiales |
+| **Objets** | `OBJECT_SLOT_SIZE`, `OBJECT_SLOT_COUNT` | Config slots (16 bytes × 5) |
 
 ---
 
@@ -824,6 +830,6 @@ Si de nouvelles adresses sont découvertes lors des phases suivantes :
 
 *Dernière mise à jour : 2025-12-14*
 *Exploration complète : 138/138 entrées (100%)*
-*Constantes créées : 263 (96 HRAM + 151 WRAM + 16 ROM/VRAM)*
+*Constantes créées : 285 (96 HRAM + 151 WRAM + 38 ROM/VRAM/Config)*
 *Macros créées : 18 (4 utilitaires + 14 free functions)*
 *Labels restants : 275 (94 Jump_* + 181 Call_*)*
