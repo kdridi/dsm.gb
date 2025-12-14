@@ -710,7 +710,7 @@ jr_001_42ef:
     db $fc
     call nz, $84bc
     db $fc
-    call z, Call_000_0878
+    call z, CheckPlayerCollisionWithObject
     ldh a, [rSVBK]
     ret nz
 

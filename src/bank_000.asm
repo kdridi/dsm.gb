@@ -1710,7 +1710,7 @@ jr_000_0851:
 jr_000_0877:
     ld a, b
 
-Call_000_0878:
+CheckPlayerCollisionWithObject:
     ldh [hTemp0], a
     ld a, [wPlayerX]
     add $06
