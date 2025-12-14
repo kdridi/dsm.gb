@@ -94,19 +94,19 @@
 
 **Objectif** : Remplacer les instructions absurdes par des directives `db`/`dw`/`INCBIN`.
 
-### 4.4.1 Analyse détaillée zone $3100-$37FF
+### 4.4.1 Analyse détaillée zone $3100-$37FF ✅
 
-**Découverte du 2025-12-14** :
-- Tous les 36 labels `jr_000_XXXX` + `Call_000_XXXX` restants sont dans cette région
-- Région $3300-$37FF : Jump dispatch table pour animations/sons
+**Complété le 2025-12-14** :
+- ✅ Tous les 36 labels `jr_000_XXXX` + `Call_000_XXXX` ont été renommés
+- ✅ Région $3300-$37FF : Jump dispatch table pour animations/sons
 - Sous-zones identifiées :
-  - $3434-$354b : État du dispatch (10 entrées)
-  - $349f-$34e4 : Jump table de sélection (8 entrées)
-  - $3528-$30ec : Données de saut/états audio
-  - $3690, $3755 : Tables audio (avec `rst $28` markers)
-  - $3132 : Table de données (répétitions `ld l, $XX`)
+  - $3434-$354b : État du dispatch (10 entrées) → renommées
+  - $349f-$34e4 : Jump table de sélection (8 entrées) → renommées
+  - $3528-$30ec : Données de saut/états audio → renommées
+  - $3690, $3755 : Tables audio (avec `rst $28` markers) → renommées
+  - $3132 : Table de données (répétitions `ld l, $XX`) → renommées
 
-**Prochaine étape** : Analyser avec `xxd` et reconstructire comme données (Phase 4.4.2)
+**Résultat** : Zone $3100-$37FF entièrement renommée avec noms contextuels explicites
 
 ### 4.5 Protocole d'exploration systématique ✅
 
