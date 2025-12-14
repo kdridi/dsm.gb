@@ -981,11 +981,11 @@ UpdateLevelSelectDisplay:
     and $0f
     cp $04
     ld a, b
-    jr nz, jr_000_04e5
+    jr nz, SkipAnimTileAdd
 
     add $0d
 
-jr_000_04e5:
+SkipAnimTileAdd:
     ldh [hAnimTileIndex], a
     ldh a, [hRenderContext]
     inc a
@@ -1386,7 +1386,7 @@ StateHandler_02::
     ld hl, hTilemapScrollX
     ldh a, [hVBlankMode]
     and a
-    jr z, jr_000_06e0
+    jr z, LoadLevelStyleFromHL
 
     xor a
     ldh [hVBlankMode], a
@@ -1394,7 +1394,7 @@ StateHandler_02::
     inc a
     jr jr_000_06e1
 
-jr_000_06e0:
+LoadLevelStyleFromHL:
     ld a, [hl]
 
 jr_000_06e1:
@@ -1406,27 +1406,27 @@ jr_000_06e1:
 jr_000_06e6:
     ld bc, ROM_STYLE_LVL_0
     cp $07
-    jr c, jr_000_070c
+    jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_7
     cp $0b
-    jr c, jr_000_070c
+    jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_11
     cp $0f
-    jr c, jr_000_070c
+    jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_15
     cp $13
-    jr c, jr_000_070c
+    jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_19
     cp $17
-    jr c, jr_000_070c
+    jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_23
 
-jr_000_070c:
+ApplyLevelStyleConfig:
     ld [hl], b
     inc l
     ld [hl], $00
@@ -1561,12 +1561,12 @@ CheckInputAndPause:
     ldh a, [hJoypadState]          ; Lire joypad (directions)
     and $0f                 ; Masquer les 4 bits bas
     cp $0f                  ; Toutes les directions ?
-    jr nz, jr_000_07ce      ; Non → vérifier pause
+    jr nz, CheckStartButtonForPause      ; Non → vérifier pause
 
     jp SystemInit        ; OUI → SOFT RESET !
 
 ; --- CheckStartPressed ---
-jr_000_07ce:
+CheckStartButtonForPause:
     ldh a, [$ff81]          ; Lire joypad (boutons, edge detect)
     bit 3, a                ; Start pressé (nouveau) ?
     ret z                   ; Non → return
@@ -4706,7 +4706,7 @@ jr_000_170d:
     ld [hl], a
 
 jr_000_1723:
-    call Call_000_1d1d
+    call ProcessAnimationState
     ret
 
 
@@ -5886,7 +5886,7 @@ jr_000_1cfa:
     ret
 
 
-Call_000_1d1d:
+ProcessAnimationState:
     ld hl, $c20d
     ld a, [hl]
     cp $01
@@ -7648,7 +7648,7 @@ jr_000_258b:
     cp $c0
     jr nc, jr_000_2581
 
-    call Call_000_25b7
+    call ProcessAudioChannelData
 
 jr_000_2594:
     pop bc
@@ -7682,7 +7682,7 @@ Jump_000_25b6:
     ret
 
 
-Call_000_25b7:
+ProcessAudioChannelData:
     xor a
     ld [wAudioData], a
     ld hl, wSpriteVar50
@@ -7810,7 +7810,7 @@ Jump_000_2642:
     ld d, a
     ld h, d
     ld l, e
-    call Call_000_266d
+    call ProcessSoundAnimation
     pop hl
     push hl
     call SaveSoundDataToHL
@@ -7826,7 +7826,7 @@ jr_000_2663:
     ret
 
 
-Call_000_266d:
+ProcessSoundAnimation:
 Jump_000_266d:
 jr_000_266d:
     ldh a, [hSoundVar1]
