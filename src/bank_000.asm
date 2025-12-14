@@ -1461,7 +1461,7 @@ jr_000_0732:
     ld [wPlayerInvuln], a
     ld a, $c3
     ldh [rLCDC], a
-    call Call_000_078c
+    call RenderPlayerUpdate
     xor a
     ldh [rIF], a
     ldh [hShadowSCX], a
@@ -1507,7 +1507,7 @@ jr_000_077e:
     ld c, $84
     inc l
 
-Call_000_078c:
+RenderPlayerUpdate:
     ld a, [wPlayerInvuln]
     and a
     ret nz
@@ -4638,7 +4638,7 @@ State0B_PipeEnterDown::
     ldh [rLCDC], a               ; LCD on
     ld a, $0c
     ldh [hGameState], a          ; Transition vers état $0C
-    call Call_000_078c
+    call RenderPlayerUpdate
     ei
     ret
 
@@ -6299,7 +6299,7 @@ UpdatePlayerInvulnBlink:
     xor a
     ld [wPlayerInvuln], a
     ld [wPlayerY], a
-    call Call_000_078c
+    call RenderPlayerUpdate
     ret
 
 
