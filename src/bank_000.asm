@@ -1029,7 +1029,7 @@ AnimRenderContextReady:
 InitAttractModeDisplay:
     ld a, [wAttractModeTimer]
 
-Jump_000_051c:
+InitAttractModeDisplay_CheckTimer:
     and a
     ret nz
 
@@ -1729,11 +1729,11 @@ CheckPlayerCollisionWithObject:
 
     ldh a, [hOAMAddrLow]
     cp $90
-    jp z, Jump_000_096a
+    jp z, UpdateAnimatedObjectState_ObjectHitDispatch
 
     ldh a, [hOAMIndex]
     cp $33
-    jp z, Jump_000_09ce
+    jp z, UpdateAnimatedObjectState_CoinProceed
 
     ldh a, [hGameState]
     cp $0d
@@ -1886,7 +1886,7 @@ LoadAudioAndSetupAnim:
 
     jr SetupAnimationBuffer
 
-Jump_000_096a:
+UpdateAnimatedObjectState_ObjectHitDispatch:
     ldh a, [hOAMIndex]
     cp $29
     jr z, ObjectInteraction_CoinHit
@@ -1957,7 +1957,7 @@ ObjectInteraction_SpecialHit:
     ld [wUpdateCounter], a
     jr ObjectInteraction_CalcAnimPtr
 
-Jump_000_09ce:
+UpdateAnimatedObjectState_CoinProceed:
     ldh [hPendingCoin], a
     ld a, $05
     ld [wStateBuffer], a
@@ -2208,7 +2208,7 @@ CheckCollisionLoop:
     cp $ff
     jr nz, CheckCollisionObjectPath
 
-Jump_000_0af4:
+CheckCollisionLoop_NextObject:
     add hl, de
     dec b
     jr nz, CheckCollisionLoop
@@ -2222,7 +2222,7 @@ CheckCollisionObjectPath:
     ld bc, $000a
     add hl, bc
     bit 7, [hl]
-    jp z, Jump_000_0b7f
+    jp z, CollisionCheckFailed_Restart
 
     ld a, [hl]
     and $0f
@@ -2322,11 +2322,11 @@ CollisionBoundsCheckEnd:
     ret
 
 
-Jump_000_0b7f:
+CollisionCheckFailed_Restart:
 CollisionCheckFailed:
     pop hl
     pop bc
-    jp Jump_000_0af4
+    jp CheckCollisionLoop_NextObject
 
 
 ;; ==========================================================================
@@ -2670,7 +2670,7 @@ LoadGameTilesWithBank:
     xor a
     ldh [rLCDC], a
     call LoadGameTiles
-    jp Jump_000_0dca
+    jp GameplayInitStart
 
 
 ;; ==========================================================================
@@ -2790,7 +2790,7 @@ CopyGraphicsPaletteLoop:
     dec b
     jr nz, CopyGraphicsPaletteLoop
 
-Jump_000_0dca:
+GameplayInitStart:
     xor a
     ldh [rIF], a
     ld a, $c3
@@ -4757,7 +4757,7 @@ TileE1CollisionHandler:
     cp $0e
     jp nc, BlockCollisionPropertyHandler
 
-    jp Jump_000_1b3c
+    jp TriggerBlockCollisionSound_TimerDispatch
 
 
 CheckJoypadUp_GameplayLoop:
@@ -4964,7 +4964,7 @@ InitPlayerX:
     ret
 
 
-Jump_000_1872:
+CollisionHandler_Type5F_Entry:
     ldh a, [hBlockHitType]
     and a
     ret nz
@@ -4978,7 +4978,7 @@ Jump_000_1872:
     and a
     ret z
 
-Jump_000_187f:
+CollisionHandler_Platform_Entry:
     ldh a, [hBlockHitType]
     and a
     ret nz
@@ -5179,7 +5179,7 @@ CheckPlayerFeetCollision:
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $5f
-    jp z, Jump_000_1872
+    jp z, CollisionHandler_Type5F_Entry
 
     cp $60
     jr nc, ClassifyTileTypeEntry
@@ -5189,7 +5189,7 @@ CheckPlayerFeetCollision:
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $5f
-    jp z, Jump_000_1872
+    jp z, CollisionHandler_Type5F_Entry
 
     cp $60
     ret c
@@ -5203,13 +5203,13 @@ ClassifyTileTypeEntry:
     jr z, HandlePlayerWaterCollision
 
     cp $f4
-    jp z, Jump_000_1a4e
+    jp z, CollisionHandler_SpecialF4_Setup
 
     cp $81
     jr z, HandlePlayerUpCollision
 
     cp $80
-    jp z, Jump_000_187f
+    jp z, CollisionHandler_Platform_Entry
 
     ld a, $02
     ld [$c207], a
@@ -5298,7 +5298,7 @@ InitObjectsLoop:
     ret
 
 
-Jump_000_1a4e:
+CollisionHandler_SpecialF4_Setup:
     push hl
     pop de
     ld hl, hBlockHitType
@@ -5509,7 +5509,7 @@ HandlePlayerSlideCollision:
 
 
 TriggerBlockCollisionSound:
-Jump_000_1b3c:
+TriggerBlockCollisionSound_TimerDispatch:
 TriggerBlockCollisionSound_TimerCheck:
     ldh a, [hTimerAux]
     cp $02
@@ -5566,7 +5566,7 @@ ProcessBlockCollision:
     jr z, ProcessBlockCollision_HandleSoftBlock
 
     cp $02
-    jp z, Jump_000_1bee
+    jp z, BlockCollision_CoinProcess
 
     cp $c0
     jr z, ProcessBlockCollision_HandleSoftBlock
@@ -5635,7 +5635,7 @@ ProcessBlockCollision_CommonExit:
     ret
 
 
-Jump_000_1bee:
+BlockCollision_CoinProcess:
     ld [hl], $03
     jr ProcessBlockCollision_CommonExit
 
@@ -7444,12 +7444,12 @@ FindAudioTableEntry_Found:
     ld hl, wObjectBuffer
     ld de, $0010
 
-Jump_000_247e:
+ClearObjectBuffer_Loop:
     ld [hl], $ff
     add hl, de
     ld a, l
     cp $a0
-    jp nz, Jump_000_247e
+    jp nz, ClearObjectBuffer_Loop
 
     ret
 
@@ -7668,7 +7668,7 @@ AudioSlotLoopEnd:
 FillAudioBufferLoop:
     ld a, l
     cp $a0
-    jp nc, Jump_000_25b6
+    jp nc, FillAudioBuffer_Exit
 
     ld a, $b4
     ld [hl], a
@@ -7678,7 +7678,7 @@ FillAudioBufferLoop:
     inc hl
     jr FillAudioBufferLoop
 
-Jump_000_25b6:
+FillAudioBuffer_Exit:
     ret
 
 
@@ -8060,7 +8060,7 @@ CheckAudioCommand_F3:
     ld a, [wAudioQueueId]
     ldh [hSoundId], a
     cp $ff
-    jp z, Jump_000_286e
+    jp z, AudioCommand_CompleteExit
 
     ld hl, hSoundId
     call InitSoundSlot
@@ -8215,7 +8215,7 @@ AudioCommand_Default:
     jp AudioQueueProcessing
 
 
-Jump_000_286e:
+AudioCommand_CompleteExit:
     pop hl
     ret
 
@@ -8429,14 +8429,14 @@ CheckObjectTileTop_Alternatives:
     jr z, SubtractSoundFlagFromParam1
 
     cp $40
-    jp nz, Jump_000_29ad
+    jp nz, CollisionPhysics_SoundChannelControl
 
     ldh a, [hSoundCh2]
     set 1, a
     ldh [hSoundCh2], a
     jr CollisionEnd
 
-Jump_000_29ad:
+CollisionPhysics_SoundChannelControl:
     cp $c0
     jr nz, CollisionEnd
 

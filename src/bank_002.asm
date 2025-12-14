@@ -7650,7 +7650,7 @@ jr_002_6017:
     ld [$1842], sp
     ld [$1a84], sp
     rlca
-    jp nz, Jump_000_051c
+    jp nz, InitAttractModeDisplay_CheckTimer
 
     ld b, d
     ld e, $08

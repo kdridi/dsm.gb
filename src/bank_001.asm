@@ -3916,7 +3916,7 @@ Call_001_5089:
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $e1
-    jp z, Jump_000_1b3c
+    jp z, TriggerBlockCollisionSound_TimerDispatch
 
     cp $60
     jr nc, jr_001_50b4
@@ -3976,10 +3976,10 @@ jr_001_50d8:
     jr z, jr_001_5107
 
     cp $e1
-    jp z, Jump_000_1b3c
+    jp z, TriggerBlockCollisionSound_TimerDispatch
 
     cp $83
-    jp z, Jump_000_1b3c
+    jp z, TriggerBlockCollisionSound_TimerDispatch
 
     pop hl
     ret
