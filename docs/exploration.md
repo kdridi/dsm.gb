@@ -43,14 +43,14 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 ## Frontière (à analyser)
 
 ### Points d'entrée système
-- [ ] `$0000` (code) - RST $00 handler
-- [ ] `$0008` (code) - RST $08 handler
-- [ ] `$0010` (code) - RST $10 handler
-- [ ] `$0018` (code) - RST $18 handler
-- [ ] `$0020` (code) - RST $20 handler
-- [ ] `$0028` (code) - RST $28 handler (jump table dispatcher)
-- [ ] `$0030` (code) - RST $30 handler
-- [ ] `$0038` (code) - RST $38 handler
+- [x] `$0000` (code) - RST $00 : Soft reset → `jp SystemInit`
+- [x] `$0008` (code) - RST $08 : Soft reset (alias)
+- [x] `$0010` (code) - RST $10 : Non utilisé (padding)
+- [x] `$0018` (code) - RST $18 : Non utilisé (padding)
+- [x] `$0020` (code) - RST $20 : Non utilisé (padding)
+- [x] `$0028` (code) - **RST $28 : Jump Table Dispatcher** (crucial !)
+- [x] `$0030` (code) - RST $30 : Suite dispatcher (termine le saut)
+- [x] `$0038` (code) - RST $38 : Non utilisé (trap/boucle infinie)
 - [ ] `$0040` (handler) - VBlank interrupt
 - [ ] `$0048` (handler) - STAT interrupt
 - [ ] `$0100` (code) - Entry point ROM
@@ -140,6 +140,14 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 
 ## Analysé
 
+### Handlers RST ($0000-$0038)
+- [x] `$0000` RST $00 - Soft reset → `jp SystemInit`
+- [x] `$0008` RST $08 - Soft reset (alias)
+- [x] `$0010-$0027` RST $10-$20 - Non utilisés (padding `rst $38`)
+- [x] `$0028` **RST $28 - Jump Table Dispatcher** : A*2 → offset, lit adresse, saute
+- [x] `$0030` RST $30 - Suite du dispatcher (termine le saut via `jp hl`)
+- [x] `$0038` RST $38 - Non utilisé (boucle infinie = trap)
+
 ### Tables de données
 - [x] `$02A5` (data) - **StateJumpTable** : 60 handlers d'état, format `dw`
 - [x] `$336C` (data) - **AudioConfigTable** : 21 configs son × 3 bytes
@@ -166,8 +174,9 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 
 | Catégorie | Frontière | Analysé | Total |
 |-----------|-----------|---------|-------|
-| Handlers RST | 8 | 0 | 8 |
+| Handlers RST | 0 | 8 | 8 |
+| Interruptions | 3 | 0 | 3 |
 | Handlers état | 60 | 0 | 60 |
 | Routines | 12 | 0 | 12 |
 | Tables données | 0 | 4 | 4 |
-| **Total** | **80** | **4** | **84** |
+| **Total** | **75** | **12** | **87** |

@@ -1,25 +1,31 @@
+;; ============================================================================
+;; ROM Bank 0 - Vecteurs RST et Interruptions ($0000-$00FF)
+;; ============================================================================
 SECTION "ROM Bank $000", ROM0[$0]
 
+;; --- RST $00 : Soft Reset ---
 RST_00::
     jp SystemInit
 
-
+    ; Padding jusqu'à RST $08
     rst $38
     rst $38
     rst $38
     nop
     nop
 
+;; --- RST $08 : Soft Reset (alias) ---
 RST_08::
     jp SystemInit
 
-
+    ; Padding jusqu'à RST $10
     rst $38
     rst $38
     rst $38
     rst $38
     rst $38
 
+;; --- RST $10-$20 : Non utilisés ---
 RST_10::
     rst $38
     rst $38
@@ -46,35 +52,50 @@ RST_20::
     rst $38
     rst $38
 
-Jump_000_0024:
+Jump_000_0024::
     rst $38
     rst $38
     rst $38
     rst $38
 
+;; ============================================================================
+;; RST $28 : Jump Table Dispatcher
+;; ============================================================================
+;; Usage : rst $28 suivi immédiatement d'une table de mots (dw addr1, addr2...)
+;; Entrée : A = index dans la table (0, 1, 2...)
+;; Effet  : Saute vers l'adresse à table[A]
+;;
+;; Exemple :
+;;   ld a, [hGameState]
+;;   rst $28
+;;   dw State0Handler, State1Handler, State2Handler
+;; ============================================================================
 RST_28::
-    add a
-    pop hl
+    add a               ; A = A * 2 (car chaque entrée = 2 octets)
+    pop hl              ; HL = adresse de retour (= début de la table)
     ld e, a
-    ld d, $00
-    add hl, de
-    ld e, [hl]
+    ld d, $00           ; DE = offset
+    add hl, de          ; HL = table + offset
+    ld e, [hl]          ; E = octet bas de l'adresse
     inc hl
+    ; Suite dans RST $30...
 
+;; --- RST $30 : Suite du dispatcher ---
 RST_30::
-    ld d, [hl]
+    ld d, [hl]          ; D = octet haut de l'adresse
     push de
-    pop hl
-    jp hl
+    pop hl              ; HL = adresse cible
+    jp hl               ; Saut vers le handler
 
-
+    ; Padding jusqu'à RST $38
     rst $38
     rst $38
     rst $38
     rst $38
 
+;; --- RST $38 : Non utilisé (trap) ---
 RST_38::
-    rst $38
+    rst $38             ; Boucle infinie si appelé par erreur
     rst $38
     rst $38
     rst $38
