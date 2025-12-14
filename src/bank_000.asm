@@ -139,21 +139,15 @@ LCDCInterrupt::
 
 ;; --- INT $50 : Timer Overflow Interrupt ---
 ;; Déclenché quand TIMA overflow. Utilisé ici pour le son (bank 3).
+;; Note: L'interruption Serial ($0058) tombe au milieu du call $7ff0.
+;; Ce n'est pas un vrai handler - le jeu n'utilise pas le port série.
 TimerOverflowInterrupt::
     push af
     ld a, BANK_AUDIO         ; Bank 3 = audio
-
-Call_000_0053:
-    ld [$2000], a            ; Switch to audio bank
-    db $cd                   ; call (opcode)
-    db $f0                   ; Low byte of address
-
-;; --- INT $58 : Serial Transfer Complete Interrupt ---
-;; Déclenché quand transfert série terminé. Partage l'espace avec Timer.
-SerialTransferCompleteInterrupt::
-    ld a, a                  ; NOP (mal désassemblé, probablement high byte)
+    ld [rROMB0], a           ; Switch to audio bank
+    call $7ff0               ; Routine audio en bank 3
     ldh a, [hCurrentBank]    ; Restaurer bank courante
-    ld [$2000], a
+    ld [rROMB0], a
     pop af
     reti
 
@@ -4294,7 +4288,7 @@ TilemapEndData:
     ld c, [hl]
     call z, $0052
     ld c, [hl]
-    call nc, Call_000_0053
+    call nc, $0053
     ld c, [hl]
     call c, $0054
     ld c, [hl]
