@@ -3211,16 +3211,16 @@ TextData_0FD8:
     inc d
     inc l
     ld [hl+], a
-    jr jr_000_0fff
+    jr State25_LoadSpriteTableAddress
 
     inc l
     ld d, $0a
     dec de
     ld [de], a
-    jr jr_000_100b
+    jr State25_StoreSpriteValue
 
     cp $73
-    jr jr_000_0ffd
+    jr State25_StoreOAMIndex
 
     jr z, @+$2e
 
@@ -3242,30 +3242,30 @@ State25_SpriteBlinkAnimation::
 
     ldh a, [hOAMIndex]
     dec a
-    jr z, jr_000_1016
+    jr z, State25_NextState
 
-jr_000_0ffd:
+State25_StoreOAMIndex:
     ldh [hOAMIndex], a
 
-jr_000_0fff:
+State25_LoadSpriteTableAddress:
     and $01
     ld hl, $102c
-    jr nz, jr_000_100e
+    jr nz, State25_CopySpriteDataToOam
 
     ld hl, $103c
     ld a, $03
 
-jr_000_100b:
+State25_StoreSpriteValue:
     ld [$dff8], a
 
-jr_000_100e:
+State25_CopySpriteDataToOam:
     call Copy16BytesToOam
     ld a, $08
     ldh [hTimer1], a
     ret
 
 
-jr_000_1016:
+State25_NextState:
     ld hl, $c210
     ld [hl], $00
     ld hl, hGameState
@@ -3350,20 +3350,20 @@ State26_PrincessRising::
 UpdateAnimationFrame:
     ldh a, [hFrameCounter]
     and $01
-    jr nz, jr_000_107f
+    jr nz, State26_CallBank3Handler
 
     ld hl, $c212
     inc [hl]
     ld a, [hl]
     cp $d0
-    jr nc, jr_000_1083
+    jr nc, State26_NextState
 
-jr_000_107f:
+State26_CallBank3Handler:
     call CallBank3Handler
     ret
 
 
-jr_000_1083:
+State26_NextState:
     ld hl, hGameState
     ld [hl], $12
     ld a, $02
@@ -3378,36 +3378,36 @@ jr_000_1083:
 State27_PlayerOscillation::
     ldh a, [hTimer2]
     and a
-    jr nz, jr_000_109e
+    jr nz, State27_ClearPlayerVar
 
     ld a, $01
     ld [$dff8], a
     ld a, $20
     ldh [hTimer2], a
 
-jr_000_109e:
+State27_ClearPlayerVar:
     xor a
     ld [wPlayerVarAB], a
     call UpdateAudio
     ldh a, [hTimer1]
     ld c, a
     and $03
-    jr nz, jr_000_10bf
+    jr nz, State27_CheckTimer
 
     ldh a, [hOAMIndex]
     xor $01
     ldh [hOAMIndex], a
     ld b, $fc
-    jr z, jr_000_10b8
+    jr z, State27_AddOffsetToFlag
 
     ld b, $04
 
-jr_000_10b8:
+State27_AddOffsetToFlag:
     ld a, [wLevelInitFlag]
     add b
     ld [wLevelInitFlag], a
 
-jr_000_10bf:
+State27_CheckTimer:
     ld a, c
     cp $80
     ret nc
@@ -3537,7 +3537,7 @@ State2A_DisplayEndText::
 TextData_117A:
     jr @+$13
 
-    jr z, jr_000_11aa
+    jr z, State2B_InitSpriteData
 
     dec c
     ld a, [bc]
@@ -3566,19 +3566,19 @@ State2B_PrincessDescending::
     ld hl, $c212
     ld a, [hl]
     cp $44
-    jr c, jr_000_11a3
+    jr c, State2B_NextState
 
     dec [hl]
     call CallBank3Handler
     ret
 
 
-jr_000_11a3:
+State2B_NextState:
     ld hl, hGameState
     inc [hl]
     ld hl, wSpriteTemp
 
-jr_000_11aa:
+State2B_InitSpriteData:
     ld [hl], $70
     inc l
     ld [hl], $3a
@@ -3602,7 +3602,7 @@ TextData_11B6:
     ld d, $0a
     dec de
     ld [de], a
-    jr jr_000_11e9
+    jr State2C_ClearScreen
 
     rst $38
 
@@ -3619,31 +3619,31 @@ State2C_SpriteOscillation::
     dec [hl]
     ld a, [hl+]
     cp $20
-    jr c, jr_000_11e9
+    jr c, State2C_ClearScreen
 
     ldh a, [hOAMIndex]
     and a
     ld a, [hl]
-    jr nz, jr_000_11e2
+    jr nz, State2C_IncrementOscillation
 
     dec [hl]
     cp $30
     ret nc
 
-jr_000_11df:
+State2C_StoreOAMIndex:
     ldh [hOAMIndex], a
     ret
 
 
-jr_000_11e2:
+State2C_IncrementOscillation:
     inc [hl]
     cp $50
     ret c
 
     xor a
-    jr jr_000_11df
+    jr State2C_StoreOAMIndex
 
-jr_000_11e9:
+State2C_ClearScreen:
     ld [hl], $f0
     ld b, $6d
     ld hl, $98a5
@@ -3698,7 +3698,7 @@ State2D_DisplayText2::
 TextData_1236:
     add hl, hl
     ld [hl+], a
-    jr jr_000_1258
+    jr State2E_CheckCharPosition
 
     dec de
     inc l
@@ -3723,33 +3723,33 @@ TextData_1236:
 State2E_DuoAnimation::
     ldh a, [hFrameCounter]
     and $03
-    jr nz, jr_000_1258
+    jr nz, State2E_CheckCharPosition
 
     ld hl, $c213
     ld a, [hl]
     xor $01
     ld [hl], a
 
-jr_000_1258:
+State2E_CheckCharPosition:
     ld hl, $c240
     ld a, [hl]
     and a
-    jr nz, jr_000_127f
+    jr nz, State2E_UpdateMovement
 
     inc l
     inc l
     dec [hl]
     ld a, [hl]
     cp $50
-    jr nz, jr_000_126e
+    jr nz, State2E_CheckCounterFrame2
 
     ld a, $80
     ld [wPlayerY], a
-    jr jr_000_127f
+    jr State2E_UpdateMovement
 
-jr_000_126e:
+State2E_CheckCounterFrame2:
     cp $40
-    jr nz, jr_000_127f
+    jr nz, State2E_UpdateMovement
 
     ld a, $80
     ld [$c210], a
@@ -3758,7 +3758,7 @@ jr_000_126e:
     ld hl, hGameState
     inc [hl]
 
-jr_000_127f:
+State2E_UpdateMovement:
     call AutoMovePlayerRight
     call UpdateScroll
     ldh a, [hTilemapScrollX]
@@ -4015,14 +4015,14 @@ ScrollAnimationLoop:
     dec [hl]
     ld a, [hl]
     cp $01
-    jr nz, jr_000_13cd
+    jr nz, State32_CheckCounterReset
 
     ld [hl], $fe
-    jr jr_000_13e2
+    jr State32_MoveToNextSprite
 
-jr_000_13cd:
+State32_CheckCounterReset:
     cp $e0
-    jr nz, jr_000_13e2
+    jr nz, State32_MoveToNextSprite
 
     push hl
     ldh a, [rDIV]
@@ -4030,16 +4030,16 @@ jr_000_13cd:
     add [hl]
     and $7f
     cp $68
-    jr nc, jr_000_13de
+    jr nc, State32_StoreOffsetValue
 
     and $3f
 
-jr_000_13de:
+State32_StoreOffsetValue:
     ld [hl-], a
     ld [hl], $00
     pop hl
 
-jr_000_13e2:
+State32_MoveToNextSprite:
     add hl, de
     dec b
     jr nz, ScrollAnimationLoop
@@ -4078,10 +4078,10 @@ DisplayCreditsLoop:
     inc de
     ld a, e
     cp $54
-    jr z, jr_000_141c
+    jr z, State33_UpdateVRAMRow1
 
     cp $93
-    jr z, jr_000_1422
+    jr z, State33_UpdateVRAMRow2
 
     jr DisplayCreditsLoop
 
@@ -4089,21 +4089,21 @@ DisplayCreditsLoop:
     ld b, $2c
     jr .waitAndWrite
 
-jr_000_141c:
+State33_UpdateVRAMRow1:
     ld de, $9a87
     inc hl
     jr DisplayCreditsLoop
 
-jr_000_1422:
+State33_UpdateVRAMRow2:
     inc hl
     ld a, [hl]
     cp $ff
-    jr nz, jr_000_142d
+    jr nz, State33_SaveVRAMPointer
 
     ld a, $ff
     ld [wAudioSaveDE], a
 
-jr_000_142d:
+State33_SaveVRAMPointer:
     ld a, h
     ldh [hCopyDstLow], a
     ld a, l
@@ -4200,20 +4200,20 @@ State37_FinalSpriteAnimation::
     ld de, $14bb
     ld b, $18
 
-jr_000_149d:
+State37_CopyTilemapData:
     ld a, [de]
     ld [hl+], a
     inc de
     dec b
-    jr nz, jr_000_149d
+    jr nz, State37_CopyTilemapData
 
     ld b, $18
     xor a
 
-jr_000_14a6:
+State37_ClearTilemapBuffer:
     ld [hl+], a
     dec b
-    jr nz, jr_000_14a6
+    jr nz, State37_ClearTilemapBuffer
 
     ld a, $90
     ldh [hTimer1], a
@@ -4672,49 +4672,49 @@ UpdatePipeAnimation:
     call CallBank3Handler
     ld a, [$c20a]
     and a
-    jr z, jr_000_1723
+    jr z, State0C_ProcessAnimation
 
     ld a, [wPlayerDir]
     and $0f
     cp $0a
-    jr nc, jr_000_1723
+    jr nc, State0C_ProcessAnimation
 
     ld hl, $c20b
     ld a, [$c20e]
     cp $23
     ld a, [hl]
-    jr z, jr_000_1727
+    jr z, State0C_CheckOddFrame
 
     and $03
-    jr nz, jr_000_1723
+    jr nz, State0C_ProcessAnimation
 
-jr_000_170d:
+State0C_IncrementPlayerDir:
     ld hl, wPlayerDir
     ld a, [hl]
     cp $18
-    jr z, jr_000_1723
+    jr z, State0C_ProcessAnimation
 
     inc [hl]
     ld a, [hl]
     and $0f
     cp $04
-    jr c, jr_000_1723
+    jr c, State0C_ProcessAnimation
 
     ld a, [hl]
     and $f0
     or $01
     ld [hl], a
 
-jr_000_1723:
+State0C_ProcessAnimation:
     call ProcessAnimationState
     ret
 
 
-jr_000_1727:
+State0C_CheckOddFrame:
     and $01
-    jr nz, jr_000_1723
+    jr nz, State0C_ProcessAnimation
 
-    jr jr_000_170d
+    jr State0C_IncrementPlayerDir
 
 ;; ==========================================================================
 ;; CallBank3_4823 - Appelle la routine $4823 en bank 3
@@ -5784,20 +5784,20 @@ State39_GameOver::
     ld a, [wGameConfigA6]
     add b
     cp $0a
-    jr c, jr_000_1cab
+    jr c, State39_StoreConfigValue
 
     ld a, $09
 
-jr_000_1cab:
+State39_StoreConfigValue:
     ld [wGameConfigA6], a
     ld hl, wOamBuffer
     xor a
     ld b, $a0
 
-jr_000_1cb4:
+State39_ClearOAMBuffer:
     ld [hl+], a
     dec b
-    jr nz, jr_000_1cb4
+    jr nz, State39_ClearOAMBuffer
 
     ld [wSpecialState], a
     ldh [rTMA], a
@@ -5824,7 +5824,7 @@ TextData_GameOver:
     ld d, $0e
     inc l
     inc l
-    jr jr_000_1cfa
+    jr State3B_DecrementCounter
 
 ; ===========================================================================
 ; État $3A - Mise à jour window ($1CDF)
@@ -5848,7 +5848,7 @@ State3B_WindowSetup::
     ld de, $1d0b
     ld c, $09
 
-jr_000_1cef:
+State3B_CopyWindowData:
     ld a, [de]
     ld b, a
 
@@ -5857,9 +5857,9 @@ jr_000_1cef:
     inc l
     inc de
 
-jr_000_1cfa:
+State3B_DecrementCounter:
     dec c
-    jr nz, jr_000_1cef
+    jr nz, State3B_CopyWindowData
 
     ld hl, $ff40
     set 5, [hl]
