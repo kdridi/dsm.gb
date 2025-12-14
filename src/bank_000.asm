@@ -7039,19 +7039,19 @@ jr_000_227a:
     cp $80
     jr nz, jr_000_2283
 
-    call Call_000_235a
+    call ApplyLevelConfig
     jr jr_000_2291
 
 jr_000_2283:
     cp $5f
     jr nz, jr_000_228c
 
-    call Call_000_235a
+    call ApplyLevelConfig
     jr jr_000_2291
 
 jr_000_228c:
     cp $81
-    call z, Call_000_235a
+    call z, ApplyLevelConfig
 
 jr_000_2291:
     inc e
@@ -7231,7 +7231,7 @@ jr_000_234f:
     ret
 
 
-Call_000_235a:
+ApplyLevelConfig:
     ld a, [wLevelConfig - 1]
     and a
     ret z
