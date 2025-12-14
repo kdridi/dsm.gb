@@ -419,7 +419,7 @@ AfterHeader:
 
 
 Call_000_0153:
-    call Call_000_3ed1
+    call GetTileAddrFromSprite
 
     WAIT_FOR_HBLANK
     ld b, [hl]
@@ -12617,30 +12617,37 @@ jr_000_3eac:
     ret
 
 
-Call_000_3ed1:
+; -----------------------------------------------------------------------------
+; GetTileAddrFromSprite - Convertit coordonnées sprite en adresse tilemap
+; -----------------------------------------------------------------------------
+; Entrées : hSpriteY, hSpriteX (coordonnées OAM en pixels)
+; Sorties : HL = adresse du tile BG sous le sprite
+;           hSpriteAttr = H, hSpriteTile = L
+; -----------------------------------------------------------------------------
+GetTileAddrFromSprite:
     ldh a, [hSpriteY]
-    sub $10
+    sub $10               ; Retire offset OAM Y
     srl a
     srl a
-    srl a
+    srl a                 ; Y pixels → ligne tile (÷8)
     ld de, $0000
     ld e, a
-    ld hl, $9800
-    ld b, $20
+    ld hl, $9800          ; Base tilemap BG
+    ld b, $20             ; Largeur = 32 tiles
 
-jr_000_3ee4:
-    add hl, de
+.multiplyRow:
+    add hl, de            ; HL += ligne (×32 via boucle)
     dec b
-    jr nz, jr_000_3ee4
+    jr nz, .multiplyRow
 
     ldh a, [hSpriteX]
-    sub $08
+    sub $08               ; Retire offset OAM X
     srl a
     srl a
-    srl a
+    srl a                 ; X pixels → colonne tile (÷8)
     ld de, $0000
     ld e, a
-    add hl, de
+    add hl, de            ; Ajoute colonne
     ld a, h
     ldh [hSpriteAttr], a
     ld a, l
