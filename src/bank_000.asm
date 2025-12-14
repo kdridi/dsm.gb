@@ -1317,7 +1317,7 @@ StateHandler_00::
     call UpdatePipeAnimation
     call CheckPlayerHeadCollision
     call Call_000_0ae1
-    call Call_000_0a24
+    call HandleObjectAnimationOnBlockHit
     call UpdatePlayerInvulnBlink
 
     ; Gestion compteur niveau
@@ -2032,7 +2032,7 @@ SelectAnimationBank:
     ld bc, $0804
     ld d, b
 
-Call_000_0a24:
+HandleObjectAnimationOnBlockHit:
     ldh a, [hBlockHitType]
     and a
     ret z
