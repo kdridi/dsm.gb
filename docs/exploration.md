@@ -610,6 +610,17 @@ Les tâches suivantes sont gérées dans `ROADMAP.md` :
 - **Magic values** : toujours remplacées par constantes nommées
 - **Macros utilitaires** : `VERBE_OBJET` en majuscules (ex: `CLEAR_LOOP_B`)
 - **Macros free function** : `VerbeCamelCase` (ex: `DisableInterrupts`)
+- **Reconstruction données** : `db` (octets), `dw` (mots 16-bit), `ds` (réservé), `INCBIN` (binaire)
+- **Validation** : `make verify` après chaque modification (hash SHA256 + MD5)
+
+### Outils utilisés
+
+| Outil | Usage |
+|-------|-------|
+| `xxd -s ADDR -l LEN src/game.gb` | Analyser données brutes à une adresse |
+| `grep -n "pattern" src/bank_*.asm` | Rechercher patterns dans le code |
+| `rgbasm`, `rgblink`, `rgbfix` | Toolchain RGBDS pour compilation |
+| `make verify` | Validation bit-perfect (SHA256 + MD5) |
 
 ---
 
