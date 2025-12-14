@@ -4365,7 +4365,7 @@ AnimateCreditsFrame:
     ld a, [bc]
     cp $19
     dec de
-    jr jr_000_1584
+    jr InfiniteLockup_CollideScore
 
     dec de
     ld a, [bc]
@@ -4379,8 +4379,8 @@ AnimateCreditsFrame:
     ld d, $18
     dec e
 
-jr_000_1584:
-    jr jr_000_1584
+InfiniteLockup_CollideScore:
+    jr InfiniteLockup_CollideScore
 
     add hl, de
     dec de
@@ -4410,7 +4410,7 @@ jr_000_1584:
     inc d
     ld a, [bc]
     cp $1c
-    jr jr_000_15cd
+    jr ReadScoreValue_CollideScore
 
     rla
     dec c
@@ -4437,7 +4437,7 @@ jr_000_1584:
     ld a, [bc]
     cp $0d
 
-jr_000_15cd:
+ReadScoreValue_CollideScore:
     ld c, $1c
     ld [de], a
     db $10
@@ -4447,8 +4447,8 @@ jr_000_15cd:
     inc e
     ld de, $1612
 
-jr_000_15d9:
-    jr jr_000_15d9
+InfiniteLockup_Render:
+    jr InfiniteLockup_Render
 
     inc e
     add hl, de
@@ -4760,7 +4760,7 @@ Jump_000_1752:
     jp Jump_000_1b3c
 
 
-jr_000_175c:
+CheckJoypadUp_GameplayLoop:
     ldh a, [hJoypadState]
     bit 7, a
     jp z, Jump_000_1854
@@ -4811,12 +4811,12 @@ jr_000_175c:
     ldh [hGameState], a
     ld a, [wPlayerInvuln]
     and a
-    jr nz, jr_000_17ad
+    jr nz, SkipIfInvuln_OnTile
 
     ld a, $04
     ld [wStateRender], a
 
-jr_000_17ad:
+SkipIfInvuln_OnTile:
     call $1ecb
     jp Jump_000_1854
 
@@ -4842,34 +4842,34 @@ CheckPlayerHeadCollision:
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $70
-    jr z, jr_000_175c
+    jr z, CheckJoypadUp_GameplayLoop
 
     cp $e1
     jp z, Jump_000_1752
 
     cp $60
-    jr nc, jr_000_1815
+    jr nc, CheckBlockProperties_OnCollide
 
     ld a, [$c20e]
     ld b, $04
     cp $04
-    jr nz, jr_000_17ec
+    jr nz, CalcOffsetLoop_BlockHit
 
     ld a, [$c207]
     and a
-    jr nz, jr_000_17ec
+    jr nz, CalcOffsetLoop_BlockHit
 
     ld b, $08
 
-jr_000_17ec:
+CalcOffsetLoop_BlockHit:
     ldh a, [hSpriteX]
     add b
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $60
-    jr nc, jr_000_1815
+    jr nc, CheckBlockProperties_OnCollide
 
-jr_000_17f8:
+HandleBlockType_Collision:
     ld hl, $c207
     ld a, [hl]
     cp $02
@@ -4891,35 +4891,35 @@ jr_000_17f8:
 
 
 Jump_000_1815:
-jr_000_1815:
+CheckBlockProperties_OnCollide:
     cp $ed
     push af
-    jr nz, jr_000_1839
+    jr nz, ProcessBlockEnd_OnCollide
 
     ld a, [wPlayerInvuln]
     and a
-    jr nz, jr_000_1839
+    jr nz, ProcessBlockEnd_OnCollide
 
     ldh a, [hTimerAux]
     and a
-    jr z, jr_000_1833
+    jr z, InitGameAfterBlock_OnCollide
 
     cp $04
-    jr z, jr_000_1839
+    jr z, ProcessBlockEnd_OnCollide
 
     cp $02
-    jr nz, jr_000_1839
+    jr nz, ProcessBlockEnd_OnCollide
 
     pop af
     call StartGameplayPhase
     jr jr_000_1854
 
-jr_000_1833:
+InitGameAfterBlock_OnCollide:
     pop af
     call InitGameState
     jr jr_000_1854
 
-jr_000_1839:
+ProcessBlockEnd_OnCollide:
     pop af
     cp $f4
     jr nz, jr_000_1854
@@ -4929,7 +4929,7 @@ jr_000_1839:
     ld hl, hBlockHitType
     ld a, [hl]
     and a
-    jr nz, jr_000_17f8
+    jr nz, HandleBlockType_Collision
 
     ld [hl], $c0
     inc l
@@ -4938,7 +4938,7 @@ jr_000_1839:
     ld [hl], e
     ld a, $05
     ld [wStateBuffer], a
-    jr jr_000_17f8
+    jr HandleBlockType_Collision
 
 Jump_000_1854:
 jr_000_1854:
