@@ -708,11 +708,11 @@ jr_000_032d:
     ld hl, $791a
     ld de, $9300
     ld bc, $0500
-    call Call_000_05c7
+    call MemCopy
     ld hl, $7e1a
     ld de, $8800
     ld bc, $0170
-    call Call_000_05c7
+    call MemCopy
     ld hl, $4862
     ldh a, [hLevelIndex]
     cp $01
@@ -723,15 +723,15 @@ jr_000_032d:
 jr_000_0368:
     ld de, $8ac0
     ld bc, $0010
-    call Call_000_05c7
+    call MemCopy
     ld hl, $5032
     ld de, $9000
     ld bc, $02c0
-    call Call_000_05c7
+    call MemCopy
     ld hl, $5032
     ld de, $8000
     ld bc, $02a0
-    call Call_000_05c7
+    call MemCopy
     call Call_000_05b8
     xor a
     ldh [hTilemapScrollX], a
@@ -1157,15 +1157,20 @@ jr_000_05be:
     ret
 
 
-Call_000_05c7:
-jr_000_05c7:
+; ===========================================================================
+; MemCopy - Copie BC octets de HL vers DE
+; Entrée : HL = source, DE = destination, BC = nombre d'octets
+; Sortie : HL et DE avancés de BC, BC = 0
+; ===========================================================================
+MemCopy::
+.loop:
     ld a, [hl+]
     ld [de], a
     inc de
     dec bc
     ld a, b
     or c
-    jr nz, jr_000_05c7
+    jr nz, .loop
 
     ret
 
@@ -1174,11 +1179,11 @@ Call_000_05d0:
     ld hl, $5032
     ld de, $9000
     ld bc, $0800
-    call Call_000_05c7
+    call MemCopy
     ld hl, $4032
     ld de, $8000
     ld bc, $1000
-    call Call_000_05c7
+    call MemCopy
     ld hl, $5603
     ld de, $c600
     ld b, $08
