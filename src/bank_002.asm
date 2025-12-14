@@ -1554,7 +1554,7 @@ jr_002_4685:
     inc d
     ld a, a
     ld a, l
-    call z, Call_000_19fc
+    call z, InitializeGameObjects
     ld sp, hl
     pop af
     pop af

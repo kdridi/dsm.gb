@@ -5248,11 +5248,11 @@ jr_000_19d8:
     ld [hl], e
     ld hl, $c210
 
-Call_000_19fc:
+InitializeGameObjects:
     ld de, $0010
     ld b, $04
 
-jr_000_1a01:
+InitObjectsLoop:
     push hl
     ld [hl], $00
     inc l
@@ -5274,7 +5274,7 @@ jr_000_1a01:
     pop hl
     add hl, de
     dec b
-    jr nz, jr_000_1a01
+    jr nz, InitObjectsLoop
 
     ld hl, $c222
     ld a, [hl]
