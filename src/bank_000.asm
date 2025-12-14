@@ -4314,7 +4314,7 @@ Call_000_1520:
 
     call $7ff3
 
-Call_000_1527:
+SetupCreditsState:
     ld a, $02
     ldh [hCurrentBank], a
     ld [$2000], a
@@ -5837,7 +5837,7 @@ State3A_WindowUpdate::
     inc l
     ld a, [wPlayerVarAD]
     and a
-    call nz, Call_000_1527
+    call nz, SetupCreditsState
     ret
 
 ; ===========================================================================
