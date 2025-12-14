@@ -396,6 +396,10 @@ DEF VRAM_HUD_LINE       EQU $9820   ; Ligne HUD
 DEF VRAM_SCORE_POS2     EQU $9829   ; Score HUD position 2
 DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
 
+; === Valeurs de gameplay ===
+
+DEF POINTS_PER_COIN     EQU $0100 ; Points par pièce (100 en BCD)
+
 ; === Valeurs d'initialisation ===
 
 DEF INIT_GAME_STATE     EQU $0E ; État jeu initial (hGameState)

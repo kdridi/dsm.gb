@@ -5689,7 +5689,7 @@ CollectCoin:
 
     push de
     push hl
-    ld de, $0100
+    ld de, POINTS_PER_COIN
     call AddScore
     pop hl
     pop de
