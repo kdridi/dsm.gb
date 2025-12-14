@@ -866,7 +866,7 @@ jr_000_041f:
     inc l
     dec hl
 
-jr_000_0450:
+StartSelectedLevel:
     ld a, [wUnknown04]
     cp $78
     jr z, jr_000_04a2
@@ -962,7 +962,7 @@ State0F_LevelSelect::
     ldh a, [$ff81]               ; Joypad state
     ld b, a
     bit 3, b                     ; Start pressé ?
-    jr nz, jr_000_0450
+    jr nz, StartSelectedLevel
 
     bit 2, b                     ; Select pressé ?
     jr nz, jr_000_04b4
