@@ -1565,7 +1565,7 @@ jr_002_4685:
     inc d
     ld a, a
     ld a, l
-    call z, Call_000_18fc
+    call z, ProcessSoundParams
     ld hl, sp-$10
     ldh a, [rP1]
     nop
@@ -14548,7 +14548,7 @@ jr_002_7ed6:
     pop hl
     ld h, c
     or $76
-    call c, Call_000_1f7c
+    call c, CheckCoinCollision
     ld [de], a
 
 jr_002_7eec:

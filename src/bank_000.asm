@@ -5063,7 +5063,7 @@ jr_000_18be:
     ldh a, [hSpriteX]
     ldh [hRenderY], a
 
-Call_000_18fc:
+ProcessSoundParams:
     sub b
     ld [hl+], a
     ldh [hSoundParam2], a
@@ -6380,7 +6380,7 @@ jr_000_1f6c:
     sub $01
     ldh [hSpriteY], a
 
-Call_000_1f7c:
+CheckCoinCollision:
     inc e
     ld a, [de]
     call CheckTileForCoin
@@ -6910,7 +6910,7 @@ jr_000_21f6:
     cp $70
     jr nz, jr_000_2205
 
-    call Call_000_22a0
+    call UpdateTilemapScrolling
     jr ProcessColumnAnimation_End
 
 jr_000_2205:
@@ -7031,7 +7031,7 @@ jr_000_2267:
     cp $70
     jr nz, jr_000_227a
 
-    call Call_000_22f4
+    call ProcessRenderQueue
     jr jr_000_2291
 
 jr_000_227a:
@@ -7066,7 +7066,7 @@ jr_000_2291:
     ret
 
 
-Call_000_22a0:
+UpdateTilemapScrolling:
     push hl
     push de
     push bc
@@ -7142,7 +7142,7 @@ jr_000_22f0:
     ret
 
 
-Call_000_22f4:
+ProcessRenderQueue:
     ldh a, [hRenderCounter]
     and a
     ret z
