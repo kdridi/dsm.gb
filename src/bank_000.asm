@@ -5182,7 +5182,7 @@ CheckPlayerFeetCollision:
     jp z, Jump_000_1872
 
     cp $60
-    jr nc, jr_000_19b6
+    jr nc, ClassifyTileTypeEntry
 
     ldh a, [hSpriteX]
     add $fc
@@ -5194,7 +5194,7 @@ CheckPlayerFeetCollision:
     cp $60
     ret c
 
-jr_000_19b6:
+ClassifyTileTypeEntry:
     call ClassifyTileType
     and a
     ret z
@@ -6137,12 +6137,12 @@ jr_000_1e58:
     ld hl, wPlayerState
     ld a, [hl]
     cp $0f
-    jr c, jr_000_1e96
+    jr c, DecrementOscillationYCounter
 
     push hl
     ldh a, [hJoypadState]
     bit 5, a
-    jr z, jr_000_1e8e
+    jr z, ApplyOscillationNegOffset
 
     ld a, [wPlayerDir]
     cp $18
@@ -6157,13 +6157,13 @@ jr_000_1e82:
     ld hl, $c20c
     ld a, [hl]
     cp $06
-    jr z, jr_000_1e8e
+    jr z, ApplyOscillationNegOffset
 
     inc [hl]
     inc l
     ld [hl], $20
 
-jr_000_1e8e:
+ApplyOscillationNegOffset:
     pop hl
     call GetOscillatingOffset
     cpl
@@ -6171,7 +6171,7 @@ jr_000_1e8e:
     add [hl]
     ld [hl], a
 
-jr_000_1e96:
+DecrementOscillationYCounter:
     ld hl, $c20b
     dec [hl]
     ret
@@ -6349,7 +6349,7 @@ jr_000_1f52:
     res 0, e
     ld [de], a
     ld [hl], a
-    jr jr_000_1f89
+    jr SpriteCollisionProcessing
 
 jr_000_1f59:
     add $03
@@ -6384,14 +6384,14 @@ CheckCoinCollision:
     inc e
     ld a, [de]
     call CheckTileForCoin
-    jr c, jr_000_1f89
+    jr c, SpriteCollisionProcessing
 
     ld a, [hl]
     and $f3
     or $08
     ld [hl], a
 
-jr_000_1f89:
+SpriteCollisionProcessing:
     pop bc
     pop de
     pop hl
@@ -6411,13 +6411,13 @@ jr_000_1f91:
     inc e
     ld a, [de]
     call CheckTileForCoin
-    jr c, jr_000_1f89
+    jr c, SpriteCollisionProcessing
 
     ld a, [hl]
     and $f3
     or $04
     ld [hl], a
-    jr jr_000_1f89
+    jr SpriteCollisionProcessing
 
 jr_000_1fac:
     ld a, [de]
@@ -6884,7 +6884,7 @@ Jump_000_21df:
 ProcessScrollEntry:
     ld a, [hl+]
     cp $fe
-    jr z, jr_000_2227
+    jr z, StoreTilemapScrollOffsets
 
     ld de, wScrollBuffer
     ld b, a
@@ -6904,7 +6904,7 @@ jr_000_21f5:
 jr_000_21f6:
     ld a, [hl+]
     cp $fd
-    jr z, jr_000_2245
+    jr z, TilemapDataCopyLoop
 
     ld [de], a
     cp $70
@@ -6946,7 +6946,7 @@ UpdateCollisionFlag:
     ret
 
 
-jr_000_2227:
+StoreTilemapScrollOffsets:
     ld a, h
     ldh [hTilemapOffsetX], a
     ld a, l
@@ -6969,7 +6969,7 @@ UpdateTilemapScrollConfig:
     ret
 
 
-jr_000_2245:
+TilemapDataCopyLoop:
     ld a, [hl]
 
 CopyTileDataLoop:
