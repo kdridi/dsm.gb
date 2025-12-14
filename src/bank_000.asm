@@ -195,17 +195,17 @@ jr_000_0097:
     and $03
     jr nz, jr_000_0097
 
-    ld a, [$c0a5]
+    ld a, [wGameConfigA5]
     and a
     jr nz, jr_000_00cf
 
     ldh a, [hShadowSCX]
     ldh [rSCX], a
-    ld a, [$c0de]
+    ld a, [wAudioSaveDE]
     and a
     jr z, jr_000_00b2
 
-    ld a, [$c0df]
+    ld a, [wLevelInitFlag]
     ldh [rSCY], a
 
 jr_000_00b2:
@@ -229,7 +229,7 @@ jr_000_00c5:
 
 Call_000_00c7:
     ldh [rLYC], a
-    ld [$c0a5], a
+    ld [wGameConfigA5], a
 
 jr_000_00cc:
     pop hl
@@ -245,7 +245,7 @@ jr_000_00cf:
     ld a, $0f
     ldh [rLYC], a
     xor a
-    ld [$c0a5], a
+    ld [wGameConfigA5], a
     jr jr_000_00cc
 
 jr_000_00de:
@@ -263,7 +263,7 @@ jr_000_00e7:
 
 jr_000_00ea:
     ld a, $ff
-    ld [$c0ad], a
+    ld [wPlayerVarAD], a
     jr jr_000_00e7
 
     rst $38
@@ -355,7 +355,7 @@ Call_000_0166:
     ret nz
 
     ld a, e
-    ld hl, $c0a0
+    ld hl, wScoreBCDHigh
     add [hl]
     daa
     ld [hl+], a
@@ -477,7 +477,7 @@ jr_000_0264:
     and $0f                 ; Modulo 16
     jr nz, jr_000_0293      ; Si != 0 → aller au handler
 
-    ld hl, $c0d7            ; Timer spécial
+    ld hl, wTimerSpecial
     ld a, [hl]
     and a
     jr z, jr_000_0283       ; Si 0 → traitement spécial
@@ -636,7 +636,7 @@ Jump_000_0322::
     ldh [rLCDC], a          ; Désactiver LCD
     di
     ldh [hShadowSCX], a
-    ld hl, $c000
+    ld hl, wOamBuffer
     ld b, $9f
 
 jr_000_032d:
@@ -645,13 +645,13 @@ jr_000_032d:
     jr nz, jr_000_032d
 
     ldh [hTimerAux], a
-    ld [$c0a5], a
-    ld [$c0ad], a
-    ld hl, $c0d8
+    ld [wGameConfigA5], a
+    ld [wPlayerVarAD], a
+    ld hl, wLevelVarD8
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
-    ld a, [$c0e1]
+    ld a, [wLevelType]
     ldh [hLevelIndex], a
     ld hl, $791a
     ld de, $9300
@@ -707,8 +707,8 @@ jr_000_0368:
     ld [hl], $4c
     inc l
     ld [hl], $4d
-    ld hl, $c0a2
-    ld de, $c0c2
+    ld hl, wScoreBCD
+    ld de, wScorePrevious
     ld b, $03
 
 jr_000_03c7:
@@ -726,8 +726,8 @@ jr_000_03c7:
     jr jr_000_03e2
 
 jr_000_03d4:
-    ld hl, $c0a2
-    ld de, $c0c2
+    ld hl, wScoreBCD
+    ld de, wScorePrevious
     ld b, $03
 
 jr_000_03dc:
@@ -738,12 +738,12 @@ jr_000_03dc:
     jr nz, jr_000_03dc
 
 jr_000_03e2:
-    ld de, $c0c2
+    ld de, wScorePrevious
     ld hl, $9969
     call Call_000_3f38
-    ld hl, $c004
+    ld hl, wUnknown04
     ld [hl], $78
-    ld a, [$c0a6]
+    ld a, [wGameConfigA6]
     and a
     jr z, jr_000_041f
 
@@ -765,12 +765,12 @@ jr_000_0406:
     dec b
     jr nz, jr_000_0406
 
-    ld hl, $c000
+    ld hl, wOamBuffer
     ld [hl], $80
     inc l
     ld [hl], $88
     inc l
-    ld a, [$c0a6]
+    ld a, [wGameConfigA6]
     ld [hl], a
     inc l
     ld [hl], $00
@@ -792,9 +792,9 @@ jr_000_041f:
     xor a
     ldh [hVBlankMode], a
     ld a, $28
-    ld [$c0d7], a
+    ld [wTimerSpecial], a
     ldh [hUpdateLockFlag], a
-    ld hl, $c0dc
+    ld hl, wCurrentROMBank
     inc [hl]
     ld a, [hl]
     cp $03
@@ -815,14 +815,14 @@ jr_000_041f:
     dec hl
 
 jr_000_0450:
-    ld a, [$c004]
+    ld a, [wUnknown04]
     cp $78
     jr z, jr_000_04a2
 
-    ld a, [$c0a6]
+    ld a, [wGameConfigA6]
     dec a
-    ld [$c0a6], a
-    ld a, [$c0a8]
+    ld [wGameConfigA6], a
+    ld a, [wAnimTileIdx]
     ldh [hAnimTileIndex], a
     ld e, $00
     cp $11
@@ -880,7 +880,7 @@ jr_000_049d:
 
 jr_000_04a2:
     xor a
-    ld [$c0a6], a
+    ld [wGameConfigA6], a
     ldh a, [hLevelIndex]
     cp $02
     jp nc, Jump_000_053d
@@ -891,11 +891,11 @@ jr_000_04a2:
     jr jr_000_049d
 
 jr_000_04b4:
-    ld a, [$c0a6]
+    ld a, [wGameConfigA6]
     and a
     jr z, jr_000_04ce
 
-    ld hl, $c004
+    ld hl, wUnknown04
     ld a, [hl]
     xor $f8
     ld [hl], a
@@ -942,7 +942,7 @@ jr_000_04f3:
     ldh [hRenderContext], a
 
 jr_000_04f5:
-    ld hl, $c008
+    ld hl, wUnknown08
     ldh a, [hAnimTileIndex]
     ld b, $78
     ld c, a
@@ -969,13 +969,13 @@ jr_000_04f5:
     ld [hl], $29
 
 jr_000_0519:
-    ld a, [$c0d7]
+    ld a, [wTimerSpecial]
 
 Jump_000_051c:
     and a
     ret nz
 
-    ld a, [$c0dc]
+    ld a, [wCurrentROMBank]
     sla a
     ld e, a
     ld d, $00
@@ -988,7 +988,7 @@ Jump_000_051c:
 
 Jump_000_0530:
     ld a, $50
-    ld [$c0d7], a
+    ld [wTimerSpecial], a
     ld a, $11
     ldh [hGameState], a
     xor a
@@ -1002,7 +1002,7 @@ Jump_000_053d:
     xor a
     ldh [rIF], a
     ldh [hUpdateLockFlag], a
-    ld [$c0a4], a
+    ld [wROMBankInit], a
     dec a
     ld [wStateRender], a
     ld a, $07
@@ -1032,9 +1032,9 @@ jr_000_055a:
     jr nz, jr_000_0574
 
     xor a
-    ld [$c0a0], a
-    ld [$c0a1], a
-    ld [$c0a2], a
+    ld [wScoreBCDHigh], a
+    ld [wScoreBCDMid], a
+    ld [wScoreBCD], a
     ldh [hDMACounter], a
 
 jr_000_0574:
@@ -1199,7 +1199,7 @@ jr_000_0600:
     call Call_000_0ae1
     call Call_000_0a24
     call Call_000_1efa
-    ld hl, $c0ce
+    ld hl, wLevelConfig
     ld a, [hl]
     and a
     ret z
@@ -1227,7 +1227,7 @@ jr_000_06b3:
     xor a
     ldh [hTimerAux], a
     dec a
-    ld [$c0a3], a
+    ld [wUpdateCounter], a
     ld a, $02
     ldh [hGameState], a
     ret
@@ -1286,7 +1286,7 @@ jr_000_070c:
     inc l
     ld [hl], $00
     ld a, c
-    ld [$c0ab], a
+    ld [wPlayerVarAB], a
     call Call_000_07f0
     ld hl, $982b
     ld [hl], $2c
@@ -1313,14 +1313,14 @@ jr_000_0732:
 
     xor a
     ldh [hGameState], a
-    ld [$c0d3], a
+    ld [wPlayerInvuln], a
     ld a, $c3
     ldh [rLCDC], a
     call Call_000_078c
     xor a
     ldh [rIF], a
     ldh [hShadowSCX], a
-    ld [$c0d2], a
+    ld [wCollisionFlag], a
     ldh [hTilemapPtrLow], a
     ld [wSpecialState], a
     ldh [rTMA], a
@@ -1363,7 +1363,7 @@ jr_000_077e:
     inc l
 
 Call_000_078c:
-    ld a, [$c0d3]
+    ld a, [wPlayerInvuln]
     and a
     ret nz
 
@@ -1595,7 +1595,7 @@ Call_000_0878:
     cp $0d
     jr z, jr_000_08b1
 
-    ld a, [$c0d3]
+    ld a, [wPlayerInvuln]
     and a
     jr z, jr_000_08b5
 
@@ -1701,7 +1701,7 @@ Jump_000_0939:
 jr_000_0939:
     dec l
     dec l
-    ld a, [$c0d3]
+    ld a, [wPlayerInvuln]
     and a
     jr nz, jr_000_0962
 
@@ -1799,7 +1799,7 @@ jr_000_09a8:
 
 jr_000_09b2:
     ld a, $f8
-    ld [$c0d3], a
+    ld [wPlayerInvuln], a
     ld a, $0c
     ld [wStateRender], a
     jr jr_000_0989
@@ -1810,7 +1810,7 @@ jr_000_09be:
     ld a, $08
     ld [wStateBuffer], a
     ld a, $01
-    ld [$c0a3], a
+    ld [wUpdateCounter], a
     jr jr_000_098d
 
 Jump_000_09ce:
@@ -2358,7 +2358,7 @@ jr_000_0c4c:
     jr nz, jr_000_0c79
 
     xor a
-    ld [$c0ab], a
+    ld [wPlayerVarAB], a
     call Call_000_2488
 
 jr_000_0c79:
@@ -2470,7 +2470,7 @@ jr_000_0cf1:
     xor a
     ldh [hOAMIndex], a
     ld a, $01
-    ld [$c0de], a
+    ld [wAudioSaveDE], a
     ld a, $bf
     ldh [hOAMAddrLow], a
     ld a, $ff
@@ -2612,7 +2612,7 @@ Jump_000_0dca:
     ld a, $03
     ldh [hTilemapScrollX], a
     xor a
-    ld [$c0d2], a
+    ld [wCollisionFlag], a
     ldh [hVBlankMode], a
     ld a, $02
     ldh [hGameState], a
@@ -2654,7 +2654,7 @@ Jump_000_0dca:
 
     call Call_000_21a8
     xor a
-    ld [$c0ab], a
+    ld [wPlayerVarAB], a
     call Call_000_2488
     call CallBank3Handler
     ret
@@ -2669,7 +2669,7 @@ jr_000_0e1f:
 
 
     xor a
-    ld [$c0ab], a
+    ld [wPlayerVarAB], a
     call Call_000_2488
     ldh a, [hTimer1]
     and a
@@ -2743,7 +2743,7 @@ jr_000_0e7a:
     ret nz
 
     xor a
-    ld [$c0d2], a
+    ld [wCollisionFlag], a
     ld [$c207], a
     inc a
     ldh [hVBlankMode], a
@@ -3139,7 +3139,7 @@ jr_000_1083:
 
 jr_000_109e:
     xor a
-    ld [$c0ab], a
+    ld [wPlayerVarAB], a
     call Call_000_2488
     ldh a, [hTimer1]
     ld c, a
@@ -3155,9 +3155,9 @@ jr_000_109e:
     ld b, $04
 
 jr_000_10b8:
-    ld a, [$c0df]
+    ld a, [wLevelInitFlag]
     add b
-    ld [$c0df], a
+    ld [wLevelInitFlag], a
 
 jr_000_10bf:
     ld a, c
@@ -3214,8 +3214,8 @@ jr_000_10e8:
 
 jr_000_10fe:
     xor a
-    ld [$c0df], a
-    ld [$c0d2], a
+    ld [wLevelInitFlag], a
+    ld [wCollisionFlag], a
     inc a
     ldh [hVBlankMode], a
     ld hl, hGameState
@@ -3241,9 +3241,9 @@ jr_000_10fe:
     xor a
     ldh [rIF], a
     ldh [hShadowSCX], a
-    ld [$c0df], a
+    ld [wLevelInitFlag], a
     ldh [hOAMIndex], a
-    ld hl, $c000
+    ld hl, wOamBuffer
     ld b, $0c
 
 jr_000_113e:
@@ -3624,7 +3624,7 @@ jr_000_1343:
 
 
 Call_000_1345:
-    ld hl, $c0b0
+    ld hl, wScrollBuffer
     ld b, $10
     ld a, $2c
 
@@ -3817,7 +3817,7 @@ jr_000_1422:
     jr nz, jr_000_142d
 
     ld a, $ff
-    ld [$c0de], a
+    ld [wAudioSaveDE], a
 
 jr_000_142d:
     ld a, h
@@ -3834,7 +3834,7 @@ jr_000_142d:
     and $03
     ret nz
 
-    ld hl, $c0df
+    ld hl, wLevelInitFlag
     inc [hl]
     ld a, [hl]
     cp $20
@@ -3862,15 +3862,15 @@ jr_000_142d:
     and $03
     ret nz
 
-    ld hl, $c0df
+    ld hl, wLevelInitFlag
     inc [hl]
     ld a, [hl]
     cp $50
     ret nz
 
     xor a
-    ld [$c0df], a
-    ld a, [$c0de]
+    ld [wLevelInitFlag], a
+    ld a, [wAudioSaveDE]
     cp $ff
     ld a, $33
     jr nz, jr_000_147c
@@ -3920,7 +3920,7 @@ jr_000_14a6:
     ldh a, [hLevelIndex]
     inc a
     ldh [hLevelIndex], a
-    ld [$c0e1], a
+    ld [wLevelType], a
     ld hl, hGameState
     inc [hl]
     ret
@@ -3992,7 +3992,7 @@ jr_000_14e6:
     ldh [hRenderContext], a
     ldh [hTimerAux], a
     ldh [hSubState], a
-    ld [$c0a6], a
+    ld [wGameConfigA6], a
     ld a, $11
     ldh [hAnimTileIndex], a
     ret
@@ -4009,12 +4009,12 @@ Call_000_1527:
     ld a, $02
     ldh [hCurrentBank], a
     ld [$2000], a
-    ld [$c0dc], a
-    ld [$c0a4], a
+    ld [wCurrentROMBank], a
+    ld [wROMBankInit], a
     xor a
     ld [wLevelData], a
-    ld [$c0a5], a
-    ld [$c0ad], a
+    ld [wGameConfigA5], a
+    ld [wPlayerVarAD], a
     ld a, $03
     ldh [rIE], a
     ld a, $0e
@@ -4302,7 +4302,7 @@ jr_000_1679:
     add b
     add b
     add $0c
-    ld [$c0ab], a
+    ld [wPlayerVarAB], a
     xor a
     ldh [rIF], a
     ldh [hShadowSCX], a
@@ -4482,7 +4482,7 @@ jr_000_175c:
     ld [hl], $80
     ld a, $09
     ldh [hGameState], a
-    ld a, [$c0d3]
+    ld a, [wPlayerInvuln]
     and a
     jr nz, jr_000_17ad
 
@@ -4566,7 +4566,7 @@ jr_000_1815:
     push af
     jr nz, jr_000_1839
 
-    ld a, [$c0d3]
+    ld a, [wPlayerInvuln]
     and a
     jr nz, jr_000_1839
 
@@ -4670,7 +4670,7 @@ Jump_000_1892:
     jr nz, jr_000_18be
 
     ld a, $ff
-    ld [$c0ce], a
+    ld [wLevelConfig], a
 
 Jump_000_189b:
     ldh a, [hTilemapPtrLow]
@@ -4685,7 +4685,7 @@ Jump_000_189b:
     ld a, $c0
     ldh [hPtrBank], a
     ldh [_HRAM_END], a
-    ld a, [$c0ce]
+    ld a, [wLevelConfig]
     and a
     jr nz, jr_000_191a
 
@@ -5321,7 +5321,7 @@ Call_000_1bf6:
     jr nz, jr_000_1c12
 
     inc a
-    ld [$c0a3], a
+    ld [wUpdateCounter], a
 
 Call_000_1c12:
 jr_000_1c12:
@@ -5364,7 +5364,7 @@ UpdateLivesDisplay:
     and a
     ret nz
 
-    ld a, [$c0a3]
+    ld a, [wUpdateCounter]
     or a
     ret z
 
@@ -5398,14 +5398,14 @@ Call_000_1c4d:
 
 jr_000_1c5e:
     xor a
-    ld [$c0a3], a
+    ld [wUpdateCounter], a
     ret
 
 
 jr_000_1c63:
     ld a, $39
     ldh [hGameState], a
-    ld [$c0a4], a
+    ld [wROMBankInit], a
     jr jr_000_1c5e
 
 jr_000_1c6c:
@@ -5442,12 +5442,12 @@ jr_000_1c83:
     ld a, $10
     ld [wStateRender], a
     ldh a, [hAnimTileIndex]
-    ld [$c0a8], a
-    ld a, [$c0a2]
+    ld [wAnimTileIdx], a
+    ld a, [wScoreBCD]
     and $f0
     swap a
     ld b, a
-    ld a, [$c0a6]
+    ld a, [wGameConfigA6]
     add b
     cp $0a
     jr c, jr_000_1cab
@@ -5455,8 +5455,8 @@ jr_000_1c83:
     ld a, $09
 
 jr_000_1cab:
-    ld [$c0a6], a
-    ld hl, $c000
+    ld [wGameConfigA6], a
+    ld hl, wOamBuffer
     xor a
     ld b, $a0
 
@@ -5493,7 +5493,7 @@ jr_000_1cb4:
     ld c, $1b
     inc l
     inc l
-    ld a, [$c0ad]
+    ld a, [wPlayerVarAD]
     and a
     call nz, Call_000_1527
     ret
@@ -5702,7 +5702,7 @@ jr_000_1ddb:
     and a
     jr nz, jr_000_1e18
 
-    ld a, [$c0d2]
+    ld a, [wCollisionFlag]
     cp $07
     jr c, jr_000_1df0
 
@@ -5748,7 +5748,7 @@ jr_000_1e18:
     cp $0d
     jr z, jr_000_1e13
 
-    ld a, [$c0d2]
+    ld a, [wCollisionFlag]
     and a
     jr z, jr_000_1e13
 
@@ -5885,7 +5885,7 @@ jr_000_1ed4:
     dec b
     jr nz, jr_000_1ed4
 
-    ld hl, $c000
+    ld hl, wOamBuffer
     ld b, $0b
 
 jr_000_1edd:
@@ -5918,7 +5918,7 @@ Call_000_1efa:
     and $03
     ret nz
 
-    ld a, [$c0d3]
+    ld a, [wPlayerInvuln]
     and a
     ret z
 
@@ -5926,7 +5926,7 @@ Call_000_1efa:
     jr z, jr_000_1f19
 
     dec a
-    ld [$c0d3], a
+    ld [wPlayerInvuln], a
     ld a, [wPlayerY]
     xor $80
     ld [wPlayerY], a
@@ -5936,7 +5936,7 @@ Call_000_1efa:
 
 jr_000_1f19:
     xor a
-    ld [$c0d3], a
+    ld [wPlayerInvuln], a
     ld [wPlayerY], a
     call Call_000_078c
     ret
@@ -6340,7 +6340,7 @@ Call_000_210a:
     and a
     ret z
 
-    ld a, [$c0db]
+    ld a, [wLevelVarDB]
     ldh [hJoypadState], a
     ret
 
@@ -6470,13 +6470,13 @@ Call_000_218f:
     and a
     jr nz, jr_000_21a8
 
-    ld hl, $c0ab
+    ld hl, wPlayerVarAB
     inc [hl]
 
 Call_000_21a8:
 jr_000_21a8:
     ld b, $10
-    ld hl, $c0b0
+    ld hl, wScrollBuffer
     ld a, $2c
 
 jr_000_21af:
@@ -6526,7 +6526,7 @@ jr_000_21df:
     cp $fe
     jr z, jr_000_2227
 
-    ld de, $c0b0
+    ld de, wScrollBuffer
     ld b, a
     and $f0
     swap a
@@ -6581,7 +6581,7 @@ jr_000_221c:
     jr jr_000_21df
 
 jr_000_2222:
-    ld hl, $c0d2
+    ld hl, wCollisionFlag
     inc [hl]
     ret
 
@@ -6656,7 +6656,7 @@ UpdateScrollColumn:
 jr_000_225e:
     ldh [hScrollColumn], a
     ld h, $98
-    ld de, $c0b0
+    ld de, wScrollBuffer
     ld b, $10
 
 jr_000_2267:
@@ -6858,7 +6858,7 @@ jr_000_2344:
 
     inc hl
     ld a, [hl]
-    ld [$c0cd], a
+    ld [wLevelConfig - 1], a
 
 jr_000_234f:
     ldh a, [hSavedBank]
@@ -6871,7 +6871,7 @@ jr_000_234f:
 
 
 Call_000_235a:
-    ld a, [$c0cd]
+    ld a, [wLevelConfig - 1]
     and a
     ret z
 
@@ -6883,7 +6883,7 @@ Call_000_235a:
     pop af
     ld [hl], a
     xor a
-    ld [$c0cd], a
+    ld [wLevelConfig - 1], a
     pop hl
     ret
 
@@ -7022,7 +7022,7 @@ jr_000_2425:
     ld bc, $0001
     ld bc, $3e00
     inc c
-    ld [$c0ab], a
+    ld [wPlayerVarAB], a
     call Call_000_2453
     xor a
     ld [wAudioCondition], a
@@ -7049,7 +7049,7 @@ Call_000_2453:
     ld d, a
     ld h, d
     ld l, e
-    ld a, [$c0ab]
+    ld a, [wPlayerVarAB]
     ld b, a
 
 jr_000_2467:
@@ -7095,7 +7095,7 @@ jr_000_2492:
     ld h, a
     ld a, [hl]
     ld b, a
-    ld a, [$c0ab]
+    ld a, [wPlayerVarAB]
     sub b
     ret z
 
@@ -7966,7 +7966,7 @@ jr_000_28f7:
     cp $51
     jr c, jr_000_293b
 
-    ld a, [$c0d2]
+    ld a, [wCollisionFlag]
     cp $07
     jr nc, jr_000_2941
 
@@ -11995,7 +11995,7 @@ jr_000_3d56:
 ; MODIFIE : A, B, DE
 ; =============================================================================
 UpdateLevelScore:
-    ld a, [$c0a4]
+    ld a, [wROMBankInit]
     and a
     ret nz
 
@@ -12035,7 +12035,7 @@ Call_000_3d75:
     xor a
     ldh [rLCDC], a
     ldh [hShadowSCX], a
-    ld hl, $c000
+    ld hl, wOamBuffer
     ld b, $a0
 
 jr_000_3d9e:
@@ -12348,7 +12348,7 @@ UpdateScoreDisplay:
     ret z                   ; Oui → return
 
     ; --- SetupPointers ---
-    ld de, $c0a2            ; DE = source (score BCD, high byte first)
+    ld de, wScoreBCD        ; DE = source (score BCD, high byte first)
     ld hl, VRAM_HUD_LINE    ; HL = destination (tilemap)
 
 ;; --- ConvertBCDToTiles ---

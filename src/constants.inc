@@ -238,6 +238,7 @@ DEF wTimerSpecial   EQU $C0D7   ; Timer spécial
 DEF wLevelVarD8     EQU $C0D8   ; Variable niveau
 DEF wLevelVarD9     EQU $C0D9   ; Variable niveau D9
 DEF wLevelVarDA     EQU $C0DA   ; Variable niveau
+DEF wLevelVarDB     EQU $C0DB   ; Variable niveau DB
 DEF wCurrentROMBank EQU $C0DC   ; Bank ROM courante ($02 initial)
 DEF wLevelVarDD     EQU $C0DD   ; Variable niveau DD
 DEF wAudioSaveDE    EQU $C0DE   ; Sauvegarde audio
