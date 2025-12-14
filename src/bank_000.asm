@@ -1881,7 +1881,7 @@ jr_000_095d:
     jr jr_000_0955
 
 jr_000_0962:
-    call Call_000_2afd
+    call LoadAudioSlotConfiguration
     and a
     jr z, jr_000_0955
 
@@ -8715,7 +8715,7 @@ jr_000_2ada:
     ret
 
 
-Call_000_2afd:
+LoadAudioSlotConfiguration:
     push hl
     ld a, [hl]
     ld e, a
