@@ -766,18 +766,18 @@ SelectLevelAudioTable:
 CompareBCDScoresLoop:
     ld a, [de]
     sub [hl]
-    jr c, jr_000_03d4
+    jr c, CopyScoreBCD
 
-    jr nz, jr_000_03e2
+    jr nz, CompareBCDScoresToDisplay
 
     dec e
     dec l
     dec b
     jr nz, CompareBCDScoresLoop
 
-    jr jr_000_03e2
+    jr CompareBCDScoresToDisplay
 
-jr_000_03d4:
+CopyScoreBCD:
     ld hl, wScoreBCD
     ld de, wScorePrevious
     ld b, $03
@@ -789,7 +789,7 @@ CopyScoreBCDPreviousLoop:
     dec b
     jr nz, CopyScoreBCDPreviousLoop
 
-jr_000_03e2:
+CompareBCDScoresToDisplay:
     ld de, wScorePrevious
     ld hl, $9969
     call ConvertBCDToTiles
