@@ -2511,7 +2511,7 @@ StateHandler_07::
     cp $03
     ret nz
 
-    call Call_000_2b21
+    call DestroyAllObjects
     ldh a, [hAnimTileIndex]
     cp $43
     ret nz
@@ -8141,7 +8141,7 @@ jr_000_280f:
     cp $f7
     jr nz, jr_000_2818
 
-    call Call_000_2b21
+    call DestroyAllObjects
     pop hl
     ret
 
@@ -8745,7 +8745,7 @@ Call_000_2afd:
     ret
 
 
-Call_000_2b21:
+DestroyAllObjects:
     ld hl, wObjectBuffer
 
 jr_000_2b24:
