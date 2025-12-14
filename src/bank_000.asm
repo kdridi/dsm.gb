@@ -7457,7 +7457,7 @@ Jump_000_247e:
 
 UpdateAudio:
     call Call_000_2492
-    call Call_000_263f
+    call UpdateAllObjectSounds
     call Call_000_255f
     ret
 
@@ -7790,7 +7790,7 @@ jr_000_2625:
     ld [wAudioState2], a
     jr jr_000_25e2
 
-Call_000_263f:
+UpdateAllObjectSounds:
     ld hl, wObjectBuffer
 
 Jump_000_2642:
