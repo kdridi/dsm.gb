@@ -98,7 +98,7 @@ Call_001_4055:
     ld c, c
     nop
     nop
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     db $fc
     inc e
     or $0e
@@ -393,7 +393,7 @@ jr_001_4181:
     ld [hl], b
     ldh a, [rSVBK]
     add b
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     ldh a, [rP1]
     ldh [hSoundId], a
     ret nz
@@ -1953,7 +1953,7 @@ Call_001_4755:
     sbc c
     cp $0e
     ldh a, [rP1]
-    ldh [hUnknownF0], a
+    ldh [hCurrentTile], a
     nop
     nop
     ccf
@@ -2038,7 +2038,7 @@ jr_001_4836:
     db $fc
     inc a
     ldh [rP1], a
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     ld hl, sp-$08
     db $fc
     db $fc
@@ -2145,7 +2145,7 @@ jr_001_48e8:
     nop
     nop
     nop
-    ldh [hUnknownF0], a
+    ldh [hCurrentTile], a
     ldh a, [hVramPtrLow]
     ld hl, sp-$48
     db $fc
@@ -2244,7 +2244,7 @@ jr_001_4918:
     adc $f2
     inc e
     inc l
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     ccf
     ccf
     ld a, [hl]
@@ -2458,7 +2458,7 @@ jr_001_4a40:
     nop
     nop
     nop
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     sbc b
     ld hl, sp-$12
 
@@ -2508,7 +2508,7 @@ Call_001_4a56:
     nop
     rst $08
     ccf
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     nop
     nop
     ld a, [bc]
@@ -2679,8 +2679,8 @@ jr_001_4b18:
 
     ret nc
 
-    ldh a, [hUnknownF0]
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
+    ldh a, [hCurrentTile]
     ret nc
 
     ret nc
@@ -2706,7 +2706,7 @@ jr_001_4b18:
     ld a, d
     ld c, $bc
     sbc h
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     ldh [hVramPtrLow], a
     nop
     nop
@@ -2812,7 +2812,7 @@ jr_001_4baa:
     nop
     nop
     nop
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     ld hl, sp+$08
     inc e
     inc b

@@ -67,10 +67,20 @@ Objectif : rendre le code plus lisible sans changer le binaire.
   - Catégories : Joypad, Timers, Sprites, Audio, État jeu, Pointeurs
   - Exemples : hJoypadState, hTimer1, hSpriteY/X, hSoundId, hGameState
 
+- [x] Renommer hUnknownXX/wUnknownXX → noms explicites (session 2025-12-14)
+  - 50+ variables HRAM renommées (hJoypadDelta, hAnimFrameIndex, hAnimObjX/Y, etc.)
+  - 20+ variables WRAM renommées (wScoreBCDHigh, wROMBankInit, wStateRender, etc.)
+  - Variables audio : hAudioControl, hAudioEnvPos, hAudioEnvDiv, etc.
+  - Variables rendu : hRenderContext, hTilemapScrollX/Y, hCurrentTile, etc.
+
+- [x] Définir zones WRAM critiques avec constantes nommées
+  - Zone niveau $DA00-$DA29 : wLevelData, wLevelParam03-29, wLivesCounter, etc.
+  - Zone état $DFE0-$DFF9 : wStateBuffer, wStateDisplay, wStateRender, etc.
+  - Zone complexe $DF00-$DF46 : wComplexState, wComplexState1E, etc.
+
 ### À faire
 
-- [ ] Renommer hUnknownXX/wUnknownXX → noms explicites (reverse engineering)
-- [ ] Remplacer adresses WRAM ($Cxxx, $Dxxx) par constantes nommées
+- [ ] Remplacer adresses WRAM restantes en dur ($Cxxx, $Dxxx) - ~170 occurrences
 - [ ] Extraire les données en fichiers séparés (si possible bit-perfect)
 - [ ] Documenter les structures de données (player, enemies, level)
 
@@ -83,31 +93,32 @@ Objectif : rendre le code plus lisible sans changer le binaire.
 
 ## Découvertes
 
-### Variables identifiées (dans constants.inc)
+### Variables HRAM identifiées (session 2025-12-14)
 
-| Adresse | Constante | Usage |
-|---------|-----------|-------|
-| $FF85 | `hVBlankFlag` | Flag VBlank→GameLoop |
-| $FF9A | `hUnknown9A` | À identifier |
-| $FFA4 | `hShadowSCX` | Shadow register SCX |
-| $FFB3 | `hGameState` | État du jeu (0-$0E+) |
-| $FFB4 | `hUnknownB4` | À identifier ($11 init) |
-| $FFB6 | `hDmaRoutine` | Routine DMA copiée |
-| $FFE4 | `hUnknownE4` | À identifier |
-| $FFFD | `hCurrentBank` | Bank ROM courante |
-| $C0A4 | `wUnknownA4` | À identifier ($03 init) |
-| $C0A8 | `wUnknownA8` | À identifier ($11 init) |
-| $C0DC | `wUnknownDC` | À identifier ($02 init) |
-| $C0E1 | `wUnknownE1` | À identifier |
+Voir `src/constants.inc` pour la liste complète (100+ constantes).
 
-### Variables ajoutées (session 2025-12-14)
+| Catégorie | Constantes clés |
+|-----------|-----------------|
+| **Joypad** | hJoypadState, hJoypadDelta |
+| **Animation** | hAnimFrameIndex, hAnimObjX/Y, hAnimCalcX/Y, hAnimAttr, hAnimHiddenFlag |
+| **Animation (suite)** | hAnimStructHigh/Low, hAnimStructBank, hAnimObjSubState, hAnimObjCount |
+| **Timers** | hTimer1, hTimer2, hTimerAux, hFrameCounter |
+| **Audio** | hAudioControl, hAudioStatus, hAudioEnvPos/Div/Rate/Counter |
+| **Rendu** | hRenderContext, hTilemapScrollX/Y, hCurrentTile, hRenderX/Y/Attr/Mode |
+| **VBlank/OAM** | hVBlankSelector, hVBlankMode, hDMACounter, hOAMIndex, hOAMAddrLow |
+| **État jeu** | hGameState, hSubState, hScoreNeedsUpdate, hUpdateLockFlag |
 
-Voir `src/constants.inc` pour la liste complète (40+ constantes).
+### Variables WRAM identifiées
 
-Nouvelles variables clés :
-- **HRAM** : hTimerAux, hTimer1, hTimer2, hFrameCounter, hPauseFlag, hSavedBank, hScrollColumn, hScrollPhase
-- **WRAM** : wOamBuffer, wScoreBCD, wPlayerData, wObject1-5, wAnimBuffer, wTimerSpecial
-- **Extended WRAM** : wAnimFlag, wLevelData, wLivesCounter, wSpecialState
+| Catégorie | Constantes clés |
+|-----------|-----------------|
+| **Score** | wScoreBCDHigh, wScoreBCDMid, wScoreBCD, wScorePrevious |
+| **Config** | wROMBankInit, wCurrentROMBank, wLevelType, wLevelConfig |
+| **Niveau $DA00** | wLevelData, wLevelParam03-29, wLevelDifficulty, wLivesCounter |
+| **État $DFE0** | wStateBuffer, wStateDisplay, wStateGraphics, wStateRender |
+| **Joueur** | wPlayerY, wPlayerX, wPlayerState, wPlayerDir |
+| **Objets** | wObject1-5 (slots de 16 bytes) |
+| **Audio** | wAudioQueueType, wAudioQueueId, wAudioState0/1/2 |
 
 ### Routines identifiées
 

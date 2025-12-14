@@ -159,7 +159,7 @@ Jump_003_407f:
     adc b
     nop
     nop
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     ret c
 
     jr c, jr_003_4071
@@ -202,7 +202,7 @@ jr_003_40c0:
 
     ret nz
 
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     sbc [hl]
     sbc [hl]
     rst $38
@@ -416,7 +416,7 @@ jr_003_4190:
     cp $9e
     db $10
     db $10
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     ld h, b
     ldh [hSoundId], a
     ret nz
@@ -580,7 +580,7 @@ jr_003_425e:
     adc h
     nop
     nop
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     db $fc
     inc e
     or $0e
@@ -606,7 +606,7 @@ jr_003_425e:
     ld [$9088], sp
     ld d, b
     ld h, b
-    ldh [hUnknownD2], a
+    ldh [hAudioCh1Param], a
     ld [hl-], a
     ld [hl], h
     db $f4
@@ -813,7 +813,7 @@ jr_003_4330:
     ld a, $8e
     cp $3c
     db $fc
-    ldh a, [hUnknownF0]
+    ldh a, [hCurrentTile]
     ld [hl+], a
     inc l
     ld c, a
@@ -1948,7 +1948,7 @@ jr_003_47c0:
     ldh a, [hJoypadState]
     xor c
     and c
-    ldh [hUnknown81], a
+    ldh [hJoypadDelta], a
     ld a, c
     ldh [hJoypadState], a
     ld a, $30
@@ -1958,9 +1958,9 @@ jr_003_47c0:
 
 jr_003_4823:
     ld a, h
-    ldh [hUnknown96], a
+    ldh [hAnimStructHigh], a
     ld a, l
-    ldh [hUnknown97], a
+    ldh [hAnimStructLow], a
     ld a, [hl]
     and a
     jr z, jr_003_484a
@@ -1969,9 +1969,9 @@ jr_003_4823:
     jr z, jr_003_4848
 
 jr_003_4831:
-    ldh a, [hUnknown96]
+    ldh a, [hAnimStructHigh]
     ld h, a
-    ldh a, [hUnknown97]
+    ldh a, [hAnimStructLow]
     ld l, a
     ld de, $0010
     add hl, de
@@ -1984,11 +1984,11 @@ jr_003_4831:
 
 jr_003_4843:
     xor a
-    ldh [hUnknown95], a
+    ldh [hAnimHiddenFlag], a
     jr jr_003_4831
 
 jr_003_4848:
-    ldh [hUnknown95], a
+    ldh [hAnimHiddenFlag], a
 
 jr_003_484a:
     ld b, $07
@@ -2001,7 +2001,7 @@ jr_003_484f:
     dec b
     jr nz, jr_003_484f
 
-    ldh a, [hUnknown89]
+    ldh a, [hAnimFrameIndex]
     ld hl, $4c37
     rlca
     ld e, a
@@ -2017,10 +2017,10 @@ jr_003_484f:
     ld h, a
     inc de
     ld a, [de]
-    ldh [hUnknown90], a
+    ldh [hAnimObjX], a
     inc de
     ld a, [de]
-    ldh [hUnknown91], a
+    ldh [hAnimObjY], a
     ld e, [hl]
     inc hl
     ld d, [hl]
@@ -2029,7 +2029,7 @@ Jump_003_4872:
 jr_003_4872:
     inc hl
     ldh a, [$ff8c]
-    ldh [hUnknown94], a
+    ldh [hAnimAttr], a
     ld a, [hl]
     cp $ff
     jr z, jr_003_4843
@@ -2039,7 +2039,7 @@ jr_003_4872:
 
     ldh a, [$ff8c]
     xor $10
-    ldh [hUnknown94], a
+    ldh [hAnimAttr], a
     jr jr_003_4872
 
 jr_003_4888:
@@ -2051,7 +2051,7 @@ jr_003_488c:
     cp $fe
     jr z, jr_003_4888
 
-    ldh [hUnknown89], a
+    ldh [hAnimFrameIndex], a
     ldh a, [$ff87]
     ld b, a
     ld a, [de]
@@ -2060,7 +2060,7 @@ jr_003_488c:
     bit 6, a
     jr nz, jr_003_48a3
 
-    ldh a, [hUnknown90]
+    ldh a, [hAnimObjX]
     add b
     adc c
     jr jr_003_48ad
@@ -2068,7 +2068,7 @@ jr_003_488c:
 jr_003_48a3:
     ld a, b
     push af
-    ldh a, [hUnknown90]
+    ldh a, [hAnimObjX]
     ld b, a
     pop af
     sub b
@@ -2076,7 +2076,7 @@ jr_003_48a3:
     sbc $08
 
 jr_003_48ad:
-    ldh [hUnknown93], a
+    ldh [hAnimCalcY], a
     ldh a, [$ff88]
     ld b, a
     inc de
@@ -2087,7 +2087,7 @@ jr_003_48ad:
     bit 5, a
     jr nz, jr_003_48c2
 
-    ldh a, [hUnknown91]
+    ldh a, [hAnimObjY]
     add b
     adc c
     jr jr_003_48cc
@@ -2095,7 +2095,7 @@ jr_003_48ad:
 jr_003_48c2:
     ld a, b
     push af
-    ldh a, [hUnknown91]
+    ldh a, [hAnimObjY]
     ld b, a
     pop af
     sub b
@@ -2103,13 +2103,13 @@ jr_003_48c2:
     sbc $08
 
 jr_003_48cc:
-    ldh [hUnknown92], a
+    ldh [hAnimCalcX], a
     push hl
     ldh a, [hParam1]
     ld h, a
     ldh a, [hParam2]
     ld l, a
-    ldh a, [hUnknown95]
+    ldh a, [hAnimHiddenFlag]
     and a
     jr z, jr_003_48de
 
@@ -2117,15 +2117,15 @@ jr_003_48cc:
     jr jr_003_48e0
 
 jr_003_48de:
-    ldh a, [hUnknown93]
+    ldh a, [hAnimCalcY]
 
 jr_003_48e0:
     ld [hl+], a
-    ldh a, [hUnknown92]
+    ldh a, [hAnimCalcX]
     ld [hl+], a
-    ldh a, [hUnknown89]
+    ldh a, [hAnimFrameIndex]
     ld [hl+], a
-    ldh a, [hUnknown94]
+    ldh a, [hAnimAttr]
     ld b, a
     ldh a, [$ff8b]
     or b
@@ -2292,7 +2292,7 @@ jr_003_4988:
     jp z, Jump_003_4a7f
 
     ld de, $c207
-    ldh a, [hUnknown81]
+    ldh a, [hJoypadDelta]
     ld b, a
     ldh a, [hJoypadState]
     bit 1, a
@@ -2479,7 +2479,7 @@ Jump_003_4a77:
 
 
 Jump_003_4a7f:
-    ldh a, [hUnknown81]
+    ldh a, [hJoypadDelta]
     and $03
     jr nz, jr_003_4a0c
 
@@ -2544,7 +2544,7 @@ jr_003_4ad1:
     ld [$c0db], a
     ld a, [$c0da]
     ldh [hJoypadState], a
-    ldh [hUnknown81], a
+    ldh [hJoypadDelta], a
     ret
 
 
@@ -2592,7 +2592,7 @@ jr_003_4afa:
     jr nz, jr_003_4b25
 
     inc [hl]
-    ldh a, [hUnknownF3]
+    ldh a, [hRenderAttr]
     ld c, a
     ldh a, [hShadowSCX]
     sub c
@@ -2608,13 +2608,13 @@ jr_003_4b1b:
     jr nz, jr_003_4af2
 
     ldh a, [hShadowSCX]
-    ldh [hUnknownF3], a
+    ldh [hRenderAttr], a
     ret
 
 
 jr_003_4b25:
     dec [hl]
-    ldh a, [hUnknownF3]
+    ldh a, [hRenderAttr]
     ld c, a
     ldh a, [hShadowSCX]
     sub c
@@ -2633,7 +2633,7 @@ jr_003_4b32:
     ld [hl], $ff
     jr jr_003_4b1b
 
-    ldh a, [hUnknownEE]
+    ldh a, [hTilemapPtrLow]
     cp $03
     ret nz
 
@@ -2663,7 +2663,7 @@ jr_003_4b32:
 jr_003_4b62:
     ld [hl], $00
     ld a, $04
-    ldh [hUnknownEE], a
+    ldh [hTilemapPtrLow], a
     ret
 
 
@@ -8818,7 +8818,7 @@ Jump_003_6762:
     cp $02
     jr z, jr_003_67cf
 
-    ldh a, [hUnknownDE]
+    ldh a, [hAudioMixerSnapshot]
     and a
     jr nz, jr_003_67d4
 
@@ -8863,7 +8863,7 @@ jr_003_67b1:
     ld [$dff1], a
     ld [$dff9], a
     ld a, $30
-    ldh [hUnknownDE], a
+    ldh [hAudioMixerSnapshot], a
 
 jr_003_67c2:
     ld hl, $67ec
@@ -8878,11 +8878,11 @@ jr_003_67ca:
 
 jr_003_67cf:
     xor a
-    ldh [hUnknownDE], a
+    ldh [hAudioMixerSnapshot], a
     jr jr_003_6787
 
 jr_003_67d4:
-    ld hl, hUnknownDE
+    ld hl, hAudioMixerSnapshot
     dec [hl]
     ld a, [hl]
     cp $28
@@ -9475,7 +9475,7 @@ Call_003_6ab9:
 Jump_003_6ab9:
     push af
     dec e
-    ldh a, [hUnknownD1]
+    ldh a, [hAudioStatus]
     ld [de], a
     inc e
     pop af
@@ -9541,7 +9541,7 @@ jr_003_6af2:
 
 Call_003_6afa:
     inc e
-    ldh [hUnknownD1], a
+    ldh [hAudioStatus], a
 
 Call_003_6afd:
     inc e
@@ -9605,11 +9605,11 @@ Jump_003_6b26:
     ld [$df3f], a
     ld [$df4f], a
     ldh [hSavedAudio], a
-    ldh [hUnknownDE], a
+    ldh [hAudioMixerSnapshot], a
     ld a, $ff
     ldh [rNR51], a
     ld a, $03
-    ldh [hUnknownD8], a
+    ldh [hAudioEnvCounter], a
 
 Call_003_6b4b:
     ld a, $01
@@ -9722,16 +9722,16 @@ jr_003_6bc1:
 
 jr_003_6bca:
     ld a, [hl+]
-    ldh [hUnknownD8], a
+    ldh [hAudioEnvCounter], a
     ld a, [hl+]
-    ldh [hUnknownD6], a
+    ldh [hAudioEnvDiv], a
     ld a, [hl+]
-    ldh [hUnknownD9], a
+    ldh [hAudioEnvParam1], a
     ld a, [hl+]
-    ldh [hUnknownDA], a
+    ldh [hAudioEnvParam2], a
     xor a
-    ldh [hUnknownD5], a
-    ldh [hUnknownD7], a
+    ldh [hAudioEnvPos], a
+    ldh [hAudioEnvRate], a
     ret
 
 
@@ -9757,13 +9757,13 @@ Call_003_6bef:
     and a
     jr z, jr_003_6c23
 
-    ld hl, hUnknownD5
+    ld hl, hAudioEnvPos
     call Call_003_6bdc
     ld a, [hGameState]
     cp $05
     jr z, jr_003_6c23
 
-    ldh a, [hUnknownD8]
+    ldh a, [hAudioEnvCounter]
     cp $01
     jr z, jr_003_6c27
 
@@ -9780,11 +9780,11 @@ Call_003_6bef:
     inc l
     inc l
     inc [hl]
-    ldh a, [hUnknownD9]
+    ldh a, [hAudioEnvParam1]
     bit 0, [hl]
     jp z, Jump_003_6c1f
 
-    ldh a, [hUnknownDA]
+    ldh a, [hAudioEnvParam2]
 
 Call_003_6c1f:
 Jump_003_6c1f:
@@ -9799,7 +9799,7 @@ jr_003_6c23:
     jr jr_003_6c1f
 
 jr_003_6c27:
-    ldh a, [hUnknownD9]
+    ldh a, [hAudioEnvParam1]
     jr jr_003_6c1f
 
     ld [bc], a
@@ -9887,8 +9887,8 @@ Call_003_6c82:
 Call_003_6c88:
     call Call_003_6b4b
     xor a
-    ld [hUnknownD5], a
-    ld [hUnknownD7], a
+    ld [hAudioEnvPos], a
+    ld [hAudioEnvRate], a
     ld de, $df00
     ld b, $00
     ld a, [hl+]
@@ -9967,7 +9967,7 @@ Jump_003_6cfe:
     dec l
     dec l
     push hl
-    ld hl, hUnknownD0
+    ld hl, hAudioControl
     ld a, [hl]
     pop hl
     cp $03
@@ -10020,7 +10020,7 @@ jr_003_6d4a:
     jr jr_003_6d78
 
 Jump_003_6d4d:
-    ldh a, [hUnknownD0]
+    ldh a, [hAudioControl]
     cp $03
     jr nz, jr_003_6d63
 
@@ -10114,7 +10114,7 @@ Call_003_6db8:
     ret z
 
     ld a, $01
-    ldh [hUnknownD0], a
+    ldh [hAudioControl], a
     ld hl, $df10
 
 Jump_003_6dc5:
@@ -10166,7 +10166,7 @@ jr_003_6dfe:
     ld c, a
     ld b, $00
     call Call_003_6d2e
-    ldh a, [hUnknownD0]
+    ldh a, [hAudioControl]
     cp $04
     jp z, Jump_003_6e2e
 
@@ -10220,7 +10220,7 @@ jr_003_6e36:
 Jump_003_6e45:
 jr_003_6e45:
     push hl
-    ldh a, [hUnknownD0]
+    ldh a, [hAudioControl]
     cp $01
     jr z, jr_003_6e6d
 
@@ -10318,7 +10318,7 @@ jr_003_6ea5:
     dec l
 
 Jump_003_6eaa:
-    ld de, hUnknownD0
+    ld de, hAudioControl
     ld a, [de]
     cp $04
     jr z, jr_003_6ebb
@@ -10366,8 +10366,8 @@ Call_003_6ed8:
     and $0f
     jr z, jr_003_6ef8
 
-    ldh [hUnknownD1], a
-    ldh a, [hUnknownD0]
+    ldh [hAudioStatus], a
+    ldh a, [hAudioControl]
     ld c, $13
     cp $01
     jr z, jr_003_6efa
@@ -10398,7 +10398,7 @@ Call_003_6efd:
     add $04
     ld l, a
     ld b, [hl]
-    ldh a, [hUnknownD1]
+    ldh a, [hAudioStatus]
     cp $01
     jr jr_003_6f14
 

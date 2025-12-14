@@ -58,33 +58,37 @@ DEF AUDTERM_ALL     EQU $FF     ; Tous canaux (1-4) sur sorties L et R
 
 ; --- Joypad ---
 DEF hJoypadState    EQU $FF80   ; État joypad (directions + boutons)
-DEF hUnknown81      EQU $FF81   ; Variable HRAM
+DEF hJoypadDelta    EQU $FF81   ; Changement joypad (XOR ancien/nouveau)
 
 ; --- Flags système ---
 DEF hVBlankFlag     EQU $FF85   ; Flag VBlank (0=attente, 1=VBlank reçu)
-DEF hUnknown89      EQU $FF89   ; Variable HRAM
+DEF hAnimFrameIndex EQU $FF89   ; Index frame animation courante
 DEF hPauseFlag      EQU $FFB2   ; Flag pause (0=normal, 1=pause)
 
 ; --- Paramètres de fonction ---
 DEF hParam1         EQU $FF8D   ; Paramètre de fonction 1
 DEF hParam2         EQU $FF8E   ; Paramètre de fonction 2
 DEF hParam3         EQU $FF8F   ; Paramètre de fonction 3
-DEF hUnknown90      EQU $FF90   ; Variable HRAM
-DEF hUnknown91      EQU $FF91   ; Variable HRAM
-DEF hUnknown92      EQU $FF92   ; Variable HRAM
-DEF hUnknown93      EQU $FF93   ; Variable HRAM
-DEF hUnknown94      EQU $FF94   ; Variable HRAM
-DEF hUnknown95      EQU $FF95   ; Variable HRAM
-DEF hUnknown96      EQU $FF96   ; Variable HRAM
-DEF hUnknown97      EQU $FF97   ; Variable HRAM
+
+; --- Animation sprites ---
+DEF hAnimObjX       EQU $FF90   ; Coordonnée X objet animation
+DEF hAnimObjY       EQU $FF91   ; Coordonnée Y objet animation
+DEF hAnimCalcX      EQU $FF92   ; Résultat calcul position X
+DEF hAnimCalcY      EQU $FF93   ; Résultat calcul position Y
+DEF hAnimAttr       EQU $FF94   ; Attributs sprite animation
+DEF hAnimHiddenFlag EQU $FF95   ; Flag sprite caché (!=0 → Y=$FF)
+DEF hAnimStructHigh EQU $FF96   ; Pointeur structure anim (haut)
+DEF hAnimStructLow  EQU $FF97   ; Pointeur structure anim (bas)
+
+; --- Variables animation (suite) ---
+DEF hLevelIndex     EQU $FF9A   ; Index/type de niveau (copie de wLevelType)
+DEF hAnimObjSubState EQU $FF9B  ; Sous-état objet animation
+DEF hAnimObjCount   EQU $FF9C   ; Compteur objets à traiter
+DEF hAnimScaleCounter EQU $FF9D ; Compteur scaling/zoom
+DEF hAnimStructBank EQU $FF9E   ; Bank structure animation
+DEF hUpdateLockFlag EQU $FF9F   ; Flag bloquant mise à jour graphique
 
 ; --- Variables temporaires ---
-DEF hUnknown9A      EQU $FF9A   ; Variable HRAM (init à 0)
-DEF hUnknown9B      EQU $FF9B   ; Variable HRAM
-DEF hUnknown9C      EQU $FF9C   ; Variable HRAM
-DEF hUnknown9D      EQU $FF9D   ; Variable HRAM
-DEF hUnknown9E      EQU $FF9E   ; Variable HRAM
-DEF hUnknown9F      EQU $FF9F   ; Flag bloquant mise à jour
 DEF hTemp0          EQU $FFA0   ; Variable temporaire 0
 DEF hTemp1          EQU $FFA1   ; Variable temporaire 1
 DEF hTemp2          EQU $FFA2   ; Variable temporaire 2
@@ -99,10 +103,10 @@ DEF hScrollPhase    EQU $FFEA   ; Phase mise à jour tilemap (1=active, 2=done)
 DEF hTimer1         EQU $FFA6   ; Timer principal (décrémenté par GameLoop)
 DEF hTimer2         EQU $FFA7   ; Timer secondaire
 DEF hTimerAux       EQU $FF99   ; Timer auxiliaire (jeu)
-DEF hUnknownA8      EQU $FFA8   ; Variable HRAM
-DEF hUnknownA9      EQU $FFA9   ; Variable HRAM
-DEF hUnknownAA      EQU $FFAA   ; Variable HRAM
-DEF hUnknownAB      EQU $FFAB   ; Variable HRAM
+DEF hObjParamBuf0   EQU $FFA8   ; Buffer paramètres objet 0
+DEF hObjParamBuf1   EQU $FFA9   ; Buffer paramètres objet 1
+DEF hObjParamBuf2   EQU $FFAA   ; Buffer paramètres objet 2
+DEF hObjParamBuf3   EQU $FFAB   ; Buffer paramètres objet 3
 DEF hFrameCounter   EQU $FFAC   ; Compteur de frames
 
 ; --- Sprite temporaire (OAM) ---
@@ -112,7 +116,7 @@ DEF hSpriteTile     EQU $FFAF   ; Tile sprite temporaire
 DEF hSpriteAttr     EQU $FFB0   ; Attributs sprite temporaire
 
 ; --- État du jeu ---
-DEF hUnknownB1      EQU $FFB1   ; Flag de mise à jour score
+DEF hScoreNeedsUpdate EQU $FFB1 ; Flag mise à jour affichage score
 DEF hGameState      EQU $FFB3   ; État du jeu ($0E initial)
 DEF hAnimTileIndex  EQU $FFB4   ; Index animation tiles ($11 initial)
 DEF hSubState       EQU $FFB5   ; Sous-état de jeu
@@ -134,17 +138,19 @@ DEF hSoundVar2      EQU $FFC9   ; Variable son 2
 DEF hSoundVar3      EQU $FFCA   ; Variable son 3
 DEF hSoundVar4      EQU $FFCB   ; Variable son 4
 DEF hSoundVar5      EQU $FFCC   ; Variable son 5
-DEF hUnknownD0      EQU $FFD0   ; Variable HRAM
-DEF hUnknownD1      EQU $FFD1   ; Variable HRAM
-DEF hUnknownD2      EQU $FFD2   ; Variable audio
-DEF hUnknownD3      EQU $FFD3   ; Variable audio
-DEF hUnknownD5      EQU $FFD5   ; Variable HRAM
-DEF hUnknownD6      EQU $FFD6   ; Variable HRAM
-DEF hUnknownD7      EQU $FFD7   ; Variable HRAM
-DEF hUnknownD8      EQU $FFD8   ; Variable HRAM
-DEF hUnknownD9      EQU $FFD9   ; Variable HRAM
-DEF hUnknownDA      EQU $FFDA   ; Variable HRAM
-DEF hUnknownDE      EQU $FFDE   ; Variable HRAM
+
+; --- Audio étendu (enveloppes et état) ---
+DEF hAudioControl   EQU $FFD0   ; Contrôle audio principal
+DEF hAudioStatus    EQU $FFD1   ; Status audio
+DEF hAudioCh1Param  EQU $FFD2   ; Paramètre canal audio 1
+DEF hAudioCh2Param  EQU $FFD3   ; Paramètre canal audio 2
+DEF hAudioEnvPos    EQU $FFD5   ; Position enveloppe audio
+DEF hAudioEnvDiv    EQU $FFD6   ; Diviseur enveloppe
+DEF hAudioEnvRate   EQU $FFD7   ; Taux enveloppe
+DEF hAudioEnvCounter EQU $FFD8  ; Compteur enveloppe
+DEF hAudioEnvParam1 EQU $FFD9   ; Paramètre enveloppe 1
+DEF hAudioEnvParam2 EQU $FFDA   ; Paramètre enveloppe 2
+DEF hAudioMixerSnapshot EQU $FFDE ; Sauvegarde NR51 (pause)
 DEF hSavedAudio     EQU $FFDF   ; État audio sauvegardé (pause)
 
 ; --- Pointeurs et copie ---
@@ -152,28 +158,32 @@ DEF hVramPtrLow     EQU $FFE0   ; Pointeur VRAM (octet bas)
 DEF hSavedBank      EQU $FFE1   ; Bank sauvegardée (temporaire)
 DEF hCopyDstLow     EQU $FFE2   ; Destination copie (bas)
 DEF hCopyDstHigh    EQU $FFE3   ; Destination copie (haut)
-DEF hUnknownE4      EQU $FFE4   ; Variable HRAM (init à 0)
-DEF hUnknownE5      EQU $FFE5   ; Variable HRAM
-DEF hUnknownE6      EQU $FFE6   ; Variable HRAM
-DEF hUnknownE7      EQU $FFE7   ; Variable HRAM
-DEF hUnknownE8      EQU $FFE8   ; Variable HRAM
+
+; --- Tilemap et rendu ---
+DEF hRenderContext  EQU $FFE4   ; Contexte de rendu (init à 0)
+DEF hTilemapScrollX EQU $FFE5   ; Offset X tilemap
+DEF hTilemapScrollY EQU $FFE6   ; Offset Y tilemap
+DEF hTilemapOffsetX EQU $FFE7   ; Décalage X tilemap
+DEF hTilemapOffsetY EQU $FFE8   ; Décalage Y tilemap
 DEF hPtrLow         EQU $FFEB   ; Pointeur générique (bas)
 DEF hPtrHigh        EQU $FFEC   ; Pointeur générique (haut)
 DEF hPtrBank        EQU $FFED   ; Bank du pointeur
-DEF hUnknownEE      EQU $FFEE   ; Variable HRAM
+DEF hTilemapPtrLow  EQU $FFEE   ; Pointeur tilemap (bas)
 
-; --- Variables diverses ---
-DEF hUnknownF0      EQU $FFF0   ; Variable HRAM
-DEF hUnknownF1      EQU $FFF1   ; Variable HRAM
-DEF hUnknownF2      EQU $FFF2   ; Variable HRAM
-DEF hUnknownF3      EQU $FFF3   ; Variable HRAM
-DEF hUnknownF4      EQU $FFF4   ; Variable HRAM
-DEF hUnknownF5      EQU $FFF5   ; Variable HRAM
-DEF hUnknownF8      EQU $FFF8   ; Variable HRAM
-DEF hUnknownF9      EQU $FFF9   ; Flag HRAM
-DEF hUnknownFA      EQU $FFFA   ; Variable HRAM
-DEF hUnknownFB      EQU $FFFB   ; Flag HRAM
-DEF hUnknownFC      EQU $FFFC   ; Compteur/flag HRAM
+; --- Rendu tilemap (état machine) ---
+DEF hCurrentTile    EQU $FFF0   ; Tile courant en rendu
+DEF hRenderX        EQU $FFF1   ; Position X rendu
+DEF hRenderY        EQU $FFF2   ; Position Y rendu
+DEF hRenderAttr     EQU $FFF3   ; Attributs rendu
+DEF hRenderCounter  EQU $FFF4   ; Compteur rendu
+DEF hRenderMode     EQU $FFF5   ; Mode rendu
+
+; --- VBlank et OAM ---
+DEF hVBlankSelector EQU $FFF8   ; Sélecteur routine VBlank
+DEF hVBlankMode     EQU $FFF9   ; Mode VBlank
+DEF hDMACounter     EQU $FFFA   ; Compteur DMA
+DEF hOAMIndex       EQU $FFFB   ; Index entrée OAM
+DEF hOAMAddrLow     EQU $FFFC   ; Adresse OAM (bas)
 DEF hCurrentBank    EQU $FFFD   ; Bank ROM courante
 
 ; === Variables WRAM ($C000-$DFFF) ===
@@ -186,28 +196,28 @@ DEF wUnknown08      EQU $C008   ; Variable WRAM
 DEF wSpriteTemp     EQU $C030   ; Buffer sprite temporaire
 
 ; --- Variables de jeu ($C0A0-$C0FF) ---
-DEF wUnknownA0      EQU $C0A0   ; Variable WRAM (score/compteur?)
-DEF wUnknownA1      EQU $C0A1   ; Variable WRAM
-DEF wScoreBCD       EQU $C0A2   ; Score en BCD (3 octets)
+DEF wScoreBCDHigh   EQU $C0A0   ; Score BCD (octet haut)
+DEF wScoreBCDMid    EQU $C0A1   ; Score BCD (octet milieu)
+DEF wScoreBCD       EQU $C0A2   ; Score en BCD (3 octets, octet bas)
 DEF wUpdateCounter  EQU $C0A3   ; Flag mise à jour compteur
-DEF wUnknownA4      EQU $C0A4   ; Variable WRAM ($03 initial)
-DEF wUnknownA5      EQU $C0A5   ; Variable WRAM
-DEF wUnknownA6      EQU $C0A6   ; Variable WRAM
-DEF wUnknownA8      EQU $C0A8   ; Variable WRAM ($11 initial)
-DEF wUnknownAB      EQU $C0AB   ; Variable WRAM
-DEF wUnknownAD      EQU $C0AD   ; Variable WRAM
+DEF wROMBankInit    EQU $C0A4   ; Bank ROM init ($03 initial)
+DEF wGameConfigA5   EQU $C0A5   ; Configuration jeu
+DEF wGameConfigA6   EQU $C0A6   ; Configuration jeu
+DEF wAnimTileIdx    EQU $C0A8   ; Index tile animation ($11 initial)
+DEF wPlayerVarAB    EQU $C0AB   ; Variable joueur
+DEF wPlayerVarAD    EQU $C0AD   ; Variable joueur
 DEF wScrollBuffer   EQU $C0B0   ; Buffer colonne tilemap (16 octets)
-DEF wUnknownC2      EQU $C0C2   ; Variable WRAM (buffer copie?)
-DEF wUnknownCE      EQU $C0CE   ; Variable WRAM
-DEF wUnknownD2      EQU $C0D2   ; Variable WRAM
-DEF wUnknownD3      EQU $C0D3   ; Variable WRAM
+DEF wScorePrevious  EQU $C0C2   ; Score précédent (comparaison)
+DEF wLevelConfig    EQU $C0CE   ; Configuration niveau
+DEF wCollisionFlag  EQU $C0D2   ; Flag collision
+DEF wPlayerInvuln   EQU $C0D3   ; Flag invulnérabilité joueur
 DEF wTimerSpecial   EQU $C0D7   ; Timer spécial
-DEF wUnknownD8      EQU $C0D8   ; Variable WRAM
-DEF wUnknownDA      EQU $C0DA   ; Variable WRAM
-DEF wUnknownDC      EQU $C0DC   ; Variable WRAM ($02 initial)
-DEF wUnknownDE      EQU $C0DE   ; Variable WRAM
-DEF wUnknownDF      EQU $C0DF   ; Variable WRAM
-DEF wUnknownE1      EQU $C0E1   ; Variable WRAM (init à 0)
+DEF wLevelVarD8     EQU $C0D8   ; Variable niveau
+DEF wLevelVarDA     EQU $C0DA   ; Variable niveau
+DEF wCurrentROMBank EQU $C0DC   ; Bank ROM courante ($02 initial)
+DEF wAudioSaveDE    EQU $C0DE   ; Sauvegarde audio
+DEF wLevelInitFlag  EQU $C0DF   ; Flag init niveau
+DEF wLevelType      EQU $C0E1   ; Type de niveau (init à 0)
 
 ; --- Structure joueur ($C200-$C217) ---
 DEF wPlayerData     EQU $C200   ; Données joueur (structure)
@@ -224,6 +234,8 @@ DEF wPlayerUnk10    EQU $C210   ; Variable joueur
 DEF wPlayerUnk13    EQU $C213   ; Variable joueur
 
 ; --- Slots objets ($C208-$C25F) ---
+DEF OBJECT_SLOT_SIZE EQU $10    ; Taille d'un slot objet (16 octets)
+DEF OBJECT_SLOT_COUNT EQU 5     ; Nombre de slots objets
 DEF wObject1        EQU $C208   ; Slot objet 1
 DEF wObject2        EQU $C218   ; Slot objet 2
 DEF wObject3        EQU $C228   ; Slot objet 3
@@ -236,33 +248,81 @@ DEF wAnimBuffer     EQU $C600   ; Buffer animation
 ; === Variables extended WRAM ($D000-$DFFF) ===
 
 ; --- Zone données ($D000-$D100) ---
-DEF wUnknownD002    EQU $D002   ; Variable WRAM
-DEF wUnknownD003    EQU $D003   ; Variable WRAM
-DEF wUnknownD007    EQU $D007   ; Variable WRAM
-DEF wUnknownD010    EQU $D010   ; Variable WRAM
-DEF wUnknownD011    EQU $D011   ; Variable WRAM
-DEF wUnknownD013    EQU $D013   ; Variable WRAM
+DEF wAudioQueueType EQU $D002   ; Type de son en queue
+DEF wAudioQueueId   EQU $D003   ; ID son en queue
+DEF wAudioCondition EQU $D007   ; Condition audio
+DEF wAudioState0    EQU $D010   ; État audio 0
+DEF wAudioState1    EQU $D011   ; État audio 1
+DEF wAudioState2    EQU $D013   ; État audio 2
 DEF wAnimFlag       EQU $D014   ; Flag animation active
-DEF wObjectBuffer   EQU $D100   ; Buffer objets
+DEF wObjectBuffer   EQU $D100   ; Buffer objets (10 × 16 bytes)
 
-; --- Zone niveau ($DA00-$DA20) ---
-DEF wLevelData      EQU $DA00   ; Données niveau (DA00=type, DA01-02=BCD)
-DEF wUnknownDA14    EQU $DA14   ; Variable niveau
-DEF wLivesCounter   EQU $DA15   ; Compteur vies/niveau (BCD)
-DEF wUnknownDA17    EQU $DA17   ; Variable niveau
-DEF wUnknownDA1C    EQU $DA1C   ; Variable niveau
+; --- Zone niveau ($DA00-$DA29) ---
+DEF wLevelData      EQU $DA00   ; Type de niveau
+DEF wLevelBCD1      EQU $DA01   ; Données niveau BCD 1
+DEF wLevelBCD2      EQU $DA02   ; Données niveau BCD 2
+DEF wLevelParam03   EQU $DA03   ; Paramètre niveau 03
+DEF wLevelParam04   EQU $DA04   ; Paramètre niveau 04
+DEF wLevelParam05   EQU $DA05   ; Paramètre niveau 05
+DEF wLevelParam06   EQU $DA06   ; Paramètre niveau 06
+DEF wLevelParam07   EQU $DA07   ; Paramètre niveau 07
+DEF wLevelParam08   EQU $DA08   ; Paramètre niveau 08
+DEF wLevelParam09   EQU $DA09   ; Paramètre niveau 09
+DEF wLevelParam0A   EQU $DA0A   ; Paramètre niveau 0A
+DEF wLevelParam0B   EQU $DA0B   ; Paramètre niveau 0B
+DEF wLevelParam0C   EQU $DA0C   ; Paramètre niveau 0C
+DEF wLevelParam0D   EQU $DA0D   ; Paramètre niveau 0D
+DEF wLevelParam0E   EQU $DA0E   ; Paramètre niveau 0E
+DEF wLevelParam0F   EQU $DA0F   ; Paramètre niveau 0F
+DEF wLevelDifficulty EQU $DA14  ; Difficulté niveau
+DEF wLivesCounter   EQU $DA15   ; Compteur vies (BCD)
+DEF wLevelBonus     EQU $DA17   ; Bonus niveau
+DEF wLevelParam1C   EQU $DA1C   ; Paramètre niveau 1C
 DEF wSpecialState   EQU $DA1D   ; Trigger état spécial
-DEF wUnknownDA1F    EQU $DA1F   ; Variable niveau
-DEF wUnknownDA20    EQU $DA20   ; Variable niveau
+DEF wLevelParam1F   EQU $DA1F   ; Paramètre niveau 1F
+DEF wLevelParam20   EQU $DA20   ; Paramètre niveau 20
+DEF wLevelParam21   EQU $DA21   ; Paramètre niveau 21
+DEF wLevelParam22   EQU $DA22   ; Paramètre niveau 22
+DEF wLevelParam23   EQU $DA23   ; Paramètre niveau 23
+DEF wLevelParam24   EQU $DA24   ; Paramètre niveau 24
+DEF wLevelParam25   EQU $DA25   ; Paramètre niveau 25
+DEF wLevelParam26   EQU $DA26   ; Paramètre niveau 26
+DEF wLevelParam27   EQU $DA27   ; Paramètre niveau 27
+DEF wLevelParam28   EQU $DA28   ; Paramètre niveau 28
+DEF wLevelParam29   EQU $DA29   ; Paramètre niveau 29
 
-; --- Zone état ($DFE0-$DFF9) ---
-DEF wStateBuffer    EQU $DFE0   ; Buffer état jeu
-DEF wUnknownDFE1    EQU $DFE1   ; Variable état
-DEF wUnknownDFE4    EQU $DFE4   ; Variable état
-DEF wUnknownDFE8    EQU $DFE8   ; Variable état
-DEF wUnknownDFE9    EQU $DFE9   ; Variable état
-DEF wUnknownDFF8    EQU $DFF8   ; Variable état
-DEF wUnknownDFF9    EQU $DFF9   ; Variable état
+; --- Zone état complexe ($DF00-$DF46) ---
+DEF wComplexState   EQU $DF00   ; Début zone état complexe
+DEF wComplexState1E EQU $DF1E   ; État complexe 1E
+DEF wComplexState46 EQU $DF46   ; Fin zone état complexe
+
+; --- Zone état jeu ($DFE0-$DFF9) ---
+DEF wStateBuffer    EQU $DFE0   ; Buffer état jeu (début)
+DEF wStateDisplay   EQU $DFE1   ; Mode affichage état
+DEF wStateVar2      EQU $DFE2   ; Variable état 2
+DEF wStateVar3      EQU $DFE3   ; Variable état 3
+DEF wStateGraphics  EQU $DFE4   ; Flags graphiques état
+DEF wStateVar5      EQU $DFE5   ; Variable état 5
+DEF wStateVar6      EQU $DFE6   ; Variable état 6
+DEF wStateVar7      EQU $DFE7   ; Variable état 7
+DEF wStateRender    EQU $DFE8   ; Mode rendu état
+DEF wStateVar9      EQU $DFE9   ; Variable état 9
+DEF wStateVarA      EQU $DFEA   ; Variable état A
+DEF wStateVarB      EQU $DFEB   ; Variable état B
+DEF wStateVarC      EQU $DFEC   ; Variable état C
+DEF wStateVarD      EQU $DFED   ; Variable état D
+DEF wStateVarE      EQU $DFEE   ; Variable état E
+DEF wStateVarF      EQU $DFEF   ; Variable état F
+DEF wStateVar10     EQU $DFF0   ; Variable état 10
+DEF wStateVar11     EQU $DFF1   ; Variable état 11
+DEF wStateVar12     EQU $DFF2   ; Variable état 12
+DEF wStateVar13     EQU $DFF3   ; Variable état 13
+DEF wStateVar14     EQU $DFF4   ; Variable état 14
+DEF wStateVar15     EQU $DFF5   ; Variable état 15
+DEF wStateVar16     EQU $DFF6   ; Variable état 16
+DEF wStateVar17     EQU $DFF7   ; Variable état 17
+DEF wStateFinal     EQU $DFF8   ; Flag final état
+DEF wStateEnd       EQU $DFF9   ; Marqueur fin état
 
 ; === Adresses ROM ===
 

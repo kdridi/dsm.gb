@@ -293,20 +293,20 @@ ENDM
 ; Appelle la routine d'init en bank 3, puis switch vers bank 2.
 MACRO InitGameVariables
     xor a
-    ldh [hUnknownE4], a
+    ldh [hRenderContext], a
     ld a, INIT_ANIM_TILE_IDX
     ldh [hAnimTileIndex], a
-    ld [wUnknownA8], a
+    ld [wAnimTileIdx], a
     ld a, INIT_UNKNOWN_DC
-    ld [wUnknownDC], a
+    ld [wCurrentROMBank], a
     ld a, INIT_GAME_STATE
     ldh [hGameState], a
     ld a, INIT_UNKNOWN_A4
     ld [rROMB0], a
-    ld [wUnknownA4], a
+    ld [wROMBankInit], a
     ld a, $00
-    ld [wUnknownE1], a
-    ldh [hUnknown9A], a
+    ld [wLevelType], a
+    ldh [hLevelIndex], a
     call ROM_INIT_BANK3
     ld a, INIT_UNKNOWN_DC
     ld [rROMB0], a

@@ -250,12 +250,12 @@ jr_000_00cf:
 
 jr_000_00de:
     push af
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     and a
     jr z, jr_000_00ea
 
     dec a
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
 
 jr_000_00e7:
     pop af
@@ -350,7 +350,7 @@ jr_000_015d:
 
 
 Call_000_0166:
-    ldh a, [hUnknown9F]
+    ldh a, [hUpdateLockFlag]
     and a
     ret nz
 
@@ -368,7 +368,7 @@ Call_000_0166:
     daa
     ld [hl], a
     ld a, $01
-    ldh [hUnknownB1], a
+    ldh [hScoreNeedsUpdate], a
     ret nc
 
     ld a, $99
@@ -438,7 +438,7 @@ jr_000_0238:
     ld [$2000], a
 
 ; --- 3. CheckPauseOrSkip ---
-    ldh a, [hUnknown9F]          ; Flag pause ?
+    ldh a, [hUpdateLockFlag]          ; Flag pause ?
     and a
     jr nz, jr_000_025a      ; Si pause → sauter vers timers
 
@@ -465,7 +465,7 @@ jr_000_0264:
     jr nz, jr_000_025f      ; Boucle 2 fois
 
 ; --- 5. HandleGameState ---
-    ldh a, [hUnknown9F]          ; Flag pause ?
+    ldh a, [hUpdateLockFlag]          ; Flag pause ?
     and a
     jr z, jr_000_0293       ; Non → aller au handler
 
@@ -680,7 +680,7 @@ jr_000_032d:
     ld [hl+], a
     ld [hl+], a
     ld a, [$c0e1]
-    ldh [hUnknown9A], a
+    ldh [hLevelIndex], a
     ld hl, $791a
     ld de, $9300
     ld bc, $0500
@@ -690,7 +690,7 @@ jr_000_032d:
     ld bc, $0170
     call Call_000_05c7
     ld hl, $4862
-    ldh a, [hUnknown9A]
+    ldh a, [hLevelIndex]
     cp $01
     jr c, jr_000_0368
 
@@ -710,14 +710,14 @@ jr_000_0368:
     call Call_000_05c7
     call Call_000_05b8
     xor a
-    ldh [hUnknownE5], a
-    ldh a, [hUnknownE4]
+    ldh [hTilemapScrollX], a
+    ldh a, [hRenderContext]
     push af
     ld a, $0c
-    ldh [hUnknownE4], a
+    ldh [hRenderContext], a
     call Call_000_07f0
     pop af
-    ldh [hUnknownE4], a
+    ldh [hRenderContext], a
     ld a, $3c
     ld hl, $9800
     call Call_000_0558
@@ -775,7 +775,7 @@ jr_000_03e2:
     and a
     jr z, jr_000_041f
 
-    ldh a, [hUnknown9A]
+    ldh a, [hLevelIndex]
     cp $02
     jr c, jr_000_03fe
 
@@ -818,10 +818,10 @@ jr_000_041f:
     ld a, $0f
     ldh [hGameState], a
     xor a
-    ldh [hUnknownF9], a
+    ldh [hVBlankMode], a
     ld a, $28
     ld [$c0d7], a
-    ldh [hUnknown9F], a
+    ldh [hUpdateLockFlag], a
     ld hl, $c0dc
     inc [hl]
     ld a, [hl]
@@ -902,14 +902,14 @@ jr_000_049c:
     ld a, e
 
 jr_000_049d:
-    ldh [hUnknownE4], a
+    ldh [hRenderContext], a
     jp Jump_000_053d
 
 
 jr_000_04a2:
     xor a
     ld [$c0a6], a
-    ldh a, [hUnknown9A]
+    ldh a, [hLevelIndex]
     cp $02
     jp nc, Jump_000_053d
 
@@ -938,7 +938,7 @@ jr_000_04b4:
     jr nz, jr_000_04b4
 
 jr_000_04ce:
-    ldh a, [hUnknown9A]
+    ldh a, [hLevelIndex]
     cp $02
     jr c, jr_000_0519
 
@@ -957,7 +957,7 @@ jr_000_04ce:
 
 jr_000_04e5:
     ldh [hAnimTileIndex], a
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     inc a
     cp $0c
     jr nz, jr_000_04f3
@@ -967,7 +967,7 @@ jr_000_04e5:
     xor a
 
 jr_000_04f3:
-    ldh [hUnknownE4], a
+    ldh [hRenderContext], a
 
 jr_000_04f5:
     ld hl, $c008
@@ -1012,7 +1012,7 @@ Jump_000_051c:
     ld a, [hl+]
     ldh [hAnimTileIndex], a
     ld a, [hl]
-    ldh [hUnknownE4], a
+    ldh [hRenderContext], a
 
 Jump_000_0530:
     ld a, $50
@@ -1020,7 +1020,7 @@ Jump_000_0530:
     ld a, $11
     ldh [hGameState], a
     xor a
-    ldh [hUnknown9A], a
+    ldh [hLevelIndex], a
     ret
 
 
@@ -1029,10 +1029,10 @@ Jump_000_053d:
     ldh [hGameState], a
     xor a
     ldh [rIF], a
-    ldh [hUnknown9F], a
+    ldh [hUpdateLockFlag], a
     ld [$c0a4], a
     dec a
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ld a, $07
     ldh [rIE], a
     ret
@@ -1055,7 +1055,7 @@ jr_000_055a:
     xor a
     ldh [rLCDC], a
     di
-    ldh a, [hUnknown9F]
+    ldh a, [hUpdateLockFlag]
     and a
     jr nz, jr_000_0574
 
@@ -1063,7 +1063,7 @@ jr_000_055a:
     ld [$c0a0], a
     ld [$c0a1], a
     ld [$c0a2], a
-    ldh [hUnknownFA], a
+    ldh [hDMACounter], a
 
 jr_000_0574:
     call Call_000_05d0
@@ -1091,7 +1091,7 @@ jr_000_0581:
     ldh [rIF], a
     dec a
     ldh [hTimer2], a
-    ldh [hUnknownB1], a
+    ldh [hScoreNeedsUpdate], a
     ld a, $5b
     ldh [hScrollColumn], a
     call $2439
@@ -1266,14 +1266,14 @@ jr_000_06b3:
     ldh [rLCDC], a
     call $1ecb
     call Call_000_1655
-    ld hl, hUnknownE5
-    ldh a, [hUnknownF9]
+    ld hl, hTilemapScrollX
+    ldh a, [hVBlankMode]
     and a
     jr z, jr_000_06e0
 
     xor a
-    ldh [hUnknownF9], a
-    ldh a, [hUnknownF5]
+    ldh [hVBlankMode], a
+    ldh a, [hRenderMode]
     inc a
     jr jr_000_06e1
 
@@ -1349,7 +1349,7 @@ jr_000_0732:
     ldh [rIF], a
     ldh [hShadowSCX], a
     ld [$c0d2], a
-    ldh [hUnknownEE], a
+    ldh [hTilemapPtrLow], a
     ld [wSpecialState], a
     ldh [rTMA], a
     ld hl, $da01
@@ -1359,7 +1359,7 @@ jr_000_0732:
     ld [wLevelData], a
     ld a, $5b
     ldh [hScrollColumn], a
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     ld c, $0a
     cp $05
     jr z, jr_000_0771
@@ -1400,23 +1400,23 @@ Call_000_078c:
     call $7ff3
     ldh a, [hCurrentBank]
     ld [$2000], a
-    ldh a, [hUnknownF4]
+    ldh a, [hRenderCounter]
     and a
     jr nz, jr_000_07b1
 
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     ld hl, $07b7
     ld e, a
     ld d, $00
     add hl, de
     ld a, [hl]
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ret
 
 
 jr_000_07b1:
     ld a, $04
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ret
 
 
@@ -1501,7 +1501,7 @@ jr_000_07f8:
 
 Call_000_0808:
 jr_000_0808:
-    ld hl, hUnknownE6
+    ld hl, hTilemapScrollY
     xor a
     ld b, $06
 
@@ -1519,7 +1519,7 @@ jr_000_080e:
     cp $0a
     jr z, jr_000_082b
 
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     cp $0c
     jr z, jr_000_082b
 
@@ -1537,16 +1537,16 @@ jr_000_082b:
 
 
 Call_000_0837:
-    ldh a, [hUnknown9C]
+    ldh a, [hAnimObjCount]
     and a
     jr z, jr_000_083f
 
 Call_000_083c:
     dec a
-    ldh [hUnknown9C], a
+    ldh [hAnimObjCount], a
 
 jr_000_083f:
-    ld de, hUnknownF0
+    ld de, hCurrentTile
     ld b, $0a
     ld hl, $d190
 
@@ -1564,9 +1564,9 @@ Jump_000_084c:
 
 
 jr_000_0851:
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld a, l
-    ldh [hUnknownFC], a
+    ldh [hOAMAddrLow], a
     push bc
     push hl
     ld bc, $000a
@@ -1575,7 +1575,7 @@ jr_000_0851:
     inc l
     inc l
     ld a, [hl]
-    ldh [hUnknown9B], a
+    ldh [hAnimObjSubState], a
     ld a, [wPlayerX]
     ld b, a
     ldh a, [hTimerAux]
@@ -1611,11 +1611,11 @@ Call_000_0878:
     and a
     jp z, Jump_000_0958
 
-    ldh a, [hUnknownFC]
+    ldh a, [hOAMAddrLow]
     cp $90
     jp z, Jump_000_096a
 
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     cp $33
     jp z, Jump_000_09ce
 
@@ -1689,18 +1689,18 @@ jr_000_08fb:
     ld a, [wPlayerX]
     sub $10
     ldh [hPtrHigh], a
-    ldh a, [hUnknown9E]
+    ldh a, [hAnimStructBank]
     ldh [hPtrBank], a
-    ldh a, [hUnknown9C]
+    ldh a, [hAnimObjCount]
     and a
     jr z, jr_000_0934
 
-    ldh a, [hUnknown9D]
+    ldh a, [hAnimScaleCounter]
     cp $03
     jr z, jr_000_0920
 
     inc a
-    ldh [hUnknown9D], a
+    ldh [hAnimScaleCounter], a
 
 jr_000_0920:
     ld b, a
@@ -1717,12 +1717,12 @@ jr_000_0927:
 
 jr_000_092e:
     ld a, $32
-    ldh [hUnknown9C], a
+    ldh [hAnimObjCount], a
     jr jr_000_0955
 
 jr_000_0934:
     xor a
-    ldh [hUnknown9D], a
+    ldh [hAnimScaleCounter], a
     jr jr_000_092e
 
 Jump_000_0939:
@@ -1771,7 +1771,7 @@ jr_000_0962:
     jr jr_000_08fb
 
 Jump_000_096a:
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     cp $29
     jr z, jr_000_09a2
 
@@ -1829,7 +1829,7 @@ jr_000_09b2:
     ld a, $f8
     ld [$c0d3], a
     ld a, $0c
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     jr jr_000_0989
 
 jr_000_09be:
@@ -1882,7 +1882,7 @@ InitGameState:
     ldh [rTMA], a           ; Timer Modulo = 0 (désactive timer)
 
     ld a, $02
-    ld [wUnknownDFE8], a           ; Variable WRAM = $02
+    ld [wStateRender], a           ; Variable WRAM = $02
 
     ; --- InitPlayerState ---
     ld a, $80
@@ -1896,7 +1896,7 @@ InitGameState:
 Call_000_0a07:
     push hl
     push de
-    ldh a, [hUnknown9B]
+    ldh a, [hAnimObjSubState]
     and $c0
     swap a
     srl a
@@ -1906,7 +1906,7 @@ Call_000_0a07:
     ld hl, $0a20
     add hl, de
     ld a, [hl]
-    ldh [hUnknown9E], a
+    ldh [hAnimStructBank], a
     pop de
     pop hl
     ret
@@ -1916,7 +1916,7 @@ Call_000_0a07:
     ld d, b
 
 Call_000_0a24:
-    ldh a, [hUnknownEE]
+    ldh a, [hTilemapPtrLow]
     and a
     ret z
 
@@ -1952,7 +1952,7 @@ jr_000_0a3d:
     inc l
     inc l
     ld a, [hl]
-    ldh [hUnknown9B], a
+    ldh [hAnimObjSubState], a
     pop hl
     push hl
     inc l
@@ -2010,7 +2010,7 @@ jr_000_0a6a:
     ld a, [wPlayerX]
     sub $10
     ldh [hPtrHigh], a
-    ldh a, [hUnknown9E]
+    ldh a, [hAnimStructBank]
     ldh [hPtrBank], a
 
 jr_000_0aa1:
@@ -2111,7 +2111,7 @@ jr_000_0af9:
     ld a, [hl]
     and $0f
     ldh [hTemp0], a
-    ld bc, hUnknownF8
+    ld bc, hVBlankSelector
     add hl, bc
     ldh a, [hTemp0]
     ld b, a
@@ -2258,7 +2258,7 @@ jr_000_0b7f:
     xor a
     ld [$c0ac], a
     ldh [hTimerAux], a
-    ldh [hUnknownF4], a
+    ldh [hRenderCounter], a
     call $1ecb
     ret
 
@@ -2475,9 +2475,9 @@ jr_000_0cf1:
     ld a, $03
     ld [$2000], a
     ldh [hCurrentBank], a
-    ld hl, hUnknownE4
+    ld hl, hRenderContext
     ld a, [hl]
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld [hl], $0c
     inc l
     xor a
@@ -2496,11 +2496,11 @@ jr_000_0cf1:
     ret nz
 
     xor a
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld a, $01
     ld [$c0de], a
     ld a, $bf
-    ldh [hUnknownFC], a
+    ldh [hOAMAddrLow], a
     ld a, $ff
     ldh [hTimer1], a
     ld a, $27
@@ -2529,7 +2529,7 @@ jr_000_0d30:
     and a
     ret nz
 
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     inc a
     cp $0c
     jr nz, jr_000_0d53
@@ -2537,7 +2537,7 @@ jr_000_0d30:
     xor a
 
 jr_000_0d53:
-    ldh [hUnknownE4], a
+    ldh [hRenderContext], a
     ldh a, [hAnimTileIndex]
     inc a
     ld b, a
@@ -2638,10 +2638,10 @@ Jump_000_0dca:
     ldh [rLCDC], a
     ei
     ld a, $03
-    ldh [hUnknownE5], a
+    ldh [hTilemapScrollX], a
     xor a
     ld [$c0d2], a
-    ldh [hUnknownF9], a
+    ldh [hVBlankMode], a
     ld a, $02
     ldh [hGameState], a
     call $2439
@@ -2672,7 +2672,7 @@ Jump_000_0dca:
     ei
     ld a, $08
     ldh [hGameState], a
-    ldh [hUnknownB1], a
+    ldh [hScoreNeedsUpdate], a
     ret
 
 
@@ -2718,7 +2718,7 @@ jr_000_0e3d:
     ld a, l
     ldh [hVramPtrLow], a
     ld a, $05
-    ldh [hUnknownFC], a
+    ldh [hOAMAddrLow], a
     ld a, $08
     ldh [hTimer1], a
     ld hl, hGameState
@@ -2730,11 +2730,11 @@ jr_000_0e3d:
     and a
     ret nz
 
-    ldh a, [hUnknownFC]
+    ldh a, [hOAMAddrLow]
     dec a
     jr z, jr_000_0e7a
 
-    ldh [hUnknownFC], a
+    ldh [hOAMAddrLow], a
     ldh a, [hVramPtrLow]
     ld l, a
     ld h, $99
@@ -2774,7 +2774,7 @@ jr_000_0e7a:
     ld [$c0d2], a
     ld [$c207], a
     inc a
-    ldh [hUnknownF9], a
+    ldh [hVBlankMode], a
     ld hl, hGameState
     inc [hl]
     ret
@@ -2814,7 +2814,7 @@ Call_000_0eb2:
     ld a, $a1
     ldh [hTimer1], a
     ld a, $0f
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ld hl, hGameState
     inc [hl]
     ret
@@ -2870,8 +2870,8 @@ jr_000_0f1d:
 
 
 jr_000_0f21:
-    ldh a, [hUnknownFB]
-    ldh [hUnknownE4], a
+    ldh a, [hOAMIndex]
+    ldh [hRenderContext], a
     ld hl, hGameState
     inc [hl]
     ret
@@ -2904,7 +2904,7 @@ jr_000_0f52:
     ld a, $98
     ldh [hCopyDstLow], a
     xor a
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld hl, hGameState
     inc [hl]
     jr jr_000_0f1d
@@ -2921,9 +2921,9 @@ jr_000_0f52:
     ld a, $08
     ldh [hTimer1], a
     ld a, $08
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld a, $12
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ret
 
 
@@ -2932,7 +2932,7 @@ Call_000_0f81:
     and a
     ret nz
 
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     ld e, a
     ld d, $00
     add hl, de
@@ -2979,7 +2979,7 @@ jr_000_0fb7:
     ldh [hCopyDstHigh], a
     inc e
     ld a, e
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld a, $0c
     ldh [hTimer1], a
     ret
@@ -3034,12 +3034,12 @@ jr_000_0fc5:
     and a
     ret nz
 
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     dec a
     jr z, jr_000_1016
 
 jr_000_0ffd:
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
 
 jr_000_0fff:
     and $01
@@ -3174,9 +3174,9 @@ jr_000_109e:
     and $03
     jr nz, jr_000_10bf
 
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     xor $01
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld b, $fc
     jr z, jr_000_10b8
 
@@ -3197,7 +3197,7 @@ jr_000_10bf:
 
     ld hl, $8dd0
     ld bc, $0220
-    ldh a, [hUnknownFC]
+    ldh a, [hOAMAddrLow]
     ld d, a
 
 jr_000_10cf:
@@ -3229,12 +3229,12 @@ jr_000_10e8:
     or b
     jr nz, jr_000_10cf
 
-    ldh a, [hUnknownFC]
+    ldh a, [hOAMAddrLow]
     sla a
     jr z, jr_000_10fe
 
     swap a
-    ldh [hUnknownFC], a
+    ldh [hOAMAddrLow], a
     ld a, $3f
     ldh [hTimer1], a
     ret
@@ -3245,7 +3245,7 @@ jr_000_10fe:
     ld [$c0df], a
     ld [$c0d2], a
     inc a
-    ldh [hUnknownF9], a
+    ldh [hVBlankMode], a
     ld hl, hGameState
     inc [hl]
     ret
@@ -3254,7 +3254,7 @@ jr_000_10fe:
     di
     xor a
     ldh [rLCDC], a
-    ldh [hUnknownF9], a
+    ldh [hVBlankMode], a
     ld hl, $9c00
     ld bc, $0100
     call Call_000_05be
@@ -3270,7 +3270,7 @@ jr_000_10fe:
     ldh [rIF], a
     ldh [hShadowSCX], a
     ld [$c0df], a
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld hl, $c000
     ld b, $0c
 
@@ -3285,7 +3285,7 @@ jr_000_113e:
     ld a, $a5
     ldh [hCopyDstHigh], a
     ld a, $0f
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ld a, $c3
     ldh [rLCDC], a
     ei
@@ -3300,7 +3300,7 @@ jr_000_113e:
     ret nz
 
     xor a
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld a, $99
     ldh [hCopyDstLow], a
     ld a, $02
@@ -3384,7 +3384,7 @@ jr_000_11aa:
     cp $20
     jr c, jr_000_11e9
 
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     and a
     ld a, [hl]
     jr nz, jr_000_11e2
@@ -3394,7 +3394,7 @@ jr_000_11aa:
     ret nc
 
 jr_000_11df:
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ret
 
 
@@ -3427,7 +3427,7 @@ jr_000_11f6:
     jr nz, jr_000_11f0
 
     xor a
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld a, $99
     ldh [hCopyDstLow], a
     ld a, $00
@@ -3519,11 +3519,11 @@ jr_000_126e:
 jr_000_127f:
     call Call_000_0eb2
     call Call_000_218f
-    ldh a, [hUnknownE5]
+    ldh a, [hTilemapScrollX]
     cp $03
     ret nz
 
-    ldh a, [hUnknownE6]
+    ldh a, [hTilemapScrollY]
     and a
     ret nz
 
@@ -3581,7 +3581,7 @@ jr_000_12d4:
     ld hl, hGameState
     inc [hl]
     ld a, $04
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ret
 
 
@@ -3610,7 +3610,7 @@ Call_000_12dd:
     ret nz
 
     ld a, $11
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ret
 
 
@@ -3623,14 +3623,14 @@ Call_000_1305:
 
 Call_000_130f:
     push af
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     dec a
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     jr nz, jr_000_1343
 
     ldh [rLYC], a
     ld a, $21
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld a, $54
     ldh [hScrollColumn], a
     call Call_000_1345
@@ -3726,9 +3726,9 @@ jr_000_136f:
     xor $08
     ldh [hTemp3], a
     call Call_000_1345
-    ldh a, [hUnknownFB]
+    ldh a, [hOAMIndex]
     dec a
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ret nz
 
     xor a
@@ -3945,9 +3945,9 @@ jr_000_14a6:
 
     ld a, $90
     ldh [hTimer1], a
-    ldh a, [hUnknown9A]
+    ldh a, [hLevelIndex]
     inc a
-    ldh [hUnknown9A], a
+    ldh [hLevelIndex], a
     ld [$c0e1], a
     ld hl, hGameState
     inc [hl]
@@ -4017,7 +4017,7 @@ jr_000_14e6:
 
     call Call_000_1520
     xor a
-    ldh [hUnknownE4], a
+    ldh [hRenderContext], a
     ldh [hTimerAux], a
     ldh [hSubState], a
     ld [$c0a6], a
@@ -4217,7 +4217,7 @@ Jump_000_1603:
 
 jr_000_1612:
     ld hl, wPlayerX
-    ldh a, [hUnknownF8]
+    ldh a, [hVBlankSelector]
 
 jr_000_1617:
     cp [hl]
@@ -4232,18 +4232,18 @@ jr_000_161a:
 jr_000_161f:
     ld a, $0a
     ldh [hGameState], a
-    ldh [hUnknownF9], a
+    ldh [hVBlankMode], a
     ret
 
 
     di
     xor a
     ldh [rLCDC], a
-    ldh [hUnknownE6], a
+    ldh [hTilemapScrollY], a
     call $1ecb
     call Call_000_1655
-    ldh a, [hUnknownF4]
-    ldh [hUnknownE5], a
+    ldh a, [hRenderCounter]
+    ldh [hTilemapScrollX], a
     call Call_000_07f0
     call Call_000_2453
     ld hl, wPlayerX
@@ -4283,7 +4283,7 @@ jr_000_165b:
     ret z
 
     ld hl, wPlayerState
-    ldh a, [hUnknownF8]
+    ldh a, [hVBlankSelector]
     cp [hl]
     jr c, jr_000_1679
 
@@ -4296,13 +4296,13 @@ jr_000_165b:
 
 jr_000_1679:
     di
-    ldh a, [hUnknownF5]
-    ldh [hUnknownE5], a
+    ldh a, [hRenderMode]
+    ldh [hTilemapScrollX], a
     xor a
     ldh [rLCDC], a
-    ldh [hUnknownE6], a
+    ldh [hTilemapScrollY], a
     call Call_000_1655
-    ld hl, hUnknownF4
+    ld hl, hRenderCounter
     ld [hl+], a
     ld [hl+], a
     ldh a, [$fff7]
@@ -4318,10 +4318,10 @@ jr_000_1679:
     ld a, d
     ld [hl+], a
     sub $12
-    ldh [hUnknownF8], a
+    ldh [hVBlankSelector], a
     ld a, e
     ld [hl], a
-    ldh a, [hUnknownE5]
+    ldh a, [hTilemapScrollX]
     sub $04
     ld b, a
     rlca
@@ -4352,7 +4352,7 @@ jr_000_1679:
     ret z
 
     ld hl, wPlayerX
-    ldh a, [hUnknownF8]
+    ldh a, [hVBlankSelector]
     cp [hl]
     jr z, jr_000_16e3
 
@@ -4365,7 +4365,7 @@ jr_000_16e3:
     xor a
     ldh [hGameState], a
     ld [$c204], a
-    ldh [hUnknownF9], a
+    ldh [hVBlankMode], a
     ret
 
 
@@ -4474,7 +4474,7 @@ jr_000_175c:
     ld a, h
     add $30
     ld h, a
-    ld de, hUnknownF4
+    ld de, hRenderCounter
     ld a, [hl]
     and a
     jp z, Jump_000_1854
@@ -4515,7 +4515,7 @@ jr_000_175c:
     jr nz, jr_000_17ad
 
     ld a, $04
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
 
 jr_000_17ad:
     call $1ecb
@@ -4624,7 +4624,7 @@ jr_000_1839:
 
     push hl
     pop de
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld a, [hl]
     and a
     jr nz, jr_000_17f8
@@ -4663,7 +4663,7 @@ jr_000_1854:
 
 
 Jump_000_1872:
-    ldh a, [hUnknownEE]
+    ldh a, [hTilemapPtrLow]
     and a
     ret nz
 
@@ -4677,7 +4677,7 @@ Jump_000_1872:
     ret z
 
 Jump_000_187f:
-    ldh a, [hUnknownEE]
+    ldh a, [hTilemapPtrLow]
     and a
     ret nz
 
@@ -4701,7 +4701,7 @@ Jump_000_1892:
     ld [$c0ce], a
 
 Jump_000_189b:
-    ldh a, [hUnknownEE]
+    ldh a, [hTilemapPtrLow]
     and a
     ret nz
 
@@ -4730,7 +4730,7 @@ jr_000_18be:
     ld [wStateBuffer], a
     push hl
     pop de
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld a, [hl]
     and a
     ret nz
@@ -4755,11 +4755,11 @@ jr_000_18be:
     sub $0b
     ld [hl+], a
     ldh [hSoundParam1], a
-    ldh [hUnknownF1], a
+    ldh [hRenderX], a
     ldh a, [hShadowSCX]
     ld b, a
     ldh a, [hSpriteX]
-    ldh [hUnknownF2], a
+    ldh [hRenderY], a
 
 Call_000_18fc:
     sub b
@@ -4788,7 +4788,7 @@ jr_000_1916:
 
 Jump_000_191a:
 jr_000_191a:
-    ldh a, [hUnknownEE]
+    ldh a, [hTilemapPtrLow]
     and a
     ret nz
 
@@ -4804,7 +4804,7 @@ jr_000_191a:
 jr_000_192e:
     push hl
     pop de
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld [hl], $02
     inc l
     ld [hl], d
@@ -4819,12 +4819,12 @@ jr_000_192e:
     ld a, [wPlayerX]
     sub $0b
     ld [hl+], a
-    ldh [hUnknownF1], a
+    ldh [hRenderX], a
     ldh a, [hShadowSCX]
     ld b, a
     ldh a, [hSpriteX]
     ld c, a
-    ldh [hUnknownF2], a
+    ldh [hRenderY], a
     sub b
     ld [hl+], a
     inc l
@@ -4834,7 +4834,7 @@ jr_000_192e:
 
 
 jr_000_195d:
-    ldh a, [hUnknownEE]
+    ldh a, [hTilemapPtrLow]
     and a
     ret nz
 
@@ -4930,7 +4930,7 @@ jr_000_19d8:
 
     push hl
     pop de
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld a, [hl]
     and a
     ret nz
@@ -4983,7 +4983,7 @@ jr_000_1a01:
     ld hl, $c248
     ld [hl], $0b
     ldh a, [hShadowSCX]
-    ldh [hUnknownF3], a
+    ldh [hRenderAttr], a
     ld a, $02
     ld [$dff8], a
     ld de, $0050
@@ -4996,7 +4996,7 @@ jr_000_1a01:
 Jump_000_1a4e:
     push hl
     pop de
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld a, [hl]
     and a
     ret nz
@@ -5156,7 +5156,7 @@ jr_000_1b03:
 jr_000_1b05:
     push hl
     pop de
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld a, [hl]
     and a
     ret nz
@@ -5173,7 +5173,7 @@ jr_000_1b05:
 
 
 jr_000_1b1a:
-    ldh a, [hUnknownF9]
+    ldh a, [hVBlankMode]
     and a
     jr z, jr_000_1af2
 
@@ -5184,7 +5184,7 @@ jr_000_1b1a:
     ld hl, wPlayerState
     ld a, [hl-]
     add $18
-    ldh [hUnknownF8], a
+    ldh [hVBlankSelector], a
     ld a, [hl]
     and $f8
     add $06
@@ -5227,7 +5227,7 @@ jr_000_1b5d:
     jr nz, jr_000_1b70
 
     ld a, $01
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ld a, $f0
     ldh [hTimer1], a
 
@@ -5246,7 +5246,7 @@ Call_000_1b7d:
     ldh a, [_HRAM_END]
     and a
     call nz, Call_000_1bf6
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld a, [hl]
     cp $01
     jr z, jr_000_1bb1
@@ -5331,7 +5331,7 @@ jr_000_1bf2:
 
 
 Call_000_1bf6:
-    ldh a, [hUnknown9F]
+    ldh a, [hUpdateLockFlag]
     and a
     ret nz
 
@@ -5341,10 +5341,10 @@ Call_000_1bf6:
     call Call_000_0166
     pop hl
     pop de
-    ldh a, [hUnknownFA]
+    ldh a, [hDMACounter]
     add $01
     daa
-    ldh [hUnknownFA], a
+    ldh [hDMACounter], a
     and a
     jr nz, jr_000_1c12
 
@@ -5353,7 +5353,7 @@ Call_000_1bf6:
 
 Call_000_1c12:
 jr_000_1c12:
-    ldh a, [hUnknownFA]
+    ldh a, [hDMACounter]
     ld b, a
     and $0f
     ld [$982a], a
@@ -5374,7 +5374,7 @@ jr_000_1c12:
 ; QUOI : Met à jour l'affichage du compteur de vies/niveau à l'écran.
 ;
 ; ALGORITHME :
-;   1. Vérifie hUnknown9F == 0 (pas bloqué)
+;   1. Vérifie hUpdateLockFlag == 0 (pas bloqué)
 ;   2. Vérifie wUpdateCounter ($C0A3) != 0 (update demandée)
 ;   3. Si wLivesCounter == $99, c'est le max → ne pas incrémenter
 ;   4. Si wUpdateCounter == $FF, décrémente le compteur (perte de vie)
@@ -5388,7 +5388,7 @@ jr_000_1c12:
 ; MODIFIE : A, B
 ; =============================================================================
 UpdateLivesDisplay:
-    ldh a, [hUnknown9F]
+    ldh a, [hUpdateLockFlag]
     and a
     ret nz
 
@@ -5406,7 +5406,7 @@ UpdateLivesDisplay:
     push af
     ld a, $08
     ld [wStateBuffer], a
-    ldh [hUnknownD3], a
+    ldh [hAudioCh2Param], a
     pop af
     add $01
 
@@ -5468,7 +5468,7 @@ jr_000_1c83:
     jr nz, jr_000_1c7b
 
     ld a, $10
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
     ldh a, [hAnimTileIndex]
     ld [$c0a8], a
     ld a, [$c0a2]
@@ -5500,7 +5500,7 @@ jr_000_1cb4:
     inc hl
     ld [hl], $07
     ld a, $ff
-    ldh [hUnknownFB], a
+    ldh [hOAMIndex], a
     ld hl, hGameState
     inc [hl]
     ret
@@ -5726,7 +5726,7 @@ jr_000_1dcf:
 
 jr_000_1ddb:
     ld hl, wPlayerState
-    ldh a, [hUnknownF9]
+    ldh a, [hVBlankMode]
     and a
     jr nz, jr_000_1e18
 
@@ -5921,9 +5921,9 @@ jr_000_1edd:
     dec b
     jr nz, jr_000_1edd
 
-    ldh [hUnknownA9], a
-    ldh [hUnknownAA], a
-    ldh [hUnknownAB], a
+    ldh [hObjParamBuf1], a
+    ldh [hObjParamBuf2], a
+    ldh [hObjParamBuf3], a
     ld hl, $c210
     ld de, $0010
     ld b, $04
@@ -5972,7 +5972,7 @@ jr_000_1f19:
 
 Call_000_1f24:
     ld b, $01
-    ld hl, hUnknownA9
+    ld hl, hObjParamBuf1
     ld de, $c001
 
 jr_000_1f2c:
@@ -6127,7 +6127,7 @@ Call_000_1fc9:
 
     push hl
     pop de
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld a, [hl]
     and a
     jr nz, jr_000_1ffc
@@ -6198,7 +6198,7 @@ jr_000_2020:
     inc l
     inc l
     ld a, [hl]
-    ldh [hUnknown9B], a
+    ldh [hAnimObjSubState], a
     ld a, [de]
     ldh [hTemp2], a
     add $04
@@ -6250,7 +6250,7 @@ jr_000_205e:
 
     ld a, $03
     ld [wStateBuffer], a
-    ldh a, [hUnknown9E]
+    ldh a, [hAnimStructBank]
     ldh [hPtrBank], a
 
 jr_000_207a:
@@ -6258,7 +6258,7 @@ jr_000_207a:
     ld [de], a
     dec e
     ld [de], a
-    ld hl, hUnknownAB
+    ld hl, hObjParamBuf3
     bit 3, e
     jr nz, jr_000_208b
 
@@ -6283,7 +6283,7 @@ Call_000_208e:
 
     push hl
     pop de
-    ld hl, hUnknownEE
+    ld hl, hTilemapPtrLow
     ld a, [hl]
     and a
     jr nz, jr_000_2105
@@ -6349,7 +6349,7 @@ jr_000_20c0:
     ld hl, $c248
     ld [hl], $0b
     ldh a, [hShadowSCX]
-    ldh [hUnknownF3], a
+    ldh [hRenderAttr], a
     ld de, $0050
     call Call_000_0166
     ld a, $02
@@ -6364,7 +6364,7 @@ jr_000_2105:
 
 
 Call_000_210a:
-    ldh a, [hUnknown9F]
+    ldh a, [hUpdateLockFlag]
     and a
     ret z
 
@@ -6512,19 +6512,19 @@ jr_000_21af:
     dec b
     jr nz, jr_000_21af
 
-    ldh a, [hUnknownE6]
+    ldh a, [hTilemapScrollY]
     and a
     jr z, jr_000_21c0
 
-    ldh a, [hUnknownE7]
+    ldh a, [hTilemapOffsetX]
     ld h, a
-    ldh a, [hUnknownE8]
+    ldh a, [hTilemapOffsetY]
     ld l, a
     jr jr_000_21df
 
 jr_000_21c0:
     ld hl, $4000
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     add a
     ld e, a
     ld d, $00
@@ -6534,7 +6534,7 @@ jr_000_21c0:
     ld d, [hl]
     push de
     pop hl
-    ldh a, [hUnknownE5]
+    ldh a, [hTilemapScrollX]
     add a
     ld e, a
     ld d, $00
@@ -6616,20 +6616,20 @@ jr_000_2222:
 
 jr_000_2227:
     ld a, h
-    ldh [hUnknownE7], a
+    ldh [hTilemapOffsetX], a
     ld a, l
-    ldh [hUnknownE8], a
-    ldh a, [hUnknownE6]
+    ldh [hTilemapOffsetY], a
+    ldh a, [hTilemapScrollY]
     inc a
     cp $14
     jr nz, jr_000_2239
 
-    ld hl, hUnknownE5
+    ld hl, hTilemapScrollX
     inc [hl]
     xor a
 
 jr_000_2239:
-    ldh [hUnknownE6], a
+    ldh [hTilemapScrollY], a
     ldh a, [hShadowSCX]
     ld [$c0aa], a
     ld a, $01
@@ -6738,7 +6738,7 @@ Call_000_22a0:
     push hl
     push de
     push bc
-    ldh a, [hUnknownF9]
+    ldh a, [hVBlankMode]
     and a
     jr nz, jr_000_22f0
 
@@ -6747,7 +6747,7 @@ Call_000_22a0:
     ld a, $03
     ldh [hCurrentBank], a
     ld [$2000], a
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     add a
     ld e, a
     ld d, $00
@@ -6760,7 +6760,7 @@ Call_000_22a0:
     pop hl
 
 jr_000_22c2:
-    ldh a, [hUnknownE5]
+    ldh a, [hTilemapScrollX]
     cp [hl]
     jr z, jr_000_22d4
 
@@ -6779,13 +6779,13 @@ jr_000_22cd:
     jr jr_000_22c2
 
 jr_000_22d4:
-    ldh a, [hUnknownE6]
+    ldh a, [hTilemapScrollY]
     inc hl
     cp [hl]
     jr nz, jr_000_22cd
 
     inc hl
-    ld de, hUnknownF4
+    ld de, hRenderCounter
     ld a, [hl+]
     ld [de], a
     inc e
@@ -6811,7 +6811,7 @@ jr_000_22f0:
 
 
 Call_000_22f4:
-    ldh a, [hUnknownF4]
+    ldh a, [hRenderCounter]
     and a
     ret z
 
@@ -6824,7 +6824,7 @@ Call_000_22f4:
     ld h, a
     pop af
     ld [hl], a
-    ldh a, [hUnknownF5]
+    ldh a, [hRenderMode]
     add hl, de
     ld [hl], a
     ldh a, [$fff6]
@@ -6834,8 +6834,8 @@ Call_000_22f4:
     add hl, de
     ld [hl], a
     xor a
-    ldh [hUnknownF4], a
-    ldh [hUnknownF5], a
+    ldh [hRenderCounter], a
+    ldh [hRenderMode], a
     pop de
     pop hl
     ret
@@ -6850,7 +6850,7 @@ Call_000_2318:
     ld a, $03
     ldh [hCurrentBank], a
     ld [$2000], a
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     add a
     ld e, a
     ld d, $00
@@ -6863,7 +6863,7 @@ Call_000_2318:
     pop hl
 
 jr_000_2335:
-    ldh a, [hUnknownE5]
+    ldh a, [hTilemapScrollX]
     cp [hl]
     jr z, jr_000_2344
 
@@ -6879,7 +6879,7 @@ jr_000_2340:
     jr jr_000_2335
 
 jr_000_2344:
-    ldh a, [hUnknownE6]
+    ldh a, [hTilemapScrollY]
     inc hl
     cp [hl]
     jr nz, jr_000_2340
@@ -6988,7 +6988,7 @@ Call_000_235a:
 ; ALGORITHME :
 ;   1. Selon bit 3 de hFrameCounter :
 ;      - Si 1 : lit depuis wAnimBuffer ($C600)
-;      - Si 0 : lit depuis table ROM $3FAF (selon hUnknownB4)
+;      - Si 0 : lit depuis table ROM $3FAF (selon hAnimTileIndex)
 ;   2. Copie 8 octets vers $95D1 (tiles VRAM)
 ;
 ; NOTE : Crée l'effet d'animation de l'eau/lave toutes les 8 frames
@@ -7055,7 +7055,7 @@ jr_000_2425:
     xor a
     ld [$d007], a
     ld hl, $242d
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     ld d, $00
     ld e, a
     add hl, de
@@ -7066,7 +7066,7 @@ jr_000_2425:
 
 Call_000_2453:
     ld hl, $401a
-    ldh a, [hUnknownE4]
+    ldh a, [hRenderContext]
     rlca
     ld d, $00
     ld e, a
@@ -7159,7 +7159,7 @@ Call_000_24c4:
     jr jr_000_2492
 
 Call_000_24cd:
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ldh [hSoundId], a
     cp $ff
     ret z
@@ -7177,7 +7177,7 @@ Call_000_24cd:
     jr jr_000_2502
 
 Call_000_24e6:
-    ldh a, [hUnknown9A]
+    ldh a, [hLevelIndex]
     and a
     jr nz, jr_000_24ee
 
@@ -7224,7 +7224,7 @@ jr_000_2502:
     jr c, jr_000_252b
 
     ld a, $0b
-    ld [wUnknownDFE8], a
+    ld [wStateRender], a
 
 jr_000_252b:
     ld de, $0010
@@ -7585,12 +7585,12 @@ jr_000_26ef:
     ldh [hSoundCh1], a
     inc hl
     ld a, [hl]
-    ld [wUnknownD003], a
+    ld [wAudioQueueId], a
     ld a, [$d002]
     cp $f8
     jr nz, jr_000_2708
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ldh [hSoundCh3], a
     pop hl
     jr jr_000_26ac
@@ -7599,7 +7599,7 @@ jr_000_2708:
     cp $f0
     jr nz, jr_000_2784
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     and $c0
     jr z, jr_000_274b
 
@@ -7620,7 +7620,7 @@ jr_000_2708:
     ldh [hSoundCh2], a
 
 jr_000_272a:
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     bit 6, a
     jr z, jr_000_274b
 
@@ -7643,7 +7643,7 @@ jr_000_272a:
     ldh [hSoundCh2], a
 
 jr_000_274b:
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     and $0c
     jr z, jr_000_275a
 
@@ -7655,7 +7655,7 @@ jr_000_274b:
     ldh [hSoundCh2], a
 
 jr_000_275a:
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     bit 5, a
     jr z, jr_000_276d
 
@@ -7668,7 +7668,7 @@ jr_000_275a:
     ldh [hSoundCh2], a
 
 jr_000_276d:
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     bit 4, a
     jr z, jr_000_2780
 
@@ -7702,7 +7702,7 @@ jr_000_2799:
     cp $f2
     jr nz, jr_000_27a6
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ldh [hSoundCh4], a
     pop hl
     jp Jump_000_26ac
@@ -7712,7 +7712,7 @@ jr_000_27a6:
     cp $f3
     jr nz, jr_000_27ce
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ldh [hSoundId], a
     cp $ff
     jp z, Jump_000_286e
@@ -7739,7 +7739,7 @@ jr_000_27ce:
     cp $f4
     jr nz, jr_000_27db
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ldh [hSoundVar2], a
     pop hl
     jp Jump_000_26ac
@@ -7768,7 +7768,7 @@ jr_000_27eb:
     sub b
     add $14
     cp $20
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     dec a
     jr z, jr_000_2801
 
@@ -7803,7 +7803,7 @@ jr_000_2818:
     cp $f9
     jr nz, jr_000_2824
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ld [$dff8], a
     pop hl
     ret
@@ -7813,7 +7813,7 @@ jr_000_2824:
     cp $fa
     jr nz, jr_000_2830
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ld [wStateBuffer], a
     pop hl
     ret
@@ -7823,7 +7823,7 @@ jr_000_2830:
     cp $fb
     jr nz, jr_000_284d
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ld c, a
     ld a, [wPlayerState]
     ld b, a
@@ -7847,7 +7847,7 @@ jr_000_284d:
     cp $fc
     jr nz, jr_000_285e
 
-    ld a, [wUnknownD003]
+    ld a, [wAudioQueueId]
     ldh [hSoundParam1], a
     ld a, $70
     ldh [hSoundParam2], a
@@ -7859,8 +7859,8 @@ jr_000_285e:
     cp $fd
     jr nz, jr_000_286a
 
-    ld a, [wUnknownD003]
-    ld [wUnknownDFE8], a
+    ld a, [wAudioQueueId]
+    ld [wStateRender], a
     pop hl
     ret
 
@@ -8854,16 +8854,16 @@ jr_000_2d12:
     sbc h
     ld de, hParam1
     adc l
-    ld bc, hUnknown9C
+    ld bc, hAnimObjCount
     jr nz, @-$71
 
-    ld hl, hUnknown9C
+    ld hl, hAnimObjCount
     sbc e
     rst $38
     sbc l
-    ld de, hUnknown9D
+    ld de, hAnimScaleCounter
     sbc [hl]
-    ld de, hUnknown9E
+    ld de, hAnimStructBank
     rst $28
     ld bc, $01ef
     rst $28
@@ -8874,14 +8874,14 @@ jr_000_2d12:
 
     ld sp, $0a9d
     sbc l
-    ld de, hUnknown9D
+    ld de, hAnimScaleCounter
 
 jr_000_2d72:
     jr nz, jr_000_2d12
 
     ld sp, $0a9e
     sbc [hl]
-    ld de, hUnknown9E
+    ld de, hAnimStructBank
     add e
     rst $38
     add h
@@ -8954,13 +8954,13 @@ jr_000_2dba:
     and a
     ld de, hTimer1
     xor b
-    ld bc, hUnknownA9
+    ld bc, hObjParamBuf1
     db $10
     xor c
     ld de, $ffa8
     jr nz, jr_000_2d9c
 
-    ld hl, hUnknownA9
+    ld hl, hObjParamBuf1
     cp b
     ld bc, $ffb9
     db $10
@@ -9108,7 +9108,7 @@ jr_000_2e89:
     cp d
     ld bc, $0abb
     xor d
-    ld bc, hUnknownAB
+    ld bc, hObjParamBuf3
     ld b, b
     and $ff
     cp e
@@ -9168,12 +9168,12 @@ jr_000_2e89:
 
     ld sp, $0aaa
     xor d
-    ld de, hUnknownAA
+    ld de, hObjParamBuf2
     jr nz, @-$53
 
     ld sp, $0aab
     xor e
-    ld de, hUnknownAB
+    ld de, hObjParamBuf3
     cp h
     ld bc, $0abd
     adc $01
@@ -9199,9 +9199,9 @@ jr_000_2e89:
     add a
     rst $38
     ld sp, hl
-    ld bc, hUnknownFB
+    ld bc, hOAMIndex
     ld sp, hl
-    ld bc, hUnknownFA
+    ld bc, hDMACounter
     db $10
     ld sp, hl
     ld [de], a
@@ -12028,7 +12028,7 @@ jr_000_3d56:
 ; QUOI : Met à jour l'affichage du score de niveau à l'écran.
 ;
 ; CONDITIONS :
-;   - wUnknownA4 ($C0A4) == 0 (pas en état spécial)
+;   - wROMBankInit ($C0A4) == 0 (pas en état spécial)
 ;   - hGameState < $12 (pas en écran de fin)
 ;   - wLevelData ($DA00) == $28 (type de niveau spécifique?)
 ;
@@ -12074,7 +12074,7 @@ Call_000_3d75:
     ret
 
 
-    ld hl, wUnknownDFE8
+    ld hl, wStateRender
     ld a, $09
     ld [hl], a
     xor a
@@ -12380,7 +12380,7 @@ jr_000_3f06:
 ;; ==========================================================================
 UpdateScoreDisplay:
     ; --- EarlyReturnChecks ---
-    ldh a, [hUnknownB1]          ; Flag "needs update" ?
+    ldh a, [hScoreNeedsUpdate]          ; Flag "needs update" ?
     and a
     ret z                   ; Non → return
 
@@ -12400,7 +12400,7 @@ UpdateScoreDisplay:
 ;; Convertit 3 octets BCD en 6 tiles avec suppression des zéros de tête
 Call_000_3f38:
     xor a
-    ldh [hUnknownB1], a          ; Clear "needs update" flag
+    ldh [hScoreNeedsUpdate], a          ; Clear "needs update" flag
     ld c, $03               ; 3 octets à traiter
 
 jr_000_3f3d:
@@ -12412,7 +12412,7 @@ jr_000_3f3d:
     jr nz, jr_000_3f6d      ; Si != 0 → afficher chiffre
 
     ; Chiffre = 0, vérifier si leading zero
-    ldh a, [hUnknownB1]          ; Déjà affiché un chiffre non-zéro ?
+    ldh a, [hScoreNeedsUpdate]          ; Déjà affiché un chiffre non-zéro ?
     and a
     ld a, $00               ; Tile "0"
     jr nz, jr_000_3f4e      ; Oui → afficher "0"
@@ -12428,7 +12428,7 @@ jr_000_3f4e:
     jr nz, jr_000_3f75      ; Si != 0 → afficher chiffre
 
     ; Chiffre = 0, vérifier si leading zero
-    ldh a, [hUnknownB1]          ; Déjà affiché un chiffre non-zéro ?
+    ldh a, [hScoreNeedsUpdate]          ; Déjà affiché un chiffre non-zéro ?
     and a
     ld a, $00               ; Tile "0"
     jr nz, jr_000_3f64      ; Oui → afficher "0"
@@ -12448,14 +12448,14 @@ jr_000_3f64:
     jr nz, jr_000_3f3d      ; Boucle 3 fois
 
     xor a
-    ldh [hUnknownB1], a          ; Clear flag
+    ldh [hScoreNeedsUpdate], a          ; Clear flag
     ret
 
 ; --- MarkNonZeroSeen (high nibble) ---
 jr_000_3f6d:
     push af
     ld a, $01
-    ldh [hUnknownB1], a          ; Marquer "a vu un chiffre non-zéro"
+    ldh [hScoreNeedsUpdate], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
     jr jr_000_3f4e
 
@@ -12463,7 +12463,7 @@ jr_000_3f6d:
 jr_000_3f75:
     push af
     ld a, $01
-    ldh [hUnknownB1], a          ; Marquer "a vu un chiffre non-zéro"
+    ldh [hScoreNeedsUpdate], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
     jr jr_000_3f64
 
@@ -12527,7 +12527,7 @@ jr_000_3fab:
     nop
 
 jr_000_3fb8:
-    ldh [hUnknownB1], a
+    ldh [hScoreNeedsUpdate], a
     ld e, e
     rst $38
     rst $38
