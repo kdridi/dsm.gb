@@ -7607,7 +7607,7 @@ Call_000_2544:
     ld [wAudioBufVar2], a
     ldh a, [hSoundParam2]
     ld [wAudioBufVar3], a
-    call Call_000_2cb2
+    call InitSoundSlot
     ld a, $0b
     ld [wStateBuffer], a
     ret
@@ -8065,7 +8065,7 @@ jr_000_27a6:
     jp z, Jump_000_286e
 
     ld hl, hSoundId
-    call Call_000_2cb2
+    call InitSoundSlot
     pop hl
     ld hl, $3495
     ldh a, [hSoundId]
@@ -8518,7 +8518,7 @@ Call_000_29f8:
 
     push hl
     ld [hl], a
-    call Call_000_2cb2
+    call InitSoundSlot
     ld a, $ff
     pop hl
     ret
@@ -8545,7 +8545,7 @@ Call_000_2a1a:
     ret z
 
     ld [hl], a
-    call Call_000_2cb2
+    call InitSoundSlot
     ld a, $ff
     ret
 
@@ -8575,7 +8575,7 @@ Call_000_2a3b:
     ret z
 
     ld [hl], a
-    call Call_000_2cb2
+    call InitSoundSlot
     xor a
     ret
 
@@ -8635,7 +8635,7 @@ jr_000_2a80:
     ret z
 
     ld [hl], a
-    call Call_000_2cb2
+    call InitSoundSlot
     ld a, $ff
     ret
 
@@ -8711,7 +8711,7 @@ jr_000_2ada:
     ret z
 
     ld [hl], a
-    call Call_000_2cb2
+    call InitSoundSlot
     ld a, $ff
     ret
 
@@ -8740,7 +8740,7 @@ Call_000_2afd:
     ret z
 
     ld [hl], a
-    call Call_000_2cb2
+    call InitSoundSlot
     ld a, $ff
     ret
 
@@ -9075,7 +9075,7 @@ jr_000_2ca6:
     ret
 
 
-Call_000_2cb2:
+InitSoundSlot:
     push hl
     ld a, [hl]
     ld d, $00
