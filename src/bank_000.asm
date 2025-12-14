@@ -3888,7 +3888,7 @@ Call_000_130f:
     ldh [hOAMIndex], a
     ld a, $54
     ldh [hScrollColumn], a
-    call Call_000_1345
+    call ClearScrollBuffer
     ld hl, $c210
     ld de, $1376
     call Call_000_136d
@@ -3906,7 +3906,7 @@ jr_000_1343:
     ret
 
 ; --- Routine : clear scroll buffer ---
-Call_000_1345:
+ClearScrollBuffer:
     ld hl, wScrollBuffer
     ld b, $10
     ld a, $2c
@@ -3985,7 +3985,7 @@ State32_CreditsScroll::
 
     xor $08
     ldh [hTemp3], a
-    call Call_000_1345
+    call ClearScrollBuffer
     ldh a, [hOAMIndex]
     dec a
     ldh [hOAMIndex], a
