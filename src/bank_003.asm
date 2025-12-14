@@ -3752,7 +3752,7 @@ jr_003_504d:
     ldh a, [rHDMA4]
     ld d, e
     ld d, e
-    call z, Call_000_2052
+    call z, CheckAnimObjectState
 
 jr_003_5058:
     ld d, h

@@ -1082,10 +1082,10 @@ Jump_000_053d:
 FillTilemapRow:
     ld b, $14
 
-jr_000_055a:
+.fillTilemapLoop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_055a
+    jr nz, .fillTilemapLoop
 
     ret
 
@@ -1113,10 +1113,10 @@ State11_LevelStart::
     ld b, $5f
     ld a, $2c
 
-jr_000_0581:
+.clearTilemapLoop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_0581
+    jr nz, .clearTilemapLoop
 
     call CopyHudTilemap
     ld a, $0f
@@ -1222,18 +1222,18 @@ CopyHudTilemap:
     ld de, $9800
     ld b, $02
 
-jr_000_0600:
+.copyHudTilemapLoop:
     ld a, [hl+]
     ld [de], a
     inc e
     ld a, e
     and $1f
     cp $14
-    jr nz, jr_000_0600
+    jr nz, .copyHudTilemapLoop
 
     ld e, $20
     dec b
-    jr nz, jr_000_0600
+    jr nz, .copyHudTilemapLoop
 
     ret
 
@@ -1449,12 +1449,12 @@ jr_000_070c:
     ld de, ROM_TILEMAP_INIT
     ld b, $09
 
-jr_000_0732:
+.copyTilemapInitLoop:
     ld a, [de]
     ld [hl+], a
     inc de
     dec b
-    jr nz, jr_000_0732
+    jr nz, .copyTilemapInitLoop
 
     xor a
     ldh [hGameState], a
@@ -1479,13 +1479,13 @@ jr_000_0732:
     ldh a, [hRenderContext]
     ld c, $0a
     cp $05
-    jr z, jr_000_0771
+    jr z, EnterGameplayState
 
     ld c, $0c
     cp $0b
     jr nz, jr_000_077e
 
-jr_000_0771:
+EnterGameplayState:
     ld a, $0d
     ldh [hGameState], a
     ld a, [wPlayerDir]
@@ -1602,30 +1602,29 @@ LoadLevelData:
     ld de, wPlayerY
     ld b, $51
 
-jr_000_07f8:
+.loadLevelDataLoop:
     ld a, [hl+]
     ld [de], a
     inc de
     dec b
-    jr nz, jr_000_07f8
+    jr nz, .loadLevelDataLoop
 
     ldh a, [hTimerAux]
     and a
-    jr z, jr_000_0808
+    jr z, InitScrollState
 
     ld a, $10
     ld [wPlayerDir], a
 
 InitScrollState:
-jr_000_0808:
     ld hl, hTilemapScrollY
     xor a
     ld b, $06
 
-jr_000_080e:
+.clearScrollLoop:
     ld [hl+], a
     dec b
-    jr nz, jr_000_080e
+    jr nz, .clearScrollLoop
 
     ldh [hTemp3], a
     ld [wGameVarAA], a
@@ -1634,21 +1633,21 @@ jr_000_080e:
     ld b, $14
     ldh a, [hGameState]
     cp $0a
-    jr z, jr_000_082b
+    jr z, .initScrollColumnsLoop
 
     ldh a, [hRenderContext]
     cp $0c
-    jr z, jr_000_082b
+    jr z, .initScrollColumnsLoop
 
     ld b, $1b
 
-jr_000_082b:
+.initScrollColumnsLoop:
     push bc
     call InitScrollBuffer
     call UpdateScrollColumn
     pop bc
     dec b
-    jr nz, jr_000_082b
+    jr nz, .initScrollColumnsLoop
 
     ret
 
@@ -1667,7 +1666,7 @@ jr_000_083f:
     ld b, $0a
     ld hl, wAudioBuffer
 
-jr_000_0847:
+ScanObjectLoop:
     ld a, [hl]
     cp $ff
     jr nz, jr_000_0851
@@ -1675,7 +1674,7 @@ jr_000_0847:
 Jump_000_084c:
     add hl, de
     dec b
-    jr nz, jr_000_0847
+    jr nz, ScanObjectLoop
 
     ret
 
@@ -2044,7 +2043,7 @@ HandleObjectAnimationOnBlockHit:
     ld b, $0a
     ld hl, wObjectBuffer
 
-jr_000_0a33:
+FindObjectLoop:
     ld a, [hl]
     cp $ff
     jr nz, jr_000_0a3d
@@ -2052,7 +2051,7 @@ jr_000_0a33:
 Jump_000_0a38:
     add hl, de
     dec b
-    jr nz, jr_000_0a33
+    jr nz, FindObjectLoop
 
     ret
 
@@ -2204,7 +2203,7 @@ CheckPlayerObjectCollision:
     ld b, $0a
     ld hl, wObjectBuffer
 
-jr_000_0aef:
+CheckCollisionLoop:
     ld a, [hl]
     cp $ff
     jr nz, jr_000_0af9
@@ -2212,7 +2211,7 @@ jr_000_0aef:
 Jump_000_0af4:
     add hl, de
     dec b
-    jr nz, jr_000_0aef
+    jr nz, CheckCollisionLoop
 
     ret
 
@@ -6558,17 +6557,17 @@ jr_000_2020:
     push de
     ldh a, [hGameState]
 
-Call_000_2052:
+CheckAnimObjectState:
     cp $0d
-    jr nz, jr_000_205b
+    jr nz, .not_gameplay
 
     call Call_000_2aa4
-    jr jr_000_205e
+    jr .end_check
 
-jr_000_205b:
+.not_gameplay:
     call DecrementObjectAnimationCounter
 
-jr_000_205e:
+.end_check:
     pop de
     and a
     jr z, jr_000_201b
@@ -6912,29 +6911,29 @@ jr_000_21f6:
     jr nz, jr_000_2205
 
     call Call_000_22a0
-    jr jr_000_221c
+    jr ProcessColumnAnimation_End
 
 jr_000_2205:
     cp $80
 
-Call_000_2207:
-    jr nz, jr_000_220e
+ProcessColumnAnimation:
+    jr nz, .not_5e
 
-    call Call_000_2318
-    jr jr_000_221c
+    call LoadLevelTilemap
+    jr ProcessColumnAnimation_End
 
-jr_000_220e:
+.not_5e:
     cp $5f
-    jr nz, jr_000_2217
+    jr nz, .not_5f
 
-    call Call_000_2318
-    jr jr_000_221c
+    call LoadLevelTilemap
+    jr ProcessColumnAnimation_End
 
-jr_000_2217:
+.not_5f:
     cp $81
-    call z, Call_000_2318
+    call z, LoadLevelTilemap
 
-jr_000_221c:
+ProcessColumnAnimation_End:
     inc e
     dec b
     jr nz, jr_000_21f6
@@ -7174,7 +7173,7 @@ Call_000_22f4:
     ret
 
 
-Call_000_2318:
+LoadLevelTilemap:
     push hl
     push de
     push bc
@@ -7195,33 +7194,33 @@ Call_000_2318:
     push de
     pop hl
 
-jr_000_2335:
+.search_tilemap:
     ldh a, [hTilemapScrollX]
     cp [hl]
-    jr z, jr_000_2344
+    jr z, .check_y
 
     ld a, [hl]
     cp $ff
-    jr z, jr_000_234f
+    jr z, .end_load
 
     inc hl
 
-jr_000_2340:
+.skip_entry:
     inc hl
     inc hl
-    jr jr_000_2335
+    jr .search_tilemap
 
-jr_000_2344:
+.check_y:
     ldh a, [hTilemapScrollY]
     inc hl
     cp [hl]
-    jr nz, jr_000_2340
+    jr nz, .skip_entry
 
     inc hl
     ld a, [hl]
     ld [wLevelConfig - 1], a
 
-jr_000_234f:
+.end_load:
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [$2000], a
