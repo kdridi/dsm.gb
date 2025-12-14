@@ -52,7 +52,7 @@ RST_20::
     rst $38
     rst $38
 
-Jump_000_0024::
+RST_24::
     rst $38
     rst $38
     rst $38

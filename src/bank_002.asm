@@ -3875,7 +3875,7 @@ jr_002_4ff2:
 
     jr jr_002_501a
 
-    jp Jump_000_0024
+    jp RST_24
 
 
     ld b, d
