@@ -744,7 +744,7 @@ jr_000_0368:
     ldh [hRenderContext], a
     ld a, $3c
     ld hl, $9800
-    call Call_000_0558
+    call FillTilemapRow
     ld hl, $9804
     ld [hl], $94
     ld hl, $9822
@@ -1071,7 +1071,15 @@ Jump_000_053d:
     ld de, $1200
     ld bc, $0833
 
-Call_000_0558:
+; =============================================================================
+; FillTilemapRow - Remplit une ligne de tilemap avec un tile
+; =============================================================================
+; ENTRÉE : A = tile à écrire, HL = adresse de début
+; SORTIE : HL = adresse après la ligne (HL + 20)
+; DÉTRUIT : A, B
+; NOTE : Remplit exactement 20 octets (largeur visible de l'écran GB)
+; =============================================================================
+FillTilemapRow:
     ld b, $14
 
 jr_000_055a:
