@@ -1963,12 +1963,12 @@ jr_003_4823:
     ldh [hAnimStructLow], a
     ld a, [hl]
     and a
-    jr z, jr_003_484a
+    jr z, AnimFrameEnd
 
     cp $80
-    jr z, jr_003_4848
+    jr z, AnimHiddenSet
 
-jr_003_4831:
+AnimAdvanceFrame:
     ldh a, [hAnimStructHigh]
     ld h, a
     ldh a, [hAnimStructLow]
@@ -1982,24 +1982,24 @@ jr_003_4831:
 
     jr jr_003_4823
 
-jr_003_4843:
+AnimClearHidden:
     xor a
     ldh [hAnimHiddenFlag], a
-    jr jr_003_4831
+    jr AnimAdvanceFrame
 
-jr_003_4848:
+AnimHiddenSet:
     ldh [hAnimHiddenFlag], a
 
-jr_003_484a:
+AnimFrameEnd:
     ld b, $07
     ld de, $ff86
 
-jr_003_484f:
+AnimCopyLoop:
     ld a, [hl+]
     ld [de], a
     inc de
     dec b
-    jr nz, jr_003_484f
+    jr nz, AnimCopyLoop
 
     ldh a, [hAnimFrameIndex]
     ld hl, $4c37
@@ -2025,31 +2025,30 @@ jr_003_484f:
     inc hl
     ld d, [hl]
 
-Jump_003_4872:
-jr_003_4872:
+AnimProcessFrame:
     inc hl
     ldh a, [$ff8c]
     ldh [hAnimAttr], a
     ld a, [hl]
     cp $ff
-    jr z, jr_003_4843
+    jr z, AnimClearHidden
 
     cp $fd
-    jr nz, jr_003_488c
+    jr nz, AnimCheckFlip
 
     ldh a, [$ff8c]
     xor $10
     ldh [hAnimAttr], a
-    jr jr_003_4872
+    jr AnimProcessFrame
 
-jr_003_4888:
+AnimSkipXY:
     inc de
     inc de
-    jr jr_003_4872
+    jr AnimProcessFrame
 
-jr_003_488c:
+AnimCheckFlip:
     cp $fe
-    jr z, jr_003_4888
+    jr z, AnimSkipXY
 
     ldh [hAnimFrameIndex], a
     ldh a, [$ff87]
@@ -2058,14 +2057,14 @@ jr_003_488c:
     ld c, a
     ldh a, [$ff8b]
     bit 6, a
-    jr nz, jr_003_48a3
+    jr nz, AnimFlipX
 
     ldh a, [hAnimObjX]
     add b
     adc c
-    jr jr_003_48ad
+    jr AnimXDone
 
-jr_003_48a3:
+AnimFlipX:
     ld a, b
     push af
     ldh a, [hAnimObjX]
@@ -2075,7 +2074,7 @@ jr_003_48a3:
     sbc c
     sbc $08
 
-jr_003_48ad:
+AnimXDone:
     ldh [hAnimCalcY], a
     ldh a, [$ff88]
     ld b, a
@@ -2085,14 +2084,14 @@ jr_003_48ad:
     ld c, a
     ldh a, [$ff8b]
     bit 5, a
-    jr nz, jr_003_48c2
+    jr nz, AnimFlipY
 
     ldh a, [hAnimObjY]
     add b
     adc c
-    jr jr_003_48cc
+    jr AnimYDone
 
-jr_003_48c2:
+AnimFlipY:
     ld a, b
     push af
     ldh a, [hAnimObjY]
@@ -2102,7 +2101,7 @@ jr_003_48c2:
     sbc c
     sbc $08
 
-jr_003_48cc:
+AnimYDone:
     ldh [hAnimCalcX], a
     push hl
     ldh a, [hParam1]
@@ -2111,15 +2110,15 @@ jr_003_48cc:
     ld l, a
     ldh a, [hAnimHiddenFlag]
     and a
-    jr z, jr_003_48de
+    jr z, AnimHiddenY
 
     ld a, $ff
-    jr jr_003_48e0
+    jr AnimRender
 
-jr_003_48de:
+AnimHiddenY:
     ldh a, [hAnimCalcY]
 
-jr_003_48e0:
+AnimRender:
     ld [hl+], a
     ldh a, [hAnimCalcX]
     ld [hl+], a
@@ -2138,7 +2137,7 @@ jr_003_48e0:
     ld a, l
     ldh [hParam2], a
     pop hl
-    jp Jump_003_4872
+    jp AnimProcessFrame
 
 
     ld hl, $c209
@@ -2173,19 +2172,19 @@ jr_003_48e0:
     ret z
 
     cp $02
-    jr z, jr_003_4933
+    jr z, StateType2Branch
 
     add hl, de
     ld a, [hl]
     cp $7f
-    jr z, jr_003_4948
+    jr z, StateBoundaryMax
 
     ld a, [bc]
     sub [hl]
     ld [bc], a
     inc e
 
-jr_003_4929:
+StateStoreValue:
     ld a, e
     inc c
     inc c
@@ -2198,29 +2197,29 @@ jr_003_4929:
     ret
 
 
-jr_003_4933:
+StateType2Branch:
     ld a, e
     cp $ff
-    jr z, jr_003_495b
+    jr z, StateType2End
 
     add hl, de
     ld a, [hl]
     cp $7f
-    jr z, jr_003_4944
+    jr z, StateBoundaryCheck
 
-jr_003_493e:
+StateProcessValue:
     ld a, [bc]
     add [hl]
     ld [bc], a
     dec e
-    jr jr_003_4929
+    jr StateStoreValue
 
-jr_003_4944:
+StateBoundaryCheck:
     dec hl
     dec e
-    jr jr_003_493e
+    jr StateProcessValue
 
-jr_003_4948:
+StateBoundaryMax:
     dec de
     dec hl
     ld a, $02
@@ -2237,9 +2236,9 @@ jr_003_4948:
     dec c
     dec c
     dec c
-    jr jr_003_493e
+    jr StateProcessValue
 
-jr_003_495b:
+StateType2End:
     xor a
     inc c
     inc c
