@@ -8282,7 +8282,7 @@ CheckSoundChannel:
     jr z, SoundParamProcessing
 
     cp $04
-    jr nz, jr_000_28da
+    jr nz, CheckSoundChannel.ch4_0c
 
 SetSoundFrequency:
     ldh a, [hSoundCh2]
@@ -8291,7 +8291,7 @@ SetSoundFrequency:
     jp Jump_000_296c
 
 
-jr_000_28da:
+CheckSoundChannel.ch4_0c:
     cp $0c
     jp nz, Jump_000_296c
 
@@ -9050,7 +9050,7 @@ OffsetSpritesX:
     and a
     ret z
 
-jr_000_2c99:
+OffsetSpritesX.loop:
     ldh a, [hSoundParam2]
     sub b
     ldh [hSoundParam2], a
@@ -9059,14 +9059,14 @@ jr_000_2c99:
     ld hl, wObjBufferVar03
     ld de, $0010
 
-jr_000_2ca6:
+OffsetSpritesX.apply_offset:
     ld a, [hl]
     sub b
     ld [hl], a
     add hl, de
     ld a, l
     cp $a0
-    jr c, jr_000_2ca6
+    jr c, OffsetSpritesX.apply_offset
 
     pop de
     pop hl
@@ -9078,7 +9078,7 @@ InitSoundSlot:
     ld a, [hl]
     ld d, $00
 
-jr_000_2cb6:
+InitSoundSlot.load_table:
     ld e, a
     rlca
     add e
@@ -9087,12 +9087,12 @@ jr_000_2cb6:
     ld hl, ROM_AUDIO_CONFIG
     add hl, de
 
-jr_000_2cc0:
+InitSoundSlot.read_params:
     ld a, [hl+]
     ld b, a
     ld a, [hl+]
 
-jr_000_2cc3:
+InitSoundSlot.config_ready:
     ld d, a
     ld a, [hl]
     pop hl
@@ -9162,7 +9162,7 @@ SaveSoundDataLoop:
     rst $38
     sub c
     rst $38
-    jr nz, jr_000_2c99
+    jr nz, OffsetSpritesX.loop
 
     rst $38
     ld b, b
@@ -9183,7 +9183,7 @@ jr_000_2d12:
     ld [$ff98], sp
     db $10
     sub a
-    jr jr_000_2cb6
+    jr InitSoundSlot.load_table
 
     rst $38
     db $10
@@ -9193,9 +9193,9 @@ jr_000_2d12:
     rst $38
     sbc d
     rst $38
-    jr nz, jr_000_2cc0
+    jr nz, InitSoundSlot.read_params
 
-    jr z, jr_000_2cc3
+    jr z, InitSoundSlot.config_ready
 
     rst $38
     db $10
