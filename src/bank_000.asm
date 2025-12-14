@@ -421,18 +421,10 @@ AfterHeader:
 Call_000_0153:
     call Call_000_3ed1
 
-jr_000_0156:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_0156
-
+    WAIT_FOR_HBLANK
     ld b, [hl]
 
-jr_000_015d:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_015d
-
+    WAIT_FOR_HBLANK
     ld a, [hl]
     and b
     ret
@@ -2933,11 +2925,7 @@ State1E_ClearTilemapColumn::
     sub $20
     ldh [hVramPtrLow], a
 
-jr_000_0e68:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_0e68
-
+    WAIT_FOR_HBLANK
     ld [hl], $2c
     ld a, $08
     ldh [hTimer1], a
@@ -3168,16 +3156,9 @@ Call_000_0f8f:
     ldh a, [hCopyDstHigh]
     ld l, a
 
-jr_000_0f9a:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_0f9a
-
-jr_000_0fa0:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_0fa0
-
+WaitAndStoreVram:
+    WAIT_FOR_HBLANK
+    WAIT_FOR_HBLANK
     ld [hl], b
     inc hl
     ld a, h
@@ -3221,7 +3202,7 @@ jr_000_0fc5:
     pop bc
     inc de
     inc de
-    jr jr_000_0f9a
+    jr WaitAndStoreVram
 
 ; === Table de texte cutscene ($0FD8-$0FF3) ===
 ; NOTE: Mal désassemblé - données de texte (indices de tiles)
@@ -3441,34 +3422,27 @@ jr_000_10bf:
     ldh a, [hOAMAddrLow]
     ld d, a
 
-jr_000_10cf:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_10cf
-
+.loopVramOp:
+    WAIT_FOR_HBLANK
     ld a, [hl]
     and d
     ld e, a
 
-jr_000_10d8:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_10d8
-
+    WAIT_FOR_HBLANK
     ld [hl], e
     inc hl
     ld a, h
     cp $8f
-    jr nz, jr_000_10e8
+    jr nz, .skipWrap
 
     ld hl, $9690
 
-jr_000_10e8:
+.skipWrap:
     rrc d
     dec bc
     ld a, c
     or b
-    jr nz, jr_000_10cf
+    jr nz, .loopVramOp
 
     ldh a, [hOAMAddrLow]
     sla a
@@ -3676,20 +3650,13 @@ jr_000_11e9:
     ld b, $6d
     ld hl, $98a5
 
-jr_000_11f0:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_11f0
-
-jr_000_11f6:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_11f6
-
+.loopClear:
+    WAIT_FOR_HBLANK
+    WAIT_FOR_HBLANK
     ld [hl], $2c
     inc hl
     dec b
-    jr nz, jr_000_11f0
+    jr nz, .loopClear
 
     xor a
     ldh [hOAMIndex], a
@@ -3958,17 +3925,14 @@ jr_000_134c:
     ld l, a
     ld h, $98
 
-jr_000_135d:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_135d
-
+.loopClearTile:
+    WAIT_FOR_HBLANK
     ld [hl], $2c
     ld a, l
     sub $20
     ld l, a
     dec b
-    jr nz, jr_000_135d
+    jr nz, .loopClearTile
 
     ret
 
@@ -4103,21 +4067,14 @@ State33_DisplayCreditsText::
 jr_000_13f7:
     ld a, [hl]
     cp $fe
-    jr z, jr_000_1418
+    jr z, .clearTile
 
     inc hl
     ld b, a
 
-jr_000_13fe:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_13fe
-
-jr_000_1404:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_1404
-
+.waitAndWrite:
+    WAIT_FOR_HBLANK
+    WAIT_FOR_HBLANK
     ld a, b
     ld [de], a
     inc de
@@ -4130,9 +4087,9 @@ jr_000_1404:
 
     jr jr_000_13f7
 
-jr_000_1418:
+.clearTile:
     ld b, $2c
-    jr jr_000_13fe
+    jr .waitAndWrite
 
 jr_000_141c:
     ld de, $9a87
@@ -5791,25 +5748,17 @@ State39_GameOver::
     ld de, $1cce
     ld b, $11
 
-jr_000_1c7b:
+.loopWriteTile:
     ld a, [de]
     ld c, a
 
-jr_000_1c7d:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_1c7d
-
-jr_000_1c83:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_1c83
-
+    WAIT_FOR_HBLANK
+    WAIT_FOR_HBLANK
     ld [hl], c
     inc l
     inc de
     dec b
-    jr nz, jr_000_1c7b
+    jr nz, .loopWriteTile
 
     ld a, $10
     ld [wStateRender], a
@@ -5890,11 +5839,7 @@ jr_000_1cef:
     ld a, [de]
     ld b, a
 
-jr_000_1cf1:
-    ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_1cf1
-
+    WAIT_FOR_HBLANK
     ld [hl], b
     inc l
     inc de

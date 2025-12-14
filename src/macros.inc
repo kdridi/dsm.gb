@@ -136,6 +136,33 @@ MACRO WAIT_LY
     jr nz, .wait\@
 ENDM
 
+; -----------------------------------------------------------------------------
+; WAIT_FOR_HBLANK - Attente du mode 0 (HBlank) du LCD
+; -----------------------------------------------------------------------------
+; QUOI : Boucle jusqu'à ce que le LCD soit en mode 0 (HBlank).
+;
+; POURQUOI : Pendant les modes 2 et 3, le PPU utilise la VRAM et l'OAM.
+; Toute lecture/écriture VRAM hors HBlank (mode 0) ou VBlank (mode 1) peut
+; retourner des données corrompues. Ce pattern "attendre mode 0" est
+; omniprésent dans le code pour garantir des accès VRAM sûrs.
+;
+; DÉTAIL : Les bits 0-1 de STAT indiquent le mode LCD :
+;   00 = Mode 0 (HBlank) - VRAM/OAM accessibles
+;   01 = Mode 1 (VBlank) - VRAM/OAM accessibles
+;   10 = Mode 2 (OAM scan) - VRAM accessible, OAM bloqué
+;   11 = Mode 3 (Drawing) - VRAM/OAM bloqués
+;
+; USAGE :
+;   WAIT_FOR_HBLANK         ; Attendre HBlank
+;   ld a, [hl]              ; Lecture VRAM sûre
+; -----------------------------------------------------------------------------
+MACRO WAIT_FOR_HBLANK
+.waitHBlank\@:
+    ldh a, [rSTAT]
+    and STATF_LCD
+    jr nz, .waitHBlank\@
+ENDM
+
 ;* ============================================================================
 ;* FREE FUNCTIONS - Décomposition algorithmique de SystemInit
 ;* ============================================================================
