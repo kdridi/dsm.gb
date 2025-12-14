@@ -5088,7 +5088,7 @@ PlaySoundExit:
     ret
 
 
-Jump_000_191a:
+
 ApplyAltSpriteAttributeIfConfigSet:
     ldh a, [hBlockHitType]
     and a
@@ -5231,7 +5231,7 @@ HandlePlayerWaterCollision:
 
     ldh a, [hTimerAux]
     cp $02
-    jp nz, Jump_000_191a
+    jp nz, ApplyAltSpriteAttributeIfConfigSet
 
     push hl
     pop de
@@ -6880,7 +6880,7 @@ InitFromRenderContext:
     push de
     pop hl
 
-Jump_000_21df:
+
 ProcessScrollEntry:
     ld a, [hl+]
     cp $fe
@@ -6979,7 +6979,7 @@ CopyTileDataLoop:
     jr nz, CopyTileDataLoop
 
     inc hl
-    jp Jump_000_21df
+    jp ProcessScrollEntry
 
 
 ; =============================================================================
@@ -7827,7 +7827,7 @@ NextSoundObject:
 
 
 ProcessSoundAnimation:
-Jump_000_266d:
+
 ProcessSoundAnimationLoop:
     ldh a, [hSoundVar1]
     and a
@@ -7921,7 +7921,7 @@ ProcessAudioQueue_Type_Other:
     ld a, $01
     ldh [hSoundVar1], a
     pop hl
-    jp Jump_000_266d
+    jp ProcessSoundAnimationLoop
 
 
 ProcessAudioQueue_Type_F0:
@@ -8223,7 +8223,7 @@ AudioCommand_CompleteExit:
 Jump_000_2870:
     ldh a, [hSoundFlag]
     and $0f
-    jp z, Jump_000_296c
+    jp z, UpdatePhysicsCollision
 
     ldh a, [hSoundCh2]
     bit 0, a
@@ -8248,7 +8248,7 @@ SoundParamProcessing:
     ldh [hSoundParam2], a
     ldh a, [hSoundVar4]
     and a
-    jp z, Jump_000_296c
+    jp z, UpdatePhysicsCollision
 
     ld a, [$c205]
     ld c, a
@@ -8272,7 +8272,7 @@ SoundParamProcessing:
 RestoreSoundConfig:
     ld a, c
     ld [$c205], a
-    jp Jump_000_296c
+    jp UpdatePhysicsCollision
 
 
 CheckSoundChannel:
@@ -8288,17 +8288,17 @@ SetSoundFrequency:
     ldh a, [hSoundCh2]
     set 0, a
     ldh [hSoundCh2], a
-    jp Jump_000_296c
+    jp UpdatePhysicsCollision
 
 
 CheckSoundChannel.ch4_0c:
     cp $0c
-    jp nz, Jump_000_296c
+    jp nz, UpdatePhysicsCollision
 
     xor a
     ldh [hSoundCh1], a
     ldh [hSoundVar1], a
-    jp Jump_000_296c
+    jp UpdatePhysicsCollision
 
 
 CollisionCheckTileRight:
@@ -8392,11 +8392,11 @@ ClearSoundCh1AndVar1_Collision:
     ldh [hSoundCh1], a
     ldh [hSoundVar1], a
 
-Jump_000_296c:
+
 UpdatePhysicsCollision:
     ldh a, [hSoundFlag]
     and $f0
-    jp z, Jump_000_29f4
+    jp z, CollisionEnd
 
     ldh a, [hSoundCh2]
     bit 1, a
@@ -8488,7 +8488,7 @@ ClearSoundCh1AndVar1_Collision2:
     ldh [hSoundCh1], a
     ldh [hSoundVar1], a
 
-Jump_000_29f4:
+
 CollisionEnd:
     xor a
     ldh [hSoundVar4], a
