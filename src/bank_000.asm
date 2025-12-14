@@ -3144,7 +3144,7 @@ WriteCharToVRAM:
     ld b, a
     cp $fe
 
-Call_000_0f8f:
+ValidateAndWriteTextCharToVram:
     jr z, jr_000_0fc5
 
     cp $ff

@@ -4800,7 +4800,7 @@ jr_001_5436:
     dec bc
     adc e
     add a
-    call nc, Call_000_0f8f
+    call nc, ValidateAndWriteTextCharToVram
     inc b
     sub c
     inc c
