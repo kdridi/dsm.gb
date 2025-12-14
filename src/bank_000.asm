@@ -973,7 +973,7 @@ UpdateLevelSelectDisplay:
     jr c, InitAttractModeDisplay
 
     bit 0, b
-    jr z, jr_000_04f5
+    jr z, AnimRenderContextReady
 
     ldh a, [hAnimTileIndex]
     inc a
@@ -990,16 +990,16 @@ SkipAnimTileAdd:
     ldh a, [hRenderContext]
     inc a
     cp $0c
-    jr nz, jr_000_04f3
+    jr nz, AnimRenderContextUpdateDone
 
     ld a, $11
     ldh [hAnimTileIndex], a
     xor a
 
-jr_000_04f3:
+AnimRenderContextUpdateDone:
     ldh [hRenderContext], a
 
-jr_000_04f5:
+AnimRenderContextReady:
     ld hl, wUnknown08
     ldh a, [hAnimTileIndex]
     ld b, $78
@@ -1392,18 +1392,18 @@ StateHandler_02::
     ldh [hVBlankMode], a
     ldh a, [hRenderMode]
     inc a
-    jr jr_000_06e1
+    jr StyleLevelCheck
 
 LoadLevelStyleFromHL:
     ld a, [hl]
 
-jr_000_06e1:
+StyleLevelCheck:
     cp $03
-    jr z, jr_000_06e6
+    jr z, StyleLevelAdjusted
 
     dec a
 
-jr_000_06e6:
+StyleLevelAdjusted:
     ld bc, ROM_STYLE_LVL_0
     cp $07
     jr c, ApplyLevelStyleConfig
@@ -1737,29 +1737,29 @@ CheckPlayerCollisionWithObject:
 
     ldh a, [hGameState]
     cp $0d
-    jr z, jr_000_08b1
+    jr z, SkipInvulnCheck
 
     ld a, [wPlayerInvuln]
     and a
-    jr z, jr_000_08b5
+    jr z, ProcessPlayerInteraction
 
-jr_000_08b1:
+SkipInvulnCheck:
     dec l
     jp Jump_000_0939
 
 
-jr_000_08b5:
+ProcessPlayerInteraction:
     ld a, [wPlayerState]
     add $06
     ld c, [hl]
     dec l
     sub c
-    jr c, jr_000_0939
+    jr c, PlayerInteractionCheckDamage
 
     ld a, [wPlayerState]
     sub $06
     sub b
-    jr nc, jr_000_0939
+    jr nc, PlayerInteractionCheckDamage
 
     ld b, [hl]
     dec b
@@ -1767,7 +1767,7 @@ jr_000_08b5:
     dec b
     ld a, [wPlayerX]
     sub b
-    jr nc, jr_000_0939
+    jr nc, PlayerInteractionCheckDamage
 
     dec l
     dec l
@@ -1796,7 +1796,7 @@ jr_000_08b5:
     or $04
     ld [hl], a
 
-jr_000_08fb:
+SetupAnimationBuffer:
     ld a, $03
     ld [wStateBuffer], a
     ld a, [wPlayerState]
@@ -1809,45 +1809,45 @@ jr_000_08fb:
     ldh [hPtrBank], a
     ldh a, [hAnimObjCount]
     and a
-    jr z, jr_000_0934
+    jr z, ResetAnimScale
 
     ldh a, [hAnimScaleCounter]
     cp $03
-    jr z, jr_000_0920
+    jr z, PlayerAnimScaleEntry
 
     inc a
     ldh [hAnimScaleCounter], a
 
-jr_000_0920:
+PlayerAnimScaleEntry:
     ld b, a
     ldh a, [hPtrBank]
     cp $50
-    jr z, jr_000_0934
+    jr z, ResetAnimScale
 
-jr_000_0927:
+PlayerAnimScaleLoop:
     sla a
     dec b
-    jr nz, jr_000_0927
+    jr nz, PlayerAnimScaleLoop
 
     ldh [hPtrBank], a
 
-jr_000_092e:
+AnimObjCountSet:
     ld a, $32
     ldh [hAnimObjCount], a
     jr PlayerInteractionDone
 
-jr_000_0934:
+ResetAnimScale:
     xor a
     ldh [hAnimScaleCounter], a
-    jr jr_000_092e
+    jr AnimObjCountSet
 
 Jump_000_0939:
-jr_000_0939:
+PlayerInteractionCheckDamage:
     dec l
     dec l
     ld a, [wPlayerInvuln]
     and a
-    jr nz, jr_000_0962
+    jr nz, LoadAudioAndSetupAnim
 
     ldh a, [hTimerAux]
     cp $03
@@ -1859,7 +1859,7 @@ jr_000_0939:
 
     ldh a, [hTimerAux]
     and a
-    jr nz, jr_000_095d
+    jr nz, StartGameplayPhaseJump
 
     call InitGameState
 
@@ -1875,16 +1875,16 @@ Jump_000_0958:
     jp Jump_000_084c
 
 
-jr_000_095d:
+StartGameplayPhaseJump:
     call StartGameplayPhase
     jr PlayerInteractionDone
 
-jr_000_0962:
+LoadAudioAndSetupAnim:
     call LoadAudioSlotConfiguration
     and a
     jr z, PlayerInteractionDone
 
-    jr jr_000_08fb
+    jr SetupAnimationBuffer
 
 Jump_000_096a:
     ldh a, [hOAMIndex]
