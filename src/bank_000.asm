@@ -5085,7 +5085,7 @@ Call_000_18fc:
     ld a, $2d
 
 jr_000_1916:
-    call Call_000_2544
+    call PlaySound
     ret
 
 
@@ -6641,7 +6641,7 @@ Call_000_208e:
     and a
     jr z, jr_000_20b8
 
-    call Call_000_2544
+    call PlaySound
 
 jr_000_20b8:
     ld hl, $c210
@@ -7598,7 +7598,7 @@ jr_000_253f:
     ret
 
 
-Call_000_2544:
+PlaySound:
     ld hl, wAudioBuffer
     ld [hl], a
     ldh a, [hSoundParam1]
