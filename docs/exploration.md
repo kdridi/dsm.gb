@@ -56,66 +56,70 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [ ] `$0100` (code) - Entry point ROM
 
 ### Handlers d'état (depuis StateJumpTable $02A5)
-- [ ] `$0610` (handler) - État $00
-- [ ] `$06A5` (handler) - État $01
-- [ ] `$06C5` (handler) - État $02
-- [ ] `$0B84` (handler) - État $03
-- [ ] `$0BCD` (handler) - État $04
-- [ ] `$0B6A` (handler) - État $05
-- [ ] `$0CC2` (handler) - État $06
-- [ ] `$0C37` (handler) - État $07
-- [ ] `$0C40` (handler) - État $08
-- [ ] `$0D12` (handler) - État $09
-- [ ] `$1626` (handler) - État $0A
-- [ ] `$1663` (handler) - État $0B
-- [ ] `$16D1` (handler) - État $0C
-- [ ] `$166D` (handler) - État $0D
-- [ ] `$2322` (handler) - État $0E
-- [ ] `$03C3` (handler) - État $0F
-- [ ] `$03DA` (handler) - État $10
-- [ ] `$03E5` (handler) - État $11
-- [ ] `$0415` (handler) - État $12
-- [ ] `$0445` (handler) - État $13
-- [ ] `$0475` (handler) - État $14
-- [ ] `$04A5` (handler) - État $15
-- [ ] `$0F92` (handler) - État $16
-- [ ] `$0FCB` (handler) - État $17
-- [ ] `$1038` (handler) - État $18
-- [ ] `$10F1` (handler) - État $19
-- [ ] `$113B` (handler) - État $1A
-- [ ] `$11C6` (handler) - État $1B
-- [ ] `$125D` (handler) - État $1C
-- [ ] `$12F4` (handler) - État $1D
-- [ ] `$138B` (handler) - État $1E
-- [ ] `$13AB` (handler) - État $1F
-- [ ] `$1422` (handler) - État $20
-- [ ] `$1499` (handler) - État $21
-- [ ] `$1510` (handler) - État $22
-- [ ] `$04D5` (handler) - État $23
-- [ ] `$050B` (handler) - État $24
-- [ ] `$0541` (handler) - État $25
-- [ ] `$0577` (handler) - État $26
-- [ ] `$05AD` (handler) - État $27
-- [ ] `$05E3` (handler) - État $28
-- [ ] `$157D` (handler) - État $29
-- [ ] `$15EA` (handler) - État $2A
-- [ ] `$1719` (handler) - État $2B
-- [ ] `$1761` (handler) - État $2C
-- [ ] `$17C5` (handler) - État $2D
-- [ ] `$1829` (handler) - État $2E
-- [ ] `$188D` (handler) - État $2F
-- [ ] `$18F1` (handler) - État $30
-- [ ] `$1955` (handler) - État $31
-- [ ] `$19B9` (handler) - État $32
-- [ ] `$1A1D` (handler) - État $33
-- [ ] `$1A81` (handler) - État $34
-- [ ] `$1AE5` (handler) - État $35
-- [ ] `$1B49` (handler) - État $36
-- [ ] `$1BAD` (handler) - État $37
-- [ ] `$1C11` (handler) - État $38
-- [ ] `$1C4F` (handler) - État $39
-- [ ] `$1C8D` (handler) - État $3A
-- [ ] `$1CE7` (handler) - État $3B
+*Adresses corrigées depuis le code source*
+
+| État | Adresse | Rôle supposé |
+|------|---------|--------------|
+| $00 | $0610 | ? (init/menu) |
+| $01 | $06A5 | ? |
+| $02 | $06C5 | ? |
+| $03 | $0B84 | ? |
+| $04 | $0BCD | ? |
+| $05 | $0C6A | ? |
+| $06 | $0CC2 | ? |
+| $07 | $0C37 | ? |
+| $08 | $0D40 | ? |
+| $09 | $1612 | ? |
+| $0A | $1626 | ? |
+| $0B | $1663 | ? |
+| $0C | $16D1 | ? |
+| $0D | $236D | ? |
+| $0E | $0322 | **Init niveau** (INIT_GAME_STATE) |
+| $0F | $04C3 | ? |
+| $10 | $05B7 | ? |
+| $11 | $055F | ? |
+| $12 | $3D8E | ? |
+| $13 | $3DCE | ? |
+| $14 | $5832 | Bank 1 |
+| $15 | $5835 | Bank 1 |
+| $16 | $3E9E | ? |
+| $17 | $5838 | Bank 1 |
+| $18 | $583B | Bank 1 |
+| $19 | $583E | Bank 1 |
+| $1A | $5841 | Bank 1 |
+| $1B | $0DF0 | ? |
+| $1C | $0E0C | ? |
+| $1D | $0E28 | ? |
+| $1E | $0E54 | ? |
+| $1F | $0E8D | ? |
+| $20 | $0EA0 | ? |
+| $21 | $0EC4 | ? |
+| $22 | $0F09 | ? |
+| $23 | $0F2A | ? |
+| $24 | $0F61 | ? |
+| $25 | $0FF4 | ? |
+| $26 | $104C | ? |
+| $27 | $1090 | ? |
+| $28 | $0EA0 | ? (même que $20) |
+| $29 | $110D | ? |
+| $2A | $115C | ? |
+| $2B | $118B | ? |
+| $2C | $11C7 | ? |
+| $2D | $1212 | ? |
+| $2E | $124B | ? |
+| $2F | $1298 | ? |
+| $30 | $12B9 | ? |
+| $31 | $12E8 | ? |
+| $32 | $1385 | ? |
+| $33 | $13E7 | ? |
+| $34 | $1438 | ? |
+| $35 | $1451 | ? |
+| $36 | $145D | ? |
+| $37 | $147F | ? |
+| $38 | $14D3 | ? |
+| $39 | $1C73 | **Game over** |
+| $3A | $1CDF | **État spécial window** |
+| $3B | $1CE7 | ? |
 
 ### Tables de données connues
 - [x] `$02A5` (data) - StateJumpTable, 60 entrées × 2 bytes
