@@ -2206,7 +2206,7 @@ CheckPlayerObjectCollision:
 CheckCollisionLoop:
     ld a, [hl]
     cp $ff
-    jr nz, jr_000_0af9
+    jr nz, CheckCollisionObjectPath
 
 Jump_000_0af4:
     add hl, de
@@ -2216,7 +2216,7 @@ Jump_000_0af4:
     ret
 
 
-jr_000_0af9:
+CheckCollisionObjectPath:
     push bc
     push hl
     ld bc, $000a
@@ -2235,12 +2235,12 @@ jr_000_0af9:
 
 SubtractPositionOffset:
     dec b
-    jr z, jr_000_0b18
+    jr z, CheckCollisionXAxisPath
 
     sub $08
     jr SubtractPositionOffset
 
-jr_000_0b18:
+CheckCollisionXAxisPath:
     ld c, a
     ldh [hTemp0], a
     ld a, [wPlayerX]
@@ -2249,19 +2249,19 @@ jr_000_0b18:
     ld a, c
     sub b
     cp $07
-    jr nc, jr_000_0b7f
+    jr nc, CollisionCheckFailed
 
     inc l
     ld a, [wPlayerState]
     ld b, a
     ld a, [hl]
     sub b
-    jr c, jr_000_0b34
+    jr c, CheckCollisionYAxisPath
 
     cp $03
-    jr nc, jr_000_0b7f
+    jr nc, CollisionCheckFailed
 
-jr_000_0b34:
+CheckCollisionYAxisPath:
     push hl
     inc l
     inc l
@@ -2285,12 +2285,12 @@ AddHeightOffset:
     ld b, a
     ld a, [wPlayerState]
     sub b
-    jr c, jr_000_0b54
+    jr c, ApplyCollisionKnockback
 
     cp $03
-    jr nc, jr_000_0b7f
+    jr nc, CollisionCheckFailed
 
-jr_000_0b54:
+ApplyCollisionKnockback:
     dec l
     ldh a, [hTemp0]
     sub $0a
@@ -2312,18 +2312,18 @@ jr_000_0b54:
     ld hl, $c20c
     ld a, [hl]
     cp $07
-    jr c, jr_000_0b7c
+    jr c, CollisionBoundsCheckEnd
 
     ld [hl], $06
 
-jr_000_0b7c:
+CollisionBoundsCheckEnd:
     pop hl
     pop bc
     ret
 
 
 Jump_000_0b7f:
-jr_000_0b7f:
+CollisionCheckFailed:
     pop hl
     pop bc
     jp Jump_000_0af4
@@ -2405,42 +2405,42 @@ StateHandler_04::
     ld b, [hl]
     ld a, b
     cp $7f
-    jr nz, jr_000_0bea
+    jr nz, UpdateSpriteAnimationPath
 
     ld a, [wGameVarAC]
     dec a
     ld [wGameVarAC], a
     ld b, $02
 
-jr_000_0bea:
+UpdateSpriteAnimationPath:
     ld hl, wOamVar0C
     ld de, $0004
     ld c, $04
 
-jr_000_0bf2:
+SpriteAnimationOAMLoop:
     ld a, b
     add [hl]
     ld [hl], a
     add hl, de
     dec c
-    jr nz, jr_000_0bf2
+    jr nz, SpriteAnimationOAMLoop
 
     cp $b4
     ret c
 
     ld a, [wSpecialState]
     cp $ff
-    jr nz, jr_000_0c07
+    jr nz, SetGameStateSpecialPath
 
     ld a, $3b
-    jr jr_000_0c0d
+    jr SetGameStateValue
 
-jr_000_0c07:
+SetGameStateSpecialPath:
     ld a, $90
     ldh [hTimer1], a
     ld a, $01
 
-jr_000_0c0d:
+SetGameStateValue:
     ldh [hGameState], a
     ret
 
@@ -2529,13 +2529,13 @@ StateHandler_05::
     ldh a, [hAnimTileIndex]
     and $0f
     cp $03
-    jr nz, jr_000_0c79
+    jr nz, AnimationCheckCompleteExit
 
     xor a
     ld [wPlayerVarAB], a
     call UpdateAudio
 
-jr_000_0c79:
+AnimationCheckCompleteExit:
     ldh a, [hTimer1]
     and a
     ret nz
@@ -2544,7 +2544,7 @@ jr_000_0c79:
     ld a, [hl+]
     ld b, [hl]
     or b
-    jr z, jr_000_0cb9
+    jr z, TransitionToLevelPath
 
     ld a, $01
     ld [wLevelData], a
@@ -2572,7 +2572,7 @@ jr_000_0c79:
     ret
 
 
-jr_000_0cb9:
+TransitionToLevelPath:
     ld a, $06
     ldh [hGameState], a
     ld a, $26
@@ -2662,7 +2662,7 @@ StateHandler_06_SpecialLevel:
     ret
 
 
-jr_000_0d30:
+LoadGameTilesWithBank:
     di
     ld a, c
     ld [$2000], a
@@ -2691,11 +2691,11 @@ StateHandler_08::
     ldh a, [hRenderContext]
     inc a
     cp $0c
-    jr nz, jr_000_0d53
+    jr nz, IncrementRenderContextPath
 
     xor a
 
-jr_000_0d53:
+IncrementRenderContextPath:
     ldh [hRenderContext], a
     ldh a, [hAnimTileIndex]
     inc a
@@ -2703,11 +2703,11 @@ jr_000_0d53:
     and $0f
     cp $04
     ld a, b
-    jr nz, jr_000_0d62
+    jr nz, UpdateAnimationTileIndexPath
 
     add $0d
 
-jr_000_0d62:
+UpdateAnimationTileIndexPath:
     ldh [hAnimTileIndex], a
 
 LoadAnimTilesByIndex:
@@ -2715,19 +2715,19 @@ LoadAnimTilesByIndex:
     swap a
     cp $01
     ld c, $02
-    jr z, jr_000_0d30
+    jr z, LoadGameTilesWithBank
 
     cp $02
     ld c, $01
-    jr z, jr_000_0d7c
+    jr z, LoadAnimTilesWithBank
 
     cp $03
     ld c, $03
-    jr z, jr_000_0d7c
+    jr z, LoadAnimTilesWithBank
 
     ld c, $01
 
-jr_000_0d7c:
+LoadAnimTilesWithBank:
     ld b, a
     di
     ld a, c
@@ -2749,7 +2749,7 @@ jr_000_0d7c:
     ld d, [hl]
     ld hl, $8a00
 
-jr_000_0d9a:
+CopyPatternTileDataLoop:
     ld a, [de]
     ld [hl+], a
     inc de
@@ -2757,7 +2757,7 @@ jr_000_0d9a:
     ld bc, $7230
     add hl, bc
     pop hl
-    jr nc, jr_000_0d9a
+    jr nc, CopyPatternTileDataLoop
 
     pop de
     ld hl, $0dea
@@ -2768,13 +2768,13 @@ jr_000_0d9a:
     push de
     ld hl, $9310
 
-jr_000_0db1:
+CopyColorPaletteDataLoop:
     ld a, [de]
     ld [hl+], a
     inc de
     ld a, h
     cp $97
-    jr nz, jr_000_0db1
+    jr nz, CopyColorPaletteDataLoop
 
     pop hl
     ld de, $02c1
@@ -2782,13 +2782,13 @@ jr_000_0db1:
     ld de, $c600
     ld b, $08
 
-jr_000_0dc3:
+CopyGraphicsPaletteLoop:
     ld a, [hl+]
     ld [de], a
     inc hl
     inc de
     dec b
-    jr nz, jr_000_0dc3
+    jr nz, CopyGraphicsPaletteLoop
 
 Jump_000_0dca:
     xor a
@@ -2852,7 +2852,7 @@ State1B_BonusComplete::
 State1C_WaitTimerGameplay::
     ldh a, [hTimer1]
     and a
-    jr z, jr_000_0e1f
+    jr z, TimerExpiredPath
 
     call InitScrollBuffer
     xor a
@@ -2862,7 +2862,7 @@ State1C_WaitTimerGameplay::
     ret
 
 
-jr_000_0e1f:
+TimerExpiredPath:
     ld a, $40
     ldh [hTimer1], a
     ld hl, hGameState
@@ -2884,11 +2884,11 @@ State1D_SetupVRAMPointer::
     ldh a, [hVramPtrLow]
     sub $02
     cp $40
-    jr nc, jr_000_0e3d
+    jr nc, VRAMPointerAdjustmentPath
 
     add $20
 
-jr_000_0e3d:
+VRAMPointerAdjustmentPath:
     ld l, a
     ld h, $98
     ld de, $0120
@@ -2914,7 +2914,7 @@ State1E_ClearTilemapColumn::
 
     ldh a, [hOAMAddrLow]
     dec a
-    jr z, jr_000_0e7a
+    jr z, TilemapColumnClearCompletePath
 
     ldh [hOAMAddrLow], a
     ldh a, [hVramPtrLow]
@@ -2932,7 +2932,7 @@ State1E_ClearTilemapColumn::
     ret
 
 
-jr_000_0e7a:
+TilemapColumnClearCompletePath:
     ld a, $10
     ldh [hTimer1], a
     ld a, $03
@@ -3023,12 +3023,12 @@ ResetPlayerForCutscene:
     ld de, $2114
     ld b, $10
 
-jr_000_0ef3:
+CopyOAMDataLoop:
     ld a, [de]
     ld [hl+], a
     inc de
     dec b
-    jr nz, jr_000_0ef3
+    jr nz, CopyOAMDataLoop
 
     ld hl, $c211
     ld [hl], $7e
@@ -3048,7 +3048,7 @@ jr_000_0ef3:
 State22_ScrollCutscene::
     ldh a, [hTimer1]
     and a
-    jr z, jr_000_0f21
+    jr z, CutsceneEndPath
 
     ld hl, hShadowSCX
     inc [hl]
@@ -3058,12 +3058,12 @@ State22_ScrollCutscene::
     ld hl, $c212
     dec [hl]
 
-jr_000_0f1d:
+CutsceneAnimationContinuePath:
     call CallBank3Handler
     ret
 
 
-jr_000_0f21:
+CutsceneEndPath:
     ldh a, [hOAMIndex]
     ldh [hRenderContext], a
     ld hl, hGameState
@@ -3093,11 +3093,11 @@ State23_WalkToDoor::
     and $f0
     cp $c0
     ld a, b
-    jr nz, jr_000_0f52
+    jr nz, DoorPositionCalculationPath
 
     sub $20
 
-jr_000_0f52:
+DoorPositionCalculationPath:
     ldh [hCopyDstHigh], a
     ld a, $98
     ldh [hCopyDstLow], a
@@ -3105,7 +3105,7 @@ jr_000_0f52:
     ldh [hOAMIndex], a
     ld hl, hGameState
     inc [hl]
-    jr jr_000_0f1d
+    jr CutsceneAnimationContinuePath
 
 ; ===========================================================================
 ; État $24 - Affichage texte cutscene ($0F61)
