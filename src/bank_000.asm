@@ -2998,7 +2998,7 @@ State21_SetupEndCutscene::
     and a
     ret nz
 
-    call Call_000_0ede
+    call ResetPlayerForCutscene
     xor a
     ldh [hScrollPhase], a
     ldh [hTemp3], a
@@ -3011,7 +3011,7 @@ State21_SetupEndCutscene::
     ret
 
 ; --- Routine : reset position joueur pour cutscene ---
-Call_000_0ede:
+ResetPlayerForCutscene:
     ld hl, wPlayerX
     ld [hl], $7e
     inc l
@@ -3477,7 +3477,7 @@ State29_SetupEndScreen::
     ld bc, $0100
     call FillTilemapLoop
     call InitScrollState
-    call Call_000_0ede
+    call ResetPlayerForCutscene
     ld hl, wPlayerState
     ld [hl], $38
     inc l
