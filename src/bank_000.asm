@@ -942,16 +942,16 @@ ResetRenderForHighLevels:
     xor a
     jr ApplyRenderContext
 
-jr_000_04b4:
+HandleSelectButtonLevelSelect:
     ld a, [wGameConfigA6]
     and a
-    jr z, jr_000_04ce
+    jr z, UpdateLevelSelectDisplay
 
     ld hl, wUnknown04
     ld a, [hl]
     xor $f8
     ld [hl], a
-    jr jr_000_04ce
+    jr UpdateLevelSelectDisplay
 
 ; ===========================================================================
 ; État $0F - Menu/Écran sélection niveau
@@ -965,9 +965,9 @@ State0F_LevelSelect::
     jr nz, StartSelectedLevel
 
     bit 2, b                     ; Select pressé ?
-    jr nz, jr_000_04b4
+    jr nz, HandleSelectButtonLevelSelect
 
-jr_000_04ce:
+UpdateLevelSelectDisplay:
     ldh a, [hLevelIndex]
     cp $02
     jr c, jr_000_0519
