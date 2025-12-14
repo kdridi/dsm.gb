@@ -6800,7 +6800,7 @@ jr_000_215b:
     ld bc, $0000
     ld a, a
 
-jr_000_217f:
+ResetScrollPhase:
     ld a, $03
     ldh [hScrollPhase], a
     ldh a, [hShadowSCX]
@@ -6817,7 +6817,7 @@ jr_000_217f:
 UpdateScroll:
     ldh a, [hScrollPhase]
     and a
-    jr nz, jr_000_217f
+    jr nz, ResetScrollPhase
 
     ldh a, [hShadowSCX]
     and $08
@@ -6846,7 +6846,7 @@ InitScrollBuffer:
 
     ldh a, [hTilemapScrollY]
     and a
-    jr z, jr_000_21c0
+    jr z, InitFromRenderContext
 
     ldh a, [hTilemapOffsetX]
     ld h, a
@@ -6854,7 +6854,7 @@ InitScrollBuffer:
     ld l, a
     jr ProcessScrollEntry
 
-jr_000_21c0:
+InitFromRenderContext:
     ld hl, $4000
     ldh a, [hRenderContext]
     add a
@@ -6894,26 +6894,26 @@ ProcessScrollEntry:
     ld e, a
     ld a, b
     and $0f
-    jr nz, jr_000_21f5
+    jr nz, TilemapDataNibbleNonZero
 
     ld a, $10
 
-jr_000_21f5:
+TilemapDataNibbleNonZero:
     ld b, a
 
-jr_000_21f6:
+TilemapDataCopyStart:
     ld a, [hl+]
     cp $fd
     jr z, TilemapDataCopyLoop
 
     ld [de], a
     cp $70
-    jr nz, jr_000_2205
+    jr nz, TilemapDataNotScrollUpdate
 
     call UpdateTilemapScrolling
     jr ProcessColumnAnimation_End
 
-jr_000_2205:
+TilemapDataNotScrollUpdate:
     cp $80
 
 ProcessColumnAnimation:
@@ -6936,7 +6936,7 @@ ProcessColumnAnimation:
 ProcessColumnAnimation_End:
     inc e
     dec b
-    jr nz, jr_000_21f6
+    jr nz, TilemapDataCopyStart
 
     jr ProcessScrollEntry
 
@@ -7072,7 +7072,7 @@ UpdateTilemapScrolling:
     push bc
     ldh a, [hVBlankMode]
     and a
-    jr nz, jr_000_22f0
+    jr nz, SearchTilemapExit
 
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
@@ -7135,7 +7135,7 @@ SearchTilemapEntry_Exit:
     ldh [hCurrentBank], a
     ld [$2000], a
 
-jr_000_22f0:
+SearchTilemapExit:
     pop bc
     pop de
     pop hl
@@ -7835,10 +7835,10 @@ ProcessSoundAnimationLoop:
 
     ldh a, [hSoundCh4]
     bit 1, a
-    jr z, jr_000_2689
+    jr z, SoundAnimUpdateVar2
 
     call CheckObjectTileBottomLeft
-    jr nc, jr_000_2683
+    jr nc, SoundAnimClearParam1
 
     ldh a, [hSoundParam1]
     inc a
@@ -7846,12 +7846,12 @@ ProcessSoundAnimationLoop:
     ret
 
 
-jr_000_2683:
+SoundAnimClearParam1:
     ldh a, [hSoundParam1]
     and $f8
     ldh [hSoundParam1], a
 
-jr_000_2689:
+SoundAnimUpdateVar2:
     ldh a, [hSoundVar2]
     and $f0
     swap a
@@ -7859,7 +7859,7 @@ jr_000_2689:
     ldh a, [hSoundVar2]
     and $0f
     cp b
-    jr z, jr_000_269e
+    jr z, SoundAnimResetVar2
 
     inc b
     swap b
@@ -7868,7 +7868,7 @@ jr_000_2689:
     ret
 
 
-jr_000_269e:
+SoundAnimResetVar2:
     ldh a, [hSoundVar2]
     and $0f
     ldh [hSoundVar2], a
