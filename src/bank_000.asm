@@ -1321,9 +1321,9 @@ StateHandler_00::
     ld [$2000], a
 
     ; Mises à jour finales
-    call Call_000_1983
+    call CheckPlayerFeetCollision
     call UpdatePipeAnimation
-    call Call_000_17b3
+    call CheckPlayerHeadCollision
     call Call_000_0ae1
     call Call_000_0a24
     call Call_000_1efa
@@ -2993,7 +2993,7 @@ Call_000_0eb2:
     ld a, [wPlayerDir]
     and $0f
     cp $0a
-    call c, Call_000_17b3
+    call c, CheckPlayerHeadCollision
     call UpdatePipeAnimation
     ret
 
@@ -3086,7 +3086,7 @@ jr_000_0f21:
 State23_WalkToDoor::
     ld a, $10
     ldh [hJoypadState], a
-    call Call_000_17b3
+    call CheckPlayerHeadCollision
     call UpdatePipeAnimation
     ld a, [wPlayerState]
     cp $4c
@@ -4830,7 +4830,10 @@ jr_000_17ad:
     jp Jump_000_1854
 
 
-Call_000_17b3:
+; -----------------------------------------------------------------------------
+; CheckPlayerHeadCollision - Vérifie collision tête du joueur (vers le haut)
+; -----------------------------------------------------------------------------
+CheckPlayerHeadCollision:
     ld hl, $c207
     ld a, [hl]
     cp $01
@@ -5166,7 +5169,10 @@ jr_000_195d:
     ldh [hPtrBank], a
     jr jr_000_192e
 
-Call_000_1983:
+; -----------------------------------------------------------------------------
+; CheckPlayerFeetCollision - Vérifie collision pieds du joueur (vers le bas)
+; -----------------------------------------------------------------------------
+CheckPlayerFeetCollision:
     ld a, [$c207]
     cp $01
     ret nz
