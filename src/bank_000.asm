@@ -3891,13 +3891,13 @@ Call_000_130f:
     call ClearScrollBuffer
     ld hl, $c210
     ld de, $1376
-    call Call_000_136d
+    call Copy5Bytes
     ld hl, $c220
     ld de, $137b
-    call Call_000_136d
+    call Copy5Bytes
     ld hl, $c230
     ld de, $1380
-    call Call_000_136d
+    call Copy5Bytes
     ld hl, hGameState
     inc [hl]
 
@@ -3936,7 +3936,7 @@ jr_000_134c:
     ret
 
 ; --- Routine : copie 5 bytes de config sprite ---
-Call_000_136d:
+Copy5Bytes:
     ld b, $05
 
 jr_000_136f:
