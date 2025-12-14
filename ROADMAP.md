@@ -74,7 +74,7 @@
 **Technique** : Utiliser `xxd -s ADDR -l LEN src/game.gb` pour voir les données brutes.
 
 **Zones identifiées** :
-- [ ] Jump table StateDispatcher ($02A5, 120 octets) → 60 × `dw`
+- [x] Jump table StateDispatcher ($02A5, 120 octets) → 60 × `dw`
 - [ ] Table audio ($336C) → à analyser
 - [ ] Tables animation ($3FAF) → à analyser
 - [ ] Graphiques/tilemaps (fin des banks) → à identifier

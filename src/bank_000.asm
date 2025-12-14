@@ -560,108 +560,80 @@ jr_000_02a1:
 StateDispatcher:
     ldh a, [hGameState]          ; Lire game_state (0-N)
     rst $28                 ; → Jump table dispatcher (voir RST_28)
-    ; === JUMP TABLE (mal désassemblée) ===
-    ; Format: 2 octets par état = adresse du handler
-    ; État $00 → $0610, État $01 → $06A5, etc.
-    db $10
-    ld b, $a5
-    ld b, $c5
-    ld b, $84
-    dec bc
-    call $6a0b
-    inc c
-    jp nz, Jump_000_370c
+; === StateDispatcher Jump Table (60 états) ===
+; Index = hGameState (0-59), chaque entrée = adresse handler
+StateJumpTable:
+    dw $0610    ; État $00
+    dw $06a5    ; État $01
+    dw $06c5    ; État $02
+    dw $0b84    ; État $03
+    dw $0bcd    ; État $04
+    dw $0c6a    ; État $05
+    dw $0cc2    ; État $06
+    dw $0c37    ; État $07
+    dw $0d40    ; État $08
+    dw $1612    ; État $09
+    dw $1626    ; État $0A
+    dw $1663    ; État $0B
+    dw $16d1    ; État $0C
+    dw $236d    ; État $0D
+    dw $0322    ; État $0E
+    dw $04c3    ; État $0F
+    dw $05b7    ; État $10
+    dw $055f    ; État $11
+    dw $3d8e    ; État $12
+    dw $3dce    ; État $13
+    dw $5832    ; État $14
+    dw $5835    ; État $15
+    dw $3e9e    ; État $16
+    dw $5838    ; État $17
+    dw $583b    ; État $18
+    dw $583e    ; État $19
+    dw $5841    ; État $1A
+    dw $0df0    ; État $1B
+    dw $0e0c    ; État $1C
+    dw $0e28    ; État $1D
+    dw $0e54    ; État $1E
+    dw $0e8d    ; État $1F
+    dw $0ea0    ; État $20
+    dw $0ec4    ; État $21
+    dw $0f09    ; État $22
+    dw $0f2a    ; État $23
+    dw $0f61    ; État $24
+    dw $0ff4    ; État $25
+    dw $104c    ; État $26
+    dw $1090    ; État $27
+    dw $0ea0    ; État $28
+    dw $110d    ; État $29
+    dw $115c    ; État $2A
+    dw $118b    ; État $2B
+    dw $11c7    ; État $2C
+    dw $1212    ; État $2D
+    dw $124b    ; État $2E
+    dw $1298    ; État $2F
+    dw $12b9    ; État $30
+    dw $12e8    ; État $31
+    dw $1385    ; État $32
+    dw $13e7    ; État $33
+    dw $1438    ; État $34
+    dw $1451    ; État $35
+    dw $145d    ; État $36
+    dw $147f    ; État $37
+    dw $14d3    ; État $38
+    dw $1c73    ; État $39
+    dw $1cdf    ; État $3A
+    dw $1ce7    ; État $3B
 
-    inc c
-    ld b, b
-    dec c
-    ld [de], a
-    ld d, $26
-    ld d, $63
-    ld d, $d1
-    ld d, $6d
-    inc hl
-    ld [hl+], a
-    inc bc
-    jp $b704
+; === Données non référencées ($031E-$0321) ===
+; Peut-être du padding ou des données obsolètes
+    db $14, $1d, $a4, $06
 
-
-    dec b
-    ld e, a
-    dec b
-    adc [hl]
-    dec a
-    adc $3d
-    ld [hl-], a
-    ld e, b
-    dec [hl]
-    ld e, b
-    sbc [hl]
-    ld a, $38
-    ld e, b
-    dec sp
-    ld e, b
-    ld a, $58
-    ld b, c
-    ld e, b
-    ldh a, [$ff0d]
-    inc c
-    ld c, $28
-    ld c, $54
-    ld c, $8d
-    ld c, $a0
-    ld c, $c4
-    ld c, $09
-    rrca
-    ld a, [hl+]
-    rrca
-    ld h, c
-    rrca
-    db $f4
-    rrca
-    ld c, h
-    db $10
-    sub b
-    db $10
-    and b
-    ld c, $0d
-    ld de, $115c
-    adc e
-    ld de, $11c7
-    ld [de], a
-    ld [de], a
-    ld c, e
-    ld [de], a
-    sbc b
-    ld [de], a
-    cp c
-    ld [de], a
-    add sp, $12
-    add l
-    inc de
-    rst $20
-    inc de
-    jr c, @+$16
-
-    ld d, c
-    inc d
-    ld e, l
-    inc d
-    ld a, a
-    inc d
-    db $d3
-    inc d
-    ld [hl], e
-    inc e
-    rst $18
-    inc e
-    rst $20
-    inc e
-    inc d
-    dec e
-    and h
-    ld b, $af
-    ldh [rLCDC], a
+; === Handler État $0E ($0322) ===
+; Note: L'octet $AF ci-dessous forme "ld b, $af" avec le $06 précédent
+; si lu linéairement, mais l'état $0E saute directement ici.
+Jump_000_0322::
+    xor a                   ; A = 0 ($AF)
+    ldh [rLCDC], a          ; Désactiver LCD
     di
     ldh [hShadowSCX], a
     ld hl, $c000
