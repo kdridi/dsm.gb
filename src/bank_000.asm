@@ -7780,7 +7780,7 @@ Jump_000_2642:
     jr z, jr_000_2663
 
     push hl
-    call Call_000_2ce2
+    call LoadSoundDataFromHL
     ld hl, $3495
     ldh a, [hSoundId]
     rlca
@@ -9105,7 +9105,7 @@ Call_000_2cdc:
     ld hl, wObjectBuffer
     ld l, a
 
-Call_000_2ce2:
+LoadSoundDataFromHL:
     ld de, hSoundId
     ld b, $0d
 
