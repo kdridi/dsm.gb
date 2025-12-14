@@ -7811,7 +7811,7 @@ jr_000_266d:
     bit 1, a
     jr z, jr_000_2689
 
-    call Call_000_2bb2
+    call CheckObjectTileBottomLeft
     jr nc, jr_000_2683
 
     ldh a, [hSoundParam1]
@@ -8203,14 +8203,14 @@ Jump_000_2870:
     bit 0, a
     jr nz, jr_000_28e7
 
-    call Call_000_2b7b
+    call CheckObjectTileBase
     jr nc, jr_000_28c5
 
     ldh a, [hSoundCh4]
     bit 0, a
     jr z, jr_000_288d
 
-    call Call_000_2bdb
+    call CheckObjectTileBottom
     jr c, jr_000_28d1
 
 jr_000_288d:
@@ -8276,14 +8276,14 @@ jr_000_28da:
 
 
 jr_000_28e7:
-    call Call_000_2b91
+    call CheckObjectTileRight
     jr nc, jr_000_294f
 
     ldh a, [hSoundCh4]
     bit 0, a
     jr z, jr_000_28f7
 
-    call Call_000_2bf5
+    call CheckObjectTileBottomRight
     jr c, jr_000_295b
 
 jr_000_28f7:
@@ -8376,7 +8376,7 @@ jr_000_296c:
     bit 1, a
     jr nz, jr_000_29b8
 
-    call Call_000_2c18
+    call CheckObjectTileTop
     jr nc, jr_000_2998
 
 jr_000_297e:
@@ -8420,7 +8420,7 @@ Jump_000_29ad:
     jr jr_000_29f4
 
 jr_000_29b8:
-    call Call_000_2bb2
+    call CheckObjectTileBottomLeft
     jr nc, jr_000_29d7
 
 jr_000_29bd:
@@ -8791,7 +8791,13 @@ jr_000_2b6d:
     ret
 
 
-Call_000_2b7b:
+; -----------------------------------------------------------------------------
+; CheckObjectTileBase - Vérifie collision au point de base de l'objet
+; -----------------------------------------------------------------------------
+; Entrées : hSoundParam1 = Y objet, hSoundParam2 = X objet
+; Sortie  : Carry set si tile solide (<$5F) ou spécial (>=$F0)
+; -----------------------------------------------------------------------------
+CheckObjectTileBase:
     ldh a, [hSoundParam2]
     ld c, a
     ldh a, [hShadowSCX]
@@ -8808,7 +8814,10 @@ Call_000_2b7b:
     ret
 
 
-Call_000_2b91:
+; -----------------------------------------------------------------------------
+; CheckObjectTileRight - Vérifie collision côté droit de l'objet
+; -----------------------------------------------------------------------------
+CheckObjectTileRight:
     ldh a, [hSoundParam2]
     ld c, a
     ldh a, [hShadowSCX]
@@ -8832,7 +8841,10 @@ Call_000_2b91:
     ret
 
 
-Call_000_2bb2:
+; -----------------------------------------------------------------------------
+; CheckObjectTileBottomLeft - Vérifie collision coin bas-gauche de l'objet
+; -----------------------------------------------------------------------------
+CheckObjectTileBottomLeft:
     ldh a, [hSoundParam2]
     ld c, a
     ldh a, [hShadowSCX]
@@ -8842,7 +8854,7 @@ Call_000_2bb2:
     ld c, a
     ldh a, [hSoundCh2]
     bit 0, a
-    jr jr_000_2bcb
+    jr .setY
 
     ldh a, [hSoundVar3]
     and $70
@@ -8850,7 +8862,7 @@ Call_000_2bb2:
     add c
     ldh [hSpriteX], a
 
-jr_000_2bcb:
+.setY:
     ldh a, [hSoundParam1]
     add $08
     ldh [hSpriteY], a
@@ -8863,7 +8875,10 @@ jr_000_2bcb:
     ret
 
 
-Call_000_2bdb:
+; -----------------------------------------------------------------------------
+; CheckObjectTileBottom - Vérifie collision bas centre de l'objet
+; -----------------------------------------------------------------------------
+CheckObjectTileBottom:
     ldh a, [hSoundParam2]
     ld c, a
     ldh a, [hShadowSCX]
@@ -8882,7 +8897,10 @@ Call_000_2bdb:
     ret
 
 
-Call_000_2bf5:
+; -----------------------------------------------------------------------------
+; CheckObjectTileBottomRight - Vérifie collision coin bas-droit de l'objet
+; -----------------------------------------------------------------------------
+CheckObjectTileBottomRight:
     ldh a, [hSoundParam2]
     ld c, a
     ldh a, [hShadowSCX]
@@ -8907,7 +8925,10 @@ Call_000_2bf5:
     ret
 
 
-Call_000_2c18:
+; -----------------------------------------------------------------------------
+; CheckObjectTileTop - Vérifie collision haut de l'objet (hauteur variable)
+; -----------------------------------------------------------------------------
+CheckObjectTileTop:
     ldh a, [hSoundParam2]
     ld c, a
     ldh a, [hShadowSCX]
@@ -8917,7 +8938,7 @@ Call_000_2c18:
     ld c, a
     ldh a, [hSoundCh2]
     bit 0, a
-    jr jr_000_2c31
+    jr .calcY
 
     ldh a, [hSoundVar3]
     and $70
@@ -8925,7 +8946,7 @@ Call_000_2c18:
     add c
     ldh [hSpriteX], a
 
-jr_000_2c31:
+.calcY:
     ldh a, [hSoundVar3]
     and $07
     dec a
