@@ -140,7 +140,7 @@ ENDM
 ;* FREE FUNCTIONS - Décomposition algorithmique de SystemInit
 ;* ============================================================================
 ;*
-;* Ces macros découpent Jump_000_0185 (init système) en étapes nommées.
+;* Ces macros découpent SystemInit (init système) en étapes nommées.
 ;* Le code devient lisible comme une séquence d'appels de fonctions C++.
 ;*
 ;* ============================================================================

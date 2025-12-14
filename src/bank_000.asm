@@ -1,7 +1,7 @@
 SECTION "ROM Bank $000", ROM0[$0]
 
 RST_00::
-    jp Jump_000_0185
+    jp SystemInit
 
 
     rst $38
@@ -11,7 +11,7 @@ RST_00::
     nop
 
 RST_08::
-    jp Jump_000_0185
+    jp SystemInit
 
 
     rst $38
@@ -142,20 +142,20 @@ JoypadTransitionInterrupt::
 
     ; --- 2. UpdateGameLogic ---
     ; Note: db $cd est probablement un CALL mal désassemblé
-    call Call_000_224f
+    call UpdateScrollColumn
     db $cd
 
     ld a, l
     dec de
-    call Call_000_1c2a
+    call UpdateLivesDisplay
 
     ; --- 3. DMATransfer ---
     call $ffb6              ; Routine OAM DMA copiée en HRAM
 
     ; --- UpdateGameLogic (suite) ---
-    call Call_000_3f24
-    call Call_000_3d61
-    call Call_000_23f8
+    call UpdateScoreDisplay
+    call UpdateLevelScore
+    call UpdateAnimTiles
 
     ; --- 4. IncrementFrame ---
     ld hl, $ffac
@@ -326,7 +326,7 @@ HeaderGlobalChecksum::
     db $41, $6b
 
 Jump_000_0150:
-    jp Jump_000_0185
+    jp SystemInit
 
 
 Call_000_0153:
@@ -386,7 +386,7 @@ Call_000_0166:
 ;; Sortie    : Système prêt, LCD OFF, mémoire effacée
 ;; Modifie   : A, HL, BC, SP, tous les registres hardware
 ;; ==========================================================================
-Jump_000_0185:
+SystemInit:
     ConfigureInterrupts         ; DI + config VBlank/STAT
     ConfigureLCDStat            ; Mode LYC interrupt
     ResetScroll                 ; SCX/SCY = 0
@@ -410,20 +410,20 @@ Jump_000_0185:
 ;;   3. CheckPauseOrSkip   → Vérifie si on doit sauter le frame
 ;;   4. DecrementTimers    → Décrémente 2 timers en $FFA6-$FFA7
 ;;   5. HandleGameState    → Gestion état de jeu complexe
-;;   6. CallStateHandler   → Appelle le handler d'état (Call_000_02a3)
+;;   6. CallStateHandler   → Appelle le handler d'état (StateDispatcher)
 ;;   7. WaitForNextFrame   → HALT + attend flag VBlank
 ;; ==========================================================================
 
 ; --- 1. CheckSpecialState ---
-jr_000_0226:
+GameLoop:
     ld a, [$da1d]           ; Lire état spécial
     cp $03                  ; Est-ce == 3 ?
     jr nz, jr_000_0238      ; Non → sauter
 
     ld a, $ff               ; Oui → reset à $FF
     ld [$da1d], a
-    call Call_000_09e8      ; Appeler routine spéciale
-    call Call_000_172d
+    call InitGameState      ; Appeler routine spéciale
+    call CallBank3Handler
 
 ; --- 2. CallBank3Logic ---
 jr_000_0238:
@@ -442,7 +442,7 @@ jr_000_0238:
     and a
     jr nz, jr_000_025a      ; Si pause → sauter vers timers
 
-    call Call_000_07c3      ; Vérifier input ?
+    call CheckInputAndPause      ; Vérifier input ?
     ldh a, [$ffb2]          ; Flag skip frame ?
     and a
     jr nz, jr_000_0296      ; Si skip → aller directement au wait
@@ -498,7 +498,7 @@ jr_000_0283:
 
 ; --- 6. CallStateHandler ---
 jr_000_0293:
-    call Call_000_02a3      ; Dispatch selon $FFB3 (game state)
+    call StateDispatcher      ; Dispatch selon $FFB3 (game state)
 
 ; --- 7. WaitForNextFrame ---
 jr_000_0296:
@@ -509,7 +509,7 @@ jr_000_0296:
 
     xor a
     ldh [$ff85], a          ; Clear flag
-    jr jr_000_0226          ; Retour au début de la game loop
+    jr GameLoop          ; Retour au début de la game loop
 
 jr_000_02a1:
     jr jr_000_02a1
@@ -557,7 +557,7 @@ jr_000_02a1:
 ;; | $3A  | $????   | État spécial window               |
 ;;
 ;; ==========================================================================
-Call_000_02a3:
+StateDispatcher:
     ldh a, [$ffb3]          ; Lire game_state (0-N)
     rst $28                 ; → Jump table dispatcher (voir RST_28)
     ; === JUMP TABLE (mal désassemblée) ===
@@ -1435,10 +1435,10 @@ jr_000_07b1:
 ;; ==========================================================================
 ;; Appelé par : GameLoop (CheckPauseOrSkip)
 ;; Effets :
-;;   - Si A+B+Start+Select pressés → SOFT RESET (jp Jump_000_0185)
+;;   - Si A+B+Start+Select pressés → SOFT RESET (jp SystemInit)
 ;;   - Si Start pressé (nouveau) → Toggle pause ($FFB2)
 ;; ==========================================================================
-Call_000_07c3:
+CheckInputAndPause:
     ; --- CheckSoftReset ---
     ; Si D-pad = $0F (toutes directions), c'est la combo reset
     ldh a, [$ff80]          ; Lire joypad (directions)
@@ -1446,7 +1446,7 @@ Call_000_07c3:
     cp $0f                  ; Toutes les directions ?
     jr nz, jr_000_07ce      ; Non → vérifier pause
 
-    jp Jump_000_0185        ; OUI → SOFT RESET !
+    jp SystemInit        ; OUI → SOFT RESET !
 
 ; --- CheckStartPressed ---
 jr_000_07ce:
@@ -1528,7 +1528,7 @@ jr_000_080e:
 jr_000_082b:
     push bc
     call Call_000_21a8
-    call Call_000_224f
+    call UpdateScrollColumn
     pop bc
     dec b
     jr nz, jr_000_082b
@@ -1745,7 +1745,7 @@ jr_000_0939:
     and a
     jr nz, jr_000_095d
 
-    call Call_000_09e8
+    call InitGameState
 
 jr_000_0955:
     pop hl
@@ -1866,7 +1866,7 @@ Call_000_09d7:
 ;; Condition  : $D007 == 0 (sinon early return)
 ;; Effet      : Configure game_state = $03 et initialise les variables
 ;; ==========================================================================
-Call_000_09e8:
+InitGameState:
     ; --- Early return si $D007 != 0 ---
     ld a, [$d007]
     and a
@@ -2347,7 +2347,7 @@ Jump_000_0c22:
     and a
     jr z, jr_000_0c42
 
-    call Call_000_172d
+    call CallBank3Handler
     ret
 
 
@@ -2684,7 +2684,7 @@ Jump_000_0dca:
     xor a
     ld [$c0ab], a
     call Call_000_2488
-    call Call_000_172d
+    call CallBank3Handler
     ret
 
 
@@ -2865,7 +2865,7 @@ jr_000_0ef3:
     dec [hl]
 
 jr_000_0f1d:
-    call Call_000_172d
+    call CallBank3Handler
     ret
 
 
@@ -3143,7 +3143,7 @@ jr_000_1070:
     jr nc, jr_000_1083
 
 jr_000_107f:
-    call Call_000_172d
+    call CallBank3Handler
     ret
 
 
@@ -3279,7 +3279,7 @@ jr_000_113e:
     dec b
     jr nz, jr_000_113e
 
-    call Call_000_172d
+    call CallBank3Handler
     ld a, $98
     ldh [$ffe2], a
     ld a, $a5
@@ -3340,7 +3340,7 @@ jr_000_113e:
     jr c, jr_000_11a3
 
     dec [hl]
-    call Call_000_172d
+    call CallBank3Handler
     ret
 
 
@@ -3559,7 +3559,7 @@ jr_000_12a4:
     ret
 
 
-    call Call_000_172d
+    call CallBank3Handler
     ldh a, [$ffac]
     ld b, a
     and $01
@@ -3617,7 +3617,7 @@ Call_000_12dd:
 Call_000_1305:
     ld hl, $c202
     call Call_000_12dd
-    call Call_000_172d
+    call CallBank3Handler
     ret
 
 
@@ -3920,7 +3920,7 @@ jr_000_147c:
     dec l
     ld [hl], $f0
     push hl
-    call Call_000_172d
+    call CallBank3Handler
     pop hl
     dec l
     ld [hl], $ff
@@ -4370,7 +4370,7 @@ jr_000_16e3:
 
 
 Call_000_16ec:
-    call Call_000_172d
+    call CallBank3Handler
     ld a, [$c20a]
     and a
     jr z, jr_000_1723
@@ -4424,7 +4424,7 @@ jr_000_1727:
 ;; Pattern    : Save bank → Switch bank 3 → Call → Restore bank
 ;; Variables  : $FF8E=$0C, $FF8D=$C0, $FF8F=$05, HL=$C200
 ;; ==========================================================================
-Call_000_172d:
+CallBank3Handler:
     ; --- SetupParameters ---
     ld a, $0c
     ldh [$ff8e], a          ; Paramètre 1 = $0C
@@ -4614,7 +4614,7 @@ jr_000_1815:
 
 jr_000_1833:
     pop af
-    call Call_000_09e8
+    call InitGameState
     jr jr_000_1854
 
 jr_000_1839:
@@ -5369,7 +5369,7 @@ jr_000_1c12:
 
 
 ; =============================================================================
-; Call_000_1c2a - UpdateLivesDisplay
+; UpdateLivesDisplay - UpdateLivesDisplay
 ; =============================================================================
 ; QUOI : Met à jour l'affichage du compteur de vies/niveau à l'écran.
 ;
@@ -5387,7 +5387,7 @@ jr_000_1c12:
 ; SORTIE : wLivesCounter ($DA15) mis à jour, tilemap modifié
 ; MODIFIE : A, B
 ; =============================================================================
-Call_000_1c2a:
+UpdateLivesDisplay:
     ldh a, [$ff9f]
     and a
     ret nz
@@ -6651,7 +6651,7 @@ jr_000_2246:
 
 
 ; =============================================================================
-; Call_000_224f - UpdateScrollColumn
+; UpdateScrollColumn - UpdateScrollColumn
 ; =============================================================================
 ; QUOI : Met à jour une colonne du tilemap pour le scrolling vertical.
 ;
@@ -6668,7 +6668,7 @@ jr_000_2246:
 ; SORTIE : hScrollPhase = 2 quand terminé
 ; MODIFIE : A, B, DE, HL
 ; =============================================================================
-Call_000_224f:
+UpdateScrollColumn:
     ldh a, [$ffea]
     cp $01
     ret nz
@@ -6962,7 +6962,7 @@ Call_000_235a:
     ldh a, [$ffe1]
     ldh [$fffd], a
     ld [$2000], a
-    call Call_000_172d
+    call CallBank3Handler
     call $515e
     call Call_000_1efa
     ldh a, [$ffac]
@@ -6976,7 +6976,7 @@ Call_000_235a:
 
 
 ; =============================================================================
-; Call_000_23f8 - UpdateAnimTiles
+; UpdateAnimTiles - UpdateAnimTiles
 ; =============================================================================
 ; QUOI : Met à jour les tiles d'animation (eau, lave, etc.) périodiquement.
 ;
@@ -6997,7 +6997,7 @@ Call_000_235a:
 ; SORTIE : Tiles VRAM mis à jour
 ; MODIFIE : A, B, DE, HL
 ; =============================================================================
-Call_000_23f8:
+UpdateAnimTiles:
     ld a, [$d014]
     and a
     ret z
@@ -12023,7 +12023,7 @@ jr_000_3d56:
 
 
 ; =============================================================================
-; Call_000_3d61 - UpdateLevelScore
+; UpdateLevelScore - UpdateLevelScore
 ; =============================================================================
 ; QUOI : Met à jour l'affichage du score de niveau à l'écran.
 ;
@@ -12039,7 +12039,7 @@ jr_000_3d56:
 ; SORTIE : Tilemap mis à jour avec le score
 ; MODIFIE : A, B, DE
 ; =============================================================================
-Call_000_3d61:
+UpdateLevelScore:
     ld a, [$c0a4]
     and a
     ret nz
@@ -12378,7 +12378,7 @@ jr_000_3f06:
 ;; Destination: $9820 (tilemap, ligne du HUD)
 ;; Format     : BCD → tiles ($00-$09 = chiffres, $2C = espace/zéro leading)
 ;; ==========================================================================
-Call_000_3f24:
+UpdateScoreDisplay:
     ; --- EarlyReturnChecks ---
     ldh a, [$ffb1]          ; Flag "needs update" ?
     and a
