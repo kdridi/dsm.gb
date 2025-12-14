@@ -5342,21 +5342,21 @@ ClassifyTileType:
 SearchByteLoop:
     ld a, [de]
     cp $fd
-    jr z, jr_000_1a83
+    jr z, TableMarkerFound
 
     cp b
-    jr z, jr_000_1a86
+    jr z, ByteMatched
 
     inc de
     jr SearchByteLoop
 
-jr_000_1a83:
+TableMarkerFound:
     pop af
     pop hl
     ret
 
 
-jr_000_1a86:
+ByteMatched:
     pop af
     pop hl
     xor a
@@ -5396,20 +5396,20 @@ jr_000_1a86:
 CheckPlayerSideCollision:
     ldh a, [hGameState]
     cp $0e
-    jr nc, jr_000_1b03
+    jr nc, NoCollisionFound
 
     ld de, $0701
     ldh a, [hTimerAux]
     cp $02
-    jr nz, jr_000_1abd
+    jr nz, CollisionConfig_Offset1
 
     ld a, [wPlayerDir]
     cp $18
-    jr z, jr_000_1abd
+    jr z, CollisionConfig_Offset1
 
     ld de, $0702
 
-jr_000_1abd:
+CollisionConfig_Offset1:
     ld hl, wPlayerX
     ld a, [hl+]
     add d
@@ -5418,11 +5418,11 @@ jr_000_1abd:
     ld b, [hl]
     ld c, $fa
     and a
-    jr nz, jr_000_1acf
+    jr nz, CollisionConfig_Offset2
 
     ld c, $06
 
-jr_000_1acf:
+CollisionConfig_Offset2:
     ld a, c
     add b
     ld b, a
@@ -5434,10 +5434,10 @@ jr_000_1acf:
     call ClassifyTileType
     pop de
     and a
-    jr z, jr_000_1afe
+    jr z, NoCollisionRestartLoop
 
     cp $60
-    jr c, jr_000_1afe
+    jr c, NoCollisionRestartLoop
 
     cp $f4
     jr z, jr_000_1b05
@@ -5448,7 +5448,7 @@ jr_000_1acf:
     cp $f2
     jr z, jr_000_1b3c
 
-jr_000_1af2:
+CollisionDefaultHandler:
     ld hl, $c20b
     inc [hl]
     ld a, $02
@@ -5457,12 +5457,12 @@ jr_000_1af2:
     ret
 
 
-jr_000_1afe:
+NoCollisionRestartLoop:
     ld d, $fc
     dec e
-    jr nz, jr_000_1abd
+    jr nz, CollisionConfig_Offset1
 
-jr_000_1b03:
+NoCollisionFound:
     xor a
     ret
 
@@ -5489,7 +5489,7 @@ jr_000_1b05:
 jr_000_1b1a:
     ldh a, [hVBlankMode]
     and a
-    jr z, jr_000_1af2
+    jr z, CollisionDefaultHandler
 
     ld a, $0b
     ldh [hGameState], a
@@ -6307,23 +6307,23 @@ ProcessAllObjectCollisions:
     ld hl, hObjParamBuf1
     ld de, wOamAttrY
 
-jr_000_1f2c:
+AnimLoopStart:
     ld a, [hl+]
     and a
-    jr nz, jr_000_1f38
+    jr nz, ProcessAnimEntry
 
-jr_000_1f30:
+NextAnimEntry:
     inc e
     inc e
     inc e
     inc e
     dec b
-    jr nz, jr_000_1f2c
+    jr nz, AnimLoopStart
 
     ret
 
 
-jr_000_1f38:
+ProcessAnimEntry:
     push hl
     push de
     push bc
@@ -6396,7 +6396,7 @@ jr_000_1f89:
     pop de
     pop hl
     call ProcessObjectCollisions
-    jr jr_000_1f30
+    jr NextAnimEntry
 
 jr_000_1f91:
     ld a, [de]
@@ -6498,9 +6498,9 @@ ProcessObjectCollisions:
 jr_000_2009:
     ld a, [hl]
     cp $ff
-    jr nz, jr_000_2020
+    jr nz, ProcessAnimObject
 
-jr_000_200e:
+NextObjectSlot:
     push de
     ld de, $0010
     add hl, de
@@ -6518,9 +6518,9 @@ jr_000_201b:
     pop hl
     pop de
     pop bc
-    jr jr_000_200e
+    jr NextObjectSlot
 
-jr_000_2020:
+ProcessAnimObject:
     push bc
     push de
     push hl
@@ -7732,23 +7732,23 @@ jr_000_25e8:
     ld [wAudioData], a
     ld a, [hl]
     bit 3, a
-    jr z, jr_000_2602
+    jr z, SkipParam1Sub
 
     ldh a, [hSoundParam1]
     sub $08
     ldh [hSoundParam1], a
     ld a, [hl]
 
-jr_000_2602:
+SkipParam1Sub:
     bit 2, a
-    jr z, jr_000_260d
+    jr z, SkipParam1Add
 
     ldh a, [hSoundParam1]
     add $08
     ldh [hSoundParam1], a
     ld a, [hl]
 
-jr_000_260d:
+SkipParam1Add:
     bit 1, a
     jr z, jr_000_2618
 
@@ -7759,13 +7759,13 @@ jr_000_260d:
 
 jr_000_2618:
     bit 0, a
-    jr z, jr_000_2622
+    jr z, NextAudioData
 
     ldh a, [hSoundParam2]
     add $08
     ldh [hSoundParam2], a
 
-jr_000_2622:
+NextAudioData:
     inc hl
     jr jr_000_25e8
 
