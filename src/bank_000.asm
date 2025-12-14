@@ -6566,7 +6566,7 @@ Call_000_2052:
     jr jr_000_205e
 
 jr_000_205b:
-    call Call_000_2a5f
+    call DecrementObjectAnimationCounter
 
 jr_000_205e:
     pop de
@@ -8580,7 +8580,7 @@ TriggerObjectSound:
     ret
 
 
-Call_000_2a5f:
+DecrementObjectAnimationCounter:
     push hl
     ld a, l
     add $0c
