@@ -67,7 +67,7 @@
 - [x] Adresses tilemap HUD ($9806, $9820, $9829) → VRAM_SCORE_POS1/2, VRAM_HUD_LINE
 - [x] Adresses tiles spécifiques ($95D1) → VRAM_ANIM_DEST
 
-### 4.4 Reconstruction des zones de données (nouveau)
+### 4.4 Reconstruction des zones de données (en cours - Découverte 2025-12-14)
 
 **Problème** : Le désassembleur a interprété les données comme du code.
 
@@ -81,7 +81,32 @@
 - [ ] Graphiques/tilemaps (autres banks) → à identifier
 - [x] Autres jump tables après `rst $28` → aucune autre trouvée (326 occurrences analysées)
 
+**Zone en cours (nouvelle)** : $3100-$37FF (environ 1.8 KB)
+- **Contenu** : Jump dispatch tables + data tables + audio/animation data
+- **Labels trouvés** : 14 `jr_000_XXXX` + 2 `Call_000_XXXX` dans cette région
+- **État** : À restructurer avec `db`/`dw` (voir tâche Phase 4.4.1 ci-dessous)
+- **Raison** : Patterns indicatifs de données mal désassemblées :
+  - Séquences `jr c, jr_000_XXXX` (jump dispatch)
+  - Séquences `ld [hl], $XX` (tables de constantes)
+  - `scf` répétés (séparateurs de données)
+  - Références internes entre labels
+  - Aucun appel depuis du vrai code (bank_001/002)
+
 **Objectif** : Remplacer les instructions absurdes par des directives `db`/`dw`/`INCBIN`.
+
+### 4.4.1 Analyse détaillée zone $3100-$37FF
+
+**Découverte du 2025-12-14** :
+- Tous les 36 labels `jr_000_XXXX` + `Call_000_XXXX` restants sont dans cette région
+- Région $3300-$37FF : Jump dispatch table pour animations/sons
+- Sous-zones identifiées :
+  - $3434-$354b : État du dispatch (10 entrées)
+  - $349f-$34e4 : Jump table de sélection (8 entrées)
+  - $3528-$30ec : Données de saut/états audio
+  - $3690, $3755 : Tables audio (avec `rst $28` markers)
+  - $3132 : Table de données (répétitions `ld l, $XX`)
+
+**Prochaine étape** : Analyser avec `xxd` et reconstructire comme données (Phase 4.4.2)
 
 ### 4.5 Protocole d'exploration systématique ✅
 
