@@ -40,6 +40,19 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 
 ---
 
+## Frontière active
+
+**État** : ✅ **VIDE** - Exploration terminée
+
+Toutes les adresses accessibles ont été analysées. La frontière est vide.
+
+Pour reprendre l'exploration (si de nouvelles adresses sont découvertes) :
+```markdown
+- [ ] `$XXXX` (type) - Description, depuis SOURCE
+```
+
+---
+
 ## Frontière archivée - Phase 5 ✅
 
 ### Banks 1-3 - Données et routines secondaires
@@ -618,11 +631,199 @@ Les tâches suivantes sont gérées dans `ROADMAP.md` :
 | Outil | Usage |
 |-------|-------|
 | `xxd -s ADDR -l LEN src/game.gb` | Analyser données brutes à une adresse |
+| `xxd -s ADDR -l LEN -c 2 src/game.gb` | Format lisible (1 octet par ligne) |
 | `grep -n "pattern" src/bank_*.asm` | Rechercher patterns dans le code |
 | `rgbasm`, `rgblink`, `rgbfix` | Toolchain RGBDS pour compilation |
 | `make verify` | Validation bit-perfect (SHA256 + MD5) |
+| `dd if=src/game.gb bs=1 skip=ADDR count=LEN of=out.bin` | Extraire données binaires |
+| `rgbgfx -r -o tiles.png tiles.2bpp` | Convertir tiles 2bpp en PNG |
+
+---
+
+## Constantes créées durant l'exploration
+
+L'exploration a permis d'identifier et nommer **263 constantes** dans `src/constants.inc` :
+
+### Variables HRAM ($FF80-$FFFE) : 96 constantes
+
+| Catégorie | Constantes clés | Découvertes via |
+|-----------|-----------------|-----------------|
+| **Joypad** | `hJoypadState`, `hJoypadDelta` | JoypadReadHandler ($47F2) |
+| **Animation** | `hAnimFrameIndex`, `hAnimObjX/Y`, `hAnimCalcX/Y`, `hAnimAttr` | AnimationHandler ($4823) |
+| **Timers** | `hTimer1`, `hTimer2`, `hTimerAux`, `hFrameCounter` | GameLoop ($0226) |
+| **Audio** | `hAudioControl`, `hAudioStatus`, `hAudioEnv*` | TimerOverflowInterrupt ($0050) |
+| **Rendu** | `hRenderContext`, `hTilemapScrollX/Y`, `hCurrentTile` | VBlankHandler ($0060) |
+| **VBlank/OAM** | `hVBlankSelector`, `hVBlankMode`, `hDMACounter`, `hOAMIndex` | VBlankHandler ($0060) |
+| **État jeu** | `hGameState`, `hSubState`, `hScoreNeedsUpdate` | StateDispatcher ($02A3) |
+
+### Variables WRAM ($C000-$DFFF) : 151 constantes
+
+| Catégorie | Constantes clés | Zone mémoire |
+|-----------|-----------------|--------------|
+| **OAM Buffer** | `wOamBuffer` | $C000-$C09F (160 bytes) |
+| **Joueur** | `wPlayerY`, `wPlayerX`, `wPlayerState`, `wPlayerDir` | $C200-$C207 |
+| **Objets** | `wObject1`-`wObject5` (5 slots × 16 bytes) | $C208-$C248 |
+| **Score** | `wScoreBCDHigh`, `wScoreBCDMid`, `wScoreBCD` | $C0A0+ |
+| **Niveau** | `wLevelData`, `wLevelParam*`, `wLivesCounter` | $DA00-$DA29 |
+| **État** | `wStateBuffer`, `wStateDisplay`, `wStateRender` | $DFE0-$DFF9 |
+
+### Constantes ROM/VRAM : 16 constantes
+
+| Constante | Adresse | Usage |
+|-----------|---------|-------|
+| `ROM_ANIM_TILES` | $3FAF | Table de 10 frames × 8 bytes |
+| `ROM_AUDIO_CONFIG` | $336C | Table de 21 sons × 3 bytes |
+| `ROM_DMA_ROUTINE` | $3F7D | Source routine DMA (12 bytes) |
+| `VRAM_SCORE_POS1` | $9806 | Position score HUD |
+| `VRAM_ANIM_DEST` | $95D1 | Destination tiles animés |
+
+---
+
+## Macros créées durant l'exploration
+
+L'exploration a permis de créer **18 macros** dans `src/macros.inc` pour abstraire les patterns répétitifs et documenter l'algorithme d'initialisation.
+
+### Macros utilitaires (4)
+
+| Macro | Prérequis | Usage |
+|-------|-----------|-------|
+| `CLEAR_LOOP_BC` | HL=fin, C=blocs, B=taille, A=valeur | Clear grande zone (WRAM 16KB, VRAM 8KB) |
+| `CLEAR_LOOP_B` | HL=fin, B=taille, A=valeur | Clear petite zone (≤256 bytes) |
+| `COPY_TO_HRAM_LOOP` | HL=src, C=dest ($FF00+), B=taille | Copie ROM→HRAM (routine DMA) |
+| `WAIT_LY` | \\1=ligne LCD | Attente ligne LCD spécifique (VBlank) |
+
+### Macros free function (14)
+
+Décomposition de `SystemInit` ($0185) en étapes nommées, lisible comme du C++ :
+
+| Macro | Registres modifiés | Rôle |
+|-------|-------------------|------|
+| `ConfigureInterrupts` | A | Active VBlank+STAT dans IE, clear IF, DI |
+| `ConfigureLCDStat` | A | Configure STAT bit 6 (LYC interrupt) |
+| `ResetScroll` | A | SCX=SCY=0, hShadowSCX=0 |
+| `WaitVBlankAndDisableLCD` | A | LCD ON→attente LY $94→LCD OFF (safe) |
+| `ConfigurePalettes` | A | BGP=$E4, OBP0=$E4, OBP1=$54 |
+| `EnableAudio` | A, HL | NR52=$80, NR51=$FF, NR50=$77 |
+| `SetupStack` | SP | SP=$CFFF (haut WRAM bank 0) |
+| `ClearWRAM` | A, HL, B, C | Clear $C000-$DFFF (16KB) |
+| `ClearVRAM` | A, HL, B, C | Clear $8000-$9FFF (8KB) |
+| `ClearOAM` | A, HL, B | Clear $FE00-$FEFF (256 bytes) |
+| `ClearHRAM` | A, HL, B | Clear $FF80-$FFFE (128 bytes) |
+| `CopyVBlankRoutine` | A, HL, B, C | Copie $3F7D→$FFB6 (12 bytes) |
+| `InitGameVariables` | A | Configure hRenderContext, hGameState, etc. |
+| `WaitForNextFrame` | A | HALT + attente hVBlankFlag |
+
+### Équivalent mental C++
+
+```cpp
+void SystemInit() {
+    ConfigureInterrupts();      // DI + IE/IF setup
+    ConfigureLCDStat();         // STAT = STATF_LYC
+    ResetScroll();              // SCX = SCY = 0
+    WaitVBlankAndDisableLCD();  // Safe LCD off
+    ConfigurePalettes();        // BGP, OBP0, OBP1
+    EnableAudio();              // NR50-52
+    SetupStack();               // SP = $CFFF
+    ClearWRAM();                // 16KB
+    ClearVRAM();                // 8KB
+    ClearOAM();                 // 256 bytes
+    ClearHRAM();                // 128 bytes
+    CopyVBlankRoutine();        // DMA routine
+    InitGameVariables();        // Game state init
+    // EI + jp GameLoop
+}
+```
+
+### Garantie bit-perfect
+
+Toutes ces macros s'expandent en **code machine identique** à l'original. Validé par `make verify` (SHA256 + MD5 identiques).
+
+---
+
+## Structures de données identifiées (à documenter)
+
+L'exploration a révélé plusieurs structures de données qui nécessitent une analyse plus approfondie (Phase 5b de ROADMAP.md).
+
+### Structure Joueur ($C200, ~20 bytes)
+
+| Offset | Constante | Compris | Rôle |
+|--------|-----------|---------|------|
+| +$00 | wPlayerY | ✅ | Position Y |
+| +$01 | wPlayerX | ✅ | Position X |
+| +$02 | wPlayerState | ✅ | État actuel |
+| +$03 | wPlayerDir | ✅ | Direction |
+| +$04 | wPlayerUnk04 | ❌ | À déterminer |
+| +$05 | wPlayerUnk05 | ❌ | À déterminer |
+| +$07 | wPlayerUnk07 | ❌ | À déterminer |
+| +$0B | wPlayerUnk0B | ❌ | À déterminer |
+| +$0C | wPlayerUnk0C | ❌ | À déterminer |
+| +$0E | wPlayerUnk0E | ❌ | À déterminer |
+| +$10 | wPlayerUnk10 | ❌ | À déterminer |
+| +$13 | wPlayerUnk13 | ❌ | À déterminer |
+
+### Structure Objets ($C208-$C248, 5 slots × 16 bytes)
+
+| Slot | Adresse | État |
+|------|---------|------|
+| wObject1 | $C208 | Structure de base identifiée |
+| wObject2 | $C218 | Structure de base identifiée |
+| wObject3 | $C228 | Structure de base identifiée |
+| wObject4 | $C238 | Structure de base identifiée |
+| wObject5 | $C248 | Structure de base identifiée |
+
+**Format interne** : 16 bytes par slot, détails à documenter.
+**Activation** : Bit 7 = slot actif (hypothèse à vérifier).
+
+### Zone Niveau ($DA00-$DA29)
+
+| Offset | Constante | Compris | Rôle |
+|--------|-----------|---------|------|
+| +$00 | wLevelData | ✅ | Identifiant niveau |
+| +$03-$29 | wLevelParam03-29 | ❌ | Paramètres niveau (à déterminer) |
+| +$29 | wLivesCounter | ✅ | Nombre de vies |
+
+### Zone État ($DFE0-$DFF9)
+
+| Offset | Constante | Compris | Rôle |
+|--------|-----------|---------|------|
+| +$00 | wStateBuffer | ✅ | Buffer d'état |
+| +$0D | wStateDisplay | ✅ | État affichage |
+| +$0E | wStateGraphics | ✅ | État graphiques |
+| +$0F | wStateRender | ✅ | État rendu |
+| +$10-$19 | wStateUnk10-19 | ❌ | À déterminer |
+
+---
+
+## Prochaines actions (hors exploration)
+
+L'exploration systématique est terminée. Les actions suivantes sont gérées dans `ROADMAP.md` :
+
+### Priorité haute
+- **Phase 4.4** : Reconstruction des données (remplacer instructions absurdes par `dw`/`INCBIN`)
+- **Phase 5b** : Documentation des structures (comprendre wPlayerUnk*, wLevelParam*, etc.)
+
+### Priorité moyenne
+- **Phase 6** : Documentation des systèmes (collision, scrolling, audio, animation)
+- **Phase 7** : Renommage des 275 labels `Jump_*`/`Call_*` restants
+
+### Priorité basse
+- **Phase 8** : Extraction et organisation (modularisation du code)
+- **Phase 9** : Documentation finale (memory-map, game-states, data-structures)
+
+### Comment reprendre l'exploration
+
+Si de nouvelles adresses sont découvertes lors des phases suivantes :
+
+1. Ajouter l'entrée dans la section "Frontière active"
+2. Analyser selon le protocole (lire, comprendre, renommer, commenter)
+3. Ajouter les références sortantes
+4. Cocher et déplacer vers "Analysé"
+5. `make verify` après chaque modification
 
 ---
 
 *Dernière mise à jour : 2025-12-14*
 *Exploration complète : 138/138 entrées (100%)*
+*Constantes créées : 263 (96 HRAM + 151 WRAM + 16 ROM/VRAM)*
+*Macros créées : 18 (4 utilitaires + 14 free functions)*
+*Labels restants : 275 (94 Jump_* + 181 Call_*)*
