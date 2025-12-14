@@ -2,7 +2,7 @@
 
 **Objectif** : Comprendre 100% du code, le documenter de manière compréhensible, et transformer le désassemblage brut en code source lisible et maintenable.
 
-**Progression globale** : ~45% (estimé)
+**Progression globale** : ~50% (estimé - Phases 1-5 complétées)
 
 ---
 
@@ -111,38 +111,62 @@
 
 ---
 
-## Phase 5 : Documentation des structures
+## Phase 5 : Exploration Banks 1-3 ✅
+*Terminée le 2025-12-14*
+
+**Objectif** : Explorer et documenter les banks de données (Banks 1-3).
+
+**État** : ✅ COMPLET (36/36 entrées analysées dans `docs/exploration.md`)
+
+### 5.1 Résultats Banks 1-3
+
+| Bank | Contenu identifié |
+|------|-------------------|
+| Bank 1 | LevelJumpTable (24 ptrs) + TileData (~4.5KB 2bpp) + LevelData (Mondes 1-4) |
+| Bank 2 | LevelJumpTable (24 ptrs) + TileData (~8KB 2bpp) + LevelData (variantes) |
+| Bank 3 | LevelJumpTable (24 ptrs) + TileData (~2KB 2bpp) + JoypadReadHandler + AnimationHandler + AudioData |
+
+### 5.2 Découvertes clés
+
+- **Format des banks** : Jump table (48 bytes à $4000) + Tiles 2bpp + Level data
+- **Bank 3** contient du code exécutable (JoypadReadHandler $47F2, AnimationHandler $4823)
+- **Données audio** : Tables $4E74, $4F1D, $4FD8 = séquences notes/durées
+- **275 labels** restants à renommer (94 `Jump_*` + 181 `Call_*`)
+
+---
+
+## Phase 5b : Documentation des structures (en cours)
 
 **Objectif** : Comprendre toutes les structures de données du jeu.
 
-**Note** : Ces tâches seront complétées via le protocole d'exploration (Phase 4.5).
+**Note** : Ces tâches seront complétées via le protocole d'exploration.
 
-### 5.1 Structure Joueur ($C200, 20 bytes)
+### 5b.1 Structure Joueur ($C200, 20 bytes)
 
 - [x] Définir constantes de base (wPlayerY, wPlayerX, wPlayerState, wPlayerDir)
 - [ ] Comprendre les variables wPlayerUnk05/07/0B/0C/0E/10/13
 - [ ] Créer macros RSRESET pour offsets structurés
 
-### 5.2 Structure Objets ($C208-$C248, 5 slots × 16 bytes)
+### 5b.2 Structure Objets ($C208-$C248, 5 slots × 16 bytes)
 
 - [x] Définir constantes slots (wObject1-5, OBJECT_SLOT_SIZE)
 - [ ] Documenter les 16 bytes de chaque slot (offsets internes)
 - [ ] Comprendre le système d'activation (bit 7)
 - [ ] Identifier les types d'objets
 
-### 5.3 Buffer OAM ($C000, 160 bytes)
+### 5b.3 Buffer OAM ($C000, 160 bytes)
 
 - [x] Définir constante de base (wOamBuffer)
 - [ ] Documenter l'usage des 40 sprites
 - [ ] Comprendre l'allocation dynamique
 
-### 5.4 Zone Niveau ($DA00-$DA29)
+### 5b.4 Zone Niveau ($DA00-$DA29)
 
 - [x] Définir constantes (wLevelData, wLevelParam03-29, wLivesCounter, etc.)
 - [ ] Identifier le rôle de chaque wLevelParam* (reverse engineering)
 - [ ] Comprendre le format des données de niveau
 
-### 5.5 Buffer État ($DFE0-$DFF9)
+### 5b.5 Buffer État ($DFE0-$DFF9)
 
 - [x] Définir constantes (wStateBuffer, wStateDisplay, wStateRender, etc.)
 - [ ] Identifier le rôle de chaque wState* (reverse engineering)
@@ -264,9 +288,13 @@
 | Structures définies | 5 | 5 | 100% |
 | Structures comprises | 0 | 5 | 0% |
 | Systèmes documentés | 2 | 5 | 40% |
-| Exploration (docs/exploration.md) | 102 | 102 | 100% |
+| Exploration Phase 4.5 (Bank 0) | 102 | 102 | 100% |
+| Exploration Phase 5 (Banks 1-3) | 36 | 36 | 100% |
 
-*Note: Phase 4.5 (exploration systématique) terminée. 60 handlers d'état, 18 routines et 8 handlers RST documentés.*
+*Notes:*
+- *Phase 4.5 terminée : 60 handlers d'état, 18 routines, 8 handlers RST documentés.*
+- *Phase 5 terminée : Banks 1-3 explorées, jump tables, tiles, level data, routines audio/joypad identifiées.*
+- *275 labels Jump_*/Call_* restants à renommer (Phase 7).*
 
 ## Découvertes
 

@@ -40,7 +40,58 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 
 ---
 
-## Frontière (à analyser)
+## Frontière archivée - Phase 5 (complétée)
+
+### Banks 1-3 - Données et routines secondaires
+
+#### Bank 1 ($4000-$7FFF) - Données niveaux
+- [x] `$4000` (data) - **LevelJumpTable_Bank1** : 24 entrées × 2 bytes, pointeurs vers données niveaux
+- [x] `$4030` (data) - **TileData_Bank1** : ~4.5KB graphiques 2bpp (mal désassemblé en instructions)
+- [x] `$5179` (data) - **LevelData_World4_1** : structure niveau (pointeurs + métadonnées)
+- [x] `$5222` (data) - **LevelData_World4_2** : structure niveau
+- [x] `$529B` (data) - **LevelData_World4_3** : structure niveau
+- [x] `$5311` (data) - **LevelData_Shared_A** : données réutilisées (mondes 3+)
+- [x] `$5405` (data) - **LevelData_Shared_B** : données réutilisées (mondes 3+)
+- [x] `$54D5` (data) - **LevelData_Bonus** : niveau bonus
+- [x] `$55BB` (data) - **LevelData_World1_1** : contient sous-pointeurs ($56CD, $5ABB, etc.)
+- [x] `$55E2` (data) - **LevelData_World1_2** : structure niveau
+- [x] `$5605` (data) - **LevelData_World1_3** : structure niveau
+- [x] `$5630` (data) - **LevelData_World2_1** : structure niveau
+- [x] `$5665` (data) - **LevelData_World2_2** : structure niveau
+- [x] `$5694` (data) - **LevelData_World2_3** : structure niveau
+
+#### Bank 2 ($4000-$7FFF) - Données niveaux
+- [x] `$4000` (data) - **LevelJumpTable_Bank2** : 24 entrées × 2 bytes, pointeurs vers données niveaux
+- [x] `$4030` (data) - **TileData_Bank2** : ~8KB graphiques 2bpp (mal désassemblé)
+- [x] `$6002` (data) - **LevelData_VariantA** : métadonnées niveau (format: offset + flags)
+- [x] `$6073` (data) - **LevelData_VariantB** : métadonnées niveau
+- [x] `$6090` (data) - **LevelData_VariantC** : métadonnées niveau
+- [x] `$60FE` (data) - **LevelData_VariantD** : métadonnées niveau
+- [x] `$6192` (data) - **LevelData_Main2** : sous-pointeurs ($62BE, $6817, etc.)
+- [x] `$61B7` (data) - **LevelData_Main2_Alt1** : variante niveau principal
+- [x] `$61DA` (data) - **LevelData_Main2_Alt2** : variante niveau principal
+
+#### Bank 3 ($4000-$7FFF) - Audio, joypad et animation
+- [x] `$4000` (data) - **LevelJumpTable_Bank3** : 24 entrées × 2 bytes, pointeurs vers données
+- [x] `$4030` (data) - **TileData_Bank3** : ~2KB graphiques 2bpp sprites
+- [x] `$47F2` (code) - **JoypadReadHandler** : lecture boutons via rP1 ($20=D-pad, $10=buttons)
+- [x] `$4823` (code) - **AnimationHandler** : traite structures animation 16 bytes, copie vers HRAM
+- [x] `$4C37` (data) - **AnimFrameTable** : ~32 pointeurs vers frames ($4C8D, $4C91, ...)
+- [x] `$4E74` (data) - **AudioData_Track1** : données séquenceur audio (notes + durées)
+- [x] `$4F1D` (data) - **AudioData_Track2** : données séquenceur audio
+- [x] `$4FD8` (data) - **AudioData_Track3** : données séquenceur audio
+- [x] `$503F` (data) - **LevelData_Bank3_Main** : sous-pointeurs ($56A5, $5CC2, etc.)
+- [x] `$5074` (data) - **LevelData_Bank3_Alt1** : variante niveau
+- [x] `$509B` (data) - **LevelData_Bank3_Alt2** : variante niveau
+- [x] `$50C0` (data) - **LevelData_Bank3_Variant** : données additionnelles
+
+#### Routines cross-bank identifiées (Bank 0 → Bank X)
+- [x] `$172D` → `$4823` Bank 3 - CallBank3Handler (animation)
+- [x] `$0226` → `$47F2` Bank 3 - GameLoop appelle JoypadReadHandler
+
+---
+
+## Frontière archivée - Phase 4.5 (complétée)
 
 ### Points d'entrée système
 - [x] `$0000` (code) - RST $00 : Soft reset → `jp SystemInit`
@@ -330,12 +381,60 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - **États Bank 1 ($14-$1A)** : Ce sont des entrées invalides dans la StateJumpTable qui pointent vers des données tilemap à $5832-$5841. Ces états ne sont probablement jamais appelés, ou la table originale contient des erreurs/placeholders.
 
 ### Questions ouvertes
-- Organisation précise des niveaux dans les banks
-- Localisation des graphiques sprites/backgrounds
+- ~~Organisation précise des niveaux dans les banks~~ → **Résolu Phase 5** : Jump tables 24×2 bytes à $4000, pointeurs vers données niveau
+- ~~Localisation des graphiques sprites/backgrounds~~ → **Résolu Phase 5** : Données tiles 2bpp à $4030 dans chaque bank (~2-8KB)
+- Format exact des structures de niveau → **Partiellement compris** : Sous-pointeurs vers données, format à documenter
+- ~~Système audio Bank 3~~ → **Résolu Phase 5** : Tables à $4E74, $4F1D, $4FD8 = séquences notes/durées
+
+### Organisation des banks (découverte Phase 4.5 + 5)
+
+| Bank | Début ($4000) | Contenu identifié |
+|------|---------------|-------------------|
+| Bank 0 | Code | Handlers RST, interruptions, états $00-$0D, $0E-$11, $1B-$3B, routines principales |
+| Bank 1 | Données | **LevelJumpTable_Bank1** (24 ptrs) → données niveaux Mondes 1-4 |
+| Bank 2 | Données | **LevelJumpTable_Bank2** (24 ptrs) → données niveaux variantes |
+| Bank 3 | Données + Code | **LevelJumpTable_Bank3** (24 ptrs) + **JoypadReadHandler** ($47F2) + **AnimationHandler** ($4823) |
+
+### Structure des Level Jump Tables (découverte Phase 5)
+
+Chaque bank contient une table de 24 pointeurs (48 bytes) à $4000 :
+- Format : `dw adresse` (little-endian)
+- Organisation : répétitions + variantes par mode de jeu
+
+**Bank 1** - Adresses identifiées :
+| Index | Adresse | Monde/Niveau |
+|-------|---------|--------------|
+| $00-$08 | $55BB, $55E2, $5605 | Monde 1 (3× répété) |
+| $09-$0B | $5630, $5665, $5694 | Monde 2 |
+| $0C | $55BB | Monde 3-1 (= 1-1) |
+| $0D-$0F | $5311, $5405, $54D5 | Monde 3 suite |
+| $10-$12 | $5179, $5222, $529B | Monde 4 |
+| $13-$17 | $5311, $5405, $54D5 | Répétitions |
+
+**Bank 2** - Adresses identifiées :
+| Index | Adresse | Description |
+|-------|---------|-------------|
+| $00-$0B | $6192, $61B7, $61DA | Données principales (4× répété) |
+| $0C+ | $6090, $6002, $6073, $60FE | Variantes |
+
+**Bank 3** - Adresses identifiées :
+| Index | Adresse | Description |
+|-------|---------|-------------|
+| $00-$0B | $503F, $5074, $509B | Données principales (4× répété) |
+| $0C+ | $50C0, $4E74, $4F1D, $4FD8 | Variantes audio/data |
+
+**Labels non renommés restants** :
+- Bank 0 : 44 `Jump_*`, 108 `Call_*`
+- Bank 1 : 8 `Jump_*`, 21 `Call_*`
+- Bank 2 : 16 `Jump_*`, 16 `Call_*`
+- Bank 3 : 26 `Jump_*`, 36 `Call_*`
+- **Total** : 94 `Jump_*` + 181 `Call_*` = 275 labels à renommer
 
 ---
 
 ## Statistiques
+
+### Phase 4.5 (complétée)
 
 | Catégorie | Frontière | Analysé | Total |
 |-----------|-----------|---------|-------|
@@ -345,8 +444,94 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | Handlers état | 0 | 60 | 60 |
 | Routines | 0 | 18 | 18 |
 | Tables données | 0 | 7 | 7 |
-| **Total** | **0** | **102** | **102** |
+| **Total Phase 4.5** | **0** | **102** | **102** |
 
-**Progression** : ✅ **100% analysé** (102/102)
+**Progression Phase 4.5** : ✅ **100% analysé** (102/102)
 
 *Note : Les 6 états Bank 1 ($14-$1A) pointent vers des données tilemap, pas du code. Ils ont été marqués comme analysés avec cette conclusion.*
+
+### Phase 5 (en cours)
+
+| Catégorie | Frontière | Analysé | Total estimé |
+|-----------|-----------|---------|--------------|
+| Bank 1 jump table | 0 | 1 | 1 |
+| Bank 1 tile data | 0 | 1 | 1 |
+| Bank 1 level data | 0 | 12 | 12 |
+| Bank 2 jump table | 0 | 1 | 1 |
+| Bank 2 tile data | 0 | 1 | 1 |
+| Bank 2 level data | 0 | 7 | 7 |
+| Bank 3 jump table | 0 | 1 | 1 |
+| Bank 3 tile data | 0 | 1 | 1 |
+| Bank 3 routines | 0 | 2 | 2 |
+| Bank 3 anim/audio | 0 | 7 | 7 |
+| Cross-bank calls | 0 | 2 | 2 |
+| **Total Phase 5** | **0** | **36** | **36** |
+
+**Progression Phase 5** : ✅ **100%** (36/36 entrées analysées)
+
+#### Routines Bank 3 analysées
+- **$47F2 JoypadReadHandler** : Lecture boutons via rP1 ($20 D-pad, $10 buttons), stocke dans hJoypadState/hJoypadDelta
+- **$4823 AnimationHandler** : Boucle sur structures animation (16 bytes chacune), copie vers HRAM ($ff86+), utilise AnimFrameTable à $4C37
+
+#### Découvertes Phase 5
+- **Banks 1-3** contiennent principalement des données, pas du code
+- **Format des banks** : Jump table (48 bytes) + Tiles 2bpp (~2-8KB) + Level data (structures avec sous-pointeurs)
+- **Bank 3** contient aussi du code exécutable (JoypadReadHandler, AnimationHandler)
+- **Données audio** : Séquences de notes/durées pour le séquenceur audio Game Boy
+
+### Labels non renommés (cible Phase 7)
+
+| Bank | Jump_* | Call_* | Total |
+|------|--------|--------|-------|
+| Bank 0 | 44 | 108 | 152 |
+| Bank 1 | 8 | 21 | 29 |
+| Bank 2 | 16 | 16 | 32 |
+| Bank 3 | 26 | 36 | 62 |
+| **Total** | **94** | **181** | **275** |
+
+---
+
+## Phase 6 : Reconstruction des données (prochaines étapes)
+
+Les Phases 4.5 et 5 couvrent **l'exploration complète** du code. La Phase 6 se concentre sur la reconstruction des zones mal désassemblées.
+
+### 6.1 Reconstruction des données mal désassemblées
+
+**Priorité haute** - Zones identifiées :
+
+| Zone | Bank | Adresse | Type | Statut |
+|------|------|---------|------|--------|
+| Jump table Bank 1 | 1 | $4000-$402F | `dw` × 24 | À reconstruire |
+| Tiles Bank 1 | 1 | $4030-$5178 | INCBIN | À extraire |
+| Jump table Bank 2 | 2 | $4000-$402F | `dw` × 24 | À reconstruire |
+| Tiles Bank 2 | 2 | $4030-$6001 | INCBIN | À extraire |
+| Jump table Bank 3 | 3 | $4000-$402F | `dw` × 24 | À reconstruire |
+| Tiles Bank 3 | 3 | $4030-$47F1 | INCBIN | À extraire |
+| Texte cutscenes | 0 | $0FD8-$1018 | Texte encodé | À reconstruire |
+
+### 6.2 Renommage systématique des labels
+
+**275 labels** restants à renommer (voir statistiques ci-dessus).
+
+**Méthode** :
+1. Identifier les points d'entrée cross-bank (depuis bank 0)
+2. Tracer les appels : `call $4xxx` → label en bank active
+3. Comprendre la fonction → renommer explicitement
+
+### 6.3 Systèmes à documenter
+
+| Système | Routines clés | Priorité |
+|---------|---------------|----------|
+| Collision | Non identifiées | Haute |
+| Ennemis | $236D (état $0D) appelle multi-bank | Moyenne |
+| Niveaux | Banks 1-2 (data), bank 0 (loader) | Moyenne |
+| Audio | Bank 3 ($4823+), AudioConfigTable | Basse |
+
+### 6.4 Tâches Phase 6 (suggérées)
+
+```markdown
+- [ ] Reconstruire jump tables Banks 1-3 avec `dw`
+- [ ] Extraire tiles en fichiers binaires séparés (INCBIN)
+- [ ] Documenter format des structures de niveau
+- [ ] Renommer les 275 labels Jump_*/Call_* restants
+```
