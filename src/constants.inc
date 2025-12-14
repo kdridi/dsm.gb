@@ -407,6 +407,10 @@ DEF VRAM_COIN_TENS      EQU $9829   ; Compteur pièces HUD (dizaines)
 DEF VRAM_COIN_UNITS     EQU $982A   ; Compteur pièces HUD (unités)
 DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
 
+; === Tiles spéciaux ===
+
+DEF TILE_EMPTY          EQU $2C   ; Tile vide/espace (fond, leading zero)
+
 ; === Valeurs de gameplay ===
 
 DEF POINTS_PER_COIN     EQU $0100 ; Points par pièce (100 en BCD)

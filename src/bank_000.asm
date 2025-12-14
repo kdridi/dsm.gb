@@ -732,7 +732,7 @@ jr_000_0368:
     ld de, $8000
     ld bc, $02a0
     call MemCopy
-    call Call_000_05b8
+    call ClearBGTilemap
     xor a
     ldh [hTilemapScrollX], a
     ldh a, [hRenderContext]
@@ -1100,7 +1100,7 @@ State11_LevelStart::
 
 .skipScoreReset:
     call Call_000_05d0
-    call Call_000_05b8
+    call ClearBGTilemap
     ld hl, $9c00
     ld b, $5f
     ld a, $2c
@@ -1141,18 +1141,28 @@ State10_Noop::
     ret
 
 
-Call_000_05b8:
-    ld hl, $9bff
-    ld bc, $0400
+; ===========================================================================
+; ClearBGTilemap - Remplit la tilemap _SCRN0 avec le tile vide
+; Entrée : Aucune
+; Sortie : _SCRN0 ($9800-$9BFF) rempli avec TILE_EMPTY
+; ===========================================================================
+ClearBGTilemap::
+    ld hl, _SCRN0 + $03FF       ; Fin de _SCRN0 ($9BFF)
+    ld bc, $0400                ; 1024 octets (32x32 tiles)
 
-Call_000_05be:
-jr_000_05be:
-    ld a, $2c
+; ===========================================================================
+; FillTilemapLoop - Remplit une zone mémoire avec le tile vide
+; Entrée : HL = adresse de fin (décrémente), BC = nombre d'octets
+; Sortie : Zone remplie avec TILE_EMPTY ($2C)
+; ===========================================================================
+FillTilemapLoop::
+.loop:
+    ld a, TILE_EMPTY
     ld [hl-], a
     dec bc
     ld a, b
     or c
-    jr nz, jr_000_05be
+    jr nz, .loop
 
     ret
 
@@ -3457,7 +3467,7 @@ State29_SetupEndScreen::
     ldh [hVBlankMode], a
     ld hl, $9c00
     ld bc, $0100
-    call Call_000_05be
+    call FillTilemapLoop
     call Call_000_0808
     call Call_000_0ede
     ld hl, wPlayerState
