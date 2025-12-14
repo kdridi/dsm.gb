@@ -1829,7 +1829,7 @@ jr_002_47b8:
 jr_002_47ce:
     rst $08
     rst $08
-    jp Jump_000_00c3
+    jp LCDStat_CheckCarryExit
 
 
     nop

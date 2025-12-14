@@ -9326,10 +9326,10 @@ jr_003_69ee:
     nop
     jr nc, @-$0e
 
-    call nz, Call_000_00c7
+    call nz, LCDStat_SetLYC
     jr nc, @-$0e
 
-    call nc, Call_000_00c7
+    call nc, LCDStat_SetLYC
     jr nc, @-$0e
 
     set 0, a
@@ -10659,7 +10659,7 @@ Call_003_703c:
     ld h, a
     adc c
     xor e
-    call z, Call_000_00cd
+    call z, LCDStat_PopAndReti
     inc c
     or b
     cp e

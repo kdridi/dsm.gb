@@ -226,9 +226,9 @@ CheckWindowEnable:
 ;;   !=0 = Mode retour : désactive window, reset LYC
 ;;
 ;; Points d'entrée publics (utilisés par bank 2/3) :
-;;   Jump_000_00c3 : Vérifie carry et saute à exit si >= $87
-;;   Call_000_00c7 : Écrit A dans rLYC et wGameConfigA5
-;;   Call_000_00cd : Pop af + reti
+;;   LCDStat_CheckCarryExit : Vérifie carry et saute à exit si >= $87
+;;   LCDStat_SetLYC : Écrit A dans rLYC et wGameConfigA5
+;;   LCDStat_PopAndReti : Pop af + reti
 ;; ==========================================================================
 LCDStatHandler:
     push af
@@ -272,14 +272,14 @@ LCDStatHandler_CheckWindow:
     cp $87                      ; A >= $87 ?
 
 ;; Point d'entrée public : vérifie carry flag et exit si >= $87
-Jump_000_00c3:
+LCDStat_CheckCarryExit:
     jr nc, LCDStatHandler_Exit  ; Oui → ne pas changer LYC
 
 LCDStatHandler_UpdateLYC:
     add $08                     ; Prochaine ligne LYC
 
 ;; Point d'entrée public : écrit A dans rLYC et wGameConfigA5
-Call_000_00c7:
+LCDStat_SetLYC:
     ldh [rLYC], a               ; Programmer prochaine interruption
     ld [wGameConfigA5], a       ; Mémoriser pour mode retour
 
@@ -287,7 +287,7 @@ LCDStatHandler_Exit:
     pop hl
 
 ;; Point d'entrée public : pop af + reti
-Call_000_00cd:
+LCDStat_PopAndReti:
     pop af
     reti
 
