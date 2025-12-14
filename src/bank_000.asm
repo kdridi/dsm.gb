@@ -6063,7 +6063,7 @@ jr_000_1df0:
     add [hl]
     ld [hl], a
     call OffsetSpritesY
-    call Call_000_2c96
+    call OffsetSpritesX
     ld hl, wOamAttrY
     ld de, $0004
     ld c, $03
@@ -8335,7 +8335,7 @@ jr_000_2928:
     ldh a, [hShadowSCX]
     add b
     ldh [hShadowSCX], a
-    call Call_000_2c96
+    call OffsetSpritesX
 
 jr_000_293b:
     ld a, c
@@ -9028,7 +9028,7 @@ CheckObjectTileTop:
     ret
 
 
-Call_000_2c96:
+OffsetSpritesX:
     ld a, b
     and a
     ret z
