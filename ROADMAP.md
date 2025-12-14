@@ -53,18 +53,19 @@
 | $C0xx (variables jeu) | 0 | - | ✅ FAIT |
 | $D0xx (extended WRAM) | 0 | - | ✅ FAIT |
 
-### 4.2 Données statiques (tables ROM)
+### 4.2 Données statiques (tables ROM) ✅
 
-- [ ] Table de jump StateDispatcher ($02A5) → 60 états
-- [ ] Table d'animation ($3FAF)
-- [ ] Table audio ($336C)
-- [ ] Données de style ($030C, $0734, $0B5C, etc.)
-- [ ] Tilemaps initiaux ($0783)
+- [x] Table d'animation ($3FAF) → ROM_ANIM_TILES
+- [x] Table audio ($336C) → ROM_AUDIO_CONFIG
+- [x] Données de style ($030C, $0734, $0B5C, etc.) → ROM_STYLE_LVL_*
+- [x] Tilemaps initiaux ($0783) → ROM_TILEMAP_INIT
+- [x] Adresses VRAM HUD ($9806, $9820, $9829, $95D1) → VRAM_*
+- [ ] Table de jump StateDispatcher ($02A5) → mal désassemblée, à traiter séparément
 
-### 4.3 Constantes hardware manquantes
+### 4.3 Constantes hardware manquantes ✅
 
-- [ ] Adresses tilemap HUD ($9806, $9820, $9829, etc.)
-- [ ] Adresses tiles spécifiques ($95D1)
+- [x] Adresses tilemap HUD ($9806, $9820, $9829) → VRAM_SCORE_POS1/2, VRAM_HUD_LINE
+- [x] Adresses tiles spécifiques ($95D1) → VRAM_ANIM_DEST
 
 ---
 
@@ -212,6 +213,7 @@
 |-----------|------|-------|---|
 | Constantes HRAM | 100+ | ~120 | 85% |
 | Constantes WRAM | 130+ | ~200 | 65% |
+| Constantes ROM/VRAM | 13 | ~15 | 87% |
 | Adresses WRAM en dur éliminées | ~220 | ~220 | 100% |
 | Labels renommés | ~15 | ~1700 | 1% |
 | Routines documentées | ~15 | ~200 | 8% |
@@ -219,7 +221,7 @@
 | Structures comprises | 0 | 5 | 0% |
 | Systèmes documentés | 0 | 5 | 0% |
 
-*Note: Section 4.1 terminée (0 magic values WRAM). Reste tables ROM et constantes hardware (4.2, 4.3).*
+*Note: Phase 4 quasi-terminée. Reste StateDispatcher ($02A5) mal désassemblé à traiter séparément.*
 
 ## Découvertes
 

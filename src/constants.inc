@@ -368,6 +368,29 @@ DEF wStateEnd       EQU $DFF9   ; Marqueur fin état
 DEF ROM_DMA_ROUTINE EQU $3F7D   ; Source routine DMA en ROM (12 octets)
 DEF ROM_INIT_BANK3  EQU $7FF3   ; Routine d'initialisation en bank 3
 
+; --- Tables audio ---
+DEF ROM_AUDIO_CONFIG    EQU $336C   ; Configurations son (3 octets/son)
+
+; --- Tables style (par niveau) ---
+DEF ROM_STYLE_LVL_0     EQU $030C   ; Niveaux 0-6
+DEF ROM_STYLE_LVL_7     EQU $0734   ; Niveaux 7-10
+DEF ROM_STYLE_LVL_11    EQU $0B5C   ; Niveaux 11-14
+DEF ROM_STYLE_LVL_15    EQU $0F84   ; Niveaux 15-18
+DEF ROM_STYLE_LVL_19    EQU $13AC   ; Niveaux 19-22
+DEF ROM_STYLE_LVL_23    EQU $17D4   ; Niveaux 23+
+
+; --- Tables animation ---
+DEF ROM_ANIM_TILES      EQU $3FAF   ; Frames animation tiles
+
+; --- Données initiales ---
+DEF ROM_TILEMAP_INIT    EQU $0783   ; Tilemap initial (9 octets)
+
+; === Adresses VRAM ===
+DEF VRAM_SCORE_POS1     EQU $9806   ; Score HUD position 1
+DEF VRAM_HUD_LINE       EQU $9820   ; Ligne HUD
+DEF VRAM_SCORE_POS2     EQU $9829   ; Score HUD position 2
+DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
+
 ; === Valeurs d'initialisation ===
 
 DEF INIT_GAME_STATE     EQU $0E ; État jeu initial (hGameState)

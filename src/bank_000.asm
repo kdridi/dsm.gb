@@ -1287,27 +1287,27 @@ jr_000_06e1:
     dec a
 
 jr_000_06e6:
-    ld bc, $030c
+    ld bc, ROM_STYLE_LVL_0
     cp $07
     jr c, jr_000_070c
 
-    ld bc, $0734
+    ld bc, ROM_STYLE_LVL_7
     cp $0b
     jr c, jr_000_070c
 
-    ld bc, $0b5c
+    ld bc, ROM_STYLE_LVL_11
     cp $0f
     jr c, jr_000_070c
 
-    ld bc, $0f84
+    ld bc, ROM_STYLE_LVL_15
     cp $13
     jr c, jr_000_070c
 
-    ld bc, $13ac
+    ld bc, ROM_STYLE_LVL_19
     cp $17
     jr c, jr_000_070c
 
-    ld bc, $17d4
+    ld bc, ROM_STYLE_LVL_23
 
 jr_000_070c:
     ld [hl], b
@@ -1329,7 +1329,7 @@ jr_000_070c:
     inc l
     ld [hl], a
     ld hl, $9c00
-    ld de, $0783
+    ld de, ROM_TILEMAP_INIT
     ld b, $09
 
 jr_000_0732:
@@ -5360,7 +5360,7 @@ jr_000_1c12:
     ld a, b
     and $f0
     swap a
-    ld [$9829], a
+    ld [VRAM_SCORE_POS2], a
     xor a
     ldh [_HRAM_END], a
     inc a
@@ -5422,7 +5422,7 @@ Call_000_1c4d:
     ld a, b
     and $f0
     swap a
-    ld [$9806], a
+    ld [VRAM_SCORE_POS1], a
 
 jr_000_1c5e:
     xor a
@@ -7018,7 +7018,7 @@ UpdateAnimTiles:
     jr jr_000_2420
 
 jr_000_2412:
-    ld hl, $3faf
+    ld hl, ROM_ANIM_TILES
     ldh a, [hAnimTileIndex]
     and $f0
     sub $10
@@ -7028,7 +7028,7 @@ jr_000_2412:
     add hl, de
 
 jr_000_2420:
-    ld de, $95d1
+    ld de, VRAM_ANIM_DEST
     ld b, $08
 
 jr_000_2425:
@@ -7170,7 +7170,7 @@ Call_000_24cd:
     add e
     rl d
     ld e, a
-    ld hl, $336c
+    ld hl, ROM_AUDIO_CONFIG
     add hl, de
     ld a, [hl+]
     ldh [hSoundCh4], a
@@ -7194,7 +7194,7 @@ jr_000_24ee:
     add e
     rl d
     ld e, a
-    ld hl, $336c
+    ld hl, ROM_AUDIO_CONFIG
     add hl, de
     ld a, [hl]
     ldh [hSoundCh4], a
@@ -7213,7 +7213,7 @@ jr_000_2502:
     add e
     rl d
     ld e, a
-    ld hl, $336c
+    ld hl, ROM_AUDIO_CONFIG
     add hl, de
     inc hl
     ld a, [hl+]
@@ -8718,7 +8718,7 @@ jr_000_2cb6:
     add e
     rl d
     ld e, a
-    ld hl, $336c
+    ld hl, ROM_AUDIO_CONFIG
     add hl, de
 
 jr_000_2cc0:
@@ -12394,7 +12394,7 @@ UpdateScoreDisplay:
 
     ; --- SetupPointers ---
     ld de, $c0a2            ; DE = source (score BCD, high byte first)
-    ld hl, $9820            ; HL = destination (tilemap)
+    ld hl, VRAM_HUD_LINE    ; HL = destination (tilemap)
 
 ;; --- ConvertBCDToTiles ---
 ;; Convertit 3 octets BCD en 6 tiles avec suppression des zéros de tête
