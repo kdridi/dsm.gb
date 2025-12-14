@@ -1243,14 +1243,14 @@ jr_000_0600:
 ;; ==========================================================================
 ;; Premier état du jeu. Probablement l'initialisation du menu/écran titre.
 ;; Structure :
-;;   1. Init animations et graphiques (Call_000_218f, Call_000_0837)
+;;   1. Init animations et graphiques (UpdateScroll, Call_000_0837)
 ;;   2. Appels multiples vers bank 3 (init objets $c208-$c248)
 ;;   3. Appels vers bank 2 ($5844)
 ;;   4. Mise à jour diverses (scroll, tiles, etc.)
 ;;   5. Gestion wLevelConfig
 ;; ==========================================================================
 StateHandler_00::
-    call Call_000_218f
+    call UpdateScroll
     call Call_000_0837
 
     ; Switch vers bank 3 pour initialisation objets
@@ -3053,7 +3053,7 @@ State22_ScrollCutscene::
 
     ld hl, hShadowSCX
     inc [hl]
-    call Call_000_218f
+    call UpdateScroll
     ld hl, wPlayerState
     dec [hl]
     ld hl, $c212
@@ -3761,7 +3761,7 @@ jr_000_126e:
 
 jr_000_127f:
     call AutoMovePlayerRight
-    call Call_000_218f
+    call UpdateScroll
     ldh a, [hTilemapScrollX]
     cp $03
     ret nz
@@ -3853,7 +3853,7 @@ Call_000_12dd:
 ; ===========================================================================
 State31_HorizontalScroll::
     call Call_000_1305
-    call Call_000_218f
+    call UpdateScroll
     ldh a, [hShadowSCX]
     inc a
     call z, Call_000_130f
@@ -6796,7 +6796,7 @@ jr_000_217f:
     ret
 
 
-Call_000_218f:
+UpdateScroll:
     ldh a, [hScrollPhase]
     and a
     jr nz, jr_000_217f
@@ -7239,7 +7239,7 @@ State0D_GameplayFull::
     ret nz                       ; Skip si pause
 
     ; Mise à jour logique du jeu
-    call Call_000_218f           ; Update scrolling/player?
+    call UpdateScroll
     call $4fb2                   ; Bank 1: update level?
     ld a, [wAudioCondition]
     and a
