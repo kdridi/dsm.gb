@@ -184,10 +184,10 @@ void SystemInit() {
 - `src/macros.inc` : toutes les macros (utilitaires + free functions)
 - Inclus avant les banks dans `game.asm`
 
-### Prochaine étape
-Décomposer `Jump_000_0185` (init système) en macros free function pour documenter l'algorithme d'initialisation.
+### État actuel
+`SystemInit` ($0185) est décomposé en 14 macros free function documentant l'algorithme d'initialisation.
 
-**Macros existantes** : voir `src/macros.inc` pour la liste complète.
+**Macros existantes** : voir `src/macros.inc` pour la liste complète (14 free functions + macros utilitaires).
 
 ## Constantes nommées
 

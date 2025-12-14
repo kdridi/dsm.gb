@@ -40,7 +40,7 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 
 ---
 
-## Frontière archivée - Phase 5 (complétée)
+## Frontière archivée - Phase 5 ✅
 
 ### Banks 1-3 - Données et routines secondaires
 
@@ -91,7 +91,7 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 
 ---
 
-## Frontière archivée - Phase 4.5 (complétée)
+## Frontière archivée - Phase 4.5 ✅
 
 ### Points d'entrée système
 - [x] `$0000` (code) - RST $00 : Soft reset → `jp SystemInit`
@@ -386,6 +386,36 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - Format exact des structures de niveau → **Partiellement compris** : Sous-pointeurs vers données, format à documenter
 - ~~Système audio Bank 3~~ → **Résolu Phase 5** : Tables à $4E74, $4F1D, $4FD8 = séquences notes/durées
 
+### Techniques d'analyse utilisées
+
+#### Identification des zones mal désassemblées
+
+**Symptômes** d'une zone data interprétée comme code :
+- Instructions absurdes (`db $10`, `ld b, $xx` répétés)
+- Labels `Jump_XXX` au milieu de données
+- Pas de structure logique (pas de `ret`, `jp`, `call` cohérents)
+
+#### Analyse via xxd
+
+Puisque `make verify` confirme que `src/game.gb` est identique à l'originale :
+
+```bash
+# Voir 120 octets à partir de l'adresse $02A5
+xxd -s 0x02A5 -l 120 src/game.gb
+
+# Format plus lisible (1 octet par ligne)
+xxd -s 0x02A5 -l 60 -c 2 src/game.gb
+```
+
+#### Reconstruction des données
+
+| Type | Directive | Exemple |
+|------|-----------|---------|
+| Octet | `db` | `db $10, $20, $30` |
+| Mot 16-bit | `dw` | `dw $0610, $06A5` |
+| Espace réservé | `ds` | `ds 16` |
+| Fichier binaire | `INCBIN` | `INCBIN "tiles.bin"` |
+
 ### Organisation des banks (découverte Phase 4.5 + 5)
 
 | Bank | Début ($4000) | Contenu identifié |
@@ -434,7 +464,7 @@ Chaque bank contient une table de 24 pointeurs (48 bytes) à $4000 :
 
 ## Statistiques
 
-### Phase 4.5 (complétée)
+### Phase 4.5 ✅
 
 | Catégorie | Frontière | Analysé | Total |
 |-----------|-----------|---------|-------|
@@ -450,7 +480,7 @@ Chaque bank contient une table de 24 pointeurs (48 bytes) à $4000 :
 
 *Note : Les 6 états Bank 1 ($14-$1A) pointent vers des données tilemap, pas du code. Ils ont été marqués comme analysés avec cette conclusion.*
 
-### Phase 5 (en cours)
+### Phase 5 ✅
 
 | Catégorie | Frontière | Analysé | Total estimé |
 |-----------|-----------|---------|--------------|
@@ -491,47 +521,97 @@ Chaque bank contient une table de 24 pointeurs (48 bytes) à $4000 :
 
 ---
 
-## Phase 6 : Reconstruction des données (prochaines étapes)
+## Phase 6 : Reconstruction des données (terminée dans ROADMAP)
 
-Les Phases 4.5 et 5 couvrent **l'exploration complète** du code. La Phase 6 se concentre sur la reconstruction des zones mal désassemblées.
+Les Phases 4.5 et 5 couvrent **l'exploration complète** du code. La Phase 6 (reconstruction) est gérée dans `ROADMAP.md`.
 
-### 6.1 Reconstruction des données mal désassemblées
+### Zones identifiées pour reconstruction
 
-**Priorité haute** - Zones identifiées :
+| Zone | Bank | Adresse | Type | Notes |
+|------|------|---------|------|-------|
+| Jump table Bank 1 | 1 | $4000-$402F | `dw` × 24 | Pointeurs vers LevelData |
+| Tiles Bank 1 | 1 | $4030-$5178 | 2bpp | ~4.5KB graphiques |
+| Jump table Bank 2 | 2 | $4000-$402F | `dw` × 24 | Pointeurs vers variantes |
+| Tiles Bank 2 | 2 | $4030-$6001 | 2bpp | ~8KB graphiques |
+| Jump table Bank 3 | 3 | $4000-$402F | `dw` × 24 | Pointeurs vers audio/data |
+| Tiles Bank 3 | 3 | $4030-$47F1 | 2bpp | ~2KB sprites |
+| Texte cutscenes | 0 | $0FD8-$1018 | Texte | Encodé en tiles |
 
-| Zone | Bank | Adresse | Type | Statut |
-|------|------|---------|------|--------|
-| Jump table Bank 1 | 1 | $4000-$402F | `dw` × 24 | À reconstruire |
-| Tiles Bank 1 | 1 | $4030-$5178 | INCBIN | À extraire |
-| Jump table Bank 2 | 2 | $4000-$402F | `dw` × 24 | À reconstruire |
-| Tiles Bank 2 | 2 | $4030-$6001 | INCBIN | À extraire |
-| Jump table Bank 3 | 3 | $4000-$402F | `dw` × 24 | À reconstruire |
-| Tiles Bank 3 | 3 | $4030-$47F1 | INCBIN | À extraire |
-| Texte cutscenes | 0 | $0FD8-$1018 | Texte encodé | À reconstruire |
+### Labels restants à renommer (275 total)
 
-### 6.2 Renommage systématique des labels
+| Bank | Jump_* | Call_* | Total |
+|------|--------|--------|-------|
+| Bank 0 | 44 | 108 | 152 |
+| Bank 1 | 8 | 21 | 29 |
+| Bank 2 | 16 | 16 | 32 |
+| Bank 3 | 26 | 36 | 62 |
 
-**275 labels** restants à renommer (voir statistiques ci-dessus).
+→ Voir `ROADMAP.md` Phase 7 pour le suivi du renommage.
 
-**Méthode** :
-1. Identifier les points d'entrée cross-bank (depuis bank 0)
-2. Tracer les appels : `call $4xxx` → label en bank active
-3. Comprendre la fonction → renommer explicitement
+---
 
-### 6.3 Systèmes à documenter
+## Résumé final
 
-| Système | Routines clés | Priorité |
-|---------|---------------|----------|
-| Collision | Non identifiées | Haute |
-| Ennemis | $236D (état $0D) appelle multi-bank | Moyenne |
-| Niveaux | Banks 1-2 (data), bank 0 (loader) | Moyenne |
-| Audio | Bank 3 ($4823+), AudioConfigTable | Basse |
+### ✅ Exploration terminée (2025-12-14)
 
-### 6.4 Tâches Phase 6 (suggérées)
+L'**exploration systématique** du code est **100% complète** :
+- **Phase 4.5** : 102 entrées analysées (Bank 0 - code principal)
+- **Phase 5** : 36 entrées analysées (Banks 1-3 - données et routines secondaires)
+- **Total** : **138 entrées analysées**, frontière vide
 
-```markdown
-- [ ] Reconstruire jump tables Banks 1-3 avec `dw`
-- [ ] Extraire tiles en fichiers binaires séparés (INCBIN)
-- [ ] Documenter format des structures de niveau
-- [ ] Renommer les 275 labels Jump_*/Call_* restants
-```
+**Statut** : La frontière d'exploration est **vide**. Toutes les adresses accessibles ont été analysées.
+
+### Ce qui a été compris
+
+| Catégorie | Éléments compris |
+|-----------|------------------|
+| **Architecture** | 4 banks (0=code, 1-2=données niveaux, 3=audio+joypad) |
+| **Machine d'état** | 60 états, transitions documentées, 6 entrées invalides identifiées |
+| **Interruptions** | VBlank, STAT, Timer, Serial - tous handlers documentés |
+| **Systèmes** | Tuyaux (pipes), crédits, fin de jeu, scrolling |
+| **Routines** | 18 routines principales nommées et commentées |
+| **Tables** | StateJumpTable, AudioConfigTable, AnimTilesFrames |
+
+### Prochaines étapes (hors exploration)
+
+Les tâches suivantes sont gérées dans `ROADMAP.md` :
+
+| Tâche | Phase ROADMAP | Priorité |
+|-------|---------------|----------|
+| Reconstruction données (dw/INCBIN) | Phase 4.4 | Haute |
+| Renommage 275 labels | Phase 7 | Moyenne |
+| Documentation systèmes | Phase 6 | Basse |
+
+### Fichiers clés modifiés
+
+- `src/bank_000.asm` : 60 handlers d'état documentés
+- `src/constants.inc` : 100+ constantes HRAM/WRAM
+- `src/macros.inc` : Macros free-function pour SystemInit
+- `docs/exploration.md` : Ce fichier (protocole + résultats)
+
+### Références croisées
+
+| Document | Rôle | Lien avec exploration.md |
+|----------|------|--------------------------|
+| `CLAUDE.md` | Instructions projet | Définit le protocole d'exploration |
+| `ROADMAP.md` | Suivi des tâches | Phases 4.5 et 5 utilisent ce fichier |
+| `src/constants.inc` | Constantes nommées | Créées lors de l'exploration |
+| `src/macros.inc` | Macros descriptives | Créées lors de l'analyse SystemInit |
+
+### Conventions appliquées (depuis CLAUDE.md)
+
+- **RST $28** : Dispatcher de jump table (pattern clé identifié)
+- **Nommage labels** : `VerbeCamelCase` pour les routines
+- **Nommage tables** : suffixe `*JumpTable`, `*AnimData`, `*Tilemap`, `*Tiles`, `*Gfx`, `*Palette`
+- **Constantes HRAM** : préfixe `h` (ex: `hGameState`)
+- **Constantes WRAM** : préfixe `w` (ex: `wLevelData`)
+- **Constantes ROM** : préfixe `ROM_` (ex: `ROM_DMA_ROUTINE`)
+- **Zones mémoire fin** : suffixe `_END` (ex: `_VRAM_END`, `_WRAM_END`)
+- **Magic values** : toujours remplacées par constantes nommées
+- **Macros utilitaires** : `VERBE_OBJET` en majuscules (ex: `CLEAR_LOOP_B`)
+- **Macros free function** : `VerbeCamelCase` (ex: `DisableInterrupts`)
+
+---
+
+*Dernière mise à jour : 2025-12-14*
+*Exploration complète : 138/138 entrées (100%)*
