@@ -7614,7 +7614,7 @@ jr_000_2565:
     jr z, jr_000_2594
 
     ld a, c
-    call Call_000_2cdc
+    call LoadSoundDataFromSlot
     ldh a, [hSoundParam2]
     cp $e0
     jr c, jr_000_258b
@@ -8021,7 +8021,7 @@ jr_000_2784:
     call Call_000_2cee
     call Call_000_24cd
     ld a, $0a
-    call Call_000_2cdc
+    call LoadSoundDataFromSlot
     pop hl
     jp Jump_000_26ac
 
@@ -9100,7 +9100,7 @@ jr_000_2cc3:
     ret
 
 
-Call_000_2cdc:
+LoadSoundDataFromSlot:
     swap a
     ld hl, wObjectBuffer
     ld l, a
