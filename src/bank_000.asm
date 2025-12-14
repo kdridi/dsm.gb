@@ -1780,7 +1780,7 @@ jr_000_08b5:
     jr nz, jr_000_0955
 
     call SelectAnimationBank
-    call Call_000_29f8
+    call GetAnimationDataPointer
     and a
     jr z, jr_000_0955
 
@@ -2299,7 +2299,7 @@ jr_000_0b54:
     push hl
     dec l
     dec l
-    call Call_000_29f8
+    call GetAnimationDataPointer
     pop hl
     ld bc, $0009
     add hl, bc
@@ -8497,7 +8497,7 @@ jr_000_29f4:
     ret
 
 
-Call_000_29f8:
+GetAnimationDataPointer:
     push hl
     ld a, [hl]
     ld e, a
