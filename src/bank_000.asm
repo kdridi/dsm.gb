@@ -1976,7 +1976,7 @@ jr_000_09be:
     jr jr_000_098d
 
 Jump_000_09ce:
-    ldh [_HRAM_END], a
+    ldh [hPendingCoin], a
     ld a, $05
     ld [wStateBuffer], a
     jr jr_000_099b
@@ -5064,7 +5064,7 @@ Jump_000_189b:
     ldh [hPtrHigh], a
     ld a, $c0
     ldh [hPtrBank], a
-    ldh [_HRAM_END], a
+    ldh [hPendingCoin], a
     ld a, [wLevelConfig]
     and a
     jr nz, jr_000_191a
@@ -5594,8 +5594,8 @@ jr_000_1b70:
 
 ProcessBlockCollision:
     xor a
-    ld [wGameVarE2], a
-    ldh a, [_HRAM_END]
+    ld [wCoinUpdateDone], a
+    ldh a, [hPendingCoin]
     and a
     call nz, CollectCoin
     ld hl, hBlockHitType
@@ -5713,9 +5713,9 @@ UpdateCoinDisplay:
     swap a
     ld [VRAM_COIN_TENS], a
     xor a
-    ldh [_HRAM_END], a
+    ldh [hPendingCoin], a
     inc a
-    ld [wGameVarE2], a
+    ld [wCoinUpdateDone], a
     ret
 
 
@@ -12761,7 +12761,7 @@ UpdateScoreDisplay:
     and a
     ret z                   ; Non → return
 
-    ld a, [wGameVarE2]           ; Flag blocker ?
+    ld a, [wCoinUpdateDone]           ; Flag blocker ?
     and a
     ret nz                  ; Oui → return
 

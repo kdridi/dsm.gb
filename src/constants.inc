@@ -22,6 +22,7 @@ DEF _VRAM_END       EQU $9FFF   ; Fin VRAM ($8000-$9FFF, 8KB)
 DEF _WRAM_END       EQU $DFFF   ; Fin WRAM ($C000-$DFFF, 16KB)
 DEF _OAM_END        EQU $FEFF   ; Fin OAM + zone interdite ($FE00-$FEFF)
 DEF _HRAM_END       EQU $FFFE   ; Fin HRAM ($FF80-$FFFE, 127 octets)
+DEF hPendingCoin    EQU _HRAM_END ; Alias: flag pièce en attente de collection
 DEF _STACK_TOP      EQU $CFFF   ; Haut de pile (descend vers $C000)
 
 ; === Tailles pour boucles de clear ===
@@ -248,7 +249,7 @@ DEF wLevelVarDD     EQU $C0DD   ; Variable niveau DD
 DEF wAudioSaveDE    EQU $C0DE   ; Sauvegarde audio
 DEF wLevelInitFlag  EQU $C0DF   ; Flag init niveau
 DEF wLevelType      EQU $C0E1   ; Type de niveau (init à 0)
-DEF wGameVarE2      EQU $C0E2   ; Variable jeu E2
+DEF wCoinUpdateDone EQU $C0E2   ; Flag: bloque score update après coin update
 DEF wGameVarFE      EQU $C0FE   ; Variable jeu FE
 DEF wGameVarFF      EQU $C0FF   ; Variable jeu FF
 
