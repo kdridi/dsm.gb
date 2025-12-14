@@ -1877,7 +1877,7 @@ Jump_000_0958:
 
 
 jr_000_095d:
-    call Call_000_09d7
+    call StartGameplayPhase
     jr jr_000_0955
 
 jr_000_0962:
@@ -1964,7 +1964,7 @@ Jump_000_09ce:
     ld [wStateBuffer], a
     jr jr_000_099b
 
-Call_000_09d7:
+StartGameplayPhase:
     ld a, $03
     ldh [hTimerAux], a
     xor a
@@ -4912,7 +4912,7 @@ jr_000_1815:
     jr nz, jr_000_1839
 
     pop af
-    call Call_000_09d7
+    call StartGameplayPhase
     jr jr_000_1854
 
 jr_000_1833:
