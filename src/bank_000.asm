@@ -1107,7 +1107,7 @@ State11_LevelStart::
     ldh [hCoinCount], a
 
 .skipScoreReset:
-    call Call_000_05d0
+    call LoadGameTiles
     call ClearBGTilemap
     ld hl, $9c00
     ld b, $5f
@@ -1193,7 +1193,7 @@ MemCopy::
     ret
 
 
-Call_000_05d0:
+LoadGameTiles:
     ld hl, $5032
     ld de, $9000
     ld bc, $0800
@@ -2670,7 +2670,7 @@ jr_000_0d30:
     ldh [hCurrentBank], a
     xor a
     ldh [rLCDC], a
-    call Call_000_05d0
+    call LoadGameTiles
     jp Jump_000_0dca
 
 
