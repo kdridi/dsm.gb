@@ -797,25 +797,25 @@ CompareBCDScoresToDisplay:
     ld [hl], $78
     ld a, [wGameConfigA6]
     and a
-    jr z, jr_000_041f
+    jr z, FinalizeGameStateAfterScore
 
     ldh a, [hLevelIndex]
     cp $02
-    jr c, jr_000_03fe
+    jr c, DisplaySpritesForLowLevel
 
-    jr jr_000_041f
+    jr FinalizeGameStateAfterScore
 
-jr_000_03fe:
+DisplaySpritesForLowLevel:
     ld hl, $0446
     ld de, $99c6
     ld b, $0a
 
-jr_000_0406:
+CopySpriteDataLoop:
     ld a, [hl+]
     ld [de], a
     inc e
     dec b
-    jr nz, jr_000_0406
+    jr nz, CopySpriteDataLoop
 
     ld hl, wOamBuffer
     ld [hl], $80
@@ -829,7 +829,7 @@ jr_000_0406:
     inc l
     ld [hl], $80
 
-jr_000_041f:
+FinalizeGameStateAfterScore:
     inc l
     ld [hl], $28
     inc l
