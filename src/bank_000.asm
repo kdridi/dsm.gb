@@ -9952,7 +9952,7 @@ jr_000_30ec:
     ld l, $8e
     ld l, $93
 
-Call_000_3132:
+AnimFrameDataLookup:
     ld l, $98
     ld l, $9c
     ld l, $9e
@@ -10751,13 +10751,13 @@ jr_000_34cd:
     ldh [c], a
     scf
 
-Call_000_34df:
+AnimStateDispatcher:
     inc d
     jr c, jr_000_3547
 
     jr c, jr_000_354b
 
-jr_000_34e4:
+AnimStateLoop:
     jr c, @+$78
 
     jr c, @-$6d
@@ -10774,9 +10774,9 @@ jr_000_34e4:
 
     jr c, jr_000_34cd
 
-    jr c, jr_000_34e4
+    jr c, AnimStateLoop
 
-    jr c, jr_000_3528
+    jr c, AnimShiftState
 
     add hl, sp
     add hl, sp
@@ -10824,7 +10824,7 @@ jr_000_34e4:
     add sp, $3a
     ldh a, [c]
 
-jr_000_3528:
+AnimShiftState:
     ld a, [hl-]
     rrca
     dec sp

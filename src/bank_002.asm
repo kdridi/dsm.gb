@@ -1789,7 +1789,7 @@ jr_002_46fa:
     ld bc, $3f3f
     rst $18
     call nc, $d4d4
-    call nc, Call_000_34df
+    call nc, AnimStateDispatcher
     ccf
     rra
     rra
@@ -8479,7 +8479,7 @@ Call_002_6467:
     ld b, b
     ld d, c
     add d
-    call nz, Call_000_3132
+    call nz, AnimFrameDataLookup
     ld h, b
     ld h, c
     cp $02
@@ -8752,7 +8752,7 @@ Call_002_6565:
     ld b, b
     and c
     ld e, [hl]
-    call nz, Call_000_3132
+    call nz, AnimFrameDataLookup
     ld h, b
     ld h, c
     cp $02
@@ -10310,7 +10310,7 @@ Jump_002_6b63:
     cp $02
     ld d, e
     ld b, b
-    call nz, Call_000_3132
+    call nz, AnimFrameDataLookup
     ld sp, $fe31
     ld [bc], a
     ld d, e
