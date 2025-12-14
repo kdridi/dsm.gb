@@ -250,6 +250,41 @@ xxd -s 0x02A5 -l 60 -c 2 src/game.gb
 - Blocs de données après les routines (fin de bank)
 - Séquences répétitives d'instructions absurdes
 
+### Recherche automatisée des zones data
+
+```bash
+# Trouver les jump tables (rst $28 suivi de données)
+grep -n "rst \$28" src/bank_*.asm
+
+# Trouver les séquences suspectes (db répétés)
+grep -n "db \$" src/bank_*.asm | head -50
+
+# Analyser une zone avec xxd
+xxd -s 0x02A5 -l 120 src/game.gb
+```
+
+### Convention de nommage pour tables de données
+
+| Type | Suffixe | Exemple |
+|------|---------|---------|
+| Jump table | `*JumpTable` | `StateJumpTable` |
+| Données d'animation | `*AnimData` | `PlayerAnimData` |
+| Tilemaps | `*Tilemap` | `HUDTilemap` |
+| Palettes | `*Palette` | `LevelPalette` |
+| Graphiques | `*Tiles` ou `*Gfx` | `PlayerTiles` |
+
+### Extraction des graphiques (optionnel)
+
+Les tiles Game Boy sont en format 2bpp (2 bits par pixel). Pour visualiser :
+
+```bash
+# Extraire des tiles bruts
+dd if=src/game.gb bs=1 skip=$((0x4000)) count=$((0x1000)) of=tiles.2bpp
+
+# Convertir en PNG (si rgbgfx disponible)
+rgbgfx -r -o tiles.png tiles.2bpp
+```
+
 ## Conventions
 - Process générique
 - Commits : `[ROADMAP-XXXXXX] description`

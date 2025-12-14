@@ -82,6 +82,22 @@
 
 **Objectif** : Remplacer les instructions absurdes par des directives `db`/`dw`/`INCBIN`.
 
+### 4.5 Carte mémoire ROM (nouveau)
+
+**Objectif** : Documenter la structure de chaque bank.
+
+- [ ] Identifier zones code vs données dans bank_000
+- [ ] Identifier zones code vs données dans bank_001
+- [ ] Identifier zones code vs données dans bank_002
+- [ ] Identifier zones code vs données dans bank_003
+- [ ] Créer `docs/memory-map.md` avec schéma visuel
+
+### 4.6 Extraction graphiques (optionnel, futur)
+
+- [ ] Localiser les blocs de tiles dans la ROM
+- [ ] Extraire en fichiers `.2bpp` ou `.png`
+- [ ] Documenter le mapping tiles ↔ sprites/backgrounds
+
 ---
 
 ## Phase 5 : Documentation des structures
