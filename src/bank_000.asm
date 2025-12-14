@@ -104,57 +104,74 @@ RST_38::
     rst $38
     rst $38
 
+;; ==========================================================================
+;; Interrupt Vectors ($0040-$0068)
+;; ==========================================================================
+;; Le Game Boy a 5 vecteurs d'interruption fixes. Chaque vecteur a 8 bytes.
+;; On utilise un JP pour sauter vers le handler réel (car 8 bytes = trop court).
+;; ==========================================================================
+
+;; --- INT $40 : VBlank Interrupt ---
+;; Déclenché quand LY atteint 144 (fin de l'affichage visible).
+;; C'est la seule période où on peut écrire en VRAM/OAM en toute sécurité.
 VBlankInterrupt::
-    jp JoypadTransitionInterrupt
+    jp VBlankHandler
 
-
+    ; Padding jusqu'à $0048
     rst $38
     rst $38
     rst $38
     rst $38
     rst $38
 
+;; --- INT $48 : LCD STAT Interrupt ---
+;; Déclenché selon les conditions configurées dans STAT (LYC=LY, mode 0/1/2).
+;; Utilisé ici pour les effets de scanline (scroll, window).
 LCDCInterrupt::
-    jp Jump_000_0095
+    jp LCDStatHandler
 
-
+    ; Padding jusqu'à $0050
     rst $38
     rst $38
     rst $38
     rst $38
     rst $38
 
+;; --- INT $50 : Timer Overflow Interrupt ---
+;; Déclenché quand TIMA overflow. Utilisé ici pour le son (bank 3).
 TimerOverflowInterrupt::
     push af
-    ld a, $03
+    ld a, BANK_AUDIO         ; Bank 3 = audio
 
 Call_000_0053:
-    ld [$2000], a
-    db $cd
-    db $f0
+    ld [$2000], a            ; Switch to audio bank
+    db $cd                   ; call (opcode)
+    db $f0                   ; Low byte of address
 
+;; --- INT $58 : Serial Transfer Complete Interrupt ---
+;; Déclenché quand transfert série terminé. Partage l'espace avec Timer.
 SerialTransferCompleteInterrupt::
-    ld a, a
-    ldh a, [hCurrentBank]
+    ld a, a                  ; NOP (mal désassemblé, probablement high byte)
+    ldh a, [hCurrentBank]    ; Restaurer bank courante
     ld [$2000], a
     pop af
     reti
 
 
 ;; ==========================================================================
-;; VBlankHandler - Handler d'interruption VBlank
+;; VBlankHandler - Handler principal VBlank ($0060)
 ;; ==========================================================================
 ;; Appelé 60 fois par seconde pendant le VBlank.
 ;; Structure :
 ;;   1. SaveRegisters      → push af/bc/de/hl
-;;   2. UpdateGameLogic    → Appels aux routines de mise à jour
-;;   3. DMATransfer        → call $FFB6 (routine en HRAM)
-;;   4. IncrementFrame     → $FFAC++
+;;   2. UpdateGameLogic    → Scroll, vies, score, animations
+;;   3. DMATransfer        → call $FFB6 (copie OAM depuis wShadowOAM)
+;;   4. IncrementFrame     → hFrameCounter++
 ;;   5. CheckWindowEnable  → Active Window si game_state == $3A
-;;   6. ResetScrollAndFlag → SCX/SCY = 0, frame_ready = 1
+;;   6. ResetScrollAndFlag → SCX/SCY = 0, hVBlankFlag = 1
 ;;   7. RestoreRegisters   → pop + reti
 ;; ==========================================================================
-JoypadTransitionInterrupt::
+VBlankHandler::
     ; --- 1. SaveRegisters ---
     push af
     push bc
@@ -207,85 +224,112 @@ jr_000_0088:
     reti                    ; Retour d'interruption
 
 
-Jump_000_0095:
+;; ==========================================================================
+;; LCDStatHandler - Handler LCD STAT Interrupt ($0095)
+;; ==========================================================================
+;; Déclenché par LYC=LY. Gère les effets de scanline :
+;;   - Scroll mid-screen (hShadowSCX/wLevelInitFlag)
+;;   - Animation window (état $3A = écran spécial window)
+;;
+;; Modes (wGameConfigA5) :
+;;   0 = Mode normal : applique scroll, gère window
+;;   !=0 = Mode retour : désactive window, reset LYC
+;;
+;; Points d'entrée publics (utilisés par bank 2/3) :
+;;   Jump_000_00c3 : Vérifie carry et saute à exit si >= $87
+;;   Call_000_00c7 : Écrit A dans rLYC et wGameConfigA5
+;;   Call_000_00cd : Pop af + reti
+;; ==========================================================================
+LCDStatHandler:
     push af
     push hl
 
-jr_000_0097:
+    ; Attendre Mode 0 (HBlank) avant de toucher aux registres
+LCDStatHandler_WaitMode0:
     ldh a, [rSTAT]
-    and $03
-    jr nz, jr_000_0097
+    and STATF_LCD               ; Bits 0-1 = mode LCD
+    jr nz, LCDStatHandler_WaitMode0 ; Boucle tant que != Mode 0
 
+    ; Vérifier le mode du handler
     ld a, [wGameConfigA5]
     and a
-    jr nz, jr_000_00cf
+    jr nz, LCDStatHandler_RestoreMode ; Si !=0 → mode retour
 
+    ; --- Mode normal : appliquer scroll ---
     ldh a, [hShadowSCX]
-    ldh [rSCX], a
-    ld a, [wAudioSaveDE]
-    and a
-    jr z, jr_000_00b2
+    ldh [rSCX], a               ; Scroll X = shadow
 
-    ld a, [wLevelInitFlag]
+    ld a, [wAudioSaveDE]        ; Flag scroll Y actif ?
+    and a
+    jr z, LCDStatHandler_CheckWindow
+
+    ld a, [wLevelInitFlag]      ; Si oui, appliquer scroll Y
     ldh [rSCY], a
 
-jr_000_00b2:
+LCDStatHandler_CheckWindow:
+    ; Vérifier si état $3A (écran spécial window)
     ldh a, [hGameState]
-    cp $3a
-    jr nz, jr_000_00cc
+    cp GAME_STATE_WINDOW        ; $3A
+    jr nz, LCDStatHandler_Exit
 
-    ld hl, $ff4a
+    ; --- Animation window (état $3A) ---
+    ld hl, rWY                  ; $FF4A = Window Y position
     ld a, [hl]
-    cp $40
-    jr z, jr_000_00de
+    cp $40                      ; WY == $40 ?
+    jr z, LCDStatHandler_WindowDone ; Oui → animation terminée
 
-    dec [hl]
-    cp $87
+    dec [hl]                    ; Sinon décrémenter WY
+    cp $87                      ; A >= $87 ?
 
+;; Point d'entrée public : vérifie carry flag et exit si >= $87
 Jump_000_00c3:
-    jr nc, jr_000_00cc
+    jr nc, LCDStatHandler_Exit  ; Oui → ne pas changer LYC
 
-jr_000_00c5:
-    add $08
+LCDStatHandler_UpdateLYC:
+    add $08                     ; Prochaine ligne LYC
 
+;; Point d'entrée public : écrit A dans rLYC et wGameConfigA5
 Call_000_00c7:
-    ldh [rLYC], a
-    ld [wGameConfigA5], a
+    ldh [rLYC], a               ; Programmer prochaine interruption
+    ld [wGameConfigA5], a       ; Mémoriser pour mode retour
 
-jr_000_00cc:
+LCDStatHandler_Exit:
     pop hl
 
+;; Point d'entrée public : pop af + reti
 Call_000_00cd:
     pop af
     reti
 
 
-jr_000_00cf:
-    ld hl, $ff40
-    res 5, [hl]
+LCDStatHandler_RestoreMode:
+    ; --- Mode retour : désactiver window ---
+    ld hl, rLCDC                ; $FF40
+    res 5, [hl]                 ; Désactiver Window (bit 5)
     ld a, $0f
-    ldh [rLYC], a
+    ldh [rLYC], a               ; LYC = 15 (haut écran)
     xor a
-    ld [wGameConfigA5], a
-    jr jr_000_00cc
+    ld [wGameConfigA5], a       ; Repasser en mode normal
+    jr LCDStatHandler_Exit
 
-jr_000_00de:
+LCDStatHandler_WindowDone:
+    ; WY a atteint $40 : ajuster animation sprites
     push af
     ldh a, [hOAMIndex]
     and a
-    jr z, jr_000_00ea
+    jr z, LCDStatHandler_OAMDone
 
     dec a
     ldh [hOAMIndex], a
 
-jr_000_00e7:
+LCDStatHandler_OAMContinue:
     pop af
-    jr jr_000_00c5
+    jr LCDStatHandler_UpdateLYC
 
-jr_000_00ea:
+LCDStatHandler_OAMDone:
     ld a, $ff
-    ld [wPlayerVarAD], a
-    jr jr_000_00e7
+    ld [wPlayerVarAD], a        ; Flag animation terminée
+    jr LCDStatHandler_OAMContinue
 
     rst $38
     rst $38
@@ -303,50 +347,84 @@ jr_000_00ea:
     rst $38
     rst $38
 
+;; ==========================================================================
+;; Entry Point ($0100-$0103)
+;; ==========================================================================
+;; Le bootstrap du Game Boy termine à $0100. C'est là que l'exécution
+;; commence après le boot screen Nintendo. La convention est :
+;;   $0100: nop
+;;   $0101-$0103: jp <init>
+;; Le nop laisse la place pour un éventuel di avant le jump.
+;; ==========================================================================
 Boot::
     nop
-    jp Jump_000_0150
+    jp AfterHeader
 
 
+;; ==========================================================================
+;; ROM Header ($0104-$014F)
+;; ==========================================================================
+;; Structure fixe imposée par Nintendo, vérifiée par le bootstrap.
+;; Le header contient le logo Nintendo (obligatoire pour boot), le titre,
+;; et les métadonnées de la cartouche.
+;; ==========================================================================
+
+;; Logo Nintendo ($0104-$0133) - Obligatoire, vérifié au boot
 HeaderLogo::
     db $ce, $ed, $66, $66, $cc, $0d, $00, $0b, $03, $73, $00, $83, $00, $0c, $00, $0d
     db $00, $08, $11, $1f, $88, $89, $00, $0e, $dc, $cc, $6e, $e6, $dd, $dd, $d9, $99
     db $bb, $bb, $67, $63, $6e, $0e, $ec, $cc, $dd, $dc, $99, $9f, $bb, $b9, $33, $3e
 
+;; Titre du jeu ($0134-$0143) - 16 caractères max, padding avec $00
 HeaderTitle::
     db "SUPER MARIOLAND", $00
 
+;; Code éditeur nouveau format ($0144-$0145) - Non utilisé ici
 HeaderNewLicenseeCode::
     db $00, $00
 
+;; Flag Super Game Boy ($0146) - $00 = pas de fonctions SGB
 HeaderSGBFlag::
     db $00
 
+;; Type cartouche ($0147) - $01 = ROM + MBC1
 HeaderCartridgeType::
     db $01
 
+;; Taille ROM ($0148) - $01 = 64 KB (4 banks × 16 KB)
 HeaderROMSize::
     db $01
 
+;; Taille RAM ($0149) - $00 = pas de RAM externe
 HeaderRAMSize::
     db $00
 
+;; Code destination ($014A) - $00 = Japon
 HeaderDestinationCode::
     db $00
 
+;; Code éditeur ancien format ($014B) - $01 = Nintendo
 HeaderOldLicenseeCode::
     db $01
 
+;; Version ROM ($014C) - $00 = version 1.0
 HeaderMaskROMVersion::
     db $00
 
+;; Checksum header ($014D) - Vérifié au boot
 HeaderComplementCheck::
     db $9e
 
+;; Checksum global ($014E-$014F) - Non vérifié
 HeaderGlobalChecksum::
     db $41, $6b
 
-Jump_000_0150:
+;; ==========================================================================
+;; After Header ($0150)
+;; ==========================================================================
+;; Premier code exécutable après le header. Saute vers l'initialisation.
+;; ==========================================================================
+AfterHeader:
     jp SystemInit
 
 
@@ -584,9 +662,9 @@ StateDispatcher:
 ; === StateDispatcher Jump Table (60 états) ===
 ; Index = hGameState (0-59), chaque entrée = adresse handler
 StateJumpTable:
-    dw $0610    ; État $00
-    dw $06a5    ; État $01
-    dw $06c5    ; État $02
+    dw StateHandler_00  ; État $00 - Init/main gameplay
+    dw StateHandler_01  ; État $01 - Reset objets
+    dw StateHandler_02  ; État $02 - Préparation rendu
     dw $0b84    ; État $03
     dw $0bcd    ; État $04
     dw $0c6a    ; État $05
@@ -1170,14 +1248,33 @@ jr_000_0600:
     ret
 
 
+;; ==========================================================================
+;; StateHandler_00 - Handler d'état $00 ($0610)
+;; ==========================================================================
+;; Premier état du jeu. Probablement l'initialisation du menu/écran titre.
+;; Structure :
+;;   1. Init animations et graphiques (Call_000_218f, Call_000_0837)
+;;   2. Appels multiples vers bank 3 (init objets $c208-$c248)
+;;   3. Appels vers bank 2 ($5844)
+;;   4. Mise à jour diverses (scroll, tiles, etc.)
+;;   5. Gestion wLevelConfig
+;; ==========================================================================
+StateHandler_00::
     call Call_000_218f
     call Call_000_0837
+
+    ; Switch vers bank 3 pour initialisation objets
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
-    ld a, $03
+    ld a, BANK_AUDIO              ; Bank 3 (aussi utilisé pour objets)
     ldh [hCurrentBank], a
     ld [$2000], a
+
+    ; Init structure à $48fc
     call $48fc
+
+    ; Init 5 buffers objets ($c208, $c218, $c228, $c238, $c248)
+    ; Chaque buffer = 16 bytes, pattern $2164
     ld bc, $c208
     ld hl, $2164
     call $490d
@@ -1193,6 +1290,8 @@ jr_000_0600:
     ld bc, $c248
     ld hl, $2164
     call $490d
+
+    ; Autres inits bank 3
     call $4a94
     call $498b
     call $4aea
@@ -1200,60 +1299,95 @@ jr_000_0600:
     call $4b6f
     call $4b8a
     call $4bb5
+
+    ; Restaurer bank
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [$2000], a
+
+    ; Mises à jour locales
     call Call_000_1f24
     call Call_000_2488
+
+    ; Switch vers bank 2
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
     ld a, $02
     ldh [hCurrentBank], a
     ld [$2000], a
     call $5844
+
+    ; Restaurer bank
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [$2000], a
+
+    ; Mises à jour finales
     call Call_000_1983
     call Call_000_16ec
     call Call_000_17b3
     call Call_000_0ae1
     call Call_000_0a24
     call Call_000_1efa
+
+    ; Gestion compteur niveau
     ld hl, wLevelConfig
     ld a, [hl]
     and a
-    ret z
+    ret z                         ; Si 0, fin
 
-    dec [hl]
+    dec [hl]                      ; Sinon décrémente
     call Call_000_210a
     ret
 
 
+;; ==========================================================================
+;; StateHandler_01 - Handler d'état $01 ($06A5)
+;; ==========================================================================
+;; Attente puis reset des objets avant transition.
+;; Structure :
+;;   1. Attente timer (ret si hTimer1 != 0)
+;;   2. Clear 10 objets (wObjectBuffer, 16 bytes × 10)
+;;   3. Reset timers auxiliaires
+;;   4. Transition vers état $02
+;; ==========================================================================
+StateHandler_01::
+    ; Attendre que le timer soit à 0
     ld hl, hTimer1
     ld a, [hl]
     and a
-    ret nz
+    ret nz                        ; Pas encore → attendre
 
+    ; Clear 10 entrées de wObjectBuffer (16 bytes chacune)
+    ; Mettre $FF dans le premier byte de chaque entrée = objet inactif
     ld hl, wObjectBuffer
-    ld de, $0010
-    ld b, $0a
+    ld de, $0010                  ; Stride = 16 bytes
+    ld b, $0a                     ; 10 objets
 
-jr_000_06b3:
-    ld [hl], $ff
-    add hl, de
+.clearLoop:
+    ld [hl], $ff                  ; Marquer comme inactif
+    add hl, de                    ; Passer à l'entrée suivante
     dec b
-    jr nz, jr_000_06b3
+    jr nz, .clearLoop
 
+    ; Reset des timers
     xor a
-    ldh [hTimerAux], a
-    dec a
-    ld [wUpdateCounter], a
+    ldh [hTimerAux], a            ; Timer aux = 0
+    dec a                         ; A = $FF
+    ld [wUpdateCounter], a        ; Update counter = $FF
+
+    ; Transition vers état $02
     ld a, $02
     ldh [hGameState], a
     ret
 
 
+;; ==========================================================================
+;; StateHandler_02 - Handler d'état $02 ($06C5)
+;; ==========================================================================
+;; Désactive LCD et prépare le rendu.
+;; ==========================================================================
+StateHandler_02::
     di
     ld a, $00
     ldh [rLCDC], a

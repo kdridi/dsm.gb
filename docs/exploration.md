@@ -51,9 +51,9 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$0028` (code) - **RST $28 : Jump Table Dispatcher** (crucial !)
 - [x] `$0030` (code) - RST $30 : Suite dispatcher (termine le saut)
 - [x] `$0038` (code) - RST $38 : Non utilisé (trap/boucle infinie)
-- [ ] `$0040` (handler) - VBlank interrupt
-- [ ] `$0048` (handler) - STAT interrupt
-- [ ] `$0100` (code) - Entry point ROM
+- [x] `$0040` (handler) - VBlank interrupt → `jp VBlankHandler` ($0060)
+- [x] `$0048` (handler) - STAT interrupt → `jp LCDStatHandler` ($0095)
+- [x] `$0100` (code) - Entry point ROM → header + `jp SystemInit`
 
 ### Handlers d'état (depuis StateJumpTable $02A5)
 *Adresses corrigées depuis le code source*
@@ -156,6 +156,19 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$0030` RST $30 - Suite du dispatcher (termine le saut via `jp hl`)
 - [x] `$0038` RST $38 - Non utilisé (boucle infinie = trap)
 
+### Interruptions ($0040-$0068)
+- [x] `$0040` **VBlankInterrupt** - `jp VBlankHandler` ($0060)
+- [x] `$0048` **LCDCInterrupt** - `jp LCDStatHandler` ($0095)
+- [x] `$0050` **TimerOverflowInterrupt** - Bank switch vers audio (bank 3)
+- [x] `$0058` **SerialTransferCompleteInterrupt** - Restaure bank + reti
+- [x] `$0060` **VBlankHandler** - Scroll, vies, score, DMA OAM, frame++, flag
+- [x] `$0095` **LCDStatHandler** - Effets scanline (scroll mid-screen, window)
+
+### Entry Point ($0100-$0150)
+- [x] `$0100` **Boot** - nop + jp AfterHeader
+- [x] `$0104-$014F` **ROM Header** - Logo Nintendo, titre "SUPER MARIOLAND", métadonnées
+- [x] `$0150` **AfterHeader** - jp SystemInit
+
 ### Tables de données
 - [x] `$02A5` (data) - **StateJumpTable** : 60 handlers d'état, format `dw`
 - [x] `$336C` (data) - **AudioConfigTable** : 21 configs son × 3 bytes
@@ -197,10 +210,11 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | Catégorie | Frontière | Analysé | Total |
 |-----------|-----------|---------|-------|
 | Handlers RST | 0 | 8 | 8 |
-| Interruptions | 3 | 0 | 3 |
+| Interruptions | 0 | 6 | 6 |
+| Entry point | 0 | 3 | 3 |
 | Handlers état | 60 | 0 | 60 |
 | Routines | 0 | 12 | 12 |
 | Tables données | 0 | 4 | 4 |
-| **Total** | **63** | **24** | **87** |
+| **Total** | **60** | **33** | **93** |
 
-**Progression** : 28% analysé (24/87)
+**Progression** : 35% analysé (33/93)

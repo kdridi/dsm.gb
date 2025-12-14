@@ -53,6 +53,10 @@ DEF PALETTE_SPRITE_ALT  EQU $54 ; %01010100 - palette alternative sprites
 DEF AUDVOL_MAX      EQU $77     ; Volume max gauche ($7) et droite ($7)
 DEF AUDTERM_ALL     EQU $FF     ; Tous canaux (1-4) sur sorties L et R
 
+; === ROM Banks ===
+
+DEF BANK_AUDIO      EQU $03     ; Bank 3 = routines audio
+
 ; === Variables HRAM ($FF80-$FFFE) ===
 ; Convention: hXxxYyy (h minuscule + CamelCase)
 
@@ -395,6 +399,7 @@ DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
 ; === Valeurs d'initialisation ===
 
 DEF INIT_GAME_STATE     EQU $0E ; État jeu initial (hGameState)
+DEF GAME_STATE_WINDOW   EQU $3A ; État spécial window (animation écran)
 DEF INIT_ANIM_TILE_IDX  EQU $11 ; Valeur initiale hAnimTileIndex et wUnknownA8
 DEF INIT_UNKNOWN_DC     EQU $02 ; Valeur initiale wUnknownDC (et bank switch)
 DEF INIT_UNKNOWN_A4     EQU $03 ; Valeur initiale wUnknownA4 (et bank switch)
