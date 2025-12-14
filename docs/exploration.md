@@ -126,19 +126,23 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$336C` (data) - AudioConfigTable, 21 sons × 3 bytes
 - [x] `$3FAF` (data) - AnimTilesFrames, 10 frames × 8 bytes
 
-### Routines identifiées (à approfondir)
-- [ ] `$0185` (code) - SystemInit, initialisation système
-- [ ] `$0226` (code) - GameLoop, boucle principale
-- [ ] `$0296` (code) - WaitVBlank, attente frame
-- [ ] `$02A3` (code) - StateDispatcher, dispatch états
-- [ ] `$07C3` (code) - CheckInputAndPause, gestion pause
-- [ ] `$09E8` (code) - InitGameState, init état $03
-- [ ] `$172D` (code) - CallBank3_4823, wrapper bank switch
-- [ ] `$1C2A` (code) - UpdateLivesDisplay, affichage vies
-- [ ] `$224F` (code) - UpdateScrollColumn, scrolling tilemap
-- [ ] `$23F8` (code) - UpdateAnimTiles, animation eau/lave
-- [ ] `$3D61` (code) - UpdateLevelScore, score niveau
-- [ ] `$3F24` (code) - UpdateScoreDisplay, score BCD→tilemap
+### Routines identifiées
+*Toutes analysées et documentées dans le code source*
+
+| Routine | Adresse | Description |
+|---------|---------|-------------|
+| SystemInit | $0185 | Init système (macros descriptives) |
+| GameLoop | $0226 | Boucle principale (7 étapes) |
+| WaitVBlank | $0296 | Attente VBlank (halt + flag) |
+| StateDispatcher | $02A3 | Dispatch états via RST $28 |
+| CheckInputAndPause | $07C3 | Soft reset + toggle pause |
+| InitGameState | $09E8 | Init état $03 |
+| CallBank3Handler | $172D | Wrapper bank switch |
+| UpdateLivesDisplay | $1C2A | BCD vies → tilemap |
+| UpdateScrollColumn | $224F | Scrolling colonne tilemap |
+| UpdateAnimTiles | $23F8 | Animation eau/lave |
+| UpdateLevelScore | $3D61 | Score niveau |
+| UpdateScoreDisplay | $3F24 | BCD score → tiles |
 
 ---
 
@@ -157,6 +161,20 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 - [x] `$336C` (data) - **AudioConfigTable** : 21 configs son × 3 bytes
 - [x] `$3FAF` (data) - **AnimTilesFrames** : 10 frames animation tiles
 - [x] `$3F87` (data) - **Zone fin bank 0** : 121 bytes données + padding
+
+### Routines principales (12/12)
+- [x] `$0185` **SystemInit** - Init LCD, audio, mémoire, variables (macros)
+- [x] `$0226` **GameLoop** - Boucle principale : bank3 → timers → state → halt
+- [x] `$0296` **WaitVBlank** - Halt + attente flag hVBlankFlag
+- [x] `$02A3` **StateDispatcher** - `ldh a, [hGameState]` + `rst $28` + table
+- [x] `$07C3` **CheckInputAndPause** - Combo A+B+Start+Select = reset, Start = pause
+- [x] `$09E8` **InitGameState** - Configure état $03, reset variables
+- [x] `$172D` **CallBank3Handler** - Save bank → switch $03 → call $4823 → restore
+- [x] `$1C2A` **UpdateLivesDisplay** - Affiche wLivesCounter en BCD sur tilemap
+- [x] `$224F` **UpdateScrollColumn** - Met à jour 16 tiles d'une colonne (wScrollBuffer)
+- [x] `$23F8` **UpdateAnimTiles** - Copie 8 bytes depuis AnimTilesFrames vers VRAM
+- [x] `$3D61` **UpdateLevelScore** - Affiche score niveau si wLevelData == $28
+- [x] `$3F24` **UpdateScoreDisplay** - Convertit 3 bytes BCD en 6 tiles avec leading zero suppression
 
 ---
 
@@ -181,6 +199,8 @@ Comprendre 100% du code en suivant un **algorithme de parcours de graphe** : cha
 | Handlers RST | 0 | 8 | 8 |
 | Interruptions | 3 | 0 | 3 |
 | Handlers état | 60 | 0 | 60 |
-| Routines | 12 | 0 | 12 |
+| Routines | 0 | 12 | 12 |
 | Tables données | 0 | 4 | 4 |
-| **Total** | **75** | **12** | **87** |
+| **Total** | **63** | **24** | **87** |
+
+**Progression** : 28% analysé (24/87)
