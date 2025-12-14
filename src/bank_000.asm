@@ -782,12 +782,12 @@ jr_000_03d4:
     ld de, wScorePrevious
     ld b, $03
 
-jr_000_03dc:
+CopyScoreBCDPreviousLoop:
     ld a, [hl-]
     ld [de], a
     dec e
     dec b
-    jr nz, jr_000_03dc
+    jr nz, CopyScoreBCDPreviousLoop
 
 jr_000_03e2:
     ld de, wScorePrevious
