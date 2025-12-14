@@ -439,9 +439,7 @@ jr_000_015d:
 
 
 AddScore:
-    ldh a, [hUpdateLockFlag]
-    and a
-    ret nz
+    ReturnIfLocked
 
     ld a, e
     ld hl, wScoreBCDHigh
@@ -527,9 +525,7 @@ jr_000_0238:
     ld [$2000], a
 
 ; --- 3. CheckPauseOrSkip ---
-    ldh a, [hUpdateLockFlag]          ; Flag pause ?
-    and a
-    jr nz, jr_000_025a      ; Si pause → sauter vers timers
+    JumpIfLocked jr_000_025a          ; Si verrouillé → sauter vers timers
 
     call CheckInputAndPause      ; Vérifier input ?
     ldh a, [hPauseFlag]          ; Flag skip frame ?
@@ -554,9 +550,7 @@ jr_000_0264:
     jr nz, jr_000_025f      ; Boucle 2 fois
 
 ; --- 5. HandleGameState ---
-    ldh a, [hUpdateLockFlag]          ; Flag pause ?
-    and a
-    jr z, jr_000_0293       ; Non → aller au handler
+    JumpIfUnlocked jr_000_0293        ; Si déverrouillé → aller au handler
 
     ldh a, [hJoypadState]          ; Lire joypad
     bit 3, a                ; Start pressé ?
@@ -1127,9 +1121,7 @@ State11_LevelStart::
     xor a
     ldh [rLCDC], a               ; LCD off
     di
-    ldh a, [hUpdateLockFlag]
-    and a
-    jr nz, .skipScoreReset
+    JumpIfLocked .skipScoreReset
 
     ; Reset score si pas verrouillé
     xor a
@@ -5683,9 +5675,7 @@ jr_000_1bf2:
 
 
 CollectCoin:
-    ldh a, [hUpdateLockFlag]
-    and a
-    ret nz
+    ReturnIfLocked
 
     push de
     push hl
@@ -5739,9 +5729,7 @@ UpdateCoinDisplay:
 ; MODIFIE : A, B
 ; =============================================================================
 UpdateLivesDisplay:
-    ldh a, [hUpdateLockFlag]
-    and a
-    ret nz
+    ReturnIfLocked
 
     ld a, [wUpdateCounter]
     or a
@@ -6731,9 +6719,7 @@ jr_000_2105:
 
 
 Call_000_210a:
-    ldh a, [hUpdateLockFlag]
-    and a
-    ret z
+    ReturnIfUnlocked
 
     ld a, [wLevelVarDB]
     ldh [hJoypadState], a

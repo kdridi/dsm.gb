@@ -327,3 +327,57 @@ MACRO WaitForNextFrame
     xor a
     ldh [hVBlankFlag], a
 ENDM
+
+;* ============================================================================
+;* GUARD CLAUSES - Macros de contrôle de flux basées sur hUpdateLockFlag
+;* ============================================================================
+;*
+;* Ces macros encapsulent les patterns récurrents de vérification du flag
+;* de verrouillage des mises à jour graphiques (hUpdateLockFlag).
+;*
+;* ============================================================================
+
+; -----------------------------------------------------------------------------
+; ReturnIfLocked - Quitte la fonction si les updates sont verrouillées
+; -----------------------------------------------------------------------------
+; QUOI : Guard clause qui fait un early return si hUpdateLockFlag != 0
+; USAGE : En début de fonction pour éviter les updates graphiques pendant
+;         certaines phases critiques (transitions, etc.)
+MACRO ReturnIfLocked
+    ldh a, [hUpdateLockFlag]
+    and a
+    ret nz
+ENDM
+
+; -----------------------------------------------------------------------------
+; JumpIfLocked - Saute vers un label si les updates sont verrouillées
+; -----------------------------------------------------------------------------
+; QUOI : Branch conditionnel vers \1 si hUpdateLockFlag != 0
+; PARAMÈTRE : \1 = label de destination
+MACRO JumpIfLocked
+    ldh a, [hUpdateLockFlag]
+    and a
+    jr nz, \1
+ENDM
+
+; -----------------------------------------------------------------------------
+; ReturnIfUnlocked - Quitte la fonction si les updates sont déverrouillées
+; -----------------------------------------------------------------------------
+; QUOI : Guard clause inverse - early return si hUpdateLockFlag == 0
+; USAGE : Pour du code qui ne doit s'exécuter QUE pendant le verrouillage
+MACRO ReturnIfUnlocked
+    ldh a, [hUpdateLockFlag]
+    and a
+    ret z
+ENDM
+
+; -----------------------------------------------------------------------------
+; JumpIfUnlocked - Saute vers un label si les updates sont déverrouillées
+; -----------------------------------------------------------------------------
+; QUOI : Branch conditionnel vers \1 si hUpdateLockFlag == 0
+; PARAMÈTRE : \1 = label de destination
+MACRO JumpIfUnlocked
+    ldh a, [hUpdateLockFlag]
+    and a
+    jr z, \1
+ENDM

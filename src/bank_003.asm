@@ -2377,9 +2377,7 @@ jr_003_49fd:
     cp $06
     jr nz, jr_003_4a0c
 
-    ldh a, [$ff9f]
-    and a
-    jr nz, jr_003_4a0c
+    JumpIfLocked jr_003_4a0c
 
     ld [hl], $00
 
@@ -2496,9 +2494,7 @@ Jump_003_4a7f:
     ret
 
 
-    ldh a, [$ff9f]
-    and a
-    ret z
+    ReturnIfUnlocked
 
     cp $ff
     ret z
@@ -2778,7 +2774,7 @@ jr_003_4bf1:
     ret
 
 
-    ldh a, [$ff9f]
+    ldh a, [hUpdateLockFlag]
     cp $ff
     ret nz
 
