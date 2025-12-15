@@ -511,7 +511,14 @@ ReadTileUnderSprite:
     and b
     ret
 
-
+; AddScore
+; --------
+; Description: Ajoute des points au score en notation BCD (Binary-Coded Decimal)
+;              et plafonne à 999999 en cas de dépassement
+; In:  de = Points à ajouter (format BCD, ex: $0100 = 100 points)
+; Out: Aucun
+; Modifie: a, hl
+; Note: Gère automatiquement la retenue BCD sur 3 octets (6 chiffres décimaux)
 AddScore:
     ReturnIfLocked
 

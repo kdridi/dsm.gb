@@ -169,6 +169,14 @@
       "priority": 3
     },
     {
+      "address": "$0166",
+      "node_type": "code",
+      "description": "AddScore - Ajoute 10 points de bonus au score",
+      "source": "$0C6A",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$02A3",
       "node_type": "code",
       "description": "StateDispatcher - Dispatch vers le handler d'\u00e9tat via jump table (60 \u00e9tats possibles)",
@@ -1583,14 +1591,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0166",
-      "node_type": "code",
-      "description": "AddScore - Ajoute 10 points de bonus au score",
-      "source": "$0C6A",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1618,6 +1618,7 @@
     "$0060",
     "$04A2",
     "$0558",
+    "$0166",
     "$0226",
     "$03E4",
     "$05D0",
@@ -1662,6 +1663,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 1,
-  "total_explored": 67
+  "commits_since_push": 2,
+  "total_explored": 68
 }
