@@ -761,7 +761,7 @@ SelectLevelAudioTable:
     ld [hl], TILE_HUD_WORLD_R
     ld hl, wScoreBCD
     ld de, wScorePrevious
-    ld b, $03
+    ld b, SCORE_BCD_SIZE
 
 CompareBCDScoresLoop:
     ld a, [de]
@@ -780,7 +780,7 @@ CompareBCDScoresLoop:
 CopyScoreBCD:
     ld hl, wScoreBCD
     ld de, wScorePrevious
-    ld b, $03
+    ld b, SCORE_BCD_SIZE
 
 CopyScoreBCDPreviousLoop:
     ld a, [hl-]
@@ -800,7 +800,7 @@ CompareBCDScoresToDisplay:
     jr z, FinalizeGameStateAfterScore
 
     ldh a, [hLevelIndex]
-    cp $02
+    cp LEVEL_THRESHOLD_SPRITES
     jr c, DisplaySpritesForLowLevel
 
     jr FinalizeGameStateAfterScore
@@ -818,22 +818,22 @@ CopySpriteDataLoop:
     jr nz, CopySpriteDataLoop
 
     ld hl, wOamBuffer
-    ld [hl], $80
+    ld [hl], OAM_TITLE_SPRITE_Y
     inc l
-    ld [hl], $88
+    ld [hl], OAM_TITLE_SPRITE_X
     inc l
     ld a, [wGameConfigA6]
     ld [hl], a
     inc l
-    ld [hl], $00
+    ld [hl], $00                     ; Attributs sprite (palette 0)
     inc l
-    ld [hl], $80
+    ld [hl], OAM_TITLE_SPRITE2_Y
 
 FinalizeGameStateAfterScore:
     inc l
-    ld [hl], $28
+    ld [hl], OAM_TITLE_SPRITE2_X
     inc l
-    ld [hl], $ac
+    ld [hl], OAM_TITLE_TILE
     xor a
     ldh [rIF], a
     ld a, LCDC_GAME_STANDARD
@@ -849,10 +849,10 @@ FinalizeGameStateAfterScore:
     ld hl, wCurrentROMBank
     inc [hl]
     ld a, [hl]
-    cp $03
+    cp ROM_BANK_COUNT
     ret nz
 
-    ld [hl], $00
+    ld [hl], $00                     ; Reset au bank 0
     ret
 
 
@@ -934,7 +934,7 @@ ResetRenderForHighLevels:
     xor a
     ld [wGameConfigA6], a
     ldh a, [hLevelIndex]
-    cp $02
+    cp LEVEL_THRESHOLD_SPRITES
     jp nc, InitLevelStartFull
 
     ld a, INIT_ANIM_TILE_IDX
@@ -949,7 +949,7 @@ HandleSelectButtonLevelSelect:
 
     ld hl, wOamSprite1Y
     ld a, [hl]
-    xor $f8
+    xor TOGGLE_SPRITE_Y_MASK
     ld [hl], a
     jr UpdateLevelSelectDisplay
 
@@ -969,7 +969,7 @@ State0F_LevelSelect::
 
 UpdateLevelSelectDisplay:
     ldh a, [hLevelIndex]
-    cp $02
+    cp LEVEL_THRESHOLD_SPRITES
     jr c, InitAttractModeDisplay
 
     bit 0, b

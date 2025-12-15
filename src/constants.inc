@@ -640,3 +640,28 @@ DEF OAM_INDEX_COIN       EQU $33 ; Index OAM pièce (hOAMIndex = 51)
 DEF RENDER_CONTEXT_GAMEPLAY EQU $05 ; Contexte gameplay standard
 DEF RENDER_CONTEXT_SPECIAL  EQU $0B ; Contexte niveau spécial
 DEF RENDER_CONTEXT_MAX      EQU $0C ; Valeur max contexte (wrap-around)
+
+; === Score BCD ===
+
+DEF SCORE_BCD_SIZE          EQU $03 ; Taille du score en BCD (3 octets = 6 chiffres)
+
+; === ROM Banks ===
+
+DEF ROM_BANK_COUNT          EQU $03 ; Nombre de banks switchables (1-3, bank 0 fixe)
+
+; === Seuils de niveaux ===
+
+DEF LEVEL_THRESHOLD_SPRITES EQU $02 ; Seuil niveau pour affichage sprites menu
+
+; === OAM Sprites écran titre/menu ===
+; Positions des sprites dans le buffer OAM pour l'écran titre
+
+DEF OAM_TITLE_SPRITE_Y      EQU $80 ; Position Y sprite titre (128 pixels)
+DEF OAM_TITLE_SPRITE_X      EQU $88 ; Position X sprite titre (136 pixels)
+DEF OAM_TITLE_SPRITE2_Y     EQU $80 ; Position Y second sprite titre
+DEF OAM_TITLE_SPRITE2_X     EQU $28 ; Position X second sprite titre (40 pixels)
+DEF OAM_TITLE_TILE          EQU $ac ; Tile sprite écran titre
+
+; === Masques et toggles ===
+
+DEF TOGGLE_SPRITE_Y_MASK    EQU $f8 ; Masque XOR pour toggle position Y sprite
