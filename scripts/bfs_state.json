@@ -489,6 +489,14 @@
       "priority": 3
     },
     {
+      "address": "$0BF2",
+      "node_type": "code",
+      "description": "SpriteAnimationOAMLoop - Boucle d'it\u00e9ration sur 4 sprites OAM",
+      "source": "$0BEA",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0C07",
       "node_type": "code",
       "description": "SetGameStateSpecialPath - Configure timer et passe \u00e0 \u00e9tat RESET",
@@ -1567,14 +1575,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0BF2",
-      "node_type": "code",
-      "description": "SpriteAnimationOAMLoop - Boucle d'it\u00e9ration sur 4 sprites OAM",
-      "source": "$0BEA",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1637,9 +1637,10 @@
     "$00C3",
     "$09d7",
     "$0A24",
+    "$0BF2",
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 0,
-  "total_explored": 61
+  "commits_since_push": 1,
+  "total_explored": 62
 }
