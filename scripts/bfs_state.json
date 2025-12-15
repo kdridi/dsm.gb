@@ -1655,6 +1655,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0E1F",
+      "node_type": "code",
+      "description": "TimerExpiredPath - Chemin quand timer expir\u00e9 (interne)",
+      "source": "$0E0C",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1691,6 +1699,7 @@
     "$055F",
     "$0DF0",
     "$05F8",
+    "$0E0C",
     "$05B7",
     "$0C07",
     "$0CC2",
@@ -1736,6 +1745,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 1,
-  "total_explored": 77
+  "commits_since_push": 2,
+  "total_explored": 78
 }

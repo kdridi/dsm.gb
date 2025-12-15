@@ -3233,8 +3233,13 @@ State1B_BonusComplete::
     ret
 
 ; ===========================================================================
-; État $1C - Attente timer gameplay ($0E0C)
-; Exécute logique tant que timer actif, sinon configure timer → état suivant
+; State1C_WaitTimerGameplay ($0E0C)
+; ----------------
+; Description: Handler d'état $1C - Exécute la logique gameplay si timer actif,
+;              sinon passe à l'état suivant avec nouveau timer
+; In:  hTimer1 = compteur frames
+; Out: hGameState = incrémenté si timer expiré, hTimer1 = réinitialisé si expiré
+; Modifie: a, hl, appelle InitScrollBuffer, UpdateAudio, SwitchBankAndCallBank3Handler
 ; ===========================================================================
 State1C_WaitTimerGameplay::
     ldh a, [hTimer1]
