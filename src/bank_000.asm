@@ -3087,6 +3087,13 @@ LoadAnimTilesByIndex:
 
     ld c, BANK_1            ; Bank 1 par défaut (monde 4+)
 
+; LoadAnimTilesWithBank
+; ----------------------
+; Description: Charge les tiles animées, palettes et buffer d'animation depuis une bank spécifique puis initialise le gameplay
+; In:  a = numéro de monde (WORLD_1, WORLD_2, etc.)
+;      c = numéro de bank ROM à charger (BANK_1, BANK_2, BANK_3)
+; Out: (passe au GameplayInitStart)
+; Modifie: a, bc, de, hl (copie tiles, palette et buffer animation vers VRAM/WRAM)
 LoadAnimTilesWithBank:
     ld b, a
     di
@@ -3142,13 +3149,13 @@ CopyColorPaletteDataLoop:
     ld de, wAnimBuffer
     ld b, ANIM_BUFFER_COPY_SIZE
 
-CopyGraphicsPaletteLoop:
+CopyAnimBufferLoop:
     ld a, [hl+]
     ld [de], a
     inc hl
     inc de
     dec b
-    jr nz, CopyGraphicsPaletteLoop
+    jr nz, CopyAnimBufferLoop
 
 GameplayInitStart:
     xor a

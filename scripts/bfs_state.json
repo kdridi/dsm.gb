@@ -577,6 +577,14 @@
       "priority": 3
     },
     {
+      "address": "$0D82",
+      "node_type": "code",
+      "description": "LoadAnimTilesWithBank - Point d'entr\u00e9e chargement tiles anim\u00e9es",
+      "source": "$0D64",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0DCA",
       "node_type": "code",
       "description": "GameplayInitStart - Initialise le gameplay apr\u00e8s chargement graphiques",
@@ -1623,14 +1631,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0D82",
-      "node_type": "code",
-      "description": "LoadAnimTilesWithBank - Point d'entr\u00e9e chargement tiles anim\u00e9es",
-      "source": "$0D64",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1640,6 +1640,7 @@
     "$0A20",
     "$0C6A",
     "$0322",
+    "$0D82",
     "$0C22",
     "$02A5",
     "$05B8",
@@ -1707,6 +1708,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 1,
-  "total_explored": 72
+  "commits_since_push": 2,
+  "total_explored": 73
 }
