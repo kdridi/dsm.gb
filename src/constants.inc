@@ -1062,6 +1062,8 @@ DEF CLEAR_BIT7_MASK            EQU $7f   ; Masque pour effacer le bit 7 (garde b
 DEF FRAME_MASK_2               EQU $01   ; Masque pour exécuter toutes les 2 frames (counter & 1)
 DEF FRAME_MASK_4               EQU $03   ; Masque pour exécuter toutes les 4 frames (counter & 3)
 DEF FRAME_MASK_8               EQU $07   ; Masque pour exécuter toutes les 8 frames (counter & 7)
+DEF SPRITE_HEIGHT_INDEX_MASK   EQU $07   ; Masque index hauteur sprite (bits 0-2, valeurs 0-7)
+DEF AUDIO_POSITION_MASK        EQU $1f   ; Masque position audio (bits 0-4, valeurs 0-31)
 
 ; === Flags et valeurs de retour génériques ===
 

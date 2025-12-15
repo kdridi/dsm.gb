@@ -8951,7 +8951,7 @@ InitializeWaveAudio:
     ld hl, $7047
     call LoadAudioRegisterRange
     ldh a, [rDIV]
-    and $1f
+    and AUDIO_POSITION_MASK
     ld b, a
     ld a, $d0
     add b
@@ -8962,7 +8962,7 @@ InitializeWaveAudio:
 
 InitializeWaveAudio_ConfigureWave:
     ldh a, [rDIV]
-    and $07
+    and FRAME_MASK_8
     ld b, a
     ld hl, wStateVar14
     inc [hl]
@@ -9710,7 +9710,7 @@ ProcessAudioRequest:
     ld b, a
     ld hl, $673c
     ld a, b
-    and $1f
+    and AUDIO_POSITION_MASK
     call IndexAudioTable
     call InitializeAudioChannelState
     call LookupAudioEnvelope

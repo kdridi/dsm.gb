@@ -7461,14 +7461,14 @@ UpdateAudioState:
     push hl
     inc hl
     ld a, [hl]
-    and $1f
+    and AUDIO_POSITION_MASK
     rlca
     rlca
     rlca
     add $10
     ldh [hSoundParam1], a
     ld a, [hl+]
-    and $c0
+    and BITS_6_7_MASK
     swap a
     add $d0
     sub c
@@ -8956,7 +8956,7 @@ CheckObjectTileTop:
 
 .calcY:
     ldh a, [hSoundVar3]
-    and $07
+    and SPRITE_HEIGHT_INDEX_MASK
     dec a
     swap a
     rrca
@@ -8980,7 +8980,7 @@ CheckObjectTileTop:
     add $03
     ldh [hSpriteX], a
     ldh a, [hSoundVar3]
-    and $07
+    and SPRITE_HEIGHT_INDEX_MASK
     dec a
     swap a
     rrca
@@ -9010,7 +9010,7 @@ CheckObjectTileTop:
     sub $08
     ldh [hSpriteX], a
     ldh a, [hSoundVar3]
-    and $07
+    and SPRITE_HEIGHT_INDEX_MASK
     dec a
     swap a
     rrca
@@ -12720,7 +12720,7 @@ GetSpritePosFromTileAddr:
     add $08
     ldh [hSpriteY], a
     ldh a, [hSpriteTile]
-    and $1f
+    and TILEMAP_COLUMN_MASK
     rla
     rla
     rla
