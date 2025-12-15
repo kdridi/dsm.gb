@@ -2462,7 +2462,7 @@ AdcDataPoint_4a40:
     sbc b
     ld hl, sp-$12
 
-jr_001_4a4f:
+DataPadding_4a4f:
     ld e, $fe
     ld [de], a
     nop
@@ -2494,7 +2494,7 @@ UpdateLevelState_4a56:
     add sp, -$68
     ret z
 
-    jr c, jr_001_4a4f
+    jr c, DataPadding_4a4f
 
     ld a, $00
     nop
@@ -2525,7 +2525,7 @@ UpdateLevelState_4a56:
     rlca
     rlca
     rra
-    jr jr_001_4ad1
+    jr DataMarker_4ad1
 
     jr nz, jr_001_4acb
 
@@ -2582,7 +2582,7 @@ jr_001_4acb:
     ld a, h
     rlca
 
-jr_001_4ad1:
+DataMarker_4ad1:
     rlca
     db $db
     add a
@@ -2903,9 +2903,9 @@ DataPadding_4baa:
     jr Trampoline_To_4c1f_001_4c1d
 
 Trampoline_To_4c1f_001_4c1d:
-    jr jr_001_4c1f
+    jr DataPadding_4c1f
 
-jr_001_4c1f:
+DataPadding_4c1f:
     add hl, bc
     nop
     add hl, bc
@@ -3044,7 +3044,7 @@ DataPadding_4ca3:
     stop
     stop
 
-jr_001_4cb9:
+DataPadding_4cb9:
     ld de, $1100
     nop
     ld a, [bc]
@@ -3144,7 +3144,7 @@ jr_001_4cb9:
     ret nz
 
     nop
-    jr nz, jr_001_4cb9
+    jr nz, DataPadding_4cb9
 
     db $10
     add b
@@ -3287,9 +3287,9 @@ DataMarker_4d79:
     nop
     rra
     nop
-    jr nz, jr_001_4dd9
+    jr nz, DataPadding_4dd9
 
-jr_001_4dd9:
+DataPadding_4dd9:
     ld b, b
     nop
     add b
@@ -3297,7 +3297,7 @@ jr_001_4dd9:
     add b
     ld b, b
     add b
-    jr nz, jr_001_4e22
+    jr nz, DataPadding_4e22
 
     nop
     nop
@@ -3348,7 +3348,7 @@ DataPadding_4dfd:
     db $10
     jr nz, @+$1e
 
-    jr nz, jr_001_4e22
+    jr nz, DataPadding_4e22
 
     jr DataPadding_4e1d
 
@@ -3359,7 +3359,7 @@ DataPadding_4e1d:
     nop
     nop
 
-jr_001_4e22:
+DataPadding_4e22:
     nop
     nop
     ld [$0800], sp
@@ -3375,15 +3375,15 @@ jr_001_4e22:
     nop
     nop
     stop
-    jr nc, jr_001_4e38
+    jr nc, JumpStub_4e38
 
-jr_001_4e38:
+JumpStub_4e38:
     ld l, c
     db $10
     rst $18
-    jr nz, jr_001_4e3d
+    jr nz, DataPadding_4e3d
 
-jr_001_4e3d:
+DataPadding_4e3d:
     rst $18
     nop
     nop
@@ -3412,9 +3412,9 @@ JumpStub_4e56:
     cp $00
     ld a, h
     nop
-    jr c, jr_001_4e5e
+    jr c, DataPadding_4e5e
 
-jr_001_4e5e:
+DataPadding_4e5e:
     ld a, h
     nop
     add $00
@@ -4686,7 +4686,7 @@ jr_001_5354:
     rra
     ld d, b
     ld c, c
-    jr nz, jr_001_5428
+    jr nz, JumpStub_5428
 
     add h
     inc hl
@@ -4704,9 +4704,9 @@ jr_001_5354:
     dec l
     adc l
 
-jr_001_5428:
+JumpStub_5428:
     cp a
-    jr nc, jr_001_5436
+    jr nc, CallStub_5436
 
     ccf
     inc [hl]
@@ -4716,7 +4716,7 @@ jr_001_5428:
     scf
     call $3a55
 
-jr_001_5436:
+CallStub_5436:
     call z, $3e55
     call ProcessDataValue_4055
     ld d, b
@@ -4884,7 +4884,7 @@ jr_001_5436:
     ld d, e
     daa
     ld c, $53
-    jr z, jr_001_550a
+    jr z, JumpHandler_550a
 
     db $d3
     add hl, hl
@@ -4897,7 +4897,7 @@ jr_001_5436:
     ld d, d
     ld l, $05
 
-jr_001_550a:
+JumpHandler_550a:
     jp nc, InitLevelStartWithAttractMode
 
     ld d, d
