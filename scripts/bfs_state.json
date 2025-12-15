@@ -1143,6 +1143,62 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$05D0",
+      "node_type": "code",
+      "description": "LoadGameTiles - Charge les tiles du jeu en VRAM",
+      "source": "$055F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$05F8",
+      "node_type": "code",
+      "description": "CopyHudTilemap - Copie tilemap du HUD",
+      "source": "$055F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2439",
+      "node_type": "code",
+      "description": "InitAudioAndAnimContext - Init contexte audio et animations",
+      "source": "$055F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3D11",
+      "node_type": "code",
+      "description": "InitLevelData - Initialise donn\u00e9es du niveau",
+      "source": "$055F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1C12",
+      "node_type": "code",
+      "description": "UpdateCoinDisplay - Affiche le compteur de pi\u00e8ces",
+      "source": "$055F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1C4D",
+      "node_type": "code",
+      "description": "DisplayLivesCount - Affiche le nombre de vies",
+      "source": "$055F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0D64",
+      "node_type": "code",
+      "description": "LoadAnimTilesByIndex - Charge tiles anim\u00e9es par index",
+      "source": "$055F",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1164,6 +1220,7 @@
     "$00C7",
     "$049C",
     "$0050",
+    "$055F",
     "$046D",
     "$00CD",
     "$4000:1",
@@ -1183,6 +1240,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 0,
-  "total_explored": 36
+  "commits_since_push": 1,
+  "total_explored": 37
 }

@@ -1238,8 +1238,21 @@ FillTilemapRow:
     ret
 
 ; ===========================================================================
-; État $11 - Démarrage niveau (reset score, config timers, init display)
-; LCD off → clear score si pas lock → config timers → init routines
+; State11_LevelStart
+; ------------------
+; Description: Initialise le démarrage d'un niveau (reset score, config LCD/timers, init display)
+; In:  Aucun
+; Out: Aucun
+; Modifie: a, bc, de, hl, flags
+;
+; Étapes:
+; 1. Désactive LCD et interruptions
+; 2. Reset score (si pas verrouillé par hUpdateLockFlag)
+; 3. Charge les tiles du jeu et efface les tilemaps
+; 4. Configure le HUD, les timers hardware (LYC=$0F, TAC=16kHz), et la fenêtre
+; 5. Initialise les données niveau, l'audio, les animations
+; 6. Affiche les vies et pièces
+; 7. Fall-through vers State10_Noop (retourne immédiatement)
 ; ===========================================================================
 State11_LevelStart::
     xor a
