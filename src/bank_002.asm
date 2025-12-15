@@ -14289,27 +14289,27 @@ AudioDispatchEntry_7db8:
     rst $30
     inc d
 
-MusicDispatchEntry_002_7ddc:
+AudioDispatchData_002_7ddc:
     rst $30
     inc d
 
-MusicDispatchEntry_002_7dde:
+AudioDispatchData_002_7dde:
     rst $30
     inc d
 
-MusicDispatchEntry_002_7de0:
+AudioDispatchData_002_7de0:
     rst $30
     inc d
 
-MusicDispatchEntry_002_7de2:
+AudioDispatchData_002_7de2:
     rst $30
     inc d
 
-MusicDispatchEntry_002_7de4:
+AudioDispatchData_002_7de4:
     rst $30
     inc d
 
-MusicDispatchEntry_002_7de6:
+AudioDispatchData_002_7de6:
     rst $30
     inc d
 
@@ -14317,17 +14317,17 @@ DispatchTableEntry_002_7de8:
     rst $30
     rst $30
     rst $28
-    jr z, MusicDispatchEntry_002_7ddc
+    jr z, AudioDispatchData_002_7ddc
 
-    jr z, MusicDispatchEntry_002_7dde
+    jr z, AudioDispatchData_002_7dde
 
-    jr z, MusicDispatchEntry_002_7de0
+    jr z, AudioDispatchData_002_7de0
 
-    jr z, MusicDispatchEntry_002_7de2
+    jr z, AudioDispatchData_002_7de2
 
-    jr z, MusicDispatchEntry_002_7de4
+    jr z, AudioDispatchData_002_7de4
 
-    jr z, MusicDispatchEntry_002_7de6
+    jr z, AudioDispatchData_002_7de6
 
     jr z, DispatchTableEntry_002_7de8
 

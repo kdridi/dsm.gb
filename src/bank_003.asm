@@ -13923,11 +13923,11 @@ DispatchEntry_003_7ea1:
     ld c, b
     ld c, b
     nop
-    jr z, MusicDispatchEntry_003_7fbb
+    jr z, AudioDispatchData_003_7fbb
 
     ld b, b
     ld b, b
-    jr z, MusicDispatchEntry_003_7fbf
+    jr z, AudioDispatchData_003_7fbf
 
     ld b, b
     ld b, b
@@ -13935,11 +13935,11 @@ DispatchEntry_003_7ea1:
 
     ld b, b
     ld b, b
-    jr z, MusicDispatchEntry_003_7fc7
+    jr z, AudioDispatchData_003_7fc7
 
     ld b, b
     ld b, b
-    jr nc, MusicDispatchEntry_003_7fd3
+    jr nc, AudioDispatchData_003_7fd3
 
     ld a, [hl-]
     ld b, d
@@ -13964,12 +13964,12 @@ DispatchEntry_003_7ea1:
     ld b, $06
     and d
 
-MusicDispatchEntry_003_7fbb:
+AudioDispatchData_003_7fbb:
     dec bc
     and c
     ld b, $06
 
-MusicDispatchEntry_003_7fbf:
+AudioDispatchData_003_7fbf:
     and d
     dec bc
     and c
@@ -13978,7 +13978,7 @@ MusicDispatchEntry_003_7fbf:
     dec bc
     and c
 
-MusicDispatchEntry_003_7fc7:
+AudioDispatchData_003_7fc7:
     ld b, $06
     and d
     dec bc
@@ -13989,7 +13989,7 @@ MusicDispatchEntry_003_7fc7:
     and c
     ld b, $06
 
-MusicDispatchEntry_003_7fd3:
+AudioDispatchData_003_7fd3:
     and d
     dec bc
     and c
