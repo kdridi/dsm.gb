@@ -3209,21 +3209,21 @@ LoadOffsetAndCopy:
 ; === Table de texte cutscene ($0FD8-$0FF3) ===
 ; Texte en indices de tiles pour la cutscene de fin
 ; Ligne 1: "THANK YOU MARIO!" ($FE = saut de ligne)
-; Ligne 2: "OH! DAISY" ($FF = fin)
+; Ligne 2: "♥OH! DAISY" ($FF = fin)
 TextData_ThankYou:
-    db $1d, $11, $0a, $17, $14  ; "THANK"
-    db $2c                      ; " " (espace)
-    db $22, $18, $1e            ; "YOU"
-    db $2c                      ; " " (espace)
-    db $16, $0a, $1b, $12, $18  ; "MARIO"
-    db $23                      ; "!"
-    db $fe                      ; Saut de ligne
-    db $73                      ; (icône coeur?)
-    db $18, $11                 ; "OH"
-    db $28                      ; "!"
-    db $2c                      ; " " (espace)
-    db $0d, $0a, $12, $1c, $22  ; "DAISY"
-    db $ff                      ; Fin
+    db TEXT_CHAR_T, TEXT_CHAR_H, TEXT_CHAR_A, TEXT_CHAR_N, TEXT_CHAR_K  ; "THANK"
+    db TEXT_CHAR_SPACE                                                  ; " "
+    db TEXT_CHAR_Y, TEXT_CHAR_O, TEXT_CHAR_U                            ; "YOU"
+    db TEXT_CHAR_SPACE                                                  ; " "
+    db TEXT_CHAR_M, TEXT_CHAR_A, TEXT_CHAR_R, TEXT_CHAR_I, TEXT_CHAR_O  ; "MARIO"
+    db TEXT_CHAR_EXCLAIM                                                ; "!"
+    db TEXT_CHAR_NEWLINE                                                ; Saut de ligne
+    db TEXT_CHAR_HEART                                                  ; ♥
+    db TEXT_CHAR_O, TEXT_CHAR_H                                         ; "OH"
+    db TEXT_CHAR_EXCLAIM_ALT                                            ; "!"
+    db TEXT_CHAR_SPACE                                                  ; " "
+    db TEXT_CHAR_D, TEXT_CHAR_A, TEXT_CHAR_I, TEXT_CHAR_S, TEXT_CHAR_Y  ; "DAISY"
+    db TEXT_CHAR_END                                                    ; Fin
 
 ; ===========================================================================
 ; État $25 - Animation sprite clignotant ($0FF4)
@@ -12506,25 +12506,26 @@ FillBorderRow_2:
 
     ld a, TILE_BORDER_BOTTOM_RIGHT
     ld [hl], a
+    ; === Écriture "BONUS GAME" ===
     ld hl, VRAM_END_TEXT_ROW1
-    ld a, $0b
+    ld a, TEXT_CHAR_B              ; 'B'
     ld [hl+], a
-    ld a, $18
+    ld a, TEXT_CHAR_O              ; 'O'
     ld [hl+], a
-    dec a
+    dec a                          ; 'N' (TEXT_CHAR_O - 1 = $17)
     ld [hl+], a
-    ld a, $1e
+    ld a, TEXT_CHAR_U              ; 'U'
     ld [hl+], a
-    ld a, $1c
+    ld a, TEXT_CHAR_S              ; 'S'
     ld [hl+], a
-    inc l
-    ld a, $10
+    inc l                          ; espace
+    ld a, TEXT_CHAR_G              ; 'G'
     ld [hl+], a
-    ld a, $0a
+    ld a, TEXT_CHAR_A              ; 'A'
     ld [hl+], a
-    ld a, $16
+    ld a, TEXT_CHAR_M              ; 'M'
     ld [hl+], a
-    ld a, $0e
+    ld a, TEXT_CHAR_E              ; 'E'
     ld [hl], a
     ld hl, VRAM_END_TEXT_ROW2
     ld a, TILE_CREDITS_SPECIAL

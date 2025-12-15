@@ -1169,6 +1169,33 @@ DEF SPRITE_Y_THRESHOLD_EXIT    EQU $b4   ; Seuil Y sprite pour sortie animation 
 DEF TIMER_TEXT_CHAR            EQU $0c   ; Timer entre caractères texte (12 frames)
 DEF CUTSCENE_TEXT_OFFSET       EQU $a5   ; Offset colonne texte cutscene ($98A5)
 
+; === Encodage caractères texte (tiles) ===
+; Pattern: lettre = $0A + (position dans alphabet)
+; Utilisé pour les textes "THANK YOU MARIO!", "BONUS GAME", etc.
+
+DEF TEXT_CHAR_A                EQU $0a   ; Caractère 'A'
+DEF TEXT_CHAR_B                EQU $0b   ; Caractère 'B'
+DEF TEXT_CHAR_D                EQU $0d   ; Caractère 'D'
+DEF TEXT_CHAR_E                EQU $0e   ; Caractère 'E'
+DEF TEXT_CHAR_G                EQU $10   ; Caractère 'G'
+DEF TEXT_CHAR_H                EQU $11   ; Caractère 'H'
+DEF TEXT_CHAR_I                EQU $12   ; Caractère 'I'
+DEF TEXT_CHAR_K                EQU $14   ; Caractère 'K'
+DEF TEXT_CHAR_M                EQU $16   ; Caractère 'M'
+DEF TEXT_CHAR_N                EQU $17   ; Caractère 'N'
+DEF TEXT_CHAR_O                EQU $18   ; Caractère 'O'
+DEF TEXT_CHAR_R                EQU $1b   ; Caractère 'R'
+DEF TEXT_CHAR_S                EQU $1c   ; Caractère 'S'
+DEF TEXT_CHAR_T                EQU $1d   ; Caractère 'T'
+DEF TEXT_CHAR_U                EQU $1e   ; Caractère 'U'
+DEF TEXT_CHAR_Y                EQU $22   ; Caractère 'Y'
+DEF TEXT_CHAR_EXCLAIM          EQU $23   ; Caractère '!' (style 1)
+DEF TEXT_CHAR_EXCLAIM_ALT      EQU $28   ; Caractère '!' (style 2)
+DEF TEXT_CHAR_SPACE            EQU $2c   ; Caractère espace
+DEF TEXT_CHAR_NEWLINE          EQU $fe   ; Saut de ligne
+DEF TEXT_CHAR_END              EQU $ff   ; Fin de texte
+DEF TEXT_CHAR_HEART            EQU $73   ; Icône coeur
+
 ; === Animation princesse (State26) ===
 
 DEF PRINCESS_ANIM_THRESHOLD    EQU $d0   ; Seuil Y animation princesse (208 pixels)
