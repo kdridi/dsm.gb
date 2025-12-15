@@ -3895,8 +3895,14 @@ State26_NextState:
     ret
 
 ; ===========================================================================
-; État $27 - Animation joueur oscillante ($1090)
-; Animation avec oscillation horizontale du joueur, toggle timer
+; State27_PlayerOscillation
+; -------------------------
+; Description: Gère l'animation d'oscillation horizontale du joueur avec effet
+;              de fade VRAM progressif. Toggle un flag tous les 4 frames.
+; In:  hTimer2 = timer oscillation (si 0, réinitialise)
+;      hTimer1 = compteur frames
+; Out: hGameState = incrémenté vers état suivant si animation terminée
+; Modifie: a, bc, de, hl, wPlayerVarAB, wStateFinal, wLevelInitFlag
 ; ===========================================================================
 State27_PlayerOscillation::
     ldh a, [hTimer2]
