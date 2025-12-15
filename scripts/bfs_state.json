@@ -241,6 +241,14 @@
       "priority": 3
     },
     {
+      "address": "$04CE",
+      "node_type": "code",
+      "description": "UpdateLevelSelectDisplay - Mise \u00e0 jour affichage menu s\u00e9lection",
+      "source": "$03E4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$053D",
       "node_type": "code",
       "description": "InitLevelStartFull - Initialise compl\u00e8tement le d\u00e9marrage du niveau",
@@ -1111,14 +1119,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$04CE",
-      "node_type": "code",
-      "description": "UpdateLevelSelectDisplay - Mise \u00e0 jour affichage menu s\u00e9lection",
-      "source": "$03E4",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1135,6 +1135,7 @@
     "$03E4",
     "$00C7",
     "$0050",
+    "$046D",
     "$00CD",
     "$4000:1",
     "$0150",
@@ -1149,6 +1150,6 @@
     "$00C3",
     "$0394"
   ],
-  "commits_since_push": 0,
-  "total_explored": 26
+  "commits_since_push": 1,
+  "total_explored": 27
 }

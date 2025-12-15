@@ -1132,17 +1132,24 @@ InitLevelStartWithAttractMode:
     ret
 
 
+; InitLevelStartFull
+; ------------------
+; Description: Initialisation complète pour démarrer un niveau (état $11)
+;              Reset des flags système, config interruptions et état de rendu
+; In:  Aucun
+; Out: Aucun
+; Modifie: a
 InitLevelStartFull:
     ld a, GAME_STATE_LEVEL_START
-    ldh [hGameState], a
+    ldh [hGameState], a          ; Passe en état $11 (Level Start)
     xor a
-    ldh [rIF], a
-    ldh [hUpdateLockFlag], a
-    ld [wROMBankInit], a
-    dec a
-    ld [wStateRender], a
+    ldh [rIF], a                 ; Clear interrupt flags
+    ldh [hUpdateLockFlag], a     ; Déverrouille les mises à jour
+    ld [wROMBankInit], a         ; Reset bank init à 0
+    dec a                        ; a = $FF
+    ld [wStateRender], a         ; Force re-render complet
     ld a, IE_VBLANK_STAT_TIMER
-    ldh [rIE], a
+    ldh [rIE], a                 ; Active interruptions VBlank+STAT+Timer
     ret
 
 
