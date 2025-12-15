@@ -192,18 +192,24 @@ TimerOverflowInterrupt::
 
 
 ;; ==========================================================================
-;; VBlankHandler - Handler principal VBlank ($0060)
-;; ==========================================================================
-;; Appelé 60 fois par seconde pendant le VBlank.
-;; Structure :
-;;   1. SaveRegisters      → push af/bc/de/hl
-;;   2. UpdateGameLogic    → Scroll, vies, score, animations
-;;   3. DMATransfer        → call $FFB6 (copie OAM depuis wShadowOAM)
-;;   4. IncrementFrame     → hFrameCounter++
-;;   5. CheckWindowEnable  → Active Window si game_state == $3A
-;;   6. ResetScrollAndFlag → SCX/SCY = 0, hVBlankFlag = 1
-;;   7. RestoreRegisters   → pop + reti
-;; ==========================================================================
+; VBlankHandler
+; ----------------
+; Description: Handler principal VBlank, appelé 60 fois par seconde.
+;              Sauvegarde contexte, met à jour la logique de jeu (scroll, vies, score, animations),
+;              effectue le DMA OAM transfer, incrémente le compteur de frames, gère l'activation
+;              du Window selon l'état de jeu, réinitialise le scroll et signale la fin du VBlank.
+; In:  (aucun)
+; Out: (aucun)
+; Modifie: af, bc, de, hl (sauvegardés/restaurés), hFrameCounter, hVBlankFlag, SCX, SCY, LCDC
+;
+; Structure :
+;   1. SaveRegisters      → push af/bc/de/hl
+;   2. UpdateGameLogic    → Scroll, vies, score, animations
+;   3. DMATransfer        → call $FFB6 (copie OAM depuis wShadowOAM)
+;   4. IncrementFrame     → hFrameCounter++
+;   5. CheckWindowEnable  → Active Window si game_state == $3A
+;   6. ResetScrollAndFlag → SCX/SCY = 0, hVBlankFlag = 1
+;   7. RestoreRegisters   → pop + reti
 VBlankHandler::
     ; --- 1. SaveRegisters ---
     push af

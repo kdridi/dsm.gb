@@ -121,6 +121,14 @@
       "priority": 3
     },
     {
+      "address": "$0150",
+      "node_type": "code",
+      "description": "AfterHeader - Jump interm\u00e9diaire vers SystemInit",
+      "source": "$0100",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1B7D",
       "node_type": "code",
       "description": "ProcessBlockCollision - Traitement des collisions avec les blocs",
@@ -199,17 +207,10 @@
       "source": "$0040",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0150",
-      "node_type": "code",
-      "description": "AfterHeader - Jump interm\u00e9diaire vers SystemInit",
-      "source": "$0100",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
+    "$0060",
     "$0040",
     "$0100",
     "$0000",
@@ -217,6 +218,6 @@
     "$0050",
     "$0048"
   ],
-  "commits_since_push": 0,
-  "total_explored": 6
+  "commits_since_push": 1,
+  "total_explored": 7
 }
