@@ -4084,16 +4084,16 @@ State2A_DisplayEndText::
 
 ; === Table de texte "OH! DAISY" ($117A-$118A) ===
 ; Texte affiché après la descente de la princesse
-; "OH! DAISY" ($FE = saut) "RDAISY" ($FF = fin)
+; "OH! DAISY" (saut de ligne) "RDAISY" (fin)
 TextData_OhDaisy:
     db $18, $11                 ; "OH"
     db $28                      ; "!"
     db $2c                      ; " " (espace)
     db $0d, $0a, $12, $1c, $22  ; "DAISY"
-    db $fe                      ; Saut de ligne
+    db TEXT_CMD_NEWLINE         ; Saut de ligne
     db $1b                      ; "R" (?)
     db $0d, $0a, $12, $1c, $22  ; "DAISY"
-    db $ff                      ; Fin
+    db TEXT_CMD_END             ; Fin
 
 ; ===========================================================================
 ; État $2B - Animation descente princesse ($118B)

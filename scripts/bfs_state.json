@@ -873,6 +873,14 @@
       "priority": 3
     },
     {
+      "address": "$117A",
+      "node_type": "data",
+      "description": "Table de texte 'OH! DAISY' affich\u00e9e en fin de niveau",
+      "source": "$115C",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$118B",
       "node_type": "code",
       "description": "State2B_PrincessDescending - Princesse descendante",
@@ -1815,14 +1823,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$117A",
-      "node_type": "data",
-      "description": "Table de texte 'OH! DAISY' affich\u00e9e en fin de niveau",
-      "source": "$115C",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1916,6 +1916,7 @@
     "$0C0D",
     "$0aa6",
     "$0F09",
+    "$117A",
     "$0226",
     "$09e8",
     "$05D0",
@@ -1936,6 +1937,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 3,
-  "total_explored": 109
+  "commits_since_push": 4,
+  "total_explored": 110
 }
