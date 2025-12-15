@@ -1286,3 +1286,25 @@ DEF ANIM_COUNTER_TRIGGER_96    EQU $60   ; Seuil déclencheur animation (96)
 ; === Offset structure objet ===
 
 DEF OBJ_FIELD_ANIM_COUNTER     EQU $0c   ; Offset vers compteur animation (12 octets)
+
+; === Tiles niveau/eau ===
+
+DEF TILE_WATER_REPLACED        EQU $7f   ; Tile après destruction bloc eau
+DEF BLOCK_STATE_EMPTY          EQU $03   ; État bloc après collecte pièce
+
+; === State Render (mode rendu) ===
+
+DEF STATE_RENDER_GAME_OVER     EQU $10   ; Mode rendu écran Game Over (16)
+
+; === Configuration max ===
+
+DEF CONFIG_VALUE_MAX           EQU $0a   ; Valeur max configuration (10)
+DEF CONFIG_VALUE_CLAMP         EQU $09   ; Valeur clamped configuration (9)
+
+; === Tilemap ===
+
+DEF TILEMAP_DEFAULT_COUNT      EQU $10   ; Nombre tiles par défaut (16)
+
+; === Scroll position ===
+
+DEF SCROLL_THRESHOLD_OSCIL     EQU $50   ; Seuil scroll pour oscillation (80)

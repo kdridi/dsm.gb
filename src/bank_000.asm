@@ -5408,9 +5408,9 @@ CollisionConfig_Offset2:
 CollisionDefaultHandler:
     ld hl, wPlayerUnk0B
     inc [hl]
-    ld a, $02
+    ld a, PLAYER_UNK07_FALLING
     ld [wPlayerUnk0E], a
-    ld a, $ff
+    ld a, RETURN_COLLISION_FOUND
     ret
 
 
@@ -5461,7 +5461,7 @@ HandlePlayerSlideCollision:
     add TILE_ALIGN_OFFSET
     ld [hl], a
     call ClearOamAndSpriteBuffers
-    ld a, $ff
+    ld a, RETURN_COLLISION_FOUND
     ret
 
 
@@ -5483,7 +5483,7 @@ TriggerBlockCollisionSound_TimerCheck_IsTwo:
     ld [wPlayerDir], a
     ld b, a
     and NIBBLE_LOW_MASK          ; Isoler mode direction
-    cp $0a
+    cp PLAYER_MODE_GAMEPLAY
     jr nc, TriggerBlockCollisionSound_ApplyMask
 
     ld a, b
@@ -5542,7 +5542,7 @@ ProcessBlockCollision:
 
     cp TILEMAP_CMD_LOAD3        ; Tile type $81 ?
     call z, CollectCoin
-    ld a, $7f
+    ld a, TILE_WATER_REPLACED
 
 ProcessBlockCollision_IsType82:
     ld [de], a
@@ -5561,7 +5561,7 @@ ProcessBlockCollision_CommonExit:
     ld a, TILE_EMPTY
     ld [de], a
     ld a, b
-    cp $c0
+    cp BLOCK_HIT_TYPE_SPECIAL
     jr z, ProcessBlockCollision_Special
 
     ld hl, hVramPtrLow
@@ -5584,16 +5584,16 @@ ProcessBlockCollision_CommonExit:
     sub b
     ldh [hPtrLow], a
     ldh a, [hSpriteY]
-    add $14
+    add OBJECT_COLLISION_RANGE
     ldh [hPtrHigh], a
-    ld a, $c0
+    ld a, BLOCK_HIT_TYPE_SPECIAL
     ldh [hPtrBank], a
     call CollectCoin
     ret
 
 
 BlockCollision_CoinProcess:
-    ld [hl], $03
+    ld [hl], BLOCK_STATE_EMPTY
     jr ProcessBlockCollision_CommonExit
 
 ProcessBlockCollision_Special:
@@ -5730,7 +5730,7 @@ State39_GameOver::
     dec b
     jr nz, .loopWriteTile
 
-    ld a, $10
+    ld a, STATE_RENDER_GAME_OVER
     ld [wStateRender], a
     ldh a, [hAnimTileIndex]
     ld [wAnimTileIdx], a
@@ -5740,10 +5740,10 @@ State39_GameOver::
     ld b, a
     ld a, [wGameConfigA6]
     add b
-    cp $0a
+    cp CONFIG_VALUE_MAX
     jr c, State39_StoreConfigValue
 
-    ld a, $09
+    ld a, CONFIG_VALUE_CLAMP
 
 State39_StoreConfigValue:
     ld [wGameConfigA6], a
@@ -6009,7 +6009,7 @@ ProcessAnimationState_JoypadLeft_Done:
     jr z, CheckOscillationCollision_Skip
 
 CheckOscillationCollision_CheckScroll:
-    ld a, $50
+    ld a, SCROLL_THRESHOLD_OSCIL
     cp [hl]
     jr nc, CheckOscillationCollision_Skip
 
@@ -6868,7 +6868,7 @@ ProcessScrollEntry:
     and NIBBLE_LOW_MASK          ; Nombre tiles (nibble bas)
     jr nz, TilemapDataNibbleNonZero
 
-    ld a, $10
+    ld a, TILEMAP_DEFAULT_COUNT
 
 TilemapDataNibbleNonZero:
     ld b, a
@@ -7270,7 +7270,7 @@ State0D_GameplayFull::
     ; Bank 2 : mise à jour spéciale
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
-    ld a, $02
+    ld a, BANK_2
     ldh [hCurrentBank], a
     ld [rROMB0], a
     call UpdateGameTimersAndAnimation                   ; Bank 2: special update
