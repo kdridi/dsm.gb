@@ -1756,16 +1756,18 @@ SetStateRenderEnd:
     ld [wStateRender], a
     ret
 
-
-    rlca
-    rlca
-    inc bc
-    ld [$0508], sp
-    rlca
-    inc bc
-    inc bc
-    ld b, $06
-    dec b
+;; ==========================================================================
+;; RenderContextTable ($07B7) - Table de contexte de rendu
+;; ==========================================================================
+;; Description: Table indexée par hRenderContext pour déterminer l'état de
+;;              rendu du joueur (wStateRender). Chaque octet correspond à un
+;;              contexte de rendu différent (marche, attaque, saut, etc.)
+;; In:  Utilisé avec hRenderContext comme index
+;; Out: Valeur d'état de rendu à stocker dans wStateRender
+;; Note: Référencée par ROM_RENDER_TABLE ($07B7) dans constants.inc
+;; ==========================================================================
+RenderContextTable:
+    db $07, $07, $03, $08, $08, $05, $07, $03, $03, $06, $06, $05
 
 ;; ==========================================================================
 ;; CheckInputAndPause - Vérifie input pour soft reset ou toggle pause

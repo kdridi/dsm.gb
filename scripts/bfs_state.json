@@ -369,6 +369,14 @@
       "priority": 3
     },
     {
+      "address": "$07B7",
+      "node_type": "table",
+      "description": "ROM_RENDER_TABLE - Table de contexte de rendu index\u00e9e par hRenderContext",
+      "source": "$078C",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$07C3",
       "node_type": "code",
       "description": "CheckInputAndPause - V\u00e9rifie input pour soft reset (A+B+Start+Select) ou toggle pause",
@@ -1415,14 +1423,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$07B7",
-      "node_type": "table",
-      "description": "ROM_RENDER_TABLE - Table de contexte de rendu index\u00e9e par hRenderContext",
-      "source": "$078C",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1432,6 +1432,7 @@
     "$02A5",
     "$05B8",
     "$04CE",
+    "$07B7",
     "$0000",
     "$06C5",
     "$02A3",
@@ -1473,6 +1474,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 0,
-  "total_explored": 46
+  "commits_since_push": 1,
+  "total_explored": 47
 }
