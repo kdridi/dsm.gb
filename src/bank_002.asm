@@ -114,9 +114,9 @@ Routine_DataProcess_A:
     ld c, $1f
     dec de
     rra
-    jr BytecodeDispatch_Chunk_1
+    jr TileData_Section_1
 
-BytecodeDispatch_Chunk_1:
+TileData_Section_1:
     nop
     nop
     nop
@@ -267,7 +267,7 @@ BytecodeDispatch_Chunk_1:
     ccf
     ld a, [bc]
 
-BytecodeDispatch_Chunk_2:
+TileData_Section_2:
     ccf
     inc e
     rra
@@ -296,7 +296,7 @@ Skip_9Bytes_002_413c:
     or b
     ldh a, [$ff38]
     or b
-    jr BytecodeDispatch_Chunk_2
+    jr TileData_Section_2
 
     ld h, b
     ld h, b
@@ -314,7 +314,7 @@ Skip_9Bytes_002_413c:
     rrca
     db $10
     rra
-    jr BytecodeDispatch_Chunk_4
+    jr TileData_Section_4
 
     ld c, $0e
     ldh a, [rP1]
@@ -323,7 +323,7 @@ Skip_9Bytes_002_413c:
 
     ld a, h
 
-BytecodeDispatch_Chunk_3:
+TileData_Section_3:
     ldh [$ff3c], a
     ld [hl], b
     ld [$18c8], sp
@@ -339,7 +339,7 @@ BytecodeDispatch_Chunk_3:
     inc b
     dec de
 
-BytecodeDispatch_Chunk_4:
+TileData_Section_4:
     nop
     rrca
     rlca
@@ -363,16 +363,16 @@ BytecodeDispatch_Chunk_4:
     add b
     add b
     rra
-    jr BytecodeDispatch_Chunk_5
+    jr TileData_Section_5
 
     nop
     rrca
     rrca
     rra
     rrca
-    jr nc, BytecodeDispatch_Chunk_6
+    jr nc, TileData_Section_6
 
-BytecodeDispatch_Chunk_5:
+TileData_Section_5:
     db $10
     rra
     ld sp, $213d
@@ -384,7 +384,7 @@ BytecodeDispatch_Chunk_5:
     ld hl, sp-$40
     nop
 
-BytecodeDispatch_Chunk_6:
+TileData_Section_6:
     ldh [rP1], a
     ret nz
 
@@ -405,9 +405,9 @@ BytecodeDispatch_Chunk_6:
     ld h, b
     ld c, $50
     rra
-    jr c, JumpOffset_Set_2
+    jr c, GraphicsControlData_2
 
-    jr nz, BytecodeDispatch_Chunk_7
+    jr nz, TileData_Section_7
 
     ld hl, sp+$78
     ldh a, [rNR10]
@@ -422,7 +422,7 @@ BytecodeDispatch_Chunk_6:
     nop
     nop
     rra
-    jr JumpOffset_Set_1
+    jr GraphicsControlData_1
 
     rra
     rra
@@ -436,11 +436,11 @@ BytecodeDispatch_Chunk_6:
     nop
     nop
     ldh [hSoundId], a
-    jr nc, BytecodeDispatch_Chunk_3
+    jr nc, TileData_Section_3
 
     ld [hl], b
 
-BytecodeDispatch_Chunk_7:
+TileData_Section_7:
     ldh [hCurrentTile], a
     ret nz
 
@@ -451,7 +451,7 @@ BytecodeDispatch_Chunk_7:
     inc a
     ccf
 
-JumpOffset_Set_1:
+GraphicsControlData_1:
     dec sp
     inc a
     ld [de], a
@@ -459,7 +459,7 @@ JumpOffset_Set_1:
     ld bc, $010e
     ld e, $00
 
-JumpOffset_Set_2:
+GraphicsControlData_2:
     ccf
     nop
     ld a, a
@@ -495,7 +495,7 @@ JumpOffset_Set_2:
     ld [$0e0d], sp
     ld hl, $382f
     dec a
-    jr c, JumpOffset_Set_5
+    jr c, GraphicsControlData_5
 
     nop
     rlca
@@ -513,7 +513,7 @@ JumpOffset_Set_2:
     ld d, $3f
     jr nc, @+$41
 
-    jr nc, JumpOffset_Set_3
+    jr nc, GraphicsControlData_3
 
     ld [$0f0b], sp
     ret nz
@@ -526,7 +526,7 @@ JumpOffset_Set_2:
     ld hl, sp+$40
     ldh a, [hCurrentTile]
 
-JumpOffset_Set_3:
+GraphicsControlData_3:
     ldh [rP1], a
     add b
     ret nz
@@ -543,7 +543,7 @@ JumpOffset_Set_3:
     rra
     jr @+$21
 
-    jr JumpOffset_Set_4
+    jr GraphicsControlData_4
 
     inc b
     nop
@@ -551,11 +551,11 @@ JumpOffset_Set_3:
     ldh [hVramPtrLow], a
     ld hl, sp-$08
 
-JumpOffset_Set_4:
+GraphicsControlData_4:
     ldh a, [rLCDC]
     db $fc
 
-JumpOffset_Set_5:
+GraphicsControlData_5:
     nop
     db $fc
     jr nz, @-$06
@@ -572,7 +572,7 @@ JumpOffset_Set_5:
     ld d, $3f
     jr nc, @+$41
 
-    jr nc, JumpOffset_Set_6
+    jr nc, GraphicsControlData_6
 
     ld [$1f1f], sp
     ret nz
@@ -585,7 +585,7 @@ JumpOffset_Set_5:
     ld hl, sp+$40
     ldh a, [hCurrentTile]
 
-JumpOffset_Set_6:
+GraphicsControlData_6:
     ldh [rP1], a
     ld b, b
     ret nz
@@ -616,7 +616,7 @@ JumpOffset_Set_6:
     nop
     nop
 
-JumpOffset_Set_7:
+GraphicsControlData_7:
     nop
     nop
     nop
@@ -632,9 +632,9 @@ JumpOffset_Set_7:
     inc c
     rra
     ld d, $3f
-    jr nc, RoutineOffset_3
+    jr nc, SpriteAttributeTable_3
 
-    jr nc, RoutineOffset_1
+    jr nc, SpriteAttributeTable_1
 
     inc c
     ld c, $00
@@ -647,7 +647,7 @@ JumpOffset_Set_7:
     db $fc
     db $fc
 
-RoutineOffset_1:
+SpriteAttributeTable_1:
     ld hl, sp+$18
     rlca
     rlca
@@ -668,14 +668,14 @@ RoutineOffset_1:
     db $fc
     ld h, b
     call z, $c0b0
-    jr nz, JumpOffset_Set_7
+    jr nz, GraphicsControlData_7
 
     ldh a, [hVramPtrLow]
     jr c, @-$1e
 
-    jr RoutineOffset_2
+    jr SpriteAttributeTable_2
 
-RoutineOffset_2:
+SpriteAttributeTable_2:
     nop
     nop
     nop
@@ -688,7 +688,7 @@ RoutineOffset_2:
     nop
     nop
 
-RoutineOffset_3:
+SpriteAttributeTable_3:
     nop
     nop
     nop
@@ -703,11 +703,11 @@ RoutineOffset_3:
 
     ret nc
 
-RoutineOffset_4:
+SpriteAttributeTable_4:
     ld a, b
     ld a, b
 
-RoutineOffset_5:
+SpriteAttributeTable_5:
     ld l, [hl]
     xor $fb
     db $e3
@@ -758,9 +758,9 @@ DispatchTableData_SpriteAttr_002:
     ldh [hSpriteAttr], a
     ldh a, [$ff38]
     cp b
-    jr c, RoutineOffset_4
+    jr c, SpriteAttributeTable_4
 
-    jr nc, RoutineOffset_5
+    jr nc, SpriteAttributeTable_5
 
     nop
     ldh a, [rSVBK]
@@ -777,7 +777,7 @@ DispatchTableData_SpriteAttr_002:
 
     jr nc, @+$41
 
-    jr nc, RoutineOffset_6
+    jr nc, SpriteAttributeTable_6
 
     jr nz, DispatchTableData_SpriteAttr_005
 
@@ -837,9 +837,9 @@ DispatchTableData_SpriteAttr_005:
     rra
     jr c, @+$09
 
-    jr nc, RoutineOffset_7
+    jr nc, SpriteAttributeTable_7
 
-RoutineOffset_6:
+SpriteAttributeTable_6:
     jr TableEntry_Variant_3
 
     jr TableEntry_Variant_4
@@ -848,7 +848,7 @@ RoutineOffset_6:
 
     inc c
 
-RoutineOffset_7:
+SpriteAttributeTable_7:
     inc c
 
 TableEntry_Variant_1:
