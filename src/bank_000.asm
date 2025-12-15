@@ -192,10 +192,10 @@ VBlankHandler::
     ; --- 5. CheckWindowEnable ---
 CheckWindowEnable:
     ldh a, [hGameState]          ; Lire game_state
-    cp $3a                  ; État spécial $3A ?
+    cp GAME_STATE_WINDOW    ; État spécial $3A (window) ?
     jr nz, .resetScrollAndFlag   ; Non → sauter
 
-    ld hl, $ff40            ; rLCDC
+    ld hl, rLCDC
     set 5, [hl]             ; Activer le Window (bit 5)
 
     ; --- 6. ResetScrollAndFlag ---
@@ -1123,7 +1123,7 @@ State11_LevelStart::
     ldh [rLYC], a
     ld a, $07
     ldh [rTAC], a
-    ld hl, $ff4a
+    ld hl, rWY              ; Window Y position
     ld [hl], $85
     inc l
     ld [hl], $60
@@ -1573,11 +1573,11 @@ CheckStartButtonForPause:
 
     ; --- CheckCanPause ---
     ldh a, [hGameState]          ; Lire game_state
-    cp $0e                  ; État >= $0E ?
+    cp GAME_STATE_DEMO      ; État >= $0E (démo) ?
     ret nc                  ; Oui → ne peut pas pauser
 
     ; --- TogglePause ---
-    ld hl, $ff40            ; HL = rLCDC
+    ld hl, rLCDC
     ldh a, [hPauseFlag]          ; Lire flag pause
     xor $01                 ; Toggle (0↔1)
     ldh [hPauseFlag], a          ; Sauvegarder
@@ -4754,7 +4754,7 @@ SwitchBankAndCallBank3Handler:
 
 TileE1CollisionHandler:
     ldh a, [hGameState]
-    cp $0e
+    cp GAME_STATE_DEMO      ; État >= $0E (démo) ?
     jp nc, BlockCollisionPropertyHandler
 
     jp TriggerBlockCollisionSound_TimerDispatch
@@ -5395,7 +5395,7 @@ ByteMatched:
 ; -----------------------------------------------------------------------------
 CheckPlayerSideCollision:
     ldh a, [hGameState]
-    cp $0e
+    cp GAME_STATE_DEMO      ; État >= $0E (démo) ?
     jr nc, NoCollisionFound
 
     ld de, $0701
@@ -5801,7 +5801,7 @@ State39_ClearOAMBuffer:
 
     ld [wSpecialState], a
     ldh [rTMA], a
-    ld hl, $ff4a
+    ld hl, rWY              ; Window Y position
     ld [hl], $8f
     inc hl
     ld [hl], $07
@@ -5861,7 +5861,7 @@ State3B_DecrementCounter:
     dec c
     jr nz, State3B_CopyWindowData
 
-    ld hl, $ff40
+    ld hl, rLCDC
     set 5, [hl]
     ld a, $a0
     ldh [hTimer1], a

@@ -2287,7 +2287,7 @@ FXDispatch_4:
     jr JoypadInputBit0Check
 
     ldh a, [hGameState]
-    cp $0d
+    cp GAME_STATE_GAMEPLAY  ; État $0D (gameplay actif) ?
     jp z, HandleJoypadInputDelay
 
     ld de, $c207
@@ -2383,7 +2383,7 @@ ValidateAndProcessGameState_CheckLock:
 InitializeSpriteTransferBuffer:
 InitializeSpriteTransferBuffer_CheckGameState:
     ldh a, [hGameState]
-    cp $0d
+    cp GAME_STATE_GAMEPLAY  ; État $0D (gameplay actif) ?
     ld b, $03
     jr z, InitializeSpriteTransferBuffer_SelectBValue
 
@@ -2434,7 +2434,7 @@ PaddingZone_003_4a41:
     ld c, $60
     inc e
     ldh a, [hGameState]
-    cp $0d
+    cp GAME_STATE_GAMEPLAY  ; État $0D (gameplay actif) ?
     jr nz, GameModeValueSelection
 
     ld c, $7a
