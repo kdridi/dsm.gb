@@ -159,7 +159,10 @@ def build_prompt(node: Node, state: ExplorerState) -> str:
 
 ## Ta mission
 
-1. **Lire le code** à cette adresse dans src/{bank_file}
+1. **Trouver le code** - Cherche dans les fichiers source .asm:
+   - Utilise grep pour trouver "SECTION.*{node.address}" ou le label dans src/{bank_file}
+   - Le fichier src/game.sym contient la table adresse→label si besoin
+   - **Privilégie les .asm** - ne lis le binaire (xxd) que pour reconstruire des zones de data mal désassemblées
 2. **Analyser** le code/données:
    - Si c'est du CODE: comprendre la logique, identifier les calls/jumps sortants
    - Si c'est une TABLE: identifier les entrées et leurs cibles
@@ -580,13 +583,6 @@ def explore_node(node: Node, state: ExplorerState, dry_run: bool = False) -> boo
         git_restore()
         return False
 
-    # Commit si changements
-    if git_has_changes():
-        if not git_commit(node):
-            git_restore()
-            return False
-        state.commits_since_push += 1
-
     # Parser les nouvelles références
     new_refs = parse_references_from_output(output)
     for ref in new_refs:
@@ -599,6 +595,16 @@ def explore_node(node: Node, state: ExplorerState, dry_run: bool = False) -> boo
     # Marquer comme visité
     state.visited.add(node.address)
     state.total_explored += 1
+
+    # Sauvegarder l'état AVANT le commit pour l'inclure
+    state.save(STATE_FILE)
+
+    # Commit si changements (inclut bfs_state.json)
+    if git_has_changes():
+        if not git_commit(node):
+            git_restore()
+            return False
+        state.commits_since_push += 1
 
     return True
 
@@ -692,9 +698,6 @@ def main():
                 if not args.dry_run and not args.no_push and state.commits_since_push >= args.push_every:
                     if git_push():
                         state.commits_since_push = 0
-
-            # Sauvegarder l'état après chaque nœud
-            state.save(STATE_FILE)
 
             # Petite pause entre les nœuds
             if not args.dry_run:
