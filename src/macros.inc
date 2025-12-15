@@ -436,7 +436,7 @@ ENDM
 ;   ld a, $ff
 ;   ld [wSpecialState], a
 ;   call InitGameState
-;   call CallBank3Handler
+;   call SwitchBankAndCallBank3Handler
 ; -----------------------------------------------------------------------------
 MACRO CheckSpecialStateAndReset
     ld a, [wSpecialState]
@@ -445,7 +445,7 @@ MACRO CheckSpecialStateAndReset
     ld a, SPECIAL_STATE_RESET
     ld [wSpecialState], a
     call InitGameState
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
 ENDM
 
 ; -----------------------------------------------------------------------------

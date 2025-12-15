@@ -1977,7 +1977,7 @@ CorruptedSection_4836:
     add b
     ld b, b
     ld b, b
-    jr nz, CallZeroEntry_48aa
+    jr nz, DataChainEntry_48aa
 
     jr nz, @+$62
 
@@ -2067,7 +2067,7 @@ ConditionalVramLoop_48a0:
     sbc h
     ld a, h
 
-CallZeroEntry_48aa:
+DataChainEntry_48aa:
     call z, $ce3c
     ld a, $ce
     ld a, $ce
@@ -4652,7 +4652,7 @@ PaddingZone_5354:
     rst $08
     ld [$cf56], sp
     ld c, $56
-    call nc, CallStub_StackInitVariant_A
+    call nc, AudioInitData_StackVariantA
     push de
     db $10
     ld [hl], $d7
@@ -4705,17 +4705,17 @@ PaddingZone_5354:
 
 JumpStub_5428:
     cp a
-    jr nc, CallStub_5436
+    jr nc, ConditionalProcessingRoutine_5436
 
     ccf
     inc [hl]
-    call CallStub_StackInitVariant_B
+    call AudioInitData_StackVariantB
     add hl, bc
     inc b
     scf
     call $3a55
 
-CallStub_5436:
+ConditionalProcessingRoutine_5436:
     call z, $3e55
     call ProcessDataValue_4055
     ld d, b

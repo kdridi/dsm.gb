@@ -2487,7 +2487,7 @@ StateHandler_07::
     and a
     jr z, .timerDone
 
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     ret
 
 
@@ -2858,7 +2858,7 @@ State1C_WaitTimerGameplay::
     xor a
     ld [wPlayerVarAB], a
     call UpdateAudio
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     ret
 
 
@@ -3059,7 +3059,7 @@ State22_ScrollCutscene::
     dec [hl]
 
 CutsceneAnimationContinuePath:
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     ret
 
 
@@ -3350,7 +3350,7 @@ State26_PrincessRising::
 UpdateAnimationFrame:
     ldh a, [hFrameCounter]
     and $01
-    jr nz, State26_CallBank3Handler
+    jr nz, State26_SwitchBankAndCallBank3Handler
 
     ld hl, $c212
     inc [hl]
@@ -3358,8 +3358,8 @@ UpdateAnimationFrame:
     cp $d0
     jr nc, State26_NextState
 
-State26_CallBank3Handler:
-    call CallBank3Handler
+State26_SwitchBankAndCallBank3Handler:
+    call SwitchBankAndCallBank3Handler
     ret
 
 
@@ -3496,7 +3496,7 @@ ClearOamBuffer_Loop:
     dec b
     jr nz, ClearOamBuffer_Loop
 
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     ld a, $98
     ldh [hCopyDstLow], a
     ld a, $a5
@@ -3569,7 +3569,7 @@ State2B_PrincessDescending::
     jr c, State2B_NextState
 
     dec [hl]
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     ret
 
 
@@ -3809,7 +3809,7 @@ CopySpriteDataToOam_Loop:
 ; Déplace sprite vers la gauche avec animation de marche
 ; ===========================================================================
 State30_WalkLeft::
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     ldh a, [hFrameCounter]
     ld b, a
     and $01
@@ -3871,7 +3871,7 @@ State31_HorizontalScroll::
 AnimateAndCallBank3:
     ld hl, wPlayerState
     call ToggleAnimFrame
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     ret
 
 ; --- Routine : setup écran final ---
@@ -4192,7 +4192,7 @@ State37_FinalSpriteAnimation::
     dec l
     ld [hl], $f0
     push hl
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     pop hl
     dec l
     ld [hl], $ff
@@ -4669,7 +4669,7 @@ State0C_PipeExitLeft::
 
 
 UpdatePipeAnimation:
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     ld a, [$c20a]
     and a
     jr z, State0C_ProcessAnimation
@@ -4723,7 +4723,7 @@ State0C_CheckOddFrame:
 ;; Pattern    : Save bank → Switch bank 3 → Call → Restore bank
 ;; Variables  : $FF8E=$0C, $FF8D=$C0, $FF8F=$05, HL=$C200
 ;; ==========================================================================
-CallBank3Handler:
+SwitchBankAndCallBank3Handler:
     ; --- SetupParameters ---
     ld a, $0c
     ldh [hParam2], a          ; Paramètre 1 = $0C
@@ -7307,7 +7307,7 @@ State0D_GameplayFull::
     ld [$2000], a
 
     ; Finalize
-    call CallBank3Handler
+    call SwitchBankAndCallBank3Handler
     call $515e                   ; Bank 1: final update
     call UpdatePlayerInvulnBlink  ; Clignotement invulnérabilité
 
@@ -11096,7 +11096,7 @@ AnimState_Dispatcher_01:
     db $f4
     ld [bc], a
 
-CallStub_StackInitVariant_A:
+AudioInitData_StackVariantA:
     nop
     db $e4
     ld hl, sp+$29
@@ -11259,7 +11259,7 @@ RawDataBlock_372b:
     rst $28
     rst $28
 
-CallStub_StackInitVariant_B:
+AudioInitData_StackVariantB:
     rst $28
     rst $28
     rst $28
