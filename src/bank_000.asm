@@ -8489,7 +8489,7 @@ GetAnimationDataPointer:
     sla e
     rl d
     add hl, de
-    ld de, $317d
+    ld de, ROM_OBJECT_SOUND_TABLE
     add hl, de
     ld a, [hl]
     pop hl
@@ -8499,7 +8499,7 @@ GetAnimationDataPointer:
     push hl
     ld [hl], a
     call InitSoundSlot
-    ld a, $ff
+    ld a, RETURN_COLLISION_FOUND
     pop hl
     ret
 
@@ -8516,7 +8516,7 @@ CheckObjectBottomCollision:
     sla e
     rl d
     add hl, de
-    ld de, $317d
+    ld de, ROM_OBJECT_SOUND_TABLE
     add hl, de
     inc hl
     ld a, [hl]
@@ -8526,7 +8526,7 @@ CheckObjectBottomCollision:
 
     ld [hl], a
     call InitSoundSlot
-    ld a, $ff
+    ld a, RETURN_COLLISION_FOUND
     ret
 
 
@@ -8542,7 +8542,7 @@ TriggerObjectSound:
     sla e
     rl d
     add hl, de
-    ld de, $317d
+    ld de, ROM_OBJECT_SOUND_TABLE
     add hl, de
     inc hl
     inc hl
@@ -8563,7 +8563,7 @@ TriggerObjectSound:
 DecrementObjectAnimationCounter:
     push hl
     ld a, l
-    add $0c
+    add OBJ_FIELD_ANIM_COUNTER
     ld l, a
     ld a, [hl]
     and ANIM_COUNTER_MASK
@@ -8574,20 +8574,20 @@ DecrementObjectAnimationCounter:
     ld [hl], a
     pop hl
     ld a, [hl]
-    cp $32
+    cp ANIM_COUNTER_TRIGGER_50
     jr z, AnimationObjectTriggerSound
 
-    cp $08
+    cp ANIM_COUNTER_TRIGGER_8
     jr z, AnimationObjectTriggerSound
 
     jr AnimationObjectSoundDone
 
 AnimationObjectTriggerSound:
-    ld a, $01
+    ld a, FLAG_TRUE
     ld [wStateVar10], a
 
 AnimationObjectSoundDone:
-    ld a, $fe
+    ld a, RETURN_ANIM_CONTINUE
     ret
 
 
@@ -8604,7 +8604,7 @@ AnimationCounterZero:
     sla e
     rl d
     add hl, de
-    ld de, $317d
+    ld de, ROM_OBJECT_SOUND_TABLE
     add hl, de
     inc hl
     inc hl
@@ -8616,14 +8616,14 @@ AnimationCounterZero:
 
     ld [hl], a
     call InitSoundSlot
-    ld a, $ff
+    ld a, RETURN_COLLISION_FOUND
     ret
 
 
 HandleGameplayObjectSound:
     push hl
     ld a, l
-    add $0c
+    add OBJ_FIELD_ANIM_COUNTER
     ld l, a
     ld a, [hl]
     and ANIM_COUNTER_MASK
@@ -8634,28 +8634,28 @@ HandleGameplayObjectSound:
     ld [hl], a
     pop hl
     ld a, [hl]
-    cp $1a
+    cp ANIM_COUNTER_TRIGGER_26
     jr z, GameplayObjectTriggerSound
 
-    cp $61
+    cp ANIM_COUNTER_TRIGGER_97
     jr z, GameplayObjectTriggerSound
 
-    cp $60
+    cp ANIM_COUNTER_TRIGGER_96
     jr z, GameplayObject60TriggerSound
 
     jr GameplayObjectSoundDone
 
 GameplayObject60TriggerSound:
-    ld a, $01
+    ld a, FLAG_TRUE
     ld [wStateFinal], a
     jr GameplayObjectSoundDone
 
 GameplayObjectTriggerSound:
-    ld a, $01
+    ld a, FLAG_TRUE
     ld [wStateVar10], a
 
 GameplayObjectSoundDone:
-    ld a, $fe
+    ld a, RETURN_ANIM_CONTINUE
     ret
 
 
@@ -8663,7 +8663,7 @@ GameplayCounterZero:
     pop hl
     push hl
     ld a, [hl]
-    cp $60
+    cp ANIM_COUNTER_TRIGGER_96
     jr nz, GameplayObject60NotFound
 
     ld [wAudioCondition], a
@@ -8679,7 +8679,7 @@ GameplayObject60NotFound:
     sla e
     rl d
     add hl, de
-    ld de, $317d
+    ld de, ROM_OBJECT_SOUND_TABLE
     add hl, de
     inc hl
     inc hl
@@ -8692,7 +8692,7 @@ GameplayObject60NotFound:
 
     ld [hl], a
     call InitSoundSlot
-    ld a, $ff
+    ld a, RETURN_COLLISION_FOUND
     ret
 
 
@@ -8708,7 +8708,7 @@ LoadAudioSlotConfiguration:
     sla e
     rl d
     add hl, de
-    ld de, $317d
+    ld de, ROM_OBJECT_SOUND_TABLE
     add hl, de
     inc hl
     inc hl
@@ -8721,7 +8721,7 @@ LoadAudioSlotConfiguration:
 
     ld [hl], a
     call InitSoundSlot
-    ld a, $ff
+    ld a, RETURN_COLLISION_FOUND
     ret
 
 

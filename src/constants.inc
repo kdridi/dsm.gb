@@ -1265,3 +1265,24 @@ DEF STATE_FINAL_COMPLETE       EQU $02   ; État final: transition complète
 ; === Offsets mouvement/ajustement ===
 
 DEF MOVEMENT_OFFSET_4          EQU $04   ; Offset mouvement (4 pixels)
+
+; === Tables ROM Audio/Objets ===
+
+DEF ROM_OBJECT_SOUND_TABLE     EQU $317d ; Table sons objets (5 octets/entrée)
+
+; === Valeurs de retour spéciales ===
+
+DEF RETURN_COLLISION_FOUND     EQU $ff   ; Collision détectée (retour fonction)
+DEF RETURN_ANIM_CONTINUE       EQU $fe   ; Animation en cours (retour fonction)
+
+; === Seuils animation objets ===
+
+DEF ANIM_COUNTER_TRIGGER_50    EQU $32   ; Seuil déclencheur animation (50)
+DEF ANIM_COUNTER_TRIGGER_8     EQU $08   ; Seuil déclencheur animation (8)
+DEF ANIM_COUNTER_TRIGGER_26    EQU $1a   ; Seuil déclencheur animation (26)
+DEF ANIM_COUNTER_TRIGGER_97    EQU $61   ; Seuil déclencheur animation (97)
+DEF ANIM_COUNTER_TRIGGER_96    EQU $60   ; Seuil déclencheur animation (96)
+
+; === Offset structure objet ===
+
+DEF OBJ_FIELD_ANIM_COUNTER     EQU $0c   ; Offset vers compteur animation (12 octets)
