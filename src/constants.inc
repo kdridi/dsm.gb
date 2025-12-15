@@ -541,3 +541,12 @@ DEF ANIM_TILE_W3_L2     EQU $32 ; Monde 3, Niveau 2
 DEF ANIM_TILE_W3_L3     EQU $33 ; Monde 3, Niveau 3
 DEF ANIM_TILE_W4_L1     EQU $41 ; Monde 4, Niveau 1
 DEF ANIM_TILE_W4_L2     EQU $42 ; Monde 4, Niveau 2
+
+; === Commandes/tokens tilemap ===
+; Valeurs spéciales dans les données tilemap qui déclenchent des comportements
+
+DEF TILEMAP_CMD_SKIP    EQU $FD ; Marqueur skip/continuation (pas de copie tile)
+DEF TILEMAP_CMD_SCROLL  EQU $70 ; Déclenche mise à jour scrolling
+DEF TILEMAP_CMD_LOAD1   EQU $80 ; Charge tilemap niveau (type 1)
+DEF TILEMAP_CMD_LOAD2   EQU $5F ; Charge tilemap niveau (type 2)
+DEF TILEMAP_CMD_LOAD3   EQU $81 ; Charge tilemap niveau (type 3)

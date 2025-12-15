@@ -6903,34 +6903,34 @@ TilemapDataNibbleNonZero:
 
 TilemapDataCopyStart:
     ld a, [hl+]
-    cp $fd
+    cp TILEMAP_CMD_SKIP
     jr z, TilemapDataCopyLoop
 
     ld [de], a
-    cp $70
+    cp TILEMAP_CMD_SCROLL
     jr nz, TilemapDataNotScrollUpdate
 
     call UpdateTilemapScrolling
     jr ProcessColumnAnimation_End
 
 TilemapDataNotScrollUpdate:
-    cp $80
+    cp TILEMAP_CMD_LOAD1
 
 ProcessColumnAnimation:
-    jr nz, .not_5e
+    jr nz, .not_load1
 
     call LoadLevelTilemap
     jr ProcessColumnAnimation_End
 
-.not_5e:
-    cp $5f
-    jr nz, .not_5f
+.not_load1:
+    cp TILEMAP_CMD_LOAD2
+    jr nz, .not_load2
 
     call LoadLevelTilemap
     jr ProcessColumnAnimation_End
 
-.not_5f:
-    cp $81
+.not_load2:
+    cp TILEMAP_CMD_LOAD3
     call z, LoadLevelTilemap
 
 ProcessColumnAnimation_End:
