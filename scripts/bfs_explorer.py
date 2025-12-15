@@ -27,7 +27,6 @@ from typing import Set, List, Optional
 from enum import Enum
 
 # Configuration
-CLAUDE_TIMEOUT = 300  # 5 minutes
 CLAUDE_MODEL = "sonnet"  # Alias pour la dernière version de Sonnet
 STATE_FILE = "scripts/bfs_state.json"
 PUSH_EVERY = 5  # Push tous les N commits
@@ -227,7 +226,7 @@ def stream_output(pipe, prefix: str, color: str = ""):
             sys.stdout.flush()
 
 
-def run_claude_streaming(prompt: str, timeout: int = CLAUDE_TIMEOUT) -> tuple[bool, str]:
+def run_claude_streaming(prompt: str) -> tuple[bool, str]:
     """Lance Claude avec streaming de l'output en temps réel."""
 
     cmd = [
@@ -239,7 +238,7 @@ def run_claude_streaming(prompt: str, timeout: int = CLAUDE_TIMEOUT) -> tuple[bo
         "--output-format", "stream-json"
     ]
 
-    print(f"\n🤖 [CLAUDE] Lancement avec timeout {timeout}s...")
+    print(f"\n🤖 [CLAUDE] Lancement...")
     print("─" * 60)
 
     full_text = []
@@ -266,14 +265,7 @@ def run_claude_streaming(prompt: str, timeout: int = CLAUDE_TIMEOUT) -> tuple[bo
         stderr_thread.start()
 
         # Lire stdout en temps réel (stream-json)
-        start_time = time.time()
         while True:
-            if time.time() - start_time > timeout:
-                print(f"\n⏰ [CLAUDE] TIMEOUT après {timeout}s - arrêt forcé")
-                process.kill()
-                process.wait()
-                return False, "TIMEOUT"
-
             line = process.stdout.readline()
             if not line:
                 if process.poll() is not None:
