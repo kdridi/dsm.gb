@@ -9359,24 +9359,24 @@ jr_003_69ee:
 
 jr_003_6a32:
     ld hl, $69f6
-    jr jr_003_6a49
+    jr ChannelInitDispatcher
 
 jr_003_6a37:
     ld hl, $69fb
-    jr jr_003_6a49
+    jr ChannelInitDispatcher
 
 jr_003_6a3c:
     ld hl, $6a00
-    jr jr_003_6a49
+    jr ChannelInitDispatcher
 
 jr_003_6a41:
     ld hl, $6a05
-    jr jr_003_6a49
+    jr ChannelInitDispatcher
 
 jr_003_6a46:
     ld hl, $6a0a
 
-jr_003_6a49:
+ChannelInitDispatcher:
     jp InitSquareChannel1
 
 
@@ -9502,32 +9502,32 @@ jr_003_6ad8:
     push bc
     ld c, $10
     ld b, $05
-    jr jr_003_6af2
+    jr AudioRegisterTransferLoop
 
 ConfigureAudioBgm:
     push bc
     ld c, $16
     ld b, $04
-    jr jr_003_6af2
+    jr AudioRegisterTransferLoop
 
 ConfigureAudioWave:
 jr_003_6ae6:
     push bc
     ld c, $1a
     ld b, $05
-    jr jr_003_6af2
+    jr AudioRegisterTransferLoop
 
 jr_003_6aed:
     push bc
     ld c, $20
     ld b, $04
 
-jr_003_6af2:
+AudioRegisterTransferLoop:
     ld a, [hl+]
     ldh [c], a
     inc c
     dec b
-    jr nz, jr_003_6af2
+    jr nz, AudioRegisterTransferLoop
 
     pop bc
     ret
