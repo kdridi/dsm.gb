@@ -632,48 +632,48 @@ StateJumpTable:
     dw State0F_LevelSelect     ; État $0F - Menu sélection
     dw State10_Noop            ; État $10 - Vide (placeholder)
     dw State11_LevelStart      ; État $11 - Démarrage niveau
-    dw $3d8e    ; État $12 - State12_EndLevelSetup
-    dw $3dce    ; État $13 - State13_DrawEndBorder
+    dw State12_EndLevelSetup       ; État $12 - Setup fin de niveau
+    dw State13_DrawEndBorder       ; État $13 - Dessin bordure fin
     dw $5832    ; État $14 - (Bank 1, zone données)
     dw $5835    ; État $15 - (Bank 1, zone données)
-    dw $3e9e    ; État $16 - State16_CopyTilemapData
+    dw State16_CopyTilemapData     ; État $16 - Copie données tilemap
     dw $5838    ; État $17 - (Bank 1, zone données)
     dw $583b    ; État $18 - (Bank 1, zone données)
     dw $583e    ; État $19 - (Bank 1, zone données)
     dw $5841    ; État $1A - (Bank 1, zone données)
-    dw $0df0    ; État $1B - State1B_BonusComplete
-    dw $0e0c    ; État $1C - State1C_WaitTimerGameplay
-    dw $0e28    ; État $1D - State1D_SetupVRAMPointer
-    dw $0e54    ; État $1E - State1E_ClearTilemapColumn
-    dw $0e8d    ; État $1F - State1F_EnableVBlankMode
-    dw $0ea0    ; État $20 - State20_WaitPlayerPosition
-    dw $0ec4    ; État $21 - State21_SetupEndCutscene
-    dw $0f09    ; État $22 - State22_ScrollCutscene
-    dw $0f2a    ; État $23 - State23_WalkToDoor
-    dw $0f61    ; État $24 - State24_DisplayText
-    dw $0ff4    ; État $25 - State25_SpriteBlinkAnimation
-    dw $104c    ; État $26 - State26_PrincessRising
-    dw $1090    ; État $27 - State27_PlayerOscillation
-    dw $0ea0    ; État $28 - (= État $20)
-    dw $110d    ; État $29
-    dw $115c    ; État $2A
-    dw $118b    ; État $2B
-    dw $11c7    ; État $2C
-    dw $1212    ; État $2D
-    dw $124b    ; État $2E
-    dw $1298    ; État $2F
-    dw $12b9    ; État $30
-    dw $12e8    ; État $31
-    dw $1385    ; État $32
-    dw $13e7    ; État $33
-    dw $1438    ; État $34
-    dw $1451    ; État $35
-    dw $145d    ; État $36
-    dw $147f    ; État $37
-    dw $14d3    ; État $38
-    dw $1c73    ; État $39
-    dw $1cdf    ; État $3A
-    dw $1ce7    ; État $3B
+    dw $0df0    ; État $1B - (label décalé, garder adresse)
+    dw State1C_WaitTimerGameplay   ; État $1C - Attente timer gameplay
+    dw State1D_SetupVRAMPointer    ; État $1D - Setup pointeur VRAM
+    dw State1E_ClearTilemapColumn  ; État $1E - Clear colonne tilemap
+    dw State1F_EnableVBlankMode    ; État $1F - Active mode VBlank
+    dw State20_WaitPlayerPosition  ; État $20 - Attente position joueur
+    dw State21_SetupEndCutscene    ; État $21 - Setup cutscene fin
+    dw State22_ScrollCutscene      ; État $22 - Scroll cutscene
+    dw State23_WalkToDoor          ; État $23 - Marche vers porte
+    dw State24_DisplayText         ; État $24 - Affichage texte
+    dw State25_SpriteBlinkAnimation ; État $25 - Animation clignotante
+    dw State26_PrincessRising      ; État $26 - Princesse montante
+    dw State27_PlayerOscillation   ; État $27 - Oscillation joueur
+    dw State20_WaitPlayerPosition  ; État $28 - (= État $20)
+    dw State29_SetupEndScreen      ; État $29 - Setup écran fin
+    dw State2A_DisplayEndText      ; État $2A - Affichage texte fin
+    dw State2B_PrincessDescending  ; État $2B - Princesse descendante
+    dw State2C_SpriteOscillation   ; État $2C - Oscillation sprite
+    dw State2D_DisplayText2        ; État $2D - Affichage texte 2
+    dw State2E_DuoAnimation        ; État $2E - Animation duo
+    dw State2F_TransferSpriteData  ; État $2F - Transfert données sprite
+    dw State30_WalkLeft            ; État $30 - Marche gauche
+    dw State31_HorizontalScroll    ; État $31 - Scroll horizontal
+    dw State32_CreditsScroll       ; État $32 - Scroll crédits
+    dw State33_DisplayCreditsText  ; État $33 - Affichage texte crédits
+    dw State34_WaitCreditsCounter  ; État $34 - Attente compteur crédits
+    dw State35_WaitTimer           ; État $35 - Attente timer
+    dw State36_CreditsFinalTransition ; État $36 - Transition finale crédits
+    dw State37_FinalSpriteAnimation ; État $37 - Animation sprite finale
+    dw State38_CreditsAnimation    ; État $38 - Animation crédits
+    dw State39_GameOver            ; État $39 - Game Over
+    dw $1cdf    ; État $3A - (label décalé, garder adresse)
+    dw State3B_WindowSetup         ; État $3B - Setup window
 
 ; === Données non référencées ($031E-$0321) ===
 ; Peut-être du padding ou des données obsolètes
