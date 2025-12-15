@@ -248,7 +248,7 @@
 - [x] Découverte: Tous renommés (1200+ labels, 5 commits initiaux)
 - [x] Stratégie confirmée: `jr_*` → `SkipPadding_*` → `UnknownCode_*` (progressive)
 - [x] Renommages supplémentaires post-audit: 29 labels (TableContinuation/DispatchData/Padding/UnknownData → noms explicites)
-- [x] 376 `UnknownCode_*` restants (Banks 002/003) = padding/données désassemblées
+- [x] 358 `UnknownCode_*` restants (Banks 002/003) = padding/données désassemblées
 - [x] Compilation: HASH VERIFIED ✅
 
 **Détails** : Voir `analysis-session-20251215.md`
@@ -257,7 +257,21 @@
 1. Audit de la situation (c5bd5a6, 14520dc)
 2. Renommages post-audit (c9b5d57, 8b9ca05, ac7b625, 8ca06b5) - 29 labels
 
-**Prochaines étapes** : Phase 5b/6 (exploration progressive, non urgent)
+### Status: 7.1 - Padding Zones ✅
+*Complété le 2025-12-15*
+
+- [x] Identifier padding zones (nop/dummy instructions)
+- [x] Renommer 17 padding zones → `PaddingZone_*` (Banks 002/003)
+- [x] Compilation: HASH VERIFIED ✅
+
+**Commits**:
+1. [ROADMAP-702] 17 padding zones renommées (8a796c2)
+
+**État**: 341 `UnknownCode_*` restants (misdisassembled data tables, non urgent)
+
+**Prochaines étapes** :
+- Phase 5b/6 (exploration progressive, structures de données)
+- Phase 7.2 (renommages progressifs contextuels, si pertinent)
 
 ### Bank 0 (~500 labels)
 
