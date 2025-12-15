@@ -361,12 +361,12 @@ Jump_001_4146:
     rlca
     inc bc
 
-jr_001_4181:
+LoopCarryClearBit_4181:
     inc bc
     cp a
     ld hl, $3ebe
     or b
-    jr nc, jr_001_4181
+    jr nc, LoopCarryClearBit_4181
 
     ld a, b
     add b
@@ -492,7 +492,7 @@ jr_001_4181:
     db $10
     db $10
     add hl, de
-    jr jr_001_4228
+    jr RotationDataEntry_4228
 
     ld b, $f6
     or $fd
@@ -500,7 +500,7 @@ jr_001_4181:
     push af
     rla
 
-jr_001_4228:
+RotationDataEntry_4228:
     db $fd
     rrca
     ld [$ea1e], a
@@ -905,9 +905,9 @@ UpdateStateCounter:
     ld [hl], $27
     jr nz, @+$31
 
-    jr nz, jr_001_4416
+    jr nz, RstMarker_4416
 
-    jr nz, jr_001_4417
+    jr nz, RstMarkerBlock_4417
 
     ld hl, $333c
     jr ContinueProcessing_43fd
@@ -960,10 +960,10 @@ ReturnIfZero_4408:
     rst $38
     ld a, [hl]
 
-jr_001_4416:
+RstMarker_4416:
     rst $38
 
-jr_001_4417:
+RstMarkerBlock_4417:
     rst $38
     rst $38
     rst $38
@@ -1059,7 +1059,7 @@ jr_001_4417:
     ld [$101f], sp
     ld e, $10
     inc a
-    jr nz, jr_001_44ce
+    jr nz, DataPaddingWithRst_44ce
 
     ccf
     jr nz, Return_IfNotZero_001_44b2
@@ -1122,7 +1122,7 @@ Return_IfNotZero_001_44b2:
     db $10
     db $10
 
-jr_001_44ce:
+DataPaddingWithRst_44ce:
     inc c
     inc c
     inc bc
@@ -1510,16 +1510,16 @@ JumpTarget_IfNotCarry:
     nop
     nop
     nop
-    jr jr_001_4669
+    jr RstDataChain_4669
 
-jr_001_4669:
+RstDataChain_4669:
     inc h
     nop
     inc h
     nop
-    jr jr_001_466f
+    jr RstDataBlock_466f
 
-jr_001_466f:
+RstDataBlock_466f:
     nop
     nop
     nop
@@ -1536,29 +1536,29 @@ jr_001_466f:
     nop
     nop
     rst $20
-    jr jr_001_4681
+    jr RstChainLink1_4681
 
-jr_001_4681:
+RstChainLink1_4681:
     nop
     rst $20
-    jr jr_001_4685
+    jr RstChainLink2_4685
 
-jr_001_4685:
+RstChainLink2_4685:
     nop
     rst $20
-    jr jr_001_4689
+    jr RstChainLink3_4689
 
-jr_001_4689:
+RstChainLink3_4689:
     nop
     rst $20
-    jr jr_001_468d
+    jr RstChainLink4_468d
 
-jr_001_468d:
+RstChainLink4_468d:
     nop
     rst $20
-    jr jr_001_4691
+    jr RstChainEnd_4691
 
-jr_001_4691:
+RstChainEnd_4691:
     nop
     add b
     nop
@@ -1577,9 +1577,9 @@ jr_001_4691:
     add b
     nop
     nop
-    jr nz, jr_001_46a5
+    jr nz, ConditionalLoadSequence_46a5
 
-jr_001_46a5:
+ConditionalLoadSequence_46a5:
     ld d, b
     nop
     sub b
@@ -1978,7 +1978,7 @@ jr_001_4836:
     add b
     ld b, b
     ld b, b
-    jr nz, jr_001_48aa
+    jr nz, CallZeroEntry_48aa
 
     jr nz, @+$62
 
@@ -2057,18 +2057,18 @@ jr_001_4836:
     ld e, b
     ld h, b
 
-jr_001_48a0:
+ConditionalVramLoop_48a0:
     ld e, c
     ld h, b
     nop
     nop
     ldh [hVramPtrLow], a
-    jr c, jr_001_48a0
+    jr c, ConditionalVramLoop_48a0
 
     sbc h
     ld a, h
 
-jr_001_48aa:
+CallZeroEntry_48aa:
     call z, $ce3c
     ld a, $ce
     ld a, $ce
@@ -2281,9 +2281,9 @@ jr_001_4918:
     ld [hl], b
     ld l, a
     ld [hl], b
-    jr nz, jr_001_49d9
+    jr nz, PopHlStoreC_49d9
 
-    jr nc, jr_001_49db
+    jr nc, PopDualAndRst_49db
 
     rra
     rra
@@ -2342,11 +2342,11 @@ Jump_001_49d1:
     ld [hl], c
     ld [hl], c
 
-jr_001_49d9:
+PopHlStoreC_49d9:
     pop hl
     ld [hl], c
 
-jr_001_49db:
+PopDualAndRst_49db:
     pop hl
     pop hl
     rst $38
@@ -2376,17 +2376,17 @@ jr_001_49db:
     ccf
     inc h
     ccf
-    jr z, jr_001_4a3e
+    jr z, DataLoadBranch_4a3e
 
-    jr z, jr_001_4a40
+    jr z, AdcDataPoint_4a40
 
-    jr z, jr_001_4a03
+    jr z, ConditionalDispatchPoint_4a03
 
-jr_001_4a03:
+ConditionalDispatchPoint_4a03:
     nop
     nop
     nop
-    jr nc, jr_001_4a38
+    jr nc, DataLoadTable_4a38
 
     ld [hl], c
     ld d, c
@@ -2435,7 +2435,7 @@ jr_001_4a03:
     ld a, [hl]
     ld a, [hl]
 
-jr_001_4a38:
+DataLoadTable_4a38:
     ld c, [hl]
     ld c, [hl]
     ld l, [hl]
@@ -2443,11 +2443,11 @@ jr_001_4a38:
     ld c, a
     ld c, e
 
-jr_001_4a3e:
+DataLoadBranch_4a3e:
     cp a
     or b
 
-jr_001_4a40:
+AdcDataPoint_4a40:
     adc a
     adc c
     nop
