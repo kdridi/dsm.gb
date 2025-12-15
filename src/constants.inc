@@ -557,6 +557,7 @@ DEF LCDC_GAME_STANDARD  EQU $C3
 DEF LYC_TOP_SCREEN      EQU $0F ; Ligne 15, haut écran (après HUD)
 DEF WY_WINDOW_DONE      EQU $40 ; Position finale window (ligne 64)
 DEF LY_WINDOW_MAX       EQU $87 ; Ligne max pour animation window (135)
+DEF LYC_SCANLINE_STRIDE EQU $08 ; Stride scanline (8 lignes = 1 tile)
 
 ; === Dimensions tilemap ===
 

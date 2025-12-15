@@ -276,7 +276,7 @@ LCDStat_CheckCarryExit:
     jr nc, LCDStatHandler_Exit  ; Oui → ne pas changer LYC
 
 LCDStatHandler_UpdateLYC:
-    add $08                     ; Prochaine ligne LYC
+    add LYC_SCANLINE_STRIDE     ; Prochaine ligne LYC (+8 = 1 tile)
 
 ;; Point d'entrée public : écrit A dans rLYC et wGameConfigA5
 LCDStat_SetLYC:
@@ -641,7 +641,7 @@ StateJumpTable:
     dw $583b    ; État $18 - (Bank 1, zone données)
     dw $583e    ; État $19 - (Bank 1, zone données)
     dw $5841    ; État $1A - (Bank 1, zone données)
-    dw $0df0    ; État $1B - (label décalé, garder adresse)
+    dw $0df0    ; État $1B - (décalé d'1 byte par rapport à State1B_BonusComplete)
     dw State1C_WaitTimerGameplay   ; État $1C - Attente timer gameplay
     dw State1D_SetupVRAMPointer    ; État $1D - Setup pointeur VRAM
     dw State1E_ClearTilemapColumn  ; État $1E - Clear colonne tilemap
@@ -672,7 +672,7 @@ StateJumpTable:
     dw State37_FinalSpriteAnimation ; État $37 - Animation sprite finale
     dw State38_CreditsAnimation    ; État $38 - Animation crédits
     dw State39_GameOver            ; État $39 - Game Over
-    dw $1cdf    ; État $3A - (label décalé, garder adresse)
+    dw $1cdf    ; État $3A - (décalé de 4 bytes par rapport à State3A_WindowUpdate)
     dw State3B_WindowSetup         ; État $3B - Setup window
 
 ; === Données non référencées ($031E-$0321) ===
