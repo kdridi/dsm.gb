@@ -3588,8 +3588,13 @@ DoorPositionCalculationPath:
     jr CutsceneAnimationContinuePath
 
 ; ===========================================================================
-; État $24 - Affichage texte cutscene ($0F61)
-; Affiche le texte depuis TextData_ThankYou caractère par caractère
+; State24_DisplayText
+; -------------------
+; Description: Affiche le texte "THANK YOU MARIO! ♥OH! DAISY" caractère par caractère
+;              puis passe à l'état suivant quand le texte est entièrement affiché
+; In:  -
+; Out: a = TEXT_CMD_END si texte terminé, autre sinon
+; Modifie: a, hl
 ; ===========================================================================
 State24_DisplayText::
     ld hl, TextData_ThankYou
@@ -3609,7 +3614,13 @@ State24_DisplayText::
     ld [wStateRender], a
     ret
 
-; --- Routine : écrit un caractère de texte en VRAM ---
+; WriteCharToVRAM
+; ---------------
+; Description: Écrit un caractère de texte en VRAM, gère les commandes spéciales
+;              (saut de ligne, fin de texte) et incrémente la position de lecture
+; In:  hl = pointeur vers table de texte
+; Out: a = caractère lu (TEXT_CMD_END, TEXT_CMD_NEWLINE ou tile)
+; Modifie: a, bc, de, hl
 WriteCharToVRAM:
     ldh a, [hTimer1]
     and a
