@@ -1719,6 +1719,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0F1D",
+      "node_type": "code",
+      "description": "CutsceneAnimationContinuePath - Continue animation cutscene",
+      "source": "$0F2A",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1782,6 +1790,7 @@
     "$04A2",
     "$0B84",
     "$4000:1",
+    "$0F2A",
     "$04C3",
     "$0BEA",
     "$0D30",
@@ -1812,6 +1821,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 3,
-  "total_explored": 89
+  "commits_since_push": 4,
+  "total_explored": 90
 }

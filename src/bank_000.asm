@@ -3546,8 +3546,14 @@ CutsceneEndPath:
 
 ; ===========================================================================
 ; État $23 - Animation joueur vers porte ($0F2A)
-; Simule input droite, anime le joueur, calcule position VRAM destination
 ; ===========================================================================
+; State23_WalkToDoor
+; ------------------
+; Description: Simule input droite pour faire marcher le joueur vers la porte,
+;              anime le sprite, et calcule la position VRAM de destination
+; In:  -
+; Out: -
+; Modifie: a, b, hl
 State23_WalkToDoor::
     ld a, PADF_RIGHT
     ldh [hJoypadState], a
