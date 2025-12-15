@@ -12462,23 +12462,23 @@ State13_DrawEndBorder::
     xor a
     ldh [rLCDC], a
     ld hl, VRAM_BG_BASE
-    ld a, $f5
+    ld a, TILE_BORDER_TOP_LEFT
     ld [hl+], a
     ld b, TEXT_LINE_WIDTH
-    ld a, $9f
+    ld a, TILE_BORDER_HORIZONTAL
 
 FillBorderRow:
     ld [hl+], a
     dec b
     jr nz, FillBorderRow
 
-    ld a, $fc
+    ld a, TILE_BORDER_TOP_RIGHT
     ld [hl], a
     ld de, TILEMAP_STRIDE
     ld l, e
-    ld b, $10
-    ld c, $02
-    ld a, $f8
+    ld b, BORDER_COLUMN_HEIGHT
+    ld c, BORDER_COLUMN_COUNT
+    ld a, TILE_BORDER_VERTICAL
 
 FillBorderColumn:
     ld [hl], a
@@ -12489,24 +12489,24 @@ FillBorderColumn:
     ld l, $33
     dec h
     dec h
-    ld b, $10
+    ld b, BORDER_COLUMN_HEIGHT
     dec c
     jr nz, FillBorderColumn
 
-    ld hl, $9a20
-    ld a, $ff
+    ld hl, VRAM_BORDER_BOTTOM_ROW
+    ld a, TILE_BORDER_BOTTOM_LEFT
     ld [hl+], a
     ld b, TEXT_LINE_WIDTH
-    ld a, $9f
+    ld a, TILE_BORDER_HORIZONTAL
 
 FillBorderRow_2:
     ld [hl+], a
     dec b
     jr nz, FillBorderRow_2
 
-    ld a, $e9
+    ld a, TILE_BORDER_BOTTOM_RIGHT
     ld [hl], a
-    ld hl, $9845
+    ld hl, VRAM_END_TEXT_ROW1
     ld a, $0b
     ld [hl+], a
     ld a, $18
@@ -12526,8 +12526,8 @@ FillBorderRow_2:
     ld [hl+], a
     ld a, $0e
     ld [hl], a
-    ld hl, $9887
-    ld a, $e4
+    ld hl, VRAM_END_TEXT_ROW2
+    ld a, TILE_CREDITS_SPECIAL
     ld [hl+], a
     inc l
     ld a, TILE_TEXT_CORNER
@@ -12597,7 +12597,7 @@ SkipFrames:
     dec a
     jr nz, SkipFrames
 
-    ld hl, $98d2
+    ld hl, VRAM_END_COPY_START
     ld bc, $0060
 
 CopyToBackBuffer:

@@ -504,6 +504,12 @@ DEF VRAM_CREDITS_ROW2       EQU $9a87   ; Tilemap ligne 2 crédits
 DEF VRAM_CREDITS_LIMIT1     EQU $54     ; Limite colonne VRAM (fin ligne 1)
 DEF VRAM_CREDITS_LIMIT2     EQU $93     ; Limite colonne VRAM (fin ligne 2)
 
+; --- VRAM Écran fin (State13_DrawEndBorder) ---
+DEF VRAM_BORDER_BOTTOM_ROW  EQU $9a20   ; Ligne bas bordure écran fin
+DEF VRAM_END_TEXT_ROW1      EQU $9845   ; Ligne texte 1 écran fin (PUSH GAME)
+DEF VRAM_END_TEXT_ROW2      EQU $9887   ; Ligne texte 2 écran fin
+DEF VRAM_END_COPY_START     EQU $98d2   ; Début copie données écran fin
+
 ; === Tiles spéciaux ===
 
 DEF TILE_EMPTY          EQU $2C   ; Tile vide/espace (fond, leading zero)
@@ -523,6 +529,19 @@ DEF TILE_HUD_WORLD_R    EQU $4D   ; Lettre "R" de WORLD
 DEF TILE_TEXT_CORNER    EQU $2B   ; Coin de bordure texte (angle)
 DEF TILE_TEXT_FILL      EQU $2D   ; Remplissage bordure texte (ligne)
 DEF TEXT_LINE_WIDTH     EQU $12   ; Largeur ligne texte (18 tiles)
+
+; --- Tiles bordure écran fin (State13_DrawEndBorder) ---
+DEF TILE_BORDER_TOP_LEFT     EQU $f5   ; Coin supérieur gauche bordure
+DEF TILE_BORDER_HORIZONTAL   EQU $9f   ; Bordure horizontale
+DEF TILE_BORDER_TOP_RIGHT    EQU $fc   ; Coin supérieur droit bordure
+DEF TILE_BORDER_VERTICAL     EQU $f8   ; Bordure verticale
+DEF TILE_BORDER_BOTTOM_LEFT  EQU $ff   ; Coin inférieur gauche bordure
+DEF TILE_BORDER_BOTTOM_RIGHT EQU $e9   ; Coin inférieur droit bordure
+DEF TILE_CREDITS_SPECIAL     EQU $e4   ; Tile spécial ligne crédits
+
+; --- Dimensions bordure écran fin ---
+DEF BORDER_COLUMN_HEIGHT     EQU $10   ; Hauteur colonne bordure (16 tiles)
+DEF BORDER_COLUMN_COUNT      EQU $02   ; Nombre de colonnes bordure (2)
 
 ; --- Animation structures ---
 DEF ANIM_STRUCT_STRIDE  EQU $10   ; Taille structure animation (16 octets)
