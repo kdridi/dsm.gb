@@ -600,6 +600,7 @@ DEF LYC_SCANLINE_STRIDE EQU $08 ; Stride scanline (8 lignes = 1 tile)
 ; === Dimensions tilemap ===
 
 DEF TILE_SIZE_PIXELS    EQU $08 ; 8 pixels = 1 tile (dimensions standard Game Boy)
+DEF TILE_ALIGN_MASK     EQU $f8 ; Masque alignement tile (efface bits 0-2)
 DEF TILEMAP_ROW_WIDTH   EQU $14 ; 20 tiles = largeur écran visible (160px / 8px)
 DEF TILEMAP_STRIDE      EQU $20 ; 32 tiles = largeur complète tilemap (256px / 8px)
 DEF TILEMAP_COLUMN_MASK EQU $1f ; Masque colonnes tilemap (TILEMAP_STRIDE - 1)

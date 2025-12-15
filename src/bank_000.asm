@@ -5455,7 +5455,7 @@ HandlePlayerSlideCollision:
     add $18
     ldh [hVBlankSelector], a
     ld a, [hl]
-    and $f8
+    and TILE_ALIGN_MASK          ; Aligner sur tile (8 pixels)
     add $06
     ld [hl], a
     call ClearOamAndSpriteBuffers
@@ -7580,7 +7580,7 @@ PlaySound:
     ld hl, wAudioBuffer
     ld [hl], a
     ldh a, [hSoundParam1]
-    and $f8
+    and TILE_ALIGN_MASK          ; Aligner sur tile (8 pixels)
     add $07
     ld [wAudioBufVar2], a
     ldh a, [hSoundParam2]
@@ -7828,7 +7828,7 @@ ProcessSoundAnimationLoop:
 
 SoundAnimClearParam1:
     ldh a, [hSoundParam1]
-    and $f8
+    and TILE_ALIGN_MASK          ; Aligner sur tile (8 pixels)
     ldh [hSoundParam1], a
 
 SoundAnimUpdateVar2:
