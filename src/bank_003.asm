@@ -4396,7 +4396,7 @@ AudioParam_Set_4:
 
 AudioDataRaw_003_5319:
     cp $c4
-    jr c, DataZone_003_5358
+    jr c, GfxData_TileSheet
 
     ld h, c
     ld h, c
@@ -4446,7 +4446,7 @@ AudioDataRaw_003_5319:
     ld h, b
     cp $e2
 
-DataZone_003_5358:
+GfxData_TileSheet:
     db $fd
     ld h, c
     cp $b5
@@ -4921,7 +4921,7 @@ DataZone_003_551f:
     ld h, c
     ld h, c
     cp $97
-    jr c, DataZone_003_55f1
+    jr c, GfxData_SpriteFrames
 
     ld a, $41
     ld b, h
@@ -4972,7 +4972,7 @@ DataZone_003_551f:
     add c
     ld d, d
 
-DataZone_003_55f1:
+GfxData_SpriteFrames:
     db $f4
     ld a, a
     ldh [c], a

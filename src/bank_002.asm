@@ -3400,7 +3400,7 @@ PaddingZone_002_4d82:
     ld h, d
     jr nz, ReturnFromInterrupt_002_4e50
 
-    jr nz, DataZone_002_4e52
+    jr nz, UnreachableCode_PostInterrupt
 
     ld a, $3e
     ld h, e
@@ -3436,7 +3436,7 @@ ReturnFromInterrupt_002_4e50:
 
     add a
 
-DataZone_002_4e52:
+UnreachableCode_PostInterrupt:
     inc a
     inc a
     ld b, d
@@ -3551,7 +3551,7 @@ PaddingZone_002_4eae:
 
     jr AudioDispatchEntry_4ede
 
-    jr c, DataZone_002_4f00
+    jr c, GfxData_Tiles
 
     ld hl, sp-$08
     ldh a, [hCurrentTile]
@@ -3603,7 +3603,7 @@ AudioDispatchEntry_4ede:
     jp $c3ff
 
 
-DataZone_002_4f00:
+GfxData_Tiles:
     ld a, [hl]
     ld a, [hl]
     db $10
@@ -6212,13 +6212,13 @@ AnimationDispatch_SetAndJump:
     cp $80
     jr z, AnimationDispatch_SelectPalette
 
-    jr SpriteAnimation_002_59a5
+    jr SpriteAnimationDispatchEntry
 
 AnimationDispatch_SelectPalette:
     call AddScore
 
 ProcessSpriteAnimation:
-SpriteAnimation_002_59a5:
+SpriteAnimationDispatchEntry:
     ld hl, $c030
 
 SpriteAnimationDispatch_ByType:
@@ -6553,7 +6553,7 @@ AnimationFrameIndexCommit:
     ld hl, $da23
     ld a, [de]
     bit 0, a
-    jr z, SpriteAnimation_002_5b45
+    jr z, SpriteAnimationTiles_Variant1
 
     ld a, $2e
     ld [hl+], a
@@ -6563,9 +6563,9 @@ AnimationFrameIndexCommit:
     ld [hl+], a
     ld a, $30
     ld [hl], a
-    jr SpriteAnimation_002_5b51
+    jr SpriteAnimationMergePoint
 
-SpriteAnimation_002_5b45:
+SpriteAnimationTiles_Variant1:
     ld a, $2d
     ld [hl+], a
     ld a, $2c
@@ -6575,7 +6575,7 @@ SpriteAnimation_002_5b45:
     ld a, $2d
     ld [hl], a
 
-SpriteAnimation_002_5b51:
+SpriteAnimationMergePoint:
     ld a, $16
     ldh [hGameState], a
     ret
@@ -6595,14 +6595,14 @@ SpriteAnimationState_CheckActiveFlag:
     ld hl, $da1c
     ld a, [hl]
     and a
-    jr nz, SpriteAnimation_002_5b73
+    jr nz, SpriteAnimationTiles_Variant2
 
     inc [hl]
     ld hl, $dfe8
     ld a, $0a
     ld [hl], a
 
-SpriteAnimation_002_5b73:
+SpriteAnimationTiles_Variant2:
     ld hl, wSpriteVar31
     ld de, $5c9d
     ld b, $04
@@ -7094,7 +7094,7 @@ PaddingZone_002_5de8:
     dec a
     ld [$da1e], a
 
-SpriteAnimation_002_5dec:
+SpriteAnimationDispatch_Type2:
     ld a, [hl]
     sub $20
     ld [hl+], a
@@ -7102,7 +7102,7 @@ SpriteAnimation_002_5dec:
     inc l
     inc l
     dec b
-    jr nz, SpriteAnimation_002_5dec
+    jr nz, SpriteAnimationDispatch_Type2
 
     ret
 
@@ -7770,7 +7770,7 @@ DataZone_002_6017:
     jr z, PaddingZone_002_6121
 
     adc h
-    jr z, SpriteAnimation_002_616b
+    jr z, SpriteAnimationPhysicsHandler
 
     ld [bc], a
     ld a, [hl+]
@@ -7842,7 +7842,7 @@ PaddingZone_002_6121:
     add h
     ld l, a
 
-SpriteAnimation_002_616b:
+SpriteAnimationPhysicsHandler:
     ld a, [bc]
     cp a
     ld [hl], l
@@ -11219,7 +11219,7 @@ DataZone_002_70b0:
     ld [hl], b
     ld [hl], d
 
-SpriteAnimation_002_7104:
+SpriteAnimationDispatch_FlagCheck:
     ld [hl], d
     ld [hl], d
     ld l, l
@@ -11244,7 +11244,7 @@ SpriteAnimation_002_7104:
     ld h, [hl]
     ld l, l
     cp $31
-    jr c, SpriteAnimation_002_7104
+    jr c, SpriteAnimationDispatch_FlagCheck
 
     ld h, l
     ld l, [hl]
@@ -13366,13 +13366,13 @@ PaddingZone_002_79f2:
     rst $30
     rlca
 
-SpriteAnimation_002_7a62:
+SpriteAnimationTerminal:
     ld sp, hl
     ld bc, wGameVarFE
     ld a, a
     ld [hl], b
     dec de
-    jr SpriteAnimation_002_7a62
+    jr SpriteAnimationTerminal
 
     inc d
     rst $30
