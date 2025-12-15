@@ -280,7 +280,7 @@ PaddingZone_003_410c:
     add c
     ld a, [hl]
     rst $38
-    jr UnknownCode_003_4190
+    jr DataZone_003_4190
 
     nop
     nop
@@ -370,7 +370,7 @@ PaddingZone_003_410c:
     rrca
     ld [$101f], sp
     rra
-    jr UnknownCode_003_4180
+    jr DataZone_003_4180
 
     inc b
     ld e, $19
@@ -379,7 +379,7 @@ PaddingZone_003_410c:
     rrca
     rrca
 
-UnknownCode_003_4180:
+DataZone_003_4180:
     nop
     nop
     db $fc
@@ -393,7 +393,7 @@ UnknownCode_003_4180:
     xor e
     xor e
 
-UnknownCode_003_4190:
+DataZone_003_4190:
     ld a, $3e
     rst $08
     call z, $8c8f
@@ -612,7 +612,7 @@ UnknownCode_003_425e:
     db $f4
     ret z
 
-    jr c, UnknownCode_003_4301
+    jr c, DataZone_003_4301
 
     ldh a, [rNR42]
     ld [hl+], a
@@ -712,7 +712,7 @@ UnknownCode_003_425e:
     ld a, [hl]
     sub c
 
-UnknownCode_003_4301:
+DataZone_003_4301:
     sub c
     db $e4
     inc e
@@ -1829,7 +1829,7 @@ PaddingZone_003_46d1:
     ld e, d
     ld [hl], d
     ld [hl], d
-    jr nc, UnknownCode_003_47c0
+    jr nc, AudioData_003_47c0
 
     jr nz, DataZone_003_47b2
 
@@ -1876,7 +1876,7 @@ DataZone_003_47b2:
     rst $38
     rst $38
 
-UnknownCode_003_47c0:
+AudioData_003_47c0:
     ld a, a
     ld a, a
     cp $fe
@@ -11176,10 +11176,10 @@ PaddingZone_003_72f2:
     ld [hl], e
     ld [hl], e
 
-UnknownCode_003_7307:
+AudioData_003_7307:
     ld [hl], e
 
-UnknownCode_003_7308:
+PaddingZone_003_7308:
     ld [hl], e
     ld [hl], e
     ld [hl], e
@@ -11234,7 +11234,7 @@ DispatchEntry_003_7323:
     ld b, b
     and e
     ld a, $a9
-    jr c, UnknownCode_003_7383
+    jr c, PaddingZone_003_7383
 
     jr c, PaddingZone_003_72f2
 
@@ -11261,9 +11261,9 @@ DispatchEntry_003_735a:
 DispatchTableEntry_003_7360:
     inc a
     and h
-    jr c, UnknownCode_003_7307
+    jr c, AudioData_003_7307
 
-    jr c, UnknownCode_003_7308
+    jr c, PaddingZone_003_7308
 
     inc a
     jr c, PaddingZone_003_730e
@@ -11298,7 +11298,7 @@ PaddingZone_003_737a:
     ld b, d
     ld b, b
 
-UnknownCode_003_7383:
+PaddingZone_003_7383:
     inc a
     nop
     ld b, d
@@ -12740,7 +12740,7 @@ PaddingZone_003_7a19:
     and h
     inc d
     ld d, $a3
-    jr UnknownCode_003_7a86
+    jr PaddingZone_003_7a86
 
     inc e
     ld e, $00
@@ -12762,7 +12762,7 @@ PaddingZone_003_7a19:
     ld b, $06
     dec bc
 
-UnknownCode_003_7a86:
+PaddingZone_003_7a86:
     ld b, $06
     ld b, $06
     ld b, $06
@@ -13183,7 +13183,7 @@ SkipPadding_003_7b27:
     sbc l
     sub e
 
-UnknownCode_003_7c4d:
+AudioData_003_7c4d:
     nop
     add b
     and e
@@ -13254,7 +13254,7 @@ JoypadInputEntry_7c7d:
     ld bc, $9d00
     rla
     ld [hl], b
-    jr nz, UnknownCode_003_7c4d
+    jr nz, AudioData_003_7c4d
 
     ld bc, $42a2
     ld d, b
@@ -13276,7 +13276,7 @@ JoypadInputEntry_7c7d:
 
     ld b, [hl]
     ld e, [hl]
-    jr c, UnknownCode_003_7d20
+    jr c, AudioDispatchEntry_003_7d20
 
     ld b, [hl]
     ld e, [hl]
@@ -13290,15 +13290,15 @@ JoypadInputEntry_7c7d:
     ld b, [hl]
     ld b, d
     ld d, b
-    jr c, UnknownCode_003_7d20
+    jr c, AudioDispatchEntry_003_7d20
 
     ld b, d
     ld d, b
-    jr c, UnknownCode_003_7d24
+    jr c, AudioDispatchEntry_003_7d24
 
     ld b, d
     ld d, b
-    jr c, UnknownCode_003_7d28
+    jr c, AudioDispatchEntry_003_7d28
 
     ld b, d
     ld d, b
@@ -13361,19 +13361,19 @@ DispatchEntry_003_7d1c:
     rst $38
     rst $38
 
-UnknownCode_003_7d20:
+AudioDispatchEntry_003_7d20:
     inc e
     ld a, l
     ld d, l
     ld a, l
 
-UnknownCode_003_7d24:
+AudioDispatchEntry_003_7d24:
     rst $38
     rst $38
     ld [hl+], a
     ld a, l
 
-UnknownCode_003_7d28:
+AudioDispatchEntry_003_7d28:
     sbc l
     ld d, h
     nop
@@ -13923,11 +13923,11 @@ DispatchEntry_003_7ea1:
     ld c, b
     ld c, b
     nop
-    jr z, UnknownCode_003_7fbb
+    jr z, MusicDispatchEntry_003_7fbb
 
     ld b, b
     ld b, b
-    jr z, UnknownCode_003_7fbf
+    jr z, MusicDispatchEntry_003_7fbf
 
     ld b, b
     ld b, b
@@ -13935,11 +13935,11 @@ DispatchEntry_003_7ea1:
 
     ld b, b
     ld b, b
-    jr z, UnknownCode_003_7fc7
+    jr z, MusicDispatchEntry_003_7fc7
 
     ld b, b
     ld b, b
-    jr nc, UnknownCode_003_7fd3
+    jr nc, MusicDispatchEntry_003_7fd3
 
     ld a, [hl-]
     ld b, d
@@ -13964,12 +13964,12 @@ DispatchEntry_003_7ea1:
     ld b, $06
     and d
 
-UnknownCode_003_7fbb:
+MusicDispatchEntry_003_7fbb:
     dec bc
     and c
     ld b, $06
 
-UnknownCode_003_7fbf:
+MusicDispatchEntry_003_7fbf:
     and d
     dec bc
     and c
@@ -13978,7 +13978,7 @@ UnknownCode_003_7fbf:
     dec bc
     and c
 
-UnknownCode_003_7fc7:
+MusicDispatchEntry_003_7fc7:
     ld b, $06
     and d
     dec bc
@@ -13989,7 +13989,7 @@ UnknownCode_003_7fc7:
     and c
     ld b, $06
 
-UnknownCode_003_7fd3:
+MusicDispatchEntry_003_7fd3:
     and d
     dec bc
     and c
