@@ -3157,20 +3157,28 @@ CopyAnimBufferLoop:
     dec b
     jr nz, CopyAnimBufferLoop
 
+; GameplayInitStart
+; -----------------
+; Description: Finalise l'initialisation du gameplay après chargement des tiles/palettes.
+;              Réactive le LCD, configure le scroll initial, réinitialise les flags et
+;              passe à l'état PREPARE_RENDER pour lancer la partie.
+; In:  (aucun)
+; Out: (aucun, passe à l'état GAME_STATE_PREPARE_RENDER)
+; Modifie: a
 GameplayInitStart:
     xor a
-    ldh [rIF], a
+    ldh [rIF], a                    ; Efface les interruptions en attente
     ld a, LCDC_GAME_STANDARD
-    ldh [rLCDC], a
-    ei
+    ldh [rLCDC], a                  ; Réactive le LCD avec config standard
+    ei                              ; Réactive les interruptions
     ld a, TILEMAP_SCROLL_X_INIT
-    ldh [hTilemapScrollX], a
+    ldh [hTilemapScrollX], a        ; Initialise le scroll horizontal
     xor a
-    ld [wCollisionFlag], a
-    ldh [hVBlankMode], a
+    ld [wCollisionFlag], a          ; Efface le flag de collision
+    ldh [hVBlankMode], a            ; Réinitialise le mode VBlank
     ld a, GAME_STATE_PREPARE_RENDER
-    ldh [hGameState], a
-    call InitAudioAndAnimContext
+    ldh [hGameState], a             ; Passe à l'état de préparation du rendu
+    call InitAudioAndAnimContext    ; Initialise audio et contexte d'animation
     ret
 
 ; === Tables de pointeurs graphiques ($0DE4-$0DEF) ===
