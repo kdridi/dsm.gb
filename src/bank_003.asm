@@ -385,7 +385,7 @@ SpriteGraphicsData_Enemy_Set1:
     db $fc
     ld a, h
     cp $0e
-    jp nz, ErrorTrap_31c2
+    jp nz, ErrorTrap_00
 
     pop af
     ld hl, $61e1

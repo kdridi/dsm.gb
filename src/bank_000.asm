@@ -6711,9 +6711,9 @@ LoadDemoInput:
     ld bc, $0000
     rrca
     nop
-    jr nz, PaddingZone_213b
+    jr nz, PaddingZone_00
 
-PaddingZone_213b:
+PaddingZone_00:
     nop
     nop
     nop
@@ -6740,9 +6740,9 @@ PaddingZone_213b:
     ld bc, $0000
     rrca
     nop
-    jr nz, PaddingZone_215b
+    jr nz, PaddingZone_01
 
-PaddingZone_215b:
+PaddingZone_01:
     nop
     nop
     nop
@@ -9156,7 +9156,7 @@ SaveSoundDataLoop:
     sub l
     ld c, b
 
-AudioAnimData_2d12:
+AudioAnimData_00:
     sub h
     rst $38
     sub a
@@ -9224,8 +9224,8 @@ AudioAnimData_2d12:
     sbc l
     ld de, hAnimScaleCounter
 
-AudioAnimData_2d72:
-    jr nz, AudioAnimData_2d12
+AudioAnimData_01:
+    jr nz, AudioAnimData_00
 
     ld sp, $0a9e
     sbc [hl]
@@ -9257,7 +9257,7 @@ AudioAnimData_2d72:
     rst $28
     ld bc, $ffef
 
-AudioAnimData_2d9c:
+AudioAnimData_02:
     or b
     ld bc, $0ab1
     and b
@@ -9267,7 +9267,7 @@ AudioAnimData_2d9c:
     ld de, $1ab0
     and c
     ld de, hTemp0
-    jr nc, AudioAnimData_2d72
+    jr nc, AudioAnimData_01
 
     ld sp, $3ac2
     db $d3
@@ -9275,7 +9275,7 @@ AudioAnimData_2d9c:
     or d
     ld bc, $0ab3
 
-AudioAnimData_2dba:
+AudioAnimData_03:
     and d
     ld bc, hTemp3
     db $10
@@ -9306,7 +9306,7 @@ AudioAnimData_2dba:
     db $10
     xor c
     ld de, $ffa8
-    jr nz, AudioAnimData_2d9c
+    jr nz, AudioAnimData_02
 
     ld hl, hObjParamBuf1
     cp b
@@ -9314,7 +9314,7 @@ AudioAnimData_2dba:
     db $10
     cp c
     ld de, $ffb8
-    jr nz, AudioAnimData_2dba
+    jr nz, AudioAnimData_03
 
     ld hl, $ffb9
     ret nc
@@ -9352,7 +9352,7 @@ AudioAnimData_2dba:
     ld de, hSoundCh1
     sub $01
 
-AudioAnimData_2e3a:
+AudioAnimData_04:
     rst $10
     ld a, [bc]
     add $01
@@ -9382,7 +9382,7 @@ AudioAnimData_2e3a:
 
 
     ld de, $ffd8
-    jr nz, AudioAnimData_2e3a
+    jr nz, AudioAnimData_04
 
     ld hl, $ffd9
     xor h
@@ -9414,7 +9414,7 @@ AudioAnimData_2e3a:
     rst $10
     rst $38
 
-AudioAnimData_2e89:
+AudioAnimData_05:
     jr nz, @-$28
 
     ld hl, $ffd7
@@ -9481,7 +9481,7 @@ AudioAnimData_2e89:
     ld bc, $11ad
     xor h
     rst $38
-    jr nz, AudioAnimData_2e89
+    jr nz, AudioAnimData_05
 
     ld hl, $31ad
     xor h
@@ -9670,7 +9670,7 @@ AudioAnimData_2e89:
     dec l
     ld hl, $262d
     dec l
-    jr z, AddressTable_301a
+    jr z, AddressTable_00
 
     dec l
     dec l
@@ -9718,7 +9718,7 @@ AudioAnimData_2e89:
     dec l
     sub e
 
-AddressTable_301a:
+AddressTable_00:
     dec l
     sub l
     dec l
@@ -9831,10 +9831,10 @@ AddressTable_301a:
     dec l
     inc d
     dec l
-    jr DataBlock_30e8
+    jr DataBlock_00
 
     ld h, $2d
-    jr z, JumpTargetTable_30ec
+    jr z, JumpTargetTable_00
 
     dec sp
     dec l
@@ -9878,13 +9878,13 @@ AddressTable_301a:
     dec l
     adc [hl]
 
-DataBlock_30e8:
+DataBlock_00:
     dec l
     sub c
     dec l
     sub e
 
-JumpTargetTable_30ec:
+JumpTargetTable_00:
     dec l
     sub l
     dec l
@@ -10055,7 +10055,7 @@ AnimFrameDataLookup:
     nop
     nop
 
-ErrorTrap_31c2:
+ErrorTrap_00:
     nop
     rrca
     dec d
@@ -10191,9 +10191,9 @@ ErrorTrap_31c2:
     nop
     nop
     nop
-    jr z, PaddingZone_324d
+    jr z, PaddingZone_02
 
-PaddingZone_324d:
+PaddingZone_02:
     nop
     nop
     nop
@@ -10582,7 +10582,7 @@ AudioConfigTable::
     nop
     and c
     nop
-    jr nc, JumpDispatchTable_3434
+    jr nc, JumpDispatchTable_00
 
     add d
     ld [bc], a
@@ -10595,7 +10595,7 @@ AudioConfigTable::
     ld hl, $0000
     ld [hl+], a
 
-JumpDispatchTable_3434:
+JumpDispatchTable_00:
     add b
     ld [bc], a
     ld hl, $0000
@@ -11114,7 +11114,7 @@ AudioInitData_StackVariantA:
     rst $28
     rst $28
 
-JumpDispatchTable_36bc:
+JumpDispatchTable_01:
     rst $28
     rst $28
     rst $28
@@ -11129,8 +11129,8 @@ JumpDispatchTable_36bc:
     ld hl, sp+$42
     ldh a, [rNR41]
 
-JumpDispatchTable_36cc:
-    jr nz, JumpDispatchTable_36bc
+JumpDispatchTable_02:
+    jr nz, JumpDispatchTable_01
 
     ld hl, sp+$43
     rst $28
@@ -11147,7 +11147,7 @@ JumpDispatchTable_36cc:
     db $e3
     db $10
     rst $20
-    jr nz, JumpDispatchTable_36cc
+    jr nz, JumpDispatchTable_02
 
     ld hl, sp+$43
     rst $28
@@ -11178,7 +11178,7 @@ JumpDispatchTable_36cc:
     rst $28
     add sp, -$0c
 
-PaddingZone_370c:
+PaddingZone_03:
     rrca
     nop
     rst $28
@@ -11210,7 +11210,7 @@ PaddingZone_370c:
     jp hl
 
 
-RawDataBlock_372b:
+RawDataBlock_00:
     ld hl, sp+$33
     jp hl
 
@@ -11218,7 +11218,7 @@ RawDataBlock_372b:
     pop af
     rla
     di
-    jr RawDataBlock_372b
+    jr RawDataBlock_00
 
     ld a, $70
     ldh a, [rNR41]
@@ -11336,7 +11336,7 @@ AudioInitData_StackVariantB:
     db $f4
     ld bc, $ef12
 
-RawDataBlock_37d6:
+RawDataBlock_01:
     rst $28
     rst $28
     rst $28
@@ -11351,7 +11351,7 @@ RawDataBlock_37d6:
     rst $38
     ld hl, sp+$2a
     ldh a, [$ff60]
-    jr nz, RawDataBlock_37d6
+    jr nz, RawDataBlock_01
 
     ld hl, sp+$2b
     rst $28
@@ -11512,18 +11512,18 @@ RawDataBlock_37d6:
     ld bc, $ef01
     ld b, c
     pop af
-    jr nc, RawDataBlock_38e6
+    jr nc, RawDataBlock_02
 
     rst $28
 
-RawDataBlock_38e6:
+RawDataBlock_02:
     ld b, c
     pop af
-    jr nc, RawDataBlock_38eb
+    jr nc, RawDataBlock_03
 
     rst $28
 
-RawDataBlock_38eb:
+RawDataBlock_03:
     ld b, c
     di
     jr nc, @-$0e
@@ -11765,7 +11765,7 @@ RawDataBlock_38eb:
     rst $38
     ld hl, sp+$2e
 
-RawDataBlock_3a56:
+RawDataBlock_04:
     nop
     rst $28
     rst $28
@@ -11773,7 +11773,7 @@ RawDataBlock_3a56:
     di
     ld b, c
 
-RawDataBlock_3a5c:
+RawDataBlock_05:
     ld sp, hl
     inc bc
     ld hl, sp+$2f
@@ -11783,11 +11783,11 @@ RawDataBlock_3a5c:
     ldh a, [rNR10]
     ld bc, $f8e8
     ld sp, $f8e8
-    jr nc, RawDataBlock_3a56
+    jr nc, RawDataBlock_04
 
     ld hl, sp+$31
     add sp, -$08
-    jr nc, RawDataBlock_3a5c
+    jr nc, RawDataBlock_05
 
     ld hl, sp+$31
     nop
@@ -11900,7 +11900,7 @@ RawDataBlock_3a5c:
     rst $28
     rst $28
 
-RawDataBlock_3b06:
+RawDataBlock_06:
     ldh a, [rNR43]
     db $10
     rst $28
@@ -11912,7 +11912,7 @@ RawDataBlock_3b06:
     ld hl, sp+$1f
     ldh a, [$ff30]
     ld [hl], b
-    jr nc, RawDataBlock_3b06
+    jr nc, RawDataBlock_06
 
     ld b, b
     di
@@ -11950,7 +11950,7 @@ RawDataBlock_3b06:
     rst $28
     ld sp, hl
 
-RawDataBlock_3b46:
+RawDataBlock_07:
     ld bc, $f8f7
     rra
     ldh a, [$ff91]
@@ -11961,7 +11961,7 @@ RawDataBlock_3b46:
     ld [hl], h
     db $f4
     nop
-    jr nz, RawDataBlock_3b46
+    jr nz, RawDataBlock_07
 
     add sp, $10
     rst $28
@@ -12224,7 +12224,7 @@ RawDataBlock_3b46:
     db $f4
     ld bc, $ea21
 
-ErrorTrap_3cc2:
+ErrorTrap_01:
     db $f4
     nop
     add sp, $02
