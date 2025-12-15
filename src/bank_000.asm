@@ -4886,12 +4886,12 @@ ProcessBlockEnd_OnCollide:
     and a
     jr nz, HandleBlockType_Collision
 
-    ld [hl], $c0
+    ld [hl], BLOCK_HIT_TYPE_SPECIAL
     inc l
     ld [hl], d
     inc l
     ld [hl], e
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
     jr HandleBlockType_Collision
 
@@ -4962,12 +4962,12 @@ PlatformCollisionSetup:
     and a
     ret nz
 
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
     ld a, [wPlayerX]
-    sub $10
+    sub PLAYER_X_OFFSET
     ldh [hPtrHigh], a
-    ld a, $c0
+    ld a, BLOCK_HIT_TYPE_SPECIAL
     ldh [hPtrBank], a
     ldh [hPendingCoin], a
     ld a, [wLevelConfig]
@@ -5104,14 +5104,14 @@ HandlePlayerUpCollision:
     and a
     jp nz, TileC0Handler
 
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
     ld a, $81
     ld [wOamVar2E], a
     ld a, [wPlayerX]
-    sub $10
+    sub PLAYER_X_OFFSET
     ldh [hPtrHigh], a
-    ld a, $c0
+    ld a, BLOCK_HIT_TYPE_SPECIAL
     ldh [hPtrBank], a
     jr SetupSpriteProperties
 
@@ -5261,12 +5261,12 @@ CollisionHandler_SpecialF4_Setup:
     and a
     ret nz
 
-    ld [hl], $c0
+    ld [hl], BLOCK_HIT_TYPE_SPECIAL
     inc l
     ld [hl], d
     inc l
     ld [hl], e
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
     ret
 
@@ -5430,12 +5430,12 @@ HandlePlayerSpikeCollision:
     and a
     ret nz
 
-    ld [hl], $c0
+    ld [hl], BLOCK_HIT_TYPE_SPECIAL
     inc l
     ld [hl], d
     inc l
     ld [hl], e
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
     xor a
     ret
@@ -5569,7 +5569,7 @@ ProcessBlockCollision_CommonExit:
     ret nz
 
     ld [hl], TILE_EMPTY
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
     ld a, h
     ldh [hSpriteAttr], a
@@ -6437,12 +6437,12 @@ CheckTileForCoin:
     and a
     jr nz, ReturnAfterCoinCheck
 
-    ld [hl], $c0
+    ld [hl], BLOCK_HIT_TYPE_SPECIAL
     inc l
     ld [hl], d
     inc l
     ld [hl], e
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
 
 NotCoinTile:
