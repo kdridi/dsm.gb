@@ -2296,7 +2296,7 @@ ProcessGameStateInput::
     cp GAME_STATE_GAMEPLAY  ; État $0D (gameplay actif) ?
     jp z, HandleJoypadInputDelay
 
-    ld de, $c207
+    ld de, wPlayerUnk07
     ldh a, [hJoypadDelta]
     ld b, a
     ldh a, [hJoypadState]
@@ -2304,12 +2304,12 @@ ProcessGameStateInput::
     jr nz, FXDispatch_2
 
     push af
-    ld a, [$c20e]
+    ld a, [wPlayerUnk0E]
     cp $04
     jr nz, JoypadInputCheckFX04
 
     ld a, $02
-    ld [$c20e], a
+    ld [wPlayerUnk0E], a
 
 JoypadInputCheckFX04:
     pop af
@@ -2338,7 +2338,7 @@ JoypadInputProcessAPress:
     and a
     jr nz, StateValidExit
 
-    ld hl, $c20a
+    ld hl, wPlayerUnk0A
     ld a, [hl]
     and a
     jr z, StateValidExit
@@ -2347,7 +2347,7 @@ JoypadInputProcessAPress:
     jr z, StateValidExit
 
     ld [hl], $00
-    ld hl, $c203
+    ld hl, wPlayerDir
     push hl
     ld a, [hl]
     cp $18
@@ -2356,16 +2356,16 @@ JoypadInputProcessAPress:
     and $f0
     or $04
     ld [hl], a
-    ld a, [$c20e]
+    ld a, [wPlayerUnk0E]
     cp $04
     jr z, JoypadInputProcessAPress_SetInitialState
 
     ld a, $02
-    ld [$c20e], a
-    ld [$c208], a
+    ld [wPlayerUnk0E], a
+    ld [wPlayerUnk08], a
 
 JoypadInputProcessAPress_SetInitialState:
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld [hl], $30
 
 JoypadInputProcessAPress_TransitionToGame:
@@ -2377,7 +2377,7 @@ JoypadInputProcessAPress_TransitionToGame:
     jr StateValidExit
 
 ValidateAndProcessGameState_CheckLock:
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld a, [hl]
     cp $06
     jr nz, InitializeSpriteTransferBuffer
@@ -2476,7 +2476,7 @@ JoypadInputInitialization:
 
 
 ResetMenuStateToIdle:
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld [hl], $20
     jp ValidateAndProcessGameState
 
@@ -2567,7 +2567,7 @@ JoypadStateClearRegister:
 InitRenderLoop::
     ld b, $04
     ld de, OBJECT_SLOT_SIZE
-    ld hl, $c210
+    ld hl, wPlayerUnk10
 
 ProcessRenderObjectLoop:
     push hl
@@ -2652,10 +2652,10 @@ CheckBlockCollision::
     ldh a, [$fff2]
     sub b
     ld [hl-], a
-    ld a, [$c201]
+    ld a, [wPlayerX]
     sub $0b
     ld [hl], a
-    ld a, [$c20a]
+    ld a, [wPlayerUnk0A]
     and a
     jr nz, HandleBlockCollisionClear
 
@@ -2678,13 +2678,13 @@ HandleBlockCollisionClear:
 
 HandleBlockCollisionResolve:
     ld a, $02
-    ld [$c207], a
+    ld [wPlayerUnk07], a
     ret
 
 
 ; Routine $4b6f - Vérifie les limites de position du joueur
 CheckPlayerBounds::
-    ld hl, $c201
+    ld hl, wPlayerX
     ld a, [hl]
     cp $b4
     ret c
@@ -2718,10 +2718,10 @@ CheckTimerAux1::
     ret nz
 
     xor a
-    ld [$c200], a
-    ld a, [$c203]
+    ld [wPlayerY], a
+    ld a, [wPlayerDir]
     xor $10
-    ld [$c203], a
+    ld [wPlayerDir], a
     ret
 
 
@@ -2729,10 +2729,10 @@ TimerInitializeAux:
     ld a, $02
     ldh [hTimerAux], a
     xor a
-    ld [$c200], a
-    ld a, [$c203]
+    ld [wPlayerY], a
+    ld a, [wPlayerDir]
     or $10
-    ld [$c203], a
+    ld [wPlayerDir], a
     ret
 
 
@@ -2752,9 +2752,9 @@ CheckTimerAux2::
     and FRAME_MASK_4
     ret nz
 
-    ld a, [$c203]
+    ld a, [wPlayerDir]
     xor $10
-    ld [$c203], a
+    ld [wPlayerDir], a
     ret
 
 
@@ -2763,9 +2763,9 @@ TimerResetState:
     ldh [hTimerAux], a
     ld a, $40
     ldh [hTimer1], a
-    ld a, [$c203]
+    ld a, [wPlayerDir]
     and $0f
-    ld [$c203], a
+    ld [wPlayerDir], a
     ret
 
 
@@ -2777,19 +2777,19 @@ PaddingZone_003_4be0:
     and FRAME_MASK_4
     ret nz
 
-    ld a, [$c200]
+    ld a, [wPlayerY]
     xor $80
-    ld [$c200], a
+    ld [wPlayerY], a
     ret
 
 
 ResetTimerState:
     xor a
     ldh [hTimerAux], a
-    ld [$c200], a
-    ld a, [$c203]
+    ld [wPlayerY], a
+    ld a, [wPlayerDir]
     and $0f
-    ld [$c203], a
+    ld [wPlayerDir], a
     ret
 
 
