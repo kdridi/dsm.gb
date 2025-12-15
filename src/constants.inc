@@ -787,3 +787,35 @@ DEF NIBBLE_HIGH_MASK        EQU $f0   ; Masque 4 bits hauts (nibble supérieur)
 
 DEF ANIM_TILE_LEVELS_PER_WORLD EQU $04 ; Seuil wrap niveau (3 niveaux → wrap à 4)
 DEF ANIM_TILE_WORLD_OFFSET     EQU $0d ; Offset pour passer au monde suivant ($10-$03=13)
+
+; === Invulnérabilité joueur ===
+
+DEF PLAYER_INVULN_TIMER        EQU $f8   ; Timer invulnérabilité (-8, compte vers 0)
+
+; === État rendu (wStateRender) ===
+
+DEF STATE_RENDER_DAMAGE        EQU $0c   ; Mode rendu après collision ennemi (12)
+DEF STATE_RENDER_INIT          EQU $02   ; Mode rendu initialisation
+
+; === Timers gameplay ===
+
+DEF TIMER_STATE07_WAIT         EQU $40   ; Timer attente état $07 (64 frames)
+DEF TIMER_GAMEPLAY_DELAY       EQU $50   ; Timer délai gameplay (80 frames)
+DEF TIMER_SPECIAL_PATH         EQU $90   ; Timer chemin spécial (144 frames)
+
+; === États de jeu additionnels ===
+
+DEF GAME_STATE_WINDOW_UPDATE   EQU $3b   ; État mise à jour window ($3B)
+
+; === Niveau monde 4-3 ===
+
+DEF ANIM_TILE_W4_L3            EQU $43   ; Monde 4, Niveau 3 (fin du jeu)
+
+; === VRAM Tilemap ===
+
+DEF VRAM_TILEMAP_HIGH          EQU $98   ; Octet haut adresse tilemap BG ($9800)
+DEF VRAM_TILEMAP_OFFSET        EQU $0120 ; Offset pour calcul scroll (288 bytes = 9 lignes)
+
+; === Scroll initial ===
+
+DEF TILEMAP_SCROLL_X_INIT      EQU $03   ; Valeur initiale hTilemapScrollX

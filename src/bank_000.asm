@@ -1942,9 +1942,9 @@ ObjectInteraction_SetupTimer:
     jr ObjectInteraction_SetupStateBuffer
 
 ObjectInteraction_EnemyHit:
-    ld a, $f8
+    ld a, PLAYER_INVULN_TIMER
     ld [wPlayerInvuln], a
-    ld a, $0c
+    ld a, STATE_RENDER_DAMAGE
     ld [wStateRender], a
     jr ObjectInteraction_SetupAnimBank
 
@@ -1964,13 +1964,13 @@ UpdateAnimatedObjectState_CoinProceed:
     jr ObjectInteraction_MarkSpriteHandled
 
 StartGameplayPhase:
-    ld a, $03
+    ld a, TIMER_AUX_DAMAGE_MAX
     ldh [hTimerAux], a
     xor a
     ldh [hSubState], a
-    ld a, $50
+    ld a, TIMER_GAMEPLAY_DELAY
     ldh [hTimer1], a
-    ld a, $06
+    ld a, GAME_STATE_POST_LEVEL
     ld [wStateBuffer], a
     ret
 
@@ -1997,7 +1997,7 @@ InitGameState:
     ldh [hSubState], a          ; Variable = 0
     ldh [rTMA], a           ; Timer Modulo = 0 (désactive timer)
 
-    ld a, $02
+    ld a, STATE_RENDER_INIT
     ld [wStateRender], a           ; Variable WRAM = $02
 
     ; --- InitPlayerState ---
@@ -2434,11 +2434,11 @@ SpriteAnimationOAMLoop:
     cp SLOT_EMPTY
     jr nz, SetGameStateSpecialPath
 
-    ld a, $3b
+    ld a, GAME_STATE_WINDOW_UPDATE
     jr SetGameStateValue
 
 SetGameStateSpecialPath:
-    ld a, $90
+    ld a, TIMER_SPECIAL_PATH
     ldh [hTimer1], a
     ld a, $01
 
@@ -2498,7 +2498,7 @@ StateHandler_07::
     and a
     jr nz, .skipTimerInit
 
-    ld a, $40
+    ld a, TIMER_STATE07_WAIT
     ldh [hTimer1], a
 
 .skipTimerInit:
@@ -2508,13 +2508,13 @@ StateHandler_07::
     ld [wSpecialState], a
     ldh [rTMA], a
     ldh a, [hAnimTileIndex]
-    and $0f
-    cp $03
+    and NIBBLE_LOW_MASK
+    cp LEVEL_STYLE_SPECIAL
     ret nz
 
     call DestroyAllObjects
     ldh a, [hAnimTileIndex]
-    cp $43
+    cp ANIM_TILE_W4_L3
     ret nz
 
     ld a, GAME_STATE_POST_LEVEL
@@ -2798,7 +2798,7 @@ GameplayInitStart:
     ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     ei
-    ld a, $03
+    ld a, TILEMAP_SCROLL_X_INIT
     ldh [hTilemapScrollX], a
     xor a
     ld [wCollisionFlag], a
@@ -2865,7 +2865,7 @@ State1C_WaitTimerGameplay::
 
 
 TimerExpiredPath:
-    ld a, $40
+    ld a, TIMER_STATE07_WAIT
     ldh [hTimer1], a
     ld hl, hGameState
     inc [hl]
@@ -2892,8 +2892,8 @@ State1D_SetupVRAMPointer::
 
 VRAMPointerAdjustmentPath:
     ld l, a
-    ld h, $98
-    ld de, $0120
+    ld h, VRAM_TILEMAP_HIGH
+    ld de, VRAM_TILEMAP_OFFSET
     add hl, de
     ld a, l
     ldh [hVramPtrLow], a
@@ -3872,11 +3872,11 @@ ClearBufferLoop:
 
     ld a, $01
     ldh [hScrollPhase], a
-    ld b, $02
+    ld b, HUD_LINE_COUNT
     ldh a, [hScrollColumn]
     sub TILEMAP_STRIDE          ; Ligne précédente (-32 = 1 ligne tilemap)
     ld l, a
-    ld h, $98
+    ld h, VRAM_TILEMAP_HIGH
 
 .loopClearTile:
     WAIT_FOR_HBLANK
@@ -6985,7 +6985,7 @@ UpdateScrollColumn:
 
 ScrollColumnWrapAround:
     ldh [hScrollColumn], a
-    ld h, $98
+    ld h, VRAM_TILEMAP_HIGH
     ld de, wScrollBuffer
     ld b, $10
 
