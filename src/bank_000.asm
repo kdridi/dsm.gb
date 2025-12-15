@@ -715,7 +715,7 @@ ClearOamLoop:
     call MemCopy
     ld hl, ROM_TILES_LEVEL_1
     ldh a, [hLevelIndex]
-    cp $01
+    cp WORLD_1                  ; Monde 1 = premier monde
     jr c, SelectLevelAudioTable
 
     ld hl, ROM_TILES_LEVEL_2
@@ -3500,11 +3500,11 @@ State2A_DisplayEndText::
 
     xor a
     ldh [hOAMIndex], a
-    ld a, $99
+    ld a, VRAM_SCRN1_HIGH           ; $99 = octet haut _SCRN1
     ldh [hCopyDstLow], a
-    ld a, $02
+    ld a, VRAM_COPY_LINE_OFFSET     ; Ligne 2 tilemap
     ldh [hCopyDstHigh], a
-    ld a, $23
+    ld a, CUTSCENE_COUNTER_23       ; Compteur animation cutscene
     ld [wPlayerUnk13], a
     ld hl, hGameState
     inc [hl]
@@ -3947,14 +3947,14 @@ State32_CreditsScroll::
 
     xor a
     ldh [hShadowSCX], a
-    ld a, $60
+    ld a, LYC_CREDITS_LINE          ; Ligne 96 pour interruption LYC
     ldh [rLYC], a
     ld hl, $154e
     ld a, h
     ldh [hCopyDstLow], a
     ld a, l
     ldh [hCopyDstHigh], a
-    ld a, $f0
+    ld a, TIMER_CREDITS_LONG        ; Timer long crédits (240 frames)
     ldh [hTimer1], a
     ld hl, hGameState
     inc [hl]

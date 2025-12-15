@@ -593,6 +593,7 @@ DEF LCDC_GAME_STANDARD  EQU $C3
 
 ; Lignes LCD pour les effets scanline
 DEF LYC_TOP_SCREEN      EQU $0F ; Ligne 15, haut écran (après HUD)
+DEF LYC_CREDITS_LINE    EQU $60 ; Ligne 96, interruption LYC pour crédits
 DEF WY_WINDOW_DONE      EQU $40 ; Position finale window (ligne 64)
 DEF LY_WINDOW_MAX       EQU $87 ; Ligne max pour animation window (135)
 DEF LYC_SCANLINE_STRIDE EQU $08 ; Stride scanline (8 lignes = 1 tile)
@@ -914,6 +915,7 @@ DEF TIMER_ANIM_TRANSITION      EQU $10   ; Timer transition animation (16 frames
 DEF TIMER_ANIM_WALK            EQU $20   ; Timer marche animation (32 frames)
 DEF TIMER_CUTSCENE             EQU $a1   ; Timer cutscene fin niveau (161 frames)
 DEF TIMER_TRANSITION_LEVEL     EQU $26   ; Timer transition niveau (38 frames)
+DEF TIMER_CREDITS_LONG         EQU $f0   ; Timer long crédits (240 frames)
 
 ; === Positions cutscene joueur ===
 
@@ -1066,6 +1068,11 @@ DEF OSCIL_OFFSET_NEG           EQU $fc   ; Offset oscillation négatif (-4)
 DEF OSCIL_OFFSET_POS           EQU $04   ; Offset oscillation positif (+4)
 DEF OSCIL_TIMER_THRESHOLD      EQU $80   ; Seuil timer oscillation (128)
 DEF OSCIL_TIMER_END            EQU $3f   ; Timer fin oscillation (63 frames)
+
+; === État $2A - Affichage texte fin ===
+
+DEF VRAM_COPY_LINE_OFFSET      EQU $02   ; Offset ligne copie VRAM (ligne 2)
+DEF CUTSCENE_COUNTER_23        EQU $23   ; Compteur cutscene animation (35 frames)
 
 ; === État $29 - Setup écran fin ===
 
