@@ -453,6 +453,7 @@ DEF VRAM_SCORE_POS1     EQU $9806   ; Score HUD position 1
 DEF VRAM_HUD_LINE       EQU $9820   ; Ligne HUD
 DEF VRAM_COIN_TENS      EQU $9829   ; Compteur pièces HUD (dizaines)
 DEF VRAM_COIN_UNITS     EQU $982A   ; Compteur pièces HUD (unités)
+DEF VRAM_WORLD_NUMBER   EQU $982B   ; Numéro monde HUD (après pièces)
 DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
 
 ; === Tiles spéciaux ===

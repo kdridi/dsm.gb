@@ -1109,7 +1109,7 @@ State11_LevelStart::
 .skipScoreReset:
     call LoadGameTiles
     call ClearBGTilemap
-    ld hl, $9c00
+    ld hl, _SCRN1
     ld b, $5f
     ld a, TILE_EMPTY
 
@@ -1258,7 +1258,7 @@ StateHandler_00::
     ldh [hSavedBank], a
     ld a, BANK_AUDIO              ; Bank 3 (aussi utilisé pour objets)
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
 
     ; Init structure à $48fc
     call $48fc
@@ -1293,7 +1293,7 @@ StateHandler_00::
     ; Restaurer bank
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
 
     ; Mises à jour locales
     call ProcessAllObjectCollisions
@@ -1304,13 +1304,13 @@ StateHandler_00::
     ldh [hSavedBank], a
     ld a, $02
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     call $5844
 
     ; Restaurer bank
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
 
     ; Mises à jour finales
     call CheckPlayerFeetCollision
@@ -1433,7 +1433,7 @@ ApplyLevelStyleConfig:
     ld a, c
     ld [wPlayerVarAB], a
     call LoadLevelData
-    ld hl, $982b
+    ld hl, VRAM_WORLD_NUMBER
     ld [hl], TILE_EMPTY
     inc l
     ldh a, [hAnimTileIndex]
@@ -1445,7 +1445,7 @@ ApplyLevelStyleConfig:
     and $0f
     inc l
     ld [hl], a
-    ld hl, $9c00
+    ld hl, _SCRN1
     ld de, ROM_TILEMAP_INIT
     ld b, $09
 
@@ -1513,10 +1513,10 @@ RenderPlayerUpdate:
     ret nz
 
     ld a, $03
-    ld [$2000], a
+    ld [rROMB0], a
     call $7ff3
     ldh a, [hCurrentBank]
-    ld [$2000], a
+    ld [rROMB0], a
     ldh a, [hRenderCounter]
     and a
     jr nz, SetStateRenderEnd
@@ -2552,11 +2552,11 @@ AnimationCheckCompleteExit:
     ldh [hSavedBank], a
     ld a, $02
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     call $5844
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     ld de, $0010
     call AddScore
     ld a, $01
@@ -2615,7 +2615,7 @@ CheckPlayerCenterPosition:
 StateHandler_06_SwitchBank2:
     ld a, $02
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     ld a, GAME_STATE_OUTER        ; État $12 si hors centre
 
 StateHandler_06_SetNextState:
@@ -2626,7 +2626,7 @@ StateHandler_06_SetNextState:
 StateHandler_06_SpecialLevel:
     ldh [hGameState], a
     ld a, $03
-    ld [$2000], a
+    ld [rROMB0], a
     ldh [hCurrentBank], a
     ld hl, hRenderContext
     ld a, [hl]
@@ -2665,7 +2665,7 @@ StateHandler_06_SpecialLevel:
 LoadGameTilesWithBank:
     di
     ld a, c
-    ld [$2000], a
+    ld [rROMB0], a
     ldh [hCurrentBank], a
     xor a
     ldh [rLCDC], a
@@ -2731,7 +2731,7 @@ LoadAnimTilesWithBank:
     ld b, a
     di
     ld a, c
-    ld [$2000], a
+    ld [rROMB0], a
     ldh [hCurrentBank], a
     xor a
     ldh [rLCDC], a
@@ -2937,7 +2937,7 @@ TilemapColumnClearCompletePath:
     ldh [hTimer1], a
     ld a, $03
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     call $7ff3
     ld hl, hGameState
     inc [hl]
@@ -3368,7 +3368,7 @@ State26_NextState:
     ld [hl], $12
     ld a, $02
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     ret
 
 ; ===========================================================================
@@ -3472,7 +3472,7 @@ State29_SetupEndScreen::
     xor a
     ldh [rLCDC], a
     ldh [hVBlankMode], a
-    ld hl, $9c00
+    ld hl, _SCRN1
     ld bc, $0100
     call FillTilemapLoop
     call InitScrollState
@@ -4316,7 +4316,7 @@ InitializeCreditsMode:
 SetupCreditsState:
     ld a, $02
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     ld [wCurrentROMBank], a
     ld [wROMBankInit], a
     xor a
@@ -4740,7 +4740,7 @@ SwitchBankAndCallBank3Handler:
     ; --- SwitchToBank3 ---
     ld a, $03
     ldh [hCurrentBank], a          ; Mettre à jour shadow register
-    ld [$2000], a           ; MBC: switch vers bank 3
+    ld [rROMB0], a           ; MBC: switch vers bank 3
 
     ; --- CallTargetRoutine ---
     call $4823              ; Appeler routine en bank 3
@@ -4748,7 +4748,7 @@ SwitchBankAndCallBank3Handler:
     ; --- RestorePreviousBank ---
     ldh a, [hSavedBank]          ; Récupérer bank sauvegardée
     ldh [hCurrentBank], a          ; Restaurer shadow register
-    ld [$2000], a           ; MBC: restaurer bank
+    ld [rROMB0], a           ; MBC: restaurer bank
     ret
 
 
@@ -5757,7 +5757,7 @@ DisplayLivesDecrement:
 ; Affiche l'écran GAME OVER, sauvegarde score, clear OAM, configure window
 ; ===========================================================================
 State39_GameOver::
-    ld hl, $9c00
+    ld hl, _SCRN1
     ld de, $1cce
     ld b, $11
 
@@ -5844,7 +5844,7 @@ State3A_WindowUpdate::
 ; Copie 9 bytes vers $9C00 (window), active window, configure timer
 ; ===========================================================================
 State3B_WindowSetup::
-    ld hl, $9c00
+    ld hl, _SCRN1
     ld de, $1d0b
     ld c, $09
 
@@ -7078,7 +7078,7 @@ UpdateTilemapScrolling:
     ldh [hSavedBank], a
     ld a, $03
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     ldh a, [hRenderContext]
     add a
     ld e, a
@@ -7133,7 +7133,7 @@ SearchTilemapEntry_CheckY:
 SearchTilemapEntry_Exit:
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
 
 SearchTilemapExit:
     pop bc
@@ -7181,7 +7181,7 @@ LoadLevelTilemap:
     ldh [hSavedBank], a
     ld a, $03
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     ldh a, [hRenderContext]
     add a
     ld e, a
@@ -7223,7 +7223,7 @@ LoadLevelTilemap:
 .end_load:
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     pop bc
     pop de
     pop hl
@@ -7271,7 +7271,7 @@ State0D_GameplayFull::
     ldh [hSavedBank], a
     ld a, $03
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     call $498b                   ; Bank 3: init update
     ld bc, wObject2              ; Slot objet 2
     ld hl, $2164
@@ -7290,7 +7290,7 @@ State0D_GameplayFull::
     call $4bb5
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
 
     ; Update collision/physics
     call UpdateAudio
@@ -7300,11 +7300,11 @@ State0D_GameplayFull::
     ldh [hSavedBank], a
     ld a, $02
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
     call $5844                   ; Bank 2: special update
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
-    ld [$2000], a
+    ld [rROMB0], a
 
     ; Finalize
     call SwitchBankAndCallBank3Handler
