@@ -2284,7 +2284,7 @@ FXDispatch_3:
 
 FXDispatch_4:
     pop af
-    jr jr_003_49ac
+    jr JoypadInputBit0Check
 
     ldh a, [hGameState]
     cp $0d
@@ -2300,17 +2300,17 @@ FXDispatch_4:
     push af
     ld a, [$c20e]
     cp $04
-    jr nz, jr_003_49ab
+    jr nz, JoypadInputCheckFX04
 
     ld a, $02
     ld [$c20e], a
 
-jr_003_49ab:
+JoypadInputCheckFX04:
     pop af
 
-jr_003_49ac:
+JoypadInputBit0Check:
     bit 0, a
-    jr nz, jr_003_49bf
+    jr nz, JoypadInputProcessAPress
 
     ld a, [de]
     cp $01
@@ -2327,7 +2327,7 @@ ValidateAndProcessGameState:
     ret
 
 
-jr_003_49bf:
+JoypadInputProcessAPress:
     ld a, [de]
     and a
     jr nz, StateValidExit
@@ -2504,7 +2504,7 @@ HandleJoypadInputDelay:
 
     dec a
     ld [$c0d8], a
-    jr jr_003_4ad1
+    jr JoypadStateUpdatePersist
 
 jr_003_4aa7:
     ld a, [$c0dc]
@@ -2524,7 +2524,7 @@ jr_003_4aa7:
     add hl, de
     ld a, [hl+]
     cp $ff
-    jr z, jr_003_4ade
+    jr z, JoypadStateClearRegister
 
     ld [$c0da], a
     ld a, [hl]
@@ -2534,7 +2534,7 @@ jr_003_4aa7:
     ld a, e
     ld [wLevelVarD9], a
 
-jr_003_4ad1:
+JoypadStateUpdatePersist:
     ldh a, [hJoypadState]
     ld [$c0db], a
     ld a, [$c0da]
@@ -2543,10 +2543,10 @@ jr_003_4ad1:
     ret
 
 
-jr_003_4ade:
+JoypadStateClearRegister:
     xor a
     ld [$c0da], a
-    jr jr_003_4ad1
+    jr JoypadStateUpdatePersist
 
     ld d, b
     ld h, l
@@ -2561,13 +2561,13 @@ ProcessRenderObjectLoop:
     push hl
     ld a, [hl]
     cp $80
-    jr nz, jr_003_4afa
+    jr nz, RenderLoopContinue
 
     ld [hl], $ff
 
-jr_003_4afa:
+RenderLoopContinue:
     and a
-    jr nz, jr_003_4b1b
+    jr nz, RenderLoopProcessActive
 
     push de
     ld de, $0007
@@ -2575,7 +2575,7 @@ jr_003_4afa:
     pop de
     ld a, [hl]
     and a
-    jr z, jr_003_4b32
+    jr z, RenderLoopSetFlag
 
     dec l
     dec l
@@ -2584,7 +2584,7 @@ jr_003_4afa:
     dec l
     dec l
     and a
-    jr nz, jr_003_4b25
+    jr nz, RenderLoopDecrement
 
     inc [hl]
     ldh a, [hRenderAttr]
@@ -2596,7 +2596,7 @@ jr_003_4afa:
     sub c
     ld [hl], a
 
-jr_003_4b1b:
+RenderLoopProcessActive:
     pop hl
     add hl, de
     dec b
@@ -2607,7 +2607,7 @@ jr_003_4b1b:
     ret
 
 
-jr_003_4b25:
+RenderLoopDecrement:
     dec [hl]
     ldh a, [hRenderAttr]
     ld c, a
@@ -2617,16 +2617,16 @@ jr_003_4b25:
     ld a, [hl]
     sub c
     ld [hl], a
-    jr jr_003_4b1b
+    jr RenderLoopProcessActive
 
-jr_003_4b32:
+RenderLoopSetFlag:
     pop hl
     push hl
     ld [hl], $80
     inc l
     inc l
     ld [hl], $ff
-    jr jr_003_4b1b
+    jr RenderLoopProcessActive
 
     ldh a, [hBlockHitType]
     cp $03
@@ -2643,26 +2643,26 @@ jr_003_4b32:
     ld [hl], a
     ld a, [$c20a]
     and a
-    jr nz, jr_003_4b62
+    jr nz, HandleBlockCollisionClear
 
     ldh a, [$fff1]
     ld b, a
     sub $04
     cp [hl]
-    jr nc, jr_003_4b69
+    jr nc, HandleBlockCollisionResolve
 
     ld a, b
     cp [hl]
     ret nc
 
-jr_003_4b62:
+HandleBlockCollisionClear:
     ld [hl], $00
     ld a, $04
     ldh [hBlockHitType], a
     ret
 
 
-jr_003_4b69:
+HandleBlockCollisionResolve:
     ld a, $02
     ld [$c207], a
     ret
@@ -2694,7 +2694,7 @@ jr_003_4b69:
 
     ldh a, [hTimer1]
     and a
-    jr z, jr_003_4ba4
+    jr z, TimerInitializeAux
 
     and $03
     ret nz
@@ -2707,7 +2707,7 @@ jr_003_4b69:
     ret
 
 
-jr_003_4ba4:
+TimerInitializeAux:
     ld a, $02
     ldh [hTimerAux], a
     xor a
@@ -2727,7 +2727,7 @@ jr_003_4ba4:
 
     ldh a, [hTimer1]
     and a
-    jr z, jr_003_4bcf
+    jr z, TimerResetState
 
     and $03
     ret nz
@@ -2738,7 +2738,7 @@ jr_003_4ba4:
     ret
 
 
-jr_003_4bcf:
+TimerResetState:
     ld a, $04
     ldh [hTimerAux], a
     ld a, $40
