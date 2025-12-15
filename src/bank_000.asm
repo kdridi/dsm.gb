@@ -327,6 +327,12 @@ LCDStatHandler_CheckWindow:
 LCDStat_CheckCarryExit:
     jr nc, LCDStatHandler_Exit  ; Carry clear → ne pas changer LYC
 
+; LCDStatHandler_UpdateLYC
+; ------------------------
+; Description: Incrémente LYC de 8 lignes pour animation window (1 tile)
+; In:  a = valeur LYC actuelle
+; Out: a = nouvelle valeur LYC (ancienne + 8)
+; Modifie: a (flow-through vers SetLYC)
 LCDStatHandler_UpdateLYC:
     add LYC_SCANLINE_STRIDE     ; Prochaine ligne LYC (+8 = 1 tile)
 

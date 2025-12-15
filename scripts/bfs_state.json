@@ -129,10 +129,26 @@
       "priority": 3
     },
     {
+      "address": "$00C5",
+      "node_type": "code",
+      "description": "LCDStatHandler_UpdateLYC - incr\u00e9mente LYC de 8 lignes pour animation window",
+      "source": "$00C3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$00C7",
       "node_type": "code",
       "description": "LCDStat_SetLYC - point d'entr\u00e9e public (\u00e9crit A dans rLYC+wGameConfigA5)",
       "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$00CC",
+      "node_type": "code",
+      "description": "LCDStatHandler_Exit - point de sortie du handler (pop hl puis PopAndReti)",
+      "source": "$00C3",
       "bank": 0,
       "priority": 3
     },
@@ -983,22 +999,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$00CC",
-      "node_type": "code",
-      "description": "LCDStatHandler_Exit - point de sortie du handler (pop hl puis PopAndReti)",
-      "source": "$00C3",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$00C5",
-      "node_type": "code",
-      "description": "LCDStatHandler_UpdateLYC - incr\u00e9mente LYC de 8 lignes pour animation window",
-      "source": "$00C3",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1011,6 +1011,7 @@
     "$0028",
     "$02A5",
     "$4000:1",
+    "$00C5",
     "$0226",
     "$0048",
     "$00C3",
@@ -1019,6 +1020,6 @@
     "$0040",
     "$4000:3"
   ],
-  "commits_since_push": 0,
-  "total_explored": 16
+  "commits_since_push": 1,
+  "total_explored": 17
 }
