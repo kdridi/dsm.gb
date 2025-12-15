@@ -129,7 +129,9 @@
       "priority": 3
     }
   ],
-  "visited": [],
+  "visited": [
+    "$0000"
+  ],
   "commits_since_push": 0,
-  "total_explored": 0
+  "total_explored": 1
 }
