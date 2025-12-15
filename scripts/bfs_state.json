@@ -1617,6 +1617,14 @@
       "priority": 3
     },
     {
+      "address": "$C0D2",
+      "node_type": "data",
+      "description": "wCollisionFlag - Flag collision r\u00e9initialis\u00e9 \u00e0 0",
+      "source": "$0E8D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$C0DE",
       "node_type": "data",
       "description": "wAudioSaveDE - flag scroll Y actif",
@@ -1633,10 +1641,26 @@
       "priority": 3
     },
     {
+      "address": "$C207",
+      "node_type": "data",
+      "description": "wPlayerUnk07 - Variable joueur $07 r\u00e9initialis\u00e9e \u00e0 0",
+      "source": "$0E8D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$FFA4",
       "node_type": "data",
       "description": "hShadowSCX - shadow register pour effets raster",
       "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFA6",
+      "node_type": "data",
+      "description": "hTimer1 - Timer principal v\u00e9rifi\u00e9 pour attendre fin",
+      "source": "$0E8D",
       "bank": 0,
       "priority": 3
     },
@@ -1657,6 +1681,14 @@
       "priority": 3
     },
     {
+      "address": "$FFF9",
+      "node_type": "data",
+      "description": "hVBlankMode - Mode VBlank activ\u00e9 (mis \u00e0 1)",
+      "source": "$0E8D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$FFFB",
       "node_type": "data",
       "description": "hOAMIndex - index OAM pour animation",
@@ -1665,34 +1697,10 @@
       "priority": 3
     },
     {
-      "address": "$FFA6",
-      "node_type": "data",
-      "description": "hTimer1 - Timer principal v\u00e9rifi\u00e9 pour attendre fin",
-      "source": "$0E8D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C0D2",
-      "node_type": "data",
-      "description": "wCollisionFlag - Flag collision r\u00e9initialis\u00e9 \u00e0 0",
-      "source": "$0E8D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C207",
-      "node_type": "data",
-      "description": "wPlayerUnk07 - Variable joueur $07 r\u00e9initialis\u00e9e \u00e0 0",
-      "source": "$0E8D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFF9",
-      "node_type": "data",
-      "description": "hVBlankMode - Mode VBlank activ\u00e9 (mis \u00e0 1)",
-      "source": "$0E8D",
+      "address": "$0EB2",
+      "node_type": "code",
+      "description": "AutoMovePlayerRight - Simule input droite pour d\u00e9placer automatiquement le joueur",
+      "source": "$0EA0",
       "bank": 0,
       "priority": 3
     }
@@ -1707,6 +1715,7 @@
     "$0558",
     "$03E4",
     "$0AE1",
+    "$0EA0",
     "$00CD",
     "$0E28",
     "$0150",
@@ -1781,6 +1790,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 1,
-  "total_explored": 82
+  "commits_since_push": 2,
+  "total_explored": 83
 }

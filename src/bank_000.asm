@@ -3385,8 +3385,18 @@ State1F_EnableVBlankMode::
     ret
 
 ; ===========================================================================
+; ===========================================================================
 ; États $20/$28 - Attente position joueur ($0EA0)
-; Simule input droite, attend que joueur atteigne position cible
+; ===========================================================================
+; State20_WaitPlayerPosition
+; --------------------------
+; Description: Simule input droite et attend que le joueur atteigne la position
+;              cible (PLAYER_POS_THRESHOLD). Passe à l'état suivant une fois
+;              la position atteinte.
+; In:  wPlayerState = position actuelle du joueur
+; Out: hGameState = incrémenté si position atteinte
+;      hTimer1 = initialisé à TIMER_ANIM_WALK si position atteinte
+; Modifie: a, hl
 ; ===========================================================================
 State20_WaitPlayerPosition::
     call AutoMovePlayerRight
@@ -3400,7 +3410,15 @@ State20_WaitPlayerPosition::
     inc [hl]
     ret
 
-; --- Routine : simule input droite pour animation ---
+; ===========================================================================
+; AutoMovePlayerRight ($0EB2)
+; -----------------
+; Description: Simule une pression sur la touche droite pour déplacer
+;              automatiquement le joueur. Gère collision tête et animation pipe.
+; In:  wPlayerDir = direction et mode du joueur
+; Out: hJoypadState = PADF_RIGHT (input simulé)
+; Modifie: a
+; ===========================================================================
 AutoMovePlayerRight:
     ld a, PADF_RIGHT
     ldh [hJoypadState], a
