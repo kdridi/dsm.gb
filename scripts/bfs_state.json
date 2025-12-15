@@ -1017,9 +1017,10 @@
     "$00C3",
     "$0000",
     "$0095",
+    "$00C7",
     "$0040",
     "$4000:3"
   ],
-  "commits_since_push": 1,
-  "total_explored": 17
+  "commits_since_push": 2,
+  "total_explored": 18
 }

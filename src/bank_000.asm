@@ -336,7 +336,12 @@ LCDStat_CheckCarryExit:
 LCDStatHandler_UpdateLYC:
     add LYC_SCANLINE_STRIDE     ; Prochaine ligne LYC (+8 = 1 tile)
 
-;; Point d'entrée public : écrit A dans rLYC et wGameConfigA5
+; LCDStat_SetLYC
+; --------------
+; Description: Point d'entrée public - écrit la valeur LYC dans le registre hardware et la sauvegarde
+; In:  a = nouvelle valeur LYC (ligne de comparaison pour interruption STAT)
+; Out: a = inchangé
+; Modifie: [rLYC], [wGameConfigA5]
 LCDStat_SetLYC:
     ldh [rLYC], a               ; Programmer prochaine interruption
     ld [wGameConfigA5], a       ; Mémoriser pour mode retour
