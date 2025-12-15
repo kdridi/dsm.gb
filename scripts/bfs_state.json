@@ -833,6 +833,14 @@
       "priority": 3
     },
     {
+      "address": "$10FE",
+      "node_type": "code",
+      "description": "ResetCollisionFlags - Reset flags collision et passe \u00e0 l'\u00e9tat suivant",
+      "source": "$1090",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$110D",
       "node_type": "code",
       "description": "State29_SetupEndScreen - Setup \u00e9cran fin",
@@ -1783,14 +1791,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$10FE",
-      "node_type": "code",
-      "description": "ResetCollisionFlags - Reset flags collision et passe \u00e0 l'\u00e9tat suivant",
-      "source": "$1090",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1863,6 +1863,7 @@
     "$06C5",
     "$0ad1",
     "$04A2",
+    "$10FE",
     "$0B84",
     "$4000:1",
     "$0F2A",
@@ -1899,6 +1900,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 3,
-  "total_explored": 104
+  "commits_since_push": 4,
+  "total_explored": 105
 }

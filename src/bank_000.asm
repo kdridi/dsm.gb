@@ -3982,6 +3982,12 @@ State27_CheckTimer:
     ret
 
 
+; ResetCollisionFlags
+; -------------------
+; Description: Réinitialise les flags de collision et niveau, active VBlank et passe à l'état suivant
+; In:  -
+; Out: -
+; Modifie: a, hl
 ResetCollisionFlags:
     xor a
     ld [wLevelInitFlag], a
