@@ -1631,6 +1631,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$4032",
+      "node_type": "data",
+      "description": "Tiles graphiques monde 1 et 2 (bank 1)",
+      "source": "$0DE4",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$4402",
+      "node_type": "data",
+      "description": "Palette graphique monde 1 et 2 (bank 1)",
+      "source": "$0DE4",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$4BC2",
+      "node_type": "data",
+      "description": "Palette graphique monde 3 (bank 1)",
+      "source": "$0DE4",
+      "bank": 1,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1639,6 +1663,7 @@
     "$0A07",
     "$0A20",
     "$0C6A",
+    "$0DE4",
     "$0322",
     "$0D82",
     "$0C22",
@@ -1709,6 +1734,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 3,
-  "total_explored": 74
+  "commits_since_push": 4,
+  "total_explored": 75
 }

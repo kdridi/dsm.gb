@@ -3181,23 +3181,28 @@ GameplayInitStart:
     call InitAudioAndAnimContext    ; Initialise audio et contexte d'animation
     ret
 
-; === Tables de pointeurs graphiques ($0DE4-$0DEF) ===
-; NOTE: Code mal désassemblé - ce sont des données (adresses pour chargement tiles)
-; Utilisées par State08_WorldProgress pour charger les tiles selon le monde
-; GraphicsTableA ($0DE4): dw $4032, $4032, $47F2 (3 pointeurs)
-; GraphicsTableB ($0DEA): dw $4402, $4402, $4BC2 (3 pointeurs)
+; ===========================================================================
+; GraphicsTableA / GraphicsTableB - Tables de pointeurs graphiques par monde
+; ===========================================================================
+; Description: Tables indexées par (monde - 2) * 2 pour charger les graphiques
+;              spécifiques à chaque monde (tiles et palettes)
+; Utilisé par: State08_WorldProgress (src/bank_000.asm:3111, 3130)
+; Format:      GraphicsTableA[i] = pointeur ROM vers tiles du monde (i+2)
+;              GraphicsTableB[i] = pointeur ROM vers palette du monde (i+2)
+; Index:       0 = Monde 1, 2 = Monde 2, 4 = Monde 3
+; Taille:      6 octets par table (3 entrées × 2 octets)
+; ===========================================================================
+
+; GraphicsTableA - Pointeurs vers les tiles de chaque monde ($0DE4)
 GraphicsTableA:
     dw $4032               ; Monde 1 - pointeur tiles
-    ;
     dw $4032               ; Monde 2 - pointeur tiles (identique monde 1)
-    ;
     dw $47F2               ; Monde 3 - pointeur tiles
-    ;
+
+; GraphicsTableB - Pointeurs vers les palettes de chaque monde ($0DEA)
 GraphicsTableB:
     dw $4402               ; Monde 1 - pointeur palette
-    ;
     dw $4402               ; Monde 2 - pointeur palette (identique monde 1)
-    ;
     dw $4BC2               ; Monde 3 - pointeur palette
 
 ; ===========================================================================
