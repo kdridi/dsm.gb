@@ -120,6 +120,9 @@ DEF hTemp3          EQU $FFA3   ; Variable temporaire 3
 DEF hShadowSCX      EQU $FFA4   ; Shadow register SCX (effets raster)
 DEF hScrollColumn   EQU $FFE9   ; Colonne courante scrolling tilemap
 DEF hScrollPhase    EQU $FFEA   ; Phase mise à jour tilemap (1=active, 2=done)
+DEF SCROLL_PHASE_INACTIVE EQU $00  ; Scroll inactif
+DEF SCROLL_PHASE_ACTIVE   EQU $01  ; Scroll en cours de mise à jour
+DEF SCROLL_PHASE_DONE     EQU $02  ; Scroll terminé
 
 ; --- Timers ---
 DEF hTimer1         EQU $FFA6   ; Timer principal (décrémenté par GameLoop)
@@ -253,7 +256,8 @@ DEF wPlayerVarAB    EQU $C0AB   ; Variable joueur
 DEF wGameVarAC      EQU $C0AC   ; Variable jeu AC
 DEF wPlayerVarAD    EQU $C0AD   ; Variable joueur
 DEF wGameVarAE      EQU $C0AE   ; Variable jeu AE
-DEF wScrollBuffer   EQU $C0B0   ; Buffer colonne tilemap (16 octets)
+DEF wScrollBuffer       EQU $C0B0   ; Buffer colonne tilemap (16 octets)
+DEF SCROLL_BUFFER_SIZE  EQU $10     ; Taille buffer scroll (16 octets)
 DEF wScorePrevious  EQU $C0C2   ; Score précédent (comparaison)
 DEF wLevelConfig    EQU $C0CE   ; Configuration niveau
 DEF wCollisionFlag  EQU $C0D2   ; Flag collision
@@ -792,6 +796,7 @@ DEF LEVEL_INIT_DATA_SIZE    EQU $51   ; Taille données init niveau (81 octets)
 
 DEF SCROLL_VAR_COUNT        EQU $06   ; Nombre de variables scroll à initialiser (6 octets)
 DEF SCROLL_COLUMN_DEFAULT   EQU $40   ; Colonne scroll par défaut (64 tiles)
+DEF SCROLL_COLUMN_MAX       EQU $60   ; Colonne scroll max avant wrap (96 tiles)
 DEF TILEMAP_VISIBLE_COLS    EQU $14   ; Colonnes tilemap visibles (20 = écran)
 DEF TILEMAP_BUFFER_COLS     EQU $1b   ; Colonnes tilemap avec buffer (27)
 

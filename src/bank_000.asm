@@ -2781,8 +2781,8 @@ CopyColorPaletteDataLoop:
     pop hl
     ld de, $02c1
     add hl, de
-    ld de, $c600
-    ld b, $08
+    ld de, wAnimBuffer
+    ld b, ANIM_BUFFER_COPY_SIZE
 
 CopyGraphicsPaletteLoop:
     ld a, [hl+]
@@ -3862,7 +3862,7 @@ PopAndReturn:
 ; --- Routine : clear scroll buffer ---
 ClearScrollBuffer:
     ld hl, wScrollBuffer
-    ld b, $10
+    ld b, SCROLL_BUFFER_SIZE
     ld a, TILE_EMPTY
 
 ClearBufferLoop:
@@ -3870,7 +3870,7 @@ ClearBufferLoop:
     dec b
     jr nz, ClearBufferLoop
 
-    ld a, $01
+    ld a, SCROLL_PHASE_ACTIVE
     ldh [hScrollPhase], a
     ld b, HUD_LINE_COUNT
     ldh a, [hScrollColumn]
@@ -6779,7 +6779,7 @@ ResetScrollPhase:
     cp b
     ret z
 
-    xor a
+    xor a                       ; SCROLL_PHASE_INACTIVE
     ldh [hScrollPhase], a
     ret
 
@@ -6805,7 +6805,7 @@ UpdateScroll:
     inc [hl]
 
 InitScrollBuffer:
-    ld b, $10
+    ld b, SCROLL_BUFFER_SIZE
     ld hl, wScrollBuffer
     ld a, TILE_EMPTY
 
@@ -6934,7 +6934,7 @@ UpdateTilemapScrollConfig:
     ldh [hTilemapScrollY], a
     ldh a, [hShadowSCX]
     ld [wGameVarAA], a
-    ld a, $01
+    ld a, SCROLL_PHASE_ACTIVE
     ldh [hScrollPhase], a
     ret
 
@@ -6972,22 +6972,22 @@ CopyTileDataLoop:
 ; =============================================================================
 UpdateScrollColumn:
     ldh a, [hScrollPhase]
-    cp $01
+    cp SCROLL_PHASE_ACTIVE
     ret nz
 
     ldh a, [hScrollColumn]
     ld l, a
     inc a
-    cp $60
+    cp SCROLL_COLUMN_MAX
     jr nz, ScrollColumnWrapAround
 
-    ld a, $40
+    ld a, SCROLL_COLUMN_DEFAULT
 
 ScrollColumnWrapAround:
     ldh [hScrollColumn], a
     ld h, VRAM_TILEMAP_HIGH
     ld de, wScrollBuffer
-    ld b, $10
+    ld b, SCROLL_BUFFER_SIZE
 
 ClearTilemapColumn:
     push hl
@@ -7031,7 +7031,7 @@ TilemapScrollLoop:
     dec b
     jr nz, ClearTilemapColumn
 
-    ld a, $02
+    ld a, SCROLL_PHASE_DONE
     ldh [hScrollPhase], a
     ret
 
@@ -7330,7 +7330,7 @@ UpdateAnimTiles:
     bit 3, a
     jr z, AnimTile_FromROM
 
-    ld hl, $c600
+    ld hl, wAnimBuffer
     jr AnimTile_Setup
 
 AnimTile_FromROM:
@@ -12745,7 +12745,7 @@ UpdateScoreDisplay:
     ret nz                  ; Oui → return
 
     ldh a, [hScrollPhase]          ; État spécial ?
-    cp $02
+    cp SCROLL_PHASE_DONE
     ret z                   ; Oui → return
 
     ; --- SetupPointers ---
