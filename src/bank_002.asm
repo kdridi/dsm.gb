@@ -8392,7 +8392,7 @@ jr_002_616b:
     cp $02
     ld d, e
 
-Call_002_63fd:
+Routine_DataProcess_H:
     ld b, b
     ld [hl], c
     add c
@@ -8604,7 +8604,7 @@ Routine_DataProcess_C:
     ldh [c], a
     ld h, b
 
-Call_002_64fd:
+Routine_DataProcess_I:
     ld h, c
     cp $02
     ld d, e
@@ -10451,7 +10451,7 @@ DataTable_6b63:
     cp $02
     ld d, e
     ld b, b
-    call nz, Call_002_63fd
+    call nz, Routine_DataProcess_H
     cp $02
     ld d, e
     ld b, b
@@ -10636,7 +10636,7 @@ DataTable_6b63:
     ld h, [hl]
     ld l, l
 
-Call_002_6e66:
+Routine_DataProcess_J:
     cp $05
     ld h, l
     ld l, [hl]
@@ -11011,7 +11011,7 @@ jr_002_6f56:
     ld l, l
     ld l, [hl]
     ld e, b
-    call nz, Call_002_6e66
+    call nz, Routine_DataProcess_J
     ld l, [hl]
     ld l, l
     cp $05
@@ -11033,7 +11033,7 @@ jr_002_6f56:
     ld l, l
     ld l, [hl]
     ld d, [hl]
-    call nz, Call_002_6e66
+    call nz, Routine_DataProcess_J
     ld l, [hl]
     ld l, l
     cp $16
@@ -11058,7 +11058,7 @@ jr_002_7038:
     ld l, [hl]
     ld e, d
     ld e, h
-    call nz, Call_002_6e66
+    call nz, Routine_DataProcess_J
     ld l, [hl]
     ld l, l
     cp $06
@@ -11078,7 +11078,7 @@ jr_002_7038:
     ld l, l
     ld l, [hl]
     add hl, hl
-    call nz, Call_002_6e66
+    call nz, Routine_DataProcess_J
     ld l, [hl]
     ld l, l
     cp $07
@@ -11125,7 +11125,7 @@ jr_002_7038:
     ld l, l
     ld l, [hl]
     ld d, l
-    call nz, Call_002_6e66
+    call nz, Routine_DataProcess_J
     ld l, [hl]
     ld l, l
     cp $06
@@ -11168,7 +11168,7 @@ jr_002_70b0:
     ld h, d
     ld e, l
     dec [hl]
-    call nz, Call_002_6e66
+    call nz, Routine_DataProcess_J
     ld l, [hl]
     ld l, l
     cp $06
@@ -11188,7 +11188,7 @@ jr_002_70b0:
     ld l, l
     ld l, [hl]
     ld e, b
-    call nz, Call_002_6e66
+    call nz, Routine_DataProcess_J
     ld l, [hl]
     ld l, l
     cp $07
@@ -11479,7 +11479,7 @@ jr_002_7149:
     ld h, h
     ld d, c
     ld d, [hl]
-    call nz, Call_002_64fd
+    call nz, Routine_DataProcess_I
     cp $06
     ld h, h
     ld h, h
@@ -11487,7 +11487,7 @@ jr_002_7149:
     ld h, h
     ld d, c
     dec hl
-    call nz, Call_002_64fd
+    call nz, Routine_DataProcess_I
     cp $06
     ld h, h
     ld h, h
@@ -11495,7 +11495,7 @@ jr_002_7149:
     ld h, h
     ld d, c
     ld d, a
-    call nz, Call_002_64fd
+    call nz, Routine_DataProcess_I
     cp $04
     ld h, h
     ld h, h
@@ -11503,14 +11503,14 @@ jr_002_7149:
     ld d, b
     ld d, c
     ld d, l
-    call nz, Call_002_64fd
+    call nz, Routine_DataProcess_I
     cp $03
     ld h, h
     ld h, h
     ld d, c
     ld d, c
     ld e, b
-    call nz, Call_002_64fd
+    call nz, Routine_DataProcess_I
     cp $13
     ld h, [hl]
     ld l, l
@@ -12286,7 +12286,7 @@ ProcessInputState_Bank2_Part2:
     ld d, c
     ld d, c
     ld d, l
-    call nz, Call_002_64fd
+    call nz, Routine_DataProcess_I
     cp $04
     ld h, h
     ld h, h
@@ -12294,7 +12294,7 @@ ProcessInputState_Bank2_Part2:
     ld d, d
     ld d, c
     ld d, [hl]
-    call nz, Call_002_64fd
+    call nz, Routine_DataProcess_I
     cp $06
     ld h, h
     ld h, h
