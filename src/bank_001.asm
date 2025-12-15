@@ -2165,9 +2165,9 @@ DataChain_48e8:
 
 JumpStub_4915:
     rrca
-    jr nz, jr_001_4918
+    jr nz, DataPadding_4918
 
-jr_001_4918:
+DataPadding_4918:
     nop
     nop
     nop
@@ -2777,7 +2777,7 @@ jr_001_4b18:
     ld a, [hl]
     inc a
     inc a
-    jr jr_001_4baa
+    jr DataPadding_4baa
 
     ld h, b
     ld b, b
@@ -2799,7 +2799,7 @@ jr_001_4b18:
     add b
     nop
 
-jr_001_4baa:
+DataPadding_4baa:
     nop
     nop
     ld b, c
@@ -3022,12 +3022,12 @@ jr_001_4c1f:
     nop
     ld b, b
     nop
-    jr nz, jr_001_4ca1
+    jr nz, JumpStub_4ca1
 
-jr_001_4ca1:
-    jr nz, jr_001_4ca3
+JumpStub_4ca1:
+    jr nz, DataPadding_4ca3
 
-jr_001_4ca3:
+DataPadding_4ca3:
     ld bc, $0200
     nop
     ld [bc], a
@@ -3189,9 +3189,9 @@ jr_001_4cb9:
     ld [$1000], sp
     nop
     stop
-    jr nz, jr_001_4d6d
+    jr nz, DataPadding_4d6d
 
-jr_001_4d6d:
+DataPadding_4d6d:
     ld b, b
     nop
     ld b, b
@@ -3202,9 +3202,9 @@ jr_001_4d6d:
     nop
     ld b, b
     nop
-    jr nz, jr_001_4d79
+    jr nz, DataMarker_4d79
 
-jr_001_4d79:
+DataMarker_4d79:
     stop
     stop
     ld [$0800], sp
@@ -3318,12 +3318,12 @@ jr_001_4dd9:
     nop
     ld d, b
     nop
-    jr nz, jr_001_4dfb
+    jr nz, JumpStub_4dfb
 
-jr_001_4dfb:
-    jr nz, jr_001_4dfd
+JumpStub_4dfb:
+    jr nz, DataPadding_4dfd
 
-jr_001_4dfd:
+DataPadding_4dfd:
     nop
     nop
     nop
@@ -3343,16 +3343,16 @@ jr_001_4dfd:
     ld bc, $0100
     ld [bc], a
     ld bc, $4020
-    jr nc, jr_001_4e56
+    jr nc, JumpStub_4e56
 
     db $10
     jr nz, @+$1e
 
     jr nz, jr_001_4e22
 
-    jr jr_001_4e1d
+    jr DataPadding_4e1d
 
-jr_001_4e1d:
+DataPadding_4e1d:
     rlca
     nop
     nop
@@ -3407,7 +3407,7 @@ jr_001_4e3d:
     nop
     stop
 
-jr_001_4e56:
+JumpStub_4e56:
     stop
     cp $00
     ld a, h
