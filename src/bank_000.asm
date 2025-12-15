@@ -4571,10 +4571,20 @@ SpriteEndData:
     db $80, $70, $10, $2a, $80  ; $137b: ROM_SPRITE_END_DATA_2 (objet 2)
     db $80, $40, $70, $29, $80  ; $1380: ROM_SPRITE_END_DATA_3 (objet 3)
 
-; ===========================================================================
-; État $32 - Animation scroll crédits ($1385)
-; Scroll avec animation des sprites, transition vers écran suivant
-; ===========================================================================
+; State32_CreditsScroll
+; ----------------------
+; Description: État $32 - Anime et scroll les crédits, décrémente les sprites OAM
+;              Scrolle à vitesse 2 pixels/frame, nettoie buffer tous les 8 pixels
+;              Transition vers état $33 quand OAM index atteint 0
+; In:  [hShadowSCX] = position scroll actuelle
+;      [hTemp3] = bit de toggle pour intervalle de nettoyage
+;      [hOAMIndex] = compteur sprites OAM restants
+; Out: [hGameState] = GAME_STATE_CREDITS_TEXT ($33) si OAM=0
+;      [hShadowSCX] = incrémenté de 2, reset à 0 en fin
+;      [rLYC] = LYC_CREDITS_LINE ($60)
+;      [hCopyDstLow/High] = ROM_CREDITS_TEXT ($154E)
+;      [hTimer1] = TIMER_CREDITS_LONG ($F0)
+; Modifie: af, bc, de, hl (via AnimateCreditsFrame et ClearScrollBuffer)
 State32_CreditsScroll::
     call AnimateCreditsFrame
     ldh a, [hShadowSCX]

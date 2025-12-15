@@ -1895,6 +1895,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1547",
+      "node_type": "code",
+      "description": "AnimateCreditsFrame - Anime sprites et appelle bank 3",
+      "source": "$1385",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$13BB",
+      "node_type": "code",
+      "description": "UpdateCreditsStars - Met \u00e0 jour animation des \u00e9toiles cr\u00e9dits",
+      "source": "$1385",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1922,6 +1938,7 @@
     "$0185",
     "$07F0",
     "$0ab6",
+    "$1385",
     "$055F",
     "$1376",
     "$049D",
@@ -2025,6 +2042,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 126
+  "commits_since_push": 1,
+  "total_explored": 127
 }
