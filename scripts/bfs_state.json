@@ -1439,6 +1439,62 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0aa6",
+      "node_type": "code",
+      "description": "CheckBoundingBoxCollision - V\u00e9rifie collision entre hitboxes joueur/objet",
+      "source": "$0837",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0a07",
+      "node_type": "code",
+      "description": "SelectAnimationBank - S\u00e9lectionne la bank pour les donn\u00e9es d'animation",
+      "source": "$0837",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$29f8",
+      "node_type": "code",
+      "description": "GetAnimationDataPointer - Obtient pointeur vers donn\u00e9es animation",
+      "source": "$0837",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2a3b",
+      "node_type": "code",
+      "description": "TriggerObjectSound - D\u00e9clenche son associ\u00e9 \u00e0 l'objet",
+      "source": "$0837",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$09e8",
+      "node_type": "code",
+      "description": "InitGameState - Initialise \u00e9tat de jeu (game over / transition)",
+      "source": "$0837",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$09d7",
+      "node_type": "code",
+      "description": "StartGameplayPhase - D\u00e9marre phase de gameplay apr\u00e8s d\u00e9g\u00e2ts",
+      "source": "$0837",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2afd",
+      "node_type": "code",
+      "description": "LoadAudioSlotConfiguration - Charge config audio pour slot objet",
+      "source": "$0837",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1488,11 +1544,12 @@
     "$07C3",
     "$07b7",
     "$07F0",
+    "$0837",
     "$0048",
     "$00C3",
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 4,
-  "total_explored": 50
+  "commits_since_push": 0,
+  "total_explored": 51
 }

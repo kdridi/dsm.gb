@@ -1891,6 +1891,14 @@ InitScrollState:
     ret
 
 
+; UpdateAnimatedObjectState
+; -------------------------
+; Description: Met à jour l'état des objets animés, gère la détection de collision
+;              avec le joueur et déclenche les interactions (coins, ennemis, objets spéciaux)
+; In:  hAnimObjCount = nombre d'objets animés restants à traiter
+;      wAudioBuffer = buffer des objets actifs (10 slots)
+; Out: Interactions traitées (ramassage pièces, dégâts, animations)
+; Modifie: a, bc, de, hl, divers flags HRAM (hOAMIndex, hAnimObjCount, etc.)
 UpdateAnimatedObjectState::
     ldh a, [hAnimObjCount]
     and a
