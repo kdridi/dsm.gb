@@ -828,3 +828,17 @@ DEF VRAM_TILEMAP_OFFSET        EQU $0120 ; Offset pour calcul scroll (288 bytes 
 ; === Scroll initial ===
 
 DEF TILEMAP_SCROLL_X_INIT      EQU $03   ; Valeur initiale hTilemapScrollX
+
+; === Collision - Offsets et seuils ===
+
+DEF COLLISION_OFFSET_6         EQU $06   ; Offset collision ±6 pixels (demi-tile)
+DEF COLLISION_THRESHOLD_7      EQU $07   ; Seuil collision 7 pixels
+DEF COLLISION_MARGIN_3         EQU $03   ; Marge collision 3 pixels
+DEF COLLISION_KNOCKBACK        EQU $0a   ; Distance knockback (10 pixels)
+
+; === Identifiants Monde (pour sélection banque/tiles) ===
+
+DEF WORLD_1                    EQU $01   ; Monde 1
+DEF WORLD_2                    EQU $02   ; Monde 2
+DEF WORLD_3                    EQU $03   ; Monde 3
+DEF WORLD_4                    EQU $04   ; Monde 4

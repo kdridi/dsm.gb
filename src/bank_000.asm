@@ -1712,11 +1712,11 @@ AdjustPlayerXForCollision:
 CheckPlayerCollisionWithObject:
     ldh [hTemp0], a
     ld a, [wPlayerX]
-    add $06
+    add COLLISION_OFFSET_6      ; +6 pixels pour centrage hitbox
     ldh [hTemp1], a
     ld a, [wPlayerState]
     ld b, a
-    sub $03
+    sub COLLISION_MARGIN_3      ; -3 pixels marge haute
     ldh [hTemp2], a
     ld a, $02
     add b
@@ -1750,14 +1750,14 @@ SkipInvulnCheck:
 
 ProcessPlayerInteraction:
     ld a, [wPlayerState]
-    add $06
+    add COLLISION_OFFSET_6      ; +6 pixels bas hitbox
     ld c, [hl]
     dec l
     sub c
     jr c, PlayerInteractionCheckDamage
 
     ld a, [wPlayerState]
-    sub $06
+    sub COLLISION_OFFSET_6      ; -6 pixels haut hitbox
     sub b
     jr nc, PlayerInteractionCheckDamage
 
@@ -2085,7 +2085,7 @@ ProcessFoundObject:
     sub b
     jr c, ContinueObjectScan
 
-    cp $07
+    cp COLLISION_THRESHOLD_7    ; Seuil collision 7 pixels
     jr nc, ContinueObjectScan
 
     inc l
@@ -2103,12 +2103,12 @@ Loop_AddValueByEight:
     ld c, a
     ld b, [hl]
     ld a, [wPlayerState]
-    sub $06
+    sub COLLISION_OFFSET_6      ; -6 pixels haut hitbox
     sub c
     jr nc, ContinueObjectScan
 
     ld a, [wPlayerState]
-    add $06
+    add COLLISION_OFFSET_6      ; +6 pixels bas hitbox
     sub b
     jr c, ContinueObjectScan
 
@@ -2246,11 +2246,11 @@ CheckCollisionXAxisPath:
     ld c, a
     ldh [hTemp0], a
     ld a, [wPlayerX]
-    add $06
+    add COLLISION_OFFSET_6      ; +6 pixels centrage hitbox
     ld b, a
     ld a, c
     sub b
-    cp $07
+    cp COLLISION_THRESHOLD_7    ; Seuil 7 pixels
     jr nc, CollisionCheckFailed
 
     inc l
@@ -2260,7 +2260,7 @@ CheckCollisionXAxisPath:
     sub b
     jr c, CheckCollisionYAxisPath
 
-    cp $03
+    cp COLLISION_MARGIN_3       ; Marge 3 pixels
     jr nc, CollisionCheckFailed
 
 CheckCollisionYAxisPath:
@@ -2289,13 +2289,13 @@ AddHeightOffset:
     sub b
     jr c, ApplyCollisionKnockback
 
-    cp $03
+    cp COLLISION_MARGIN_3       ; Marge 3 pixels
     jr nc, CollisionCheckFailed
 
 ApplyCollisionKnockback:
     dec l
     ldh a, [hTemp0]
-    sub $0a
+    sub COLLISION_KNOCKBACK     ; Knockback 10 pixels
     ld [wPlayerX], a
     push hl
     dec l
@@ -2313,10 +2313,10 @@ ApplyCollisionKnockback:
     ld [hl], $01
     ld hl, wPlayerUnk0C
     ld a, [hl]
-    cp $07
+    cp COLLISION_THRESHOLD_7    ; Vérifie si >= 7
     jr c, CollisionBoundsCheckEnd
 
-    ld [hl], $06
+    ld [hl], COLLISION_OFFSET_6 ; Limite à 6
 
 CollisionBoundsCheckEnd:
     pop hl
@@ -2715,19 +2715,19 @@ UpdateAnimationTileIndexPath:
 LoadAnimTilesByIndex:
     and NIBBLE_HIGH_MASK     ; Isoler le monde (bits hauts)
     swap a
-    cp $01
-    ld c, $02
+    cp WORLD_1              ; Monde 1 ?
+    ld c, $02               ; Bank 2 pour monde 1
     jr z, LoadGameTilesWithBank
 
-    cp $02
-    ld c, $01
+    cp WORLD_2              ; Monde 2 ?
+    ld c, $01               ; Bank 1 pour monde 2
     jr z, LoadAnimTilesWithBank
 
-    cp $03
-    ld c, $03
+    cp WORLD_3              ; Monde 3 ?
+    ld c, $03               ; Bank 3 pour monde 3
     jr z, LoadAnimTilesWithBank
 
-    ld c, $01
+    ld c, $01               ; Bank 1 par défaut (monde 4+)
 
 LoadAnimTilesWithBank:
     ld b, a
@@ -4912,10 +4912,10 @@ InitPlayerX:
     ld [hl], $01
     ld hl, wPlayerUnk0C
     ld a, [hl]
-    cp $07
+    cp COLLISION_THRESHOLD_7    ; Vérifie si >= 7
     ret c
 
-    ld [hl], $06
+    ld [hl], COLLISION_OFFSET_6 ; Limite à 6
     ret
 
 
@@ -5999,7 +5999,7 @@ ProcessAnimationState_JoypadLeft_Done:
     jr nz, CheckOscillationCollision_Skip
 
     ld a, [wCollisionFlag]
-    cp $07
+    cp COLLISION_THRESHOLD_7    ; Seuil collision 7
     jr c, CheckOscillationCollision_CheckScroll
 
     ldh a, [hShadowSCX]
@@ -8320,7 +8320,7 @@ ProcessVerticalCollision:
     jr c, RestoreCollisionFlagAndExit
 
     ld a, [wCollisionFlag]
-    cp $07
+    cp COLLISION_THRESHOLD_7    ; Seuil collision 7
     jr nc, AlignCameraTo4PixelBoundary
 
 ApplyHorizontalScrollOffset:
