@@ -1,0 +1,137 @@
+{
+  "frontier": [
+    {
+      "address": "$0000",
+      "node_type": "code",
+      "description": "RST $00 - Soft reset",
+      "source": "boot",
+      "bank": 0,
+      "priority": 0
+    },
+    {
+      "address": "$0028",
+      "node_type": "code",
+      "description": "RST $28 - Jump table dispatcher",
+      "source": "boot",
+      "bank": 0,
+      "priority": 0
+    },
+    {
+      "address": "$0040",
+      "node_type": "handler",
+      "description": "VBlank interrupt vector",
+      "source": "boot",
+      "bank": 0,
+      "priority": 0
+    },
+    {
+      "address": "$0048",
+      "node_type": "handler",
+      "description": "LCD STAT interrupt vector",
+      "source": "boot",
+      "bank": 0,
+      "priority": 0
+    },
+    {
+      "address": "$0050",
+      "node_type": "handler",
+      "description": "Timer interrupt vector",
+      "source": "boot",
+      "bank": 0,
+      "priority": 0
+    },
+    {
+      "address": "$0100",
+      "node_type": "code",
+      "description": "ROM Entry point",
+      "source": "boot",
+      "bank": 0,
+      "priority": 0
+    },
+    {
+      "address": "$0060",
+      "node_type": "handler",
+      "description": "VBlankHandler",
+      "source": "$0040",
+      "bank": 0,
+      "priority": 1
+    },
+    {
+      "address": "$0095",
+      "node_type": "handler",
+      "description": "LCDStatHandler",
+      "source": "$0048",
+      "bank": 0,
+      "priority": 1
+    },
+    {
+      "address": "$0185",
+      "node_type": "code",
+      "description": "SystemInit - Init syst\u00e8me",
+      "source": "$0100",
+      "bank": 0,
+      "priority": 1
+    },
+    {
+      "address": "$0226",
+      "node_type": "code",
+      "description": "GameLoop - Boucle principale",
+      "source": "SystemInit",
+      "bank": 0,
+      "priority": 1
+    },
+    {
+      "address": "$02A5",
+      "node_type": "table",
+      "description": "StateJumpTable - 60 \u00e9tats",
+      "source": "StateDispatcher",
+      "bank": 0,
+      "priority": 2
+    },
+    {
+      "address": "$4000:1",
+      "node_type": "table",
+      "description": "LevelJumpTable Bank 1",
+      "source": "level loader",
+      "bank": 1,
+      "priority": 2
+    },
+    {
+      "address": "$4000:2",
+      "node_type": "table",
+      "description": "LevelJumpTable Bank 2",
+      "source": "level loader",
+      "bank": 2,
+      "priority": 2
+    },
+    {
+      "address": "$4000:3",
+      "node_type": "table",
+      "description": "LevelJumpTable Bank 3",
+      "source": "level loader",
+      "bank": 3,
+      "priority": 2
+    },
+    {
+      "address": "$47F2",
+      "node_type": "code",
+      "description": "JoypadReadHandler",
+      "source": "GameLoop",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4823",
+      "node_type": "code",
+      "description": "AnimationHandler",
+      "source": "CallBank3Handler",
+      "bank": 3,
+      "priority": 3
+    }
+  ],
+  "visited": [
+    "$0000"
+  ],
+  "commits_since_push": 0,
+  "total_explored": 1
+}
