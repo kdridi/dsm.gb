@@ -450,7 +450,7 @@ SpriteGraphicsData_Enemy_Set2:
     rst $38
     nop
     nop
-    jr c, UnreachableCodeData_003_420e
+    jr c, UnreachableCodeData_003_00
 
     ld b, [hl]
     ld b, [hl]
@@ -501,7 +501,7 @@ SpriteGraphicsData_Enemy_Set2:
     dec e
     and $de
 
-UnreachableCodeData_003_420e:
+UnreachableCodeData_003_00:
     db $e4
     inc e
     db $e4
@@ -612,7 +612,7 @@ DataZone_425e:
     db $f4
     ret z
 
-    jr c, UnreachableCodeData_003_4301
+    jr c, UnreachableCodeData_003_01
 
     ldh a, [rNR42]
     ld [hl+], a
@@ -712,7 +712,7 @@ DataZone_425e:
     ld a, [hl]
     sub c
 
-UnreachableCodeData_003_4301:
+UnreachableCodeData_003_01:
     sub c
     db $e4
     inc e
@@ -1831,7 +1831,7 @@ PaddingZone_003_46d1:
     ld [hl], d
     jr nc, AudioData_003_47c0
 
-    jr nz, UnreachableCodeData_003_47b2
+    jr nz, UnreachableCodeData_003_02
 
     ld a, [hl]
     ld a, [hl]
@@ -1862,7 +1862,7 @@ PaddingZone_003_46d1:
     ld a, [hl]
     ld a, [hl]
 
-UnreachableCodeData_003_47b2:
+UnreachableCodeData_003_02:
     ld a, a
     ld a, a
     rst $30
@@ -3335,7 +3335,7 @@ DispatchDataZone_4dd8:
     jr PaddingZone_003_4e6d
 
 PaddingZone_003_4e6d:
-    jr nz, UnreachableCodeData_003_4e77
+    jr nz, UnreachableCodeData_003_03
 
     jr nz, PaddingZone_003_4e71
 
@@ -3348,7 +3348,7 @@ PaddingZone_003_4e73:
     rrca
     inc a
 
-UnreachableCodeData_003_4e77:
+UnreachableCodeData_003_03:
     db $10
     ld c, a
     ret
@@ -4441,7 +4441,7 @@ AudioDataRaw_003_5319:
     cp $32
     ld [hl-], a
     ld [hl], $97
-    jr c, UnreachableCodeData_003_5378
+    jr c, UnreachableCodeData_003_04
 
     ld a, $41
     ld b, h
@@ -4493,7 +4493,7 @@ GfxData_TileSheet:
     ld hl, $fe34
     ld [de], a
 
-UnreachableCodeData_003_5378:
+UnreachableCodeData_003_04:
     ld sp, $fe35
     ld [de], a
     ld [hl-], a
@@ -4770,7 +4770,7 @@ ByteValueDispatchCase_31:
     ld b, b
     ld b, e
     cp $b5
-    jr c, UnreachableCodeData_003_551f
+    jr c, UnreachableCodeData_003_05
 
     ld a, $41
     ld b, h
@@ -4817,7 +4817,7 @@ ByteValueDispatchCase_31:
     db $fd
     ld h, e
 
-UnreachableCodeData_003_551f:
+UnreachableCodeData_003_05:
     cp $88
     db $fd
     ld h, h
@@ -7880,7 +7880,7 @@ DataPadding_62c2:
     db $ed
     ld h, c
     cp $97
-    jr c, UnreachableCodeData_003_6357
+    jr c, UnreachableCodeData_003_06
 
     ld a, $41
     ld b, h
@@ -7932,7 +7932,7 @@ DataPadding_62c2:
     ld h, h
     ld h, c
 
-UnreachableCodeData_003_6357:
+UnreachableCodeData_003_06:
     ld h, c
     cp $43
     db $fd
@@ -8656,7 +8656,7 @@ AudioTable_Block6:
     db $10
     inc b
     nop
-    jr nz, UnreachableCodeData_003_66b3
+    jr nz, UnreachableCodeData_003_07
 
     dec c
     ld de, $101c
@@ -8670,7 +8670,7 @@ AudioTable_Block6:
     inc l
     db $10
 
-UnreachableCodeData_003_66b3:
+UnreachableCodeData_003_07:
     inc bc
     ld de, $1011
     ld c, $00
@@ -13943,11 +13943,11 @@ PaddingZone_003_7ea1:
     ld c, b
     ld c, b
     nop
-    jr z, AudioDispatchData_003_7fbb
+    jr z, AudioDispatchData_003_00
 
     ld b, b
     ld b, b
-    jr z, AudioDispatchData_003_7fbf
+    jr z, AudioDispatchData_003_01
 
     ld b, b
     ld b, b
@@ -13955,11 +13955,11 @@ PaddingZone_003_7ea1:
 
     ld b, b
     ld b, b
-    jr z, AudioDispatchData_003_7fc7
+    jr z, AudioDispatchData_003_02
 
     ld b, b
     ld b, b
-    jr nc, AudioDispatchData_003_7fd3
+    jr nc, AudioDispatchData_003_03
 
     ld a, [hl-]
     ld b, d
@@ -13984,12 +13984,12 @@ PaddingZone_003_7ea1:
     ld b, $06
     and d
 
-AudioDispatchData_003_7fbb:
+AudioDispatchData_003_00:
     dec bc
     and c
     ld b, $06
 
-AudioDispatchData_003_7fbf:
+AudioDispatchData_003_01:
     and d
     dec bc
     and c
@@ -13998,7 +13998,7 @@ AudioDispatchData_003_7fbf:
     dec bc
     and c
 
-AudioDispatchData_003_7fc7:
+AudioDispatchData_003_02:
     ld b, $06
     and d
     dec bc
@@ -14009,7 +14009,7 @@ AudioDispatchData_003_7fc7:
     and c
     ld b, $06
 
-AudioDispatchData_003_7fd3:
+AudioDispatchData_003_03:
     and d
     dec bc
     and c
