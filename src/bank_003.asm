@@ -9175,7 +9175,7 @@ ProcessAudioFrame:
     ld a, [hl]
     inc [hl]
     cp $00
-    jr z, UnknownCode_003_6956
+    jr z, SquareChannel1_Setup
 
     cp $01
     jp z, ResetPulseChannel
@@ -9183,7 +9183,7 @@ ProcessAudioFrame:
     ret
 
 
-UnknownCode_003_6956:
+SquareChannel1_Setup:
     ld hl, $6931
     jp InitSquareChannel1
 
@@ -9299,11 +9299,11 @@ UnknownCode_003_69e4:
     ret
 
 
-UnknownCode_003_69e9:
+DispatchAudioWave_Setup:
     ld a, $06
     ld hl, $69f1
 
-UnknownCode_003_69ee:
+DispatchAudioWave_Entry:
     jp DispatchAudioCommand
 
 
@@ -9313,12 +9313,12 @@ UnknownCode_003_69ee:
     and a
     rst $00
     nop
-    jr nc, UnknownCode_003_69e9
+    jr nc, DispatchAudioWave_Setup
 
     or c
     rst $00
     nop
-    jr nc, UnknownCode_003_69ee
+    jr nc, DispatchAudioWave_Entry
 
     cp d
     rst $00
@@ -9485,10 +9485,10 @@ DispatchAudioCommand:
     ld [de], a
     ld a, e
     cp $e5
-    jr z, UnknownCode_003_6ad8
+    jr z, ConfigureAudioSe_Entry
 
     cp $f5
-    jr z, UnknownCode_003_6ae6
+    jr z, ConfigureAudioWave_Entry
 
     cp $fd
     jr z, UnknownCode_003_6aed
@@ -9498,7 +9498,7 @@ DispatchAudioCommand:
 
 ConfigureAudioSe:
 InitSquareChannel1:
-UnknownCode_003_6ad8:
+ConfigureAudioSe_Entry:
     push bc
     ld c, $10
     ld b, $05
@@ -9511,7 +9511,7 @@ ConfigureAudioBgm:
     jr AudioRegisterTransferLoop
 
 ConfigureAudioWave:
-UnknownCode_003_6ae6:
+ConfigureAudioWave_Entry:
     push bc
     ld c, $1a
     ld b, $05
@@ -9560,13 +9560,13 @@ UpdateAudioFrameCounter:
     inc [hl]
     ld a, [hl+]
     cp [hl]
-    jr nz, UnknownCode_003_6b17
+    jr nz, AudioFrameCounter_Exit
 
     dec l
     xor a
     ld [hl], a
 
-UnknownCode_003_6b17:
+AudioFrameCounter_Exit:
     pop de
     ret
 
@@ -9672,7 +9672,7 @@ CheckAudioChannel4:
     ret
 
 
-UnknownCode_003_6b99:
+AudioClearChannels_Entry:
     call ClearAudioChannels
     ret
 
@@ -9685,7 +9685,7 @@ ProcessAudioRequest:
 
     ld [hl], a
     cp $ff
-    jr z, UnknownCode_003_6b99
+    jr z, AudioClearChannels_Entry
 
     ld b, a
     ld hl, $673c
