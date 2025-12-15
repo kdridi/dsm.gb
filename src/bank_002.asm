@@ -2524,7 +2524,7 @@ PaddingZone_002_4a68:
     ld b, b
     ret nz
 
-UnknownCode_002_4a92:
+DataZone_002_4a92:
     rra
     rra
     ld [hl], $38
@@ -2553,7 +2553,7 @@ UnknownCode_002_4a92:
     ld e, b
     adc b
     ld hl, sp-$08
-    jr nz, UnknownCode_002_4a92
+    jr nz, DataZone_002_4a92
 
     ld bc, $0701
     ld b, $0f
@@ -3612,7 +3612,7 @@ DataZone_002_4f00:
     db $10
     jr z, PaddingZone_002_4f30
 
-    jr z, UnknownCode_002_4f32
+    jr z, DataZone_002_4f32
 
     ld b, h
     ld b, h
@@ -3657,7 +3657,7 @@ PaddingZone_002_4f30:
     nop
     nop
 
-UnknownCode_002_4f32:
+DataZone_002_4f32:
     rrca
     rrca
     dec bc
@@ -7543,14 +7543,14 @@ UnknownCode_002_5fde:
     dec h
     inc c
     add h
-    jr z, UnknownCode_002_6017
+    jr z, DataZone_002_6017
 
     nop
     add hl, hl
     inc b
     nop
 
-UnknownCode_002_6017:
+DataZone_002_6017:
     ld a, [hl+]
     ld b, $84
     dec l
@@ -11039,7 +11039,7 @@ UnknownCode_002_6f56:
     cp $16
     ld l, [hl]
 
-UnknownCode_002_702a:
+DataZone_002_702a:
     ld l, l
     ld l, [hl]
     ld l, l
@@ -11052,7 +11052,7 @@ UnknownCode_002_702a:
     db $f4
     ld l, l
 
-UnknownCode_002_7038:
+DataZone_002_7038:
     ld l, [hl]
     ld l, l
     ld l, [hl]
@@ -11088,7 +11088,7 @@ UnknownCode_002_7038:
     ld l, [hl]
     ld l, l
     ld d, l
-    jr c, UnknownCode_002_702a
+    jr c, DataZone_002_702a
 
     ld h, l
     ld l, l
@@ -11101,7 +11101,7 @@ UnknownCode_002_7038:
     ld l, l
     ld l, [hl]
     ld d, a
-    jr c, UnknownCode_002_7038
+    jr c, DataZone_002_7038
 
     ld h, [hl]
     ld l, [hl]
@@ -11151,7 +11151,7 @@ UnknownCode_002_7038:
     cp $05
     db $f4
 
-UnknownCode_002_70b0:
+DataZone_002_70b0:
     ld h, [hl]
     ld l, l
     ld l, [hl]
@@ -11198,7 +11198,7 @@ UnknownCode_002_70b0:
     ld l, [hl]
     ld l, l
     ld d, [hl]
-    jr c, UnknownCode_002_70b0
+    jr c, DataZone_002_70b0
 
     ld [hl], b
     ld [hl], d
@@ -11273,8 +11273,8 @@ UnknownCode_002_7104:
     cp $32
     ld d, a
 
-UnknownCode_002_7141:
-    jr c, UnknownCode_002_7141
+ErrorLoop_002_7141:
+    jr c, ErrorLoop_002_7141
 
     ld [hl-], a
     ld d, [hl]
@@ -12529,15 +12529,15 @@ ProcessInputState_Bank2_Part2:
     db $fd
     ld a, a
 
-UnknownCode_002_76d9:
+DataZone_002_76d9:
     cp $e2
     db $fd
     ld a, a
     cp $01
 
-UnknownCode_002_76df:
+ErrorLoop_002_76df:
     ld a, a
-    jr c, UnknownCode_002_76df
+    jr c, ErrorLoop_002_76df
 
     add d
     ldh [c], a
@@ -12635,7 +12635,7 @@ UnknownCode_002_76df:
     ld a, a
     cp $01
     ld a, a
-    jr c, UnknownCode_002_76d9
+    jr c, DataZone_002_76d9
 
     add d
     add d
@@ -13300,7 +13300,7 @@ PaddingZone_002_79f2:
     nop
     inc c
     ccf
-    jr nz, UnknownCode_002_7a8d
+    jr nz, DataZone_002_7a8d
 
     ld d, b
     ld l, a
@@ -13409,7 +13409,7 @@ UnknownCode_002_7a71:
     and b
     cp a
 
-UnknownCode_002_7a8d:
+DataZone_002_7a8d:
     and e
     cp [hl]
     and d
@@ -13451,7 +13451,7 @@ UnknownCode_002_7a8d:
     nop
     rst $38
 
-UnknownCode_002_7ab7:
+DataZone_002_7ab7:
     rra
     ldh a, [rNR10]
     cp a
@@ -13468,7 +13468,7 @@ UnknownCode_002_7ab7:
     cp a
     and e
     inc a
-    jr nz, UnknownCode_002_7ab7
+    jr nz, DataZone_002_7ab7
 
     inc c
     db $f4
@@ -13857,7 +13857,7 @@ AudioDispatchEntry_7c28:
     and c
     rra
     rra
-    jr nc, UnknownCode_002_7c7e
+    jr nc, DataZone_002_7c7e
 
     ld a, a
     ld h, b
@@ -13914,7 +13914,7 @@ AudioDispatchEntry_7c68:
     sub c
     sub c
 
-UnknownCode_002_7c7e:
+DataZone_002_7c7e:
     rst $18
     pop de
     ld e, a
@@ -14500,7 +14500,7 @@ UnknownCode_002_7de8:
     ld bc, $0601
     ld b, $08
     ld [$1010], sp
-    jr nz, UnknownCode_002_7ed6
+    jr nz, DataZone_002_7ed6
 
     ld b, l
     ld b, b
@@ -14512,7 +14512,7 @@ UnknownCode_002_7de8:
 
     ret nz
 
-    jr nc, UnknownCode_002_7ef0
+    jr nc, DataZone_002_7ef0
 
     ld [$5508], sp
     dec b
@@ -14527,12 +14527,12 @@ UnknownCode_002_7de8:
     nop
     nop
     ldh [hVramPtrLow], a
-    jr UnknownCode_002_7eec
+    jr DataZone_002_7eec
 
     inc b
     inc b
 
-UnknownCode_002_7ed6:
+DataZone_002_7ed6:
     ld [bc], a
     ld [bc], a
     add c
@@ -14551,13 +14551,13 @@ UnknownCode_002_7ed6:
     call c, CheckCoinCollision
     ld [de], a
 
-UnknownCode_002_7eec:
+DataZone_002_7eec:
     rra
     db $10
     rrca
     ld a, [bc]
 
-UnknownCode_002_7ef0:
+DataZone_002_7ef0:
     rrca
     rrca
     db $10
