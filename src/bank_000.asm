@@ -1302,7 +1302,7 @@ StateHandler_00::
     ; Switch vers bank 2
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
-    ld a, $02
+    ld a, BANK_DEMO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     call UpdateGameTimersAndAnimation
@@ -2552,7 +2552,7 @@ AnimationCheckCompleteExit:
     ld [wLevelData], a
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
-    ld a, $02
+    ld a, BANK_DEMO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     call UpdateGameTimersAndAnimation
@@ -2615,7 +2615,7 @@ CheckPlayerCenterPosition:
     jr StateHandler_06_SetNextState
 
 StateHandler_06_SwitchBank2:
-    ld a, $02
+    ld a, BANK_DEMO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     ld a, GAME_STATE_OUTER        ; État $12 si hors centre
@@ -2627,7 +2627,7 @@ StateHandler_06_SetNextState:
 
 StateHandler_06_SpecialLevel:
     ldh [hGameState], a
-    ld a, $03
+    ld a, BANK_AUDIO
     ld [rROMB0], a
     ldh [hCurrentBank], a
     ld hl, hRenderContext
@@ -3343,8 +3343,8 @@ State26_SwitchBankAndCallBank3Handler:
 
 State26_NextState:
     ld hl, hGameState
-    ld [hl], $12
-    ld a, $02
+    ld [hl], GAME_STATE_OUTER
+    ld a, BANK_DEMO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     ret
@@ -4693,7 +4693,7 @@ SwitchBankAndCallBank3Handler:
     ldh [hSavedBank], a          ; Sauvegarder dans temp
 
     ; --- SwitchToBank3 ---
-    ld a, $03
+    ld a, BANK_AUDIO
     ldh [hCurrentBank], a          ; Mettre à jour shadow register
     ld [rROMB0], a           ; MBC: switch vers bank 3
 
@@ -7046,7 +7046,7 @@ UpdateTilemapScrolling:
 
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
-    ld a, $03
+    ld a, BANK_AUDIO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     ldh a, [hRenderContext]
@@ -7149,7 +7149,7 @@ LoadLevelTilemap:
     push bc
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
-    ld a, $03
+    ld a, BANK_AUDIO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     ldh a, [hRenderContext]
@@ -7239,7 +7239,7 @@ State0D_GameplayFull::
     ; Bank 3 : mise à jour des 4 slots d'objets
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
-    ld a, $03
+    ld a, BANK_AUDIO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     call ProcessGameStateInput   ; Bank 3: traiter entrées
