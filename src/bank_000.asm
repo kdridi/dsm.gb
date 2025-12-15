@@ -265,11 +265,11 @@ LCDStatHandler_CheckWindow:
     ; --- Animation window (état $3A) ---
     ld hl, rWY                  ; $FF4A = Window Y position
     ld a, [hl]
-    cp $40                      ; WY == $40 ?
+    cp WY_WINDOW_DONE           ; WY == $40 ?
     jr z, LCDStatHandler_WindowDone ; Oui → animation terminée
 
     dec [hl]                    ; Sinon décrémenter WY
-    cp $87                      ; A >= $87 ?
+    cp LY_WINDOW_MAX            ; A >= $87 ?
 
 ;; Point d'entrée public : vérifie carry flag et exit si >= $87
 LCDStat_CheckCarryExit:
@@ -296,7 +296,7 @@ LCDStatHandler_RestoreMode:
     ; --- Mode retour : désactiver window ---
     ld hl, rLCDC                ; $FF40
     res 5, [hl]                 ; Désactiver Window (bit 5)
-    ld a, $0f
+    ld a, LYC_TOP_SCREEN
     ldh [rLYC], a               ; LYC = 15 (haut écran)
     xor a
     ld [wGameConfigA5], a       ; Repasser en mode normal
@@ -836,7 +836,7 @@ FinalizeGameStateAfterScore:
     ld [hl], $ac
     xor a
     ldh [rIF], a
-    ld a, $c3
+    ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     ei
     ld a, $0f
@@ -1119,7 +1119,7 @@ State11_LevelStart::
     jr nz, .clearTilemapLoop
 
     call CopyHudTilemap
-    ld a, $0f
+    ld a, LYC_TOP_SCREEN
     ldh [rLYC], a
     ld a, $07
     ldh [rTAC], a
@@ -1459,7 +1459,7 @@ ApplyLevelStyleConfig:
     xor a
     ldh [hGameState], a
     ld [wPlayerInvuln], a
-    ld a, $c3
+    ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     call RenderPlayerUpdate
     xor a
@@ -2793,7 +2793,7 @@ CopyGraphicsPaletteLoop:
 GameplayInitStart:
     xor a
     ldh [rIF], a
-    ld a, $c3
+    ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     ei
     ld a, $03
@@ -2837,7 +2837,7 @@ State1B_BonusComplete::
     call DisplayLivesCount
     xor a
     ldh [rIF], a
-    ld a, $c3
+    ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     ei
     ld a, $08
@@ -3503,7 +3503,7 @@ ClearOamBuffer_Loop:
     ldh [hCopyDstHigh], a
     ld a, $0f
     ld [wStateRender], a
-    ld a, $c3
+    ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     ei
     ld hl, hGameState
@@ -4545,7 +4545,7 @@ State0A_LoadSubLevel::
     ldh [rIF], a
     ldh [hGameState], a
     ldh [hShadowSCX], a
-    ld a, $c3
+    ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     ei
     ret
@@ -4633,7 +4633,7 @@ State0B_PipeEnterDown::
     ldh [hScrollColumn], a
     call FindAudioTableEntry
     call $1ecb
-    ld a, $c3
+    ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a               ; LCD on
     ld a, $0c
     ldh [hGameState], a          ; Transition vers état $0C
