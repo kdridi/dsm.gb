@@ -753,7 +753,7 @@ UnknownCode_003_4301:
     ld e, c
     ld b, a
 
-UnknownCode_003_432f:
+PaddingZone_003_432f:
     ld b, a
 
 PaddingZone_003_4330:
@@ -836,7 +836,7 @@ PaddingZone_003_4330:
     db $e4
     jp nc, $28d2
 
-    jr z, UnknownCode_003_432f
+    jr z, PaddingZone_003_432f
 
     and h
     jp nz, DataPadding_62c2
@@ -1103,9 +1103,9 @@ AudioDispatch_Frequency:
     nop
     ld [$1000], sp
     nop
-    jr nz, UnknownCode_003_44a3
+    jr nz, PaddingZone_003_44a3
 
-UnknownCode_003_44a3:
+PaddingZone_003_44a3:
     ld b, b
     nop
     add b
@@ -1470,9 +1470,9 @@ AudioHandler_Entry_3:
     jr nz, DispatchEntry_003_462b
 
 DispatchEntry_003_462b:
-    jr nz, UnknownCode_003_462d
+    jr nz, PaddingZone_003_462d
 
-UnknownCode_003_462d:
+PaddingZone_003_462d:
     ld a, a
     nop
     add b
@@ -1640,9 +1640,9 @@ JoypadInputEntry_4695:
     nop
     inc a
     nop
-    jr UnknownCode_003_46d1
+    jr PaddingZone_003_46d1
 
-UnknownCode_003_46d1:
+PaddingZone_003_46d1:
     nop
     nop
     ld b, d
@@ -4750,7 +4750,7 @@ UnknownCode_003_54b2:
     ld b, b
     ld b, e
     cp $b5
-    jr c, UnknownCode_003_551f
+    jr c, DataZone_003_551f
 
     ld a, $41
     ld b, h
@@ -4797,7 +4797,7 @@ UnknownCode_003_54b2:
     db $fd
     ld h, e
 
-UnknownCode_003_551f:
+DataZone_003_551f:
     cp $88
     db $fd
     ld h, h
@@ -11287,7 +11287,7 @@ UnknownCode_003_7377:
     ld b, b
     ld b, d
 
-UnknownCode_003_737a:
+PaddingZone_003_737a:
     ld b, b
     ld c, [hl]
     ld b, b
@@ -11365,7 +11365,7 @@ UnknownCode_003_73c1:
     sbc l
     scf
     ld [hl], b
-    jr nz, UnknownCode_003_737a
+    jr nz, PaddingZone_003_737a
 
     ld e, b
     ld d, h
@@ -12668,7 +12668,7 @@ UnknownCode_003_789d:
     nop
     nop
 
-UnknownCode_003_7a19:
+PaddingZone_003_7a19:
     nop
     ld [hl], a
     ld [hl], b
@@ -12747,7 +12747,7 @@ UnknownCode_003_7a19:
     sbc l
     scf
     ld [hl], b
-    jr nz, UnknownCode_003_7a19
+    jr nz, PaddingZone_003_7a19
 
     ld bc, $2a28
     and h
@@ -12781,7 +12781,7 @@ UnknownCode_003_7a86:
     ld [hl-], a
     ld bc, $1ea4
     ld a, [hl+]
-    jr z, UnknownCode_003_7ad7
+    jr z, PaddingZone_003_7ad7
 
     and l
     ld [hl], $01
@@ -12834,7 +12834,7 @@ UnknownCode_003_7acf:
     nop
     add b
 
-UnknownCode_003_7ad7:
+PaddingZone_003_7ad7:
     and d
     ld b, b
     ld b, d

@@ -2026,7 +2026,7 @@ JoypadInputEntry_488e:
 DispatchEntry_002_489a:
     ld a, h
     ld a, h
-    jr c, UnknownCode_002_48d6
+    jr c, PaddingZone_002_48d6
 
     ld a, h
     ld a, h
@@ -2087,7 +2087,7 @@ DispatchEntry_002_489a:
     rst $38
     ld b, b
 
-UnknownCode_002_48d6:
+PaddingZone_002_48d6:
     ld b, b
     nop
     nop
@@ -3244,7 +3244,7 @@ UnknownCode_002_4d62:
     add d
     add c
 
-UnknownCode_002_4d7c:
+PaddingZone_002_4d7c:
     ld a, c
     ld b, a
     ld a, $3e
@@ -3258,7 +3258,7 @@ PaddingZone_002_4d82:
     nop
     ldh [hVramPtrLow], a
     ld a, $fe
-    jr nc, UnknownCode_002_4d7c
+    jr nc, PaddingZone_002_4d7c
 
     ret nz
 
@@ -3885,9 +3885,9 @@ PaddingZone_002_4ff2:
     nop
     nop
     nop
-    jr UnknownCode_002_500e
+    jr PaddingZone_002_500e
 
-UnknownCode_002_500e:
+PaddingZone_002_500e:
     inc a
     nop
     ld h, [hl]
@@ -4571,7 +4571,7 @@ ControlFlow_Target_9:
     nop
     jr nc, UnknownCode_002_52be
 
-    jr nc, UnknownCode_002_52c0
+    jr nc, PaddingZone_002_52c0
 
     nop
     nop
@@ -4583,7 +4583,7 @@ ControlFlow_Target_9:
     nop
     nop
     nop
-    jr nc, UnknownCode_002_52cc
+    jr nc, PaddingZone_002_52cc
 
     jr nc, UnknownCode_002_52ce
 
@@ -4630,7 +4630,7 @@ UnknownCode_002_52be:
     inc e
     inc e
 
-UnknownCode_002_52c0:
+PaddingZone_002_52c0:
     nop
     nop
 
@@ -4646,7 +4646,7 @@ PaddingZone_002_52c2:
     inc a
     inc a
 
-UnknownCode_002_52cc:
+PaddingZone_002_52cc:
     nop
     nop
 
@@ -5015,7 +5015,7 @@ UnknownCode_002_53f0:
     nop
     nop
 
-UnknownCode_002_5469:
+PaddingZone_002_5469:
     nop
     nop
     nop
@@ -5076,7 +5076,7 @@ AudioDispatchEntry_5487:
     and b
     jr nz, AudioDispatchEntry_5487
 
-    jr nz, UnknownCode_002_5469
+    jr nz, PaddingZone_002_5469
 
     ld b, b
     ret nz
@@ -13233,7 +13233,7 @@ Routine_DataProcess_G:
     nop
     nop
     ldh a, [hCurrentTile]
-    jr UnknownCode_002_79f2
+    jr PaddingZone_002_79f2
 
     rst $38
     rst $38
@@ -13260,7 +13260,7 @@ Routine_DataProcess_G:
     xor d
     xor d
 
-UnknownCode_002_79f2:
+PaddingZone_002_79f2:
     ld d, l
     ld d, l
     nop
@@ -14598,7 +14598,7 @@ UnknownCode_002_7ef0:
     rst $38
     rst $38
     ccf
-    jr nz, UnknownCode_002_7f8d
+    jr nz, PaddingZone_002_7f8d
 
     ld d, b
     ld l, a
@@ -14673,7 +14673,7 @@ PaddingData_7f3a:
     nop
     nop
     cp e
-    jr c, UnknownCode_002_7fad
+    jr c, PaddingZone_002_7fad
 
     ld b, h
     rlca
@@ -14708,7 +14708,7 @@ PaddingData_7f3a:
     rst $38
     rst $38
 
-UnknownCode_002_7f8d:
+PaddingZone_002_7f8d:
     rst $38
     rst $38
     rst $38
@@ -14742,7 +14742,7 @@ UnknownCode_002_7f8d:
     rst $38
     rst $38
 
-UnknownCode_002_7fad:
+PaddingZone_002_7fad:
     rst $38
     rst $38
     rst $38
