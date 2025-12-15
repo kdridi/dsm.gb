@@ -3738,8 +3738,8 @@ CheckScrollingConditionAndReset:
     and $01
     ret nz
 
-    ld a, [$c0d2]
-    cp $07
+    ld a, [wCollisionFlag]
+    cp COLLISION_THRESHOLD
     jr c, UpdateScrollXAndDecreaseCollisionCounter
 
     ldh a, [hShadowSCX]
@@ -3798,8 +3798,8 @@ HandleJoypadAndCollision:
     ret c
 
     dec [hl]
-    ld a, [$c0d2]
-    cp $07
+    ld a, [wCollisionFlag]
+    cp COLLISION_THRESHOLD
     ret nc
 
     dec [hl]
@@ -3891,7 +3891,7 @@ CheckPlayerCollisionWithTile:
     inc l
     ld [hl], e
     ld a, $05
-    ld [$dfe0], a
+    ld [wStateBuffer], a
     ret
 
 
@@ -3936,7 +3936,7 @@ CheckForSpecialCollisionTile:
     inc l
     ld [hl], e
     ld a, $05
-    ld [$dfe0], a
+    ld [wStateBuffer], a
     ret
 
 
@@ -4002,7 +4002,7 @@ TriggerSpecialCollisionEvent:
     inc l
     ld [hl], e
     ld a, $05
-    ld [$dfe0], a
+    ld [wStateBuffer], a
     ret
 
 
@@ -4082,7 +4082,7 @@ ResetGameStateInit:
     inc a
     ldh [hGameState], a
     inc a
-    ld [$dfe8], a
+    ld [wStateRender], a
     ld a, $90
     ldh [hTimer1], a
     ret

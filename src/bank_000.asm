@@ -12624,10 +12624,10 @@ State16_CopyTilemapData::
     ld bc, TILEMAP_STRIDE
 
 CopyTilemapOuter:
-    ld de, $da23
-    ld a, [$da18]
+    ld de, wLevelParam23
+    ld a, [wLevelParam18]
     ld h, a
-    ld a, [$da19]
+    ld a, [wLevelParam19]
     ld l, a
 
 CopyTilemapInner:

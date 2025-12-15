@@ -9611,13 +9611,13 @@ ClearAudioChannels:
 ResetAllAudioChannels:
     xor a
     ld [wStateDisplay], a
-    ld [$dfe9], a
+    ld [wStateVar9], a
     ld [wStateVar11], a
     ld [wStateEnd], a
-    ld [$df1f], a
-    ld [$df2f], a
-    ld [$df3f], a
-    ld [$df4f], a
+    ld [wComplexState1F], a
+    ld [wComplexState2F], a
+    ld [wComplexState3F], a
+    ld [wComplexState4F], a
     ldh [hSavedAudio], a
     ldh [hAudioMixerSnapshot], a
     ld a, $ff
@@ -9718,7 +9718,7 @@ ProcessAudioRequest:
 
 
 LookupAudioEnvelope:
-    ld a, [$dfe9]
+    ld a, [wStateVar9]
     and a
     ret z
 
@@ -9767,7 +9767,7 @@ UpdateAudioPan:
 
 
 UpdateAudioEnvelopeAndPan:
-    ld a, [$dfe9]
+    ld a, [wStateVar9]
     and a
     jr z, SetMasterVolumeToFull
 
@@ -9943,9 +9943,9 @@ AudioControlInitLoop:
     jr nz, AudioControlInitLoop
 
     xor a
-    ld [$df1e], a
-    ld [$df2e], a
-    ld [$df3e], a
+    ld [wComplexState1E], a
+    ld [wComplexState2E], a
+    ld [wComplexState3E], a
     ret
 
 
@@ -10038,7 +10038,7 @@ CheckAudioControl3Mode:
     cp $03
     jr nz, AudioChannelStatusCheck
 
-    ld a, [$df38]
+    ld a, [wComplexState38]
     bit 7, a
     jr z, AudioChannelStatusCheck
 
@@ -10242,7 +10242,7 @@ AudioChannelSetup_Ch3:
     jr z, AudioChannelSetup_Ch2
 
     ld c, $1a
-    ld a, [$df3f]
+    ld a, [wComplexState3F]
     bit 7, a
     jr nz, AudioControlFlagCheck
 

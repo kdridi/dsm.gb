@@ -5961,7 +5961,7 @@ UpdateGameTimersAndAnimation:
 
 
 DecrementGameTimer:
-    ld a, [$da1d]
+    ld a, [wSpecialState]
     cp $03
     ret z
 
@@ -6035,19 +6035,19 @@ UpdateSpriteAnimationFrame:
     and a
     jp z, ProcessSpriteAnimation
 
-    ld a, [$da0b]
+    ld a, [wLevelParam0B]
     ld l, a
     ld h, $c0
     ld de, $0008
     push hl
     add hl, de
     ld a, l
-    ld [$da0b], a
+    ld [wLevelParam0B], a
     cp $50
     jr nz, PaddingZone_002_58b1
 
     ld a, $30
-    ld [$da0b], a
+    ld [wLevelParam0B], a
 
 PaddingZone_002_58b1:
     pop hl
@@ -6058,14 +6058,14 @@ PaddingZone_002_58b1:
     jr nz, PaddingZone_002_58cd
 
     ld a, c
-    ld [$da03], a
+    ld [wLevelParam03], a
     ld a, d
-    ld [$da07], a
+    ld [wLevelParam07], a
     ld a, b
     cp $c0
     jr nz, AnimationDispatch_SelectHandler
 
-    ld [$da0c], a
+    ld [wLevelParam0C], a
     jr AnimationDispatch_SelectHandler
 
 PaddingZone_002_58cd:
@@ -6073,14 +6073,14 @@ PaddingZone_002_58cd:
     jr nz, PaddingZone_002_58e3
 
     ld a, c
-    ld [$da04], a
+    ld [wLevelParam04], a
     ld a, d
-    ld [$da08], a
+    ld [wLevelParam08], a
     ld a, b
     cp $c0
     jr nz, AnimationDispatch_SelectHandler
 
-    ld [$da0d], a
+    ld [wLevelParam0D], a
     jr AnimationDispatch_SelectHandler
 
 PaddingZone_002_58e3:
@@ -6088,26 +6088,26 @@ PaddingZone_002_58e3:
     jr nz, PaddingZone_002_58f9
 
     ld a, c
-    ld [$da05], a
+    ld [wLevelParam05], a
     ld a, d
-    ld [$da09], a
+    ld [wLevelParam09], a
     ld a, b
     cp $c0
     jr nz, AnimationDispatch_SelectHandler
 
-    ld [$da0e], a
+    ld [wLevelParam0E], a
     jr AnimationDispatch_SelectHandler
 
 PaddingZone_002_58f9:
     ld a, c
-    ld [$da06], a
+    ld [wLevelParam06], a
     ld a, d
-    ld [$da0a], a
+    ld [wLevelParam0A], a
     ld a, b
     cp $c0
     jr nz, AnimationDispatch_SelectHandler
 
-    ld [$da0f], a
+    ld [wLevelParam0F], a
 
 AnimationDispatch_SelectHandler:
     ldh a, [hPtrHigh]
@@ -6257,7 +6257,7 @@ SpriteAnimationDispatch_ByType:
     dec c
     dec e
     dec l
-    ld a, [$da0c]
+    ld a, [wLevelParam0C]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
 
@@ -6272,7 +6272,7 @@ SpriteAnimationDispatch_ByType:
     jr SpriteAnimationMultiplexHandler
 
 PaddingZone_002_59e0:
-    ld a, [$da0d]
+    ld a, [wLevelParam0D]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
 
@@ -6287,7 +6287,7 @@ PaddingZone_002_59e0:
     jr SpriteAnimationMultiplexHandler
 
 PaddingZone_002_59f3:
-    ld a, [$da0e]
+    ld a, [wLevelParam0E]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
 
@@ -6302,7 +6302,7 @@ PaddingZone_002_59f3:
     jr SpriteAnimationMultiplexHandler
 
 PaddingZone_002_5a05:
-    ld a, [$da0f]
+    ld a, [wLevelParam0F]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
 
@@ -6467,7 +6467,7 @@ PaddingZone_002_5a93:
 
 
 SpriteAnimationState_CheckAndUpdate:
-    ld a, [$da27]
+    ld a, [wLevelParam27]
     bit 0, a
     jr z, PaddingZone_002_5ac9
 
@@ -6485,7 +6485,7 @@ PaddingZone_002_5ac9:
 
     xor a
     ld [hl], a
-    ld a, [$da27]
+    ld a, [wLevelParam27]
     bit 0, a
     jr z, ProcessAnimationFrame
 
@@ -6555,9 +6555,9 @@ ProcessAnimationFrame:
 
 AnimationFrameIndexCommit:
     ld a, h
-    ld [$da18], a
+    ld [wLevelParam18], a
     ld a, l
-    ld [$da19], a
+    ld [wLevelParam19], a
     ld hl, $da23
     ld a, [de]
     bit 0, a
@@ -6591,9 +6591,9 @@ SpriteAnimationMergePoint:
 
 SpriteAnimationState_ResetCounter:
     xor a
-    ld [$da22], a
-    ld [$da27], a
-    ld [$da1a], a
+    ld [wLevelParam22], a
+    ld [wLevelParam27], a
+    ld [wLevelParam1A], a
     ld a, $17
     ldh [hGameState], a
     ret
@@ -6614,7 +6614,7 @@ SpriteAnimationTiles_Variant2:
     ld hl, wSpriteVar31
     ld de, $5c9d
     ld b, $04
-    ld a, [$da14]
+    ld a, [wLevelDifficulty]
     and a
     jr z, SpriteAnimationFrameLoad
 
@@ -6633,7 +6633,7 @@ SpriteAnimationFrameLoad:
 
     ld de, $5c9d
     xor a
-    ld [$da14], a
+    ld [wLevelDifficulty], a
     ld a, [de]
     ld c, a
 
@@ -6655,9 +6655,9 @@ PaddingZone_002_5ba0:
     dec b
     jr nz, SpriteAnimationFrameLoad
 
-    ld a, [$da14]
+    ld a, [wLevelDifficulty]
     add $04
-    ld [$da14], a
+    ld [wLevelDifficulty], a
     ld hl, wSpriteVar31
     ld a, [hl-]
     cp $80
@@ -6701,7 +6701,7 @@ SetGameStateCollisionTile2:
 
 SetGameStateAnimationComplete:
     xor a
-    ld [$da1c], a
+    ld [wLevelParam1C], a
     ld a, $1a
     ldh [hGameState], a
     ret
@@ -6711,7 +6711,7 @@ SpriteAnimationState_LoadTileIndex:
     ld hl, wSpriteTemp
     ld b, $04
     ld de, $5c9d
-    ld a, [$da14]
+    ld a, [wLevelDifficulty]
     and a
     jr z, SpriteAnimationTileIndexLoad
 
@@ -6733,7 +6733,7 @@ SpriteAnimationTileIndexLoad:
 
     ld de, $5c9d
     xor a
-    ld [$da14], a
+    ld [wLevelDifficulty], a
     ld a, [de]
     ld c, a
 
@@ -6754,9 +6754,9 @@ SpriteAnimationPointerValidation:
     dec b
     jr nz, SpriteAnimationTileIndexLoad
 
-    ld a, [$da14]
+    ld a, [wLevelDifficulty]
     add $04
-    ld [$da14], a
+    ld [wLevelDifficulty], a
     ld hl, wSpriteTemp
     ld a, [hl]
     cp $50
@@ -6773,7 +6773,7 @@ SpriteAnimationPointerValidation:
 
 OnAnimationThresholdReached:
     ld a, $08
-    ld [$da16], a
+    ld [wLevelParam16], a
     ld a, $17
     ldh [hGameState], a
     ret
@@ -6783,7 +6783,7 @@ SpriteAnimationState_ValidateAndLoad:
     ld hl, wSpriteTemp
     ld b, $04
     ld de, $5c9d
-    ld a, [$da14]
+    ld a, [wLevelDifficulty]
     and a
     jr z, SpriteAnimationCountdown
 
@@ -6805,7 +6805,7 @@ SpriteAnimationCountdown:
 
     ld de, $5c9d
     xor a
-    ld [$da14], a
+    ld [wLevelDifficulty], a
     ld a, [de]
     ld c, a
 
@@ -6826,9 +6826,9 @@ SpriteAnimationCompletionCheck:
     dec b
     jr nz, SpriteAnimationCountdown
 
-    ld a, [$da14]
+    ld a, [wLevelDifficulty]
     add $04
-    ld [$da14], a
+    ld [wLevelDifficulty], a
     ld hl, wSpriteTemp
     ld a, [hl]
     cp $38
@@ -6845,7 +6845,7 @@ SpriteAnimationCompletionCheck:
 
 SetState17_AfterAnimation:
     ld a, $08
-    ld [$da16], a
+    ld [wLevelParam16], a
     ld a, $17
     ldh [hGameState], a
     ret
@@ -6910,7 +6910,7 @@ SetState17_AfterAnimation:
     rst $38
 
 SpriteAnimationState_LoadPalette:
-    ld a, [$da17]
+    ld a, [wLevelBonus]
     and a
     jp nz, SpriteAnimationState_WritePalette
 
@@ -6981,7 +6981,7 @@ SpriteAnimationNextPhase:
     jr z, TileTypeDispatchCase_02
 
     ld a, $02
-    ld [$da17], a
+    ld [wLevelBonus], a
 
 TileTypeCommonExit:
     ld hl, $dfe8
@@ -6992,12 +6992,12 @@ TileTypeCommonExit:
 
 TileTypeDispatchCase_02:
     ld a, $03
-    ld [$da17], a
+    ld [wLevelBonus], a
     jr TileTypeCommonExit
 
 TileTypeDispatchCase_03:
     ld a, $04
-    ld [$da17], a
+    ld [wLevelBonus], a
     jr TileTypeCommonExit
 
 TileTypeDispatchCase_E5:
@@ -7015,59 +7015,59 @@ TileTypeDispatchCase_E5:
 
 TileTypeE5_InitPaletteWrite:
     ld a, $10
-    ld [$da17], a
+    ld [wLevelBonus], a
     jr TileTypeCommonExit
 
 SpriteAnimationState_WritePalette:
-    ld a, [$da17]
+    ld a, [wLevelBonus]
     cp $10
     jr nc, SpriteAnimationCleanup
 
     cp $02
     jp nc, SpriteAnimationState_FinishPalette
 
-    ld a, [$da1b]
+    ld a, [wLevelParam1B]
     dec a
-    ld [$da1b], a
+    ld [wLevelParam1B], a
     ret nz
 
     ld a, $40
-    ld [$da1b], a
+    ld [wLevelParam1B], a
     xor a
-    ld [$da17], a
-    ld [$da14], a
-    ld [$da1c], a
-    ld [$da1e], a
-    ld [$da20], a
+    ld [wLevelBonus], a
+    ld [wLevelDifficulty], a
+    ld [wLevelParam1C], a
+    ld [wLevelParam1E], a
+    ld [wLevelParam20], a
     inc a
-    ld [$da16], a
+    ld [wLevelParam16], a
     ld a, $40
-    ld [$da1f], a
+    ld [wLevelParam1F], a
     ld a, $1b
     ldh [hGameState], a
     ret
 
 
 SpriteAnimationCleanup:
-    ld a, [$da1f]
+    ld a, [wLevelParam1F]
     dec a
-    ld [$da1f], a
+    ld [wLevelParam1F], a
     ret nz
 
     ld a, $03
-    ld [$da1f], a
-    ld a, [$da17]
+    ld [wLevelParam1F], a
+    ld a, [wLevelBonus]
     inc a
-    ld [$da17], a
+    ld [wLevelBonus], a
     cp $28
     jr z, SpriteAnimationFinalCleanup
 
-    ld a, [$da1c]
+    ld a, [wLevelParam1C]
     and a
     jr nz, SpriteAnimationTermination
 
     inc a
-    ld [$da1c], a
+    ld [wLevelParam1C], a
     ld hl, $dfe0
     ld a, $04
     ld [hl], a
@@ -7078,12 +7078,12 @@ SpriteAnimationCleanup:
 SpriteAnimationTermination:
     ld hl, wSpriteVar32
     ld b, $04
-    ld a, [$da1e]
+    ld a, [wLevelParam1E]
     and a
     jr nz, DecrementAndSubtract
 
     inc a
-    ld [$da1e], a
+    ld [wLevelParam1E], a
 
 AddSpriteOffset20Loop:
     ld a, [hl]
@@ -7100,7 +7100,7 @@ AddSpriteOffset20Loop:
 
 DecrementAndSubtract:
     dec a
-    ld [$da1e], a
+    ld [wLevelParam1E], a
 
 SpriteAnimationDispatch_Type2:
     ld a, [hl]
@@ -7125,14 +7125,14 @@ SpriteAnimationFinalCleanup:
 
 
 SpriteAnimationState_FinishPalette:
-    ld a, [$da1f]
+    ld a, [wLevelParam1F]
     dec a
-    ld [$da1f], a
+    ld [wLevelParam1F], a
     ret nz
 
     ld a, $04
-    ld [$da1f], a
-    ld a, [$da20]
+    ld [wLevelParam1F], a
+    ld a, [wLevelParam20]
     and a
     jr nz, SpriteAnimationState_UpdateAnimCounters
 
@@ -7167,13 +7167,13 @@ SpriteAnimationState_FinishPalette:
     ld [hl+], a
     xor a
     inc a
-    ld [$da20], a
+    ld [wLevelParam20], a
     ret
 
 
 SpriteAnimationState_UpdateAnimCounters:
     ld hl, wSpriteTemp
-    ld a, [$da21]
+    ld a, [wLevelParam21]
     cp $02
     jp z, SpriteAnimationState_IncrementCounter
 
@@ -7222,23 +7222,23 @@ WriteSpriteValuesLoop:
     ld a, b
     inc a
     ld [hl], a
-    ld a, [$da20]
+    ld a, [wLevelParam20]
     inc a
-    ld [$da20], a
+    ld [wLevelParam20], a
     cp $06
     ret nz
 
     ld hl, $dfe0
     ld a, $08
     ld [hl], a
-    ld a, [$da15]
+    ld a, [wLivesCounter]
     and a
     cp $99
     jr nc, AnimationCycleMarked
 
     add $01
     daa
-    ld [$da15], a
+    ld [wLivesCounter], a
     ld de, VRAM_LIVES_DISPLAY
     ld a, [wLivesCounter]
     ld b, a
@@ -7279,15 +7279,15 @@ IncrementAnimationCounters:
     ld a, [hl]
     inc a
     ld [hl], a
-    ld a, [$da20]
+    ld a, [wLevelParam20]
     inc a
-    ld [$da20], a
+    ld [wLevelParam20], a
     cp $05
     ret nz
 
     ld hl, $dfe0
     ld a, $02
-    ld [$da21], a
+    ld [wLevelParam21], a
     ret
 
 
@@ -7335,11 +7335,11 @@ WriteSpriteValuesLoop2:
     inc a
     ld [hl], a
     xor a
-    ld [$da20], a
-    ld [$da21], a
-    ld a, [$da17]
+    ld [wLevelParam20], a
+    ld [wLevelParam21], a
+    ld a, [wLevelBonus]
     dec a
-    ld [$da17], a
+    ld [wLevelBonus], a
     ret
 
 

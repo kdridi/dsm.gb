@@ -384,9 +384,15 @@ DEF wLevelParam0E   EQU $DA0E   ; Paramètre niveau 0E
 DEF wLevelParam0F   EQU $DA0F   ; Paramètre niveau 0F
 DEF wLevelDifficulty EQU $DA14  ; Difficulté niveau
 DEF wLivesCounter   EQU $DA15   ; Compteur vies (BCD)
+DEF wLevelParam16   EQU $DA16   ; Paramètre niveau 16
 DEF wLevelBonus     EQU $DA17   ; Bonus niveau
+DEF wLevelParam18   EQU $DA18   ; Paramètre niveau 18
+DEF wLevelParam19   EQU $DA19   ; Paramètre niveau 19
+DEF wLevelParam1A   EQU $DA1A   ; Paramètre niveau 1A
+DEF wLevelParam1B   EQU $DA1B   ; Paramètre niveau 1B
 DEF wLevelParam1C   EQU $DA1C   ; Paramètre niveau 1C
 DEF wSpecialState   EQU $DA1D   ; Trigger état spécial
+DEF wLevelParam1E   EQU $DA1E   ; Paramètre niveau 1E
 DEF wLevelParam1F   EQU $DA1F   ; Paramètre niveau 1F
 DEF wLevelParam20   EQU $DA20   ; Paramètre niveau 20
 DEF wLevelParam21   EQU $DA21   ; Paramètre niveau 21
@@ -399,10 +405,17 @@ DEF wLevelParam27   EQU $DA27   ; Paramètre niveau 27
 DEF wLevelParam28   EQU $DA28   ; Paramètre niveau 28
 DEF wLevelParam29   EQU $DA29   ; Paramètre niveau 29
 
-; --- Zone état complexe ($DF00-$DF46) ---
+; --- Zone état complexe ($DF00-$DF4F) ---
 DEF wComplexState   EQU $DF00   ; Début zone état complexe
 DEF wComplexState1E EQU $DF1E   ; État complexe 1E
+DEF wComplexState1F EQU $DF1F   ; État complexe 1F
+DEF wComplexState2E EQU $DF2E   ; État complexe 2E
+DEF wComplexState2F EQU $DF2F   ; État complexe 2F
+DEF wComplexState38 EQU $DF38   ; État complexe 38
+DEF wComplexState3E EQU $DF3E   ; État complexe 3E
+DEF wComplexState3F EQU $DF3F   ; État complexe 3F
 DEF wComplexState46 EQU $DF46   ; Fin zone état complexe
+DEF wComplexState4F EQU $DF4F   ; État complexe 4F
 
 ; --- Zone état jeu ($DFE0-$DFF9) ---
 DEF wStateBuffer    EQU $DFE0   ; Buffer état jeu (début)
@@ -580,6 +593,9 @@ DEF ANIM_STRUCT_STRIDE  EQU $10   ; Taille structure animation (16 octets)
 DEF POINTS_PER_COIN     EQU $0100 ; Points par pièce (100 en BCD)
 DEF SCORE_BONUS_10      EQU $0010 ; Bonus 10 points (score)
 DEF SCORE_BONUS_50      EQU $0050 ; Bonus 50 points (score)
+
+; Collision et scroll
+DEF COLLISION_THRESHOLD EQU $07   ; Seuil collision pour scroll (7)
 
 ; Bornes de position X joueur (vérification zone centrale)
 DEF PLAYER_X_LEFT       EQU $60   ; Position X limite gauche zone centrale (96px)
