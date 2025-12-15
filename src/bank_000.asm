@@ -689,7 +689,7 @@ State0E_LevelInit::
     di
     ldh [hShadowSCX], a
     ld hl, wOamBuffer
-    ld b, $9f
+    ld b, OAM_BUFFER_SIZE
 
 ClearOamLoop:
     ld [hl+], a
@@ -1111,7 +1111,7 @@ State11_LevelStart::
     call ClearBGTilemap
     ld hl, $9c00
     ld b, $5f
-    ld a, $2c
+    ld a, TILE_EMPTY
 
 .clearTilemapLoop:
     ld [hl+], a
@@ -1434,7 +1434,7 @@ ApplyLevelStyleConfig:
     ld [wPlayerVarAB], a
     call LoadLevelData
     ld hl, $982b
-    ld [hl], $2c
+    ld [hl], TILE_EMPTY
     inc l
     ldh a, [hAnimTileIndex]
     ld b, a
@@ -2924,7 +2924,7 @@ State1E_ClearTilemapColumn::
     ldh [hVramPtrLow], a
 
     WAIT_FOR_HBLANK
-    ld [hl], $2c
+    ld [hl], TILE_EMPTY
     ld a, $08
     ldh [hTimer1], a
     ld a, $0b
@@ -3651,7 +3651,7 @@ State2C_ClearScreen:
 .loopClear:
     WAIT_FOR_HBLANK
     WAIT_FOR_HBLANK
-    ld [hl], $2c
+    ld [hl], TILE_EMPTY
     inc hl
     dec b
     jr nz, .loopClear
@@ -3908,7 +3908,7 @@ PopAndReturn:
 ClearScrollBuffer:
     ld hl, wScrollBuffer
     ld b, $10
-    ld a, $2c
+    ld a, TILE_EMPTY
 
 ClearBufferLoop:
     ld [hl+], a
@@ -3925,7 +3925,7 @@ ClearBufferLoop:
 
 .loopClearTile:
     WAIT_FOR_HBLANK
-    ld [hl], $2c
+    ld [hl], TILE_EMPTY
     ld a, l
     sub $20
     ld l, a
@@ -4086,7 +4086,7 @@ DisplayCreditsLoop:
     jr DisplayCreditsLoop
 
 .clearTile:
-    ld b, $2c
+    ld b, TILE_EMPTY
     jr .waitAndWrite
 
 State33_UpdateVRAMRow1:
@@ -5601,7 +5601,7 @@ ProcessBlockCollision_CommonExit:
     ld d, [hl]
     inc l
     ld e, [hl]
-    ld a, $2c
+    ld a, TILE_EMPTY
     ld [de], a
     ld a, b
     cp $c0
@@ -5613,7 +5613,7 @@ ProcessBlockCollision_CommonExit:
     cp $f4
     ret nz
 
-    ld [hl], $2c
+    ld [hl], TILE_EMPTY
     ld a, $05
     ld [wStateBuffer], a
     ld a, h
