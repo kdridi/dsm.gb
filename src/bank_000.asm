@@ -2915,11 +2915,13 @@ State05_SpecialLevel::
     ret
 
 
-;; ==========================================================================
-;; State06_PostLevel - Handler d'état $06 ($0CC2)
-;; ==========================================================================
-;; Transition après niveau, choix état suivant selon position et niveau.
-;; ==========================================================================
+; State06_PostLevel
+; -----------------
+; Description: Transition post-niveau - détermine l'état suivant selon le niveau complété et la position du joueur
+;              Attend expiration du timer puis route vers: niveau spécial ($1C), zone centrale ($08), ou zone extérieure ($12)
+; In:  hTimer1 = timer de transition, hAnimTileIndex = niveau actuel, wPlayerX = position X du joueur
+; Out: hGameState = nouvel état ($1C, $08, ou $12), hCurrentBank = bank chargée (2 ou 3)
+; Modifie: a, hl
 State06_PostLevel::
     ldh a, [hTimer1]
     and a
