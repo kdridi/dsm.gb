@@ -2463,7 +2463,7 @@ SetGameStateValue:
     rst $38
 
 ;; Zone de données ($0C10-$0C36)
-DataPadding_0c22:
+UnknownData_0c22:
     nop
     nop
     rst $38
@@ -6739,9 +6739,9 @@ LoadDemoInput:
     ld bc, $0000
     rrca
     nop
-    jr nz, Padding_213b
+    jr nz, UnknownData_213b
 
-Padding_213b:
+UnknownData_213b:
     nop
     nop
     nop
@@ -6768,9 +6768,9 @@ Padding_213b:
     ld bc, $0000
     rrca
     nop
-    jr nz, Padding_215b
+    jr nz, UnknownData_215b
 
-Padding_215b:
+UnknownData_215b:
     nop
     nop
     nop
@@ -9688,7 +9688,7 @@ AudioAnimData_2e89:
     dec l
     ld hl, $262d
     dec l
-    jr z, DispatchData_301a
+    jr z, UnknownDispatch_301a
 
     dec l
     dec l
@@ -9736,7 +9736,7 @@ AudioAnimData_2e89:
     dec l
     sub e
 
-DispatchData_301a:
+UnknownDispatch_301a:
     dec l
     sub l
     dec l
@@ -9849,10 +9849,10 @@ DispatchData_301a:
     dec l
     inc d
     dec l
-    jr DispatchData_30e8
+    jr UnknownDispatch_30e8
 
     ld h, $2d
-    jr z, DispatchData_30ec
+    jr z, UnknownDispatch_30ec
 
     dec sp
     dec l
@@ -9896,13 +9896,13 @@ DispatchData_301a:
     dec l
     adc [hl]
 
-DispatchData_30e8:
+UnknownDispatch_30e8:
     dec l
     sub c
     dec l
     sub e
 
-DispatchData_30ec:
+UnknownDispatch_30ec:
     dec l
     sub l
     dec l
@@ -10073,7 +10073,7 @@ AnimFrameDataLookup:
     nop
     nop
 
-DataPadding_31c2:
+UnknownData_31c2:
     nop
     rrca
     dec d
@@ -10209,9 +10209,9 @@ DataPadding_31c2:
     nop
     nop
     nop
-    jr z, DispatchData_324d
+    jr z, UnknownDispatch_324d
 
-DispatchData_324d:
+UnknownDispatch_324d:
     nop
     nop
     nop
@@ -11196,7 +11196,7 @@ JumpDispatchTable_36cc:
     rst $28
     add sp, -$0c
 
-DataPadding_370c:
+UnknownData_370c:
     rrca
     nop
     rst $28
@@ -11228,7 +11228,7 @@ DataPadding_370c:
     jp hl
 
 
-TableContinuation_372b:
+RawDataBlock_372b:
     ld hl, sp+$33
     jp hl
 
@@ -11236,7 +11236,7 @@ TableContinuation_372b:
     pop af
     rla
     di
-    jr TableContinuation_372b
+    jr RawDataBlock_372b
 
     ld a, $70
     ldh a, [rNR41]
@@ -11354,7 +11354,7 @@ CallStub_StackInitVariant_B:
     db $f4
     ld bc, $ef12
 
-TableContinuation_37d6:
+RawDataBlock_37d6:
     rst $28
     rst $28
     rst $28
@@ -11369,7 +11369,7 @@ TableContinuation_37d6:
     rst $38
     ld hl, sp+$2a
     ldh a, [$ff60]
-    jr nz, TableContinuation_37d6
+    jr nz, RawDataBlock_37d6
 
     ld hl, sp+$2b
     rst $28
@@ -11530,18 +11530,18 @@ TableContinuation_37d6:
     ld bc, $ef01
     ld b, c
     pop af
-    jr nc, TableContinuation_38e6
+    jr nc, RawDataBlock_38e6
 
     rst $28
 
-TableContinuation_38e6:
+RawDataBlock_38e6:
     ld b, c
     pop af
-    jr nc, TableContinuation_38eb
+    jr nc, RawDataBlock_38eb
 
     rst $28
 
-TableContinuation_38eb:
+RawDataBlock_38eb:
     ld b, c
     di
     jr nc, @-$0e
@@ -11783,7 +11783,7 @@ TableContinuation_38eb:
     rst $38
     ld hl, sp+$2e
 
-TableContinuation_3a56:
+RawDataBlock_3a56:
     nop
     rst $28
     rst $28
@@ -11791,7 +11791,7 @@ TableContinuation_3a56:
     di
     ld b, c
 
-TableContinuation_3a5c:
+RawDataBlock_3a5c:
     ld sp, hl
     inc bc
     ld hl, sp+$2f
@@ -11801,11 +11801,11 @@ TableContinuation_3a5c:
     ldh a, [rNR10]
     ld bc, $f8e8
     ld sp, $f8e8
-    jr nc, TableContinuation_3a56
+    jr nc, RawDataBlock_3a56
 
     ld hl, sp+$31
     add sp, -$08
-    jr nc, TableContinuation_3a5c
+    jr nc, RawDataBlock_3a5c
 
     ld hl, sp+$31
     nop
@@ -11918,7 +11918,7 @@ TableContinuation_3a5c:
     rst $28
     rst $28
 
-TableContinuation_3b06:
+RawDataBlock_3b06:
     ldh a, [rNR43]
     db $10
     rst $28
@@ -11930,7 +11930,7 @@ TableContinuation_3b06:
     ld hl, sp+$1f
     ldh a, [$ff30]
     ld [hl], b
-    jr nc, TableContinuation_3b06
+    jr nc, RawDataBlock_3b06
 
     ld b, b
     di
@@ -11968,7 +11968,7 @@ TableContinuation_3b06:
     rst $28
     ld sp, hl
 
-TableContinuation_3b46:
+RawDataBlock_3b46:
     ld bc, $f8f7
     rra
     ldh a, [$ff91]
@@ -11979,7 +11979,7 @@ TableContinuation_3b46:
     ld [hl], h
     db $f4
     nop
-    jr nz, TableContinuation_3b46
+    jr nz, RawDataBlock_3b46
 
     add sp, $10
     rst $28
@@ -12242,7 +12242,7 @@ TableContinuation_3b46:
     db $f4
     ld bc, $ea21
 
-DataPadding_3cc2:
+UnknownData_3cc2:
     db $f4
     nop
     add sp, $02

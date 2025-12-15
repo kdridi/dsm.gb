@@ -2670,7 +2670,7 @@ DataTable_4b18:
     rlca
     rlca
     dec b
-    jp nz, DataPadding_3cc2
+    jp nz, UnknownData_3cc2
 
     db $fc
     ldh [hVramPtrLow], a
