@@ -59,7 +59,7 @@ CalculateOffset_4033:
     ld a, [hl-]
     ld a, [hl+]
 
-Call_001_403e:
+HandlePaletteLookup:
     add hl, sp
     add hl, hl
     ccf
@@ -226,9 +226,9 @@ RotateAndAdjust_40d4:
     inc de
     inc e
     rla
-    jr jr_001_411d
+    jr ProcessSoundRegister
 
-    jr nc, jr_001_411d
+    jr nc, ProcessSoundRegister
 
     jr nc, PaddingAlign_40f3
 
@@ -270,7 +270,7 @@ PaddingAlign_410a:
     nop
     ld bc, $0301
 
-jr_001_4115:
+StoreAndRotateValue:
     ld [bc], a
     rlca
     rlca
@@ -278,7 +278,7 @@ jr_001_4115:
     dec c
     rra
 
-jr_001_411d:
+ProcessSoundRegister:
     rra
     rst $38
     ldh a, [$ffbf]
@@ -307,7 +307,7 @@ jr_001_411d:
     dec c
     ret z
 
-    jr c, jr_001_4115
+    jr c, StoreAndRotateValue
 
     or b
 
@@ -522,7 +522,7 @@ jr_001_4228:
     sub l
     or c
 
-Call_001_423f:
+ValidateOrTransformValue:
 Jump_001_423f:
     sub c
     cp a
@@ -840,7 +840,7 @@ JumpIfCarryClear_B2BC_001_4376:
     ccf
     ei
     ei
-    jr z, jr_001_43c6
+    jr z, UpdateStateCounter
 
     ld l, $36
     ld a, [hl+]
@@ -890,7 +890,7 @@ JumpIfCarryClear_B2BC_001_4376:
     sbc b
     ld a, b
 
-jr_001_43c6:
+UpdateStateCounter:
     ld d, h
     inc [hl]
     db $fc
@@ -10530,7 +10530,7 @@ CheckPlayerAction_6afd:
     ld c, c
     ld sp, $8146
     ld h, a
-    call nz, Call_001_423f
+    call nz, ValidateOrTransformValue
     ld h, a
     ld h, a
     cp $02
@@ -10650,7 +10650,7 @@ CheckPlayerAction_6afd:
     ld c, c
     add c
     ld h, a
-    call nz, Call_001_403e
+    call nz, HandlePaletteLookup
     ld h, a
     ld h, a
     cp $02
