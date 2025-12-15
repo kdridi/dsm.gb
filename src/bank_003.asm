@@ -8337,7 +8337,7 @@ jr_003_6357:
     cp $50
     dec bc
     ld d, c
-    jr jr_003_657f
+    jr AudioTable_Block2
 
     dec h
     ld d, c
@@ -8370,7 +8370,7 @@ jr_003_6357:
     nop
     ld b, c
     ld bc, $0007
-    jr jr_003_6567
+    jr AudioTable_Block1
 
     ld e, e
     ld de, $100a
@@ -8385,7 +8385,7 @@ jr_003_6357:
     halt
     db $10
 
-jr_003_6567:
+AudioTable_Block1:
     ld bc, $1011
     db $10
     inc h
@@ -8401,10 +8401,10 @@ jr_003_6567:
     daa
     ld de, $0101
 
-jr_003_657f:
+AudioTable_Block2:
     add hl, bc
     nop
-    jr nz, jr_003_6593
+    jr nz, AudioTable_Block3
 
     ld e, l
     ld de, $1014
@@ -8419,7 +8419,7 @@ jr_003_657f:
     ld d, c
     db $10
 
-jr_003_6593:
+AudioTable_Block3:
     ld c, $11
     ld b, $10
     ld [bc], a
@@ -8555,7 +8555,7 @@ jr_003_65f3:
     ld bc, $0820
     nop
     add hl, hl
-    jr nz, jr_003_6655
+    jr nz, AudioTable_Block4
 
     nop
     ld b, a
@@ -8573,10 +8573,10 @@ jr_003_65f3:
     add hl, bc
     ld de, $100b
 
-jr_003_6655:
-    jr nz, jr_003_6657
+AudioTable_Block4:
+    jr nz, AudioTable_Block5
 
-jr_003_6657:
+AudioTable_Block5:
     dec e
     ld bc, $0001
     nop
@@ -8610,7 +8610,7 @@ jr_003_6657:
     ld de, $100d
     ld a, [bc]
     nop
-    jr jr_003_6693
+    jr AudioTable_Block6
 
     inc b
     ld de, $100b
@@ -8625,7 +8625,7 @@ jr_003_6657:
     dec a
     db $10
 
-jr_003_6693:
+AudioTable_Block6:
     ld [$0c11], sp
     db $10
     dec c

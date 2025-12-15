@@ -4786,7 +4786,7 @@ jr_002_5312:
     db $10
     db $10
 
-jr_002_536d:
+AudioDataDispatchStart:
     stop
     nop
     nop
@@ -4795,7 +4795,7 @@ jr_002_536d:
     inc bc
     dec b
 
-jr_002_5377:
+AudioDataDispatchJump1:
     dec b
     add hl, bc
     add hl, bc
@@ -4810,18 +4810,18 @@ jr_002_5377:
     nop
     ld d, h
     nop
-    jr z, jr_002_538b
+    jr z, AudioDataDispatchChain1
 
-jr_002_538b:
-    jr z, jr_002_538d
+AudioDataDispatchChain1:
+    jr z, AudioDataDispatchChain2
 
-jr_002_538d:
-    jr z, jr_002_538f
+AudioDataDispatchChain2:
+    jr z, AudioDataDispatchChain3
 
-jr_002_538f:
-    jr c, jr_002_5391
+AudioDataDispatchChain3:
+    jr c, AudioDataDispatchChain4
 
-jr_002_5391:
+AudioDataDispatchChain4:
     nop
     ld bc, $0201
     ld [bc], a
@@ -4829,7 +4829,7 @@ jr_002_5391:
     inc b
     ld [$1008], sp
     db $10
-    jr nz, jr_002_53be
+    jr nz, AudioDataDispatchJump2
 
     ld b, b
     ld b, b
@@ -4837,7 +4837,7 @@ jr_002_5391:
     add b
     nop
     ld a, [hl]
-    jr c, jr_002_536d
+    jr c, AudioDataDispatchStart
 
     ld a, h
     add e
@@ -4847,7 +4847,7 @@ jr_002_5391:
     add e
     ld a, h
     add e
-    jr c, jr_002_5377
+    jr c, AudioDataDispatchJump1
 
     nop
     ld a, [hl]
@@ -4864,7 +4864,7 @@ jr_002_5391:
     db $10
     db $10
 
-jr_002_53be:
+AudioDataDispatchJump2:
     jr c, @+$3a
 
     ld a, h
