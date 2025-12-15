@@ -1525,12 +1525,16 @@ State00_MainGameplay::
 ;; ==========================================================================
 ;; State01_WaitClearObjects - Handler d'état $01 ($06A5)
 ;; ==========================================================================
-;; Attente puis reset des objets avant transition.
-;; Structure :
-;;   1. Attente timer (ret si hTimer1 != 0)
-;;   2. Clear 10 objets (wObjectBuffer, 16 bytes × 10)
-;;   3. Reset timers auxiliaires
-;;   4. Transition vers état $02
+;; Description: Attente puis reset des objets avant transition vers état $02.
+;;              Attend que hTimer1 atteigne 0, puis clear 10 slots d'objets
+;;              (marque comme inactifs avec $FF), reset timers auxiliaires,
+;;              et transition vers GAME_STATE_PREPARE_RENDER.
+;; In:  hTimer1 = timer d'attente
+;; Out: hGameState = GAME_STATE_PREPARE_RENDER ($02)
+;;      wObjectBuffer = 10 slots marqués SLOT_EMPTY ($FF)
+;;      hTimerAux = 0
+;;      wUpdateCounter = $FF
+;; Modifie: a, b, de, hl
 ;; ==========================================================================
 State01_WaitClearObjects::
     ; Attendre que le timer soit à 0
