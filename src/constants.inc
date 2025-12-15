@@ -674,6 +674,10 @@ DEF TILEMAP_CMD_SCROLL  EQU $70 ; Déclenche mise à jour scrolling
 DEF TILEMAP_CMD_LOAD1   EQU $80 ; Charge tilemap niveau (type 1)
 DEF TILEMAP_CMD_LOAD2   EQU $5F ; Charge tilemap niveau (type 2)
 DEF TILEMAP_CMD_LOAD3   EQU $81 ; Charge tilemap niveau (type 3)
+DEF TILEMAP_CMD_WATER   EQU $82 ; Tile eau (collision spéciale)
+
+; Seuil pour distinguer les tiles commandes (>= $60) des tiles normaux (< $60)
+DEF TILEMAP_CMD_THRESHOLD EQU $60 ; Seuil: >= $60 = tile spécial/commande
 
 ; === Seuils de groupes de niveaux ===
 ; Utilisés pour sélectionner la table de style selon le numéro de niveau

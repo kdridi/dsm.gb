@@ -3116,7 +3116,7 @@ DoorPositionCalculationPath:
 State24_DisplayText::
     ld hl, TextData_ThankYou
     call WriteCharToVRAM
-    cp $ff
+    cp TEXT_CMD_END             ; Fin de texte ?
     ret nz
 
     ld hl, hGameState
@@ -3495,7 +3495,7 @@ ClearOamBuffer_Loop:
 State2A_DisplayEndText::
     ld hl, TextData_OhDaisy
     call WriteCharToVRAM
-    cp $ff
+    cp TEXT_CMD_END             ; Fin de texte ?
     ret nz
 
     xor a
@@ -4802,7 +4802,7 @@ CheckPlayerHeadCollision:
     cp $e1
     jp z, TileE1CollisionHandler
 
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     jr nc, CheckBlockProperties_OnCollide
 
     ld a, [wPlayerUnk0E]
@@ -4821,7 +4821,7 @@ CalcOffsetLoop_BlockHit:
     add b
     ldh [hSpriteX], a
     call ReadTileUnderSprite
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     jr nc, CheckBlockProperties_OnCollide
 
 HandleBlockType_Collision:
@@ -5133,20 +5133,20 @@ CheckPlayerFeetCollision:
     add $02
     ldh [hSpriteX], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile type $5F ?
     jp z, CollisionHandler_Type5F_Entry
 
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     jr nc, ClassifyTileTypeEntry
 
     ldh a, [hSpriteX]
     add $fc
     ldh [hSpriteX], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile type $5F ?
     jp z, CollisionHandler_Type5F_Entry
 
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     ret c
 
 ClassifyTileTypeEntry:
@@ -5154,16 +5154,16 @@ ClassifyTileTypeEntry:
     and a
     ret z
 
-    cp $82
+    cp TILEMAP_CMD_WATER        ; Tile eau $82 ?
     jr z, HandlePlayerWaterCollision
 
     cp $f4
     jp z, CollisionHandler_SpecialF4_Setup
 
-    cp $81
+    cp TILEMAP_CMD_LOAD3        ; Tile type $81 ?
     jr z, HandlePlayerUpCollision
 
-    cp $80
+    cp TILEMAP_CMD_LOAD1        ; Tile type $80 ?
     jp z, CollisionHandler_Platform_Entry
 
     ld a, $02
@@ -5391,7 +5391,7 @@ CollisionConfig_Offset2:
     and a
     jr z, NoCollisionRestartLoop
 
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     jr c, NoCollisionRestartLoop
 
     cp $f4
@@ -5535,10 +5535,10 @@ ProcessBlockCollision:
     inc l
     ld e, [hl]
     ld a, [wOamVar2E]
-    cp $82
+    cp TILEMAP_CMD_WATER        ; Tile eau $82 ?
     jr z, ProcessBlockCollision_IsType82
 
-    cp $81
+    cp TILEMAP_CMD_LOAD3        ; Tile type $81 ?
     call z, CollectCoin
     ld a, $7f
 
@@ -6446,15 +6446,15 @@ CheckTileForCoin:
     ld [wStateBuffer], a
 
 NotCoinTile:
-    cp $82
+    cp TILEMAP_CMD_WATER        ; Tile eau $82 ?
     call z, HandleBlockCollision
-    cp $80
+    cp TILEMAP_CMD_LOAD1        ; Tile type $80 ?
     call z, HandleBlockCollision
 
 ReturnAfterCoinCheck:
     pop hl
     pop de
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     ret
 
 
@@ -6600,7 +6600,7 @@ HandleBlockCollision:
     ld [hl], e
     pop af
     push af
-    cp $80
+    cp TILEMAP_CMD_LOAD1        ; Tile type $80 ?
     jr nz, InitBlockHitSprites
 
     ld a, d
@@ -7005,21 +7005,21 @@ ClearTilemapColumn:
     jr TilemapScrollLoop
 
 CheckIfNotLevelConfigTile:
-    cp $80
+    cp TILEMAP_CMD_LOAD1        ; Tile type $80 ?
     jr nz, CheckIfNotCompressedTile
 
     call ApplyLevelConfig
     jr TilemapScrollLoop
 
 CheckIfNotCompressedTile:
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile type $5F ?
     jr nz, HandleSpecialMarkerTile
 
     call ApplyLevelConfig
     jr TilemapScrollLoop
 
 HandleSpecialMarkerTile:
-    cp $81
+    cp TILEMAP_CMD_LOAD3        ; Tile type $81 ?
     call z, ApplyLevelConfig
 
 TilemapScrollLoop:
@@ -8789,7 +8789,7 @@ LoadSpriteCoordinates:
     ldh a, [hSoundParam1]
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
@@ -8812,7 +8812,7 @@ CheckObjectTileBase:
     ldh a, [hSoundParam1]
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
@@ -8839,7 +8839,7 @@ CheckObjectTileRight:
     ldh a, [hSoundParam1]
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
@@ -8873,7 +8873,7 @@ CheckObjectTileBottomLeft:
     add $08
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
@@ -8895,7 +8895,7 @@ CheckObjectTileBottom:
     add $08
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
@@ -8923,7 +8923,7 @@ CheckObjectTileBottomRight:
     add $08
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
@@ -8963,7 +8963,7 @@ CheckObjectTileTop:
     sub c
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
@@ -8987,7 +8987,7 @@ CheckObjectTileTop:
     sub c
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
@@ -9017,7 +9017,7 @@ CheckObjectTileTop:
     sub c
     ldh [hSpriteY], a
     call ReadTileUnderSprite
-    cp $5f
+    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
     cp $f0
