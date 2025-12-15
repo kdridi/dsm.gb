@@ -1879,6 +1879,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1343",
+      "node_type": "code",
+      "description": "PopAndReturn - Restaure af et retourne",
+      "source": "$130F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1376",
+      "node_type": "data",
+      "description": "SpriteEndData - Tables config sprites \u00e9cran final (3x5 octets)",
+      "source": "$130F",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1929,6 +1945,7 @@
     "$0AE1",
     "$0E1F",
     "$09E8",
+    "$130F",
     "$12E8",
     "$0530",
     "$0aa6",
@@ -2004,6 +2021,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 121
+  "commits_since_push": 1,
+  "total_explored": 122
 }

@@ -4558,23 +4558,11 @@ CopyByteLoop:
     ret
 
 ; === Tables de données sprites finaux ($1376-$1384) ===
-; NOTE: Mal désassemblé - config sprites pour écran final
+; NOTE: Config sprites pour écran final - 3 tables de 5 octets
 SpriteEndData:
-    nop
-    jr nc, @-$2e
-
-    add hl, hl
-    add b
-    add b
-    ld [hl], b
-    db $10
-    ld a, [hl+]
-    add b
-    add b
-    ld b, b
-    ld [hl], b
-    add hl, hl
-    add b
+    db $00, $30, $d0, $29, $80  ; $1376: ROM_SPRITE_END_DATA_1 (joueur)
+    db $80, $70, $10, $2a, $80  ; $137b: ROM_SPRITE_END_DATA_2 (objet 2)
+    db $80, $40, $70, $29, $80  ; $1380: ROM_SPRITE_END_DATA_3 (objet 3)
 
 ; ===========================================================================
 ; État $32 - Animation scroll crédits ($1385)
