@@ -737,6 +737,22 @@
       "priority": 3
     },
     {
+      "address": "$0F81",
+      "node_type": "code",
+      "description": "WriteCharToVRAM - \u00c9crit caract\u00e8re texte en VRAM",
+      "source": "$0F61",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0FD8",
+      "node_type": "data",
+      "description": "TextData_ThankYou - Table de texte 'THANK YOU MARIO! \u2665OH! DAISY'",
+      "source": "$0F61",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0FF4",
       "node_type": "code",
       "description": "State25_SpriteBlinkAnimation - Animation clignotante",
@@ -1727,22 +1743,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0F81",
-      "node_type": "code",
-      "description": "WriteCharToVRAM - \u00c9crit caract\u00e8re texte en VRAM",
-      "source": "$0F61",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0FD8",
-      "node_type": "data",
-      "description": "TextData_ThankYou - Table de texte 'THANK YOU MARIO! \u2665OH! DAISY'",
-      "source": "$0F61",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1787,6 +1787,7 @@
     "$055F",
     "$0DF0",
     "$05F8",
+    "$0F81",
     "$0E0C",
     "$05B7",
     "$0C07",
@@ -1839,6 +1840,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 1,
-  "total_explored": 92
+  "commits_since_push": 2,
+  "total_explored": 93
 }

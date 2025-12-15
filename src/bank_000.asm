@@ -3634,6 +3634,10 @@ WriteCharToVRAM:
     ld b, a
     cp TEXT_CMD_NEWLINE
 
+; ValidateAndWriteTextCharToVram
+; -------------------------------
+; Point d'entrée secondaire: valide le caractère et dispatche vers traitement approprié
+; Si TEXT_CMD_NEWLINE → charge offset et copie, si TEXT_CMD_END → retourne, sinon → écrit
 ValidateAndWriteTextCharToVram:
     jr z, LoadOffsetAndCopy
 
@@ -3645,6 +3649,10 @@ ValidateAndWriteTextCharToVram:
     ldh a, [hCopyDstHigh]
     ld l, a
 
+; WaitAndStoreVram
+; ----------------
+; Écrit le caractère en VRAM avec attente HBlank, puis ajuste la position destination
+; Gère le retour à la ligne quand on atteint la fin d'une ligne tilemap
 WaitAndStoreVram:
     WAIT_FOR_HBLANK
     WAIT_FOR_HBLANK
@@ -3662,6 +3670,9 @@ WaitAndStoreVram:
     ld a, l
     sub TILEMAP_STRIDE          ; Ligne précédente (-32 = 1 ligne tilemap)
 
+; StoreDestHighByte
+; -----------------
+; Stocke le byte haut de l'adresse destination et configure le timer
 StoreDestHighByte:
     ldh [hCopyDstHigh], a
     inc e
@@ -3671,11 +3682,17 @@ StoreDestHighByte:
     ldh [hTimer1], a
     ret
 
-
+; AdjustDestHighByte
+; ------------------
+; Point de convergence pour l'ajustement de l'adresse destination
 AdjustDestHighByte:
     ld a, l
     jr StoreDestHighByte
 
+; LoadOffsetAndCopy
+; -----------------
+; Charge l'offset de nouvelle ligne (commande TEXT_CMD_NEWLINE) et prépare la copie
+; Format: $FE <offset_low> <offset_high>
 LoadOffsetAndCopy:
     inc hl
     ld a, [hl+]
