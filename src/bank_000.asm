@@ -457,7 +457,7 @@ AddScore:
     ldh [hScoreNeedsUpdate], a
     ret nc
 
-    ld a, $99
+    ld a, BCD_MAX_DIGIT         ; Score max = 999999 (BCD)
     ld [hl-], a
     ld [hl-], a
     ld [hl], a
@@ -839,7 +839,7 @@ FinalizeGameStateAfterScore:
     ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     ei
-    ld a, $0f
+    ld a, GAME_STATE_LEVEL_SELECT
     ldh [hGameState], a
     xor a
     ldh [hVBlankMode], a
@@ -937,7 +937,7 @@ ResetRenderForHighLevels:
     cp $02
     jp nc, InitLevelStartFull
 
-    ld a, $11
+    ld a, INIT_ANIM_TILE_IDX
     ldh [hAnimTileIndex], a
     xor a
     jr ApplyRenderContext
@@ -992,7 +992,7 @@ SkipAnimTileAdd:
     cp $0c
     jr nz, AnimRenderContextUpdateDone
 
-    ld a, $11
+    ld a, INIT_ANIM_TILE_IDX
     ldh [hAnimTileIndex], a
     xor a
 
@@ -1047,7 +1047,7 @@ InitAttractModeDisplay_CheckTimer:
 InitLevelStartWithAttractMode:
     ld a, $50
     ld [wAttractModeTimer], a
-    ld a, $11
+    ld a, GAME_STATE_LEVEL_START
     ldh [hGameState], a
     xor a
     ldh [hLevelIndex], a
@@ -1055,7 +1055,7 @@ InitLevelStartWithAttractMode:
 
 
 InitLevelStartFull:
-    ld a, $11
+    ld a, GAME_STATE_LEVEL_START
     ldh [hGameState], a
     xor a
     ldh [rIF], a
@@ -4301,7 +4301,7 @@ CheckTilemapCompletion:
     ldh [hTimerAux], a
     ldh [hSubState], a
     ld [wGameConfigA6], a
-    ld a, $11
+    ld a, INIT_ANIM_TILE_IDX
     ldh [hAnimTileIndex], a
     ret
 

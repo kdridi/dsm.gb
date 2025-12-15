@@ -442,6 +442,8 @@ DEF SLOT_EMPTY          EQU $FF ; Marqueur slot vide/inactif dans les tables
 
 DEF GAME_STATE_GAMEPLAY EQU $0D ; État gameplay actif (jeu en cours)
 DEF GAME_STATE_CENTER   EQU $08 ; État transition - joueur au centre
+DEF GAME_STATE_LEVEL_SELECT EQU $0F ; État sélection niveau (State0F)
+DEF GAME_STATE_LEVEL_START  EQU $11 ; État démarrage niveau (State11)
 DEF GAME_STATE_OUTER    EQU $12 ; État transition - joueur en périphérie
 DEF GAME_STATE_SPECIAL  EQU $1C ; État niveau spécial
 DEF GAME_STATE_INIT27   EQU $27 ; État initialisation spéciale
@@ -449,6 +451,7 @@ DEF GAME_STATE_INIT27   EQU $27 ; État initialisation spéciale
 ; === Conversion BCD ===
 
 DEF BCD_TO_ASCII        EQU $30 ; Offset pour convertir BCD → caractère ASCII ('0')
+DEF BCD_MAX_DIGIT       EQU $99 ; Valeur max d'un octet BCD (99)
 
 ; === Configuration LCD ===
 
