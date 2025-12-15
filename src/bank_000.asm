@@ -2999,6 +2999,12 @@ State06_PostLevel_SpecialLevel:
     ret
 
 
+; LoadGameTilesWithBank
+; ----------------
+; Description: Charge les tiles du jeu depuis une bank spécifique puis initialise le gameplay
+; In:  c = numéro de bank ROM à charger (BANK_1, BANK_2, BANK_3)
+; Out: (passe au GameplayInitStart)
+; Modifie: a, bc, de, hl (via LoadGameTiles et GameplayInitStart)
 LoadGameTilesWithBank:
     di
     ld a, c
