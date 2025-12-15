@@ -1438,11 +1438,11 @@ ApplyLevelStyleConfig:
     inc l
     ldh a, [hAnimTileIndex]
     ld b, a
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Isoler monde (bits hauts)
     swap a
     ld [hl+], a
     ld a, b
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler niveau (bits bas)
     inc l
     ld [hl], a
     ld hl, _SCRN1
@@ -1489,7 +1489,7 @@ EnterGameplayState:
     ld a, GAME_STATE_GAMEPLAY
     ldh [hGameState], a
     ld a, [wPlayerDir]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Garder bits hauts direction
     or c
     ld [wPlayerDir], a
 
@@ -2148,7 +2148,7 @@ CheckBoundingBoxCollision:
     jr nc, ReturnZero
 
     ld a, c
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler nibble bas
     ld b, a
     ld a, [hl]
 
@@ -2227,7 +2227,7 @@ CheckCollisionObjectPath:
     jp z, CollisionCheckFailed_Restart
 
     ld a, [hl]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler nibble bas
     ldh [hTemp0], a
     ld bc, hVBlankSelector
     add hl, bc
@@ -2529,7 +2529,7 @@ StateHandler_07::
 ;; ==========================================================================
 StateHandler_05::
     ldh a, [hAnimTileIndex]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler niveau (bits bas)
     cp $03
     jr nz, AnimationCheckCompleteExit
 
@@ -2596,7 +2596,7 @@ StateHandler_06::
     ld [wSpecialState], a
     ldh [rTMA], a
     ldh a, [hAnimTileIndex]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler niveau (bits bas)
     cp $03
     ld a, GAME_STATE_SPECIAL      ; État $1C si niveau spécial
     jr z, StateHandler_06_SpecialLevel
@@ -3092,7 +3092,7 @@ State23_WalkToDoor::
     sub $40
     add $04
     ld b, a
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Isoler bits hauts position
     cp $c0
     ld a, b
     jr nz, DoorPositionCalculationPath
@@ -3164,7 +3164,7 @@ WaitAndStoreVram:
     ld a, h
     ldh [hCopyDstLow], a
     ld a, l
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler nibble bas
     jr nz, AdjustDestHighByte
 
     bit 4, l
@@ -4630,7 +4630,7 @@ UpdatePipeAnimation:
     jr z, State0C_ProcessAnimation
 
     ld a, [wPlayerDir]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler mode direction
     cp $0a
     jr nc, State0C_ProcessAnimation
 
@@ -4651,12 +4651,12 @@ State0C_IncrementPlayerDir:
 
     inc [hl]
     ld a, [hl]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler mode direction
     cp $04
     jr c, State0C_ProcessAnimation
 
     ld a, [hl]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Garder bits hauts
     or $01
     ld [hl], a
 
@@ -5282,7 +5282,7 @@ ClassifyTileType:
     push af
     ld b, a
     ldh a, [hAnimTileIndex]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Isoler monde (bits hauts)
     swap a
     dec a
     sla a
@@ -5480,12 +5480,12 @@ TriggerBlockCollisionSound_TimerCheck_IsTwo:
     and b
     ld [wPlayerDir], a
     ld b, a
-    and $0f
+    and NIBBLE_LOW_MASK          ; Isoler mode direction
     cp $0a
     jr nc, TriggerBlockCollisionSound_ApplyMask
 
     ld a, b
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Garder bits hauts
     ld [wPlayerDir], a
 
 TriggerBlockCollisionSound_ApplyMask:
@@ -5621,10 +5621,10 @@ CollectCoin:
 UpdateCoinDisplay:
     ldh a, [hCoinCount]
     ld b, a
-    and $0f
+    and NIBBLE_LOW_MASK          ; Chiffre unités
     ld [VRAM_COIN_UNITS], a
     ld a, b
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Chiffre dizaines
     swap a
     ld [VRAM_COIN_TENS], a
     xor a
@@ -5681,10 +5681,10 @@ DisplayLivesDAA:
 DisplayLivesCount:
     ld a, [wLivesCounter]
     ld b, a
-    and $0f
+    and NIBBLE_LOW_MASK          ; Chiffre unités vies
     ld [$9807], a
     ld a, b
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Chiffre dizaines vies
     swap a
     ld [VRAM_SCORE_POS1], a
 
@@ -5733,7 +5733,7 @@ State39_GameOver::
     ldh a, [hAnimTileIndex]
     ld [wAnimTileIdx], a
     ld a, [wScoreBCD]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Nibble haut du score BCD
     swap a
     ld b, a
     ld a, [wGameConfigA6]
@@ -5978,7 +5978,7 @@ ProcessAnimationState_JoypadLeft_CheckCollision:
     jr nz, ProcessAnimationState_JoypadLeft_Increment
 
     ld a, [wPlayerDir]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Garder bits hauts direction
     or $01
     ld [wPlayerDir], a
 
@@ -6104,7 +6104,7 @@ HandlePlayerMovement:
     jr nz, CheckOscillationCounter
 
     ld a, [wPlayerDir]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Garder bits hauts direction
     or $01
     ld [wPlayerDir], a
 
@@ -6858,12 +6858,12 @@ ProcessScrollEntry:
 
     ld de, wScrollBuffer
     ld b, a
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Offset buffer (nibble haut)
     swap a
     add e
     ld e, a
     ld a, b
-    and $0f
+    and NIBBLE_LOW_MASK          ; Nombre tiles (nibble bas)
     jr nz, TilemapDataNibbleNonZero
 
     ld a, $10
@@ -7336,7 +7336,7 @@ UpdateAnimTiles:
 AnimTile_FromROM:
     ld hl, ROM_ANIM_TILES
     ldh a, [hAnimTileIndex]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Isoler monde (bits hauts)
     sub $10
     rrca
     ld d, $00
@@ -7833,11 +7833,11 @@ SoundAnimClearParam1:
 
 SoundAnimUpdateVar2:
     ldh a, [hSoundVar2]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Compteur (nibble haut)
     swap a
     ld b, a
     ldh a, [hSoundVar2]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Limite (nibble bas)
     cp b
     jr z, SoundAnimResetVar2
 
@@ -7850,7 +7850,7 @@ SoundAnimUpdateVar2:
 
 SoundAnimResetVar2:
     ldh a, [hSoundVar2]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Garder limite, reset compteur
     ldh [hSoundVar2], a
     ldh a, [hSoundVar1]
     dec a
@@ -7880,7 +7880,7 @@ ProcessAudioQueue_Found:
     inc a
     ldh [hSoundCh1], a
     ld a, [wAudioQueueType]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Type audio (nibble haut)
     cp $f0
     jr z, ProcessAudioQueue_Type_F0
 
@@ -7890,7 +7890,7 @@ ProcessAudioQueue_Found:
     jr nz, ProcessAudioQueue_Type_Other
 
     ld a, [wAudioQueueType]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Paramètre audio (nibble bas)
     ldh [hSoundVar1], a
     pop hl
     jr ProcessSoundAnimationLoop
@@ -8202,7 +8202,7 @@ AudioCommand_CompleteExit:
 
 ProcessSoundCollisionCheck:
     ldh a, [hSoundFlag]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Type collision (nibble bas)
     jp z, UpdatePhysicsCollision
 
     ldh a, [hSoundCh2]
@@ -8221,7 +8221,7 @@ ProcessSoundCollisionCheck:
 
 SoundParamProcessing:
     ldh a, [hSoundFlag]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Type collision (nibble bas)
     ld b, a
     ldh a, [hSoundParam2]
     sub b
@@ -8294,7 +8294,7 @@ CollisionCheckTileRight:
 
 ProcessVerticalCollision:
     ldh a, [hSoundFlag]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Type collision (nibble bas)
     ld b, a
     ldh a, [hSoundParam2]
     add b
@@ -8375,7 +8375,7 @@ ClearSoundCh1AndVar1_Collision:
 
 UpdatePhysicsCollision:
     ldh a, [hSoundFlag]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Vélocité collision (nibble haut)
     jp z, CollisionEnd
 
     ldh a, [hSoundCh2]
@@ -8387,7 +8387,7 @@ UpdatePhysicsCollision:
 
 SubtractSoundFlagFromParam1:
     ldh a, [hSoundFlag]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Vélocité collision (nibble haut)
     swap a
     ld b, a
     ldh a, [hSoundParam1]
@@ -8431,7 +8431,7 @@ CheckObjectTileBottomLeft_Path:
 
 AddSoundFlagToParam1:
     ldh a, [hSoundFlag]
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Vélocité collision (nibble haut)
     swap a
     ld b, a
     ldh a, [hSoundParam1]
@@ -12389,16 +12389,16 @@ DisplayLevelBCDScore:
     ld de, $9833
     ld a, [wLevelBCD1]
     ld b, a
-    and $0f
+    and NIBBLE_LOW_MASK          ; Chiffre unités niveau
     ld [de], a
     dec e
     ld a, b
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Chiffre dizaines niveau
     swap a
     ld [de], a
     dec e
     ld a, [$da02]
-    and $0f
+    and NIBBLE_LOW_MASK          ; Chiffre centaines niveau
     ld [de], a
     ret
 
@@ -12439,11 +12439,11 @@ FillTilemap_MainLoop:
     ld de, $988b
     ld a, [wLivesCounter]
     ld b, a
-    and $0f
+    and NIBBLE_LOW_MASK          ; Chiffre unités vies
     ld [de], a
     dec e
     ld a, b
-    and $f0
+    and NIBBLE_HIGH_MASK         ; Chiffre dizaines vies
     swap a
     ld [de], a
     ld a, $83
@@ -12764,7 +12764,7 @@ BCD_ProcessByte:
     ld a, [de]              ; Lire octet BCD
     ld b, a                 ; Sauvegarder dans B
     swap a                  ; High nibble → low nibble
-    and $0f                 ; Masquer
+    and NIBBLE_LOW_MASK     ; Masquer nibble bas (ex-haut)
     jr nz, BCD_MarkNonZeroHigh      ; Si != 0 → afficher chiffre
 
     ; Chiffre = 0, vérifier si leading zero
@@ -12780,7 +12780,7 @@ BCD_WriteTile:
 
     ; --- ProcessLowNibble ---
     ld a, b                 ; Récupérer octet original
-    and $0f                 ; Low nibble
+    and NIBBLE_LOW_MASK     ; Low nibble
     jr nz, BCD_MarkNonZeroLow      ; Si != 0 → afficher chiffre
 
     ; Chiffre = 0, vérifier si leading zero
