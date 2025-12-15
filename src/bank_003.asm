@@ -936,7 +936,7 @@ Return_IfCarry_003_43a5:
     db $db
     inc a
     inc a
-    jr nz, jr_003_4444
+    jr nz, AudioRoutine_Jump_3
 
     rst $38
     rst $38
@@ -962,7 +962,7 @@ Return_IfCarry_003_43a5:
     db $10
     jr nz, jr_003_442e
 
-    jr nz, jr_003_4430
+    jr nz, AudioRoutine_Jump_2
 
     ld b, b
     ld b, b
@@ -988,7 +988,7 @@ Return_IfCarry_003_43a5:
     nop
     nop
 
-jr_003_4429:
+AudioRoutine_Jump_1:
     nop
     nop
     nop
@@ -999,7 +999,7 @@ jr_003_442e:
     add b
     add b
 
-jr_003_4430:
+AudioRoutine_Jump_2:
     ld b, b
     ld b, b
     ld bc, $0201
@@ -1015,12 +1015,12 @@ jr_003_4430:
     add b
     add b
 
-jr_003_4444:
+AudioRoutine_Jump_3:
     nop
     nop
     pop bc
 
-jr_003_4447:
+AudioRoutine_Jump_4:
     nop
     rst $30
     nop
@@ -1049,9 +1049,9 @@ jr_003_4447:
     ld b, b
     ld b, b
     and b
-    jr nz, jr_003_4447
+    jr nz, AudioRoutine_Jump_4
 
-    jr nz, jr_003_4429
+    jr nz, AudioRoutine_Jump_1
 
     ld b, b
     ret nz
@@ -1235,12 +1235,12 @@ jr_003_451d:
     jr nz, jr_003_453f
 
 jr_003_453f:
-    jr nz, jr_003_4541
+    jr nz, SoundEngine_Target_1
 
-jr_003_4541:
-    jr nz, jr_003_4543
+SoundEngine_Target_1:
+    jr nz, SoundEngine_Target_2
 
-jr_003_4543:
+SoundEngine_Target_2:
     inc b
     nop
     inc b
@@ -1257,9 +1257,9 @@ jr_003_4543:
     nop
     ld [bc], a
     nop
-    jr c, jr_003_4555
+    jr c, SoundEngine_Target_3
 
-jr_003_4555:
+SoundEngine_Target_3:
     call nz, Boot
     nop
     ld [bc], a
@@ -1284,9 +1284,9 @@ jr_003_456b:
     nop
     ld [$1000], sp
 
-jr_003_4570:
+SoundEngine_Target_4:
     nop
-    jr nz, jr_003_4570
+    jr nz, SoundEngine_Target_4
 
     ei
     db $fd
@@ -1294,7 +1294,7 @@ jr_003_4570:
     db $fd
     ei
 
-jr_003_4578:
+SoundEngine_Target_5:
     db $fd
     ei
     db $fd
@@ -1387,7 +1387,7 @@ jr_003_45cd:
     ld a, b
     dec c
     ld [hl], b
-    jr jr_003_4578
+    jr SoundEngine_Target_5
 
     jr jr_003_463a
 
@@ -1442,9 +1442,9 @@ jr_003_45e1:
     nop
     rst $38
     nop
-    jr nz, jr_003_4611
+    jr nz, AudioHandler_Entry_1
 
-jr_003_4611:
+AudioHandler_Entry_1:
     ld sp, $fe00
     nop
     ld [bc], a
@@ -1461,12 +1461,12 @@ jr_003_4611:
     nop
     rra
     nop
-    jr nz, jr_003_4627
+    jr nz, AudioHandler_Entry_2
 
-jr_003_4627:
-    jr nz, jr_003_4629
+AudioHandler_Entry_2:
+    jr nz, AudioHandler_Entry_3
 
-jr_003_4629:
+AudioHandler_Entry_3:
     jr nz, jr_003_462b
 
 jr_003_462b:
@@ -1496,9 +1496,9 @@ jr_003_463c:
     ret nz
 
     nop
-    jr nz, jr_003_4641
+    jr nz, AudioHandler_Entry_4
 
-jr_003_4641:
+AudioHandler_Entry_4:
     ldh [rIE], a
     rst $38
     rst $38
@@ -2252,7 +2252,7 @@ StateType2End:
     ret
 
 
-jr_003_4966:
+FXDispatch_1:
     inc e
     ld a, [de]
     cp $0f
@@ -2266,23 +2266,23 @@ jr_003_4966:
     ld [de], a
     jr StateValidExit
 
-jr_003_4975:
+FXDispatch_2:
     push af
     ld a, [de]
     and a
-    jr nz, jr_003_4988
+    jr nz, FXDispatch_4
 
     ld a, [$c20c]
     cp $03
     ld a, $02
-    jr c, jr_003_4985
+    jr c, FXDispatch_3
 
     ld a, $04
 
-jr_003_4985:
+FXDispatch_3:
     ld [$c20e], a
 
-jr_003_4988:
+FXDispatch_4:
     pop af
     jr jr_003_49ac
 
@@ -2295,7 +2295,7 @@ jr_003_4988:
     ld b, a
     ldh a, [hJoypadState]
     bit 1, a
-    jr nz, jr_003_4975
+    jr nz, FXDispatch_2
 
     push af
     ld a, [$c20e]
@@ -2314,7 +2314,7 @@ jr_003_49ac:
 
     ld a, [de]
     cp $01
-    jr z, jr_003_4966
+    jr z, FXDispatch_1
 
 StateValidExit:
     bit 7, b
@@ -4135,7 +4135,7 @@ jr_003_51c2:
 
     ld a, [bc]
     rlca
-    jr z, jr_003_5200
+    jr z, AudioParam_Set_1
 
     nop
     inc l
@@ -4148,16 +4148,16 @@ jr_003_51f6:
     ld de, $1028
     ld de, $14c0
 
-jr_003_5200:
+AudioParam_Set_1:
     add hl, bc
-    jr z, jr_003_5218
+    jr z, AudioParam_Set_3
 
     inc bc
     ld a, [hl+]
     rst $38
     dec b
     ld a, [bc]
-    jr z, jr_003_5212
+    jr z, AudioParam_Set_2
 
     ld b, $28
     ld a, [bc]
@@ -4167,7 +4167,7 @@ jr_003_5200:
     dec b
     inc l
 
-jr_003_5212:
+AudioParam_Set_2:
     rrca
     dec b
     jr z, @+$13
@@ -4175,7 +4175,7 @@ jr_003_5212:
     nop
     ret nz
 
-jr_003_5218:
+AudioParam_Set_3:
     rst $38
     inc bc
     ld c, $28
@@ -4190,7 +4190,7 @@ jr_003_521d:
     ld c, $2c
     rrca
     ld c, $28
-    jr jr_003_5231
+    jr AudioParam_Set_4
 
 jr_003_522a:
     jr z, @+$01
@@ -4201,7 +4201,7 @@ jr_003_522a:
     db $d3
     adc [hl]
 
-jr_003_5231:
+AudioParam_Set_4:
     adc a
     adc [hl]
     cp $02
@@ -11740,7 +11740,7 @@ jr_003_74a0:
     ld b, $00
     ld [$2876], sp
     halt
-    jr z, jr_003_7638
+    jr z, MusicSequence_Marker_1
 
     rst $30
     halt
@@ -11842,7 +11842,7 @@ jr_003_75c6:
     ld c, b
     ld b, h
 
-jr_003_7638:
+MusicSequence_Marker_1:
     and h
     ld b, b
     and e
@@ -11887,7 +11887,7 @@ jr_003_765a:
     ld c, b
     and h
 
-jr_003_7662:
+MusicSequence_Marker_2:
     ld b, h
     and e
     ld c, b
@@ -11905,12 +11905,12 @@ jr_003_766e:
     ld [hl], $30
     inc l
     and l
-    jr nc, jr_003_7677
+    jr nc, MusicSequence_Marker_4
 
-jr_003_7676:
+MusicSequence_Marker_3:
     nop
 
-jr_003_7677:
+MusicSequence_Marker_4:
     sbc l
     ld [hl], b
     nop
@@ -11946,7 +11946,7 @@ jr_003_768f:
     and l
     ld d, d
 
-jr_003_7697:
+MusicSequence_Marker_5:
     ld bc, $4ea8
     and e
     ld d, d
@@ -11980,7 +11980,7 @@ jr_003_7697:
     jr z, jr_003_76fd
 
     and e
-    jr z, jr_003_7662
+    jr z, MusicSequence_Marker_2
 
     ld b, b
     ld [hl], $a3
@@ -11998,7 +11998,7 @@ jr_003_7697:
     ld a, [de]
     and d
     ld [hl-], a
-    jr z, jr_003_7676
+    jr z, MusicSequence_Marker_3
 
     ld a, [de]
     ld [hl-], a
@@ -12025,7 +12025,7 @@ jr_003_7697:
     ld [hl+], a
     and d
     ld a, [hl-]
-    jr nc, jr_003_7697
+    jr nc, MusicSequence_Marker_5
 
     ld [hl+], a
     ld a, [hl-]
