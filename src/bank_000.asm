@@ -6553,7 +6553,7 @@ CheckAnimObjectState:
     cp SLOT_EMPTY
     jr nz, ClearAnimObjectSlot
 
-    ld a, $03
+    ld a, STATE_BUFFER_ANIM
     ld [wStateBuffer], a
     ldh a, [hAnimStructBank]
     ldh [hPtrBank], a
@@ -6771,7 +6771,7 @@ PaddingZone_215b:
     ld a, a
 
 ResetScrollPhase:
-    ld a, $03
+    ld a, SCROLL_PHASE_RESET
     ldh [hScrollPhase], a
     ldh a, [hShadowSCX]
     ld b, a

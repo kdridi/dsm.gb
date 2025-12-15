@@ -124,6 +124,7 @@ DEF hScrollPhase    EQU $FFEA   ; Phase mise à jour tilemap (1=active, 2=done)
 DEF SCROLL_PHASE_INACTIVE EQU $00  ; Scroll inactif
 DEF SCROLL_PHASE_ACTIVE   EQU $01  ; Scroll en cours de mise à jour
 DEF SCROLL_PHASE_DONE     EQU $02  ; Scroll terminé
+DEF SCROLL_PHASE_RESET    EQU $03  ; Reset scroll phase (ResetScrollPhase)
 
 ; --- Timers ---
 DEF hTimer1         EQU $FFA6   ; Timer principal (décrémenté par GameLoop)
