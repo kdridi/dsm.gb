@@ -864,7 +864,7 @@ jr_003_4330:
     ldh [c], a
     ret c
 
-jr_003_43a5:
+Return_IfCarry_003_43a5:
     ret c
 
     inc h
@@ -896,7 +896,7 @@ jr_003_43a5:
 
     ret nz
 
-    jr nz, jr_003_43a5
+    jr nz, Return_IfCarry_003_43a5
 
     db $fc
     ld [hl-], a
@@ -3842,7 +3842,7 @@ jr_003_50a3:
     ld d, a
     ld e, [hl]
 
-jr_003_50ab:
+Return_IfNotZero_003_50ab:
     ret nz
 
 jr_003_50ac:
@@ -3948,7 +3948,7 @@ jr_003_50af:
     ld [bc], a
     ld [bc], a
     inc bc
-    jr nz, jr_003_50ab
+    jr nz, Return_IfNotZero_003_50ab
 
     ld d, $07
     ld [bc], a

@@ -673,8 +673,8 @@ jr_001_425c:
     inc c
     ld de, $2110
 
-jr_001_42e1:
-    jr nz, jr_001_42e1
+BusyWait_IfNotZero_001_42e1:
+    jr nz, BusyWait_IfNotZero_001_42e1
 
     ld b, $fb
     adc e
@@ -757,7 +757,7 @@ jr_001_4314:
     db $10
     ld a, h
     ld a, h
-    jr c, jr_001_4376
+    jr c, JumpIfCarryClear_B2BC_001_4376
 
     ld b, h
     ld b, h
@@ -773,7 +773,7 @@ jr_001_4314:
     ld a, h
     db $10
     db $10
-    jr z, jr_001_4376
+    jr z, JumpIfCarryClear_B2BC_001_4376
 
     ld b, h
     ld b, h
@@ -818,7 +818,7 @@ Call_001_4355:
     ld [hl], d
     ld e, h
 
-jr_001_4376:
+JumpIfCarryClear_B2BC_001_4376:
     jp nc, $b2bc
 
     db $fc
@@ -1062,7 +1062,7 @@ jr_001_4417:
     jr nz, jr_001_44ce
 
     ccf
-    jr nz, jr_001_44b2
+    jr nz, Return_IfNotZero_001_44b2
 
     rst $38
     rst $38
@@ -1094,7 +1094,7 @@ jr_001_4417:
     nop
     nop
 
-jr_001_44b2:
+Return_IfNotZero_001_44b2:
     ret nz
 
     ret nz
@@ -2900,9 +2900,9 @@ jr_001_4baa:
     nop
     nop
     stop
-    jr jr_001_4c1d
+    jr Trampoline_To_4c1f_001_4c1d
 
-jr_001_4c1d:
+Trampoline_To_4c1f_001_4c1d:
     jr jr_001_4c1f
 
 jr_001_4c1f:

@@ -273,7 +273,7 @@ jr_002_412e:
     rra
     dec de
     rra
-    jr jr_002_413c
+    jr Skip_9Bytes_002_413c
 
     nop
     dec c
@@ -283,7 +283,7 @@ jr_002_412e:
     inc e
     dec b
 
-jr_002_413c:
+Skip_9Bytes_002_413c:
     jr @+$09
 
     ld b, $06
@@ -3398,7 +3398,7 @@ jr_002_4d82:
     ld d, d
     ld h, d
     ld h, d
-    jr nz, jr_002_4e50
+    jr nz, ReturnFromInterrupt_002_4e50
 
     jr nz, jr_002_4e52
 
@@ -3430,7 +3430,7 @@ jr_002_4d82:
 
     add a
 
-jr_002_4e50:
+ReturnFromInterrupt_002_4e50:
     reti
 
 
@@ -3665,7 +3665,7 @@ jr_002_4f32:
     dec bc
     ld [$181b], sp
     scf
-    jr nc, jr_002_4f6e
+    jr nc, Return_IfCarry_002_4f6e
 
     jr nz, jr_002_4f70
 
@@ -3705,7 +3705,7 @@ jr_002_4f32:
     inc h
     ld l, h
 
-jr_002_4f6e:
+Return_IfCarry_002_4f6e:
     ret c
 
     ret c
