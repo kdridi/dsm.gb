@@ -1532,7 +1532,7 @@ RenderPlayerUpdate:
 
 
 SetStateRenderEnd:
-    ld a, $04
+    ld a, STATE_RENDER_SPECIAL
     ld [wStateRender], a
     ret
 
@@ -1585,7 +1585,7 @@ CheckStartButtonForPause:
 
     ; --- EnterPause ---
     set 5, [hl]             ; Activer Window (afficher "PAUSE")
-    ld a, $01
+    ld a, PAUSE_ENTER
 
 SaveAudioStatePause:
     ldh [hSavedAudio], a          ; Sauvegarder état audio ?
@@ -1594,7 +1594,7 @@ SaveAudioStatePause:
 ; --- ExitPause ---
 ExitPause:
     res 5, [hl]             ; Désactiver Window
-    ld a, $02
+    ld a, PAUSE_EXIT
     jr SaveAudioStatePause
 
 LoadLevelData:
@@ -2921,15 +2921,15 @@ State1E_ClearTilemapColumn::
     ldh [hOAMAddrLow], a
     ldh a, [hVramPtrLow]
     ld l, a
-    ld h, $99
+    ld h, VRAM_SCRN1_HIGH       ; $99 = octet haut _SCRN1
     sub TILEMAP_STRIDE          ; Ligne précédente (-32 = 1 ligne tilemap)
     ldh [hVramPtrLow], a
 
     WAIT_FOR_HBLANK
     ld [hl], TILE_EMPTY
-    ld a, $08
+    ld a, $08                   ; Timer = 8 frames
     ldh [hTimer1], a
-    ld a, $0b
+    ld a, STATE_RENDER_STATE_BUFFER
     ld [wStateBuffer], a
     ret
 
@@ -3003,9 +3003,9 @@ State21_SetupEndCutscene::
     xor a
     ldh [hScrollPhase], a
     ldh [hTemp3], a
-    ld a, $a1
+    ld a, $a1                   ; Timer cutscene (161 frames)
     ldh [hTimer1], a
-    ld a, $0f
+    ld a, STATE_RENDER_CUTSCENE
     ld [wStateRender], a
     ld hl, hGameState
     inc [hl]
@@ -3101,7 +3101,7 @@ State23_WalkToDoor::
 
 DoorPositionCalculationPath:
     ldh [hCopyDstHigh], a
-    ld a, $98
+    ld a, VRAM_TILEMAP_HIGH     ; $98 = octet haut _SCRN0
     ldh [hCopyDstLow], a
     xor a
     ldh [hOAMIndex], a
@@ -3475,11 +3475,11 @@ ClearOamBuffer_Loop:
     jr nz, ClearOamBuffer_Loop
 
     call SwitchBankAndCallBank3Handler
-    ld a, $98
+    ld a, VRAM_TILEMAP_HIGH     ; $98 = octet haut _SCRN0
     ldh [hCopyDstLow], a
-    ld a, $a5
+    ld a, $a5                   ; Offset colonne texte
     ldh [hCopyDstHigh], a
-    ld a, $0f
+    ld a, STATE_RENDER_CUTSCENE
     ld [wStateRender], a
     ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a

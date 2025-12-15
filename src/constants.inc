@@ -796,6 +796,14 @@ DEF PLAYER_INVULN_TIMER        EQU $f8   ; Timer invulnérabilité (-8, compte v
 
 DEF STATE_RENDER_DAMAGE        EQU $0c   ; Mode rendu après collision ennemi (12)
 DEF STATE_RENDER_INIT          EQU $02   ; Mode rendu initialisation
+DEF STATE_RENDER_SPECIAL       EQU $04   ; Mode rendu spécial (fin de niveau)
+DEF STATE_RENDER_CUTSCENE      EQU $0f   ; Mode rendu cutscene fin niveau
+DEF STATE_RENDER_STATE_BUFFER  EQU $0b   ; Mode rendu via wStateBuffer
+
+; === Flags pause audio (hSavedAudio) ===
+
+DEF PAUSE_ENTER                EQU $01   ; Entrée en pause (audio → mute)
+DEF PAUSE_EXIT                 EQU $02   ; Sortie de pause (audio → restore)
 
 ; === Timers gameplay ===
 
@@ -814,6 +822,7 @@ DEF ANIM_TILE_W4_L3            EQU $43   ; Monde 4, Niveau 3 (fin du jeu)
 ; === VRAM Tilemap ===
 
 DEF VRAM_TILEMAP_HIGH          EQU $98   ; Octet haut adresse tilemap BG ($9800)
+DEF VRAM_SCRN1_HIGH            EQU $99   ; Octet haut adresse _SCRN1 ($9900)
 DEF VRAM_TILEMAP_OFFSET        EQU $0120 ; Offset pour calcul scroll (288 bytes = 9 lignes)
 
 ; === Scroll initial ===
