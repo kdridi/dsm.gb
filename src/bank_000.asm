@@ -316,9 +316,16 @@ LCDStatHandler_CheckWindow:
     dec [hl]                    ; Sinon décrémenter WY
     cp LY_WINDOW_MAX            ; A >= $87 ?
 
-;; Point d'entrée public : vérifie carry flag et exit si >= $87
+; LCDStat_CheckCarryExit
+; ----------------------
+; Description: Point d'entrée public - vérifie carry flag et exit si carry clear
+; In:  carry = flag à tester (résultat du cp précédent)
+;      a = valeur testée (généralement position window)
+; Out: Si carry clear (valeur >= seuil) → exit handler
+;      Si carry set (valeur < seuil) → continue vers UpdateLYC
+; Modifie: rien (saute à Exit ou continue)
 LCDStat_CheckCarryExit:
-    jr nc, LCDStatHandler_Exit  ; Oui → ne pas changer LYC
+    jr nc, LCDStatHandler_Exit  ; Carry clear → ne pas changer LYC
 
 LCDStatHandler_UpdateLYC:
     add LYC_SCANLINE_STRIDE     ; Prochaine ligne LYC (+8 = 1 tile)

@@ -983,6 +983,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$00CC",
+      "node_type": "code",
+      "description": "LCDStatHandler_Exit - point de sortie du handler (pop hl puis PopAndReti)",
+      "source": "$00C3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$00C5",
+      "node_type": "code",
+      "description": "LCDStatHandler_UpdateLYC - incr\u00e9mente LYC de 8 lignes pour animation window",
+      "source": "$00C3",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -997,11 +1013,12 @@
     "$4000:1",
     "$0226",
     "$0048",
+    "$00C3",
     "$0000",
     "$0095",
     "$0040",
     "$4000:3"
   ],
-  "commits_since_push": 4,
-  "total_explored": 15
+  "commits_since_push": 0,
+  "total_explored": 16
 }
