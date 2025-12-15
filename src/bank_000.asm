@@ -2262,13 +2262,20 @@ InitGameState:
     ret
 
 
+; SelectAnimationBank
+; --------------------
+; Description: Sélectionne la bank ROM d'animation selon les bits hauts de hAnimObjSubState
+;              Transforme bits 7-6 en index 0-3 pour lire AnimBankTable ($0A20)
+; In:  hAnimObjSubState = sous-état animation objet (bits 7-6 utilisés)
+; Out: hAnimStructBank = bank ROM sélectionnée ($01/$04/$08/$50)
+; Modifie: a
 SelectAnimationBank:
     push hl
     push de
     ldh a, [hAnimObjSubState]
-    and ANIM_SUBSTATE_MASK
-    swap a
-    srl a
+    and ANIM_SUBSTATE_MASK      ; Garde bits 7-6 uniquement ($C0)
+    swap a                       ; Décalage de 4 bits
+    srl a                        ; Puis encore 2 bits → index 0-3
     srl a
     ld e, a
     ld d, $00

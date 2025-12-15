@@ -433,6 +433,14 @@
       "priority": 3
     },
     {
+      "address": "$0A07",
+      "node_type": "code",
+      "description": "SelectAnimationBank - S\u00e9lectionne la bank d'animation selon hAnimObjSubState",
+      "source": "$0A24",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0A24",
       "node_type": "code",
       "description": "HandleObjectAnimationOnBlockHit - Anim objet sur bloc",
@@ -1009,6 +1017,14 @@
       "priority": 3
     },
     {
+      "address": "$2A1A",
+      "node_type": "code",
+      "description": "CheckObjectBottomCollision - V\u00e9rifie collision bas objet avec joueur",
+      "source": "$0A24",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2a3b",
       "node_type": "code",
       "description": "TriggerObjectSound - D\u00e9clenche son associ\u00e9 \u00e0 l'objet",
@@ -1497,18 +1513,10 @@
       "priority": 3
     },
     {
-      "address": "$0A07",
-      "node_type": "code",
-      "description": "SelectAnimationBank - S\u00e9lectionne la bank d'animation selon hAnimObjSubState",
-      "source": "$0A24",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2A1A",
-      "node_type": "code",
-      "description": "CheckObjectBottomCollision - V\u00e9rifie collision bas objet avec joueur",
-      "source": "$0A24",
+      "address": "$0A20",
+      "node_type": "data",
+      "description": "AnimBankTable - Table de 4 bytes mappant index\u2192bank ROM ($01/$04/$08/$50)",
+      "source": "$0A07",
       "bank": 0,
       "priority": 3
     }
@@ -1516,6 +1524,7 @@
   "visited": [
     "$4000:2",
     "$00CC",
+    "$0A07",
     "$0322",
     "$02A5",
     "$05B8",
@@ -1570,6 +1579,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 4,
-  "total_explored": 55
+  "commits_since_push": 0,
+  "total_explored": 56
 }
