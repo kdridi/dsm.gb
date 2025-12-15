@@ -1432,3 +1432,16 @@ DEF CREDITS_POS_RANDOM_THRESH  EQU $68   ; Seuil position aléatoire (104)
 
 DEF ROM_WORLD_TILE_TABLE       EQU $1a8a ; Table tiles par monde
 DEF TABLE_END_MARKER           EQU $fd   ; Marqueur fin de table
+
+; === Constantes mouvement joueur ===
+; Utilisées dans ProcessAnimationState pour gérer l'accélération/décélération
+
+DEF PLAYER_ACCEL_COUNTER_MAX   EQU $06   ; Compteur max accélération mouvement (6 étapes)
+DEF PLAYER_STATE_OSCIL_THRESH  EQU $0f   ; Seuil état joueur pour oscillation ($0F = 15)
+DEF PLAYER_DIR_CHECK_LEFT      EQU $20   ; Valeur wPlayerUnk0D = direction gauche confirmée
+DEF PLAYER_ACCEL_TIMER_LEFT    EQU $10   ; Timer accélération mouvement gauche (16 frames)
+DEF PLAYER_ACCEL_TIMER_RIGHT   EQU $20   ; Timer accélération mouvement droite (32 frames)
+
+; === Audio slots ===
+
+DEF AUDIO_SLOT_LOOP_COUNT      EQU $0a   ; Nombre de slots audio à traiter (10)

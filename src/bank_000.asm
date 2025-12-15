@@ -5866,7 +5866,7 @@ ProcessAnimationState_DecrementFlag:
 ProcessAnimationState_CheckType:
     ld hl, wPlayerUnk0C
     ld a, [hl+]
-    cp $06
+    cp PLAYER_ACCEL_COUNTER_MAX  ; Compteur accélération max (6)
     jr nz, ProcessAnimationState_AfterTypeCheck
 
     inc l
@@ -5958,7 +5958,7 @@ ProcessAnimationState_JoypadUp_ResetAndReturn:
 ProcessAnimationState_JoypadLeft:
     ld hl, wPlayerUnk0D
     ld a, [hl]
-    cp $20
+    cp PLAYER_DIR_CHECK_LEFT     ; Vérifie direction gauche confirmée ($20)
     jr nz, ProcessAnimationState_JoypadLeft_CheckCollision
 
     jp HandleJoypadRight_Setup
@@ -5987,12 +5987,12 @@ ProcessAnimationState_JoypadLeft_CheckCollision:
 ProcessAnimationState_JoypadLeft_Increment:
     ld hl, wPlayerUnk0C
     ld a, [hl]
-    cp $06
+    cp PLAYER_ACCEL_COUNTER_MAX  ; Compteur accélération max (6)
     jr z, ProcessAnimationState_JoypadLeft_Done
 
     inc [hl]
     inc l
-    ld [hl], $10
+    ld [hl], PLAYER_ACCEL_TIMER_LEFT  ; Timer mouvement gauche (16)
 
 ProcessAnimationState_JoypadLeft_Done:
     ld hl, wPlayerState
@@ -6063,7 +6063,7 @@ CheckOscillationCollision_Skip:
 HandleJoypadRight:
     ld hl, wPlayerUnk0D
     ld a, [hl]
-    cp $10
+    cp PLAYER_ACCEL_TIMER_LEFT   ; Vérifie timer mouvement ($10)
     jr nz, HandlePlayerMovement
 
 HandleJoypadRight_Setup:
@@ -6086,14 +6086,14 @@ HandleJoypadRight_Setup:
 
 HandlePlayerMovement:
     ld hl, wPlayerUnk05
-    ld [hl], $20
+    ld [hl], PLAYER_ACCEL_TIMER_RIGHT  ; Timer mouvement droite ($20)
     call CheckPlayerSideCollision
     and a
     ret nz
 
     ld hl, wPlayerState
     ld a, [hl]
-    cp $0f
+    cp PLAYER_STATE_OSCIL_THRESH  ; Seuil oscillation ($0F)
     jr c, DecrementOscillationYCounter
 
     push hl
@@ -6113,12 +6113,12 @@ HandlePlayerMovement:
 CheckOscillationCounter:
     ld hl, wPlayerUnk0C
     ld a, [hl]
-    cp $06
+    cp PLAYER_ACCEL_COUNTER_MAX  ; Compteur accélération max (6)
     jr z, ApplyOscillationNegOffset
 
     inc [hl]
     inc l
-    ld [hl], $20
+    ld [hl], PLAYER_ACCEL_TIMER_RIGHT  ; Timer mouvement droite ($20)
 
 ApplyOscillationNegOffset:
     pop hl
@@ -7636,7 +7636,7 @@ AudioSlotLoopEnd:
     pop bc
     inc c
     ld a, c
-    cp $0a
+    cp AUDIO_SLOT_LOOP_COUNT     ; 10 slots audio
     jr nz, ProcessAudioSlot_Loop
 
     ld hl, wSpriteVar50
@@ -8245,10 +8245,10 @@ SoundParamProcessing:
     ld a, [wPlayerState]
     sub b
     ld [wPlayerState], a
-    cp $0f
+    cp PLAYER_STATE_OSCIL_THRESH  ; Seuil oscillation ($0F)
     jr nc, RestoreSoundConfig
 
-    ld a, $0f
+    ld a, PLAYER_STATE_OSCIL_THRESH
     ld [wPlayerState], a
 
 RestoreSoundConfig:
