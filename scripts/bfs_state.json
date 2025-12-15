@@ -185,6 +185,14 @@
       "priority": 3
     },
     {
+      "address": "$7FF0",
+      "node_type": "code",
+      "description": "AudioEntryPoint - Routine audio principale en bank 3",
+      "source": "$0050",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$FFB6",
       "node_type": "code",
       "description": "hDmaRoutine - Routine DMA OAM copi\u00e9e en HRAM",
@@ -193,21 +201,22 @@
       "priority": 3
     },
     {
-      "address": "$7FF0",
+      "address": "$0150",
       "node_type": "code",
-      "description": "AudioEntryPoint - Routine audio principale en bank 3",
-      "source": "$0050",
-      "bank": 3,
+      "description": "AfterHeader - Jump interm\u00e9diaire vers SystemInit",
+      "source": "$0100",
+      "bank": 0,
       "priority": 3
     }
   ],
   "visited": [
     "$0040",
+    "$0100",
     "$0000",
     "$0028",
     "$0050",
     "$0048"
   ],
-  "commits_since_push": 4,
-  "total_explored": 5
+  "commits_since_push": 0,
+  "total_explored": 6
 }
