@@ -960,7 +960,7 @@ Return_IfCarry_003_43a5:
     inc c
     db $10
     db $10
-    jr nz, Audio_003_442e
+    jr nz, AudioData_003_442e
 
     jr nz, AudioDispatch_Volume
 
@@ -995,7 +995,7 @@ AudioDispatch_Channels:
     nop
     nop
 
-Audio_003_442e:
+AudioData_003_442e:
     add b
     add b
 
@@ -1279,7 +1279,7 @@ SoundEngine_Target_3:
     ld bc, $0200
     nop
 
-Audio_003_456b:
+AudioData_003_456b:
     inc b
     nop
     ld [$1000], sp
@@ -1374,9 +1374,9 @@ SoundEngine_Target_5:
     nop
     nop
     nop
-    jr nz, Audio_003_45cd
+    jr nz, AudioData_003_45cd
 
-Audio_003_45cd:
+AudioData_003_45cd:
     ld b, b
     nop
     ret nz
@@ -1407,7 +1407,7 @@ DispatchEntry_003_45e1:
     ld [hl], b
     ret nz
 
-    jr nc, Audio_003_456b
+    jr nc, AudioData_003_456b
 
     ld h, b
     add b
@@ -9105,7 +9105,7 @@ ResetPulseChannel:
     xor a
     ld [$dfe1], a
 
-Audio_003_68f8:
+AudioData_003_68f8:
     ldh [rNR10], a
     ldh [rNR12], a
     ld hl, $df1f
@@ -9150,7 +9150,7 @@ SetupAudioConfiguration:
     ld d, a
     sub [hl]
     adc h
-    jr nc, Audio_003_68f8
+    jr nc, AudioData_003_68f8
 
     ld d, a
     sub [hl]
@@ -9292,7 +9292,7 @@ DispatchAudioWaveCommand:
     ldh [c], a
     inc c
 
-Audio_003_69e4:
+AudioData_003_69e4:
     inc c
     ld a, $87
     ldh [c], a
@@ -9308,7 +9308,7 @@ DispatchAudioWave_Entry:
 
 
     nop
-    jr nc, Audio_003_69e4
+    jr nc, AudioData_003_69e4
 
     and a
     rst $00
@@ -9426,7 +9426,7 @@ CheckAudioActive:
     add hl, bc
     ld a, [hl]
     and a
-    jr z, Audio_003_6aad
+    jr z, AudioData_003_6aad
 
     ldh [rNR43], a
     ret
@@ -9457,7 +9457,7 @@ CheckAudioActive:
     and a
     ret nz
 
-Audio_003_6aad:
+AudioData_003_6aad:
     xor a
     ld [$dff9], a
     ldh [rNR42], a
@@ -9491,7 +9491,7 @@ DispatchAudioCommand:
     jr z, ConfigureAudioWave_Entry
 
     cp $fd
-    jr z, Audio_003_6aed
+    jr z, AudioData_003_6aed
 
     ret
 
@@ -9517,7 +9517,7 @@ ConfigureAudioWave_Entry:
     ld b, $05
     jr AudioRegisterTransferLoop
 
-Audio_003_6aed:
+AudioData_003_6aed:
     push bc
     ld c, $20
     ld b, $04
@@ -9803,7 +9803,7 @@ SetMasterVolumeFromParam:
     ld bc, $bd00
     nop
     ld [bc], a
-    jr nz, Audio_003_6cb5
+    jr nz, AudioData_003_6cb5
 
     or a
     ld bc, $ed00
@@ -9898,7 +9898,7 @@ InitializeAudioChannelState:
     ld de, $df40
     call CopyAudioDataPair
 
-Audio_003_6cb5:
+AudioData_003_6cb5:
     ld hl, $df10
     ld de, $df14
     call CopyAudioDataWord
@@ -9929,7 +9929,7 @@ AudioControlInitLoop:
     ret
 
 
-Audio_003_6cf2:
+AudioData_003_6cf2:
     push hl
     xor a
     ldh [rNR30], a
@@ -9965,7 +9965,7 @@ LoadAudioParameterTriple:
     ld a, [hl]
     pop hl
     cp $03
-    jr z, Audio_003_6cf2
+    jr z, AudioData_003_6cf2
 
 DispatchEntry_003_6d28:
     call IncrementAudioWord
@@ -9980,7 +9980,7 @@ IncrementAudioWord:
     ld d, a
     inc de
 
-Audio_003_6d34:
+AudioData_003_6d34:
     ld a, e
     ld [hl+], a
     ld a, d
@@ -9997,7 +9997,7 @@ AdvanceAudioPointerByWord:
     ld d, a
     inc de
     inc de
-    jr Audio_003_6d34
+    jr AudioData_003_6d34
 
 DereferenceAudioPointer:
     ld a, [hl+]
@@ -10134,7 +10134,7 @@ DecodeAudioOpcode:
 
     and $f0
     cp $a0
-    jr nz, Audio_003_6dfe
+    jr nz, AudioData_003_6dfe
 
     ld a, b
     and $0f
@@ -10155,7 +10155,7 @@ DecodeAudioOpcode:
     call IncrementAudioWord
     call DereferenceAudioPointer
 
-Audio_003_6dfe:
+AudioData_003_6dfe:
     ld a, b
     ld c, a
     ld b, $00
@@ -10199,13 +10199,13 @@ CopyAudioConfigToRAM:
     ld hl, $7002
     add hl, bc
 
-Audio_003_6e36:
+AudioData_003_6e36:
     ld a, [hl+]
     ld [de], a
     inc e
     ld a, e
     cp $4b
-    jr nz, Audio_003_6e36
+    jr nz, AudioData_003_6e36
 
     ld c, $20
     ld hl, $df44
@@ -10257,7 +10257,7 @@ AudioControlCommonPath:
     inc l
     ld a, [hl-]
     and a
-    jr nz, Audio_003_6ec8
+    jr nz, AudioData_003_6ec8
 
     ld a, [hl+]
     ld e, a
@@ -10285,7 +10285,7 @@ DispatchEntry_003_6e87:
     ld a, [hl]
     pop hl
     bit 7, a
-    jr nz, Audio_003_6ea5
+    jr nz, AudioData_003_6ea5
 
     ld a, d
     ldh [c], a
@@ -10304,7 +10304,7 @@ DispatchEntry_003_6e87:
     ld l, a
     res 0, [hl]
 
-Audio_003_6ea5:
+AudioData_003_6ea5:
     pop hl
     dec l
     ld a, [hl-]
@@ -10334,7 +10334,7 @@ IncrementAudioCounters:
     ret
 
 
-Audio_003_6ec8:
+AudioData_003_6ec8:
     ld b, $00
     push hl
     pop hl
@@ -10364,22 +10364,22 @@ HandleAudioChannelStatus:
     ldh a, [hAudioControl]
     ld c, $13
     cp $01
-    jr z, Audio_003_6efa
+    jr z, AudioData_003_6efa
 
     ld c, $18
     cp $02
-    jr z, Audio_003_6efa
+    jr z, AudioData_003_6efa
 
     ld c, $1d
     cp $03
-    jr z, Audio_003_6efa
+    jr z, AudioData_003_6efa
 
 DispatchEntry_003_6ef8:
     pop hl
     ret
 
 
-Audio_003_6efa:
+AudioData_003_6efa:
     inc l
     ld a, [hl+]
     ld e, a
