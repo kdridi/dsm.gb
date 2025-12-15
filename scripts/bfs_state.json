@@ -705,6 +705,14 @@
       "priority": 3
     },
     {
+      "address": "$0F21",
+      "node_type": "code",
+      "description": "CutsceneEndPath - Termine cutscene et passe \u00e0 l'\u00e9tat suivant",
+      "source": "$0F09",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0F2A",
       "node_type": "code",
       "description": "State23_WalkToDoor - Marche vers porte",
@@ -1711,14 +1719,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0F21",
-      "node_type": "code",
-      "description": "CutsceneEndPath - Termine cutscene et passe \u00e0 l'\u00e9tat suivant",
-      "source": "$0F09",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1747,6 +1747,7 @@
     "$00C3",
     "$0EB2",
     "$00CC",
+    "$0F21",
     "$0C22",
     "$07B7",
     "$0EC4",
@@ -1811,6 +1812,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 2,
-  "total_explored": 88
+  "commits_since_push": 3,
+  "total_explored": 89
 }
