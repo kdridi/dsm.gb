@@ -1748,7 +1748,7 @@ ConditionalLoadSequence_46a5:
     cp $fe
     inc bc
 
-Call_001_4755:
+TileSheetData_4755:
     inc bc
     rlca
     rlca
@@ -4560,15 +4560,15 @@ DataTable_5354:
     rst $08
     ld [bc], a
     ld [hl], c
-    call z, Call_001_7355
-    call z, Call_001_7555
+    call z, ValidationData_7355
+    call z, ConfigData_7555
     pop de
     ld [bc], a
     ld a, c
     rst $08
     ld c, c
     ld a, e
-    call z, Call_001_7c55
+    call z, LevelData_7c55
     rrca
     add b
     ld a, l
@@ -4728,7 +4728,7 @@ CallStub_5436:
     ld d, b
     ld c, c
     ld b, h
-    call z, Call_001_4755
+    call z, TileSheetData_4755
     add hl, bc
     inc b
     ld c, b
@@ -11328,7 +11328,7 @@ CheckPlayerAction_6afd:
     ld e, l
     cp $06
 
-Call_001_7355:
+ValidationData_7355:
     ld sp, $696a
     ld l, d
     ld l, c
@@ -11755,7 +11755,7 @@ Jump_001_73f3:
     ld l, d
     ld l, c
 
-Call_001_7555:
+ConfigData_7555:
     ld l, d
     ld l, c
     ld l, d
@@ -13325,7 +13325,7 @@ DataShim_7c52:
     db $f4
     ldh [c], a
 
-Call_001_7c55:
+LevelData_7c55:
     ld l, d
     ld l, a
     cp $02
