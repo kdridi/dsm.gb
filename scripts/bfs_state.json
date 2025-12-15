@@ -1823,6 +1823,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$11B6",
+      "node_type": "data",
+      "description": "TextData_ThankYouMario - Texte 'THANK YOU MARIO!'",
+      "source": "$118B",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1891,6 +1899,7 @@
     "$0C6A",
     "$0322",
     "$0D82",
+    "$118B",
     "$05B8",
     "$0C37",
     "$0000",
@@ -1937,6 +1946,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 4,
-  "total_explored": 110
+  "commits_since_push": 0,
+  "total_explored": 111
 }

@@ -4097,8 +4097,15 @@ TextData_OhDaisy:
 
 ; ===========================================================================
 ; État $2B - Animation descente princesse ($118B)
-; Descend sprite princesse, affiche texte "THANK YOU MARIO!"
 ; ===========================================================================
+; State2B_PrincessDescending
+; --------------------------
+; Description: Gère l'animation de descente de la princesse, affiche "THANK YOU MARIO!",
+;              décrémente progressivement la position Y, puis passe à l'état suivant.
+; In:  [wPlayerUnk12] = position Y actuelle de la princesse
+; Out: [hGameState] = incrémenté quand descente terminée
+;      [wSpriteTemp+0..3] = données sprite initialisées (Y, X, Tile, flags)
+; Modifie: a, hl
 State2B_PrincessDescending::
     ld hl, TextData_ThankYouMario
     call WriteCharToVRAM
