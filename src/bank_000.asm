@@ -4151,8 +4151,15 @@ TextData_ThankYouMario:
 
 ; ===========================================================================
 ; État $2C - Animation sprite oscillante ($11C7)
-; Anime sprite avec oscillation, clear écran quand terminé
 ; ===========================================================================
+; State2C_SpriteOscillation
+; -------------------------
+; Description: Anime sprite avec oscillation verticale, efface écran quand terminé
+; In:  hFrameCounter = compteur de frames
+;      wSpriteTemp = compteur oscillation + valeur position
+;      hOAMIndex = direction oscillation (0=descend, autre=monte)
+; Out: hGameState incrémenté si animation terminée
+; Modifie: a, b, hl
 State2C_SpriteOscillation::
     ldh a, [hFrameCounter]
     and FRAME_MASK_2             ; 1 frame sur 2 seulement
