@@ -6313,7 +6313,7 @@ ProcessAnimEntry:
     inc a
     inc a
     ld [de], a
-    cp $a2
+    cp SPRITE_Y_LIMIT_MAX        ; Limite Y max sprite montant
     jr c, IncrementYAndCheckCoin
 
 ClearSpriteState:
@@ -6324,7 +6324,7 @@ ClearSpriteState:
     jr SpriteCollisionProcessing
 
 IncrementYAndCheckCoin:
-    add $03
+    add SPRITE_Y_ADJUST_3        ; Ajustement Y +3 pixels
     push af
     dec e
     ld a, [de]
@@ -6346,7 +6346,7 @@ CheckBit2AndProcessY:
     dec a
     dec a
     ld [de], a
-    cp $10
+    cp SPRITE_Y_LIMIT_MIN        ; Limite Y min sprite (haut écran)
     jr c, ClearSpriteState
 
     sub $01
@@ -6375,10 +6375,10 @@ IncrementYIfBit2Clear:
     inc a
     inc a
     ld [de], a
-    cp $a8
+    cp SPRITE_Y_LIMIT_UPPER      ; Limite Y haute sprite descendant
     jr nc, ClearSpriteState
 
-    add $04
+    add SPRITE_Y_ADJUST_4        ; Ajustement Y +4 pixels
     ldh [hSpriteY], a
     inc e
     ld a, [de]
@@ -6396,7 +6396,7 @@ DecrementYIfConfigBit0Clear:
     dec a
     dec a
     ld [de], a
-    cp $04
+    cp SPRITE_Y_LIMIT_LOW        ; Limite Y basse sprite
     jr c, ClearSpriteState
 
     sub $02

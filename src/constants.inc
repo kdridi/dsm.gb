@@ -1461,3 +1461,16 @@ DEF LEVEL_PARAM_LOOP_8         EQU $08   ; Boucle init 8 octets
 ; === Valeur wStateRender (State12_EndLevelSetup) ===
 
 DEF STATE_RENDER_END_SETUP     EQU $09   ; Mode rendu fin de niveau setup
+
+; === Limites position Y sprites (collision/animation) ===
+; Utilisés pour les calculs de mouvement vertical des sprites
+
+DEF SPRITE_Y_LIMIT_MAX         EQU $a2   ; Limite Y max sprite montant (162 pixels)
+DEF SPRITE_Y_LIMIT_UPPER       EQU $a8   ; Limite Y haute sprite descendant (168 pixels)
+DEF SPRITE_Y_LIMIT_MIN         EQU $10   ; Limite Y min sprite (16 pixels = haut écran)
+DEF SPRITE_Y_LIMIT_LOW         EQU $04   ; Limite Y basse sprite (4 pixels)
+
+; === Ajustements position sprite (IncrementY/DecrementY) ===
+
+DEF SPRITE_Y_ADJUST_3          EQU $03   ; Ajustement Y sprite +3 pixels
+DEF SPRITE_Y_ADJUST_4          EQU $04   ; Ajustement Y sprite +4 pixels
