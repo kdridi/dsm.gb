@@ -361,6 +361,14 @@
       "priority": 3
     },
     {
+      "address": "$07b7",
+      "node_type": "table",
+      "description": "ROM_RENDER_TABLE - Table index\u00e9e par hRenderContext",
+      "source": "$0552",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$09E8",
       "node_type": "code",
       "description": "InitGameState - Initialise l'\u00e9tat de jeu (appel\u00e9 quand wSpecialState == 3)",
@@ -1135,14 +1143,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$07b7",
-      "node_type": "table",
-      "description": "ROM_RENDER_TABLE - Table index\u00e9e par hRenderContext",
-      "source": "$0552",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1158,6 +1158,7 @@
     "$0530",
     "$0060",
     "$04A2",
+    "$0558",
     "$0226",
     "$03E4",
     "$00C7",
@@ -1182,6 +1183,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 4,
-  "total_explored": 35
+  "commits_since_push": 0,
+  "total_explored": 36
 }

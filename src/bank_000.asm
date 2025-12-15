@@ -1221,14 +1221,12 @@ ROM_ATTRACT_INDEX_TABLE:
     db $12, $01  ; Bank 1: AnimTileIndex=$12, RenderContext=$01
     db $33, $08  ; Bank 2: AnimTileIndex=$33, RenderContext=$08
 
-; =============================================================================
-; FillTilemapRow - Remplit une ligne de tilemap avec un tile
-; =============================================================================
-; ENTRÉE : A = tile à écrire, HL = adresse de début
-; SORTIE : HL = adresse après la ligne (HL + 20)
-; DÉTRUIT : A, B
-; NOTE : Remplit exactement 20 octets (largeur visible de l'écran GB)
-; =============================================================================
+; FillTilemapRow
+; --------------
+; Description: Remplit une ligne de tilemap avec la tile spécifiée
+; In:  a = tile à écrire, hl = adresse de début dans la tilemap
+; Out: hl = adresse après la ligne (HL + 20)
+; Modifie: b
 FillTilemapRow:
     ld b, TILEMAP_ROW_WIDTH
 
