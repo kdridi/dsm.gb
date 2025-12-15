@@ -424,3 +424,15 @@ DEF GAME_STATE_WINDOW   EQU $3A ; État spécial window (animation écran)
 DEF INIT_ANIM_TILE_IDX  EQU $11 ; Valeur initiale hAnimTileIndex et wUnknownA8
 DEF INIT_UNKNOWN_DC     EQU $02 ; Valeur initiale wUnknownDC (et bank switch)
 DEF INIT_UNKNOWN_A4     EQU $03 ; Valeur initiale wUnknownA4 (et bank switch)
+
+; === Marqueurs de slots ===
+
+DEF SLOT_EMPTY          EQU $FF ; Marqueur slot vide/inactif dans les tables
+
+; === États de jeu (hGameState) ===
+
+DEF GAME_STATE_GAMEPLAY EQU $0D ; État gameplay actif (jeu en cours)
+
+; === Conversion BCD ===
+
+DEF BCD_TO_ASCII        EQU $30 ; Offset pour convertir BCD → caractère ASCII ('0')

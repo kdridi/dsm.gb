@@ -1668,7 +1668,7 @@ SkipAnimObjectLoop:
 
 ScanObjectLoop:
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     jr nz, ProcessAudioSlot
 
 NextAudioSlotCheck:
@@ -1736,7 +1736,7 @@ CheckPlayerCollisionWithObject:
     jp z, UpdateAnimatedObjectState_CoinProceed
 
     ldh a, [hGameState]
-    cp $0d
+    cp GAME_STATE_GAMEPLAY
     jr z, SkipInvulnCheck
 
     ld a, [wPlayerInvuln]
@@ -2045,7 +2045,7 @@ HandleObjectAnimationOnBlockHit:
 
 FindObjectLoop:
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     jr nz, ProcessFoundObject
 
 NextObjectSlotCheck:
@@ -2205,7 +2205,7 @@ CheckPlayerObjectCollision:
 
 CheckCollisionLoop:
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     jr nz, CheckCollisionObjectPath
 
 CheckCollisionLoop_NextObject:
@@ -2429,7 +2429,7 @@ SpriteAnimationOAMLoop:
     ret c
 
     ld a, [wSpecialState]
-    cp $ff
+    cp SLOT_EMPTY
     jr nz, SetGameStateSpecialPath
 
     ld a, $3b
@@ -4097,10 +4097,10 @@ State33_UpdateVRAMRow1:
 State33_UpdateVRAMRow2:
     inc hl
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     jr nz, State33_SaveVRAMPointer
 
-    ld a, $ff
+    ld a, SLOT_EMPTY
     ld [wAudioSaveDE], a
 
 State33_SaveVRAMPointer:
@@ -4167,7 +4167,7 @@ State36_CreditsFinalTransition::
     xor a
     ld [wLevelInitFlag], a
     ld a, [wAudioSaveDE]
-    cp $ff
+    cp SLOT_EMPTY
     ld a, $33
     jr nz, SetGameStateRegister
 
@@ -4771,7 +4771,7 @@ CheckJoypadUp_GameplayLoop:
     ld a, l
     ldh [hSpriteTile], a
     ld a, h
-    add $30
+    add BCD_TO_ASCII
     ld h, a
     ld de, hRenderCounter
     ld a, [hl]
@@ -4971,7 +4971,7 @@ CollisionHandler_Type5F_Entry:
 
     push hl
     ld a, h
-    add $30
+    add BCD_TO_ASCII
     ld h, a
     ld a, [hl]
     pop hl
@@ -4985,7 +4985,7 @@ CollisionHandler_Platform_Entry:
 
     push hl
     ld a, h
-    add $30
+    add BCD_TO_ASCII
     ld h, a
     ld a, [hl]
     pop hl
@@ -5047,7 +5047,7 @@ HandleNonC0TileValue:
     ld a, e
     ldh [hSpriteTile], a
     ld a, d
-    add $30
+    add BCD_TO_ASCII
     ld d, a
     ld a, [de]
     ldh [hTemp0], a
@@ -5142,7 +5142,7 @@ HandlePlayerUpCollision:
 
     push hl
     ld a, h
-    add $30
+    add BCD_TO_ASCII
     ld h, a
     ld a, [hl]
     pop hl
@@ -5222,7 +5222,7 @@ PlayerWaterCollisionEntry:
 HandlePlayerWaterCollision:
     push hl
     ld a, h
-    add $30
+    add BCD_TO_ASCII
     ld h, a
     ld a, [hl]
     pop hl
@@ -6086,7 +6086,7 @@ CheckOscillationCollision_Skip:
     add [hl]
     ld [hl], a
     ldh a, [hGameState]
-    cp $0d
+    cp GAME_STATE_GAMEPLAY
     jr z, CheckOscillationCollision_Done
 
     ld a, [wCollisionFlag]
@@ -6457,7 +6457,7 @@ CheckTileForCoin:
     jr nz, NotCoinTile
 
     ldh a, [hGameState]
-    cp $0d
+    cp GAME_STATE_GAMEPLAY
     jr z, ReturnAfterCoinCheck
 
     push hl
@@ -6497,7 +6497,7 @@ ProcessObjectCollisions:
 
 IterateAnimObjects_Loop:
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     jr nz, ProcessAnimObject
 
 NextObjectSlot:
@@ -6558,7 +6558,7 @@ ProcessAnimObject:
     ldh a, [hGameState]
 
 CheckAnimObjectState:
-    cp $0d
+    cp GAME_STATE_GAMEPLAY
     jr nz, .not_gameplay
 
     call HandleGameplayObjectSound
@@ -6580,7 +6580,7 @@ CheckAnimObjectState:
     ld a, [de]
     ldh [hPtrLow], a
     pop af
-    cp $ff
+    cp SLOT_EMPTY
     jr nz, ClearAnimObjectSlot
 
     ld a, $03
@@ -6613,7 +6613,7 @@ HandleBlockCollision:
     push de
     push af
     ldh a, [hGameState]
-    cp $0d
+    cp GAME_STATE_GAMEPLAY
     jr nz, ProcessAnimObjectExit
 
     push hl
@@ -6634,7 +6634,7 @@ HandleBlockCollision:
     jr nz, InitBlockHitSprites
 
     ld a, d
-    add $30
+    add BCD_TO_ASCII
     ld d, a
     ld a, [de]
     and a
@@ -6872,7 +6872,7 @@ InitFromRenderContext:
     ld d, $00
     add hl, de
     ld a, [hl+]
-    cp $ff
+    cp SLOT_EMPTY
     jr z, UpdateCollisionFlag
 
     ld e, a
@@ -7022,7 +7022,7 @@ ScrollColumnWrapAround:
 ClearTilemapColumn:
     push hl
     ld a, h
-    add $30
+    add BCD_TO_ASCII
     ld h, a
     ld [hl], $00
     pop hl
@@ -7097,7 +7097,7 @@ SearchTilemapEntry_CheckX:
     jr z, SearchTilemapEntry_CheckY
 
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     jr z, SearchTilemapEntry_Exit
 
     inc hl
@@ -7152,7 +7152,7 @@ ProcessRenderQueue:
     ld de, hVramPtrLow
     push af
     ld a, h
-    add $30
+    add BCD_TO_ASCII
     ld h, a
     pop af
     ld [hl], a
@@ -7200,7 +7200,7 @@ LoadLevelTilemap:
     jr z, .check_y
 
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     jr z, .end_load
 
     inc hl
@@ -7238,7 +7238,7 @@ ApplyLevelConfig:
     push hl
     push af
     ld a, h
-    add $30
+    add BCD_TO_ASCII
     ld h, a
     pop af
     ld [hl], a
@@ -7349,7 +7349,7 @@ UpdateAnimTiles:
     ret z
 
     ldh a, [hGameState]
-    cp $0d
+    cp GAME_STATE_GAMEPLAY
     ret nc
 
     ldh a, [hFrameCounter]
@@ -7506,7 +7506,7 @@ StoreAudioState:
 LoadQueuedAudioConfig:
     ld a, [wAudioQueueId]
     ldh [hSoundId], a
-    cp $ff
+    cp SLOT_EMPTY
     ret z
 
     ld d, $00
@@ -7721,7 +7721,7 @@ ProcessAudioCommandLoop:
 
 NextAudioCommand:
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     ret z
 
     bit 7, a
@@ -7887,7 +7887,7 @@ ProcessAudioQueue_Loop:
     add hl, de
     ld a, [hl]
     ld [wAudioQueueType], a
-    cp $ff
+    cp SLOT_EMPTY
     jr nz, ProcessAudioQueue_Found
 
     xor a
@@ -8059,7 +8059,7 @@ CheckAudioCommand_F3:
 
     ld a, [wAudioQueueId]
     ldh [hSoundId], a
-    cp $ff
+    cp SLOT_EMPTY
     jp z, AudioCommand_CompleteExit
 
     ld hl, hSoundId
@@ -8566,7 +8566,7 @@ TriggerObjectSound:
     inc hl
     ld a, [hl]
     pop hl
-    cp $ff
+    cp SLOT_EMPTY
     ret z
 
     and a
@@ -8748,7 +8748,7 @@ DestroyAllObjects:
 
 ScanObjectBuffer:
     ld a, [hl]
-    cp $ff
+    cp SLOT_EMPTY
     jr z, NextObjectEntry
 
     push hl
