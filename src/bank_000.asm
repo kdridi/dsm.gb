@@ -2745,32 +2745,32 @@ LoadAnimTilesWithBank:
     sla a
     ld d, $00
     ld e, a
-    ld hl, $0de4
+    ld hl, GraphicsTableA       ; Table pointeurs tiles monde ($0DE4)
     push de
     add hl, de
     ld e, [hl]
     inc hl
     ld d, [hl]
-    ld hl, $8a00
+    ld hl, VRAM_WORLD_TILES     ; Destination tiles monde ($8A00)
 
 CopyPatternTileDataLoop:
     ld a, [de]
     ld [hl+], a
     inc de
     push hl
-    ld bc, $7230
+    ld bc, VRAM_WORLD_OVERFLOW  ; Overflow check fin copie ($7230)
     add hl, bc
     pop hl
     jr nc, CopyPatternTileDataLoop
 
     pop de
-    ld hl, $0dea
+    ld hl, GraphicsTableB       ; Table pointeurs palette monde ($0DEA)
     add hl, de
     ld e, [hl]
     inc hl
     ld d, [hl]
     push de
-    ld hl, $9310
+    ld hl, VRAM_WORLD_PALETTE   ; Destination palette monde ($9310)
 
 CopyColorPaletteDataLoop:
     ld a, [de]
@@ -2781,7 +2781,7 @@ CopyColorPaletteDataLoop:
     jr nz, CopyColorPaletteDataLoop
 
     pop hl
-    ld de, $02c1
+    ld de, WORLD_ANIM_OFFSET    ; Offset vers buffer animation ($02C1)
     add hl, de
     ld de, wAnimBuffer
     ld b, ANIM_BUFFER_COPY_SIZE
@@ -7780,7 +7780,7 @@ AudioObjectLoopIteration:
 
     push hl
     call LoadSoundDataFromHL
-    ld hl, $3495
+    ld hl, ROM_AUDIO_POINTERS   ; Table pointeurs données audio ($3495)
     ldh a, [hSoundId]
     rlca
     ld d, $00

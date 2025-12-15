@@ -468,6 +468,8 @@ DEF SIZE_TILES_SPRITES  EQU $02A0   ; 672 octets
 DEF SIZE_MENU_SPRITES   EQU $0A    ; 10 octets
 DEF SIZE_GAME_TILES_A   EQU $0800   ; 2048 octets (tiles de jeu part A)
 DEF SIZE_GAME_TILES_B   EQU $1000   ; 4096 octets (tiles de jeu part B)
+DEF VRAM_WORLD_OVERFLOW EQU $7230   ; Offset overflow check ($8A00 + $7230 = $FC30, overflow à $10000)
+DEF WORLD_ANIM_OFFSET   EQU $02C1   ; Offset vers buffer animation dans données monde
 
 ; --- Données graphiques (tiles de jeu) ---
 DEF ROM_GAME_TILES_A    EQU $5032   ; Tiles de jeu partie A
@@ -484,6 +486,8 @@ DEF VRAM_TILES_AUX      EQU $8800   ; Destination tiles auxiliaires
 DEF VRAM_TILES_LEVEL    EQU $8AC0   ; Destination tiles niveau
 DEF VRAM_TILES_OBJECTS  EQU $9000   ; Destination tiles objets
 DEF VRAM_TILES_SPRITES  EQU $8000   ; Destination tiles sprites
+DEF VRAM_WORLD_TILES    EQU $8A00   ; Destination tiles monde (State08_WorldProgress)
+DEF VRAM_WORLD_PALETTE  EQU $9310   ; Destination palette monde (State08_WorldProgress)
 
 ; --- Tilemap BG ---
 DEF VRAM_BG_BASE        EQU $9800   ; Base tilemap BG (_SCRN0)
