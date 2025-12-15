@@ -873,6 +873,14 @@
       "priority": 3
     },
     {
+      "address": "$3F87",
+      "node_type": "data",
+      "description": "ROM_HUD_TILEMAP - Donn\u00e9es tilemap du HUD (40 bytes, 2 lignes)",
+      "source": "$05F8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$47F2",
       "node_type": "code",
       "description": "JoypadReadHandler",
@@ -1201,10 +1209,178 @@
       "priority": 3
     },
     {
-      "address": "$3F87",
+      "address": "$218F",
+      "node_type": "code",
+      "description": "UpdateScroll - G\u00e8re d\u00e9filement \u00e9cran",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0837",
+      "node_type": "code",
+      "description": "UpdateAnimatedObjectState - Met \u00e0 jour animations objets",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$48FC",
+      "node_type": "code",
+      "description": "CheckObjectState - V\u00e9rifie \u00e9tat objets (bank 3)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$490D",
+      "node_type": "code",
+      "description": "ProcessObjectData - Init donn\u00e9es objet (bank 3, appel\u00e9 5\u00d7)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4A94",
+      "node_type": "code",
+      "description": "CheckUnlockState - V\u00e9rifie d\u00e9blocages (bank 3)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$498B",
+      "node_type": "code",
+      "description": "ProcessGameStateInput - G\u00e8re input gameplay (bank 3)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4AEA",
+      "node_type": "code",
+      "description": "InitRenderLoop - Init boucle rendu (bank 3)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4B3C",
+      "node_type": "code",
+      "description": "CheckBlockCollision - Collisions avec blocs (bank 3)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4B6F",
+      "node_type": "code",
+      "description": "CheckPlayerBounds - V\u00e9rif limites joueur (bank 3)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4B8A",
+      "node_type": "code",
+      "description": "CheckTimerAux1 - Timer auxiliaire 1 (bank 3)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4BB5",
+      "node_type": "code",
+      "description": "CheckTimerAux2 - Timer auxiliaire 2 (bank 3)",
+      "source": "$0610",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$1F24",
+      "node_type": "code",
+      "description": "ProcessAllObjectCollisions - Collisions tous objets",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2488",
+      "node_type": "code",
+      "description": "UpdateAudio - Met \u00e0 jour audio/musique",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$5844",
+      "node_type": "code",
+      "description": "UpdateGameTimersAndAnimation - Timers et anim (bank 2)",
+      "source": "$0610",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$1983",
+      "node_type": "code",
+      "description": "CheckPlayerFeetCollision - Collisions pieds joueur",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$16EC",
+      "node_type": "code",
+      "description": "UpdatePipeAnimation - Animation tuyaux",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$17B3",
+      "node_type": "code",
+      "description": "CheckPlayerHeadCollision - Collisions t\u00eate joueur",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0AE1",
+      "node_type": "code",
+      "description": "CheckPlayerObjectCollision - Collision joueur-objet",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0A24",
+      "node_type": "code",
+      "description": "HandleObjectAnimationOnBlockHit - Anim objet sur bloc",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1EFA",
+      "node_type": "code",
+      "description": "UpdatePlayerInvulnBlink - Clignotement invuln\u00e9rabilit\u00e9",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$210A",
+      "node_type": "code",
+      "description": "LoadDemoInput - Charge input d\u00e9mo/replay",
+      "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2164",
       "node_type": "data",
-      "description": "ROM_HUD_TILEMAP - Donn\u00e9es tilemap du HUD (40 bytes, 2 lignes)",
-      "source": "$05F8",
+      "description": "ROM_OBJECT_INIT_DATA - Table init objets (vitesses/priorit\u00e9s)",
+      "source": "$0610",
       "bank": 0,
       "priority": 3
     }
@@ -1242,6 +1418,7 @@
     "$05B7",
     "$0095",
     "$04C3",
+    "$0610",
     "$0185",
     "$0030",
     "$0100",
@@ -1253,6 +1430,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 1,
-  "total_explored": 42
+  "commits_since_push": 2,
+  "total_explored": 43
 }

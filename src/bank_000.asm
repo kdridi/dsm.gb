@@ -1427,13 +1427,18 @@ CopyHudTilemap:
 ;; ==========================================================================
 ;; State00_MainGameplay - Handler d'état $00 ($0610)
 ;; ==========================================================================
-;; Handler principal du gameplay actif.
+;; Description: Handler principal du gameplay actif. Orchestre les mises à jour
+;;              par frame : animations, scroll, collisions, objets, audio.
+;;              Switch entre banks 3 et 2 pour appeler les routines spécialisées.
+;; In:  rien (lit hGameState implicitement = $00)
+;; Out: rien (met à jour l'état complet du jeu via appels multiples)
+;; Modifie: a, bc, de, hl (via tous les appels), hCurrentBank, hSavedBank
 ;; Structure :
 ;;   1. Init animations et graphiques (UpdateScroll, UpdateAnimatedObjectState)
-;;   2. Appels multiples vers bank 3 (init objets $c208-$c248)
-;;   3. Appels vers bank 2 ($5844)
-;;   4. Mise à jour diverses (scroll, tiles, etc.)
-;;   5. Gestion wLevelConfig
+;;   2. Appels multiples vers bank 3 (init objets wObject1-wObject5)
+;;   3. Appels vers bank 2 (UpdateGameTimersAndAnimation)
+;;   4. Mise à jour diverses (collisions, animations, audio)
+;;   5. Gestion wLevelConfig (décrément si != 0)
 ;; ==========================================================================
 State00_MainGameplay::
     call UpdateScroll
