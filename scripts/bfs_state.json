@@ -785,6 +785,30 @@
       "priority": 3
     },
     {
+      "address": "$0ab6",
+      "node_type": "code",
+      "description": "Loop_SubtractValueByEight - Boucle soustraction par 8 pixels (calcul largeur hitbox)",
+      "source": "$0aa6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0ad1",
+      "node_type": "code",
+      "description": "Loop_AddValueByEightV2 - Boucle addition par 8 pixels (calcul hauteur hitbox)",
+      "source": "$0aa6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0adf",
+      "node_type": "code",
+      "description": "ReturnZero - Retourne 0 (pas de collision)",
+      "source": "$0aa6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1020",
       "node_type": "code",
       "description": "Copy16BytesToOam - Copie 16 octets de donn\u00e9es sprite vers OAM",
@@ -1759,30 +1783,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0ab6",
-      "node_type": "code",
-      "description": "Loop_SubtractValueByEight - Boucle soustraction par 8 pixels (calcul largeur hitbox)",
-      "source": "$0aa6",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0ad1",
-      "node_type": "code",
-      "description": "Loop_AddValueByEightV2 - Boucle addition par 8 pixels (calcul hauteur hitbox)",
-      "source": "$0aa6",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0adf",
-      "node_type": "code",
-      "description": "ReturnZero - Retourne 0 (pas de collision)",
-      "source": "$0aa6",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1803,6 +1803,7 @@
     "$0150",
     "$0095",
     "$0FF4",
+    "$0ab6",
     "$0610",
     "$0ECB",
     "$0185",
@@ -1885,6 +1886,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 2,
-  "total_explored": 98
+  "commits_since_push": 3,
+  "total_explored": 99
 }

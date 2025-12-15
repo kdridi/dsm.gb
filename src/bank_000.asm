@@ -2439,18 +2439,19 @@ CheckBoundingBoxCollision:
     jr nc, ReturnZero
 
     ld a, c
-    and NIBBLE_LOW_MASK          ; Isoler nibble bas
+    and NIBBLE_LOW_MASK          ; Isoler nibble bas = largeur en tiles
     ld b, a
     ld a, [hl]
 
-Loop_SubtractValueByEight:
+    ; Calcule position X droite objet: X_pos + (largeur_tiles - 1) * 8
+CalculateObjectRightEdge:
     dec b
-    jr z, Loop_SubtractValueByEightEnd
+    jr z, .done
 
     sub TILE_SIZE_PIXELS        ; Soustraire 8 pixels (1 tile)
-    jr Loop_SubtractValueByEight
+    jr CalculateObjectRightEdge
 
-Loop_SubtractValueByEightEnd:
+.done:
     ld b, a
     ldh a, [hTemp1]
     sub b
