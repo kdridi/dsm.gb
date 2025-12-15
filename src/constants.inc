@@ -1252,3 +1252,16 @@ DEF OAM_SPRITE_HIDDEN          EQU $80   ; Y position cachée (hors écran)
 
 DEF OAM_CLEAR_LOOP_COUNT       EQU $0b   ; Compteur clear OAM (11 octets)
 DEF OAM_CLEAR_LOOP_COUNT_F     EQU $0f   ; Compteur clear OAM (15 octets)
+DEF OAM_VAR_BUFFER_SIZE        EQU $34   ; Taille buffer OAM variables (52 octets)
+
+; === États objets (wObject*) ===
+
+DEF OBJECT_STATE_INACTIVE      EQU $0b   ; État objet inactif/désactivé
+
+; === Valeurs d'état (wStateFinal) ===
+
+DEF STATE_FINAL_COMPLETE       EQU $02   ; État final: transition complète
+
+; === Offsets mouvement/ajustement ===
+
+DEF MOVEMENT_OFFSET_4          EQU $04   ; Offset mouvement (4 pixels)

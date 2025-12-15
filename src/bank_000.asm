@@ -2464,8 +2464,10 @@ SetGameStateValue:
     nop
     rst $38
 
-;; Zone de données ($0C10-$0C36)
-PaddingZone_0c22:
+;; Zone de données AnimTransitionTable ($0C10-$0C36)
+;; Table des vitesses d'animation pour State04_AnimTransition
+;; Référencée par ROM_ANIM_TRANSITION_TABLE ($0C10)
+AnimTransitionTableData:
     nop
     nop
     rst $38
@@ -5232,23 +5234,23 @@ InitObjectsLoop:
 
     ld hl, wObject2State
     ld a, [hl]
-    sub $04
+    sub MOVEMENT_OFFSET_4
     ld [hl], a
     ld hl, wObject4Unk0A
     ld a, [hl]
-    sub $04
+    sub MOVEMENT_OFFSET_4
     ld [hl], a
     ld hl, wObject4
-    ld [hl], $0b
+    ld [hl], OBJECT_STATE_INACTIVE
     ld hl, wObject5
-    ld [hl], $0b
+    ld [hl], OBJECT_STATE_INACTIVE
     ldh a, [hShadowSCX]
     ldh [hRenderAttr], a
-    ld a, $02
+    ld a, STATE_FINAL_COMPLETE
     ld [wStateFinal], a
     ld de, SCORE_BONUS_50
     call AddScore
-    ld a, $02
+    ld a, PLAYER_UNK07_FALLING
     ld [wPlayerUnk07], a
     ret
 
@@ -6188,7 +6190,7 @@ ClearOamAndSpriteBuffers:
     push bc
     push de
     ld hl, wOamVar1C
-    ld b, $34
+    ld b, OAM_VAR_BUFFER_SIZE
     xor a
 
 ClearOamVar_Loop:
@@ -6643,21 +6645,21 @@ SpriteSetupLoop:
 
     ld hl, wObject2State
     ld a, [hl]
-    sub $04
+    sub MOVEMENT_OFFSET_4
     ld [hl], a
     ld hl, wObject4Unk0A
     ld a, [hl]
-    sub $04
+    sub MOVEMENT_OFFSET_4
     ld [hl], a
     ld hl, wObject4
-    ld [hl], $0b
+    ld [hl], OBJECT_STATE_INACTIVE
     ld hl, wObject5
-    ld [hl], $0b
+    ld [hl], OBJECT_STATE_INACTIVE
     ldh a, [hShadowSCX]
     ldh [hRenderAttr], a
     ld de, SCORE_BONUS_50
     call AddScore
-    ld a, $02
+    ld a, STATE_FINAL_COMPLETE
     ld [wStateFinal], a
 
 ProcessAnimObjectExit:
