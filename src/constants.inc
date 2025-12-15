@@ -972,3 +972,17 @@ DEF VRAM_DEST_CUTSCENE_HIGH    EQU $bf   ; Octet haut destination cutscene
 ; === Animation tiles - Identifiants mondes (nibble haut de hAnimTileIndex) ===
 
 DEF ANIM_TILE_WORLD_4_NIBBLE   EQU $40   ; Monde 4 (nibble haut = $4X)
+
+; === Tiles et attributs sprites transition (StateHandler_03) ===
+; Tiles utilisés pour l'effet visuel de transition entre états
+
+DEF TILE_TRANSITION_A          EQU $0f   ; Tile sprite transition A
+DEF TILE_TRANSITION_B          EQU $1f   ; Tile sprite transition B
+DEF OAM_ATTR_NORMAL            EQU $00   ; Attribut OAM: pas de flip
+DEF OAM_ATTR_X_FLIP            EQU $20   ; Attribut OAM: flip horizontal (bit 5)
+DEF OAM_ATTR_Y_FLIP            EQU $40   ; Attribut OAM: flip vertical (bit 6)
+DEF OAM_ATTR_XY_FLIP           EQU $60   ; Attribut OAM: flip X+Y (bits 5+6)
+
+; === Offset calcul sprite position ===
+
+DEF SPRITE_X_OFFSET_NEG        EQU $f8   ; Offset X sprite négatif (-8)

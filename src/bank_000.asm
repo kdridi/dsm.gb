@@ -2347,20 +2347,20 @@ StateHandler_03::
     ld [hl], a                    ; Sprite 0: Y
     inc l
     ld a, [wPlayerState]
-    add $f8
+    add SPRITE_X_OFFSET_NEG       ; Décalage X sprite (-8)
     ld b, a
     ld [hl+], a                   ; Sprite 0: X
-    ld [hl], $0f                  ; Sprite 0: tile
+    ld [hl], TILE_TRANSITION_A    ; Sprite 0: tile
     inc l
-    ld [hl], $00                  ; Sprite 0: attr
+    ld [hl], OAM_ATTR_NORMAL      ; Sprite 0: attr
     inc l
     ld [hl], c                    ; Sprite 1: Y
     inc l
     ld [hl], b                    ; Sprite 1: X
     inc l
-    ld [hl], $1f                  ; Sprite 1: tile
+    ld [hl], TILE_TRANSITION_B    ; Sprite 1: tile
     inc l
-    ld [hl], $00                  ; Sprite 1: attr
+    ld [hl], OAM_ATTR_NORMAL      ; Sprite 1: attr
     inc l
     ld [hl], d                    ; Sprite 2: Y
     inc l
@@ -2368,17 +2368,17 @@ StateHandler_03::
     add TILE_SIZE_PIXELS          ; Décalage X sprite (8 pixels)
     ld b, a
     ld [hl+], a                   ; Sprite 2: X
-    ld [hl], $0f                  ; Sprite 2: tile
+    ld [hl], TILE_TRANSITION_A    ; Sprite 2: tile
     inc l
-    ld [hl], $20                  ; Sprite 2: attr (flipped)
+    ld [hl], OAM_ATTR_X_FLIP      ; Sprite 2: attr (flipped)
     inc l
     ld [hl], c                    ; Sprite 3: Y
     inc l
     ld [hl], b                    ; Sprite 3: X
     inc l
-    ld [hl], $1f                  ; Sprite 3: tile
+    ld [hl], TILE_TRANSITION_B    ; Sprite 3: tile
     inc l
-    ld [hl], $20                  ; Sprite 3: attr (flipped)
+    ld [hl], OAM_ATTR_X_FLIP      ; Sprite 3: attr (flipped)
 
     ; Transition vers état $04
     ld a, GAME_STATE_ANIMATION
