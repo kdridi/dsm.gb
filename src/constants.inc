@@ -1510,3 +1510,19 @@ DEF SPRITE_Y_LIMIT_LOW         EQU $04   ; Limite Y basse sprite (4 pixels)
 
 DEF SPRITE_Y_ADJUST_3          EQU $03   ; Ajustement Y sprite +3 pixels
 DEF SPRITE_Y_ADJUST_4          EQU $04   ; Ajustement Y sprite +4 pixels
+
+; === Offsets collision bounding box ===
+; Utilisés pour calculer les coins de la hitbox lors des tests de collision
+
+DEF COLLISION_OFFSET_3         EQU $03   ; Offset collision 3 pixels (centre)
+DEF COLLISION_OFFSET_5         EQU $05   ; Offset collision 5 pixels (coin)
+
+; === Offsets position pipe/transition ===
+
+DEF PIPE_EXIT_X_OFFSET         EQU $12   ; Offset X sortie tuyau (18 pixels)
+DEF SCROLL_Y_CALC_OFFSET       EQU $0c   ; Offset calcul Y scroll (12 pixels)
+
+; === Audio - Bases de calcul position ===
+
+DEF AUDIO_PARAM_BASE_Y         EQU $10   ; Base calcul Y audio (16 pixels)
+DEF AUDIO_PARAM_BASE_X         EQU $d0   ; Base calcul X audio (208 pixels)

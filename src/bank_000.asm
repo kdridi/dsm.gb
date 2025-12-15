@@ -4569,19 +4569,19 @@ State0B_PipeEnterDown::
     ld hl, wPlayerX
     ld a, d
     ld [hl+], a                  ; wPlayerX = destination X
-    sub $12
+    sub PIPE_EXIT_X_OFFSET
     ldh [hVBlankSelector], a     ; Cible X pour sortie
     ld a, e
     ld [hl], a                   ; wPlayerY = destination Y
     ldh a, [hTilemapScrollX]
-    sub $04
+    sub COLLISION_OFFSET_4
     ld b, a
     rlca
     rlca
     rlca
     add b
     add b
-    add $0c
+    add SCROLL_Y_CALC_OFFSET
     ld [wPlayerVarAB], a
     xor a
     ldh [rIF], a
@@ -4754,13 +4754,13 @@ CheckJoypadUp_GameplayLoop:
     pop de
     ld hl, wPlayerX
     ld a, [hl+]
-    add $10
+    add PLAYER_X_OFFSET
     ld [de], a
     ldh a, [hShadowSCX]
     ld b, a
     ldh a, [hSpriteX]
     sub b
-    add $08
+    add TILE_SIZE_PIXELS
     ld [hl+], a
     inc l
     ld [hl], $80
@@ -6508,13 +6508,13 @@ ProcessAnimObject:
     ldh [hAnimObjSubState], a
     ld a, [de]
     ldh [hTemp2], a
-    add $04
+    add COLLISION_OFFSET_4
     ldh [hParam3], a
     dec e
     ld a, [de]
     ldh [hTemp0], a
     ld a, [de]
-    add $03
+    add COLLISION_OFFSET_3
     ldh [hTemp1], a
     pop hl
     push hl
@@ -6546,7 +6546,7 @@ CheckAnimObjectState:
 
     push af
     ld a, [de]
-    sub $08
+    sub TILE_SIZE_PIXELS
     ldh [hPtrHigh], a
     inc e
     ld a, [de]
@@ -7339,7 +7339,7 @@ AnimTile_FromROM:
     ld hl, ROM_ANIM_TILES
     ldh a, [hAnimTileIndex]
     and NIBBLE_HIGH_MASK         ; Isoler monde (bits hauts)
-    sub $10
+    sub AUDIO_PARAM_BASE_Y       ; Offset monde ($10 = monde 1)
     rrca
     ld d, $00
     ld e, a
@@ -7465,12 +7465,12 @@ UpdateAudioState:
     rlca
     rlca
     rlca
-    add $10
+    add AUDIO_PARAM_BASE_Y
     ldh [hSoundParam1], a
     ld a, [hl+]
     and BITS_6_7_MASK
     swap a
-    add $d0
+    add AUDIO_PARAM_BASE_X
     sub c
     ldh [hSoundParam2], a
     call InitSoundConditional
@@ -7717,7 +7717,7 @@ NextAudioCommand:
     jr z, SkipParam1Sub
 
     ldh a, [hSoundParam1]
-    sub $08
+    sub TILE_SIZE_PIXELS
     ldh [hSoundParam1], a
     ld a, [hl]
 
@@ -7726,7 +7726,7 @@ SkipParam1Sub:
     jr z, SkipParam1Add
 
     ldh a, [hSoundParam1]
-    add $08
+    add TILE_SIZE_PIXELS
     ldh [hSoundParam1], a
     ld a, [hl]
 
@@ -7735,7 +7735,7 @@ SkipParam1Add:
     jr z, ProcessAudioParam2
 
     ldh a, [hSoundParam2]
-    sub $08
+    sub TILE_SIZE_PIXELS
     ldh [hSoundParam2], a
     ld a, [hl]
 
@@ -7744,7 +7744,7 @@ ProcessAudioParam2:
     jr z, NextAudioData
 
     ldh a, [hSoundParam2]
-    add $08
+    add TILE_SIZE_PIXELS
     ldh [hSoundParam2], a
 
 NextAudioData:
@@ -8774,7 +8774,7 @@ StoreAudioChannel4:
     ld c, a
     ldh a, [hShadowSCX]
     add c
-    add $04
+    add COLLISION_OFFSET_4
     ldh [hSpriteX], a
     ld c, a
     ldh a, [hSoundCh2]
@@ -8830,13 +8830,13 @@ CheckObjectTileRight:
     ld c, a
     ldh a, [hShadowSCX]
     add c
-    add $08
+    add COLLISION_OFFSET_8
     ld c, a
     ldh a, [hSoundVar3]
     and ANIM_HEIGHT_MASK
     rrca
     add c
-    sub $08
+    sub COLLISION_OFFSET_8
     ldh [hSpriteX], a
     ldh a, [hSoundParam1]
     ldh [hSpriteY], a
@@ -8857,7 +8857,7 @@ CheckObjectTileBottomLeft:
     ld c, a
     ldh a, [hShadowSCX]
     add c
-    add $04
+    add COLLISION_OFFSET_4
     ldh [hSpriteX], a
     ld c, a
     ldh a, [hSoundCh2]
@@ -8872,7 +8872,7 @@ CheckObjectTileBottomLeft:
 
 .setY:
     ldh a, [hSoundParam1]
-    add $08
+    add COLLISION_OFFSET_8
     ldh [hSpriteY], a
     call ReadTileUnderSprite
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
@@ -8891,10 +8891,10 @@ CheckObjectTileBottom:
     ld c, a
     ldh a, [hShadowSCX]
     add c
-    add $03
+    add COLLISION_OFFSET_3
     ldh [hSpriteX], a
     ldh a, [hSoundParam1]
-    add $08
+    add COLLISION_OFFSET_8
     ldh [hSpriteY], a
     call ReadTileUnderSprite
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
@@ -8913,16 +8913,16 @@ CheckObjectTileBottomRight:
     ld c, a
     ldh a, [hShadowSCX]
     add c
-    add $05
+    add COLLISION_OFFSET_5
     ld c, a
     ldh a, [hSoundVar3]
     and ANIM_HEIGHT_MASK
     rrca
     add c
-    sub $08
+    sub COLLISION_OFFSET_8
     ldh [hSpriteX], a
     ldh a, [hSoundParam1]
-    add $08
+    add COLLISION_OFFSET_8
     ldh [hSpriteY], a
     call ReadTileUnderSprite
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
@@ -8941,7 +8941,7 @@ CheckObjectTileTop:
     ld c, a
     ldh a, [hShadowSCX]
     add c
-    add $04
+    add COLLISION_OFFSET_4
     ldh [hSpriteX], a
     ld c, a
     ldh a, [hSoundCh2]
@@ -8977,7 +8977,7 @@ CheckObjectTileTop:
     ld c, a
     ldh a, [hShadowSCX]
     add c
-    add $03
+    add COLLISION_OFFSET_3
     ldh [hSpriteX], a
     ldh a, [hSoundVar3]
     and SPRITE_HEIGHT_INDEX_MASK
@@ -9001,13 +9001,13 @@ CheckObjectTileTop:
     ld c, a
     ldh a, [hShadowSCX]
     add c
-    add $05
+    add COLLISION_OFFSET_5
     ld c, a
     ldh a, [hSoundVar3]
     and ANIM_HEIGHT_MASK
     rrca
     sub c
-    sub $08
+    sub COLLISION_OFFSET_8
     ldh [hSpriteX], a
     ldh a, [hSoundVar3]
     and SPRITE_HEIGHT_INDEX_MASK
