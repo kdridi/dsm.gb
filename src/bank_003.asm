@@ -936,7 +936,7 @@ Return_IfCarry_003_43a5:
     db $db
     inc a
     inc a
-    jr nz, AudioRoutine_Jump_3
+    jr nz, AudioDispatch_Envelope
 
     rst $38
     rst $38
@@ -962,7 +962,7 @@ Return_IfCarry_003_43a5:
     db $10
     jr nz, SkipPadding_003_442e
 
-    jr nz, AudioRoutine_Jump_2
+    jr nz, AudioDispatch_Volume
 
     ld b, b
     ld b, b
@@ -988,7 +988,7 @@ Return_IfCarry_003_43a5:
     nop
     nop
 
-AudioRoutine_Jump_1:
+AudioDispatch_Channels:
     nop
     nop
     nop
@@ -999,7 +999,7 @@ SkipPadding_003_442e:
     add b
     add b
 
-AudioRoutine_Jump_2:
+AudioDispatch_Volume:
     ld b, b
     ld b, b
     ld bc, $0201
@@ -1015,12 +1015,12 @@ AudioRoutine_Jump_2:
     add b
     add b
 
-AudioRoutine_Jump_3:
+AudioDispatch_Envelope:
     nop
     nop
     pop bc
 
-AudioRoutine_Jump_4:
+AudioDispatch_Frequency:
     nop
     rst $30
     nop
@@ -1049,9 +1049,9 @@ AudioRoutine_Jump_4:
     ld b, b
     ld b, b
     and b
-    jr nz, AudioRoutine_Jump_4
+    jr nz, AudioDispatch_Frequency
 
-    jr nz, AudioRoutine_Jump_1
+    jr nz, AudioDispatch_Channels
 
     ld b, b
     ret nz
