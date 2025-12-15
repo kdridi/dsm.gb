@@ -1223,6 +1223,7 @@
     "$0050",
     "$055F",
     "$046D",
+    "$05C7",
     "$00CD",
     "$4000:1",
     "$0150",
@@ -1242,6 +1243,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 3,
-  "total_explored": 39
+  "commits_since_push": 4,
+  "total_explored": 40
 }

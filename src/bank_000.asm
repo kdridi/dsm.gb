@@ -1346,11 +1346,12 @@ FillTilemapLoop::
     ret
 
 
-; ===========================================================================
-; MemCopy - Copie BC octets de HL vers DE
-; Entrée : HL = source, DE = destination, BC = nombre d'octets
-; Sortie : HL et DE avancés de BC, BC = 0
-; ===========================================================================
+; MemCopy
+; --------
+; Description: Copie un bloc mémoire de BC octets de source vers destination
+; In:  HL = pointeur source, DE = pointeur destination, BC = nombre d'octets
+; Out: HL et DE avancés de BC octets, BC = 0
+; Modifie: a, bc, de, hl
 MemCopy::
 .loop:
     ld a, [hl+]
