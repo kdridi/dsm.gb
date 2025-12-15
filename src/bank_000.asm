@@ -1303,8 +1303,12 @@ State11_LevelStart::
     ldh a, [hAnimTileIndex]
     call LoadAnimTilesByIndex
 ; ===========================================================================
-; État $10 - État vide (placeholder)
-; Retourne immédiatement sans action
+; State10_Noop
+; ------------
+; Description: État vide (placeholder) - Retourne immédiatement sans action
+; In:  Aucun
+; Out: Aucun
+; Modifie: Aucun
 ; ===========================================================================
 State10_Noop::
     ret
