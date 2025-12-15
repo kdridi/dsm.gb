@@ -257,21 +257,32 @@
 1. Audit de la situation (c5bd5a6, 14520dc)
 2. Renommages post-audit (c9b5d57, 8b9ca05, ac7b625, 8ca06b5) - 29 labels
 
-### Status: 7.1 - Padding Zones ✅
+### Status: 7.1 - Labels contextuels explicites ✅
 *Complété le 2025-12-15*
 
 - [x] Identifier padding zones (nop/dummy instructions)
 - [x] Renommer 17 padding zones → `PaddingZone_*` (Banks 002/003)
+- [x] Identifier audio dispatch entries (rst $28/$38 markers)
+- [x] Renommer 20 audio entries → `AudioDispatchEntry_*` (Bank 002)
+- [x] Identifier joypad input entries (ReadJoypadInput context)
+- [x] Renommer 9 joypad entries → `JoypadInputEntry_*` (Banks 002/003)
 - [x] Compilation: HASH VERIFIED ✅
 
-**Commits**:
+**Commits** (3 commits):
 1. [ROADMAP-702] 17 padding zones renommées (8a796c2)
+2. [ROADMAP-702] 20 audio dispatch entries renommées (cc12986)
+3. [ROADMAP-702] 9 joypad input entries renommées (7c9b721)
 
-**État**: 341 `UnknownCode_*` restants (misdisassembled data tables, non urgent)
+**Résumé**: 46 labels renommés avec contexte explicite
+- PaddingZone_*: 17 (alignment gaps)
+- AudioDispatchEntry_*: 20 (audio queue/state)
+- JoypadInputEntry_*: 9 (input handling)
+
+**État**: 312 `UnknownCode_*` restants (misdisassembled data tables, non urgent)
 
 **Prochaines étapes** :
 - Phase 5b/6 (exploration progressive, structures de données)
-- Phase 7.2 (renommages progressifs contextuels, si pertinent)
+- Phase 7.2 (renommages progressifs si découverte de contextes évidents)
 
 ### Bank 0 (~500 labels)
 
