@@ -946,6 +946,13 @@ DEF BIT_7_MASK              EQU $80   ; Masque bit 7 uniquement
 DEF BITS_2_3_MASK           EQU $0c   ; Masque bits 2-3
 DEF BITS_2_3_CLEAR_MASK     EQU $f3   ; Efface bits 2-3 (inverse de $0c)
 DEF BITS_4_5_MASK           EQU $30   ; Masque bits 4-5
+
+; === États audio (bits 4-5 de hSoundCh4) ===
+; Après masquage avec BITS_4_5_MASK ($30), les valeurs possibles sont :
+
+DEF AUDIO_STATE_00          EQU $00   ; État audio 0 (bits 4-5 = 00)
+DEF AUDIO_STATE_10          EQU $10   ; État audio 1 (bits 4-5 = 01)
+DEF AUDIO_STATE_30          EQU $30   ; État audio 3 (bits 4-5 = 11)
 DEF BITS_6_7_MASK           EQU $c0   ; Masque bits 6-7 (audio direction)
 DEF BITS_5_7_MASK           EQU $e0   ; Masque bits 5-7 (audio type)
 DEF CLEAR_BIT_0_MASK        EQU $fe   ; Efface bit 0 (inverse de $01)

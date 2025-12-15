@@ -8451,10 +8451,10 @@ AddSoundFlagToParam1:
 CheckObjectTileBottomLeft_Alternatives:
     ldh a, [hSoundCh4]
     and BITS_4_5_MASK           ; Masque bits 4-5 (état audio)
-    cp $00
+    cp AUDIO_STATE_00           ; État audio 0 ?
     jr z, AddSoundFlagToParam1
 
-    cp $10
+    cp AUDIO_STATE_10           ; État audio 1 ?
     jr nz, ClearSoundCh1AndVar1_Collision2
 
     ldh a, [hSoundCh2]
@@ -8463,7 +8463,7 @@ CheckObjectTileBottomLeft_Alternatives:
     jr CollisionEnd
 
 ClearSoundCh1AndVar1_Collision2:
-    cp $30
+    cp AUDIO_STATE_30           ; État audio 3 ?
     jr nz, CollisionEnd
 
     xor a
