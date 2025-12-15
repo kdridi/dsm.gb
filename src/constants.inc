@@ -823,6 +823,20 @@ DEF LEVEL_STYLE_SPECIAL     EQU $03   ; Style niveau spécial (non décrémenté
 DEF NIBBLE_LOW_MASK         EQU $0f   ; Masque 4 bits bas (nibble inférieur)
 DEF NIBBLE_HIGH_MASK        EQU $f0   ; Masque 4 bits hauts (nibble supérieur)
 
+; === Masques bitwise individuels ===
+
+DEF BIT_2_MASK              EQU $04   ; Masque bit 2 uniquement
+DEF BIT_3_MASK              EQU $08   ; Masque bit 3 uniquement
+DEF BITS_2_3_MASK           EQU $0c   ; Masque bits 2-3
+DEF BITS_2_3_CLEAR_MASK     EQU $f3   ; Efface bits 2-3 (inverse de $0c)
+DEF BITS_4_5_MASK           EQU $30   ; Masque bits 4-5
+
+; === Masques joypad combinés ===
+; (Les constantes individuelles PADF_* sont dans hardware.inc)
+
+DEF JOYPAD_LR_MASK          EQU PADF_LEFT | PADF_RIGHT    ; $30 - Masque gauche/droite
+DEF JOYPAD_SELECT_START_MASK EQU PADF_SELECT | PADF_START ; $0c - Masque Select/Start
+
 ; === Animation tiles - Calcul index monde/niveau ===
 ; Format hAnimTileIndex: $XY où X=monde (1-4), Y=niveau (1-3)
 ; Quand Y atteint 4 (inexistant), on passe au monde suivant niveau 1

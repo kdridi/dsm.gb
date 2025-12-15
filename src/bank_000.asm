@@ -3390,7 +3390,7 @@ State27_CheckTimer:
     cp OSCIL_TIMER_THRESHOLD
     ret nc
 
-    and $1f
+    and TILEMAP_COLUMN_MASK     ; Masque colonnes tilemap (31)
     ret nz
 
     ld hl, VRAM_FADE_START
@@ -3931,13 +3931,13 @@ State32_CreditsScroll::
     inc a
     inc a
     ldh [hShadowSCX], a
-    and $08
+    and BIT_3_MASK              ; Test bit 3 (intervalle de 8 pixels)
     ld b, a
     ldh a, [hTemp3]
     cp b
     ret nz
 
-    xor $08
+    xor BIT_3_MASK              ; Toggle bit 3
     ldh [hTemp3], a
     call ClearScrollBuffer
     ldh a, [hOAMIndex]
@@ -5935,7 +5935,7 @@ ProcessAnimationState_JoypadUp:
     ld a, $18
     ld [wPlayerDir], a
     ldh a, [hJoypadState]
-    and $30
+    and JOYPAD_LR_MASK          ; Test gauche/droite pressé
     jr nz, ProcessAnimationState_JoypadUp_ResetAndReturn
 
     ld a, [wPlayerUnk0C]
@@ -6003,7 +6003,7 @@ ProcessAnimationState_JoypadLeft_Done:
     jr c, CheckOscillationCollision_CheckScroll
 
     ldh a, [hShadowSCX]
-    and $0c
+    and BITS_2_3_MASK           ; Masque bits 2-3 (alignement 4 pixels)
     jr z, CheckOscillationCollision_Skip
 
 CheckOscillationCollision_CheckScroll:
@@ -6357,8 +6357,8 @@ CheckCoinCollision:
     jr c, SpriteCollisionProcessing
 
     ld a, [hl]
-    and $f3
-    or $08
+    and BITS_2_3_CLEAR_MASK     ; Efface bits 2-3
+    or BIT_3_MASK               ; Set bit 3
     ld [hl], a
 
 SpriteCollisionProcessing:
@@ -6384,8 +6384,8 @@ IncrementYIfBit2Clear:
     jr c, SpriteCollisionProcessing
 
     ld a, [hl]
-    and $f3
-    or $04
+    and BITS_2_3_CLEAR_MASK     ; Efface bits 2-3
+    or BIT_2_MASK               ; Set bit 2
     ld [hl], a
     jr SpriteCollisionProcessing
 
@@ -6790,13 +6790,13 @@ UpdateScroll:
     jr nz, ResetScrollPhase
 
     ldh a, [hShadowSCX]
-    and $08
+    and BIT_3_MASK              ; Test bit 3 (intervalle de 8 pixels)
     ld hl, hTemp3
     cp [hl]
     ret nz
 
     ld a, [hl]
-    xor $08
+    xor BIT_3_MASK              ; Toggle bit 3
     ld [hl], a
     and a
     jr nz, InitScrollBuffer
@@ -7969,7 +7969,7 @@ CheckAudioQueueBit6:
 
 CheckAudioQueueBits54:
     ld a, [wAudioQueueId]
-    and $0c
+    and BITS_2_3_MASK           ; Masque bits 2-3 (canal audio)
     jr z, CheckAudioQueueBit5
 
     rra
@@ -8257,11 +8257,11 @@ RestoreSoundConfig:
 
 CheckSoundChannel:
     ldh a, [hSoundCh4]
-    and $0c
+    and BITS_2_3_MASK           ; Masque bits 2-3 (canal son)
     cp $00
     jr z, SoundParamProcessing
 
-    cp $04
+    cp BIT_2_MASK               ; Test bit 2 seul
     jr nz, CheckSoundChannel.ch4_0c
 
 SetSoundFrequency:
@@ -8341,7 +8341,7 @@ RestoreCollisionFlagAndExit:
 
 AlignCameraTo4PixelBoundary:
     ldh a, [hShadowSCX]
-    and $0c
+    and BITS_2_3_MASK           ; Masque bits 2-3 (alignement 4 pixels)
     jr nz, ApplyHorizontalScrollOffset
 
     ldh a, [hShadowSCX]
@@ -8351,11 +8351,11 @@ AlignCameraTo4PixelBoundary:
 
 CheckObjectTileRight_Path:
     ldh a, [hSoundCh4]
-    and $0c
+    and BITS_2_3_MASK           ; Masque bits 2-3 (canal son)
     cp $00
     jr z, ProcessVerticalCollision
 
-    cp $04
+    cp BIT_2_MASK               ; Test bit 2 seul
     jr nz, ClearSoundCh1AndVar1_Collision
 
 ResetSoundCh2Bit0:
@@ -8448,7 +8448,7 @@ AddSoundFlagToParam1:
 
 CheckObjectTileBottomLeft_Alternatives:
     ldh a, [hSoundCh4]
-    and $30
+    and BITS_4_5_MASK           ; Masque bits 4-5 (état audio)
     cp $00
     jr z, AddSoundFlagToParam1
 
