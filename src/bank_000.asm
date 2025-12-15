@@ -2440,7 +2440,7 @@ SpriteAnimationOAMLoop:
 SetGameStateSpecialPath:
     ld a, TIMER_SPECIAL_PATH
     ldh [hTimer1], a
-    ld a, $01
+    ld a, GAME_STATE_RESET
 
 SetGameStateValue:
     ldh [hGameState], a
@@ -2548,7 +2548,7 @@ AnimationCheckCompleteExit:
     or b
     jr z, TransitionToLevelPath
 
-    ld a, $01
+    ld a, FLAG_TRUE
     ld [wLevelData], a
     ldh a, [hCurrentBank]
     ldh [hSavedBank], a
@@ -2561,15 +2561,15 @@ AnimationCheckCompleteExit:
     ld [rROMB0], a
     ld de, $0010
     call AddScore
-    ld a, $01
+    ld a, FLAG_TRUE
     ldh [hTimer1], a
     xor a
     ld [wSpecialState], a
     ld a, [wLevelBCD1]
-    and $01
+    and FLAG_TRUE
     ret nz
 
-    ld a, $0a
+    ld a, STATE_BUFFER_SPECIAL
     ld [wStateBuffer], a
     ret
 
@@ -2643,20 +2643,20 @@ StateHandler_06_SpecialLevel:
     inc l
     ld a, [hl]
     ldh [hVramPtrLow], a
-    ld a, $06
+    ld a, TIMER_CUTSCENE_6
     ldh [hTimer1], a
     ldh a, [hAnimTileIndex]
-    and $f0
-    cp $40
+    and NIBBLE_HIGH_MASK
+    cp ANIM_TILE_WORLD_4_NIBBLE
     ret nz
 
     xor a
     ldh [hOAMIndex], a
-    ld a, $01
+    ld a, FLAG_TRUE
     ld [wAudioSaveDE], a
-    ld a, $bf
+    ld a, VRAM_DEST_CUTSCENE_HIGH
     ldh [hOAMAddrLow], a
-    ld a, $ff
+    ld a, TIMER_CUTSCENE_LONG
     ldh [hTimer1], a
     ld a, GAME_STATE_INIT27
     ldh [hGameState], a
@@ -3121,11 +3121,11 @@ State24_DisplayText::
 
     ld hl, hGameState
     inc [hl]
-    ld a, $80
+    ld a, PLAYER_ANIM_INITIAL
     ld [wPlayerUnk10], a
-    ld a, $08
+    ld a, TIMER_ANIM_STEP
     ldh [hTimer1], a
-    ld a, $08
+    ld a, OAM_INDEX_CUTSCENE
     ldh [hOAMIndex], a
     ld a, GAME_STATE_OUTER
     ld [wStateRender], a
@@ -3143,12 +3143,12 @@ WriteCharToVRAM:
     add hl, de
     ld a, [hl]
     ld b, a
-    cp $fe
+    cp TEXT_CMD_NEWLINE
 
 ValidateAndWriteTextCharToVram:
     jr z, LoadOffsetAndCopy
 
-    cp $ff
+    cp TEXT_CMD_END
     ret z
 
     ldh a, [hCopyDstLow]
@@ -3241,18 +3241,18 @@ State25_StoreOAMIndex:
 
 State25_LoadSpriteTableAddress:
     and $01
-    ld hl, $102c
+    ld hl, ROM_SPRITE_CONFIG_1
     jr nz, State25_CopySpriteDataToOam
 
-    ld hl, $103c
-    ld a, $03
+    ld hl, ROM_SPRITE_CONFIG_2
+    ld a, SPRITE_CONFIG_COUNT
 
 State25_StoreSpriteValue:
-    ld [$dff8], a
+    ld [wStateFinal], a
 
 State25_CopySpriteDataToOam:
     call Copy16BytesToOam
-    ld a, $08
+    ld a, TIMER_ANIM_STEP
     ldh [hTimer1], a
     ret
 

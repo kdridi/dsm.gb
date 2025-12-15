@@ -932,3 +932,35 @@ DEF SPRITE_ANIM_RESET          EQU $f0   ; Valeur reset animation sprite
 
 ; État rendu cutscene
 DEF STATE_RENDER_FINAL         EQU $11   ; Mode rendu écran final
+
+; === Marqueurs de contrôle texte ===
+; Utilisés dans WriteCharToVRAM pour contrôler l'affichage du texte
+
+DEF TEXT_CMD_NEWLINE           EQU $fe   ; Marqueur nouvelle ligne/offset
+DEF TEXT_CMD_END               EQU $ff   ; Marqueur fin de texte
+
+; === Valeurs d'animation/cutscene ===
+
+DEF PLAYER_ANIM_INITIAL        EQU $80   ; Position/animation initiale joueur ($80)
+DEF OAM_INDEX_CUTSCENE         EQU $08   ; Index OAM cutscene (8 sprites)
+DEF SPRITE_CONFIG_COUNT        EQU $03   ; Compteur configuration sprite (3)
+DEF STATE_BUFFER_SPECIAL       EQU $0a   ; Valeur spéciale wStateBuffer
+
+; === Adresses tables sprites cutscene ===
+
+DEF ROM_SPRITE_CONFIG_1        EQU $102c ; Table sprites config normale
+DEF ROM_SPRITE_CONFIG_2        EQU $103c ; Table sprites config alternative
+
+; === Timers cutscene spécifiques ===
+
+DEF TIMER_CUTSCENE_6           EQU $06   ; Timer cutscene court (6 frames)
+DEF TIMER_CUTSCENE_LONG        EQU $ff   ; Timer cutscene très long (255 frames)
+
+; === VRAM/Tilemap cutscene ===
+
+DEF VRAM_TILEMAP_WRAP_HIGH     EQU $99   ; Octet haut wrap tilemap ($9900)
+DEF VRAM_DEST_CUTSCENE_HIGH    EQU $bf   ; Octet haut destination cutscene
+
+; === Animation tiles - Identifiants mondes (nibble haut de hAnimTileIndex) ===
+
+DEF ANIM_TILE_WORLD_4_NIBBLE   EQU $40   ; Monde 4 (nibble haut = $4X)
