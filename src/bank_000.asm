@@ -2302,15 +2302,15 @@ ApplyCollisionKnockback:
     dec l
     call GetAnimationDataPointer
     pop hl
-    ld bc, $0009
+    ld bc, OBJECT_OFFSET_09     ; Offset +9 dans structure
     add hl, bc
-    ld [hl], $01
+    ld [hl], FLAG_TRUE          ; Activer le flag
     xor a
     ld hl, wPlayerUnk07
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
-    ld [hl], $01
+    ld [hl], FLAG_TRUE          ; wPlayerUnk0A = actif
     ld hl, wPlayerUnk0C
     ld a, [hl]
     cp COLLISION_THRESHOLD_7    ; Vérifie si >= 7
@@ -12599,7 +12599,7 @@ SkipFrames:
     jr nz, SkipFrames
 
     ld hl, VRAM_END_COPY_START
-    ld bc, $0060
+    ld bc, VRAM_END_COPY_STRIDE ; Stride de 3 lignes
 
 CopyToBackBuffer:
     ld a, [de]
