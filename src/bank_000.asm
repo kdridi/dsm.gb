@@ -3430,8 +3430,14 @@ AutoMovePlayerRight:
     ret
 
 ; ===========================================================================
-; État $21 - Setup cutscene fin niveau ($0EC4)
-; Attente timer, reset position joueur, configure scroll et timer
+; State21_SetupEndCutscene
+; ------------------------
+; Description: Setup cutscene de fin de niveau. Attend que hTimer1 soit à zéro,
+;              puis reset la position du joueur, initialise le scroll et démarre
+;              le timer de cutscene avant de passer à l'état suivant.
+; In:  hTimer1 = timer à vérifier
+; Out: hTimer1 = TIMER_CUTSCENE (161 frames), hGameState incrémenté
+; Modifie: a, bc, de, hl
 ; ===========================================================================
 State21_SetupEndCutscene::
     ldh a, [hTimer1]
@@ -3450,7 +3456,14 @@ State21_SetupEndCutscene::
     inc [hl]
     ret
 
-; --- Routine : reset position joueur pour cutscene ---
+; ResetPlayerForCutscene
+; ----------------------
+; Description: Réinitialise la position et les données du joueur pour la cutscene.
+;              Positionne le joueur à CUTSCENE_PLAYER_X/Y, copie les données OAM
+;              depuis ROM_LEVEL_INIT_DATA et configure quelques valeurs fixes.
+; In:  Aucun
+; Out: wPlayerX/Y = position cutscene, wPlayerUnk10-1F = données OAM + valeurs fixes
+; Modifie: a, bc, de, hl
 ResetPlayerForCutscene:
     ld hl, wPlayerX
     ld [hl], CUTSCENE_PLAYER_X
@@ -3472,14 +3485,14 @@ CopyOAMDataLoop:
     jr nz, CopyOAMDataLoop
 
     ld hl, wPlayerUnk11
-    ld [hl], CUTSCENE_PLAYER_X
+    ld [hl], CUTSCENE_PLAYER_X  ; wPlayerUnk11 = position X cutscene
     inc l
-    ld [hl], $00
+    ld [hl], $00                ; wPlayerUnk12 = 0
     inc l
-    ld [hl], $22
+    ld [hl], $22                ; wPlayerUnk13 = $22 (attribut/tile cutscene)
     inc l
     inc l
-    ld [hl], $20
+    ld [hl], $20                ; wPlayerUnk15 = $20 (paramètre cutscene)
     ret
 
 ; ===========================================================================

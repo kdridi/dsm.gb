@@ -1703,6 +1703,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0EDE",
+      "node_type": "code",
+      "description": "ResetPlayerForCutscene - Reset position et donn\u00e9es joueur pour cutscene",
+      "source": "$0EC4",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1732,6 +1740,7 @@
     "$00CC",
     "$0C22",
     "$07B7",
+    "$0EC4",
     "$0E54",
     "$4000:3",
     "$06A5",
@@ -1791,6 +1800,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 3,
-  "total_explored": 84
+  "commits_since_push": 4,
+  "total_explored": 85
 }
