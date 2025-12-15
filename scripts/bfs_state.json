@@ -999,6 +999,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1CE7",
+      "node_type": "code",
+      "description": "State3B_WindowSetup - Setup window",
+      "source": "$02A3",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1006,6 +1014,7 @@
     "$00CC",
     "$02A5",
     "$0000",
+    "$02A3",
     "$0040",
     "$4000:3",
     "$0060",
@@ -1024,6 +1033,6 @@
     "$0048",
     "$00C3"
   ],
-  "commits_since_push": 0,
-  "total_explored": 21
+  "commits_since_push": 1,
+  "total_explored": 22
 }

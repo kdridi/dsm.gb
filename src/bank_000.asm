@@ -643,49 +643,18 @@ DeadLoop:
 ;; ==========================================================================
 ;; StateDispatcher - Dispatch vers le handler selon game_state ($FFB3)
 ;; ==========================================================================
-;; Appelé par : GameLoop (CallStateHandler)
-;; Mécanisme  : rst $28 = jump table indirect
-;;   - Lit A (game_state)
-;;   - A *= 2 (chaque entrée = 2 octets)
-;;   - Saute à l'adresse dans la table
-;;
-;; NOTE: Le code après "rst $28" est une TABLE DE POINTEURS mal désassemblée.
-;; Les "db", "ld b, $xx", etc. sont en fait des adresses 16-bit.
-;; Ne pas modifier ce code sans comprendre la structure de la table !
-;;
-;; === JUMP TABLE DÉCODÉE (60 états, $00-$3B) ===
-;;
-;; | État | Adresse | Description (hypothèse)          |
-;; |------|---------|-----------------------------------|
-;; | $00  | $0610   | ?                                 |
-;; | $01  | $06A5   | ?                                 |
-;; | $02  | $06C5   | ?                                 |
-;; | $03  | $0B84   | InitGameState cible               |
-;; | $04  | $0BCD   | ?                                 |
-;; | $05  | $0C6A   | ?                                 |
-;; | $06  | $0CC2   | ?                                 |
-;; | $07  | $0C37   | ?                                 |
-;; | $08  | $0D40   | ?                                 |
-;; | $09  | $1612   | ?                                 |
-;; | $0A  | $1626   | ?                                 |
-;; | $0B  | $1663   | ?                                 |
-;; | $0C  | $16D1   | ?                                 |
-;; | $0D  | $236D   | ?                                 |
-;; | $0E  | $0322   | État initial (INIT_GAME_STATE)    |
-;; | $0F  | $04C3   | ?                                 |
-;; | $10  | $05B7   | ?                                 |
-;; | $11  | $055F   | ?                                 |
-;; | $12  | $3D8E   | Écran fin (UpdateLevelScore skip) |
-;; | $13  | $3DCE   | ?                                 |
-;; | $14  | $5832   | (bank switch requis)              |
-;; | ...  | ...     | (voir bytes à $02A5)              |
-;; | $39  | $????   | Game over (depuis UpdateLives)    |
-;; | $3A  | $????   | État spécial window               |
-;;
-;; ==========================================================================
+; StateDispatcher
+; ----------------
+; Description: Point d'aiguillage principal du jeu. Dispatche l'exécution vers
+;              le handler d'état approprié selon la valeur de hGameState (0-59).
+;              Utilise le mécanisme rst $28 avec une jump table de 60 entrées.
+; In:  hGameState = index d'état (0-59, lu depuis $FFB3)
+; Out: Saute vers le handler correspondant (ne retourne jamais directement)
+; Modifie: a, de, hl (via rst $28)
+; Appelé par: GameLoop (.callStateHandler)
 StateDispatcher:
-    ldh a, [hGameState]          ; Lire game_state (0-N)
-    rst $28                 ; → Jump table dispatcher (voir RST_28)
+    ldh a, [hGameState]     ; Charger l'index d'état actuel
+    rst $28                 ; → Dispatcher via jump table (voir JumpTableDispatcher)
 ; === StateDispatcher Jump Table (60 états) ===
 ; Index = hGameState (0-59), chaque entrée = adresse handler
 StateJumpTable:
