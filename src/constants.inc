@@ -561,6 +561,7 @@ DEF LYC_SCANLINE_STRIDE EQU $08 ; Stride scanline (8 lignes = 1 tile)
 
 ; === Dimensions tilemap ===
 
+DEF TILE_SIZE_PIXELS    EQU $08 ; 8 pixels = 1 tile (dimensions standard Game Boy)
 DEF TILEMAP_ROW_WIDTH   EQU $14 ; 20 tiles = largeur écran visible (160px / 8px)
 DEF TILEMAP_STRIDE      EQU $20 ; 32 tiles = largeur complète tilemap (256px / 8px)
 DEF TILEMAP_INIT_SIZE   EQU $09 ; Taille données init tilemap (9 octets)
@@ -758,6 +759,7 @@ DEF ANIM_OBJ_COUNT_VALUE    EQU $32   ; Valeur compteur objets animation (50)
 
 DEF PLAYER_ANIM_OFFSET      EQU $fc   ; Offset calcul animation joueur (-4)
 DEF PLAYER_X_OFFSET         EQU $10   ; Offset soustrait de X joueur (16 pixels)
+DEF OBJECT_COLLISION_RANGE  EQU $14   ; Distance max collision objet (20 pixels)
 
 ; === Initialisation structure joueur ===
 

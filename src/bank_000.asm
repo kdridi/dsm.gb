@@ -2081,7 +2081,7 @@ ProcessFoundObject:
     jr c, ContinueObjectScan
 
     ld b, a
-    ld a, $14
+    ld a, OBJECT_COLLISION_RANGE ; Distance max collision (20 pixels)
     sub b
     jr c, ContinueObjectScan
 
@@ -2096,7 +2096,7 @@ ProcessFoundObject:
     ld a, [hl]
 
 Loop_AddValueByEight:
-    add $08
+    add TILE_SIZE_PIXELS        ; Ajouter 8 pixels (1 tile)
     dec c
     jr nz, Loop_AddValueByEight
 
@@ -2141,7 +2141,7 @@ CheckBoundingBoxCollision:
     inc l
     inc l
     ld a, [hl]
-    add $08
+    add TILE_SIZE_PIXELS        ; Décalage hitbox (8 pixels = 1 tile)
     ld b, a
     ldh a, [hTemp0]
     sub b
@@ -2156,7 +2156,7 @@ Loop_SubtractValueByEight:
     dec b
     jr z, Loop_SubtractValueByEightEnd
 
-    sub $08
+    sub TILE_SIZE_PIXELS        ; Soustraire 8 pixels (1 tile)
     jr Loop_SubtractValueByEight
 
 Loop_SubtractValueByEightEnd:
@@ -2178,7 +2178,7 @@ Loop_SubtractValueByEightEnd:
     ld a, [hl]
 
 Loop_AddValueByEightV2:
-    add $08
+    add TILE_SIZE_PIXELS        ; Ajouter 8 pixels (1 tile)
     dec b
     jr nz, Loop_AddValueByEightV2
 
@@ -2239,7 +2239,7 @@ SubtractPositionOffset:
     dec b
     jr z, CheckCollisionXAxisPath
 
-    sub $08
+    sub TILE_SIZE_PIXELS        ; Soustraire 8 pixels (1 tile)
     jr SubtractPositionOffset
 
 CheckCollisionXAxisPath:
@@ -2280,7 +2280,7 @@ CheckCollisionYAxisPath:
     ld a, [hl]
 
 AddHeightOffset:
-    add $08
+    add TILE_SIZE_PIXELS        ; Ajouter 8 pixels (1 tile)
     dec b
     jr nz, AddHeightOffset
 
@@ -2342,7 +2342,7 @@ StateHandler_03::
     ld hl, wOamVar0C
     ld a, [wLevelVarDD]
     ld c, a
-    sub $08
+    sub TILE_SIZE_PIXELS          ; Décalage Y sprite (8 pixels)
     ld d, a
     ld [hl], a                    ; Sprite 0: Y
     inc l
@@ -2365,7 +2365,7 @@ StateHandler_03::
     ld [hl], d                    ; Sprite 2: Y
     inc l
     ld a, b
-    add $08
+    add TILE_SIZE_PIXELS          ; Décalage X sprite (8 pixels)
     ld b, a
     ld [hl+], a                   ; Sprite 2: X
     ld [hl], $0f                  ; Sprite 2: tile
@@ -2888,7 +2888,7 @@ State1D_SetupVRAMPointer::
     cp $40
     jr nc, VRAMPointerAdjustmentPath
 
-    add $20
+    add TILEMAP_STRIDE          ; Ajuster wrap-around (+32 = 1 ligne tilemap)
 
 VRAMPointerAdjustmentPath:
     ld l, a
@@ -2922,7 +2922,7 @@ State1E_ClearTilemapColumn::
     ldh a, [hVramPtrLow]
     ld l, a
     ld h, $99
-    sub $20
+    sub TILEMAP_STRIDE          ; Ligne précédente (-32 = 1 ligne tilemap)
     ldh [hVramPtrLow], a
 
     WAIT_FOR_HBLANK
@@ -3097,7 +3097,7 @@ State23_WalkToDoor::
     ld a, b
     jr nz, DoorPositionCalculationPath
 
-    sub $20
+    sub TILEMAP_STRIDE          ; Ajuster position porte (-32 = 1 ligne tilemap)
 
 DoorPositionCalculationPath:
     ldh [hCopyDstHigh], a
@@ -3171,7 +3171,7 @@ WaitAndStoreVram:
     jr nz, AdjustDestHighByte
 
     ld a, l
-    sub $20
+    sub TILEMAP_STRIDE          ; Ligne précédente (-32 = 1 ligne tilemap)
 
 StoreDestHighByte:
     ldh [hCopyDstHigh], a
@@ -3874,7 +3874,7 @@ ClearBufferLoop:
     ldh [hScrollPhase], a
     ld b, $02
     ldh a, [hScrollColumn]
-    sub $20
+    sub TILEMAP_STRIDE          ; Ligne précédente (-32 = 1 ligne tilemap)
     ld l, a
     ld h, $98
 
@@ -3882,7 +3882,7 @@ ClearBufferLoop:
     WAIT_FOR_HBLANK
     ld [hl], TILE_EMPTY
     ld a, l
-    sub $20
+    sub TILEMAP_STRIDE          ; Ligne précédente (-32 = 1 ligne tilemap)
     ld l, a
     dec b
     jr nz, .loopClearTile
@@ -7617,7 +7617,7 @@ ProcessAudioSlot_Loop:
     jr c, ProcessAudioSlot_CheckParam1
 
 ProcessAudioSlot_Disable:
-    ld a, $ff
+    ld a, SLOT_EMPTY            ; Marqueur slot audio désactivé
     ldh [hSoundId], a
     ld a, c
     call SaveSoundDataToSlot
