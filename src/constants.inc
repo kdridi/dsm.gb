@@ -32,6 +32,7 @@ DEF WRAM_BLOCKS     EQU $40     ; 64 blocs de 256 octets = 16KB
 DEF VRAM_BLOCKS     EQU $20     ; 32 blocs de 256 octets = 8KB
 DEF HRAM_SIZE       EQU $80     ; 128 octets ($FF80-$FFFE + 1)
 DEF DMA_ROUTINE_SIZE EQU $0C    ; 12 octets (routine DMA en HRAM)
+DEF DMA_SOURCE_HIGH  EQU $C0    ; Octet haut adresse source OAM ($C000)
 
 ; === LCD ===
 

@@ -6617,7 +6617,7 @@ HandleBlockCollision:
 InitBlockHitSprites:
     ld hl, wPlayerUnk10
     ld de, OBJECT_STRUCT_SIZE
-    ld b, $04
+    ld b, INIT_OBJECTS_LOOP_COUNT
 
 SpriteSetupLoop:
     push hl
@@ -12826,7 +12826,10 @@ BCD_MarkNonZeroLow:
     pop af
     jr BCD_WriteLowNibble
 
-    ld a, $c0
+; Routine DMA - copiée en HRAM pour transfert OAM
+; Transfère 160 octets de $C000 (shadow OAM) vers $FE00 (OAM)
+DMA_Routine:
+    ld a, DMA_SOURCE_HIGH
     ldh [rDMA], a
     ld a, DMA_WAIT_CYCLES
 

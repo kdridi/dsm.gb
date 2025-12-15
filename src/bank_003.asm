@@ -2565,7 +2565,7 @@ JoypadStateClearRegister:
 
 ; Routine $4aea - Initialise et traite la boucle de rendu des objets
 InitRenderLoop::
-    ld b, $04
+    ld b, INIT_OBJECTS_LOOP_COUNT
     ld de, OBJECT_SLOT_SIZE
     ld hl, wPlayerUnk10
 
