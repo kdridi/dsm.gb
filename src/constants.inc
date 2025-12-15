@@ -490,3 +490,28 @@ DEF TILE_LEVEL_SELECT   EQU $29 ; Tile indicateur sélection niveau
 ; === DMA ===
 
 DEF DMA_WAIT_CYCLES     EQU $28 ; Cycles d'attente DMA (40 cycles)
+
+; === Types d'objets OAM ===
+; Utilisés dans UpdateAnimatedObjectState_ObjectHitDispatch pour identifier
+; le type d'objet avec lequel le joueur interagit
+
+DEF OBJ_TYPE_COIN       EQU $29 ; Pièce à collecter
+DEF OBJ_TYPE_SPECIAL    EQU $2B ; Objet spécial (transition)
+DEF OBJ_TYPE_DOOR       EQU $2E ; Porte/portail (transition zone)
+DEF OBJ_TYPE_ENEMY      EQU $34 ; Ennemi
+
+; === Indices de tiles animation (Monde.Niveau) ===
+; Format: $XY où X = monde (1-4), Y = niveau dans le monde (1-3)
+; Utilisés pour sélectionner le contexte de rendu selon le niveau
+
+DEF ANIM_TILE_W1_L1     EQU $11 ; Monde 1, Niveau 1
+DEF ANIM_TILE_W1_L2     EQU $12 ; Monde 1, Niveau 2
+DEF ANIM_TILE_W1_L3     EQU $13 ; Monde 1, Niveau 3
+DEF ANIM_TILE_W2_L1     EQU $21 ; Monde 2, Niveau 1
+DEF ANIM_TILE_W2_L2     EQU $22 ; Monde 2, Niveau 2
+DEF ANIM_TILE_W2_L3     EQU $23 ; Monde 2, Niveau 3
+DEF ANIM_TILE_W3_L1     EQU $31 ; Monde 3, Niveau 1
+DEF ANIM_TILE_W3_L2     EQU $32 ; Monde 3, Niveau 2
+DEF ANIM_TILE_W3_L3     EQU $33 ; Monde 3, Niveau 3
+DEF ANIM_TILE_W4_L1     EQU $41 ; Monde 4, Niveau 1
+DEF ANIM_TILE_W4_L2     EQU $42 ; Monde 4, Niveau 2

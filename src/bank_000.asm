@@ -877,47 +877,47 @@ StartSelectedLevel:
     ld a, [wAnimTileIdx]
     ldh [hAnimTileIndex], a
     ld e, $00
-    cp $11
+    cp ANIM_TILE_W1_L1
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $12
+    cp ANIM_TILE_W1_L2
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $13
+    cp ANIM_TILE_W1_L3
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $21
+    cp ANIM_TILE_W2_L1
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $22
+    cp ANIM_TILE_W2_L2
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $23
+    cp ANIM_TILE_W2_L3
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $31
+    cp ANIM_TILE_W3_L1
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $32
+    cp ANIM_TILE_W3_L2
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $33
+    cp ANIM_TILE_W3_L3
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $41
+    cp ANIM_TILE_W4_L1
     jr z, SelectTileIndexForLevel
 
     inc e
-    cp $42
+    cp ANIM_TILE_W4_L2
     jr z, SelectTileIndexForLevel
 
     inc e
@@ -1888,16 +1888,16 @@ LoadAudioAndSetupAnim:
 
 UpdateAnimatedObjectState_ObjectHitDispatch:
     ldh a, [hOAMIndex]
-    cp $29
+    cp OBJ_TYPE_COIN
     jr z, ObjectInteraction_CoinHit
 
-    cp $34
+    cp OBJ_TYPE_ENEMY
     jr z, ObjectInteraction_EnemyHit
 
-    cp $2b
+    cp OBJ_TYPE_SPECIAL
     jr z, ObjectInteraction_SpecialHit
 
-    cp $2e
+    cp OBJ_TYPE_DOOR
     jr nz, PlayerInteractionDone
 
     ldh a, [hTimerAux]
