@@ -3207,23 +3207,29 @@ GraphicsTableB:
 
 ; ===========================================================================
 ; État $1B - Transition bonus complété ($0DF0)
-; Recharge l'écran après zone bonus, LCD off → charge tiles → LCD on → état $08
 ; ===========================================================================
+; State1B_BonusComplete
+; ---------------------
+; Description: Recharge l'écran après complétion zone bonus
+;              LCD off → mise à jour HUD/pièces/vies → LCD on → retour état $08
+; In:  -
+; Out: -
+; Modifie: a, flags, appelle CopyHudTilemap/UpdateCoinDisplay/DisplayLivesCount
 State1B_BonusComplete::
-    di
+    di                          ; Désactive interruptions
     xor a
-    ldh [rLCDC], a
-    call CopyHudTilemap
-    call UpdateCoinDisplay
-    call DisplayLivesCount
+    ldh [rLCDC], a              ; Éteint LCD ($FF40 = $00)
+    call CopyHudTilemap         ; Copie tilemap HUD
+    call UpdateCoinDisplay      ; Actualise affichage pièces
+    call DisplayLivesCount      ; Actualise compteur vies
     xor a
-    ldh [rIF], a
+    ldh [rIF], a                ; Efface flags interruptions ($FF0F = $00)
     ld a, LCDC_GAME_STANDARD
-    ldh [rLCDC], a
-    ei
+    ldh [rLCDC], a              ; Rallume LCD en mode jeu ($FF40 = $C3)
+    ei                          ; Réactive interruptions
     ld a, GAME_STATE_CENTER
-    ldh [hGameState], a
-    ldh [hScoreNeedsUpdate], a
+    ldh [hGameState], a         ; Passe à l'état $08 (joueur centré)
+    ldh [hScoreNeedsUpdate], a  ; Marque score à mettre à jour
     ret
 
 ; ===========================================================================
