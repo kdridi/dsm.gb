@@ -2294,9 +2294,15 @@ SelectAnimationBank:
     pop hl
     ret
 
-; === Table des banks d'animation ($0A20) ===
-; Indexée par (hAnimObjSubState & $C0) >> 4
-; Valeurs: 0→bank $01, 1→bank $04, 2→bank $08, 3→bank $50
+; AnimBankTable
+; --------------
+; Description: Table de mapping bits 7-6 de hAnimObjSubState vers numéros de bank ROM
+; Format: 4 bytes, indexée par (hAnimObjSubState & $C0) >> 6
+;         Index 0 (%00xxxxxx) → bank $01
+;         Index 1 (%01xxxxxx) → bank $04
+;         Index 2 (%10xxxxxx) → bank $08
+;         Index 3 (%11xxxxxx) → bank $50
+; Utilisée par: SelectAnimationBank ($0A07)
 AnimBankTable:
     db $01, $04, $08, $50
 

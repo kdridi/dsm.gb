@@ -769,6 +769,14 @@
       "priority": 3
     },
     {
+      "address": "$0a20",
+      "node_type": "data",
+      "description": "AnimBankTable - Table de mapping bits 7-6 vers bank ROM ($01/$04/$08/$50)",
+      "source": "$0a07",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0aa6",
       "node_type": "code",
       "description": "CheckBoundingBoxCollision - V\u00e9rifie collision entre hitboxes joueur/objet",
@@ -1751,14 +1759,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0a20",
-      "node_type": "data",
-      "description": "AnimBankTable - Table de mapping bits 7-6 vers bank ROM ($01/$04/$08/$50)",
-      "source": "$0a07",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1802,6 +1802,7 @@
     "$0D64",
     "$0D40",
     "$00C7",
+    "$0a20",
     "$0a07",
     "$055F",
     "$0DF0",
@@ -1859,6 +1860,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 0,
-  "total_explored": 96
+  "commits_since_push": 1,
+  "total_explored": 97
 }
