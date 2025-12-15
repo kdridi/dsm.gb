@@ -477,6 +477,7 @@ DEF VRAM_FADE_BOUND_HI  EQU $8F     ; Octet haut limite zone fade
 ; === Tiles spéciaux ===
 
 DEF TILE_EMPTY          EQU $2C   ; Tile vide/espace (fond, leading zero)
+DEF TILE_DIGIT_0        EQU $00   ; Tile chiffre "0" (index 0 dans tileset)
 
 ; --- Tiles HUD ---
 DEF TILE_HUD_BORDER     EQU $3C   ; Bordure HUD (barre horizontale)

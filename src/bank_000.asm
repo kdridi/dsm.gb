@@ -12770,10 +12770,10 @@ BCD_ProcessByte:
     ; Chiffre = 0, vérifier si leading zero
     ldh a, [hScoreNeedsUpdate]          ; Déjà affiché un chiffre non-zéro ?
     and a
-    ld a, $00               ; Tile "0"
+    ld a, TILE_DIGIT_0      ; Tile "0"
     jr nz, BCD_WriteTile      ; Oui → afficher "0"
 
-    ld a, $2c               ; Non → afficher espace (leading zero suppression)
+    ld a, TILE_EMPTY        ; Non → afficher espace (leading zero suppression)
 
 BCD_WriteTile:
     ld [hl+], a             ; Écrire tile, avancer
@@ -12786,16 +12786,16 @@ BCD_WriteTile:
     ; Chiffre = 0, vérifier si leading zero
     ldh a, [hScoreNeedsUpdate]          ; Déjà affiché un chiffre non-zéro ?
     and a
-    ld a, $00               ; Tile "0"
+    ld a, TILE_DIGIT_0      ; Tile "0"
     jr nz, BCD_WriteLowNibble      ; Oui → afficher "0"
 
     ; Cas spécial : dernier octet, afficher au moins "0"
-    ld a, $01
+    ld a, FLAG_TRUE
     cp c                    ; Est-ce le dernier octet ?
-    ld a, $00
+    ld a, TILE_DIGIT_0
     jr z, BCD_WriteLowNibble       ; Oui → afficher "0" (pas d'espace)
 
-    ld a, $2c               ; Non → espace (leading zero)
+    ld a, TILE_EMPTY        ; Non → espace (leading zero)
 
 BCD_WriteLowNibble:
     ld [hl+], a             ; Écrire tile, avancer
