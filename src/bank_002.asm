@@ -2230,7 +2230,7 @@ jr_002_4904:
     rst $38
     add c
     rst $38
-    jp Jump_002_667e
+    jp DataTable_667e
 
 
     inc a
@@ -3508,7 +3508,7 @@ jr_002_4e64:
 
 
     and l
-    jp Jump_002_665a
+    jp DataTable_665a
 
 
     inc a
@@ -5932,19 +5932,19 @@ jr_002_580a:
     jp ComputeAnimationSpeed
 
 
-    jp Jump_002_5abb
+    jp SpriteAnimationState_CheckAndUpdate
 
 
-    jp Jump_002_5b65
+    jp SpriteAnimationState_CheckActiveFlag
 
 
-    jp Jump_002_5beb
+    jp SpriteAnimationState_LoadTileIndex
 
 
-    jp Jump_002_5c44
+    jp SpriteAnimationState_ValidateAndLoad
 
 
-    jp Jump_002_5cde
+    jp SpriteAnimationState_LoadPalette
 
 
     call DecrementGameTimer
@@ -6221,7 +6221,7 @@ ProcessSpriteAnimation:
 jr_002_59a5:
     ld hl, $c030
 
-Jump_002_59a8:
+SpriteAnimationDispatch_ByType:
     push hl
     ld a, [hl]
     and a
@@ -6389,7 +6389,7 @@ jr_002_5a66:
     add hl, de
     ld a, l
     cp $50
-    jp nz, Jump_002_59a8
+    jp nz, SpriteAnimationDispatch_ByType
 
     ret
 
@@ -6458,14 +6458,14 @@ jr_002_5a93:
     ret
 
 
-Jump_002_5abb:
+SpriteAnimationState_CheckAndUpdate:
     ld a, [$da27]
     bit 0, a
     jr z, jr_002_5ac9
 
     ldh a, [hJoypadState]
     bit 0, a
-    jp nz, Jump_002_5b56
+    jp nz, SpriteAnimationState_ResetCounter
 
 jr_002_5ac9:
     ld hl, $da22
@@ -6581,7 +6581,7 @@ jr_002_5b51:
     ret
 
 
-Jump_002_5b56:
+SpriteAnimationState_ResetCounter:
     xor a
     ld [$da22], a
     ld [$da27], a
@@ -6591,7 +6591,7 @@ Jump_002_5b56:
     ret
 
 
-Jump_002_5b65:
+SpriteAnimationState_CheckActiveFlag:
     ld hl, $da1c
     ld a, [hl]
     and a
@@ -6699,7 +6699,7 @@ jr_002_5be2:
     ret
 
 
-Jump_002_5beb:
+SpriteAnimationState_LoadTileIndex:
     ld hl, $c030
     ld b, $04
     ld de, $5c9d
@@ -6771,7 +6771,7 @@ jr_002_5c3a:
     ret
 
 
-Jump_002_5c44:
+SpriteAnimationState_ValidateAndLoad:
     ld hl, $c030
     ld b, $04
     ld de, $5c9d
@@ -6901,10 +6901,10 @@ jr_002_5c93:
     dec d
     rst $38
 
-Jump_002_5cde:
+SpriteAnimationState_LoadPalette:
     ld a, [$da17]
     and a
-    jp nz, Jump_002_5d69
+    jp nz, SpriteAnimationState_WritePalette
 
     ld c, $02
 
@@ -7010,13 +7010,13 @@ jr_002_5d62:
     ld [$da17], a
     jr jr_002_5d3c
 
-Jump_002_5d69:
+SpriteAnimationState_WritePalette:
     ld a, [$da17]
     cp $10
     jr nc, jr_002_5da0
 
     cp $02
-    jp nc, Jump_002_5e02
+    jp nc, SpriteAnimationState_FinishPalette
 
     ld a, [$da1b]
     dec a
@@ -7116,7 +7116,7 @@ jr_002_5df7:
     ret
 
 
-Jump_002_5e02:
+SpriteAnimationState_FinishPalette:
     ld a, [$da1f]
     dec a
     ld [$da1f], a
@@ -7167,7 +7167,7 @@ jr_002_5e3f:
     ld hl, $c030
     ld a, [$da21]
     cp $02
-    jp z, Jump_002_5eda
+    jp z, SpriteAnimationState_IncrementCounter
 
     and a
     jr nz, jr_002_5eb2
@@ -7283,7 +7283,7 @@ jr_002_5eb2:
     ret
 
 
-Jump_002_5eda:
+SpriteAnimationState_IncrementCounter:
     ld a, [hl]
     inc a
     ld [hl+], a
@@ -8896,7 +8896,7 @@ Call_002_6565:
     ld b, b
     ld d, c
 
-Jump_002_665a:
+DataTable_665a:
     ld e, [hl]
     or l
     ld c, h
@@ -8929,7 +8929,7 @@ Call_002_6666:
     ld e, [hl]
     or l
 
-Jump_002_667e:
+DataTable_667e:
     ld h, e
     ld h, e
     ld h, e
@@ -9994,7 +9994,7 @@ Jump_002_667e:
     ld d, e
     ld b, b
 
-Jump_002_6b63:
+DataTable_6b63:
     ld a, c
     ld l, c
     scf
@@ -11851,7 +11851,7 @@ Call_002_7371:
     ld l, l
     ld l, [hl]
     ld d, a
-    jp nz, Jump_002_6b63
+    jp nz, DataTable_6b63
 
     pop af
     ld h, h
