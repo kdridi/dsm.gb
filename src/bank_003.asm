@@ -450,7 +450,7 @@ UnknownCode_003_4190:
     rst $38
     nop
     nop
-    jr c, UnknownCode_003_420e
+    jr c, ConstTable_003_420e
 
     ld b, [hl]
     ld b, [hl]
@@ -501,7 +501,7 @@ UnknownCode_003_4190:
     dec e
     and $de
 
-UnknownCode_003_420e:
+ConstTable_003_420e:
     db $e4
     inc e
     db $e4
@@ -1202,9 +1202,9 @@ JoypadInputEntry_44c7:
     nop
     ld h, b
     nop
-    jr nz, UnknownCode_003_451b
+    jr nz, DispatchEntry_003_451b
 
-UnknownCode_003_451b:
+DispatchEntry_003_451b:
     jr nz, PaddingZone_003_451d
 
 PaddingZone_003_451d:
@@ -1232,9 +1232,9 @@ PaddingZone_003_451d:
 
     nop
     stop
-    jr nz, UnknownCode_003_453f
+    jr nz, DispatchEntry_003_453f
 
-UnknownCode_003_453f:
+DispatchEntry_003_453f:
     jr nz, SoundEngine_Target_1
 
 SoundEngine_Target_1:
@@ -1467,9 +1467,9 @@ AudioHandler_Entry_2:
     jr nz, AudioHandler_Entry_3
 
 AudioHandler_Entry_3:
-    jr nz, UnknownCode_003_462b
+    jr nz, DispatchEntry_003_462b
 
-UnknownCode_003_462b:
+DispatchEntry_003_462b:
     jr nz, UnknownCode_003_462d
 
 UnknownCode_003_462d:
@@ -1522,9 +1522,9 @@ AudioHandler_Entry_4:
     nop
     inc h
     nop
-    jr UnknownCode_003_465b
+    jr PaddingZone_003_465b
 
-UnknownCode_003_465b:
+PaddingZone_003_465b:
     nop
     nop
     nop
@@ -2720,7 +2720,7 @@ TimerInitializeAux:
 
     ldh a, [hTimerAux]
     cp $04
-    jr z, UnknownCode_003_4be0
+    jr z, DispatchEntry_003_4be0
 
     cp $03
     ret nz
@@ -2749,7 +2749,7 @@ TimerResetState:
     ret
 
 
-UnknownCode_003_4be0:
+DispatchEntry_003_4be0:
     ldh a, [hTimer1]
     and a
     jr z, UnknownCode_003_4bf1
@@ -3310,25 +3310,25 @@ UnknownCode_003_4dd8:
     nop
     db $10
     ld [$0010], sp
-    jr UnknownCode_003_4e73
+    jr DispatchEntry_003_4e73
 
-    jr UnknownCode_003_4e6d
+    jr DispatchEntry_003_4e6d
 
-UnknownCode_003_4e6d:
-    jr nz, UnknownCode_003_4e77
+DispatchEntry_003_4e6d:
+    jr nz, ConstTable_003_4e77
 
-    jr nz, UnknownCode_003_4e71
+    jr nz, DispatchEntry_003_4e71
 
-UnknownCode_003_4e71:
-    jr z, UnknownCode_003_4e7b
+DispatchEntry_003_4e71:
+    jr z, DispatchEntry_003_4e7b
 
-UnknownCode_003_4e73:
+DispatchEntry_003_4e73:
     jr z, UnknownCode_003_4e84
 
     rrca
     inc a
 
-UnknownCode_003_4e77:
+ConstTable_003_4e77:
     db $10
     ld c, a
     ret
@@ -3336,7 +3336,7 @@ UnknownCode_003_4e77:
 
     inc d
 
-UnknownCode_003_4e7b:
+DispatchEntry_003_4e7b:
     rrca
     inc b
     jr UnknownCode_003_4e8e
@@ -3505,12 +3505,12 @@ UnknownCode_003_4e8e:
     ld [bc], a
     ld e, $05
     dec h
-    jr nz, UnknownCode_003_4f41
+    jr nz, DispatchEntry_003_4f41
 
     or l
     ld hl, $02c4
 
-UnknownCode_003_4f41:
+DispatchEntry_003_4f41:
     jr z, UnknownCode_003_4f4a
 
     dec h
@@ -3639,7 +3639,7 @@ UnknownCode_003_4fbb:
     dec bc
     ld [de], a
     add hl, bc
-    jr c, UnknownCode_003_4ff3
+    jr c, DispatchEntry_003_4ff3
 
     add hl, bc
     add hl, sp
@@ -3658,7 +3658,7 @@ UnknownCode_003_4fbb:
     dec c
     ld b, a
 
-UnknownCode_003_4ff3:
+DispatchEntry_003_4ff3:
     jr z, UnknownCode_003_4fbb
 
     ld [bc], a
@@ -3676,7 +3676,7 @@ UnknownCode_003_4ff3:
     ld c, $0b
     ld b, c
     adc h
-    jr c, UnknownCode_003_504d
+    jr c, DispatchEntry_003_504d
 
     adc h
     add hl, sp
@@ -3743,8 +3743,8 @@ UnknownCode_003_4ff3:
     ld d, e
     ld d, e
 
-UnknownCode_003_504d:
-    jr nz, UnknownCode_003_50a3
+DispatchEntry_003_504d:
+    jr nz, DispatchEntry_003_50a3
 
     xor d
     ld d, h
@@ -3755,13 +3755,13 @@ UnknownCode_003_504d:
 
 CheckAnimationState:
     ld d, h
-    jr nz, UnknownCode_003_50af
+    jr nz, DispatchEntry_003_50af
 
     xor d
     ld d, h
     ld d, e
 
-UnknownCode_003_505e:
+DispatchEntry_003_505e:
     ld d, e
     ld c, [hl]
     ld d, l
@@ -3832,7 +3832,7 @@ UnknownCode_003_505e:
 
     ld e, l
 
-UnknownCode_003_50a3:
+DispatchEntry_003_50a3:
     rst $28
     ld e, l
     rst $28
@@ -3845,12 +3845,12 @@ UnknownCode_003_50a3:
 Return_IfNotZero_003_50ab:
     ret nz
 
-UnknownCode_003_50ac:
+DispatchEntry_003_50ac:
     ld e, [hl]
     rst $28
     ld e, l
 
-UnknownCode_003_50af:
+DispatchEntry_003_50af:
     rst $28
     ld e, l
     ld e, h
@@ -3883,7 +3883,7 @@ UnknownCode_003_50af:
 
     ld a, [bc]
     ld bc, $0a02
-    jr UnknownCode_003_505e
+    jr DispatchEntry_003_505e
 
     rst $38
     rlca
@@ -3941,7 +3941,7 @@ UnknownCode_003_50af:
     ld [bc], a
     ld [bc], a
     dec bc
-    jr nz, UnknownCode_003_50ac
+    jr nz, DispatchEntry_003_50ac
 
     rst $38
     inc bc
@@ -4396,7 +4396,7 @@ AudioParam_Set_4:
 
 UnknownCode_003_5319:
     cp $c4
-    jr c, UnknownCode_003_5358
+    jr c, ConstTable_003_5358
 
     ld h, c
     ld h, c
@@ -4446,7 +4446,7 @@ UnknownCode_003_5319:
     ld h, b
     cp $e2
 
-UnknownCode_003_5358:
+ConstTable_003_5358:
     db $fd
     ld h, c
     cp $b5
@@ -4921,7 +4921,7 @@ UnknownCode_003_551f:
     ld h, c
     ld h, c
     cp $97
-    jr c, UnknownCode_003_55f1
+    jr c, ConstTable_003_55f1
 
     ld a, $41
     ld b, h
@@ -4972,7 +4972,7 @@ UnknownCode_003_551f:
     add c
     ld d, d
 
-UnknownCode_003_55f1:
+ConstTable_003_55f1:
     db $f4
     ld a, a
     ldh [c], a

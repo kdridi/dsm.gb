@@ -2000,7 +2000,7 @@ AudioDispatchEntry_4807:
     ld b, [hl]
     inc a
     inc l
-    jr UnknownCode_002_489a
+    jr DispatchEntry_002_489a
 
     nop
     nop
@@ -2023,7 +2023,7 @@ JoypadInputEntry_488e:
     db $10
     cp $fe
 
-UnknownCode_002_489a:
+DispatchEntry_002_489a:
     ld a, h
     ld a, h
     jr c, UnknownCode_002_48d6
@@ -2403,7 +2403,7 @@ PaddingZone_002_4991:
     ld [$2708], sp
     inc h
     inc l
-    jr z, UnknownCode_002_4a36
+    jr z, DispatchEntry_002_4a36
 
     ld de, $8094
     ld e, c
@@ -2431,8 +2431,8 @@ PaddingZone_002_4991:
     nop
     nop
 
-UnknownCode_002_4a36:
-    jr nc, UnknownCode_002_4a68
+DispatchEntry_002_4a36:
+    jr nc, PaddingZone_002_4a68
 
     ld c, b
     ld c, b
@@ -2482,7 +2482,7 @@ UnknownCode_002_4a36:
     nop
     nop
 
-UnknownCode_002_4a68:
+PaddingZone_002_4a68:
     nop
     nop
     nop
@@ -2744,7 +2744,7 @@ FlagDispatch_Default:
 
     ld b, b
     ldh a, [hCurrentTile]
-    jr c, UnknownCode_002_4baa
+    jr c, ConstTable_002_4baa
 
     ld a, a
     ld a, h
@@ -2796,7 +2796,7 @@ FlagDispatch_Default:
     ld b, $fb
     rst $00
 
-UnknownCode_002_4baa:
+ConstTable_002_4baa:
     db $fd
     inc bc
     db $fd
@@ -2818,7 +2818,7 @@ UnknownCode_002_4baa:
     add e
     ld a, a
     ld a, a
-    jr c, UnknownCode_002_4bfc
+    jr c, DispatchEntry_002_4bfc
 
     xor $de
     ldh a, [c]
@@ -2863,17 +2863,17 @@ UnknownCode_002_4bd8:
     ld d, [hl]
     ld a, b
     ld a, b
-    jr c, UnknownCode_002_4c1c
+    jr c, PaddingZone_002_4c1c
 
-    jr c, UnknownCode_002_4c1e
+    jr c, PaddingZone_002_4c1e
 
-    jr c, UnknownCode_002_4c20
+    jr c, PaddingZone_002_4c20
 
     cp $fe
     add d
     add d
 
-UnknownCode_002_4bfc:
+DispatchEntry_002_4bfc:
     ld b, h
     ld b, h
     jr z, PaddingZone_002_4c28
@@ -2908,15 +2908,15 @@ PaddingZone_002_4c10:
     nop
     nop
 
-UnknownCode_002_4c1c:
+PaddingZone_002_4c1c:
     nop
     nop
 
-UnknownCode_002_4c1e:
+PaddingZone_002_4c1e:
     nop
     nop
 
-UnknownCode_002_4c20:
+PaddingZone_002_4c20:
     nop
     nop
     nop
@@ -3207,7 +3207,7 @@ AudioDispatchEntry_4d2c:
     inc bc
     dec b
     dec b
-    jr z, UnknownCode_002_4d82
+    jr z, PaddingZone_002_4d82
 
     ld l, b
     ld l, b
@@ -3215,7 +3215,7 @@ AudioDispatchEntry_4d2c:
     sbc a
     ld l, b
     ld l, b
-    jr nz, UnknownCode_002_4d82
+    jr nz, PaddingZone_002_4d82
 
 UnknownCode_002_4d62:
     inc a
@@ -3251,7 +3251,7 @@ UnknownCode_002_4d7c:
     nop
     nop
 
-UnknownCode_002_4d82:
+PaddingZone_002_4d82:
     nop
     nop
     nop
@@ -3610,7 +3610,7 @@ UnknownCode_002_4f00:
     db $10
     db $10
     db $10
-    jr z, UnknownCode_002_4f30
+    jr z, PaddingZone_002_4f30
 
     jr z, UnknownCode_002_4f32
 
@@ -3653,7 +3653,7 @@ UnknownCode_002_4f00:
     nop
     nop
 
-UnknownCode_002_4f30:
+PaddingZone_002_4f30:
     nop
     nop
 
@@ -3723,7 +3723,7 @@ UnknownCode_002_4f70:
     cp $92
     ld a, h
     ld b, h
-    jr c, UnknownCode_002_4fba
+    jr c, DispatchEntry_002_4fba
 
     nop
     nop
@@ -3757,7 +3757,7 @@ UnknownCode_002_4f70:
     ld h, [hl]
     inc a
     inc a
-    jr UnknownCode_002_4fbc
+    jr DispatchEntry_002_4fbc
 
     inc a
     inc b
@@ -3785,15 +3785,15 @@ UnknownCode_002_4fac:
 
     jr UnknownCode_002_4fd0
 
-    jr UnknownCode_002_4fd2
+    jr PaddingZone_002_4fd2
 
-UnknownCode_002_4fba:
-    jr UnknownCode_002_4fd4
+DispatchEntry_002_4fba:
+    jr PaddingZone_002_4fd4
 
-UnknownCode_002_4fbc:
+DispatchEntry_002_4fbc:
     jr UnknownCode_002_4fd6
 
-    jr UnknownCode_002_4fd8
+    jr DispatchEntry_002_4fd8
 
     jr PaddingZone_002_4fda
 
@@ -3819,11 +3819,11 @@ UnknownCode_002_4fce:
 UnknownCode_002_4fd0:
     ld a, $3e
 
-UnknownCode_002_4fd2:
+PaddingZone_002_4fd2:
     nop
     nop
 
-UnknownCode_002_4fd4:
+PaddingZone_002_4fd4:
     nop
     nop
 
@@ -3831,8 +3831,8 @@ UnknownCode_002_4fd6:
     add b
     add b
 
-UnknownCode_002_4fd8:
-    jr UnknownCode_002_4ff2
+DispatchEntry_002_4fd8:
+    jr PaddingZone_002_4ff2
 
 PaddingZone_002_4fda:
     cp h
@@ -3860,7 +3860,7 @@ PaddingZone_002_4fda:
     add b
     add b
 
-UnknownCode_002_4ff2:
+PaddingZone_002_4ff2:
     nop
     nop
     nop
@@ -3873,7 +3873,7 @@ UnknownCode_002_4ff2:
 
     jr DataVector_Handler_2
 
-    jr UnknownCode_002_501a
+    jr PaddingZone_002_501a
 
     jp RST_24
 
@@ -3904,7 +3904,7 @@ DataVector_Handler_2:
     nop
     nop
 
-UnknownCode_002_501a:
+PaddingZone_002_501a:
     nop
     nop
     nop
@@ -4531,9 +4531,9 @@ ControlFlow_Target_6:
     nop
     nop
     nop
-    jr nc, UnknownCode_002_529e
+    jr nc, ConstTable_002_529e
 
-    jr nc, UnknownCode_002_52a0
+    jr nc, DispatchEntry_002_52a0
 
     nop
     nop
@@ -4587,11 +4587,11 @@ ControlFlow_Target_9:
 
     jr nc, UnknownCode_002_52ce
 
-UnknownCode_002_529e:
+ConstTable_002_529e:
     db $10
     db $10
 
-UnknownCode_002_52a0:
+DispatchEntry_002_52a0:
     jr nz, PaddingZone_002_52c2
 
     nop
@@ -6047,7 +6047,7 @@ UnknownCode_002_58b1:
     ld d, $f6
     ld a, l
     cp $30
-    jr nz, UnknownCode_002_58cd
+    jr nz, DispatchEntry_002_58cd
 
     ld a, c
     ld [$da03], a
@@ -6060,9 +6060,9 @@ UnknownCode_002_58b1:
     ld [$da0c], a
     jr AnimationDispatch_SelectHandler
 
-UnknownCode_002_58cd:
+DispatchEntry_002_58cd:
     cp $38
-    jr nz, UnknownCode_002_58e3
+    jr nz, DispatchEntry_002_58e3
 
     ld a, c
     ld [$da04], a
@@ -6075,7 +6075,7 @@ UnknownCode_002_58cd:
     ld [$da0d], a
     jr AnimationDispatch_SelectHandler
 
-UnknownCode_002_58e3:
+DispatchEntry_002_58e3:
     cp $40
     jr nz, UnknownCode_002_58f9
 
@@ -6244,7 +6244,7 @@ SpriteAnimationDispatch_ByType:
     dec e
     dec l
     cp $38
-    jr z, UnknownCode_002_59e0
+    jr z, DispatchEntry_002_59e0
 
     dec c
     dec e
@@ -6263,7 +6263,7 @@ SpriteAnimationDispatch_ByType:
     ld [hl], a
     jr UnknownCode_002_5a15
 
-UnknownCode_002_59e0:
+DispatchEntry_002_59e0:
     ld a, [$da0d]
     cp $c0
     jr z, UnknownCode_002_5a15
@@ -13976,7 +13976,7 @@ UnknownCode_002_7c9a:
 
 UnknownCode_002_7cbe:
     ccf
-    jr nc, UnknownCode_002_7d00
+    jr nc, ConstTable_002_7d00
 
     inc hl
     ld a, $22
@@ -14050,7 +14050,7 @@ UnknownCode_002_7cf7:
     ei
     inc bc
 
-UnknownCode_002_7d00:
+ConstTable_002_7d00:
     db $fd
     pop hl
     cp a
