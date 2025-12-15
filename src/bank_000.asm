@@ -917,6 +917,14 @@ FinalizeGameStateAfterScore:
     inc l
     dec hl
 
+; StartSelectedLevel
+; ------------------
+; Description: Lance le niveau sélectionné quand Start est pressé
+; In:  wOamSprite1Y = position Y du sprite menu
+;      wAnimTileIdx = index de la tuile animée correspondant au niveau
+;      wGameConfigA6 = configuration du jeu
+; Out: Ne retourne pas (jp vers InitLevelStartFull)
+; Modifie: a, e, hAnimTileIndex, hRenderContext
 StartSelectedLevel:
     ld a, [wOamSprite1Y]
     cp SPRITE_Y_MENU

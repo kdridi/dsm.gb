@@ -185,10 +185,42 @@
       "priority": 3
     },
     {
+      "address": "$0394",
+      "node_type": "code",
+      "description": "StartSelectedLevel - Lance niveau s\u00e9lectionn\u00e9 (bouton Start)",
+      "source": "$04C3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$03E4",
+      "node_type": "code",
+      "description": "HandleSelectButtonLevelSelect - G\u00e8re bouton Select (toggle sprite Y)",
+      "source": "$04C3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$046D",
+      "node_type": "code",
+      "description": "InitLevelStartFull - Init compl\u00e8te d\u00e9marrage niveau (\u00e9tat $11)",
+      "source": "$04C3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$04C3",
       "node_type": "code",
       "description": "State0F_LevelSelect - Menu s\u00e9lection",
       "source": "$02A5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0552",
+      "node_type": "data",
+      "description": "ROM_ATTRACT_INDEX_TABLE - Table index attract mode par ROM bank",
+      "source": "$04C3",
       "bank": 0,
       "priority": 3
     },
@@ -1049,34 +1081,34 @@
       "priority": 3
     },
     {
-      "address": "$0394",
+      "address": "$04A2",
       "node_type": "code",
-      "description": "StartSelectedLevel - Lance niveau s\u00e9lectionn\u00e9 (bouton Start)",
-      "source": "$04C3",
+      "description": "ResetRenderForHighLevels - R\u00e9initialise contexte rendu pour niveaux \u00e9lev\u00e9s",
+      "source": "$0394",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$03E4",
+      "address": "$049C",
       "node_type": "code",
-      "description": "HandleSelectButtonLevelSelect - G\u00e8re bouton Select (toggle sprite Y)",
-      "source": "$04C3",
+      "description": "SelectTileIndexForLevel - S\u00e9lectionne index tuile niveau",
+      "source": "$0394",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$046D",
+      "address": "$049D",
       "node_type": "code",
-      "description": "InitLevelStartFull - Init compl\u00e8te d\u00e9marrage niveau (\u00e9tat $11)",
-      "source": "$04C3",
+      "description": "ApplyRenderContext - Applique contexte de rendu",
+      "source": "$0394",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$0552",
-      "node_type": "data",
-      "description": "ROM_ATTRACT_INDEX_TABLE - Table index attract mode par ROM bank",
-      "source": "$04C3",
+      "address": "$053D",
+      "node_type": "code",
+      "description": "InitLevelStartFull - Initialise compl\u00e8tement le d\u00e9marrage du niveau",
+      "source": "$0394",
       "bank": 0,
       "priority": 3
     }
@@ -1105,8 +1137,9 @@
     "$0028",
     "$00C5",
     "$0048",
-    "$00C3"
+    "$00C3",
+    "$0394"
   ],
-  "commits_since_push": 3,
-  "total_explored": 24
+  "commits_since_push": 4,
+  "total_explored": 25
 }
