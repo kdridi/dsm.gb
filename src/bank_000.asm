@@ -2635,7 +2635,7 @@ State06_PostLevel_SpecialLevel:
     ld hl, hRenderContext
     ld a, [hl]
     ldh [hOAMIndex], a
-    ld [hl], $0c
+    ld [hl], STATE_RENDER_DAMAGE ; Mode rendu collision ($0C)
     inc l
     xor a
     ld [hl+], a
@@ -5874,7 +5874,7 @@ ProcessAnimationState_CheckType:
     and a
     jr nz, ProcessAnimationState_AfterTypeCheck
 
-    ld [hl], $02
+    ld [hl], PLAYER_UNK07_FALLING ; État chute ($02)
 
 ProcessAnimationState_AfterTypeCheck:
     ld de, wPlayerUnk07
