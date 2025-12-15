@@ -2009,9 +2009,9 @@ AudioDispatchEntry_4807:
     cp $00
     ld a, h
     nop
-    jr c, UnknownCode_002_488e
+    jr c, JoypadInputEntry_488e
 
-UnknownCode_002_488e:
+JoypadInputEntry_488e:
     ld a, h
     nop
     add $00
@@ -4601,7 +4601,7 @@ UnknownCode_002_52a0:
     ld c, $0e
     inc e
     inc e
-    jr c, UnknownCode_002_52e4
+    jr c, JoypadInputEntry_52e4
 
     ld [hl], b
     ld [hl], b
@@ -4670,7 +4670,7 @@ UnknownCode_002_52ce:
     nop
     nop
 
-UnknownCode_002_52e4:
+JoypadInputEntry_52e4:
     nop
     nop
     ld b, h
@@ -5424,9 +5424,9 @@ UnknownCode_002_55a8:
     jr c, DataPatch_1
 
 DataPatch_1:
-    jr c, UnknownCode_002_560b
+    jr c, JoypadInputEntry_560b
 
-UnknownCode_002_560b:
+JoypadInputEntry_560b:
     ld a, h
     nop
     ld l, h
@@ -11279,12 +11279,12 @@ UnknownCode_002_7141:
     ld [hl-], a
     ld d, [hl]
 
-UnknownCode_002_7145:
-    jr c, UnknownCode_002_7145
+JoypadInputEntry_7145:
+    jr c, JoypadInputEntry_7145
 
     cp $31
 
-UnknownCode_002_7149:
+JoypadInputEntry_7149:
     ld d, [hl]
     ld d, d
     ld e, l
@@ -11309,7 +11309,7 @@ UnknownCode_002_7149:
     cp $23
     ld e, c
     ld e, e
-    jr c, UnknownCode_002_7149
+    jr c, JoypadInputEntry_7149
 
     ld h, l
     ld l, [hl]

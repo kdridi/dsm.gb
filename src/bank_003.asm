@@ -1131,9 +1131,9 @@ UnknownCode_003_44a3:
     nop
     ld [$2000], sp
     nop
-    jr c, UnknownCode_003_44c7
+    jr c, JoypadInputEntry_44c7
 
-UnknownCode_003_44c7:
+JoypadInputEntry_44c7:
     ld e, $00
     rrca
     nop
@@ -1579,9 +1579,9 @@ UnknownCode_003_465b:
     nop
     add hl, de
     nop
-    jr c, UnknownCode_003_4695
+    jr c, JoypadInputEntry_4695
 
-UnknownCode_003_4695:
+JoypadInputEntry_4695:
     ld b, h
     nop
     add d
@@ -13210,9 +13210,9 @@ UnknownCode_003_7c4d:
 
 
     and e
-    jr c, UnknownCode_003_7c7d
+    jr c, JoypadInputEntry_7c7d
 
-UnknownCode_003_7c7d:
+JoypadInputEntry_7c7d:
     and h
     ld b, d
     and d
@@ -13304,7 +13304,7 @@ UnknownCode_003_7c7d:
     ld d, b
     jr c, UnknownCode_003_7d2c
 
-    jr c, UnknownCode_003_7d3c
+    jr c, JoypadInputEntry_7d3c
 
     ld b, [hl]
     ld e, [hl]
@@ -13400,7 +13400,7 @@ UnknownCode_003_7d39:
     ld a, [hl-]
     jr c, UnknownCode_003_7d72
 
-UnknownCode_003_7d3c:
+JoypadInputEntry_7d3c:
     inc [hl]
     ld [hl-], a
     jr nc, UnknownCode_003_7d40
