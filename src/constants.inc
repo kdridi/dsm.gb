@@ -1082,6 +1082,9 @@ DEF TIMER_WINDOW_SETUP         EQU $a0   ; Timer setup window (160 frames)
 
 DEF CUTSCENE_PLAYER_X          EQU $7e   ; Position X joueur cutscene (126 pixels)
 DEF CUTSCENE_PLAYER_Y          EQU $b0   ; Position Y joueur cutscene (176 pixels)
+DEF CUTSCENE_INIT_VALUE        EQU $00   ; Valeur init cutscene (wPlayerUnk12)
+DEF CUTSCENE_TILE_ATTR         EQU $22   ; Attribut/tile cutscene (wPlayerUnk13)
+DEF CUTSCENE_PARAM             EQU $20   ; Paramètre cutscene (wPlayerUnk15)
 
 ; === Seuils position état ===
 

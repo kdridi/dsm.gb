@@ -3487,12 +3487,12 @@ CopyOAMDataLoop:
     ld hl, wPlayerUnk11
     ld [hl], CUTSCENE_PLAYER_X  ; wPlayerUnk11 = position X cutscene
     inc l
-    ld [hl], $00                ; wPlayerUnk12 = 0
+    ld [hl], CUTSCENE_INIT_VALUE ; wPlayerUnk12 = valeur init
     inc l
-    ld [hl], $22                ; wPlayerUnk13 = $22 (attribut/tile cutscene)
+    ld [hl], CUTSCENE_TILE_ATTR ; wPlayerUnk13 = attribut/tile cutscene
     inc l
     inc l
-    ld [hl], $20                ; wPlayerUnk15 = $20 (paramètre cutscene)
+    ld [hl], CUTSCENE_PARAM     ; wPlayerUnk15 = paramètre cutscene
     ret
 
 ; ===========================================================================
