@@ -355,7 +355,12 @@ LCDStat_SetLYC:
 LCDStatHandler_Exit:
     pop hl
 
-;; Point d'entrée public : pop af + reti
+; LCDStat_PopAndReti
+; ------------------
+; Description: Point d'entrée public - restaure AF et retourne d'interruption
+; In:  af = sur la pile
+; Out: rien (retour d'interruption)
+; Modifie: af (restauré depuis pile)
 LCDStat_PopAndReti:
     pop af
     reti
