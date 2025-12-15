@@ -1398,7 +1398,7 @@ LoadLevelStyleFromHL:
     ld a, [hl]
 
 StyleLevelCheck:
-    cp $03
+    cp LEVEL_STYLE_SPECIAL          ; Style $03 (non décrémenté)
     jr z, StyleLevelAdjusted
 
     dec a
@@ -1429,7 +1429,7 @@ StyleLevelAdjusted:
 ApplyLevelStyleConfig:
     ld [hl], b
     inc l
-    ld [hl], $00
+    ld [hl], PLAYER_STATE_CLEAR     ; Clear second byte style
     ld a, c
     ld [wPlayerVarAB], a
     call LoadLevelData
@@ -1613,13 +1613,13 @@ LoadLevelData:
     and a
     jr z, InitScrollState
 
-    ld a, $10
+    ld a, PLAYER_DIR_RIGHT          ; Direction droite
     ld [wPlayerDir], a
 
 InitScrollState:
     ld hl, hTilemapScrollY
     xor a
-    ld b, $06
+    ld b, SCROLL_VAR_COUNT          ; 6 variables scroll
 
 .clearScrollLoop:
     ld [hl+], a
@@ -1628,9 +1628,9 @@ InitScrollState:
 
     ldh [hTemp3], a
     ld [wGameVarAA], a
-    ld a, $40
+    ld a, SCROLL_COLUMN_DEFAULT     ; 64 tiles par défaut
     ldh [hScrollColumn], a
-    ld b, $14
+    ld b, TILEMAP_VISIBLE_COLS      ; 20 colonnes visibles
     ldh a, [hGameState]
     cp GAME_STATE_PIPE_LOAD         ; État $0A (chargement sous-niveau)
     jr z, .initScrollColumnsLoop
@@ -1639,7 +1639,7 @@ InitScrollState:
     cp RENDER_CONTEXT_MAX           ; Contexte $0C (wrap-around)
     jr z, .initScrollColumnsLoop
 
-    ld b, $1b
+    ld b, TILEMAP_BUFFER_COLS       ; 27 colonnes avec buffer
 
 .initScrollColumnsLoop:
     push bc
@@ -1695,14 +1695,14 @@ ProcessAudioSlot:
     ld a, [wPlayerX]
     ld b, a
     ldh a, [hTimerAux]
-    cp $02
+    cp TIMER_AUX_PIPE_MODE          ; Mode pipe/transition
     jr nz, AdjustPlayerXForCollision
 
     ld a, [wPlayerDir]
     cp PLAYER_DIR_LEFT
     jr z, AdjustPlayerXForCollision
 
-    ld a, $fe
+    ld a, $fe                       ; -2 (ajustement collision droite)
     add b
     ld b, a
 
@@ -1784,26 +1784,26 @@ ProcessPlayerInteraction:
     jr z, PlayerInteractionDone
 
     ld hl, wPlayerUnk0A
-    ld [hl], $00
+    ld [hl], PLAYER_STATE_CLEAR     ; Reset état
     dec l
     dec l
-    ld [hl], $0d
+    ld [hl], PLAYER_ANIM_DEFAULT    ; Frame animation 13
     dec l
-    ld [hl], $01
+    ld [hl], PLAYER_FLAG_ACTIVE     ; Flag actif
     ld hl, wPlayerDir
     ld a, [hl]
-    and $f0
-    or $04
+    and PLAYER_DIR_HIGH_MASK        ; Masque bits hauts
+    or PLAYER_DIR_MODE_INTERACT     ; Mode interaction
     ld [hl], a
 
 SetupAnimationBuffer:
-    ld a, $03
+    ld a, STATE_BUFFER_ANIM         ; Buffer animation
     ld [wStateBuffer], a
     ld a, [wPlayerState]
-    add $fc
+    add PLAYER_ANIM_OFFSET          ; -4 offset
     ldh [hPtrLow], a
     ld a, [wPlayerX]
-    sub $10
+    sub PLAYER_X_OFFSET             ; -16 pixels
     ldh [hPtrHigh], a
     ldh a, [hAnimStructBank]
     ldh [hPtrBank], a
@@ -1812,7 +1812,7 @@ SetupAnimationBuffer:
     jr z, ResetAnimScale
 
     ldh a, [hAnimScaleCounter]
-    cp $03
+    cp ANIM_SCALE_MAX               ; Max 3 frames
     jr z, PlayerAnimScaleEntry
 
     inc a
@@ -1821,7 +1821,7 @@ SetupAnimationBuffer:
 PlayerAnimScaleEntry:
     ld b, a
     ldh a, [hPtrBank]
-    cp $50
+    cp ANIM_BANK_SPECIAL            ; Bank spéciale
     jr z, ResetAnimScale
 
 PlayerAnimScaleLoop:
@@ -1832,7 +1832,7 @@ PlayerAnimScaleLoop:
     ldh [hPtrBank], a
 
 AnimObjCountSet:
-    ld a, $32
+    ld a, ANIM_OBJ_COUNT_VALUE      ; 50 objets
     ldh [hAnimObjCount], a
     jr PlayerInteractionDone
 
@@ -1850,7 +1850,7 @@ PlayerInteractionCheckDamage:
     jr nz, LoadAudioAndSetupAnim
 
     ldh a, [hTimerAux]
-    cp $03
+    cp TIMER_AUX_DAMAGE_MAX         ; Seuil dégâts
     jr nc, PlayerInteractionDone
 
     call TriggerObjectSound
@@ -1901,43 +1901,43 @@ UpdateAnimatedObjectState_ObjectHitDispatch:
     jr nz, PlayerInteractionDone
 
     ldh a, [hTimerAux]
-    cp $02
+    cp TIMER_AUX_PIPE_MODE          ; Mode pipe/transition
     jr nz, ObjectInteraction_SetupTimer
 
     ldh [hSubState], a
 
 ObjectInteraction_SetupStateBuffer:
-    ld a, $04
+    ld a, STATE_BUFFER_OBJECT       ; Buffer objet
     ld [wStateBuffer], a
 
 ObjectInteraction_SetupAnimBank:
-    ld a, $10
+    ld a, ANIM_BANK_OBJECT          ; Bank objets
     ldh [hPtrBank], a
 
 ObjectInteraction_CalcAnimPtr:
     ld a, [wPlayerState]
-    add $fc
+    add PLAYER_ANIM_OFFSET          ; -4 offset
     ldh [hPtrLow], a
     ld a, [wPlayerX]
-    sub $10
+    sub PLAYER_X_OFFSET             ; -16 pixels
     ldh [hPtrHigh], a
 
 ObjectInteraction_MarkSpriteHandled:
     dec l
     dec l
     dec l
-    ld [hl], $ff
+    ld [hl], SLOT_EMPTY             ; Marquer slot vide
     jr PlayerInteractionDone
 
 ObjectInteraction_CoinHit:
     ldh a, [hTimerAux]
-    cp $02
+    cp TIMER_AUX_PIPE_MODE          ; Mode pipe/transition
     jr z, ObjectInteraction_SetupAnimBank
 
 ObjectInteraction_SetupTimer:
-    ld a, $01
+    ld a, PLAYER_FLAG_ACTIVE        ; Timer actif
     ldh [hTimerAux], a
-    ld a, $50
+    ld a, ATTRACT_MODE_LONG         ; 80 frames délai coin
     ldh [hTimer1], a
     jr ObjectInteraction_SetupStateBuffer
 

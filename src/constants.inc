@@ -722,3 +722,54 @@ DEF OBJ_FIELD_STATE_OFFSET  EQU $0A ; Offset vers le champ état/type (10 octets
 
 DEF ROM_LEVEL_INIT_DATA     EQU $2114 ; Table données initialisation niveau
 DEF LEVEL_INIT_DATA_SIZE    EQU $51   ; Taille données init niveau (81 octets)
+
+; === Variables scroll et tilemap ===
+
+DEF SCROLL_VAR_COUNT        EQU $06   ; Nombre de variables scroll à initialiser (6 octets)
+DEF SCROLL_COLUMN_DEFAULT   EQU $40   ; Colonne scroll par défaut (64 tiles)
+DEF TILEMAP_VISIBLE_COLS    EQU $14   ; Colonnes tilemap visibles (20 = écran)
+DEF TILEMAP_BUFFER_COLS     EQU $1b   ; Colonnes tilemap avec buffer (27)
+
+; === Direction joueur étendu ===
+
+DEF PLAYER_DIR_RIGHT        EQU $10   ; Direction droite (complément de PLAYER_DIR_LEFT=$18)
+
+; === Animation ===
+
+DEF ANIM_SCALE_MAX          EQU $03   ; Compteur scaling max (3 frames)
+DEF ANIM_BANK_SPECIAL       EQU $50   ; Bank animation spéciale
+DEF ANIM_BANK_OBJECT        EQU $10   ; Bank animation objets
+
+; === State Buffer ===
+
+DEF STATE_BUFFER_ANIM       EQU $03   ; Buffer état animation
+DEF STATE_BUFFER_OBJECT     EQU $04   ; Buffer état objet
+
+; === Timer AUX états ===
+
+DEF TIMER_AUX_PIPE_MODE     EQU $02   ; Timer AUX mode pipe/transition
+DEF TIMER_AUX_DAMAGE_MAX    EQU $03   ; Timer AUX seuil dégâts
+
+; === Animation compteur objets ===
+
+DEF ANIM_OBJ_COUNT_VALUE    EQU $32   ; Valeur compteur objets animation (50)
+
+; === Offset calcul position ===
+
+DEF PLAYER_ANIM_OFFSET      EQU $fc   ; Offset calcul animation joueur (-4)
+DEF PLAYER_X_OFFSET         EQU $10   ; Offset soustrait de X joueur (16 pixels)
+
+; === Initialisation structure joueur ===
+
+DEF PLAYER_STATE_CLEAR      EQU $00   ; État joueur reset
+DEF PLAYER_ANIM_DEFAULT     EQU $0d   ; Frame animation par défaut (13)
+DEF PLAYER_FLAG_ACTIVE      EQU $01   ; Flag joueur actif
+
+; === Masques direction ===
+
+DEF PLAYER_DIR_HIGH_MASK    EQU $f0   ; Masque bits hauts direction
+DEF PLAYER_DIR_MODE_INTERACT EQU $04  ; Mode interaction direction
+
+; === Style niveau ===
+
+DEF LEVEL_STYLE_SPECIAL     EQU $03   ; Style niveau spécial (non décrémenté)
