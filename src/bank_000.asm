@@ -1227,7 +1227,7 @@ CopyHudTilemap:
     ld [de], a
     inc e
     ld a, e
-    and $1f
+    and TILEMAP_COLUMN_MASK      ; Wrap colonne (0-31)
     cp TILEMAP_ROW_WIDTH
     jr nz, .copyHudTilemapLoop
 

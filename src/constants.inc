@@ -602,6 +602,7 @@ DEF LYC_SCANLINE_STRIDE EQU $08 ; Stride scanline (8 lignes = 1 tile)
 DEF TILE_SIZE_PIXELS    EQU $08 ; 8 pixels = 1 tile (dimensions standard Game Boy)
 DEF TILEMAP_ROW_WIDTH   EQU $14 ; 20 tiles = largeur écran visible (160px / 8px)
 DEF TILEMAP_STRIDE      EQU $20 ; 32 tiles = largeur complète tilemap (256px / 8px)
+DEF TILEMAP_COLUMN_MASK EQU $1f ; Masque colonnes tilemap (TILEMAP_STRIDE - 1)
 DEF TILEMAP_INIT_SIZE   EQU $09 ; Taille données init tilemap (9 octets)
 DEF HUD_LINE_COUNT      EQU $02 ; Nombre de lignes HUD à copier
 
