@@ -219,11 +219,11 @@ UnknownCode_003_40c0:
     ld b, h
     add d
 
-UnknownCode_003_40d7:
+DispatchEntry_003_40d7:
     add d
     xor c
 
-UnknownCode_003_40d9:
+DispatchEntry_003_40d9:
     xor c
     xor d
     xor d
@@ -245,9 +245,9 @@ UnknownCode_003_40d9:
     rst $20
     ld a, [hl]
     rst $20
-    jr UnknownCode_003_40d7
+    jr DispatchEntry_003_40d7
 
-    jr UnknownCode_003_40d9
+    jr DispatchEntry_003_40d9
 
     nop
     nop
@@ -1389,16 +1389,16 @@ UnknownCode_003_45cd:
     ld [hl], b
     jr SoundEngine_Target_5
 
-    jr UnknownCode_003_463a
+    jr SkipPadding_003_463a
 
-    jr UnknownCode_003_463c
+    jr SkipPadding_003_463c
 
     add hl, bc
     jr nc, @+$07
 
-    jr UnknownCode_003_45e1
+    jr DispatchEntry_003_45e1
 
-UnknownCode_003_45e1:
+DispatchEntry_003_45e1:
     rrca
     nop
     add sp, -$80
@@ -1487,11 +1487,11 @@ PaddingZone_003_462d:
     nop
     add b
 
-UnknownCode_003_463a:
+SkipPadding_003_463a:
     nop
     add b
 
-UnknownCode_003_463c:
+SkipPadding_003_463c:
     nop
     ret nz
 
@@ -2423,11 +2423,11 @@ InitializeSpriteTransferBuffer_LoadObject:
     inc e
     ld c, $02
     bit 5, b
-    jr z, UnknownCode_003_4a41
+    jr z, DispatchEntry_003_4a41
 
     ld c, $f8
 
-UnknownCode_003_4a41:
+DispatchEntry_003_4a41:
     ld a, [hl+]
     add c
     ld [de], a
@@ -2500,13 +2500,13 @@ HandleJoypadInputDelay:
 
     ld a, [$c0d8]
     and a
-    jr z, UnknownCode_003_4aa7
+    jr z, DispatchEntry_003_4aa7
 
     dec a
     ld [$c0d8], a
     jr JoypadStateUpdatePersist
 
-UnknownCode_003_4aa7:
+DispatchEntry_003_4aa7:
     ld a, [$c0dc]
     sla a
     ld e, a
@@ -3094,7 +3094,7 @@ UnknownCode_003_4c2f:
     rst $38
     ld b, h
     ld c, [hl]
-    jr nz, UnknownCode_003_4da2
+    jr nz, DispatchEntry_003_4da2
 
     jr nc, UnknownCode_003_4db4
 
@@ -3129,7 +3129,7 @@ UnknownCode_003_4c2f:
     ld b, h
     ld c, [hl]
 
-UnknownCode_003_4da2:
+DispatchEntry_003_4da2:
     ld a, [hl+]
     dec hl
     ld a, [hl-]
@@ -4034,7 +4034,7 @@ UnknownCode_003_5166:
 
     rrca
     inc b
-    jr z, UnknownCode_003_519f
+    jr z, DispatchEntry_003_519f
 
     ld [$ff2a], sp
     ld bc, wOamVar09
@@ -4050,28 +4050,28 @@ UnknownCode_003_5166:
 
     rrca
 
-UnknownCode_003_519f:
+DispatchEntry_003_519f:
     inc l
     add hl, bc
     rrca
-    jr z, UnknownCode_003_51ae
+    jr z, DispatchEntry_003_51ae
 
     dec bc
     jr z, @+$01
 
     inc b
     rrca
-    jr z, UnknownCode_003_51b1
+    jr z, DispatchEntry_003_51b1
 
     ld a, [bc]
     inc l
     inc c
 
-UnknownCode_003_51ae:
+DispatchEntry_003_51ae:
     ld [bc], a
     jr z, @+$14
 
-UnknownCode_003_51b1:
+DispatchEntry_003_51b1:
     ld [bc], a
     ld a, [hl+]
     inc de
@@ -4128,7 +4128,7 @@ UnknownCode_003_51c2:
 
     inc bc
     db $10
-    jr z, UnknownCode_003_51f6
+    jr z, DispatchEntry_003_51f6
 
     add hl, bc
     ret nz
@@ -4140,7 +4140,7 @@ UnknownCode_003_51c2:
     nop
     inc l
 
-UnknownCode_003_51f6:
+DispatchEntry_003_51f6:
     ld c, $11
     ret nz
 
@@ -8493,7 +8493,7 @@ AudioTable_Block3:
     rst $38
     rst $38
     nop
-    jr z, UnknownCode_003_65f3
+    jr z, SkipPadding_003_65f3
 
     ld a, [bc]
     ld de, $100b
@@ -8506,7 +8506,7 @@ AudioTable_Block3:
     inc e
     db $10
 
-UnknownCode_003_65f3:
+SkipPadding_003_65f3:
     inc b
     ld de, HeaderLogo
     inc bc
@@ -9937,7 +9937,7 @@ UnknownCode_003_6cf2:
     ld h, d
     call LoadAudioRegisterRange
     pop hl
-    jr UnknownCode_003_6d28
+    jr DispatchEntry_003_6d28
 
 LoadAudioParameterTriple:
     call IncrementAudioWord
@@ -9967,7 +9967,7 @@ LoadAudioParameterTriple:
     cp $03
     jr z, UnknownCode_003_6cf2
 
-UnknownCode_003_6d28:
+DispatchEntry_003_6d28:
     call IncrementAudioWord
     jp DecodeAudioOpcode
 
@@ -10011,7 +10011,7 @@ DereferenceAudioPointer:
 
 UnknownCode_003_6d4a:
     pop hl
-    jr UnknownCode_003_6d78
+    jr DispatchEntry_003_6d78
 
 CheckAudioControl3Mode:
     ldh a, [hAudioControl]
@@ -10049,7 +10049,7 @@ UpdateAudioChannelStatus:
     call HandleAudioChannelStatus
 
 AdvanceAudioChannelState:
-UnknownCode_003_6d78:
+DispatchEntry_003_6d78:
     dec l
     dec l
     jp AdvanceAudioState
@@ -10072,13 +10072,13 @@ DecodeAudioOpcodeEntry:
     jr z, AudioChannelComplete
 
     cp $ff
-    jr z, UnknownCode_003_6d98
+    jr z, DispatchEntry_003_6d98
 
     inc l
     jp DecodeNextAudioOpcode
 
 
-UnknownCode_003_6d98:
+DispatchEntry_003_6d98:
     dec l
     push hl
     call AdvanceAudioPointerByWord
@@ -10262,7 +10262,7 @@ UnknownCode_003_6e72:
     ld a, [hl+]
     ld e, a
 
-UnknownCode_003_6e7b:
+DispatchEntry_003_6e7b:
     inc l
     ld a, [hl+]
     ld d, a
@@ -10273,11 +10273,11 @@ UnknownCode_003_6e7e:
     inc l
     ld a, [hl+]
     and a
-    jr z, UnknownCode_003_6e87
+    jr z, DispatchEntry_003_6e87
 
     ld e, $01
 
-UnknownCode_003_6e87:
+DispatchEntry_003_6e87:
     inc l
     inc l
     ld [hl], $00
@@ -10339,7 +10339,7 @@ UnknownCode_003_6ec8:
     push hl
     pop hl
     inc l
-    jr UnknownCode_003_6e7b
+    jr DispatchEntry_003_6e7b
 
 GetAudioParameterFromTable:
     ld a, b
@@ -10358,7 +10358,7 @@ HandleAudioChannelStatus:
     ld l, a
     ld a, [hl]
     and $0f
-    jr z, UnknownCode_003_6ef8
+    jr z, DispatchEntry_003_6ef8
 
     ldh [hAudioStatus], a
     ldh a, [hAudioControl]
@@ -10374,7 +10374,7 @@ HandleAudioChannelStatus:
     cp $03
     jr z, UnknownCode_003_6efa
 
-UnknownCode_003_6ef8:
+DispatchEntry_003_6ef8:
     pop hl
     ret
 
@@ -10407,21 +10407,21 @@ UnknownCode_003_6f14:
     ld de, $6f39
     call GetAudioParameterFromTable
     bit 0, b
-    jr nz, UnknownCode_003_6f20
+    jr nz, DispatchEntry_003_6f20
 
     swap e
 
-UnknownCode_003_6f20:
+DispatchEntry_003_6f20:
     ld a, e
     and $0f
     bit 3, a
-    jr z, UnknownCode_003_6f2d
+    jr z, DispatchEntry_003_6f2d
 
     ld h, $ff
     or $f0
     jr UnknownCode_003_6f2f
 
-UnknownCode_003_6f2d:
+DispatchEntry_003_6f2d:
     ld h, $00
 
 UnknownCode_003_6f2f:
@@ -10435,7 +10435,7 @@ UnknownCode_003_6f30:
     inc c
     ld a, h
     ldh [c], a
-    jr UnknownCode_003_6ef8
+    jr DispatchEntry_003_6ef8
 
     nop
     nop
@@ -10709,7 +10709,7 @@ HandleAudioConditionalLogic:
     ld [$2010], sp
     ld b, b
     add b
-    jr UnknownCode_003_70c3
+    jr SkipPadding_003_70c3
 
     ld h, b
     nop
@@ -10766,7 +10766,7 @@ UnknownCode_003_70ac:
     ld d, a
     ld [hl], b
 
-UnknownCode_003_70c3:
+SkipPadding_003_70c3:
     inc hl
 
 UnknownCode_003_70c4:
@@ -10906,11 +10906,11 @@ UnknownCode_003_70f8:
     ld bc, $a33a
     ld [hl], $34
     xor c
-    jr nc, UnknownCode_003_7173
+    jr nc, DispatchEntry_003_7173
 
     inc [hl]
 
-UnknownCode_003_7173:
+DispatchEntry_003_7173:
     ld bc, $4201
     and h
     ld bc, $01a5
@@ -11207,9 +11207,9 @@ PaddingZone_003_730e:
     add c
     nop
     sbc l
-    jr nc, UnknownCode_003_7323
+    jr nc, DispatchEntry_003_7323
 
-UnknownCode_003_7323:
+DispatchEntry_003_7323:
     add b
     and a
     ld bc, $a400
@@ -11240,7 +11240,7 @@ UnknownCode_003_7323:
 
     ld bc, $36a8
     and e
-    jr z, UnknownCode_003_7377
+    jr z, SkipPadding_003_7377
 
     and d
     ld a, [hl+]
@@ -11250,9 +11250,9 @@ UnknownCode_003_7323:
     ld l, $32
     ld l, $2a
     and l
-    jr z, UnknownCode_003_735a
+    jr z, DispatchEntry_003_735a
 
-UnknownCode_003_735a:
+DispatchEntry_003_735a:
     and l
     ld a, [hl+]
     and h
@@ -11282,7 +11282,7 @@ ProcessInputState_Bank3_Part2:
     ld b, d
     ld b, b
 
-UnknownCode_003_7377:
+SkipPadding_003_7377:
     ld b, d
     ld b, b
     ld b, d
@@ -11344,9 +11344,9 @@ UnknownCode_003_7383:
     ld bc, $40a2
     ld bc, $0132
     sbc l
-    jr nc, UnknownCode_003_73c1
+    jr nc, DispatchEntry_003_73c1
 
-UnknownCode_003_73c1:
+DispatchEntry_003_73c1:
     add b
     and c
     ld e, b
@@ -12284,9 +12284,9 @@ UnknownCode_003_77eb:
     and a
     ld b, b
     and h
-    jr z, UnknownCode_003_780d
+    jr z, DispatchEntry_003_780d
 
-UnknownCode_003_780d:
+DispatchEntry_003_780d:
     sbc l
     ld h, d
     nop
@@ -12753,7 +12753,7 @@ PaddingZone_003_7a19:
     and h
     inc l
     ld l, $a3
-    jr nc, UnknownCode_003_7aaf
+    jr nc, SkipPadding_003_7aaf
 
     inc [hl]
     ld [hl], $00
@@ -12794,7 +12794,7 @@ UnknownCode_003_7a86:
     db $10
     ld c, $0c
 
-UnknownCode_003_7aaf:
+SkipPadding_003_7aaf:
     ld a, [bc]
     ld [$0406], sp
     ld [bc], a
@@ -12867,7 +12867,7 @@ PaddingZone_003_7ad7:
     db $10
     ld [de], a
     ld [hl+], a
-    jr z, UnknownCode_003_7b27
+    jr z, SkipPadding_003_7b27
 
     inc [hl]
     ld a, [hl-]
@@ -12895,9 +12895,9 @@ PaddingZone_003_7ad7:
     ld a, [hl-]
     ld a, [hl+]
     sbc l
-    jr nc, UnknownCode_003_7b18
+    jr nc, DispatchEntry_003_7b18
 
-UnknownCode_003_7b18:
+DispatchEntry_003_7b18:
     add c
     and c
     ld a, [hl-]
@@ -12913,7 +12913,7 @@ UnknownCode_003_7b18:
     and e
     ld b, h
 
-UnknownCode_003_7b27:
+SkipPadding_003_7b27:
     ld c, d
     ld e, h
     and h
@@ -13272,7 +13272,7 @@ JoypadInputEntry_7c7d:
     ld d, b
     jr c, UnknownCode_003_7d0c
 
-    jr c, UnknownCode_003_7d1c
+    jr c, DispatchEntry_003_7d1c
 
     ld b, [hl]
     ld e, [hl]
@@ -13302,19 +13302,19 @@ JoypadInputEntry_7c7d:
 
     ld b, d
     ld d, b
-    jr c, UnknownCode_003_7d2c
+    jr c, SkipPadding_003_7d2c
 
     jr c, JoypadInputEntry_7d3c
 
     ld b, [hl]
     ld e, [hl]
-    jr c, UnknownCode_003_7d40
+    jr c, DispatchEntry_003_7d40
 
     ld b, [hl]
     ld e, [hl]
     ld b, d
     ld d, b
-    jr c, UnknownCode_003_7d38
+    jr c, SkipPadding_003_7d38
 
     ld b, d
     ld bc, $a300
@@ -13349,13 +13349,13 @@ UnknownCode_003_7d0c:
     rst $38
     db $10
     ld a, l
-    jr z, UnknownCode_003_7d95
+    jr z, SkipPadding_003_7d95
 
     rst $38
     rst $38
     ld d, $7d
 
-UnknownCode_003_7d1c:
+DispatchEntry_003_7d1c:
     ld b, b
     ld a, l
     rst $38
@@ -13379,7 +13379,7 @@ UnknownCode_003_7d28:
     nop
     add b
 
-UnknownCode_003_7d2c:
+SkipPadding_003_7d2c:
     and d
     ld d, b
     ld c, [hl]
@@ -13393,19 +13393,19 @@ UnknownCode_003_7d2c:
     nop
     add b
 
-UnknownCode_003_7d38:
+SkipPadding_003_7d38:
     and d
 
-UnknownCode_003_7d39:
+SkipPadding_003_7d39:
     ld a, [hl-]
-    jr c, UnknownCode_003_7d72
+    jr c, SkipPadding_003_7d72
 
 JoypadInputEntry_7d3c:
     inc [hl]
     ld [hl-], a
-    jr nc, UnknownCode_003_7d40
+    jr nc, DispatchEntry_003_7d40
 
-UnknownCode_003_7d40:
+DispatchEntry_003_7d40:
     sbc l
     rla
     ld [hl], b
@@ -13452,7 +13452,7 @@ UnknownCode_003_7d40:
     ld [hl-], a
     ld [hl], $3a
 
-UnknownCode_003_7d72:
+SkipPadding_003_7d72:
     inc a
     ld b, b
     ld b, h
@@ -13486,8 +13486,8 @@ UnknownCode_003_7d72:
     scf
     ld [hl], b
 
-UnknownCode_003_7d95:
-    jr nz, UnknownCode_003_7d39
+SkipPadding_003_7d95:
+    jr nz, SkipPadding_003_7d39
 
     ld c, d
     ld bc, $4e52
@@ -13709,9 +13709,9 @@ AudioStateUpdate:
     sbc b
     ld a, [hl]
     sbc l
-    jr nc, UnknownCode_003_7ea1
+    jr nc, DispatchEntry_003_7ea1
 
-UnknownCode_003_7ea1:
+DispatchEntry_003_7ea1:
     add c
     xor d
     ld bc, $9d00
@@ -13947,7 +13947,7 @@ UnknownCode_003_7ea1:
 
     ld a, [hl-]
     ld b, d
-    jr nc, UnknownCode_003_7fdb
+    jr nc, SkipPadding_003_7fdb
 
     jr c, UnknownCode_003_7feb
 
@@ -13998,7 +13998,7 @@ UnknownCode_003_7fd3:
     dec bc
     nop
 
-UnknownCode_003_7fdb:
+SkipPadding_003_7fdb:
     and d
     ld b, $06
     db $10

@@ -3185,7 +3185,7 @@ AudioDispatchEntry_4d2c:
     sbc a
     ld l, b
     ld l, b
-    jr nz, UnknownCode_002_4d62
+    jr nz, DispatchEntry_002_4d62
 
     db $fc
     db $fc
@@ -3217,7 +3217,7 @@ AudioDispatchEntry_4d2c:
     ld l, b
     jr nz, PaddingZone_002_4d82
 
-UnknownCode_002_4d62:
+DispatchEntry_002_4d62:
     inc a
     inc a
     ld [bc], a
@@ -3777,7 +3777,7 @@ UnknownCode_002_4fac:
     inc b
     inc a
     inc b
-    jr UnknownCode_002_4fca
+    jr SkipPadding_002_4fca
 
     jr PaddingZone_002_4fcc
 
@@ -3805,7 +3805,7 @@ DispatchEntry_002_4fbc:
     ld c, b
     ld c, c
 
-UnknownCode_002_4fca:
+SkipPadding_002_4fca:
     xor [hl]
     xor a
 
@@ -4989,7 +4989,7 @@ UnknownCode_002_53f0:
     db $10
     jr nz, UnknownCode_002_546e
 
-    jr nz, UnknownCode_002_5470
+    jr nz, SkipPadding_002_5470
 
     ld b, b
     ld b, b
@@ -5026,7 +5026,7 @@ UnknownCode_002_546e:
     add b
     add b
 
-UnknownCode_002_5470:
+SkipPadding_002_5470:
     ld b, b
     ld b, b
     ld bc, $0201
@@ -5283,7 +5283,7 @@ AudioDispatchEntry_5506:
     rst $38
     nop
     nop
-    jr UnknownCode_002_559e
+    jr SkipPadding_002_559e
 
     inc h
     inc h
@@ -5312,7 +5312,7 @@ AudioDispatchEntry_5593:
     nop
     nop
 
-UnknownCode_002_559e:
+SkipPadding_002_559e:
     xor d
     xor d
     ld d, l
@@ -6036,12 +6036,12 @@ UpdateSpriteAnimationFrame:
     ld a, l
     ld [$da0b], a
     cp $50
-    jr nz, UnknownCode_002_58b1
+    jr nz, DispatchEntry_002_58b1
 
     ld a, $30
     ld [$da0b], a
 
-UnknownCode_002_58b1:
+DispatchEntry_002_58b1:
     pop hl
     ld c, $20
     ld d, $f6
@@ -6077,7 +6077,7 @@ DispatchEntry_002_58cd:
 
 DispatchEntry_002_58e3:
     cp $40
-    jr nz, UnknownCode_002_58f9
+    jr nz, DispatchEntry_002_58f9
 
     ld a, c
     ld [$da05], a
@@ -6090,7 +6090,7 @@ DispatchEntry_002_58e3:
     ld [$da0e], a
     jr AnimationDispatch_SelectHandler
 
-UnknownCode_002_58f9:
+DispatchEntry_002_58f9:
     ld a, c
     ld [$da06], a
     ld a, d
@@ -6232,13 +6232,13 @@ SpriteAnimationDispatch_ByType:
     ld de, $da0a
     ld hl, $da13
     cp $48
-    jr z, UnknownCode_002_5a05
+    jr z, DispatchEntry_002_5a05
 
     dec c
     dec e
     dec l
     cp $40
-    jr z, UnknownCode_002_59f3
+    jr z, DispatchEntry_002_59f3
 
     dec c
     dec e
@@ -6278,7 +6278,7 @@ DispatchEntry_002_59e0:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
-UnknownCode_002_59f3:
+DispatchEntry_002_59f3:
     ld a, [$da0e]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
@@ -6293,7 +6293,7 @@ UnknownCode_002_59f3:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
-UnknownCode_002_5a05:
+DispatchEntry_002_5a05:
     ld a, [$da0f]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
@@ -6416,12 +6416,12 @@ ComputeAnimationSpeed:
     ld d, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, UnknownCode_002_5a93
+    jr nz, DispatchEntry_002_5a93
 
     ld a, $20
     ld d, a
 
-UnknownCode_002_5a93:
+DispatchEntry_002_5a93:
     ld a, d
     ld [hl+], a
     inc l
@@ -6461,13 +6461,13 @@ UnknownCode_002_5a93:
 SpriteAnimationState_CheckAndUpdate:
     ld a, [$da27]
     bit 0, a
-    jr z, UnknownCode_002_5ac9
+    jr z, DispatchEntry_002_5ac9
 
     ldh a, [hJoypadState]
     bit 0, a
     jp nz, SpriteAnimationState_ResetCounter
 
-UnknownCode_002_5ac9:
+DispatchEntry_002_5ac9:
     ld hl, $da22
     ld a, [hl]
     inc a
@@ -6479,13 +6479,13 @@ UnknownCode_002_5ac9:
     ld [hl], a
     ld a, [$da27]
     bit 0, a
-    jr z, UnknownCode_002_5b07
+    jr z, DispatchEntry_002_5b07
 
     ld hl, $c030
     ld b, $04
     ld a, [hl]
     cp $80
-    jr z, UnknownCode_002_5af1
+    jr z, DispatchEntry_002_5af1
 
 UpdateSpritePositionLoop:
     ld a, $18
@@ -6497,9 +6497,9 @@ UpdateSpritePositionLoop:
     dec b
     jr nz, UpdateSpritePositionLoop
 
-    jr UnknownCode_002_5b07
+    jr DispatchEntry_002_5b07
 
-UnknownCode_002_5af1:
+DispatchEntry_002_5af1:
     ld b, $02
     ld a, $38
 
@@ -6522,7 +6522,7 @@ ResetSpriteAnimationLoop:
     dec b
     jr nz, ResetSpriteAnimationLoop
 
-UnknownCode_002_5b07:
+DispatchEntry_002_5b07:
     ld hl, $98ea
     ld bc, $0060
     ld de, $da27
@@ -6632,13 +6632,13 @@ SpriteAnimationFrameLoad:
 SpriteAnimationFrameValidation:
     ldh a, [hTimerAux]
     cp $02
-    jr nz, UnknownCode_002_5ba0
+    jr nz, DispatchEntry_002_5ba0
 
     ld a, c
     add $20
     ld c, a
 
-UnknownCode_002_5ba0:
+DispatchEntry_002_5ba0:
     ld a, c
     ld [hl+], a
     inc de
@@ -6824,18 +6824,18 @@ SpriteAnimationCompletionCheck:
     ld hl, $c030
     ld a, [hl]
     cp $38
-    jr z, UnknownCode_002_5c93
+    jr z, DispatchEntry_002_5c93
 
     cp $50
-    jr z, UnknownCode_002_5c93
+    jr z, DispatchEntry_002_5c93
 
     cp $68
-    jr z, UnknownCode_002_5c93
+    jr z, DispatchEntry_002_5c93
 
     ret
 
 
-UnknownCode_002_5c93:
+DispatchEntry_002_5c93:
     ld a, $08
     ld [$da16], a
     ld a, $17
@@ -6914,33 +6914,33 @@ CheckAnimationTilesLoop:
     ld a, [$c030]
     ld b, a
     cp $38
-    jr z, UnknownCode_002_5cf9
+    jr z, DispatchEntry_002_5cf9
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-UnknownCode_002_5cf9:
+DispatchEntry_002_5cf9:
     add hl, de
     ld a, b
     cp $50
-    jr z, UnknownCode_002_5d03
+    jr z, DispatchEntry_002_5d03
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-UnknownCode_002_5d03:
+DispatchEntry_002_5d03:
     add hl, de
     ld a, b
     cp $68
-    jr z, UnknownCode_002_5d0d
+    jr z, DispatchEntry_002_5d0d
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-UnknownCode_002_5d0d:
+DispatchEntry_002_5d0d:
     add hl, de
     ld a, b
     cp $80
@@ -6975,7 +6975,7 @@ SpriteAnimationNextPhase:
     ld a, $02
     ld [$da17], a
 
-UnknownCode_002_5d3c:
+DispatchEntry_002_5d3c:
     ld hl, $dfe8
     ld a, $0d
     ld [hl], a
@@ -6985,12 +6985,12 @@ UnknownCode_002_5d3c:
 UnknownCode_002_5d43:
     ld a, $03
     ld [$da17], a
-    jr UnknownCode_002_5d3c
+    jr DispatchEntry_002_5d3c
 
 UnknownCode_002_5d4a:
     ld a, $04
     ld [$da17], a
-    jr UnknownCode_002_5d3c
+    jr DispatchEntry_002_5d3c
 
 UnknownCode_002_5d51:
     ldh a, [hSubState]
@@ -7008,7 +7008,7 @@ UnknownCode_002_5d51:
 UnknownCode_002_5d62:
     ld a, $10
     ld [$da17], a
-    jr UnknownCode_002_5d3c
+    jr DispatchEntry_002_5d3c
 
 SpriteAnimationState_WritePalette:
     ld a, [$da17]
@@ -7072,12 +7072,12 @@ SpriteAnimationTermination:
     ld b, $04
     ld a, [$da1e]
     and a
-    jr nz, UnknownCode_002_5de8
+    jr nz, DispatchEntry_002_5de8
 
     inc a
     ld [$da1e], a
 
-UnknownCode_002_5ddd:
+DispatchEntry_002_5ddd:
     ld a, [hl]
     add $20
     ld [hl+], a
@@ -7085,12 +7085,12 @@ UnknownCode_002_5ddd:
     inc l
     inc l
     dec b
-    jr nz, UnknownCode_002_5ddd
+    jr nz, DispatchEntry_002_5ddd
 
     ret
 
 
-UnknownCode_002_5de8:
+DispatchEntry_002_5de8:
     dec a
     ld [$da1e], a
 
@@ -7180,13 +7180,13 @@ UnknownCode_002_5e3f:
     ld b, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, UnknownCode_002_5e5e
+    jr nz, DispatchEntry_002_5e5e
 
     ld a, b
     add $20
     ld b, a
 
-UnknownCode_002_5e5e:
+DispatchEntry_002_5e5e:
     ld a, b
     ld [hl+], a
     inc l
@@ -7292,13 +7292,13 @@ SpriteAnimationState_IncrementCounter:
     ld b, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, UnknownCode_002_5eea
+    jr nz, DispatchEntry_002_5eea
 
     ld a, b
     add $20
     ld b, a
 
-UnknownCode_002_5eea:
+DispatchEntry_002_5eea:
     ld a, b
     ld [hl+], a
     inc l
@@ -7767,7 +7767,7 @@ DataZone_002_6017:
     daa
     ld c, a
     add d
-    jr z, UnknownCode_002_6121
+    jr z, DispatchEntry_002_6121
 
     adc h
     jr z, UnknownCode_002_616b
@@ -7776,7 +7776,7 @@ DataZone_002_6017:
     ld a, [hl+]
     rrca
 
-UnknownCode_002_6121:
+DispatchEntry_002_6121:
     add h
     cpl
     ld [$308c], sp
