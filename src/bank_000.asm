@@ -1486,7 +1486,7 @@ ApplyLevelStyleConfig:
     jr nz, ContinueAfterStateSetup
 
 EnterGameplayState:
-    ld a, $0d
+    ld a, GAME_STATE_GAMEPLAY
     ldh [hGameState], a
     ld a, [wPlayerDir]
     and $f0
@@ -1951,7 +1951,7 @@ ObjectInteraction_EnemyHit:
 ObjectInteraction_SpecialHit:
     ld a, $ff
     ldh [hPtrBank], a
-    ld a, $08
+    ld a, GAME_STATE_CENTER
     ld [wStateBuffer], a
     ld a, $01
     ld [wUpdateCounter], a
@@ -2840,7 +2840,7 @@ State1B_BonusComplete::
     ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a
     ei
-    ld a, $08
+    ld a, GAME_STATE_CENTER
     ldh [hGameState], a
     ldh [hScoreNeedsUpdate], a
     ret
@@ -3125,7 +3125,7 @@ State24_DisplayText::
     ldh [hTimer1], a
     ld a, $08
     ldh [hOAMIndex], a
-    ld a, $12
+    ld a, GAME_STATE_OUTER
     ld [wStateRender], a
     ret
 
@@ -4323,9 +4323,9 @@ SetupCreditsState:
     ld [wLevelData], a
     ld [wGameConfigA5], a
     ld [wPlayerVarAD], a
-    ld a, $03
+    ld a, IE_VBLANK_STAT
     ldh [rIE], a
-    ld a, $0e
+    ld a, GAME_STATE_DEMO
     ldh [hGameState], a
     ret
 
@@ -5713,7 +5713,7 @@ UpdateLivesDisplay:
     jr z, ClearUpdateCounter
 
     push af
-    ld a, $08
+    ld a, GAME_STATE_CENTER
     ld [wStateBuffer], a
     ldh [hAudioCh2Param], a
     pop af
