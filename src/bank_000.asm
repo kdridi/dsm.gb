@@ -3785,7 +3785,7 @@ State30_WalkLeft::
 AdvanceToNextState:
     ld hl, hGameState
     inc [hl]
-    ld a, $04
+    ld a, OAM_ENTRY_SIZE
     ldh [hOAMIndex], a
     ret
 
@@ -4562,7 +4562,7 @@ State0B_PipeEnterDown::
     push de
     call LoadLevelData
     pop de
-    ld a, $80
+    ld a, PLAYER_ANIM_INITIAL
     ld [wPlayerFlag], a          ; Flag joueur actif
     ld hl, wPlayerX
     ld a, d
@@ -4683,9 +4683,9 @@ SwitchBankAndCallBank3Handler:
     ld a, PLAYER_VAR_AB_INIT
     ldh [hParam2], a          ; Paramètre = $0C (12)
     ld hl, wPlayerY            ; HL = adresse player data
-    ld a, $c0
+    ld a, PLAYER_POS_THRESHOLD
     ldh [hParam1], a          ; Paramètre 2 = $C0
-    ld a, $05
+    ld a, RENDER_CONTEXT_GAMEPLAY
     ldh [hParam3], a          ; Paramètre 3 = $05
 
     ; --- SaveCurrentBank ---
@@ -5049,13 +5049,13 @@ ApplyAltSpriteAttributeIfConfigSet:
     and a
     ret nz
 
-    ld a, $82
+    ld a, OAM_SPRITE_TILE_82
     ld [wOamVar2E], a
     ld a, [wStateBuffer]
     and a
     jr nz, SetupSpriteProperties
 
-    ld a, $07
+    ld a, STATE_BUFFER_DEFAULT
     ld [wStateBuffer], a
 
 SetupSpriteProperties:
@@ -5106,7 +5106,7 @@ HandlePlayerUpCollision:
 
     ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
-    ld a, $81
+    ld a, OAM_SPRITE_TILE_81
     ld [wOamVar2E], a
     ld a, [wPlayerX]
     sub PLAYER_X_OFFSET
@@ -5166,9 +5166,9 @@ ClassifyTileTypeEntry:
     cp TILEMAP_CMD_LOAD1        ; Tile type $80 ?
     jp z, CollisionHandler_Platform_Entry
 
-    ld a, $02
+    ld a, PLAYER_UNK07_FALLING
     ld [wPlayerUnk07], a
-    ld a, $07
+    ld a, STATE_BUFFER_DEFAULT
     ld [wStateBuffer], a
     ret
 
@@ -5203,8 +5203,8 @@ HandlePlayerWaterCollision:
     ld hl, wPlayerUnk10
 
 InitializeGameObjects:
-    ld de, $0010
-    ld b, $04
+    ld de, OBJECT_STRUCT_SIZE
+    ld b, INIT_OBJECTS_LOOP_COUNT
 
 InitObjectsLoop:
     push hl

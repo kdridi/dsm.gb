@@ -1190,3 +1190,22 @@ DEF TEXT_WINDOW_DATA_SIZE      EQU $09   ; Taille données window (9 octets)
 DEF COLLISION_OFFSET_4         EQU $04   ; Offset collision 4 pixels
 DEF COLLISION_OFFSET_8         EQU $08   ; Offset collision 8 pixels
 DEF PLAYER_X_SUB_OFFSET        EQU $0b   ; Offset soustrait de X joueur (11 pixels)
+
+; === États joueur (wPlayerUnk07) ===
+
+DEF PLAYER_UNK07_GROUNDED      EQU $01   ; Joueur au sol
+DEF PLAYER_UNK07_FALLING       EQU $02   ; Joueur en chute
+
+; === Valeurs OAM sprites ===
+
+DEF OAM_SPRITE_TILE_81         EQU $81   ; Tile sprite effet spécial
+DEF OAM_SPRITE_TILE_82         EQU $82   ; Tile sprite eau/effet
+
+; === Constantes de boucle/compteur ===
+
+DEF INIT_OBJECTS_LOOP_COUNT    EQU $04   ; Nombre d'objets à initialiser (4)
+DEF OBJECT_STRUCT_SIZE         EQU $10   ; Taille structure objet (16 octets)
+
+; === Valeurs wStateBuffer ===
+
+DEF STATE_BUFFER_DEFAULT       EQU $07   ; Valeur par défaut wStateBuffer
