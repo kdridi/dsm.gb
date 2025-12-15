@@ -1068,6 +1068,19 @@ State0F_LevelSelect::
     bit 2, b                     ; Select pressé ?
     jr nz, HandleSelectButtonLevelSelect
 
+; =============================================================================
+; UpdateLevelSelectDisplay
+; =============================================================================
+; Description: Met à jour l'affichage des sprites du menu de sélection de niveau
+;              (monde-niveau). Gère l'animation si bouton A pressé et niveau >= seuil.
+; In:  b = état joypad (bit 0 = bouton A)
+;      hLevelIndex = index du niveau courant
+;      hAnimTileIndex = index tile animation ($XY: X=monde, Y=niveau)
+;      hRenderContext = contexte de rendu actuel
+; Out: wOamSprite2 à wOamSprite4 = sprites menu configurés (monde, niveau, sélecteur)
+;      hAnimTileIndex, hRenderContext = incrémentés si bouton A (avec wrap-around)
+; Modifie: a, b, c, hl
+; =============================================================================
 UpdateLevelSelectDisplay:
     ldh a, [hLevelIndex]
     cp LEVEL_THRESHOLD_SPRITES

@@ -1119,6 +1119,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0519",
+      "node_type": "code",
+      "description": "InitAttractModeDisplay - Fall-through qui initialise mode attract si timer=0",
+      "source": "$04CE",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0530",
+      "node_type": "code",
+      "description": "InitLevelStartWithAttractMode - D\u00e9marre niveau avec mode attract activ\u00e9",
+      "source": "$04CE",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1126,6 +1142,7 @@
     "$00CC",
     "$0322",
     "$02A5",
+    "$04CE",
     "$0000",
     "$02A3",
     "$0040",
@@ -1153,6 +1170,6 @@
     "$00C3",
     "$0394"
   ],
-  "commits_since_push": 4,
-  "total_explored": 30
+  "commits_since_push": 0,
+  "total_explored": 31
 }
