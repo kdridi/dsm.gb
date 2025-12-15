@@ -5497,9 +5497,9 @@ TriggerBlockCollisionSound_ApplyMask:
     and a
     jr nz, TriggerBlockCollisionSound_AudioCheck
 
-    ld a, $01
+    ld a, STATE_RENDER_ACTIVE
     ld [wStateRender], a
-    ld a, $f0
+    ld a, TIMER_CREDITS_LONG
     ldh [hTimer1], a
 
 TriggerBlockCollisionSound_AudioCheck:
@@ -5934,7 +5934,7 @@ ProcessAnimationState_JoypadUp:
     and a
     jr nz, ProcessAnimationState_JoypadUp_ContinueTests
 
-    ld a, $18
+    ld a, PLAYER_DIR_LEFT
     ld [wPlayerDir], a
     ldh a, [hJoypadState]
     and JOYPAD_LR_MASK          ; Test gauche/droite pressé
@@ -7652,7 +7652,7 @@ FillAudioBufferLoop:
     cp $a0
     jp nc, FillAudioBuffer_Exit
 
-    ld a, $b4
+    ld a, AUDIO_BUFFER_FILL_VALUE
     ld [hl], a
     inc hl
     inc hl
@@ -8176,7 +8176,7 @@ CheckAudioCommand_FC:
 
     ld a, [wAudioQueueId]
     ldh [hSoundParam1], a
-    ld a, $70
+    ld a, AUDIO_PARAM2_DEFAULT
     ldh [hSoundParam2], a
     pop hl
     jp AudioQueueProcessing
@@ -8758,7 +8758,7 @@ NextObjectEntry:
     cp $a0
     jr c, ScanObjectBuffer
 
-    ld a, $27
+    ld a, SFX_OBJECT_COMPLETE
     ldh [hSoundId], a
     xor a
     ldh [hSoundCh1], a

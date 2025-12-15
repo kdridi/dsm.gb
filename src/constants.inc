@@ -58,6 +58,8 @@ DEF PALETTE_SPRITE_ALT  EQU $54 ; %01010100 - palette alternative sprites
 
 DEF AUDVOL_MAX      EQU $77     ; Volume max gauche ($7) et droite ($7)
 DEF AUDTERM_ALL     EQU $FF     ; Tous canaux (1-4) sur sorties L et R
+DEF AUDIO_BUFFER_FILL_VALUE EQU $b4 ; Valeur remplissage buffer audio
+DEF AUDIO_PARAM2_DEFAULT    EQU $70 ; Paramètre audio 2 par défaut
 
 ; === ROM Banks ===
 
@@ -906,6 +908,7 @@ DEF PLAYER_INVULN_TIMER        EQU $f8   ; Timer invulnérabilité (-8, compte v
 
 ; === État rendu (wStateRender) ===
 
+DEF STATE_RENDER_ACTIVE        EQU $01   ; Mode rendu actif (1)
 DEF STATE_RENDER_DAMAGE        EQU $0c   ; Mode rendu après collision ennemi (12)
 DEF STATE_RENDER_INIT          EQU $02   ; Mode rendu initialisation
 DEF STATE_RENDER_SPECIAL       EQU $04   ; Mode rendu spécial (fin de niveau)
@@ -1229,6 +1232,7 @@ DEF STATE_BUFFER_DEFAULT       EQU $07   ; Valeur par défaut wStateBuffer
 
 ; === IDs Sons (pour PlaySound) ===
 
+DEF SFX_OBJECT_COMPLETE        EQU $27   ; Son fin traitement objets
 DEF SFX_BLOCK_HIT              EQU $28   ; Son collision bloc
 DEF SFX_BLOCK_HIT_ALT          EQU $2d   ; Son collision bloc alternatif
 
