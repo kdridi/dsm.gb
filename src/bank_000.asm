@@ -614,15 +614,15 @@ StateDispatcher:
 ; === StateDispatcher Jump Table (60 états) ===
 ; Index = hGameState (0-59), chaque entrée = adresse handler
 StateJumpTable:
-    dw StateHandler_00  ; État $00 - Init/main gameplay
-    dw StateHandler_01  ; État $01 - Reset objets
-    dw StateHandler_02  ; État $02 - Préparation rendu
-    dw StateHandler_03  ; État $03 - Setup sprites transition
-    dw StateHandler_04  ; État $04 - Animation transition
-    dw StateHandler_05  ; État $05 - Niveau spécial gestion
-    dw StateHandler_06  ; État $06 - Transition post-niveau
-    dw StateHandler_07  ; État $07 - Attente + bank 3
-    dw StateHandler_08  ; État $08 - Progression monde/niveau
+    dw State00_MainGameplay     ; État $00 - Init/main gameplay
+    dw State01_WaitClearObjects ; État $01 - Reset objets
+    dw State02_PrepareRender    ; État $02 - Préparation rendu
+    dw State03_SetupTransition  ; État $03 - Setup sprites transition
+    dw State04_AnimTransition   ; État $04 - Animation transition
+    dw State05_SpecialLevel     ; État $05 - Niveau spécial gestion
+    dw State06_PostLevel        ; État $06 - Transition post-niveau
+    dw State07_WaitBank3        ; État $07 - Attente + bank 3
+    dw State08_WorldProgress    ; État $08 - Progression monde/niveau
     dw State09_PipeEnterRight  ; État $09 - Entrée tuyau droite
     dw State0A_LoadSubLevel    ; État $0A - Chargement sous-niveau
     dw State0B_PipeEnterDown   ; État $0B - Descente tuyau
@@ -1239,9 +1239,9 @@ CopyHudTilemap:
 
 
 ;; ==========================================================================
-;; StateHandler_00 - Handler d'état $00 ($0610)
+;; State00_MainGameplay - Handler d'état $00 ($0610)
 ;; ==========================================================================
-;; Premier état du jeu. Probablement l'initialisation du menu/écran titre.
+;; Handler principal du gameplay actif.
 ;; Structure :
 ;;   1. Init animations et graphiques (UpdateScroll, UpdateAnimatedObjectState)
 ;;   2. Appels multiples vers bank 3 (init objets $c208-$c248)
@@ -1249,7 +1249,7 @@ CopyHudTilemap:
 ;;   4. Mise à jour diverses (scroll, tiles, etc.)
 ;;   5. Gestion wLevelConfig
 ;; ==========================================================================
-StateHandler_00::
+State00_MainGameplay::
     call UpdateScroll
     call UpdateAnimatedObjectState
 
@@ -1332,7 +1332,7 @@ StateHandler_00::
 
 
 ;; ==========================================================================
-;; StateHandler_01 - Handler d'état $01 ($06A5)
+;; State01_WaitClearObjects - Handler d'état $01 ($06A5)
 ;; ==========================================================================
 ;; Attente puis reset des objets avant transition.
 ;; Structure :
@@ -1341,7 +1341,7 @@ StateHandler_00::
 ;;   3. Reset timers auxiliaires
 ;;   4. Transition vers état $02
 ;; ==========================================================================
-StateHandler_01::
+State01_WaitClearObjects::
     ; Attendre que le timer soit à 0
     ld hl, hTimer1
     ld a, [hl]
@@ -1373,11 +1373,11 @@ StateHandler_01::
 
 
 ;; ==========================================================================
-;; StateHandler_02 - Handler d'état $02 ($06C5)
+;; State02_PrepareRender - Handler d'état $02 ($06C5)
 ;; ==========================================================================
 ;; Désactive LCD et prépare le rendu.
 ;; ==========================================================================
-StateHandler_02::
+State02_PrepareRender::
     di
     ld a, $00
     ldh [rLCDC], a
@@ -2332,12 +2332,12 @@ CollisionCheckFailed:
 
 
 ;; ==========================================================================
-;; StateHandler_03 - Handler d'état $03 ($0B84)
+;; State03_SetupTransition - Handler d'état $03 ($0B84)
 ;; ==========================================================================
 ;; Configure les sprites OAM pour un effet visuel (transition ?).
 ;; Place 4 sprites dans wOamVar0C puis passe à l'état $04.
 ;; ==========================================================================
-StateHandler_03::
+State03_SetupTransition::
     ; Configurer 4 sprites OAM pour effet de transition
     ld hl, wOamVar0C
     ld a, [wLevelVarDD]
@@ -2392,11 +2392,11 @@ StateHandler_03::
 
 
 ;; ==========================================================================
-;; StateHandler_04 - Handler d'état $04 ($0BCD)
+;; State04_AnimTransition - Handler d'état $04 ($0BCD)
 ;; ==========================================================================
 ;; Animation/progression d'un effet visuel via wGameVarAC.
 ;; ==========================================================================
-StateHandler_04::
+State04_AnimTransition::
     ld a, [wGameVarAC]
     ld e, a
     inc a
@@ -2479,11 +2479,11 @@ PaddingZone_0c22:
     ld bc, $7f01
 
 ;; ==========================================================================
-;; StateHandler_07 - Handler d'état $07 ($0C37)
+;; State07_WaitBank3 - Handler d'état $07 ($0C37)
 ;; ==========================================================================
 ;; Attente timer puis appel bank 3, transition vers état $05.
 ;; ==========================================================================
-StateHandler_07::
+State07_WaitBank3::
     ld hl, hTimer1
     ld a, [hl]
     and a
@@ -2523,11 +2523,11 @@ StateHandler_07::
 
 
 ;; ==========================================================================
-;; StateHandler_05 - Handler d'état $05 ($0C6A)
+;; State05_SpecialLevel - Handler d'état $05 ($0C6A)
 ;; ==========================================================================
 ;; Gestion niveau spécial (monde 3?), peut passer à état $06.
 ;; ==========================================================================
-StateHandler_05::
+State05_SpecialLevel::
     ldh a, [hAnimTileIndex]
     and NIBBLE_LOW_MASK          ; Isoler niveau (bits bas)
     cp LEVEL_INDEX_SPECIAL
@@ -2583,11 +2583,11 @@ TransitionToLevelPath:
 
 
 ;; ==========================================================================
-;; StateHandler_06 - Handler d'état $06 ($0CC2)
+;; State06_PostLevel - Handler d'état $06 ($0CC2)
 ;; ==========================================================================
 ;; Transition après niveau, choix état suivant selon position et niveau.
 ;; ==========================================================================
-StateHandler_06::
+State06_PostLevel::
     ldh a, [hTimer1]
     and a
     ret nz
@@ -2599,33 +2599,33 @@ StateHandler_06::
     and NIBBLE_LOW_MASK          ; Isoler niveau (bits bas)
     cp LEVEL_INDEX_SPECIAL
     ld a, GAME_STATE_SPECIAL      ; État $1C si niveau spécial
-    jr z, StateHandler_06_SpecialLevel
+    jr z, State06_PostLevel_SpecialLevel
 
     ; Vérifier position X du joueur
     ld a, [wPlayerX]
     cp PLAYER_X_LEFT
 
 CheckPlayerCenterPosition:
-    jr c, StateHandler_06_SwitchBank2
+    jr c, State06_PostLevel_SwitchBank2
 
     cp PLAYER_X_RIGHT
-    jr nc, StateHandler_06_SwitchBank2
+    jr nc, State06_PostLevel_SwitchBank2
 
     ld a, GAME_STATE_CENTER       ; État $08 si position centrale
-    jr StateHandler_06_SetNextState
+    jr State06_PostLevel_SetNextState
 
-StateHandler_06_SwitchBank2:
+State06_PostLevel_SwitchBank2:
     ld a, BANK_DEMO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     ld a, GAME_STATE_OUTER        ; État $12 si hors centre
 
-StateHandler_06_SetNextState:
+State06_PostLevel_SetNextState:
     ldh [hGameState], a
     ret
 
 
-StateHandler_06_SpecialLevel:
+State06_PostLevel_SpecialLevel:
     ldh [hGameState], a
     ld a, BANK_AUDIO
     ld [rROMB0], a
@@ -2676,11 +2676,11 @@ LoadGameTilesWithBank:
 
 
 ;; ==========================================================================
-;; StateHandler_08 - Handler d'état $08 ($0D40)
+;; State08_WorldProgress - Handler d'état $08 ($0D40)
 ;; ==========================================================================
 ;; Gestion progression monde/niveau, change bank et contexte.
 ;; ==========================================================================
-StateHandler_08::
+State08_WorldProgress::
     ld hl, hTimer1
     ld a, [hl]
     and a
@@ -2810,7 +2810,7 @@ GameplayInitStart:
 
 ; === Tables de pointeurs graphiques ($0DE4-$0DEF) ===
 ; NOTE: Code mal désassemblé - ce sont des données (adresses pour chargement tiles)
-; Utilisées par StateHandler_08 pour charger les tiles selon le monde
+; Utilisées par State08_WorldProgress pour charger les tiles selon le monde
 ; GraphicsTableA ($0DE4): dw $4032, $4032, $47F2 (3 pointeurs)
 ; GraphicsTableB ($0DEA): dw $4402, $4402, $4BC2 (3 pointeurs)
 GraphicsTableA:

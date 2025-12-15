@@ -1019,7 +1019,7 @@ DEF VRAM_DEST_CUTSCENE_HIGH    EQU $bf   ; Octet haut destination cutscene
 
 DEF ANIM_TILE_WORLD_4_NIBBLE   EQU $40   ; Monde 4 (nibble haut = $4X)
 
-; === Tiles et attributs sprites transition (StateHandler_03) ===
+; === Tiles et attributs sprites transition (State03_SetupTransition) ===
 ; Tiles utilisés pour l'effet visuel de transition entre états
 
 DEF TILE_TRANSITION_A          EQU $0f   ; Tile sprite transition A
@@ -1033,7 +1033,7 @@ DEF OAM_ATTR_XY_FLIP           EQU $60   ; Attribut OAM: flip X+Y (bits 5+6)
 
 DEF SPRITE_X_OFFSET_NEG        EQU $f8   ; Offset X sprite négatif (-8)
 
-; === Animation StateHandler_04 ===
+; === Animation State04_AnimTransition ===
 ; Table et constantes pour l'animation de transition d'état
 
 DEF ROM_ANIM_TRANSITION_TABLE  EQU $0c10 ; Table vitesses animation transition
