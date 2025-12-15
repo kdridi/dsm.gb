@@ -6334,7 +6334,7 @@ jr_003_55f1:
     ld h, h
     ld h, e
     ld l, c
-    jp nz, Jump_003_6963
+    jp nz, DispatchAudioWaveCommand
 
     cp $05
     ld h, e
@@ -6350,7 +6350,7 @@ jr_003_55f1:
     ld h, h
     ld l, d
     ld l, e
-    jp nz, Jump_003_6963
+    jp nz, DispatchAudioWaveCommand
 
     cp $04
     ld h, e
@@ -8798,7 +8798,7 @@ jr_003_66b3:
     inc h
     ld a, d
 
-Jump_003_6762:
+ProcessAudioSnapshot:
     push af
     push bc
     push de
@@ -9066,7 +9066,7 @@ jr_003_68a1:
 
     call UpdateAudioFrameCounter
     and a
-    jp z, Jump_003_68f4
+    jp z, ResetPulseChannel
 
     ld hl, $dfe4
     ld e, [hl]
@@ -9101,7 +9101,7 @@ jr_003_68a1:
     and a
     ret nz
 
-Jump_003_68f4:
+ResetPulseChannel:
     xor a
     ld [$dfe1], a
 
@@ -9136,7 +9136,7 @@ jr_003_68f8:
     jr z, jr_003_6925
 
     cp $18
-    jp z, Jump_003_68f4
+    jp z, ResetPulseChannel
 
     ret
 
@@ -9178,14 +9178,14 @@ jr_003_6935:
     jr z, jr_003_6956
 
     cp $01
-    jp z, Jump_003_68f4
+    jp z, ResetPulseChannel
 
     ret
 
 
 jr_003_6956:
     ld hl, $6931
-    jp Jump_003_6ad8
+    jp InitSquareChannel1
 
 
     ld d, h
@@ -9195,7 +9195,7 @@ jr_003_6956:
 
     ld a, $60
 
-Jump_003_6963:
+DispatchAudioWaveCommand:
     ld [$dfe6], a
     ld a, $05
     ld hl, $695c
@@ -9223,7 +9223,7 @@ Jump_003_6963:
     add [hl]
     ld [hl], a
     cp $e0
-    jp z, Jump_003_68f4
+    jp z, ResetPulseChannel
 
     ld c, $13
     ldh [c], a
@@ -9286,7 +9286,7 @@ Jump_003_6963:
     add hl, bc
     ld a, [hl]
     and a
-    jp z, Jump_003_68f4
+    jp z, ResetPulseChannel
 
     ld c, $12
     ldh [c], a
@@ -9354,7 +9354,7 @@ jr_003_69ee:
     cp $05
     jr z, jr_003_6a46
 
-    jp Jump_003_68f4
+    jp ResetPulseChannel
 
 
 jr_003_6a32:
@@ -9377,7 +9377,7 @@ jr_003_6a46:
     ld hl, $6a0a
 
 jr_003_6a49:
-    jp Jump_003_6ad8
+    jp InitSquareChannel1
 
 
     nop
@@ -9497,7 +9497,7 @@ DispatchAudioCommand:
 
 
 ConfigureAudioSe:
-Jump_003_6ad8:
+InitSquareChannel1:
 jr_003_6ad8:
     push bc
     ld c, $10
@@ -9588,7 +9588,7 @@ LoadAudioRegisterRange:
 
 
 ClearAudioChannels:
-Jump_003_6b26:
+ResetAllAudioChannels:
     xor a
     ld [$dfe1], a
     ld [$dfe9], a
@@ -9939,7 +9939,7 @@ jr_003_6cf2:
     pop hl
     jr jr_003_6d28
 
-Jump_003_6cfe:
+LoadAudioParameterTriple:
     call IncrementAudioWord
     call DereferenceAudioPointer
     ld e, a
@@ -9969,7 +9969,7 @@ Jump_003_6cfe:
 
 jr_003_6d28:
     call IncrementAudioWord
-    jp Jump_003_6dd1
+    jp DecodeAudioOpcode
 
 
 IncrementAudioWord:
@@ -10124,13 +10124,13 @@ Jump_003_6dcf:
     inc l
     inc l
 
-Jump_003_6dd1:
+DecodeAudioOpcode:
     call DereferenceAudioPointer
     cp $00
     jp z, Jump_003_6d7d
 
     cp $9d
-    jp z, Jump_003_6cfe
+    jp z, LoadAudioParameterTriple
 
     and $f0
     cp $a0
@@ -14018,10 +14018,10 @@ jr_003_7feb:
 
 jr_003_7fef:
     rst $38
-    jp Jump_003_6762
+    jp ProcessAudioSnapshot
 
 
-    jp Jump_003_6b26
+    jp ResetAllAudioChannels
 
 
     rst $38
