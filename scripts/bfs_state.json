@@ -777,6 +777,14 @@
       "priority": 3
     },
     {
+      "address": "$1020",
+      "node_type": "code",
+      "description": "Copy16BytesToOam - Copie 16 octets de donn\u00e9es sprite vers OAM",
+      "source": "$0FF4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$104C",
       "node_type": "code",
       "description": "State26_PrincessRising - Princesse montante",
@@ -1745,10 +1753,10 @@
       "priority": 3
     },
     {
-      "address": "$1020",
-      "node_type": "code",
-      "description": "Copy16BytesToOam - Copie 16 octets de donn\u00e9es sprite vers OAM",
-      "source": "$0FF4",
+      "address": "$0a20",
+      "node_type": "data",
+      "description": "AnimBankTable - Table de mapping bits 7-6 vers bank ROM ($01/$04/$08/$50)",
+      "source": "$0a07",
       "bank": 0,
       "priority": 3
     }
@@ -1794,6 +1802,7 @@
     "$0D64",
     "$0D40",
     "$00C7",
+    "$0a07",
     "$055F",
     "$0DF0",
     "$05F8",
@@ -1850,6 +1859,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 4,
-  "total_explored": 95
+  "commits_since_push": 0,
+  "total_explored": 96
 }
