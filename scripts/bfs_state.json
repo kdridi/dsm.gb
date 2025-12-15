@@ -481,6 +481,38 @@
       "priority": 3
     },
     {
+      "address": "$0BEA",
+      "node_type": "code",
+      "description": "UpdateSpriteAnimationPath - Mise \u00e0 jour position Y sprites OAM",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0C07",
+      "node_type": "code",
+      "description": "SetGameStateSpecialPath - Configure timer et passe \u00e0 \u00e9tat RESET",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0C0D",
+      "node_type": "code",
+      "description": "SetGameStateValue - \u00c9crit nouvel \u00e9tat dans hGameState",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0C22",
+      "node_type": "table",
+      "description": "AnimTransitionTableData - Table 21 bytes des vitesses d'animation Y",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0C37",
       "node_type": "code",
       "description": "State07_WaitBank3 - Attente + bank 3",
@@ -573,6 +605,14 @@
       "node_type": "code",
       "description": "State21_SetupEndCutscene - Setup cutscene fin",
       "source": "$02A5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0ECB",
+      "node_type": "code",
+      "description": "ClearOamAndSpriteBuffers - R\u00e9initialise buffers OAM et sprites",
+      "source": "$0BCD",
       "bank": 0,
       "priority": 3
     },
@@ -1529,42 +1569,10 @@
       "priority": 3
     },
     {
-      "address": "$0BEA",
+      "address": "$0BF2",
       "node_type": "code",
-      "description": "UpdateSpriteAnimationPath - Mise \u00e0 jour position Y sprites OAM",
-      "source": "$0BCD",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0C07",
-      "node_type": "code",
-      "description": "SetGameStateSpecialPath - Configure timer et passe \u00e0 \u00e9tat RESET",
-      "source": "$0BCD",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0C0D",
-      "node_type": "code",
-      "description": "SetGameStateValue - \u00c9crit nouvel \u00e9tat dans hGameState",
-      "source": "$0BCD",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0C22",
-      "node_type": "table",
-      "description": "AnimTransitionTableData - Table 21 bytes des vitesses d'animation Y",
-      "source": "$0BCD",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0ECB",
-      "node_type": "code",
-      "description": "ClearOamAndSpriteBuffers - R\u00e9initialise buffers OAM et sprites",
-      "source": "$0BCD",
+      "description": "SpriteAnimationOAMLoop - Boucle d'it\u00e9ration sur 4 sprites OAM",
+      "source": "$0BEA",
       "bank": 0,
       "priority": 3
     }
@@ -1616,6 +1624,7 @@
     "$078C",
     "$0185",
     "$0030",
+    "$0BEA",
     "$0100",
     "$0519",
     "$0028",
@@ -1631,6 +1640,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 4,
-  "total_explored": 60
+  "commits_since_push": 0,
+  "total_explored": 61
 }

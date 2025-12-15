@@ -2706,6 +2706,14 @@ State04_AnimTransition::
     ld [wGameVarAC], a
     ld b, ANIM_TRANSITION_DEFAULT
 
+;; UpdateSpriteAnimationPath
+;; ----------------
+;; Description: Applique le déplacement Y (dans B) aux 4 sprites OAM du buffer wOamVar0C
+;;              Vérifie si les sprites sont sortis de l'écran (Y >= $B4)
+;; In:  B = déplacement Y à ajouter à chaque sprite
+;;      wOamVar0C = buffer OAM de 4 sprites (16 bytes)
+;; Out: Sprites déplacés, peut changer hGameState si sortie écran
+;; Modifie: A, C, HL, DE
 UpdateSpriteAnimationPath:
     ld hl, wOamVar0C
     ld de, OAM_ENTRY_SIZE
