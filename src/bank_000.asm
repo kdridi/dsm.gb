@@ -2198,7 +2198,7 @@ ReturnZero:
 
 CheckPlayerObjectCollision:
     ld a, [wPlayerUnk07]
-    cp $01
+    cp PLAYER_UNK07_GROUNDED
     ret z
 
     ld de, OBJECT_SLOT_SIZE       ; 16 bytes par slot
@@ -4827,7 +4827,7 @@ CalcOffsetLoop_BlockHit:
 HandleBlockType_Collision:
     ld hl, wPlayerUnk07
     ld a, [hl]
-    cp $02
+    cp PLAYER_UNK07_FALLING
     ret z
 
     ld hl, wPlayerX
@@ -4840,7 +4840,7 @@ HandleBlockType_Collision:
     and a
     ret nz
 
-    ld a, $02
+    ld a, PLAYER_UNK07_FALLING
     ld [wPlayerUnk0E], a
     ret
 
@@ -4859,10 +4859,10 @@ CheckBlockProperties_OnCollide:
     and a
     jr z, InitGameAfterBlock_OnCollide
 
-    cp $04
+    cp COLLISION_OFFSET_4
     jr z, ProcessBlockEnd_OnCollide
 
-    cp $02
+    cp PLAYER_UNK07_FALLING
     jr nz, ProcessBlockEnd_OnCollide
 
     pop af
@@ -4902,7 +4902,7 @@ InitPlayerX:
     dec a
     dec a
     and SCROLL_ALIGN_MASK        ; Aligner sur 4 pixels
-    or $06
+    or TILE_ALIGN_OFFSET
     ld [hl], a
     xor a
     ld hl, wPlayerUnk07
@@ -4951,10 +4951,10 @@ CollisionHandler_Platform_Entry:
     jr z, HandleTileValueF0
 
 TileC0Handler:
-    cp $c0
+    cp BLOCK_HIT_TYPE_SPECIAL
     jr nz, HandleNonC0TileValue
 
-    ld a, $ff
+    ld a, SLOT_EMPTY
     ld [wLevelConfig], a
 
 PlatformCollisionSetup:
@@ -4975,15 +4975,15 @@ PlatformCollisionSetup:
     jr nz, ApplyAltSpriteAttributeIfConfigSet
 
 HandleTileValueF0:
-    ld a, $80
+    ld a, OAM_SPRITE_HIDDEN
     ld [wOamVar2E], a
     jr SetupSpriteProperties
 
 HandleNonC0TileValue:
     ldh [hTemp0], a
-    ld a, $80
+    ld a, OAM_SPRITE_HIDDEN
     ld [wOamVar2E], a
-    ld a, $07
+    ld a, STATE_BUFFER_DEFAULT
     ld [wStateBuffer], a
     push hl
     pop de
@@ -4992,7 +4992,7 @@ HandleNonC0TileValue:
     and a
     ret nz
 
-    ld [hl], $02
+    ld [hl], PLAYER_UNK07_FALLING
     inc l
     ld [hl], d
     inc l
@@ -5028,15 +5028,15 @@ ProcessSoundParams:
     cp $f0
     ret z
 
-    cp $28
+    cp SFX_BLOCK_HIT
     jr nz, PlaySoundExit
 
     ldh a, [hTimerAux]
-    cp $02
-    ld a, $28
+    cp PLAYER_UNK07_FALLING
+    ld a, SFX_BLOCK_HIT
     jr nz, PlaySoundExit
 
-    ld a, $2d
+    ld a, SFX_BLOCK_HIT_ALT
 
 PlaySoundExit:
     call PlaySound
@@ -5062,7 +5062,7 @@ SetupSpriteProperties:
     push hl
     pop de
     ld hl, hBlockHitType
-    ld [hl], $02
+    ld [hl], PLAYER_UNK07_FALLING
     inc l
     ld [hl], d
     inc l
@@ -5120,17 +5120,17 @@ HandlePlayerUpCollision:
 ; -----------------------------------------------------------------------------
 CheckPlayerFeetCollision:
     ld a, [wPlayerUnk07]
-    cp $01
+    cp PLAYER_UNK07_GROUNDED
     ret nz
 
     ld hl, wPlayerX
     ld a, [hl+]
-    add $fd
+    add FEET_COLLISION_OFFSET_Y
     ldh [hSpriteY], a
     ldh a, [hShadowSCX]
     ld b, [hl]
     add b
-    add $02
+    add FEET_COLLISION_ADJUST_X
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp TILEMAP_CMD_LOAD2        ; Tile type $5F ?
@@ -5140,7 +5140,7 @@ CheckPlayerFeetCollision:
     jr nc, ClassifyTileTypeEntry
 
     ldh a, [hSpriteX]
-    add $fc
+    add COLLISION_ADJUST_X_NEG4
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp TILEMAP_CMD_LOAD2        ; Tile type $5F ?
@@ -5448,15 +5448,15 @@ HandlePlayerSlideCollision:
 
     ld a, GAME_STATE_PIPE_DOWN
     ldh [hGameState], a
-    ld a, $80
+    ld a, PLAYER_FLAG_PIPE_MODE
     ld [wPlayerFlag], a
     ld hl, wPlayerState
     ld a, [hl-]
-    add $18
+    add PIPE_OFFSET_Y
     ldh [hVBlankSelector], a
     ld a, [hl]
     and TILE_ALIGN_MASK          ; Aligner sur tile (8 pixels)
-    add $06
+    add TILE_ALIGN_OFFSET
     ld [hl], a
     call ClearOamAndSpriteBuffers
     ld a, $ff
@@ -5467,11 +5467,11 @@ TriggerBlockCollisionSound:
 TriggerBlockCollisionSound_TimerDispatch:
 TriggerBlockCollisionSound_TimerCheck:
     ldh a, [hTimerAux]
-    cp $02
-    ld b, $ff
+    cp PLAYER_UNK07_FALLING
+    ld b, SLOT_EMPTY
     jr z, TriggerBlockCollisionSound_TimerCheck_IsTwo
 
-    ld b, $0f
+    ld b, OAM_CLEAR_LOOP_COUNT_F
     xor a
     ldh [hTimerAux], a
 
@@ -6197,7 +6197,7 @@ ClearOamVar_Loop:
     jr nz, ClearOamVar_Loop
 
     ld hl, wOamBuffer
-    ld b, $0b
+    ld b, OAM_CLEAR_LOOP_COUNT
 
 ClearOamBuffer2_Loop:
     ld [hl+], a
@@ -6208,9 +6208,9 @@ ClearOamBuffer2_Loop:
     ldh [hObjParamBuf2], a
     ldh [hObjParamBuf3], a
     ld hl, wPlayerUnk10
-    ld de, $0010
-    ld b, $04
-    ld a, $80
+    ld de, OBJECT_STRUCT_SIZE
+    ld b, INIT_OBJECTS_LOOP_COUNT
+    ld a, OAM_SPRITE_HIDDEN
 
 InitSpriteProperties_Loop:
     ld [hl], a
@@ -12292,11 +12292,11 @@ ClearMemoryLoop:
     jr nz, ClearMemoryLoop
 
     ld hl, wLevelData
-    ld a, $28
+    ld a, LEVEL_DATA_INIT
     ld [hl+], a
     xor a
     ld [hl+], a
-    ld a, $04
+    ld a, LEVEL_BCD2_INIT
     ld [hl+], a
     call DisplayLevelBCDScore
     ld a, $20

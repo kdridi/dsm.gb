@@ -1209,3 +1209,29 @@ DEF OBJECT_STRUCT_SIZE         EQU $10   ; Taille structure objet (16 octets)
 ; === Valeurs wStateBuffer ===
 
 DEF STATE_BUFFER_DEFAULT       EQU $07   ; Valeur par défaut wStateBuffer
+
+; === IDs Sons (pour PlaySound) ===
+
+DEF SFX_BLOCK_HIT              EQU $28   ; Son collision bloc
+DEF SFX_BLOCK_HIT_ALT          EQU $2d   ; Son collision bloc alternatif
+
+; === Collision pieds/tête joueur ===
+
+DEF FEET_COLLISION_OFFSET_Y    EQU $fd   ; Offset Y pieds joueur (-3)
+DEF FEET_COLLISION_ADJUST_X    EQU $02   ; Ajustement X pieds joueur (+2)
+DEF COLLISION_ADJUST_X_NEG4    EQU $fc   ; Ajustement X collision (-4)
+DEF PIPE_OFFSET_Y              EQU $18   ; Offset Y calcul pipe (+24)
+DEF TILE_ALIGN_OFFSET          EQU $06   ; Offset alignement tile
+
+; === Flags joueur (wPlayerFlag) ===
+
+DEF PLAYER_FLAG_PIPE_MODE      EQU $80   ; Flag mode pipe/transition
+
+; === Valeurs OAM sprite ===
+
+DEF OAM_SPRITE_HIDDEN          EQU $80   ; Y position cachée (hors écran)
+
+; === Compteurs de boucle (clear/init) ===
+
+DEF OAM_CLEAR_LOOP_COUNT       EQU $0b   ; Compteur clear OAM (11 octets)
+DEF OAM_CLEAR_LOOP_COUNT_F     EQU $0f   ; Compteur clear OAM (15 octets)
