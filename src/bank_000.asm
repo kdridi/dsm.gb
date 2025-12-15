@@ -2464,6 +2464,19 @@ ReturnZero:
     ret
 
 
+; CheckPlayerObjectCollision
+; --------------------------
+; Description: Vérifie collision joueur avec tous objets actifs dans le buffer.
+;              Parcourt les 10 slots, teste AABB (Axis-Aligned Bounding Box),
+;              applique knockback si collision détectée.
+; In:  wPlayerUnk07 = état joueur (vérifie si au sol)
+;      wPlayerX, wPlayerState = position joueur
+;      wObjectBuffer = buffer 10 objets (16 bytes chacun)
+; Out: Pas de valeur retour explicite
+;      wPlayerX = ajusté si collision (knockback -10px)
+;      wPlayerUnk07-0A = réinitialisés
+;      Objet+9 = flag collision activé
+; Modifie: a, bc, de, hl
 CheckPlayerObjectCollision:
     ld a, [wPlayerUnk07]
     cp PLAYER_UNK07_GROUNDED

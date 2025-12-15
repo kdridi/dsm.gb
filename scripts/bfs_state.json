@@ -1519,6 +1519,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$29F8",
+      "node_type": "code",
+      "description": "GetAnimationDataPointer - R\u00e9cup\u00e8re pointeur vers donn\u00e9es animation objet",
+      "source": "$0AE1",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1552,6 +1560,7 @@
     "$046D",
     "$05C7",
     "$05F8",
+    "$0AE1",
     "$00CD",
     "$4000:1",
     "$0150",
@@ -1580,6 +1589,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 1,
-  "total_explored": 57
+  "commits_since_push": 2,
+  "total_explored": 58
 }
