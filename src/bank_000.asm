@@ -4246,16 +4246,16 @@ State2D_DisplayText2::
 ; === Table de texte "YOUR QUEST IS OVER!" ($1236-$124A) ===
 ; Texte final de fin de jeu
 TextData_QuestOver:
-    db $29                      ; "("
-    db $22, $18, $1e, $1b       ; "YOUR"
-    db $2c                      ; " " (espace)
-    db $1a, $1e, $0e, $1c, $1d  ; "QUEST"
-    db $2c                      ; " " (espace)
-    db $12, $1c                 ; "IS"
-    db $2c                      ; " " (espace)
-    db $18, $1f, $0e, $1b       ; "OVER"
-    db $29                      ; ")"
-    db $ff                      ; Fin
+    db TEXT_CHAR_PAREN                                      ; "("
+    db TEXT_CHAR_Y, TEXT_CHAR_O, TEXT_CHAR_U, TEXT_CHAR_R   ; "YOUR"
+    db TEXT_CHAR_SPACE                                      ; " "
+    db TEXT_CHAR_Q, TEXT_CHAR_U, TEXT_CHAR_E, TEXT_CHAR_S, TEXT_CHAR_T  ; "QUEST"
+    db TEXT_CHAR_SPACE                                      ; " "
+    db TEXT_CHAR_I, TEXT_CHAR_S                             ; "IS"
+    db TEXT_CHAR_SPACE                                      ; " "
+    db TEXT_CHAR_O, TEXT_CHAR_V, TEXT_CHAR_E, TEXT_CHAR_R   ; "OVER"
+    db TEXT_CHAR_PAREN                                      ; ")"
+    db TEXT_CHAR_END                                        ; Fin
 
 ; ===========================================================================
 ; État $2E - Animation sprites ensemble ($124B)

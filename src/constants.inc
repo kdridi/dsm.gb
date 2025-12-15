@@ -1237,13 +1237,16 @@ DEF TEXT_CHAR_K                EQU $14   ; Caractère 'K'
 DEF TEXT_CHAR_M                EQU $16   ; Caractère 'M'
 DEF TEXT_CHAR_N                EQU $17   ; Caractère 'N'
 DEF TEXT_CHAR_O                EQU $18   ; Caractère 'O'
+DEF TEXT_CHAR_Q                EQU $1a   ; Caractère 'Q'
 DEF TEXT_CHAR_R                EQU $1b   ; Caractère 'R'
 DEF TEXT_CHAR_S                EQU $1c   ; Caractère 'S'
 DEF TEXT_CHAR_T                EQU $1d   ; Caractère 'T'
 DEF TEXT_CHAR_U                EQU $1e   ; Caractère 'U'
+DEF TEXT_CHAR_V                EQU $1f   ; Caractère 'V'
 DEF TEXT_CHAR_Y                EQU $22   ; Caractère 'Y'
 DEF TEXT_CHAR_EXCLAIM          EQU $23   ; Caractère '!' (style 1)
 DEF TEXT_CHAR_EXCLAIM_ALT      EQU $28   ; Caractère '!' (style 2)
+DEF TEXT_CHAR_PAREN            EQU $29   ; Caractère '(' ou ')'
 DEF TEXT_CHAR_SPACE            EQU $2c   ; Caractère espace
 DEF TEXT_CHAR_NEWLINE          EQU $fe   ; Saut de ligne
 DEF TEXT_CHAR_END              EQU $ff   ; Fin de texte

@@ -913,6 +913,14 @@
       "priority": 3
     },
     {
+      "address": "$1236",
+      "node_type": "data",
+      "description": "TextData_QuestOver - Texte 'YOUR QUEST IS OVER!'",
+      "source": "$1212",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$124B",
       "node_type": "code",
       "description": "State2E_DuoAnimation - Animation duo",
@@ -1831,14 +1839,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1236",
-      "node_type": "data",
-      "description": "TextData_QuestOver - Texte 'YOUR QUEST IS OVER!'",
-      "source": "$1212",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1854,6 +1854,7 @@
     "$0100",
     "$00C7",
     "$0050",
+    "$1236",
     "$05C7",
     "$110D",
     "$0D30",
@@ -1957,6 +1958,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 114
+  "commits_since_push": 4,
+  "total_explored": 115
 }
