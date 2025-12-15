@@ -4015,11 +4015,11 @@ State33_DisplayCreditsText::
     ld h, a
     ldh a, [hCopyDstHigh]
     ld l, a
-    ld de, $9a42
+    ld de, VRAM_CREDITS_ROW1
 
 DisplayCreditsLoop:
     ld a, [hl]
-    cp $fe
+    cp TEXT_CMD_NEWLINE
     jr z, .clearTile
 
     inc hl
@@ -4032,10 +4032,10 @@ DisplayCreditsLoop:
     ld [de], a
     inc de
     ld a, e
-    cp $54
+    cp VRAM_CREDITS_LIMIT1
     jr z, State33_UpdateVRAMRow1
 
-    cp $93
+    cp VRAM_CREDITS_LIMIT2
     jr z, State33_UpdateVRAMRow2
 
     jr DisplayCreditsLoop
@@ -4045,7 +4045,7 @@ DisplayCreditsLoop:
     jr .waitAndWrite
 
 State33_UpdateVRAMRow1:
-    ld de, $9a87
+    ld de, VRAM_CREDITS_ROW2
     inc hl
     jr DisplayCreditsLoop
 
@@ -4510,8 +4510,8 @@ State0A_LoadSubLevel::
 ; Routine utilitaire : Clear buffer tilemap ($c800-$ca3f, 576 bytes)
 ; ---------------------------------------------------------------------------
 ClearTilemapBuffer::
-    ld hl, $ca3f
-    ld bc, $0240
+    ld hl, wTilemapBufferEnd
+    ld bc, TILEMAP_BUFFER_SIZE
 
 .loop:
     xor a

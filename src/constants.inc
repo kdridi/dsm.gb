@@ -309,6 +309,11 @@ DEF wObject5        EQU $C248   ; Slot objet 5
 ; --- Buffer animation ---
 DEF wAnimBuffer     EQU $C600   ; Buffer animation
 
+; --- Buffer tilemap ($C800-$CA3F) ---
+DEF wTilemapBuffer      EQU $C800   ; Début buffer tilemap
+DEF wTilemapBufferEnd   EQU $CA3F   ; Fin buffer tilemap (576 octets)
+DEF TILEMAP_BUFFER_SIZE EQU $0240   ; Taille buffer tilemap (576 octets)
+
 ; === Variables extended WRAM ($D000-$DFFF) ===
 
 ; --- Zone données ($D000-$D100) ---
@@ -473,6 +478,12 @@ DEF VRAM_FADE_START     EQU $8DD0   ; Début zone VRAM pour effet fade
 DEF VRAM_FADE_SIZE      EQU $0220   ; Taille zone fade (544 octets)
 DEF VRAM_FADE_WRAP      EQU $9690   ; Adresse après wrap zone fade
 DEF VRAM_FADE_BOUND_HI  EQU $8F     ; Octet haut limite zone fade
+
+; --- VRAM Crédits ---
+DEF VRAM_CREDITS_ROW1       EQU $9a42   ; Tilemap ligne 1 crédits
+DEF VRAM_CREDITS_ROW2       EQU $9a87   ; Tilemap ligne 2 crédits
+DEF VRAM_CREDITS_LIMIT1     EQU $54     ; Limite colonne VRAM (fin ligne 1)
+DEF VRAM_CREDITS_LIMIT2     EQU $93     ; Limite colonne VRAM (fin ligne 2)
 
 ; === Tiles spéciaux ===
 
