@@ -191,14 +191,23 @@
       "source": "$0040",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$7FF0",
+      "node_type": "code",
+      "description": "AudioEntryPoint - Routine audio principale en bank 3",
+      "source": "$0050",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
     "$0040",
     "$0000",
     "$0028",
+    "$0050",
     "$0048"
   ],
-  "commits_since_push": 3,
-  "total_explored": 4
+  "commits_since_push": 4,
+  "total_explored": 5
 }

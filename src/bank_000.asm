@@ -172,9 +172,14 @@ LCDCInterrupt::
     rst $38
 
 ;; --- INT $50 : Timer Overflow Interrupt ---
-;; Déclenché quand TIMA overflow. Utilisé ici pour le son (bank 3).
-;; Note: L'interruption Serial ($0058) tombe au milieu du call $7ff0.
-;; Ce n'est pas un vrai handler - le jeu n'utilise pas le port série.
+; TimerOverflowInterrupt
+; ----------------------
+; Description: Handler d'interruption timer overflow (TIMA). Appelle la routine audio en bank 3.
+; In:  (none - interrupt context)
+; Out: (none)
+; Modifie: af (sauvegardé/restauré), bank ROM
+; Note: L'interruption Serial ($0058) tombe au milieu du call $7ff0.
+;       Ce n'est pas un vrai handler - le jeu n'utilise pas le port série.
 TimerOverflowInterrupt::
     push af
     ld a, BANK_AUDIO         ; Bank 3 = audio
