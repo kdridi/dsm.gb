@@ -207,6 +207,86 @@
       "source": "$0040",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$00C3",
+      "node_type": "code",
+      "description": "LCDStat_CheckCarryExit - point d'entr\u00e9e public (v\u00e9rifie carry flag)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$00C7",
+      "node_type": "code",
+      "description": "LCDStat_SetLYC - point d'entr\u00e9e public (\u00e9crit A dans rLYC+wGameConfigA5)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$00CD",
+      "node_type": "code",
+      "description": "LCDStat_PopAndReti - point d'entr\u00e9e public (pop af + reti)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFA4",
+      "node_type": "data",
+      "description": "hShadowSCX - shadow register pour effets raster",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFB3",
+      "node_type": "data",
+      "description": "hGameState - \u00e9tat du jeu (check GAME_STATE_WINDOW=$3A)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFFB",
+      "node_type": "data",
+      "description": "hOAMIndex - index OAM pour animation",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0A5",
+      "node_type": "data",
+      "description": "wGameConfigA5 - mode handler (0=normal, !=0=retour)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0DE",
+      "node_type": "data",
+      "description": "wAudioSaveDE - flag scroll Y actif",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0DF",
+      "node_type": "data",
+      "description": "wLevelInitFlag - valeur scroll Y \u00e0 appliquer",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0AD",
+      "node_type": "data",
+      "description": "wPlayerVarAD - flag animation termin\u00e9e (FLAG_ANIM_DONE)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -215,9 +295,10 @@
     "$0100",
     "$0000",
     "$0028",
+    "$0095",
     "$0050",
     "$0048"
   ],
-  "commits_since_push": 1,
-  "total_explored": 7
+  "commits_since_push": 2,
+  "total_explored": 8
 }
