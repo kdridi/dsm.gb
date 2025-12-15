@@ -385,7 +385,7 @@ UnknownCode_003_4180:
     db $fc
     ld a, h
     cp $0e
-    jp nz, UnknownData_31c2
+    jp nz, InfiniteLoop_31c2
 
     pop af
     ld hl, $61e1

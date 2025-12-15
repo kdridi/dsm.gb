@@ -10073,7 +10073,7 @@ AnimFrameDataLookup:
     nop
     nop
 
-UnknownData_31c2:
+InfiniteLoop_31c2:
     nop
     rrca
     dec d
@@ -11196,7 +11196,7 @@ JumpDispatchTable_36cc:
     rst $28
     add sp, -$0c
 
-UnknownData_370c:
+PaddingZone_370c:
     rrca
     nop
     rst $28
@@ -12242,7 +12242,7 @@ RawDataBlock_3b46:
     db $f4
     ld bc, $ea21
 
-UnknownData_3cc2:
+InfiniteLoop_3cc2:
     db $f4
     nop
     add sp, $02
