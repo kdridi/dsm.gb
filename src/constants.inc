@@ -923,7 +923,8 @@ DEF PLAYER_VAR_AB_INIT      EQU $0c   ; Valeur initiale wPlayerVarAB (12)
 ; === Masques direction ===
 
 DEF PLAYER_DIR_HIGH_MASK    EQU $f0   ; Masque bits hauts direction
-DEF PLAYER_DIR_MODE_INTERACT EQU $04  ; Mode interaction direction
+DEF PLAYER_DIR_MODE_RESET   EQU $01   ; Mode direction initial/reset
+DEF PLAYER_DIR_MODE_INTERACT EQU $04  ; Mode interaction direction (seuil)
 
 ; === Style niveau ===
 

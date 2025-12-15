@@ -4654,12 +4654,12 @@ State0C_IncrementPlayerDir:
     inc [hl]
     ld a, [hl]
     and NIBBLE_LOW_MASK          ; Isoler mode direction
-    cp $04
+    cp PLAYER_DIR_MODE_INTERACT  ; $04 = seuil interaction
     jr c, State0C_ProcessAnimation
 
     ld a, [hl]
     and NIBBLE_HIGH_MASK         ; Garder bits hauts
-    or $01
+    or PLAYER_DIR_MODE_RESET     ; Reset au mode 1
     ld [hl], a
 
 State0C_ProcessAnimation:
@@ -4784,7 +4784,7 @@ SkipIfInvuln_OnTile:
 CheckPlayerHeadCollision:
     ld hl, wPlayerUnk07
     ld a, [hl]
-    cp $01
+    cp FLAG_TRUE                ; Collision déjà détectée ?
     ret z
 
     ld hl, wPlayerX
@@ -5187,7 +5187,7 @@ HandlePlayerWaterCollision:
     jp z, PlatformCollisionSetup
 
     ldh a, [hTimerAux]
-    cp $02
+    cp TIMER_AUX_PIPE_MODE      ; $02 = mode pipe/transition
     jp nz, ApplyAltSpriteAttributeIfConfigSet
 
     push hl
@@ -5197,7 +5197,7 @@ HandlePlayerWaterCollision:
     and a
     ret nz
 
-    ld [hl], $01
+    ld [hl], FLAG_TRUE          ; Marquer bloc touché
     inc l
     ld [hl], d
     inc l
@@ -5927,7 +5927,7 @@ ResetPlayerDirection:
 ProcessAnimationState_JoypadUp:
     push af
     ldh a, [hTimerAux]
-    cp $02
+    cp TIMER_AUX_PIPE_MODE      ; $02 = mode pipe/transition
     jr nz, ProcessAnimationState_JoypadUp_ContinueTests
 
     ld a, [de]
