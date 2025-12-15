@@ -1824,6 +1824,12 @@ ExitPause:
     ld a, PAUSE_EXIT
     jr SaveAudioStatePause
 
+; LoadLevelData
+; ----------------
+; Description: Initialise le niveau en copiant les données ROM vers WRAM et en configurant le scroll
+; In:  -
+; Out: -
+; Modifie: af, bc, de, hl
 LoadLevelData:
     ld hl, ROM_LEVEL_INIT_DATA
     ld de, wPlayerY
@@ -1843,6 +1849,12 @@ LoadLevelData:
     ld a, PLAYER_DIR_RIGHT          ; Direction droite
     ld [wPlayerDir], a
 
+; InitScrollState
+; ----------------
+; Description: Réinitialise les variables de scroll et remplit le buffer de tilemap
+; In:  -
+; Out: -
+; Modifie: af, bc, de, hl
 InitScrollState:
     ld hl, hTilemapScrollY
     xor a
