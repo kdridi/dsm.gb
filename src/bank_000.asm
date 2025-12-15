@@ -3951,7 +3951,7 @@ State32_CreditsScroll::
     ldh [hShadowSCX], a
     ld a, LYC_CREDITS_LINE          ; Ligne 96 pour interruption LYC
     ldh [rLYC], a
-    ld hl, $154e
+    ld hl, ROM_CREDITS_TEXT         ; Pointeur texte crédits
     ld a, h
     ldh [hCopyDstLow], a
     ld a, l
@@ -6827,7 +6827,7 @@ InitScrollBuffer:
     jr ProcessScrollEntry
 
 InitFromRenderContext:
-    ld hl, $4000
+    ld hl, _ROMX                    ; Base des données niveau (bank switchable)
     ldh a, [hRenderContext]
     add a
     ld e, a
@@ -6855,7 +6855,7 @@ InitFromRenderContext:
 
 ProcessScrollEntry:
     ld a, [hl+]
-    cp $fe
+    cp TILEMAP_CMD_END              ; Fin de section tilemap ?
     jr z, StoreTilemapScrollOffsets
 
     ld de, wScrollBuffer
@@ -7055,7 +7055,7 @@ UpdateTilemapScrolling:
     add a
     ld e, a
     ld d, $00
-    ld hl, $651c
+    ld hl, ROM_TILEMAP_POINTERS_A  ; Table pointeurs tilemap A (bank 3)
     add hl, de
     ld e, [hl]
     inc hl
@@ -7158,7 +7158,7 @@ LoadLevelTilemap:
     add a
     ld e, a
     ld d, $00
-    ld hl, $6536
+    ld hl, ROM_TILEMAP_POINTERS_B  ; Table pointeurs tilemap B (bank 3)
     add hl, de
     ld e, [hl]
     inc hl

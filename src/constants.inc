@@ -18,6 +18,7 @@
 ; === Adresses de fin des zones mémoire ===
 ; (Les adresses de début sont dans hardware.inc : _VRAM, _RAM, _OAMRAM, _HRAM)
 
+DEF _ROMX           EQU $4000   ; Début ROM switchable ($4000-$7FFF, 16KB)
 DEF _VRAM_END       EQU $9FFF   ; Fin VRAM ($8000-$9FFF, 8KB)
 DEF _WRAM_END       EQU $DFFF   ; Fin WRAM ($C000-$DFFF, 16KB)
 DEF _OAM_END        EQU $FEFF   ; Fin OAM + zone interdite ($FE00-$FEFF)
@@ -440,6 +441,10 @@ DEF ROM_AUDIO_INDEX_TABLE EQU $401a ; Table index audio en bank 1 (2 octets/entr
 DEF ROM_AUDIO_CHANNEL_TABLE_1 EQU $2fd9 ; Table sélection canal audio (option 1)
 DEF ROM_AUDIO_CHANNEL_TABLE_2 EQU $30ab ; Table sélection canal audio (option 2)
 
+; --- Tables tilemap (bank 3) ---
+DEF ROM_TILEMAP_POINTERS_A EQU $651C ; Table pointeurs tilemap A (bank 3)
+DEF ROM_TILEMAP_POINTERS_B EQU $6536 ; Table pointeurs tilemap B (bank 3)
+
 ; --- Tables style (par niveau) ---
 DEF ROM_STYLE_LVL_0     EQU $030C   ; Niveaux 0-6
 DEF ROM_STYLE_LVL_7     EQU $0734   ; Niveaux 7-10
@@ -455,6 +460,7 @@ DEF ROM_ANIM_TILES      EQU $3FAF   ; Frames animation tiles
 DEF ROM_TILEMAP_INIT    EQU $0783   ; Tilemap initial (9 octets)
 DEF ROM_MENU_SPRITES    EQU $0446   ; Sprites menu sélection (10 octets)
 DEF ROM_HUD_TILEMAP     EQU $3F87   ; Tilemap HUD (données compressées)
+DEF ROM_CREDITS_TEXT    EQU $154E   ; Texte des crédits
 
 ; --- Données graphiques (tiles/tilemaps) ---
 DEF ROM_TILES_MAIN      EQU $791A   ; Tiles principaux ($0500 octets)
@@ -753,6 +759,7 @@ DEF TILEMAP_CMD_E1      EQU $E1 ; Tile collision spéciale E1 (transition/warp)
 DEF TILEMAP_CMD_DANGER  EQU $ED ; Tile danger (collision fatale si vulnérable)
 DEF TILEMAP_CMD_SLIDE   EQU $77 ; Tile glissade/slide (collision spéciale)
 DEF TILEMAP_CMD_BOUNCE  EQU $F2 ; Tile rebond/bloc collision (son + effet)
+DEF TILEMAP_CMD_END     EQU $FE ; Marqueur fin de section tilemap
 
 ; Seuil pour distinguer les tiles commandes (>= $60) des tiles normaux (< $60)
 DEF TILEMAP_CMD_THRESHOLD EQU $60 ; Seuil: >= $60 = tile spécial/commande
