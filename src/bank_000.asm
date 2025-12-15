@@ -1367,7 +1367,7 @@ StateHandler_01::
     ld [wUpdateCounter], a        ; Update counter = $FF
 
     ; Transition vers état $02
-    ld a, $02
+    ld a, GAME_STATE_PREPARE_RENDER
     ldh [hGameState], a
     ret
 
@@ -1989,7 +1989,7 @@ InitGameState:
     ret nz
 
     ; --- SetGameState($03) ---
-    ld a, $03
+    ld a, GAME_STATE_SETUP_TRANSITION
     ldh [hGameState], a          ; game_state = $03
 
     ; --- ResetTimerAndVariables ---
@@ -2379,7 +2379,7 @@ StateHandler_03::
     ld [hl], $20                  ; Sprite 3: attr (flipped)
 
     ; Transition vers état $04
-    ld a, $04
+    ld a, GAME_STATE_ANIMATION
     ldh [hGameState], a
     xor a
     ld [wGameVarAC], a
@@ -2500,7 +2500,7 @@ StateHandler_07::
     ldh [hTimer1], a
 
 .skipTimerInit:
-    ld a, $05
+    ld a, GAME_STATE_SPECIAL_LEVEL
     ldh [hGameState], a
     xor a
     ld [wSpecialState], a
@@ -2515,7 +2515,7 @@ StateHandler_07::
     cp $43
     ret nz
 
-    ld a, $06
+    ld a, GAME_STATE_POST_LEVEL
     ldh [hGameState], a
     ret
 
@@ -2573,7 +2573,7 @@ AnimationCheckCompleteExit:
 
 
 TransitionToLevelPath:
-    ld a, $06
+    ld a, GAME_STATE_POST_LEVEL
     ldh [hGameState], a
     ld a, $26
     ldh [hTimer1], a
@@ -2801,7 +2801,7 @@ GameplayInitStart:
     xor a
     ld [wCollisionFlag], a
     ldh [hVBlankMode], a
-    ld a, $02
+    ld a, GAME_STATE_PREPARE_RENDER
     ldh [hGameState], a
     call $2439
     ret
@@ -4514,7 +4514,7 @@ State09_PipeEnterRight::
     ret
 
 .reachedTarget:
-    ld a, $0a
+    ld a, GAME_STATE_PIPE_LOAD
     ldh [hGameState], a          ; Transition vers état $0A
     ldh [hVBlankMode], a
     ret
@@ -4635,7 +4635,7 @@ State0B_PipeEnterDown::
     call $1ecb
     ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a               ; LCD on
-    ld a, $0c
+    ld a, GAME_STATE_PIPE_EXIT
     ldh [hGameState], a          ; Transition vers état $0C
     call RenderPlayerUpdate
     ei
@@ -4807,7 +4807,7 @@ CheckJoypadUp_GameplayLoop:
     ld [hl+], a
     inc l
     ld [hl], $80
-    ld a, $09
+    ld a, GAME_STATE_PIPE_ENTER_RIGHT
     ldh [hGameState], a
     ld a, [wPlayerInvuln]
     and a
@@ -5491,7 +5491,7 @@ HandlePlayerSlideCollision:
     and a
     jr z, CollisionDefaultHandler
 
-    ld a, $0b
+    ld a, GAME_STATE_PIPE_DOWN
     ldh [hGameState], a
     ld a, $80
     ld [$c204], a
@@ -5534,7 +5534,7 @@ TriggerBlockCollisionSound_TimerCheck_IsTwo:
     ld [wPlayerDir], a
 
 TriggerBlockCollisionSound_ApplyMask:
-    ld a, $07
+    ld a, GAME_STATE_WAIT_PROCESS
     ldh [hGameState], a
     ld a, [wAudioCondition]
     and a
@@ -5740,7 +5740,7 @@ ClearUpdateCounter:
 
 
 DisplayLivesGameOver:
-    ld a, $39
+    ld a, GAME_STATE_GAME_OVER
     ldh [hGameState], a
     ld [wROMBankInit], a
     jr ClearUpdateCounter
@@ -5881,7 +5881,7 @@ State3B_DecrementCounter:
     and a
     ret nz
 
-    ld a, $01
+    ld a, GAME_STATE_RESET
     ldh [hGameState], a
     ret
 
@@ -12468,7 +12468,7 @@ FillTilemap_MainLoop:
     ld [de], a
     ld a, $83
     ldh [rLCDC], a
-    ld a, $13
+    ld a, GAME_STATE_DRAW_BORDER
     ldh [hGameState], a
     ret
 
@@ -12629,7 +12629,7 @@ CopyToBackBuffer:
 
     ld a, $83
     ldh [rLCDC], a
-    ld a, $14
+    ld a, GAME_STATE_BONUS_SELECT
     ldh [hGameState], a
     ret
 
@@ -12666,7 +12666,7 @@ CopyTilemapInner:
 
     ld a, $11
     ld [$da29], a
-    ld a, $15
+    ld a, GAME_STATE_BONUS_COPY
     ldh [hGameState], a
     ret
 

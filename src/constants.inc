@@ -440,13 +440,39 @@ DEF SLOT_EMPTY          EQU $FF ; Marqueur slot vide/inactif dans les tables
 
 ; === États de jeu (hGameState) ===
 
-DEF GAME_STATE_GAMEPLAY EQU $0D ; État gameplay actif (jeu en cours)
+; États de transition initialisation (post-reset)
+DEF GAME_STATE_RESET        EQU $01 ; Post-timer reset (après game over)
+DEF GAME_STATE_PREPARE_RENDER EQU $02 ; Préparation rendu (LCD off, clear)
+DEF GAME_STATE_SETUP_TRANSITION EQU $03 ; Setup sprites transition
+DEF GAME_STATE_ANIMATION    EQU $04 ; Animation transition en cours
+DEF GAME_STATE_SPECIAL_LEVEL EQU $05 ; Gestion niveau spécial
+DEF GAME_STATE_POST_LEVEL   EQU $06 ; Transition post-niveau
+DEF GAME_STATE_WAIT_PROCESS EQU $07 ; Attente + traitement bank 3
+
+; États gameplay
 DEF GAME_STATE_CENTER   EQU $08 ; État transition - joueur au centre
+DEF GAME_STATE_GAMEPLAY EQU $0D ; État gameplay actif (jeu en cours)
+
+; États tuyaux (pipe navigation)
+DEF GAME_STATE_PIPE_ENTER_RIGHT EQU $09 ; Entrée tuyau par la droite
+DEF GAME_STATE_PIPE_LOAD    EQU $0A ; Chargement sous-niveau (après pipe)
+DEF GAME_STATE_PIPE_DOWN    EQU $0B ; Descente dans tuyau vertical
+DEF GAME_STATE_PIPE_EXIT    EQU $0C ; Sortie tuyau vers la gauche
+
 DEF GAME_STATE_LEVEL_SELECT EQU $0F ; État sélection niveau (State0F)
 DEF GAME_STATE_LEVEL_START  EQU $11 ; État démarrage niveau (State11)
 DEF GAME_STATE_OUTER    EQU $12 ; État transition - joueur en périphérie
+
+; États écran bonus/fin
+DEF GAME_STATE_DRAW_BORDER  EQU $13 ; Dessin bordure écran fin
+DEF GAME_STATE_BONUS_SELECT EQU $14 ; Sélection bonus (post-bordure)
+DEF GAME_STATE_BONUS_COPY   EQU $15 ; Copie données tilemap bonus
+
 DEF GAME_STATE_SPECIAL  EQU $1C ; État niveau spécial
 DEF GAME_STATE_INIT27   EQU $27 ; État initialisation spéciale
+
+; États game over
+DEF GAME_STATE_GAME_OVER    EQU $39 ; Écran GAME OVER
 
 ; === Conversion BCD ===
 
