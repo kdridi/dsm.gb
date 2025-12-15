@@ -407,8 +407,48 @@ DEF ROM_ANIM_TILES      EQU $3FAF   ; Frames animation tiles
 
 ; --- Données initiales ---
 DEF ROM_TILEMAP_INIT    EQU $0783   ; Tilemap initial (9 octets)
+DEF ROM_MENU_SPRITES    EQU $0446   ; Sprites menu sélection (10 octets)
+DEF ROM_HUD_TILEMAP     EQU $3F87   ; Tilemap HUD (données compressées)
+
+; --- Données graphiques (tiles/tilemaps) ---
+DEF ROM_TILES_MAIN      EQU $791A   ; Tiles principaux ($0500 octets)
+DEF ROM_TILES_AUX       EQU $7E1A   ; Tiles auxiliaires ($0170 octets)
+DEF ROM_TILES_LEVEL_1   EQU $4862   ; Tiles niveau type 1 ($0010 octets)
+DEF ROM_TILES_LEVEL_2   EQU $4E72   ; Tiles niveau type 2 ($0010 octets)
+DEF ROM_TILES_OBJECTS   EQU $5032   ; Tiles objets ($02C0 octets)
+
+; --- Tailles de copies mémoire ---
+DEF SIZE_TILES_MAIN     EQU $0500   ; 1280 octets
+DEF SIZE_TILES_AUX      EQU $0170   ; 368 octets
+DEF SIZE_TILES_LEVEL    EQU $0010   ; 16 octets
+DEF SIZE_TILES_OBJECTS  EQU $02C0   ; 704 octets
+DEF SIZE_TILES_SPRITES  EQU $02A0   ; 672 octets
+DEF SIZE_MENU_SPRITES   EQU $0A    ; 10 octets
+DEF SIZE_GAME_TILES_A   EQU $0800   ; 2048 octets (tiles de jeu part A)
+DEF SIZE_GAME_TILES_B   EQU $1000   ; 4096 octets (tiles de jeu part B)
+
+; --- Données graphiques (tiles de jeu) ---
+DEF ROM_GAME_TILES_A    EQU $5032   ; Tiles de jeu partie A
+DEF ROM_GAME_TILES_B    EQU $4032   ; Tiles de jeu partie B
+DEF ROM_ANIM_BUFFER     EQU $5603   ; Buffer animation (8 octets)
 
 ; === Adresses VRAM ===
+; --- Destinations copie tiles ---
+DEF VRAM_TILES_MAIN     EQU $9300   ; Destination tiles principaux
+DEF VRAM_TILES_AUX      EQU $8800   ; Destination tiles auxiliaires
+DEF VRAM_TILES_LEVEL    EQU $8AC0   ; Destination tiles niveau
+DEF VRAM_TILES_OBJECTS  EQU $9000   ; Destination tiles objets
+DEF VRAM_TILES_SPRITES  EQU $8000   ; Destination tiles sprites
+
+; --- Tilemap BG ---
+DEF VRAM_BG_BASE        EQU $9800   ; Base tilemap BG (_SCRN0)
+DEF VRAM_HUD_MARIO      EQU $9804   ; Position "MARIO" HUD
+DEF VRAM_HUD_COINS      EQU $9822   ; Position icône pièces HUD
+DEF VRAM_HUD_WORLD      EQU $982F   ; Position "WORLD" HUD
+DEF VRAM_MENU_DEST      EQU $99C6   ; Destination sprites menu
+DEF VRAM_HIGHSCORE      EQU $9969   ; Position high score
+
+; --- HUD et score ---
 DEF VRAM_SCORE_POS1     EQU $9806   ; Score HUD position 1
 DEF VRAM_HUD_LINE       EQU $9820   ; Ligne HUD
 DEF VRAM_COIN_TENS      EQU $9829   ; Compteur pièces HUD (dizaines)
@@ -418,6 +458,16 @@ DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
 ; === Tiles spéciaux ===
 
 DEF TILE_EMPTY          EQU $2C   ; Tile vide/espace (fond, leading zero)
+
+; --- Tiles HUD ---
+DEF TILE_HUD_BORDER     EQU $3C   ; Bordure HUD (barre horizontale)
+DEF TILE_HUD_MARIO_M    EQU $94   ; Lettre "M" de MARIO
+DEF TILE_HUD_MARIO_A    EQU $95   ; Lettre "A" de MARIO (aussi première)
+DEF TILE_HUD_MARIO_R    EQU $96   ; Lettre "R" de MARIO
+DEF TILE_HUD_MARIO_I    EQU $8C   ; Lettre "I" de MARIO (aussi icône)
+DEF TILE_HUD_WORLD_W    EQU $3F   ; Lettre "W" de WORLD
+DEF TILE_HUD_WORLD_O    EQU $4C   ; Lettre "O" de WORLD
+DEF TILE_HUD_WORLD_R    EQU $4D   ; Lettre "R" de WORLD
 
 ; === Valeurs de gameplay ===
 

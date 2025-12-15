@@ -705,32 +705,32 @@ ClearOamLoop:
     ld [hl+], a
     ld a, [wLevelType]
     ldh [hLevelIndex], a
-    ld hl, $791a
-    ld de, $9300
-    ld bc, $0500
+    ld hl, ROM_TILES_MAIN
+    ld de, VRAM_TILES_MAIN
+    ld bc, SIZE_TILES_MAIN
     call MemCopy
-    ld hl, $7e1a
-    ld de, $8800
-    ld bc, $0170
+    ld hl, ROM_TILES_AUX
+    ld de, VRAM_TILES_AUX
+    ld bc, SIZE_TILES_AUX
     call MemCopy
-    ld hl, $4862
+    ld hl, ROM_TILES_LEVEL_1
     ldh a, [hLevelIndex]
     cp $01
     jr c, SelectLevelAudioTable
 
-    ld hl, $4e72
+    ld hl, ROM_TILES_LEVEL_2
 
 SelectLevelAudioTable:
-    ld de, $8ac0
-    ld bc, $0010
+    ld de, VRAM_TILES_LEVEL
+    ld bc, SIZE_TILES_LEVEL
     call MemCopy
-    ld hl, $5032
-    ld de, $9000
-    ld bc, $02c0
+    ld hl, ROM_TILES_OBJECTS
+    ld de, VRAM_TILES_OBJECTS
+    ld bc, SIZE_TILES_OBJECTS
     call MemCopy
-    ld hl, $5032
-    ld de, $8000
-    ld bc, $02a0
+    ld hl, ROM_TILES_OBJECTS
+    ld de, VRAM_TILES_SPRITES
+    ld bc, SIZE_TILES_SPRITES
     call MemCopy
     call ClearBGTilemap
     xor a
@@ -742,23 +742,23 @@ SelectLevelAudioTable:
     call LoadLevelData
     pop af
     ldh [hRenderContext], a
-    ld a, $3c
-    ld hl, $9800
+    ld a, TILE_HUD_BORDER
+    ld hl, VRAM_BG_BASE
     call FillTilemapRow
-    ld hl, $9804
-    ld [hl], $94
-    ld hl, $9822
-    ld [hl], $95
+    ld hl, VRAM_HUD_MARIO
+    ld [hl], TILE_HUD_MARIO_M
+    ld hl, VRAM_HUD_COINS
+    ld [hl], TILE_HUD_MARIO_A
     inc l
-    ld [hl], $96
+    ld [hl], TILE_HUD_MARIO_R
     inc l
-    ld [hl], $8c
-    ld hl, $982f
-    ld [hl], $3f
+    ld [hl], TILE_HUD_MARIO_I
+    ld hl, VRAM_HUD_WORLD
+    ld [hl], TILE_HUD_WORLD_W
     inc l
-    ld [hl], $4c
+    ld [hl], TILE_HUD_WORLD_O
     inc l
-    ld [hl], $4d
+    ld [hl], TILE_HUD_WORLD_R
     ld hl, wScoreBCD
     ld de, wScorePrevious
     ld b, $03
@@ -791,7 +791,7 @@ CopyScoreBCDPreviousLoop:
 
 CompareBCDScoresToDisplay:
     ld de, wScorePrevious
-    ld hl, $9969
+    ld hl, VRAM_HIGHSCORE
     call ConvertBCDToTiles
     ld hl, wOamSprite1Y
     ld [hl], SPRITE_Y_MENU
@@ -806,9 +806,9 @@ CompareBCDScoresToDisplay:
     jr FinalizeGameStateAfterScore
 
 DisplaySpritesForLowLevel:
-    ld hl, $0446
-    ld de, $99c6
-    ld b, $0a
+    ld hl, ROM_MENU_SPRITES
+    ld de, VRAM_MENU_DEST
+    ld b, SIZE_MENU_SPRITES
 
 CopySpriteDataLoop:
     ld a, [hl+]
@@ -1194,16 +1194,16 @@ MemCopy::
 
 
 LoadGameTiles:
-    ld hl, $5032
-    ld de, $9000
-    ld bc, $0800
+    ld hl, ROM_GAME_TILES_A
+    ld de, VRAM_TILES_OBJECTS
+    ld bc, SIZE_GAME_TILES_A
     call MemCopy
-    ld hl, $4032
-    ld de, $8000
-    ld bc, $1000
+    ld hl, ROM_GAME_TILES_B
+    ld de, VRAM_TILES_SPRITES
+    ld bc, SIZE_GAME_TILES_B
     call MemCopy
-    ld hl, $5603
-    ld de, $c600
+    ld hl, ROM_ANIM_BUFFER
+    ld de, wAnimBuffer
     ld b, $08
 
 LoadGameTiles_TileCopyLoop:
@@ -1218,8 +1218,8 @@ LoadGameTiles_TileCopyLoop:
 
 
 CopyHudTilemap:
-    ld hl, $3f87
-    ld de, $9800
+    ld hl, ROM_HUD_TILEMAP
+    ld de, VRAM_BG_BASE
     ld b, $02
 
 .copyHudTilemapLoop:
@@ -12442,10 +12442,10 @@ InitLoop_160Bytes:
     dec b
     jr nz, InitLoop_160Bytes
 
-    ld hl, $9800
+    ld hl, VRAM_BG_BASE
     ld b, $ff
     ld c, $03
-    ld a, $2c
+    ld a, TILE_EMPTY
 
 FillTilemap_MainLoop:
     ld [hl+], a
@@ -12479,7 +12479,7 @@ FillTilemap_MainLoop:
 State13_DrawEndBorder::
     xor a
     ldh [rLCDC], a
-    ld hl, $9800
+    ld hl, VRAM_BG_BASE
     ld a, $f5
     ld [hl+], a
     ld b, $12
@@ -12686,7 +12686,7 @@ GetTileAddrFromSprite:
     srl a                 ; Y pixels → ligne tile (÷8)
     ld de, $0000
     ld e, a
-    ld hl, $9800          ; Base tilemap BG
+    ld hl, VRAM_BG_BASE   ; Base tilemap BG
     ld b, $20             ; Largeur = 32 tiles
 
 .multiplyRow:
