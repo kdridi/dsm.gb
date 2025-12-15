@@ -1135,6 +1135,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$07b7",
+      "node_type": "table",
+      "description": "ROM_RENDER_TABLE - Table index\u00e9e par hRenderContext",
+      "source": "$0552",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1171,8 +1179,9 @@
     "$00C5",
     "$0048",
     "$00C3",
-    "$0394"
+    "$0394",
+    "$0552"
   ],
-  "commits_since_push": 3,
-  "total_explored": 34
+  "commits_since_push": 4,
+  "total_explored": 35
 }

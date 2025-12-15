@@ -862,7 +862,6 @@ DEF LEVEL_BCD2_INIT         EQU $04 ; Valeur initiale wLevelBCD2
 
 ; === Tables ROM (adresses lookup) ===
 
-DEF ROM_ATTRACT_INDEX_TABLE EQU $0552 ; Table index attract mode par bank
 DEF ROM_RENDER_TABLE        EQU $07b7 ; Table contexte rendu par index
 
 ; === Directions joueur (wPlayerDir) ===

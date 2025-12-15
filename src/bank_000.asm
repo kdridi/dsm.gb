@@ -1209,9 +1209,17 @@ InitLevelStartFull:
     ldh [rIE], a                 ; Active interruptions VBlank+STAT+Timer
     ret
 
-
-    ld de, $1200
-    ld bc, $0833
+; ROM_ATTRACT_INDEX_TABLE
+; -----------------------
+; Description: Table des paramètres d'attract mode par ROM bank
+;              Chaque entrée contient 2 octets:
+;              - Octet 1: hAnimTileIndex (index tile animation)
+;              - Octet 2: hRenderContext (contexte de rendu)
+; Format: db AnimTileIndex, RenderContext (par bank 0-2)
+ROM_ATTRACT_INDEX_TABLE:
+    db $11, $00  ; Bank 0: AnimTileIndex=$11, RenderContext=$00
+    db $12, $01  ; Bank 1: AnimTileIndex=$12, RenderContext=$01
+    db $33, $08  ; Bank 2: AnimTileIndex=$33, RenderContext=$08
 
 ; =============================================================================
 ; FillTilemapRow - Remplit une ligne de tilemap avec un tile
