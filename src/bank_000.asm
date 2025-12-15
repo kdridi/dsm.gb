@@ -12346,9 +12346,9 @@ InitLoop_8Bytes:
     dec b
     jr nz, InitLoop_8Bytes
 
-    ld a, $04
+    ld a, LEVEL_PARAM_COPY_COLS
     ld [hl+], a
-    ld a, $11
+    ld a, LEVEL_PARAM_COPY_ROWS
     ld [hl], a
     ret
 
@@ -12448,7 +12448,7 @@ FillTilemap_MainLoop:
     and NIBBLE_HIGH_MASK         ; Chiffre dizaines vies
     swap a
     ld [de], a
-    ld a, $83
+    ld a, LCDC_END_SCREEN
     ldh [rLCDC], a
     ld a, GAME_STATE_DRAW_BORDER
     ldh [hGameState], a
@@ -12609,7 +12609,7 @@ CopyToBackBuffer:
     cp $52
     jr nz, CopyToBackBuffer
 
-    ld a, $83
+    ld a, LCDC_END_SCREEN
     ldh [rLCDC], a
     ld a, GAME_STATE_BONUS_SELECT
     ldh [hGameState], a
@@ -12639,14 +12639,14 @@ CopyTilemapInner:
     ld [wLevelParam28], a
     jr nz, CopyTilemapInner
 
-    ld a, $04
+    ld a, LEVEL_PARAM_COPY_COLS
     ld [wLevelParam28], a
     ld a, [wLevelParam29]
     dec a
     ld [wLevelParam29], a
     jr nz, CopyTilemapOuter
 
-    ld a, $11
+    ld a, LEVEL_PARAM_COPY_ROWS
     ld [wLevelParam29], a
     ld a, GAME_STATE_BONUS_COPY
     ldh [hGameState], a

@@ -649,6 +649,10 @@ DEF BCD_MAX_DIGIT       EQU $99 ; Valeur max d'un octet BCD (99)
 ; $C3 = %11000011 = LCDCF_ON | LCDCF_WIN9C00 | LCDCF_OBJON | LCDCF_BGON
 DEF LCDC_GAME_STANDARD  EQU $C3
 
+; LCDC écran fin niveau : LCD ON + OBJ ON + BG ON (sans window)
+; $83 = %10000011 = LCDCF_ON | LCDCF_OBJON | LCDCF_BGON
+DEF LCDC_END_SCREEN     EQU $83
+
 ; Lignes LCD pour les effets scanline
 DEF LYC_TOP_SCREEN      EQU $0F ; Ligne 15, haut écran (après HUD)
 DEF LYC_CREDITS_LINE    EQU $60 ; Ligne 96, interruption LYC pour crédits
@@ -1229,6 +1233,11 @@ DEF CREDITS_POS_BUF85          EQU $6c   ; Position finale wTilemapBuf85 (108)
 ; === Seuils état joueur (pipes/transitions) ===
 
 DEF PLAYER_STATE_PIPE_THRESHOLD EQU $4c  ; Seuil état joueur pour sortie pipe (76)
+
+; === Constantes initialisation niveau (InitLevelData wLevelParam*) ===
+
+DEF LEVEL_PARAM_COPY_COLS       EQU $04   ; Nombre colonnes copie tilemap (4)
+DEF LEVEL_PARAM_COPY_ROWS       EQU $11   ; Nombre lignes copie tilemap (17)
 
 ; === Adresses VRAM hautes (limites de boucle) ===
 
