@@ -1155,8 +1155,8 @@ State10_Noop::
 ; Sortie : _SCRN0 ($9800-$9BFF) rempli avec TILE_EMPTY
 ; ===========================================================================
 ClearBGTilemap::
-    ld hl, _SCRN0 + $03FF       ; Fin de _SCRN0 ($9BFF)
-    ld bc, $0400                ; 1024 octets (32x32 tiles)
+    ld hl, _SCRN0 + SCRN_SIZE_MINUS_1 ; Fin de _SCRN0 ($9BFF)
+    ld bc, SCRN_SIZE            ; 1024 octets (32×32 tiles)
 
 ; ===========================================================================
 ; FillTilemapLoop - Remplit une zone mémoire avec le tile vide

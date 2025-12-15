@@ -607,6 +607,8 @@ DEF TILEMAP_STRIDE      EQU $20 ; 32 tiles = largeur complète tilemap (256px / 
 DEF TILEMAP_COLUMN_MASK EQU $1f ; Masque colonnes tilemap (TILEMAP_STRIDE - 1)
 DEF TILEMAP_INIT_SIZE   EQU $09 ; Taille données init tilemap (9 octets)
 DEF HUD_LINE_COUNT      EQU $02 ; Nombre de lignes HUD à copier
+DEF SCRN_SIZE           EQU $0400 ; 1024 octets = taille tilemap complète (32×32 tiles)
+DEF SCRN_SIZE_MINUS_1   EQU $03FF ; SCRN_SIZE - 1 (pour adressage depuis fin)
 
 ; === Audio/Sound ===
 
