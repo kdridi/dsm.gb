@@ -3576,7 +3576,7 @@ TextData_ThankYouMario:
 ; ===========================================================================
 State2C_SpriteOscillation::
     ldh a, [hFrameCounter]
-    and $01
+    and FRAME_MASK_2             ; 1 frame sur 2 seulement
     ret nz
 
     ld hl, wSpriteTemp
@@ -3767,7 +3767,7 @@ State30_WalkLeft::
     call SwitchBankAndCallBank3Handler
     ldh a, [hFrameCounter]
     ld b, a
-    and $01
+    and FRAME_MASK_2             ; 1 frame sur 2 seulement
     ret nz
 
     ld hl, wObject4Unk08
@@ -4666,7 +4666,7 @@ State0C_ProcessAnimation:
 
 
 State0C_CheckOddFrame:
-    and $01
+    and FRAME_MASK_2             ; 1 frame sur 2 seulement
     jr nz, State0C_ProcessAnimation
 
     jr State0C_IncrementPlayerDir
