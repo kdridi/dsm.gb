@@ -6768,9 +6768,9 @@ PaddingZone_213b:
     ld bc, $0000
     rrca
     nop
-    jr nz, DataTable_215b
+    jr nz, PaddingZone_215b
 
-DataTable_215b:
+PaddingZone_215b:
     nop
     nop
     nop

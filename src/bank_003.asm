@@ -450,7 +450,7 @@ SpriteGraphicsData_Enemy_Set2:
     rst $38
     nop
     nop
-    jr c, DataTable_003_420e
+    jr c, DataZone_003_420e
 
     ld b, [hl]
     ld b, [hl]
@@ -501,7 +501,7 @@ SpriteGraphicsData_Enemy_Set2:
     dec e
     and $de
 
-DataTable_003_420e:
+DataZone_003_420e:
     db $e4
     inc e
     db $e4
@@ -3315,7 +3315,7 @@ DispatchDataZone_4dd8:
     jr PaddingZone_003_4e6d
 
 PaddingZone_003_4e6d:
-    jr nz, DataTable_003_4e77
+    jr nz, DataZone_003_4e77
 
     jr nz, PaddingZone_003_4e71
 
@@ -3328,7 +3328,7 @@ PaddingZone_003_4e73:
     rrca
     inc a
 
-DataTable_003_4e77:
+DataZone_003_4e77:
     db $10
     ld c, a
     ret
@@ -4396,7 +4396,7 @@ AudioParam_Set_4:
 
 AudioDataRaw_003_5319:
     cp $c4
-    jr c, DataTable_003_5358
+    jr c, DataZone_003_5358
 
     ld h, c
     ld h, c
@@ -4446,7 +4446,7 @@ AudioDataRaw_003_5319:
     ld h, b
     cp $e2
 
-DataTable_003_5358:
+DataZone_003_5358:
     db $fd
     ld h, c
     cp $b5
@@ -4921,7 +4921,7 @@ DataZone_003_551f:
     ld h, c
     ld h, c
     cp $97
-    jr c, DataTable_003_55f1
+    jr c, DataZone_003_55f1
 
     ld a, $41
     ld b, h
@@ -4972,7 +4972,7 @@ DataZone_003_551f:
     add c
     ld d, d
 
-DataTable_003_55f1:
+DataZone_003_55f1:
     db $f4
     ld a, a
     ldh [c], a

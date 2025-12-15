@@ -2526,7 +2526,7 @@ UpdateLevelState_4a56:
     rra
     jr DataMarker_4ad1
 
-    jr nz, DataTable_4acb
+    jr nz, DataZone_4acb
 
     jr nz, DataEntry_4afd
 
@@ -2574,7 +2574,7 @@ UpdateLevelState_4a56:
     rlca
     or e
 
-DataTable_4acb:
+DataZone_4acb:
     ld c, $e7
     sbc a
     ld a, [hl]
@@ -2641,7 +2641,7 @@ DataEntry_4afd:
     ld a, a
     ld c, b
     ccf
-    jr nc, DataTable_4b18
+    jr nc, PaddingZone_4b18
 
     rrca
     ld a, c
@@ -2657,7 +2657,7 @@ DataEntry_4afd:
     ld c, b
     ld a, a
 
-DataTable_4b18:
+PaddingZone_4b18:
     ccf
     ccf
     rlca
@@ -3561,7 +3561,7 @@ DataPadding_4e5e:
     rst $38
     ld bc, $0f0f
     ccf
-    jr nc, DataTable_4f86
+    jr nc, PaddingZone_4f86
 
     ld b, a
     ld sp, hl
@@ -3676,7 +3676,7 @@ DataPadding_4f5e:
     and $1e
     and $1e
 
-DataTable_4f76:
+PaddingZone_4f76:
     rst $38
     rst $38
     rst $00
@@ -3694,7 +3694,7 @@ DataTable_4f76:
     ld a, a
     ld b, b
 
-DataTable_4f86:
+PaddingZone_4f86:
     ld a, a
     ld b, b
     ccf
@@ -4314,7 +4314,7 @@ ResetGameStateInit_001_5168:
     ld [hl], e
     inc de
 
-DataTable_5278:
+DataZone_5278:
     inc h
     ld [hl], a
     ld c, e
@@ -4350,7 +4350,7 @@ DataTable_5278:
     adc l
     ld [hl], $ff
 
-DataTable_529b:
+DataZone_529b:
     rrca
     dec b
     xor a
@@ -4402,13 +4402,13 @@ DataTable_529b:
     ld [$5720], sp
     ld [$5f1d], sp
     add hl, bc
-    jr nz, DataTable_5344
+    jr nz, PaddingZone_5344
 
     rlca
-    jr nz, DataTable_5347
+    jr nz, PaddingZone_5347
 
     dec c
-    jr nz, DataTable_5354
+    jr nz, PaddingZone_5354
 
     rlca
     cpl
@@ -4423,7 +4423,7 @@ DataTable_529b:
     inc h
     add l
     ld a, [bc]
-    jr nz, DataTable_5278
+    jr nz, DataZone_5278
 
     inc c
     cpl
@@ -4438,7 +4438,7 @@ DataTable_529b:
     sbc l
     sbc e
     dec c
-    jr nz, DataTable_529b
+    jr nz, DataZone_529b
 
     rrca
     sbc l
@@ -4504,12 +4504,12 @@ DataTable_529b:
     adc [hl]
     inc b
 
-DataTable_5344:
+PaddingZone_5344:
     ld c, d
     rrca
     ld d, [hl]
 
-DataTable_5347:
+PaddingZone_5347:
     ld c, e
     ld d, c
     ld [bc], a
@@ -4526,7 +4526,7 @@ ValidateCondition_534f:
     add d
     ld d, e
 
-DataTable_5354:
+PaddingZone_5354:
     ld d, c
     ld [bc], a
     ld d, h
@@ -5185,7 +5185,7 @@ JumpHandler_550a:
     and c
     ld h, [hl]
 
-DataTable_5652:
+DataZone_5652:
     add d
     ld l, b
     add d
@@ -5223,7 +5223,7 @@ DataTable_5652:
     ld l, [hl]
     jr c, @+$72
 
-    jr c, DataTable_56e9
+    jr c, DataZone_56e9
 
     ld h, b
     ld l, a
@@ -5269,7 +5269,7 @@ DataTable_5652:
     jp nc, $d276
 
     halt
-    jp nc, DataTable_4f76
+    jp nc, PaddingZone_4f76
 
     halt
     ld c, a
@@ -5329,7 +5329,7 @@ DataTable_5652:
     cp $5b
     inc [hl]
 
-DataTable_56e9:
+DataZone_56e9:
     scf
     ld b, c
     ld e, b
@@ -5342,7 +5342,7 @@ DataTable_56e9:
     ld e, l
     cp $54
     dec [hl]
-    jr c, DataTable_5733
+    jr c, DataZone_5733
 
     ccf
     ldh [c], a
@@ -5392,7 +5392,7 @@ DataTable_56e9:
     ld h, c
     call nz, $3163
 
-DataTable_5733:
+DataZone_5733:
     ld sp, $fe5d
     add c
     ld h, c
@@ -6323,7 +6323,7 @@ ProcessLevelData_5b49:
     ld e, l
     cp $24
     dec [hl]
-    jr c, DataTable_5c0c
+    jr c, DataZone_5c0c
 
     ccf
     ldh [c], a
@@ -6375,7 +6375,7 @@ ProcessLevelData_5b49:
     ld l, c
     ld h, a
 
-DataTable_5c0c:
+DataZone_5c0c:
     ld l, c
     ld e, l
     cp $b5
@@ -12037,7 +12037,7 @@ ConfigData_7555:
     ld d, d
     ld d, l
     ld e, c
-    jp nz, DataTable_5652
+    jp nz, DataZone_5652
 
     cp $02
     ld d, e
@@ -12097,7 +12097,7 @@ ConfigData_7555:
     ld e, b
     ld b, c
     db $f4
-    jp nz, DataTable_5652
+    jp nz, DataZone_5652
 
     cp $02
     ld d, l

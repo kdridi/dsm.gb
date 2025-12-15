@@ -739,22 +739,22 @@ RoutineOffset_5:
     rra
     dec sp
     ccf
-    jr c, DataTable_JumpDispatch_004
+    jr c, DispatchTableData_SpriteAttr_004
 
-    jr c, DataTable_JumpDispatch_001
+    jr c, DispatchTableData_SpriteAttr_001
 
-    jr DataTable_JumpDispatch_002
+    jr DispatchTableData_SpriteAttr_002
 
     nop
     ld e, $1c
     inc e
     inc a
 
-DataTable_JumpDispatch_001:
+DispatchTableData_SpriteAttr_001:
     inc a
     and b
 
-DataTable_JumpDispatch_002:
+DispatchTableData_SpriteAttr_002:
     ldh [hSpriteAttr], a
     ldh a, [$ff38]
     cp b
@@ -779,7 +779,7 @@ DataTable_JumpDispatch_002:
 
     jr nc, RoutineOffset_6
 
-    jr nz, DataTable_JumpDispatch_005
+    jr nz, DispatchTableData_SpriteAttr_005
 
     nop
     nop
@@ -790,7 +790,7 @@ DataTable_JumpDispatch_002:
 
     ret nz
 
-DataTable_JumpDispatch_003:
+DispatchTableData_SpriteAttr_003:
     db $fc
     ldh [hOAMAddrLow], a
     ldh [hJoypadState], a
@@ -801,7 +801,7 @@ DataTable_JumpDispatch_003:
     ld a, b
     rla
 
-DataTable_JumpDispatch_004:
+DispatchTableData_SpriteAttr_004:
     rra
     rlca
     rra
@@ -813,7 +813,7 @@ DataTable_JumpDispatch_004:
     rlca
     ld c, $0e
 
-DataTable_JumpDispatch_005:
+DispatchTableData_SpriteAttr_005:
     rlca
     rlca
     ret nz
@@ -860,7 +860,7 @@ TableEntry_Variant_1:
 
     jr c, @-$06
 
-    jr c, DataTable_JumpDispatch_003
+    jr c, DispatchTableData_SpriteAttr_003
 
     nop
     nop
@@ -912,7 +912,7 @@ TableEntry_Variant_4:
     nop
     ret nz
 
-    jr nc, DataTable_Lookup_001
+    jr nc, LookupTable_SpriteState_001
 
     ldh [$ff78], a
     ld hl, sp-$08
@@ -1001,7 +1001,7 @@ TableEntry_Variant_5:
     nop
     nop
 
-DataTable_Lookup_001:
+LookupTable_SpriteState_001:
     nop
     nop
     nop
@@ -1020,12 +1020,12 @@ TableEntry_Variant_6:
     ld d, $1f
     db $10
     rra
-    jr DataTable_Lookup_004
+    jr LookupTable_SpriteState_004
 
     jr c, @+$3d
 
     inc sp
-    jr c, DataTable_Lookup_003
+    jr c, LookupTable_SpriteState_003
 
     inc e
     rra
@@ -1035,13 +1035,13 @@ TableEntry_Variant_6:
     ld hl, sp+$40
     ldh a, [hCurrentTile]
 
-DataTable_Lookup_002:
+LookupTable_SpriteState_002:
     ld hl, sp+$18
     cp b
     xor b
     jr TableEntry_Variant_6
 
-    jr c, DataTable_Lookup_002
+    jr c, LookupTable_SpriteState_002
 
     inc a
     inc a
@@ -1057,14 +1057,14 @@ DataTable_Lookup_002:
     ld d, $3f
     jr nc, TableEntry_Variant_7
 
-    jr nc, DataTable_Lookup_004
+    jr nc, LookupTable_SpriteState_004
 
     add hl, bc
     nop
     nop
     ret nz
 
-DataTable_Lookup_003:
+LookupTable_SpriteState_003:
     ret nz
 
     ldh a, [hCurrentTile]
@@ -1073,7 +1073,7 @@ DataTable_Lookup_003:
     ld hl, sp+$40
     cp $f0
 
-DataTable_Lookup_004:
+LookupTable_SpriteState_004:
     db $fc
     ldh a, [$ff0b]
     rrca
@@ -2230,7 +2230,7 @@ PaddingZone_002_4904:
     rst $38
     add c
     rst $38
-    jp DataTable_667e
+    jp DataZone_667e
 
 
     inc a
@@ -3508,7 +3508,7 @@ PaddingZone_002_4e64:
 
 
     and l
-    jp DataTable_665a
+    jp DataZone_665a
 
 
     inc a
@@ -4531,7 +4531,7 @@ ControlFlow_Target_6:
     nop
     nop
     nop
-    jr nc, DataTable_002_529e
+    jr nc, DataZone_002_529e
 
     jr nc, PaddingZone_002_52a0
 
@@ -4587,7 +4587,7 @@ ControlFlow_Target_9:
 
     jr nc, PaddingZone_002_52ce
 
-DataTable_002_529e:
+DataZone_002_529e:
     db $10
     db $10
 
@@ -8896,7 +8896,7 @@ Routine_DataProcess_D:
     ld b, b
     ld d, c
 
-DataTable_665a:
+DataZone_665a:
     ld e, [hl]
     or l
     ld c, h
@@ -8929,7 +8929,7 @@ Routine_DataProcess_E:
     ld e, [hl]
     or l
 
-DataTable_667e:
+DataZone_667e:
     ld h, e
     ld h, e
     ld h, e
@@ -9994,7 +9994,7 @@ DataTable_667e:
     ld d, e
     ld b, b
 
-DataTable_6b63:
+DataZone_6b63:
     ld a, c
     ld l, c
     scf
@@ -11851,7 +11851,7 @@ ProcessInputState_Bank2_Part2:
     ld l, l
     ld l, [hl]
     ld d, a
-    jp nz, DataTable_6b63
+    jp nz, DataZone_6b63
 
     pop af
     ld h, h
@@ -13976,7 +13976,7 @@ JumpTableDispatcher_7c9a:
 
 AudioDataRaw_002_7cbe:
     ccf
-    jr nc, DataTable_002_7d00
+    jr nc, DataZone_002_7d00
 
     inc hl
     ld a, $22
@@ -14050,7 +14050,7 @@ AudioDataRaw_002_7cf7:
     ei
     inc bc
 
-DataTable_002_7d00:
+DataZone_002_7d00:
     db $fd
     pop hl
     cp a
