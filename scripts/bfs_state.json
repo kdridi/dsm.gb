@@ -1847,6 +1847,38 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1305",
+      "node_type": "code",
+      "description": "AnimateAndCallBank3 - Toggle animation + appel bank 3",
+      "source": "$12E8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$130F",
+      "node_type": "code",
+      "description": "SetupFinalScreen - Configure \u00e9cran final cutscene (appel\u00e9 2x si SCX=$FE ou $FF)",
+      "source": "$12E8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1345",
+      "node_type": "code",
+      "description": "ClearScrollBuffer - Efface buffer scroll et lignes VRAM (appel\u00e9 par SetupFinalScreen)",
+      "source": "$12E8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$136D",
+      "node_type": "code",
+      "description": "Copy5Bytes - Copie 5 bytes ROM\u2192RAM (appel\u00e9 3x par SetupFinalScreen)",
+      "source": "$12E8",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1897,6 +1929,7 @@
     "$0AE1",
     "$0E1F",
     "$09E8",
+    "$12E8",
     "$0530",
     "$0aa6",
     "$0BEA",
@@ -1970,6 +2003,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 119
+  "commits_since_push": 4,
+  "total_explored": 120
 }

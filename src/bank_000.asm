@@ -4424,8 +4424,15 @@ ToggleAnimFrame:
     ret
 
 ; ===========================================================================
-; État $31 - Scroll horizontal cutscene ($12E8)
-; Scroll l'écran horizontalement, prépare transition finale
+; State31_HorizontalScroll ($12E8)
+; --------------------------------
+; Description: Gère le scroll horizontal pendant la cutscene finale
+;              Incrémente SCX progressivement et déclenche la transition
+;              vers l'écran final quand wStateVar9 = 0
+; In:  hShadowSCX = position scroll actuelle
+;      wStateVar9 = flag de contrôle (0 = transition vers écran final)
+; Out: hShadowSCX incrémenté, wStateRender = STATE_RENDER_FINAL si transition
+; Modifie: af
 ; ===========================================================================
 State31_HorizontalScroll::
     call AnimateAndCallBank3
@@ -4444,14 +4451,26 @@ State31_HorizontalScroll::
     ld [wStateRender], a
     ret
 
-; --- Routine : animation + bank 3 ---
+; AnimateAndCallBank3 ($1305)
+; ---------------------------
+; Description: Bascule la frame d'animation du joueur et appelle le handler bank 3
+; In:  wPlayerState = état animation joueur
+; Out: Frame d'animation toggleée, handler bank 3 exécuté
+; Modifie: hl, af (via sous-routines)
 AnimateAndCallBank3:
     ld hl, wPlayerState
     call ToggleAnimFrame
     call SwitchBankAndCallBank3Handler
     ret
 
-; --- Routine : setup écran final ---
+; SetupFinalScreen ($130F)
+; ------------------------
+; Description: Configure l'écran final de la cutscene quand SCX atteint $FE ou $FF
+;              Décrémente hOAMIndex, reset LYC, configure sprites et scroll
+;              Incrémente hGameState à la fin
+; In:  hOAMIndex = compteur décrément, hScrollColumn = colonne scroll courante
+; Out: OAM et scroll configurés pour écran final, hGameState incrémenté
+; Modifie: af, hl, de, bc (via sous-routines)
 SetupFinalScreen:
     push af
     ldh a, [hOAMIndex]
@@ -4481,7 +4500,15 @@ PopAndReturn:
     pop af
     ret
 
-; --- Routine : clear scroll buffer ---
+; ClearScrollBuffer ($1345)
+; -------------------------
+; Description: Efface le buffer de scroll avec des tiles vides
+;              Active le scroll et efface HUD_LINE_COUNT lignes dans VRAM
+;              en utilisant WAIT_FOR_HBLANK pour chaque tile
+; In:  hScrollColumn = colonne de départ dans tilemap
+; Out: wScrollBuffer rempli de TILE_EMPTY, hScrollPhase = SCROLL_PHASE_ACTIVE
+;      HUD_LINE_COUNT lignes effacées dans VRAM
+; Modifie: af, b, hl
 ClearScrollBuffer:
     ld hl, wScrollBuffer
     ld b, SCROLL_BUFFER_SIZE
@@ -4511,7 +4538,13 @@ ClearBufferLoop:
 
     ret
 
-; --- Routine : copie 5 bytes de config sprite ---
+; Copy5Bytes ($136D)
+; ------------------
+; Description: Copie SPRITE_CONFIG_COPY_SIZE bytes de ROM vers RAM
+;              Utilisé pour charger config sprites depuis tables ROM
+; In:  hl = destination RAM, de = source ROM
+; Out: SPRITE_CONFIG_COPY_SIZE (5) bytes copiés, hl et de avancés
+; Modifie: af, b, hl, de
 Copy5Bytes:
     ld b, SPRITE_CONFIG_COPY_SIZE
 
