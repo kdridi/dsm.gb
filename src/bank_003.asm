@@ -280,7 +280,7 @@ PaddingZone_003_410c:
     add c
     ld a, [hl]
     rst $38
-    jr DataZone_003_4190
+    jr SpriteGraphicsData_Enemy_Set2
 
     nop
     nop
@@ -370,7 +370,7 @@ PaddingZone_003_410c:
     rrca
     ld [$101f], sp
     rra
-    jr DataZone_003_4180
+    jr SpriteGraphicsData_Enemy_Set1
 
     inc b
     ld e, $19
@@ -379,7 +379,7 @@ PaddingZone_003_410c:
     rrca
     rrca
 
-DataZone_003_4180:
+SpriteGraphicsData_Enemy_Set1:
     nop
     nop
     db $fc
@@ -393,7 +393,7 @@ DataZone_003_4180:
     xor e
     xor e
 
-DataZone_003_4190:
+SpriteGraphicsData_Enemy_Set2:
     ld a, $3e
     rst $08
     call z, $8c8f

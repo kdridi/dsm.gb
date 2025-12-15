@@ -2524,7 +2524,7 @@ PaddingZone_002_4a68:
     ld b, b
     ret nz
 
-DataZone_002_4a92:
+SpriteGraphicsData_Warrior_001:
     rra
     rra
     ld [hl], $38
@@ -2553,7 +2553,7 @@ DataZone_002_4a92:
     ld e, b
     adc b
     ld hl, sp-$08
-    jr nz, DataZone_002_4a92
+    jr nz, SpriteGraphicsData_Warrior_001
 
     ld bc, $0701
     ld b, $0f
@@ -2744,14 +2744,14 @@ FlagDispatch_Default:
 
     ld b, b
     ldh a, [hCurrentTile]
-    jr c, DataTable_002_4baa
+    jr c, SpriteGraphicsData_Warrior_002
 
     ld a, a
     ld a, h
     rra
     jr @+$31
 
-    jr nz, DataZone_002_4bd8
+    jr nz, SpriteGraphicsData_Projectile
 
     ld b, e
     ld e, l
@@ -2796,7 +2796,7 @@ FlagDispatch_Default:
     ld b, $fb
     rst $00
 
-DataTable_002_4baa:
+SpriteGraphicsData_Warrior_002:
     db $fd
     inc bc
     db $fd
@@ -2837,7 +2837,7 @@ DataTable_002_4baa:
     cpl
     cpl
 
-DataZone_002_4bd8:
+SpriteGraphicsData_Projectile:
     daa
     daa
     ld h, a
@@ -3612,7 +3612,7 @@ DataZone_002_4f00:
     db $10
     jr z, PaddingZone_002_4f30
 
-    jr z, DataZone_002_4f32
+    jr z, SpriteGraphicsData_Boss_Animated
 
     ld b, h
     ld b, h
@@ -3657,7 +3657,7 @@ PaddingZone_002_4f30:
     nop
     nop
 
-DataZone_002_4f32:
+SpriteGraphicsData_Boss_Animated:
     rrca
     rrca
     dec bc
