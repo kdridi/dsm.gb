@@ -1831,6 +1831,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1236",
+      "node_type": "data",
+      "description": "TextData_QuestOver - Texte 'YOUR QUEST IS OVER!'",
+      "source": "$1212",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1924,6 +1932,7 @@
     "$03E4",
     "$02A5",
     "$0048",
+    "$1212",
     "$05B7",
     "$05F8",
     "$078C",
@@ -1948,6 +1957,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 113
+  "commits_since_push": 3,
+  "total_explored": 114
 }
