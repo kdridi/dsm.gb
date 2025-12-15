@@ -6610,10 +6610,10 @@ jr_002_5b73:
     and a
     jr z, jr_002_5b85
 
-jr_002_5b81:
+CountdownAnimationFramesLoop:
     inc de
     dec a
-    jr nz, jr_002_5b81
+    jr nz, CountdownAnimationFramesLoop
 
 jr_002_5b85:
     inc [hl]
@@ -6781,10 +6781,10 @@ SpriteAnimationState_ValidateAndLoad:
 
     ld c, a
 
-jr_002_5c53:
+CountdownPointerOffsetLoop:
     inc de
     dec c
-    jr nz, jr_002_5c53
+    jr nz, CountdownPointerOffsetLoop
 
 jr_002_5c57:
     dec [hl]
