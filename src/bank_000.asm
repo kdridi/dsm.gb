@@ -12462,7 +12462,7 @@ State13_DrawEndBorder::
     ld hl, VRAM_BG_BASE
     ld a, $f5
     ld [hl+], a
-    ld b, $12
+    ld b, TEXT_LINE_WIDTH
     ld a, $9f
 
 FillBorderRow:
@@ -12494,7 +12494,7 @@ FillBorderColumn:
     ld hl, $9a20
     ld a, $ff
     ld [hl+], a
-    ld b, $12
+    ld b, TEXT_LINE_WIDTH
     ld a, $9f
 
 FillBorderRow_2:
@@ -12528,11 +12528,11 @@ FillBorderRow_2:
     ld a, $e4
     ld [hl+], a
     inc l
-    ld a, $2b
+    ld a, TILE_TEXT_CORNER
     ld [hl], a
     ld l, $e1
-    ld a, $2d
-    ld b, $12
+    ld a, TILE_TEXT_FILL
+    ld b, TEXT_LINE_WIDTH
 
 FillTextLine_1:
     ld [hl+], a
@@ -12540,12 +12540,12 @@ FillTextLine_1:
     jr nz, FillTextLine_1
 
     ld l, $d1
-    ld a, $2b
+    ld a, TILE_TEXT_CORNER
     ld [hl+], a
     ld l, $41
     inc h
-    ld a, $2d
-    ld b, $12
+    ld a, TILE_TEXT_FILL
+    ld b, TEXT_LINE_WIDTH
 
 FillTextLine_2:
     ld [hl+], a
@@ -12553,11 +12553,11 @@ FillTextLine_2:
     jr nz, FillTextLine_2
 
     ld l, $31
-    ld a, $2b
+    ld a, TILE_TEXT_CORNER
     ld [hl+], a
     ld l, $a1
-    ld a, $2d
-    ld b, $12
+    ld a, TILE_TEXT_FILL
+    ld b, TEXT_LINE_WIDTH
 
 FillTextLine_3:
     ld [hl+], a
@@ -12565,12 +12565,12 @@ FillTextLine_3:
     jr nz, FillTextLine_3
 
     ld l, $91
-    ld a, $2b
+    ld a, TILE_TEXT_CORNER
     ld [hl+], a
     ld l, $01
     inc h
-    ld a, $2d
-    ld b, $12
+    ld a, TILE_TEXT_FILL
+    ld b, TEXT_LINE_WIDTH
 
 FillTextLine_4:
     ld [hl+], a
@@ -12579,7 +12579,7 @@ FillTextLine_4:
 
     ld l, $f1
     dec h
-    ld a, $2b
+    ld a, TILE_TEXT_CORNER
     ld [hl+], a
     nop
     ld bc, $e502

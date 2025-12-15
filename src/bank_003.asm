@@ -1973,7 +1973,7 @@ AnimAdvanceFrame:
     ld h, a
     ldh a, [hAnimStructLow]
     ld l, a
-    ld de, $0010
+    ld de, ANIM_STRUCT_STRIDE
     add hl, de
     ldh a, [hParam3]
     dec a
@@ -2566,7 +2566,7 @@ JoypadStateClearRegister:
 ; Routine $4aea - Initialise et traite la boucle de rendu des objets
 InitRenderLoop::
     ld b, $04
-    ld de, $0010
+    ld de, OBJECT_SLOT_SIZE
     ld hl, $c210
 
 ProcessRenderObjectLoop:
@@ -10339,7 +10339,7 @@ AdvanceAudioState:
 
     inc a
     ld [de], a
-    ld de, $0010
+    ld de, ANIM_STRUCT_STRIDE
     add hl, de
     jp AdvanceAudioChannelLoop
 

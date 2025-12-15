@@ -489,6 +489,14 @@ DEF TILE_HUD_WORLD_W    EQU $3F   ; Lettre "W" de WORLD
 DEF TILE_HUD_WORLD_O    EQU $4C   ; Lettre "O" de WORLD
 DEF TILE_HUD_WORLD_R    EQU $4D   ; Lettre "R" de WORLD
 
+; --- Tiles écran texte/bordure ---
+DEF TILE_TEXT_CORNER    EQU $2B   ; Coin de bordure texte (angle)
+DEF TILE_TEXT_FILL      EQU $2D   ; Remplissage bordure texte (ligne)
+DEF TEXT_LINE_WIDTH     EQU $12   ; Largeur ligne texte (18 tiles)
+
+; --- Animation structures ---
+DEF ANIM_STRUCT_STRIDE  EQU $10   ; Taille structure animation (16 octets)
+
 ; === Valeurs de gameplay ===
 
 DEF POINTS_PER_COIN     EQU $0100 ; Points par pièce (100 en BCD)
