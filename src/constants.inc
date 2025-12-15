@@ -876,3 +876,19 @@ DEF OAM_COPY_SIZE              EQU $10   ; Taille copie données OAM (16 octets)
 
 DEF ANIM_SUBSTATE_MASK         EQU $c0   ; Masque bits hauts sous-état animation
 DEF ANIM_HEIGHT_MASK           EQU $70   ; Masque hauteur objet animation
+
+; === Flags et valeurs de retour génériques ===
+
+DEF FLAG_TRUE                  EQU $01   ; Flag actif / valeur vraie
+DEF FLAG_FALSE                 EQU $00   ; Flag inactif / valeur fausse
+DEF RETURN_TRUE                EQU $01   ; Valeur de retour vraie
+DEF RETURN_FALSE               EQU $00   ; Valeur de retour fausse
+
+; === Flags animation ===
+
+DEF FLAG_ANIM_DONE             EQU $ff   ; Animation terminée (wPlayerVarAD)
+DEF FLAG_UPDATE_NEEDED         EQU $01   ; Flag mise à jour nécessaire
+
+; === Bank spéciale ===
+
+DEF BANK_NONE                  EQU $ff   ; Pas de bank spécifique (hPtrBank)

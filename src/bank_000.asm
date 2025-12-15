@@ -317,7 +317,7 @@ LCDStatHandler_OAMContinue:
     jr LCDStatHandler_UpdateLYC
 
 LCDStatHandler_OAMDone:
-    ld a, $ff
+    ld a, FLAG_ANIM_DONE
     ld [wPlayerVarAD], a        ; Flag animation terminée
     jr LCDStatHandler_OAMContinue
 
@@ -449,11 +449,11 @@ AddScore:
     adc [hl]
     daa
     ld [hl+], a
-    ld a, $00
+    ld a, FLAG_FALSE
     adc [hl]
     daa
     ld [hl], a
-    ld a, $01
+    ld a, FLAG_UPDATE_NEEDED
     ldh [hScoreNeedsUpdate], a
     ret nc
 
@@ -1949,11 +1949,11 @@ ObjectInteraction_EnemyHit:
     jr ObjectInteraction_SetupAnimBank
 
 ObjectInteraction_SpecialHit:
-    ld a, $ff
+    ld a, BANK_NONE
     ldh [hPtrBank], a
     ld a, GAME_STATE_CENTER
     ld [wStateBuffer], a
-    ld a, $01
+    ld a, FLAG_UPDATE_NEEDED
     ld [wUpdateCounter], a
     jr ObjectInteraction_CalcAnimPtr
 
@@ -2187,12 +2187,12 @@ Loop_AddValueByEightV2:
     sub b
     jr nc, ReturnZero
 
-    ld a, $01
+    ld a, RETURN_TRUE
     ret
 
 
 ReturnZero:
-    xor a
+    xor a                       ; RETURN_FALSE
     ret
 
 
@@ -5913,9 +5913,9 @@ ResetPlayerDirection:
 
     ld hl, wPlayerDir
     ld a, [hl]
-    and $f0
+    and NIBBLE_HIGH_MASK
     ld [hl], a
-    ld a, $01
+    ld a, FLAG_TRUE
     ld [wPlayerUnk0B], a
     xor a
     ld [wPlayerUnk0E], a
@@ -6074,10 +6074,10 @@ HandleJoypadRight_Setup:
 
     ld hl, wPlayerDir
     ld a, [hl]
-    and $f0
+    and NIBBLE_HIGH_MASK
     or $05
     ld [hl], a
-    ld a, $01
+    ld a, FLAG_TRUE
     ld [wPlayerUnk0B], a
     ret
 
