@@ -280,9 +280,26 @@
 
 **État**: 312 `UnknownCode_*` restants (misdisassembled data tables, non urgent)
 
+### Status: 7.2 - Renommages progressifs PaddingZone/DataZone ✅
+*Complété le 2025-12-15*
+
+- [x] Audit des UnknownCode_002_XXXX (54 labels)
+- [x] Identifier patterns évidents : 3+ nop = PaddingZone, db/daa = DataZone
+- [x] Renommer 17 labels → PaddingZone_002_*
+- [x] Renommer 2 labels → DataZone_002_*
+- [x] Compilation: HASH VERIFIED ✅
+
+**Commit** : [ROADMAP-703] Renommer 19 labels évidents
+
+**Résumé** : 19 labels `UnknownCode_002_XXXX` renommés
+- PaddingZone_002_*: 17 (alignment/dummy instructions)
+- DataZone_002_*: 2 (misdisassembled data)
+
+**État**: 293 `UnknownCode_*` restants (Banks 002/003)
+
 **Prochaines étapes** :
 - Phase 5b/6 (exploration progressive, structures de données)
-- Phase 7.2 (renommages progressifs si découverte de contextes évidents)
+- Phase 7.3 (renommages additionnels si new patterns découverts)
 
 ### Bank 0 (~500 labels)
 
