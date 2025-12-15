@@ -7323,7 +7323,7 @@ UpdateAnimTiles:
     ret nc
 
     ldh a, [hFrameCounter]
-    and $07
+    and FRAME_MASK_8             ; Exécute toutes les 8 frames
     ret nz
 
     ldh a, [hFrameCounter]

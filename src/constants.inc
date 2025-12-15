@@ -916,6 +916,7 @@ DEF ANIM_SUBSTATE_MASK         EQU $c0   ; Masque bits hauts sous-état animatio
 DEF ANIM_HEIGHT_MASK           EQU $70   ; Masque hauteur objet animation
 DEF FRAME_MASK_2               EQU $01   ; Masque pour exécuter toutes les 2 frames (counter & 1)
 DEF FRAME_MASK_4               EQU $03   ; Masque pour exécuter toutes les 4 frames (counter & 3)
+DEF FRAME_MASK_8               EQU $07   ; Masque pour exécuter toutes les 8 frames (counter & 7)
 
 ; === Flags et valeurs de retour génériques ===
 
