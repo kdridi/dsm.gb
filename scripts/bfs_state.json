@@ -945,6 +945,14 @@
       "priority": 3
     },
     {
+      "address": "$12DD",
+      "node_type": "code",
+      "description": "ToggleAnimFrame - Toggle frame d'animation (fonction locale r\u00e9utilis\u00e9e)",
+      "source": "$12B9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$12E8",
       "node_type": "code",
       "description": "State31_HorizontalScroll - Scroll horizontal",
@@ -1839,14 +1847,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$12DD",
-      "node_type": "code",
-      "description": "ToggleAnimFrame - Toggle frame d'animation (fonction locale r\u00e9utilis\u00e9e)",
-      "source": "$12B9",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1948,6 +1948,7 @@
     "$05F8",
     "$078C",
     "$0EDE",
+    "$12DD",
     "$0a07",
     "$0DE4",
     "$0A24",
@@ -1969,6 +1970,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 118
+  "commits_since_push": 3,
+  "total_explored": 119
 }
