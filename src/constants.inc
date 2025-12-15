@@ -1347,3 +1347,27 @@ DEF SCROLL_THRESHOLD_OSCIL     EQU $50   ; Seuil scroll pour oscillation (80)
 ; Valeurs utilisées pour classifier les tiles lors des vérifications de collision
 
 DEF TILE_SPECIAL_THRESHOLD     EQU $f0   ; Seuil tiles spéciaux (>= $F0 = vide/traversable)
+
+; === Configuration collision latérale (CheckPlayerSideCollision) ===
+; Ces valeurs configurent la détection de collision sur les côtés du joueur
+; Format combiné pour ld de: D (octet haut) = offset Y, E (octet bas) = compteur
+
+DEF COLLISION_SIDE_CONFIG_1    EQU $0701 ; D=$07 offset Y, E=$01 (1 itération, mode normal)
+DEF COLLISION_SIDE_CONFIG_2    EQU $0702 ; D=$07 offset Y, E=$02 (2 itérations, mode pipe)
+DEF COLLISION_SIDE_X_NEG       EQU $fa   ; Offset X négatif collision (-6)
+DEF COLLISION_SIDE_X_POS       EQU $06   ; Offset X positif collision (+6)
+DEF COLLISION_LOOP_RESET       EQU $fc   ; Reset offset Y boucle collision (-4)
+
+; === Animation crédits (UpdateCreditsStars) ===
+; Constantes pour l'animation des étoiles pendant les crédits
+
+DEF CREDITS_STAR_COUNT         EQU $03   ; Nombre d'étoiles à animer (3)
+DEF CREDITS_ANIM_LOW_THRESH    EQU $01   ; Seuil bas animation (1)
+DEF CREDITS_ANIM_RESET         EQU $fe   ; Valeur reset animation (254)
+DEF CREDITS_ANIM_HIGH_THRESH   EQU $e0   ; Seuil haut animation (224)
+DEF CREDITS_POS_RANDOM_THRESH  EQU $68   ; Seuil position aléatoire (104)
+
+; === Tables ROM monde (SearchByteLoop) ===
+
+DEF ROM_WORLD_TILE_TABLE       EQU $1a8a ; Table tiles par monde
+DEF TABLE_END_MARKER           EQU $fd   ; Marqueur fin de table

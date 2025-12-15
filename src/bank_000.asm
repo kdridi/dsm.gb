@@ -3966,19 +3966,19 @@ State32_CreditsScroll::
 UpdateCreditsStars:
     ld hl, wPlayerUnk12
     ld de, OBJECT_STRUCT_SIZE
-    ld b, $03
+    ld b, CREDITS_STAR_COUNT
 
 ScrollAnimationLoop:
     dec [hl]
     ld a, [hl]
-    cp $01
+    cp CREDITS_ANIM_LOW_THRESH
     jr nz, State32_CheckCounterReset
 
-    ld [hl], $fe
+    ld [hl], CREDITS_ANIM_RESET
     jr State32_MoveToNextSprite
 
 State32_CheckCounterReset:
-    cp $e0
+    cp CREDITS_ANIM_HIGH_THRESH
     jr nz, State32_MoveToNextSprite
 
     push hl
@@ -3986,14 +3986,14 @@ State32_CheckCounterReset:
     dec l
     add [hl]
     and CLEAR_BIT7_MASK
-    cp $68
+    cp CREDITS_POS_RANDOM_THRESH
     jr nc, State32_StoreOffsetValue
 
     and ANIM_COUNTER_MASK
 
 State32_StoreOffsetValue:
     ld [hl-], a
-    ld [hl], $00
+    ld [hl], FLAG_FALSE
     pop hl
 
 State32_MoveToNextSprite:
@@ -5289,8 +5289,8 @@ ClassifyTileType:
     dec a
     sla a
     ld e, a
-    ld d, $00
-    ld hl, $1a8a
+    ld d, FLAG_FALSE
+    ld hl, ROM_WORLD_TILE_TABLE
     add hl, de
     ld e, [hl]
     inc hl
@@ -5298,7 +5298,7 @@ ClassifyTileType:
 
 SearchByteLoop:
     ld a, [de]
-    cp $fd
+    cp TABLE_END_MARKER
     jr z, TableMarkerFound
 
     cp b
@@ -5355,16 +5355,16 @@ CheckPlayerSideCollision:
     cp GAME_STATE_DEMO      ; État >= $0E (démo) ?
     jr nc, NoCollisionFound
 
-    ld de, $0701
+    ld de, COLLISION_SIDE_CONFIG_1  ; D=$07 (offset Y), E=$01 (1 itération)
     ldh a, [hTimerAux]
-    cp $02
+    cp TIMER_AUX_PIPE_MODE
     jr nz, CollisionConfig_Offset1
 
     ld a, [wPlayerDir]
     cp PLAYER_DIR_LEFT
     jr z, CollisionConfig_Offset1
 
-    ld de, $0702
+    ld de, COLLISION_SIDE_CONFIG_2  ; D=$07 (offset Y), E=$02 (2 itérations)
 
 CollisionConfig_Offset1:
     ld hl, wPlayerX
@@ -5373,11 +5373,11 @@ CollisionConfig_Offset1:
     ldh [hSpriteY], a
     ld a, [wPlayerUnk05]
     ld b, [hl]
-    ld c, $fa
+    ld c, COLLISION_SIDE_X_NEG
     and a
     jr nz, CollisionConfig_Offset2
 
-    ld c, $06
+    ld c, COLLISION_SIDE_X_POS
 
 CollisionConfig_Offset2:
     ld a, c
@@ -5415,7 +5415,7 @@ CollisionDefaultHandler:
 
 
 NoCollisionRestartLoop:
-    ld d, $fc
+    ld d, COLLISION_LOOP_RESET
     dec e
     jr nz, CollisionConfig_Offset1
 
