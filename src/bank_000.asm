@@ -178,7 +178,7 @@ VBlankHandler::
     call UpdateLivesDisplay
 
     ; --- 3. DMATransfer ---
-    call $ffb6              ; Routine OAM DMA copiée en HRAM
+    call hDmaRoutine        ; Routine OAM DMA copiée en HRAM
 
     ; --- UpdateGameLogic (suite) ---
     call UpdateScoreDisplay
@@ -1512,9 +1512,9 @@ RenderPlayerUpdate:
     and a
     ret nz
 
-    ld a, $03
+    ld a, BANK_AUDIO
     ld [rROMB0], a
-    call $7ff3
+    call ROM_INIT_BANK3
     ldh a, [hCurrentBank]
     ld [rROMB0], a
     ldh a, [hRenderCounter]
@@ -2658,7 +2658,7 @@ StateHandler_06_SpecialLevel:
     ldh [hTimer1], a
     ld a, GAME_STATE_INIT27
     ldh [hGameState], a
-    call $7ff3
+    call ROM_INIT_BANK3
     ret
 
 
@@ -2935,10 +2935,10 @@ State1E_ClearTilemapColumn::
 TilemapColumnClearCompletePath:
     ld a, $10
     ldh [hTimer1], a
-    ld a, $03
+    ld a, BANK_AUDIO
     ldh [hCurrentBank], a
     ld [rROMB0], a
-    call $7ff3
+    call ROM_INIT_BANK3
     ld hl, hGameState
     inc [hl]
     ret
@@ -4311,10 +4311,10 @@ InitializeCreditsMode:
     and a
     ret z
 
-    call $7ff3
+    call ROM_INIT_BANK3
 
 SetupCreditsState:
-    ld a, $02
+    ld a, BANK_DEMO
     ldh [hCurrentBank], a
     ld [rROMB0], a
     ld [wCurrentROMBank], a
