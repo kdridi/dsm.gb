@@ -733,7 +733,7 @@ UnknownCode_003_4301:
     ld a, [hl-]
     inc a
     inc [hl]
-    jr UnknownCode_003_4330
+    jr PaddingZone_003_4330
 
     ld [$0c08], sp
     inc c
@@ -756,7 +756,7 @@ UnknownCode_003_4301:
 UnknownCode_003_432f:
     ld b, a
 
-UnknownCode_003_4330:
+PaddingZone_003_4330:
     add b
     add b
     nop
@@ -1205,9 +1205,9 @@ UnknownCode_003_44c7:
     jr nz, UnknownCode_003_451b
 
 UnknownCode_003_451b:
-    jr nz, UnknownCode_003_451d
+    jr nz, PaddingZone_003_451d
 
-UnknownCode_003_451d:
+PaddingZone_003_451d:
     ldh [rP1], a
     stop
     ld [$0100], sp
@@ -10678,7 +10678,7 @@ HandleAudioConditionalLogic:
     ld [$2010], sp
     ld b, b
     inc c
-    jr UnknownCode_003_709b
+    jr PaddingZone_003_709b
 
     dec b
     ld a, [bc]
@@ -10722,7 +10722,7 @@ HandleAudioConditionalLogic:
 
     ld [hl], e
 
-UnknownCode_003_709b:
+PaddingZone_003_709b:
     db $eb
     ld [hl], e
     nop
@@ -11187,7 +11187,7 @@ UnknownCode_003_7308:
     ld [hl], e
     add l
 
-UnknownCode_003_730e:
+PaddingZone_003_730e:
     ld [hl], e
     ld [hl], e
     ld [hl], e
@@ -11266,7 +11266,7 @@ UnknownCode_003_7360:
     jr c, UnknownCode_003_7308
 
     inc a
-    jr c, UnknownCode_003_730e
+    jr c, PaddingZone_003_730e
 
     ld [hl], $01
     ld bc, $0001
@@ -11747,7 +11747,7 @@ UnknownCode_003_74a0:
     rst $38
     rst $38
 
-UnknownCode_003_75c6:
+PaddingZone_003_75c6:
     cp [hl]
     ld [hl], l
     db $f4
@@ -11820,7 +11820,7 @@ UnknownCode_003_75c6:
     sbc l
     scf
     ld [hl], b
-    jr nz, UnknownCode_003_75c6
+    jr nz, PaddingZone_003_75c6
 
     ld bc, $0001
     and l

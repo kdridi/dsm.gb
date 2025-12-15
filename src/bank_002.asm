@@ -1330,7 +1330,7 @@ UnknownCode_002_459a:
     ld d, b
     ld d, b
     ld d, b
-    jr nz, UnknownCode_002_45e0
+    jr nz, PaddingZone_002_45e0
 
     nop
     nop
@@ -1367,7 +1367,7 @@ UnknownCode_002_45d6:
     ld [hl], d
     ld [hl], d
 
-UnknownCode_002_45e0:
+PaddingZone_002_45e0:
     nop
     nop
     nop
@@ -1445,7 +1445,7 @@ UnknownCode_002_45e0:
     cp [hl]
     cp b
     cp b
-    jr c, UnknownCode_002_4668
+    jr c, PaddingZone_002_4668
 
     nop
     nop
@@ -1475,7 +1475,7 @@ UnknownCode_002_45e0:
     inc c
     db $10
     db $10
-    jr nz, UnknownCode_002_466e
+    jr nz, PaddingZone_002_466e
 
     jr nz, SetVramPointer
 
@@ -1502,7 +1502,7 @@ UnknownCode_002_45e0:
     nop
     nop
 
-UnknownCode_002_4668:
+PaddingZone_002_4668:
     nop
     nop
     inc bc
@@ -1510,7 +1510,7 @@ UnknownCode_002_4668:
     rlca
     rlca
 
-UnknownCode_002_466e:
+PaddingZone_002_466e:
     ld h, h
     ld h, h
 
@@ -2049,7 +2049,7 @@ UnknownCode_002_489a:
     db $db
     inc a
     inc a
-    jr nz, UnknownCode_002_4904
+    jr nz, PaddingZone_002_4904
 
     rst $38
     rst $38
@@ -2133,7 +2133,7 @@ UnknownCode_002_48f8:
     nop
     nop
 
-UnknownCode_002_4904:
+PaddingZone_002_4904:
     nop
     nop
     nop
@@ -2212,7 +2212,7 @@ UnknownCode_002_4904:
     jp $18c3
 
 
-    jr UnknownCode_002_4991
+    jr PaddingZone_002_4991
 
     inc h
     ld a, [hl]
@@ -2275,7 +2275,7 @@ UnknownCode_002_4904:
     ld a, [hl]
     inc a
 
-UnknownCode_002_4991:
+PaddingZone_002_4991:
     inc a
     nop
     nop
@@ -2852,7 +2852,7 @@ UnknownCode_002_4bd8:
     ld [hl], e
     ld b, $06
     add hl, de
-    jr UnknownCode_002_4c10
+    jr PaddingZone_002_4c10
 
     jr nz, UnknownCode_002_4c69
 
@@ -2876,7 +2876,7 @@ UnknownCode_002_4bd8:
 UnknownCode_002_4bfc:
     ld b, h
     ld b, h
-    jr z, UnknownCode_002_4c28
+    jr z, PaddingZone_002_4c28
 
     db $10
     stop
@@ -2894,7 +2894,7 @@ UnknownCode_002_4bfc:
     nop
     nop
 
-UnknownCode_002_4c10:
+PaddingZone_002_4c10:
     nop
     nop
     nop
@@ -2926,7 +2926,7 @@ UnknownCode_002_4c20:
     nop
     nop
 
-UnknownCode_002_4c28:
+PaddingZone_002_4c28:
     nop
     nop
     nop
@@ -3473,7 +3473,7 @@ UnknownCode_002_4e64:
     nop
     nop
     nop
-    jr c, UnknownCode_002_4eae
+    jr c, PaddingZone_002_4eae
 
     ld a, a
     ld a, a
@@ -3526,7 +3526,7 @@ UnknownCode_002_4e64:
     nop
     rst $38
 
-UnknownCode_002_4eae:
+PaddingZone_002_4eae:
     nop
     rst $38
     nop
@@ -3795,7 +3795,7 @@ UnknownCode_002_4fbc:
 
     jr UnknownCode_002_4fd8
 
-    jr UnknownCode_002_4fda
+    jr PaddingZone_002_4fda
 
     nop
     nop
@@ -3834,7 +3834,7 @@ UnknownCode_002_4fd6:
 UnknownCode_002_4fd8:
     jr UnknownCode_002_4ff2
 
-UnknownCode_002_4fda:
+PaddingZone_002_4fda:
     cp h
     cp h
     sbc b
@@ -4592,7 +4592,7 @@ UnknownCode_002_529e:
     db $10
 
 UnknownCode_002_52a0:
-    jr nz, UnknownCode_002_52c2
+    jr nz, PaddingZone_002_52c2
 
     nop
     nop
@@ -4634,7 +4634,7 @@ UnknownCode_002_52c0:
     nop
     nop
 
-UnknownCode_002_52c2:
+PaddingZone_002_52c2:
     nop
     nop
     nop
@@ -5843,7 +5843,7 @@ Routine_DataProcess_B:
 
     jr @+$01
 
-    jr UnknownCode_002_580a
+    jr PaddingZone_002_580a
 
     rst $38
     ld a, a
@@ -5896,7 +5896,7 @@ Routine_DataProcess_B:
     rst $38
     nop
 
-UnknownCode_002_580a:
+PaddingZone_002_580a:
     nop
     rst $38
     rst $38
@@ -13972,7 +13972,7 @@ UnknownCode_002_7c9a:
     ldh a, [rNR10]
     rrca
     rrca
-    jr UnknownCode_002_7cd6
+    jr PaddingZone_002_7cd6
 
 UnknownCode_002_7cbe:
     ccf
@@ -13996,7 +13996,7 @@ UnknownCode_002_7cbe:
     db $fd
     add l
 
-UnknownCode_002_7cd6:
+PaddingZone_002_7cd6:
     db $fd
     add l
     db $fd
