@@ -5369,7 +5369,7 @@ CollisionConfig_Offset1:
     ld a, [hl+]
     add d
     ldh [hSpriteY], a
-    ld a, [$c205]
+    ld a, [wPlayerUnk05]
     ld b, [hl]
     ld c, $fa
     and a
@@ -5842,9 +5842,9 @@ State3B_DecrementCounter:
 
 
 ProcessAnimationState:
-    ld hl, $c20d
+    ld hl, wPlayerUnk0D
     ld a, [hl]
-    cp $01
+    cp FLAG_TRUE
     jr nz, ProcessAnimationState_CheckType
 
     dec l
@@ -5954,7 +5954,7 @@ ProcessAnimationState_JoypadUp_ResetAndReturn:
 
 
 ProcessAnimationState_JoypadLeft:
-    ld hl, $c20d
+    ld hl, wPlayerUnk0D
     ld a, [hl]
     cp $20
     jr nz, ProcessAnimationState_JoypadLeft_CheckCollision
@@ -5963,8 +5963,8 @@ ProcessAnimationState_JoypadLeft:
 
 
 ProcessAnimationState_JoypadLeft_CheckCollision:
-    ld hl, $c205
-    ld [hl], $00
+    ld hl, wPlayerUnk05
+    ld [hl], FLAG_FALSE
     call CheckPlayerSideCollision
     and a
     ret nz
@@ -6059,15 +6059,15 @@ CheckOscillationCollision_Skip:
 
 
 HandleJoypadRight:
-    ld hl, $c20d
+    ld hl, wPlayerUnk0D
     ld a, [hl]
     cp $10
     jr nz, HandlePlayerMovement
 
 HandleJoypadRight_Setup:
-    ld [hl], $01
+    ld [hl], FLAG_TRUE
     dec l
-    ld [hl], $08
+    ld [hl], TILE_SIZE_PIXELS
     ld a, [wPlayerUnk07]
     and a
     ret nz
@@ -6083,7 +6083,7 @@ HandleJoypadRight_Setup:
 
 
 HandlePlayerMovement:
-    ld hl, $c205
+    ld hl, wPlayerUnk05
     ld [hl], $20
     call CheckPlayerSideCollision
     and a
@@ -6155,9 +6155,9 @@ GetOscillatingOffset:
     ld a, [wPlayerUnk0E]
     ld e, a
     ld d, $00
-    ld a, [$c20f]
-    xor $01
-    ld [$c20f], a
+    ld a, [wPlayerUnk0F]
+    xor FLAG_TRUE
+    ld [wPlayerUnk0F], a
     add e
     ld e, a
     add hl, de
@@ -8230,11 +8230,11 @@ SoundParamProcessing:
     and a
     jp z, UpdatePhysicsCollision
 
-    ld a, [$c205]
+    ld a, [wPlayerUnk05]
     ld c, a
     push bc
     ld a, $20
-    ld [$c205], a
+    ld [wPlayerUnk05], a
     call CheckPlayerSideCollision
     pop bc
     and a
@@ -8251,7 +8251,7 @@ SoundParamProcessing:
 
 RestoreSoundConfig:
     ld a, c
-    ld [$c205], a
+    ld [wPlayerUnk05], a
     jp UpdatePhysicsCollision
 
 
@@ -8303,11 +8303,11 @@ ProcessVerticalCollision:
     and a
     jr z, UpdatePhysicsCollision
 
-    ld a, [$c205]
+    ld a, [wPlayerUnk05]
     ld c, a
     push bc
     xor a
-    ld [$c205], a
+    ld [wPlayerUnk05], a
     call CheckPlayerSideCollision
     pop bc
     and a
@@ -8336,7 +8336,7 @@ ApplyHorizontalScrollOffset:
 
 RestoreCollisionFlagAndExit:
     ld a, c
-    ld [$c205], a
+    ld [wPlayerUnk05], a
     jr UpdatePhysicsCollision
 
 AlignCameraTo4PixelBoundary:

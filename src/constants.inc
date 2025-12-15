@@ -280,11 +280,16 @@ DEF wPlayerState    EQU $C202   ; État joueur
 DEF wPlayerDir      EQU $C203   ; Direction joueur
 DEF wPlayerFlag     EQU $C204   ; Flag joueur actif
 DEF wPlayerUnk05    EQU $C205   ; Variable joueur
+DEF wPlayerUnk06    EQU $C206   ; Variable joueur 06
 DEF wPlayerUnk07    EQU $C207   ; Variable joueur
+DEF wPlayerUnk08    EQU $C208   ; Variable joueur 08
+DEF wPlayerUnk09    EQU $C209   ; Variable joueur 09
 DEF wPlayerUnk0A    EQU $C20A   ; Variable joueur 0A
 DEF wPlayerUnk0B    EQU $C20B   ; Variable joueur
 DEF wPlayerUnk0C    EQU $C20C   ; Variable joueur
+DEF wPlayerUnk0D    EQU $C20D   ; Variable joueur 0D
 DEF wPlayerUnk0E    EQU $C20E   ; Variable joueur
+DEF wPlayerUnk0F    EQU $C20F   ; Variable joueur 0F
 DEF wPlayerUnk10    EQU $C210   ; Variable joueur
 DEF wPlayerUnk11    EQU $C211   ; Variable joueur 11
 DEF wPlayerUnk12    EQU $C212   ; Variable joueur 12

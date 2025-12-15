@@ -2420,9 +2420,9 @@ InitializeSpriteTransferBuffer_CountObjects:
 
 InitializeSpriteTransferBuffer_LoadObject:
     push hl
-    ld hl, $c205
+    ld hl, wPlayerUnk05
     ld b, [hl]
-    ld hl, $c201
+    ld hl, wPlayerX
     ld a, [hl+]
     add $fe
     ld [de], a
