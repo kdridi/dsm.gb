@@ -6251,7 +6251,7 @@ SpriteAnimationDispatch_ByType:
     dec l
     ld a, [$da0c]
     cp $c0
-    jr z, UnknownCode_002_5a15
+    jr z, SpriteAnimationMultiplexHandler
 
     ld a, [hl]
     inc a
@@ -6261,12 +6261,12 @@ SpriteAnimationDispatch_ByType:
 
     xor a
     ld [hl], a
-    jr UnknownCode_002_5a15
+    jr SpriteAnimationMultiplexHandler
 
 DispatchEntry_002_59e0:
     ld a, [$da0d]
     cp $c0
-    jr z, UnknownCode_002_5a15
+    jr z, SpriteAnimationMultiplexHandler
 
     ld a, [hl]
     inc a
@@ -6276,38 +6276,38 @@ DispatchEntry_002_59e0:
 
     xor a
     ld [hl], a
-    jr UnknownCode_002_5a15
+    jr SpriteAnimationMultiplexHandler
 
 UnknownCode_002_59f3:
     ld a, [$da0e]
     cp $c0
-    jr z, UnknownCode_002_5a15
+    jr z, SpriteAnimationMultiplexHandler
 
     ld a, [hl]
     inc a
     ld [hl], a
     cp $02
-    jr nz, UnknownCode_002_5a66
+    jr nz, SpriteAnimationLoopExit
 
     xor a
     ld [hl], a
-    jr UnknownCode_002_5a15
+    jr SpriteAnimationMultiplexHandler
 
 UnknownCode_002_5a05:
     ld a, [$da0f]
     cp $c0
-    jr z, UnknownCode_002_5a15
+    jr z, SpriteAnimationMultiplexHandler
 
     ld a, [hl]
     inc a
     ld [hl], a
     cp $02
-    jr nz, UnknownCode_002_5a66
+    jr nz, SpriteAnimationLoopExit
 
     xor a
     ld [hl], a
 
-UnknownCode_002_5a15:
+SpriteAnimationMultiplexHandler:
     pop hl
     push hl
     dec [hl]
@@ -6320,31 +6320,31 @@ UnknownCode_002_5a15:
     dec l
     ld a, [hl]
     cp $f6
-    jr c, UnknownCode_002_5a37
+    jr c, SpriteAnimationCounterDecrement
 
     ld a, [de]
     inc a
     ld [de], a
     ld [hl], a
     cp $f9
-    jr c, UnknownCode_002_5a37
+    jr c, SpriteAnimationCounterDecrement
 
     dec a
     dec a
     ld [hl], a
     cp $f7
-    jr z, UnknownCode_002_5a37
+    jr z, SpriteAnimationCounterDecrement
 
     dec a
     dec a
     ld [de], a
     ld [hl], a
 
-UnknownCode_002_5a37:
+SpriteAnimationCounterDecrement:
     ld a, [bc]
     dec a
     ld [bc], a
-    jr nz, UnknownCode_002_5a66
+    jr nz, SpriteAnimationLoopExit
 
     ld a, $20
     ld [bc], a
@@ -6364,26 +6364,26 @@ UnknownCode_002_5a37:
     ld hl, $da0c
     ld bc, $0004
     cp $36
-    jr z, UnknownCode_002_5a62
+    jr z, SpriteAnimationStatePurge
 
     inc l
     cp $3e
-    jr z, UnknownCode_002_5a62
+    jr z, SpriteAnimationStatePurge
 
     inc l
     cp $46
-    jr z, UnknownCode_002_5a62
+    jr z, SpriteAnimationStatePurge
 
     inc l
 
-UnknownCode_002_5a62:
+SpriteAnimationStatePurge:
     xor a
     ld [hl], a
     add hl, bc
     ld [hl], a
 
 ExitSpriteHandler:
-UnknownCode_002_5a66:
+SpriteAnimationLoopExit:
     pop hl
     ld de, $0008
     add hl, de
@@ -6608,20 +6608,20 @@ UnknownCode_002_5b73:
     ld b, $04
     ld a, [$da14]
     and a
-    jr z, UnknownCode_002_5b85
+    jr z, SpriteAnimationFrameLoad
 
 CountdownAnimationFramesLoop:
     inc de
     dec a
     jr nz, CountdownAnimationFramesLoop
 
-UnknownCode_002_5b85:
+SpriteAnimationFrameLoad:
     inc [hl]
     inc l
     ld a, [de]
     ld c, a
     cp $ff
-    jr nz, UnknownCode_002_5b96
+    jr nz, SpriteAnimationFrameValidation
 
     ld de, $5c9d
     xor a
@@ -6629,7 +6629,7 @@ UnknownCode_002_5b85:
     ld a, [de]
     ld c, a
 
-UnknownCode_002_5b96:
+SpriteAnimationFrameValidation:
     ldh a, [hTimerAux]
     cp $02
     jr nz, UnknownCode_002_5ba0
@@ -6645,7 +6645,7 @@ UnknownCode_002_5ba0:
     inc l
     inc l
     dec b
-    jr nz, UnknownCode_002_5b85
+    jr nz, SpriteAnimationFrameLoad
 
     ld a, [$da14]
     add $04
@@ -6705,7 +6705,7 @@ SpriteAnimationState_LoadTileIndex:
     ld de, $5c9d
     ld a, [$da14]
     and a
-    jr z, UnknownCode_002_5bfe
+    jr z, SpriteAnimationTileIndexLoad
 
     ld c, a
 
@@ -6714,14 +6714,14 @@ SkipAnimationFrames_Loop:
     dec c
     jr nz, SkipAnimationFrames_Loop
 
-UnknownCode_002_5bfe:
+SpriteAnimationTileIndexLoad:
     inc [hl]
     inc l
     inc l
     ld a, [de]
     ld c, a
     cp $ff
-    jr nz, UnknownCode_002_5c10
+    jr nz, SpriteAnimationTileValidation
 
     ld de, $5c9d
     xor a
@@ -6729,22 +6729,22 @@ UnknownCode_002_5bfe:
     ld a, [de]
     ld c, a
 
-UnknownCode_002_5c10:
+SpriteAnimationTileValidation:
     ldh a, [hTimerAux]
     cp $02
-    jr nz, UnknownCode_002_5c1a
+    jr nz, SpriteAnimationPointerValidation
 
     ld a, c
     add $20
     ld c, a
 
-UnknownCode_002_5c1a:
+SpriteAnimationPointerValidation:
     ld a, c
     ld [hl+], a
     inc de
     inc l
     dec b
-    jr nz, UnknownCode_002_5bfe
+    jr nz, SpriteAnimationTileIndexLoad
 
     ld a, [$da14]
     add $04
@@ -6777,7 +6777,7 @@ SpriteAnimationState_ValidateAndLoad:
     ld de, $5c9d
     ld a, [$da14]
     and a
-    jr z, UnknownCode_002_5c57
+    jr z, SpriteAnimationCountdown
 
     ld c, a
 
@@ -6786,14 +6786,14 @@ CountdownPointerOffsetLoop:
     dec c
     jr nz, CountdownPointerOffsetLoop
 
-UnknownCode_002_5c57:
+SpriteAnimationCountdown:
     dec [hl]
     inc l
     inc l
     ld a, [de]
     ld c, a
     cp $ff
-    jr nz, UnknownCode_002_5c69
+    jr nz, SpriteAnimationDataAdvance
 
     ld de, $5c9d
     xor a
@@ -6801,22 +6801,22 @@ UnknownCode_002_5c57:
     ld a, [de]
     ld c, a
 
-UnknownCode_002_5c69:
+SpriteAnimationDataAdvance:
     ldh a, [hTimerAux]
     cp $02
-    jr nz, UnknownCode_002_5c73
+    jr nz, SpriteAnimationCompletionCheck
 
     ld a, c
     add $20
     ld c, a
 
-UnknownCode_002_5c73:
+SpriteAnimationCompletionCheck:
     ld a, c
     ld [hl+], a
     inc de
     inc l
     dec b
-    jr nz, UnknownCode_002_5c57
+    jr nz, SpriteAnimationCountdown
 
     ld a, [$da14]
     add $04
@@ -6944,13 +6944,13 @@ UnknownCode_002_5d0d:
     add hl, de
     ld a, b
     cp $80
-    jr z, UnknownCode_002_5d17
+    jr z, SpriteAnimationNextPhase
 
     ld a, $2c
     ld [hl+], a
     ld [hl], a
 
-UnknownCode_002_5d17:
+SpriteAnimationNextPhase:
     dec c
     jr nz, CheckAnimationTilesLoop
 
@@ -7013,7 +7013,7 @@ UnknownCode_002_5d62:
 SpriteAnimationState_WritePalette:
     ld a, [$da17]
     cp $10
-    jr nc, UnknownCode_002_5da0
+    jr nc, SpriteAnimationCleanup
 
     cp $02
     jp nc, SpriteAnimationState_FinishPalette
@@ -7040,7 +7040,7 @@ SpriteAnimationState_WritePalette:
     ret
 
 
-UnknownCode_002_5da0:
+SpriteAnimationCleanup:
     ld a, [$da1f]
     dec a
     ld [$da1f], a
@@ -7052,11 +7052,11 @@ UnknownCode_002_5da0:
     inc a
     ld [$da17], a
     cp $28
-    jr z, UnknownCode_002_5df7
+    jr z, SpriteAnimationFinalCleanup
 
     ld a, [$da1c]
     and a
-    jr nz, UnknownCode_002_5dce
+    jr nz, SpriteAnimationTermination
 
     inc a
     ld [$da1c], a
@@ -7065,9 +7065,9 @@ UnknownCode_002_5da0:
     ld [hl], a
     ldh a, [hTimerAux]
     cp $02
-    jr z, UnknownCode_002_5df7
+    jr z, SpriteAnimationFinalCleanup
 
-UnknownCode_002_5dce:
+SpriteAnimationTermination:
     ld hl, wSpriteVar32
     ld b, $04
     ld a, [$da1e]
@@ -7107,7 +7107,7 @@ UnknownCode_002_5dec:
     ret
 
 
-UnknownCode_002_5df7:
+SpriteAnimationFinalCleanup:
     ld a, $01
     ld [$da17], a
     inc a

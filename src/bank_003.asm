@@ -2435,16 +2435,16 @@ UnknownCode_003_4a41:
     inc e
     ldh a, [hGameState]
     cp $0d
-    jr nz, UnknownCode_003_4a57
+    jr nz, GameModeValueSelection
 
     ld c, $7a
     ldh a, [$ffe4]
     cp $0b
-    jr nz, UnknownCode_003_4a57
+    jr nz, GameModeValueSelection
 
     ld c, $6e
 
-UnknownCode_003_4a57:
+GameModeValueSelection:
     ld a, c
     ld [de], a
     inc e
@@ -2454,11 +2454,11 @@ UnknownCode_003_4a57:
     dec l
     ld c, $0a
     bit 5, b
-    jr nz, UnknownCode_003_4a66
+    jr nz, JoypadInputInitialization
 
     ld c, $09
 
-UnknownCode_003_4a66:
+JoypadInputInitialization:
     ld [hl], c
     ld hl, $dfe0
     ld [hl], $02
@@ -9914,13 +9914,13 @@ UnknownCode_003_6cb5:
     ld bc, $0410
     ld hl, $df12
 
-UnknownCode_003_6cdf:
+AudioControlInitLoop:
     ld [hl], $01
     ld a, c
     add l
     ld l, a
     dec b
-    jr nz, UnknownCode_003_6cdf
+    jr nz, AudioControlInitLoop
 
     xor a
     ld [$df1e], a
@@ -10016,20 +10016,20 @@ UnknownCode_003_6d4a:
 CheckAudioControl3Mode:
     ldh a, [hAudioControl]
     cp $03
-    jr nz, UnknownCode_003_6d63
+    jr nz, AudioChannelStatusCheck
 
     ld a, [$df38]
     bit 7, a
-    jr z, UnknownCode_003_6d63
+    jr z, AudioChannelStatusCheck
 
     ld a, [hl]
     cp $06
-    jr nz, UnknownCode_003_6d63
+    jr nz, AudioChannelStatusCheck
 
     ld a, $40
     ldh [rNR32], a
 
-UnknownCode_003_6d63:
+AudioChannelStatusCheck:
     push hl
     ld a, l
     add $09
