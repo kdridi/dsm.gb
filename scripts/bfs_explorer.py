@@ -28,7 +28,7 @@ from enum import Enum
 
 # Configuration
 CLAUDE_TIMEOUT = 300  # 5 minutes
-CLAUDE_MODEL = "claude-opus-4-5"
+CLAUDE_MODEL = "claude-sonnet-4"  # Sonnet 4 = bon compromis qualité/coût pour le BFS
 STATE_FILE = "scripts/bfs_state.json"
 PUSH_EVERY = 5  # Push tous les N commits
 
@@ -166,9 +166,18 @@ def build_prompt(node: Node, state: ExplorerState) -> str:
    - Si c'est des DATA: identifier le format (tiles, texte, pointeurs...)
 3. **Améliorer** le code source:
    - Renommer les labels génériques (Jump_XXXX, Call_XXXX) en noms descriptifs
-   - Ajouter des commentaires explicatifs
    - Remplacer les magic numbers par des constantes de constants.inc
    - Si c'est une zone mal désassemblée (data comme code), la reconstruire avec db/dw
+   - **Commentaires de fonction OBLIGATOIRES**: Chaque routine/handler doit avoir un bloc commentaire en début:
+     ```asm
+     ; NomDeLaFonction
+     ; ----------------
+     ; Description: Ce que fait la fonction (1-2 lignes)
+     ; In:  a = paramètre1, hl = pointeur vers...
+     ; Out: a = résultat, carry = si erreur
+     ; Modifie: bc, de (si applicable)
+     ```
+   - Vérifier que les commentaires existants sont à jour et cohérents avec le code
 4. **Lister les références sortantes** dans ton output final
 
 ## Format de sortie attendu
@@ -568,6 +577,7 @@ def main():
         print("🆕 [INIT] Initialisation avec la frontière de départ")
         state = ExplorerState()
         state.frontier = get_initial_frontier()
+        state.save(STATE_FILE)  # Sauvegarder immédiatement après reset
     else:
         state = ExplorerState.load(STATE_FILE)
 

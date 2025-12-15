@@ -113,14 +113,6 @@
       "priority": 2
     },
     {
-      "address": "$0030",
-      "node_type": "code",
-      "description": "RST_30 - Suite du dispatcher (ld d, [hl] puis jp hl)",
-      "source": "$0028",
-      "bank": 0,
-      "priority": 3
-    },
-    {
       "address": "$47F2",
       "node_type": "code",
       "description": "JoypadReadHandler",
@@ -137,11 +129,7 @@
       "priority": 3
     }
   ],
-  "visited": [
-    "$0000",
-    "$0028",
-    "$0040"
-  ],
-  "commits_since_push": 3,
-  "total_explored": 3
+  "visited": [],
+  "commits_since_push": 0,
+  "total_explored": 0
 }
