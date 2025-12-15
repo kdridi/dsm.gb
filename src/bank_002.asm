@@ -6530,22 +6530,22 @@ DispatchEntry_002_5b07:
     inc a
     ld [de], a
     cp $03
-    jr c, UnknownCode_002_5b27
+    jr c, AnimationFrameIndexCommit
 
     add hl, bc
     cp $05
-    jr c, UnknownCode_002_5b27
+    jr c, AnimationFrameIndexCommit
 
     add hl, bc
     cp $07
-    jr c, UnknownCode_002_5b27
+    jr c, AnimationFrameIndexCommit
 
     ld hl, $98ea
     xor a
     inc a
     ld [de], a
 
-UnknownCode_002_5b27:
+AnimationFrameIndexCommit:
     ld a, h
     ld [$da18], a
     ld a, l
@@ -7170,7 +7170,7 @@ DispatchTableEntry_002_5e3f:
     jp z, SpriteAnimationState_IncrementCounter
 
     and a
-    jr nz, UnknownCode_002_5eb2
+    jr nz, IncrementAnimationCounters
 
     ld a, [hl]
     dec a
@@ -7226,7 +7226,7 @@ DispatchEntry_002_5e5e:
     ld a, [$da15]
     and a
     cp $99
-    jr nc, UnknownCode_002_5ea9
+    jr nc, AnimationCycleMarked
 
     add $01
     daa
@@ -7242,14 +7242,14 @@ DispatchEntry_002_5e5e:
     swap a
     ld [de], a
 
-UnknownCode_002_5ea9:
+AnimationCycleMarked:
     ld a, $01
     ld [$da20], a
     ld [$da21], a
     ret
 
 
-UnknownCode_002_5eb2:
+IncrementAnimationCounters:
     ld a, [hl]
     inc a
     ld [hl+], a
@@ -7440,7 +7440,7 @@ DispatchEntry_002_5eea:
     dec de
     cp $07
     add l
-    jr c, UnknownCode_002_5fde
+    jr c, CorruptedData_5fde
 
     ld e, b
     ld l, b
@@ -7502,7 +7502,7 @@ DispatchEntry_002_5eea:
     dec a
     pop hl
 
-UnknownCode_002_5fde:
+CorruptedData_5fde:
     ld e, a
     cp $02
     ld sp, $4341
@@ -10772,7 +10772,7 @@ Routine_DataProcess_J:
     ld l, l
     ld l, [hl]
     ld h, l
-    jr c, UnknownCode_002_6f56
+    jr c, SkipLoadPathway
 
     ldh [c], a
     ld h, [hl]
@@ -10853,7 +10853,7 @@ Routine_DataProcess_J:
     ld b, e
     dec hl
 
-UnknownCode_002_6f56:
+SkipLoadPathway:
     dec hl
     ld d, [hl]
     ldh [c], a
@@ -13381,7 +13381,7 @@ SpriteAnimation_002_7a62:
     inc b
     rlca
 
-UnknownCode_002_7a71:
+AudioDispatchTable_7a71:
     inc b
     rst $00
     call nz, Routine_DataProcess_C
@@ -13505,7 +13505,7 @@ AudioDispatchEntry_7adb:
     ret nz
 
     nop
-    jr nz, UnknownCode_002_7a71
+    jr nz, AudioDispatchTable_7a71
 
     db $10
     add b
@@ -13731,7 +13731,7 @@ AudioDispatchEntry_7adb:
     nop
     nop
     nop
-    jr nc, UnknownCode_002_7c0e
+    jr nc, AudioDispatchEntry_7c0e
 
     ld a, b
     ld a, b
@@ -13788,7 +13788,7 @@ AudioDispatchEntry_7adb:
     add b
     add b
 
-UnknownCode_002_7c0e:
+AudioDispatchEntry_7c0e:
     add b
     add b
     sbc [hl]
@@ -13810,11 +13810,11 @@ UnknownCode_002_7c0e:
     inc bc
     ld [bc], a
 
-UnknownCode_002_7c22:
+AudioDispatchEntry_7c22:
     inc bc
     ld [bc], a
 
-UnknownCode_002_7c24:
+AudioDispatchEntry_7c24:
     inc bc
     ld [bc], a
 
@@ -13832,9 +13832,9 @@ AudioDispatchEntry_7c28:
     rst $38
     nop
     rst $38
-    jr c, UnknownCode_002_7c22
+    jr c, AudioDispatchEntry_7c22
 
-    jr z, UnknownCode_002_7c24
+    jr z, AudioDispatchEntry_7c24
 
     jr z, AudioDispatchEntry_7c26
 
@@ -13880,7 +13880,7 @@ AudioDispatchEntry_7c28:
     db $eb
     ld a, [bc]
 
-UnknownCode_002_7c62:
+AudioDispatchEntry_7c62:
     ei
     ld a, [bc]
 
@@ -13900,7 +13900,7 @@ AudioDispatchEntry_7c68:
     ld bc, $fe01
     nop
     rst $38
-    jr c, UnknownCode_002_7c62
+    jr c, AudioDispatchEntry_7c62
 
     jr z, PaddingZone_002_7c64
 
@@ -13908,7 +13908,7 @@ AudioDispatchEntry_7c68:
 
     jr z, AudioDispatchEntry_7c68
 
-    jr z, UnknownCode_002_7c9a
+    jr z, JumpTableDispatcher_7c9a
 
     rra
     sub c
@@ -13944,7 +13944,7 @@ DataZone_002_7c7e:
     ld a, l
     ld b, l
 
-UnknownCode_002_7c9a:
+JumpTableDispatcher_7c9a:
     pop hl
     pop hl
     ld sp, $d931
@@ -14166,7 +14166,7 @@ BitDispatch_Entry6:
     ei
     ld a, [bc]
 
-UnknownCode_002_7d64:
+AudioDispatchEntry_7d64:
     ei
     ld a, [bc]
 
@@ -14184,7 +14184,7 @@ AudioDispatchEntry_7d68:
     rst $38
     ld bc, $38ff
     rst $28
-    jr z, UnknownCode_002_7d64
+    jr z, AudioDispatchEntry_7d64
 
     jr z, AudioDispatchEntry_7d66
 
