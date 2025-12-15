@@ -2686,10 +2686,10 @@ HandleBlockCollisionResolve:
 CheckPlayerBounds::
     ld hl, wPlayerX
     ld a, [hl]
-    cp $b4
+    cp PLAYER_X_SCROLL_MIN      ; Seuil gauche zone scroll
     ret c
 
-    cp $c0
+    cp PLAYER_X_SCROLL_MAX      ; Seuil droit zone scroll
     ret nc
 
     xor a
@@ -2699,7 +2699,7 @@ CheckPlayerBounds::
     ldh [hGameState], a
     inc a
     ld [wStateRender], a
-    ld a, $90
+    ld a, TIMER_CHECKPOINT_LONG ; Timer checkpoint (144 frames)
     ldh [hTimer1], a
     ret
 
@@ -2707,7 +2707,7 @@ CheckPlayerBounds::
 ; Routine $4b8a - Vérifie l'état du timer auxiliaire (cas 1)
 CheckTimerAux1::
     ldh a, [hTimerAux]
-    cp $01
+    cp TIMER_AUX_ACTIVE         ; État timer actif?
     ret nz
 
     ldh a, [hTimer1]
@@ -2720,18 +2720,18 @@ CheckTimerAux1::
     xor a
     ld [wPlayerY], a
     ld a, [wPlayerDir]
-    xor $10
+    xor PLAYER_DIR_ANIM_BIT     ; Alterner bit animation
     ld [wPlayerDir], a
     ret
 
 
 TimerInitializeAux:
-    ld a, $02
+    ld a, TIMER_AUX_PIPE_MODE   ; Passer en mode pipe
     ldh [hTimerAux], a
     xor a
     ld [wPlayerY], a
     ld a, [wPlayerDir]
-    or $10
+    or PLAYER_DIR_ANIM_BIT      ; Activer bit animation
     ld [wPlayerDir], a
     ret
 
@@ -2739,10 +2739,10 @@ TimerInitializeAux:
 ; Routine $4bb5 - Vérifie l'état du timer auxiliaire (cas 2)
 CheckTimerAux2::
     ldh a, [hTimerAux]
-    cp $04
+    cp TIMER_AUX_COMPLETE       ; Timer terminé?
     jr z, PaddingZone_003_4be0
 
-    cp $03
+    cp TIMER_AUX_DAMAGE_MAX     ; Seuil dégâts atteint?
     ret nz
 
     ldh a, [hTimer1]
@@ -2753,18 +2753,18 @@ CheckTimerAux2::
     ret nz
 
     ld a, [wPlayerDir]
-    xor $10
+    xor PLAYER_DIR_ANIM_BIT     ; Alterner bit animation
     ld [wPlayerDir], a
     ret
 
 
 TimerResetState:
-    ld a, $04
+    ld a, TIMER_AUX_COMPLETE    ; Marquer timer comme terminé
     ldh [hTimerAux], a
-    ld a, $40
+    ld a, TIMER_CHECKPOINT_SHORT ; Timer checkpoint court (64 frames)
     ldh [hTimer1], a
     ld a, [wPlayerDir]
-    and $0f
+    and NIBBLE_LOW_MASK         ; Garder seulement nibble bas direction
     ld [wPlayerDir], a
     ret
 

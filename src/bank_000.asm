@@ -8318,7 +8318,7 @@ ProcessVerticalCollision:
     ld a, [wPlayerState]
     add b
     ld [wPlayerState], a
-    cp $51
+    cp PLAYER_STATE_SCROLL_THRESHOLD ; Seuil scroll caméra atteint?
     jr c, RestoreCollisionFlagAndExit
 
     ld a, [wCollisionFlag]
@@ -8327,9 +8327,9 @@ ProcessVerticalCollision:
 
 ApplyHorizontalScrollOffset:
     ld a, [wPlayerState]
-    sub $50
+    sub PLAYER_STATE_SCROLL_LIMIT ; Calculer offset scroll
     ld b, a
-    ld a, $50
+    ld a, PLAYER_STATE_SCROLL_LIMIT ; Limiter état joueur
     ld [wPlayerState], a
     ldh a, [hShadowSCX]
     add b

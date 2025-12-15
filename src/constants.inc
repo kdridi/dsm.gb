@@ -873,8 +873,29 @@ DEF STATE_BUFFER_OBJECT     EQU $04   ; Buffer état objet
 
 ; === Timer AUX états ===
 
+DEF TIMER_AUX_ACTIVE        EQU $01   ; Timer AUX actif (vérification)
 DEF TIMER_AUX_PIPE_MODE     EQU $02   ; Timer AUX mode pipe/transition
 DEF TIMER_AUX_DAMAGE_MAX    EQU $03   ; Timer AUX seuil dégâts
+DEF TIMER_AUX_COMPLETE      EQU $04   ; Timer AUX terminé
+
+; === Limites position X joueur (zone de scroll) ===
+
+DEF PLAYER_X_SCROLL_MIN     EQU $b4   ; Position X minimum pour déclencher scroll (180 pixels)
+DEF PLAYER_X_SCROLL_MAX     EQU $c0   ; Position X maximum pour déclencher scroll (192 pixels)
+
+; === Valeurs timer checkpoint ===
+
+DEF TIMER_CHECKPOINT_LONG   EQU $90   ; Timer checkpoint long (144 frames)
+DEF TIMER_CHECKPOINT_SHORT  EQU $40   ; Timer checkpoint court (64 frames)
+
+; === Masques direction joueur ===
+
+DEF PLAYER_DIR_ANIM_BIT     EQU $10   ; Bit animation direction (XOR pour alterner)
+
+; === Seuils état joueur pour scroll caméra ===
+
+DEF PLAYER_STATE_SCROLL_THRESHOLD EQU $51 ; Seuil état déclenchant scroll caméra (81)
+DEF PLAYER_STATE_SCROLL_LIMIT     EQU $50 ; Position état joueur après scroll (80)
 
 ; === Animation compteur objets ===
 
