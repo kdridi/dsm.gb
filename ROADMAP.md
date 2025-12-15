@@ -241,6 +241,19 @@
 
 **Objectif** : Tous les labels Jump_XXX/Call_XXX → noms explicites.
 
+### Status: 7.0 - Labels Call_000_XXXX / jr_000_XXXX ✅
+*Analysé le 2025-12-15*
+
+- [x] Audit complet des labels `Call_000_XXXX` et `jr_000_XXXX`
+- [x] Découverte: Tous renommés (1200+ labels, 5 commits précédents)
+- [x] Stratégie confirmée: `jr_*` → `SkipPadding_*` → `UnknownCode_*` (progressive)
+- [x] 376 `UnknownCode_*` restants (Banks 002/003) = padding/données désassemblées
+- [x] Compilation: HASH VERIFIED ✅
+
+**Détails** : Voir `analysis-session-20251215.md`
+
+**Prochaines étapes** : Phase 5b/6 (exploration progressive, non urgent)
+
 ### Bank 0 (~500 labels)
 
 - [ ] Routines d'init (SystemInit fait)
