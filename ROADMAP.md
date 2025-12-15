@@ -242,15 +242,20 @@
 **Objectif** : Tous les labels Jump_XXX/Call_XXX → noms explicites.
 
 ### Status: 7.0 - Labels Call_000_XXXX / jr_000_XXXX ✅
-*Analysé le 2025-12-15*
+*Complété le 2025-12-15*
 
 - [x] Audit complet des labels `Call_000_XXXX` et `jr_000_XXXX`
-- [x] Découverte: Tous renommés (1200+ labels, 5 commits précédents)
+- [x] Découverte: Tous renommés (1200+ labels, 5 commits initiaux)
 - [x] Stratégie confirmée: `jr_*` → `SkipPadding_*` → `UnknownCode_*` (progressive)
+- [x] Renommages supplémentaires post-audit: 29 labels (TableContinuation/DispatchData/Padding/UnknownData → noms explicites)
 - [x] 376 `UnknownCode_*` restants (Banks 002/003) = padding/données désassemblées
 - [x] Compilation: HASH VERIFIED ✅
 
 **Détails** : Voir `analysis-session-20251215.md`
+
+**Commits de cette phase** :
+1. Audit de la situation (c5bd5a6, 14520dc)
+2. Renommages post-audit (c9b5d57, 8b9ca05, ac7b625, 8ca06b5) - 29 labels
 
 **Prochaines étapes** : Phase 5b/6 (exploration progressive, non urgent)
 
