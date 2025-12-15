@@ -981,9 +981,22 @@ StartSelectedLevel:
 
     inc e
 
+; SelectTileIndexForLevel
+; ----------------
+; Description: Point de convergence pour la sélection du contexte de rendu.
+;              Convertit l'index incrémenté (e) en index de niveau (0-11).
+; In:  e = index de niveau calculé (0-11)
+; Out: a = e, puis saute vers ApplyRenderContext
+; Modifie: a
 SelectTileIndexForLevel:
     ld a, e
 
+; ApplyRenderContext
+; ----------------
+; Description: Applique le contexte de rendu et démarre le niveau complet.
+; In:  a = contexte de rendu (index de niveau 0-11)
+; Out: Ne retourne pas (jp vers InitLevelStartFull)
+; Modifie: hRenderContext
 ApplyRenderContext:
     ldh [hRenderContext], a
     jp InitLevelStartFull
