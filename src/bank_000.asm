@@ -5660,11 +5660,11 @@ UpdateLivesDisplay:
     or a
     ret z
 
-    cp $ff
+    cp UPDATE_DECREMENT
     ld a, [wLivesCounter]
     jr z, DisplayLivesDecrement
 
-    cp $99
+    cp BCD_MAX_DIGIT
     jr z, ClearUpdateCounter
 
     push af
@@ -5682,7 +5682,7 @@ DisplayLivesCount:
     ld a, [wLivesCounter]
     ld b, a
     and NIBBLE_LOW_MASK          ; Chiffre unités vies
-    ld [$9807], a
+    ld [VRAM_SCORE_POS2], a
     ld a, b
     and NIBBLE_HIGH_MASK         ; Chiffre dizaines vies
     swap a
@@ -12378,7 +12378,7 @@ UpdateLevelScore:
     ret nc
 
     ld a, [wLevelData]
-    cp $28
+    cp LEVEL_DATA_INIT
     ret nz
 
     call DisplayLevelBCDScore
@@ -12386,7 +12386,7 @@ UpdateLevelScore:
 
 
 DisplayLevelBCDScore:
-    ld de, $9833
+    ld de, VRAM_LEVEL_BCD
     ld a, [wLevelBCD1]
     ld b, a
     and NIBBLE_LOW_MASK          ; Chiffre unités niveau
@@ -12397,7 +12397,7 @@ DisplayLevelBCDScore:
     swap a
     ld [de], a
     dec e
-    ld a, [$da02]
+    ld a, [wLevelBCD2]
     and NIBBLE_LOW_MASK          ; Chiffre centaines niveau
     ld [de], a
     ret

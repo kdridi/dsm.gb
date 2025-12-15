@@ -480,10 +480,12 @@ DEF VRAM_HIGHSCORE      EQU $9969   ; Position high score
 
 ; --- HUD et score ---
 DEF VRAM_SCORE_POS1     EQU $9806   ; Score HUD position 1
+DEF VRAM_SCORE_POS2     EQU $9807   ; Score HUD position 2 (vies unités)
 DEF VRAM_HUD_LINE       EQU $9820   ; Ligne HUD
 DEF VRAM_COIN_TENS      EQU $9829   ; Compteur pièces HUD (dizaines)
 DEF VRAM_COIN_UNITS     EQU $982A   ; Compteur pièces HUD (unités)
 DEF VRAM_WORLD_NUMBER   EQU $982B   ; Numéro monde HUD (après pièces)
+DEF VRAM_LEVEL_BCD      EQU $9833   ; Affichage niveau BCD (3 chiffres)
 DEF VRAM_LIVES_DISPLAY  EQU $988B   ; Affichage compteur vies HUD
 DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
 DEF VRAM_FADE_START     EQU $8DD0   ; Début zone VRAM pour effet fade
@@ -544,6 +546,10 @@ DEF INIT_UNKNOWN_A4     EQU $03 ; Valeur initiale wROMBankInit (et bank switch)
 ; === Marqueurs de slots ===
 
 DEF SLOT_EMPTY          EQU $FF ; Marqueur slot vide/inactif dans les tables
+
+; === Marqueurs système ===
+
+DEF UPDATE_DECREMENT    EQU $FF ; Marqueur décrémentation (wUpdateCounter)
 
 ; === États de jeu (hGameState) ===
 
