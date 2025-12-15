@@ -712,3 +712,12 @@ DEF PLAYER_MODE_SPECIAL     EQU $0c ; Mode niveau spécial
 ; === Tailles de buffer ===
 
 DEF ANIM_BUFFER_COPY_SIZE   EQU $08 ; Taille copie buffer animation (8 octets)
+
+; === Offsets structure objets ===
+
+DEF OBJ_FIELD_STATE_OFFSET  EQU $0A ; Offset vers le champ état/type (10 octets)
+
+; === Données niveau ROM ===
+
+DEF ROM_LEVEL_INIT_DATA     EQU $2114 ; Table données initialisation niveau
+DEF LEVEL_INIT_DATA_SIZE    EQU $51   ; Taille données init niveau (81 octets)

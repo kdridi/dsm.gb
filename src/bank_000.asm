@@ -1598,9 +1598,9 @@ ExitPause:
     jr SaveAudioStatePause
 
 LoadLevelData:
-    ld hl, $2114
+    ld hl, ROM_LEVEL_INIT_DATA
     ld de, wPlayerY
-    ld b, $51
+    ld b, LEVEL_INIT_DATA_SIZE
 
 .loadLevelDataLoop:
     ld a, [hl+]
@@ -1685,7 +1685,7 @@ ProcessAudioSlot:
     ldh [hOAMAddrLow], a
     push bc
     push hl
-    ld bc, $000a
+    ld bc, OBJ_FIELD_STATE_OFFSET
     add hl, bc
     ld c, [hl]
     inc l
@@ -1772,7 +1772,7 @@ ProcessPlayerInteraction:
     dec l
     dec l
     push hl
-    ld bc, $000a
+    ld bc, OBJ_FIELD_STATE_OFFSET
     add hl, bc
     bit 7, [hl]
     pop hl
@@ -2061,7 +2061,7 @@ NextObjectSlotCheck:
 ProcessFoundObject:
     push bc
     push hl
-    ld bc, $000a
+    ld bc, OBJ_FIELD_STATE_OFFSET
     add hl, bc
     bit 7, [hl]
     jr nz, ContinueObjectScan
@@ -2221,7 +2221,7 @@ CheckCollisionLoop_NextObject:
 CheckCollisionObjectPath:
     push bc
     push hl
-    ld bc, $000a
+    ld bc, OBJ_FIELD_STATE_OFFSET
     add hl, bc
     bit 7, [hl]
     jp z, CollisionCheckFailed_Restart
@@ -3022,7 +3022,7 @@ ResetPlayerForCutscene:
     and $f0
     ld [hl], a
     ld hl, wPlayerUnk10
-    ld de, $2114
+    ld de, ROM_LEVEL_INIT_DATA
     ld b, $10
 
 CopyOAMDataLoop:
@@ -6494,7 +6494,7 @@ ProcessAnimObject:
     push bc
     push de
     push hl
-    ld bc, $000a
+    ld bc, OBJ_FIELD_STATE_OFFSET
     add hl, bc
     bit 7, [hl]
     jr nz, IterateAnimObjects_NextSlot
