@@ -417,6 +417,13 @@ DEF TILE_EMPTY          EQU $2C   ; Tile vide/espace (fond, leading zero)
 
 DEF POINTS_PER_COIN     EQU $0100 ; Points par pièce (100 en BCD)
 
+; Bornes de position X joueur (vérification zone centrale)
+DEF PLAYER_X_LEFT       EQU $60   ; Position X limite gauche zone centrale (96px)
+DEF PLAYER_X_RIGHT      EQU $A0   ; Position X limite droite zone centrale (160px)
+
+; Direction joueur
+DEF PLAYER_DIR_LEFT     EQU $18   ; Direction gauche
+
 ; === Valeurs d'initialisation ===
 
 DEF INIT_GAME_STATE     EQU $0E ; État jeu initial (hGameState)
@@ -434,6 +441,10 @@ DEF SLOT_EMPTY          EQU $FF ; Marqueur slot vide/inactif dans les tables
 ; === États de jeu (hGameState) ===
 
 DEF GAME_STATE_GAMEPLAY EQU $0D ; État gameplay actif (jeu en cours)
+DEF GAME_STATE_CENTER   EQU $08 ; État transition - joueur au centre
+DEF GAME_STATE_OUTER    EQU $12 ; État transition - joueur en périphérie
+DEF GAME_STATE_SPECIAL  EQU $1C ; État niveau spécial
+DEF GAME_STATE_INIT27   EQU $27 ; État initialisation spéciale
 
 ; === Conversion BCD ===
 

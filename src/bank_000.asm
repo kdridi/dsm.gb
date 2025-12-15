@@ -1699,7 +1699,7 @@ ProcessAudioSlot:
     jr nz, AdjustPlayerXForCollision
 
     ld a, [wPlayerDir]
-    cp $18
+    cp PLAYER_DIR_LEFT
     jr z, AdjustPlayerXForCollision
 
     ld a, $fe
@@ -2596,27 +2596,27 @@ StateHandler_06::
     ldh a, [hAnimTileIndex]
     and $0f
     cp $03
-    ld a, $1c                     ; État $1C si niveau spécial
+    ld a, GAME_STATE_SPECIAL      ; État $1C si niveau spécial
     jr z, StateHandler_06_SpecialLevel
 
     ; Vérifier position X du joueur
     ld a, [wPlayerX]
-    cp $60
+    cp PLAYER_X_LEFT
 
 CheckPlayerCenterPosition:
     jr c, StateHandler_06_SwitchBank2
 
-    cp $a0
+    cp PLAYER_X_RIGHT
     jr nc, StateHandler_06_SwitchBank2
 
-    ld a, $08                     ; État $08 si position centrale
+    ld a, GAME_STATE_CENTER       ; État $08 si position centrale
     jr StateHandler_06_SetNextState
 
 StateHandler_06_SwitchBank2:
     ld a, $02
     ldh [hCurrentBank], a
     ld [$2000], a
-    ld a, $12                     ; État $12 si hors centre
+    ld a, GAME_STATE_OUTER        ; État $12 si hors centre
 
 StateHandler_06_SetNextState:
     ldh [hGameState], a
@@ -2656,7 +2656,7 @@ StateHandler_06_SpecialLevel:
     ldh [hOAMAddrLow], a
     ld a, $ff
     ldh [hTimer1], a
-    ld a, $27
+    ld a, GAME_STATE_INIT27
     ldh [hGameState], a
     call $7ff3
     ret
@@ -4691,7 +4691,7 @@ UpdatePipeAnimation:
 State0C_IncrementPlayerDir:
     ld hl, wPlayerDir
     ld a, [hl]
-    cp $18
+    cp PLAYER_DIR_LEFT
     jr z, State0C_ProcessAnimation
 
     inc [hl]
@@ -5404,7 +5404,7 @@ CheckPlayerSideCollision:
     jr nz, CollisionConfig_Offset1
 
     ld a, [wPlayerDir]
-    cp $18
+    cp PLAYER_DIR_LEFT
     jr z, CollisionConfig_Offset1
 
     ld de, $0702
@@ -6019,7 +6019,7 @@ ProcessAnimationState_JoypadLeft_CheckCollision:
     jr z, ProcessAnimationState_JoypadLeft_Done
 
     ld a, [wPlayerDir]
-    cp $18
+    cp PLAYER_DIR_LEFT
     jr nz, ProcessAnimationState_JoypadLeft_Increment
 
     ld a, [wPlayerDir]
@@ -6145,7 +6145,7 @@ HandlePlayerMovement:
     jr z, ApplyOscillationNegOffset
 
     ld a, [wPlayerDir]
-    cp $18
+    cp PLAYER_DIR_LEFT
     jr nz, CheckOscillationCounter
 
     ld a, [wPlayerDir]
