@@ -3791,7 +3791,7 @@ PaddingZone_002_4fba:
     jr PaddingZone_002_4fd4
 
 PaddingZone_002_4fbc:
-    jr DataZone_002_4fd6
+    jr UnreachableCodeData_002_4fd6
 
     jr PaddingZone_002_4fd8
 
@@ -3827,7 +3827,7 @@ PaddingZone_002_4fd4:
     nop
     nop
 
-DataZone_002_4fd6:
+UnreachableCodeData_002_4fd6:
     add b
     add b
 
@@ -4531,7 +4531,7 @@ ControlFlow_Target_6:
     nop
     nop
     nop
-    jr nc, DataZone_002_529e
+    jr nc, UnreachableCodeData_002_529e
 
     jr nc, PaddingZone_002_52a0
 
@@ -4587,7 +4587,7 @@ ControlFlow_Target_9:
 
     jr nc, PaddingZone_002_52ce
 
-DataZone_002_529e:
+UnreachableCodeData_002_529e:
     db $10
     db $10
 
@@ -4987,7 +4987,7 @@ PaddingZone_002_53f0:
     inc c
     db $10
     db $10
-    jr nz, DataZone_002_546e
+    jr nz, UnreachableCodeData_002_546e
 
     jr nz, PaddingZone_002_5470
 
@@ -5022,7 +5022,7 @@ PaddingZone_002_5469:
     nop
     nop
 
-DataZone_002_546e:
+UnreachableCodeData_002_546e:
     add b
     add b
 
@@ -7543,14 +7543,14 @@ CorruptedData_5fde:
     dec h
     inc c
     add h
-    jr z, DataZone_002_6017
+    jr z, UnreachableCodeData_002_6017
 
     nop
     add hl, hl
     inc b
     nop
 
-DataZone_002_6017:
+UnreachableCodeData_002_6017:
     ld a, [hl+]
     ld b, $84
     dec l
@@ -11039,7 +11039,7 @@ SkipLoadPathway:
     cp $16
     ld l, [hl]
 
-DataZone_002_702a:
+UnreachableCodeData_002_702a:
     ld l, l
     ld l, [hl]
     ld l, l
@@ -11052,7 +11052,7 @@ DataZone_002_702a:
     db $f4
     ld l, l
 
-DataZone_002_7038:
+UnreachableCodeData_002_7038:
     ld l, [hl]
     ld l, l
     ld l, [hl]
@@ -11088,7 +11088,7 @@ DataZone_002_7038:
     ld l, [hl]
     ld l, l
     ld d, l
-    jr c, DataZone_002_702a
+    jr c, UnreachableCodeData_002_702a
 
     ld h, l
     ld l, l
@@ -11101,7 +11101,7 @@ DataZone_002_7038:
     ld l, l
     ld l, [hl]
     ld d, a
-    jr c, DataZone_002_7038
+    jr c, UnreachableCodeData_002_7038
 
     ld h, [hl]
     ld l, [hl]
@@ -11151,7 +11151,7 @@ DataZone_002_7038:
     cp $05
     db $f4
 
-DataZone_002_70b0:
+UnreachableCodeData_002_70b0:
     ld h, [hl]
     ld l, l
     ld l, [hl]
@@ -11198,7 +11198,7 @@ DataZone_002_70b0:
     ld l, [hl]
     ld l, l
     ld d, [hl]
-    jr c, DataZone_002_70b0
+    jr c, UnreachableCodeData_002_70b0
 
     ld [hl], b
     ld [hl], d
@@ -12529,7 +12529,7 @@ ProcessInputState_Bank2_Part2:
     db $fd
     ld a, a
 
-DataZone_002_76d9:
+UnreachableCodeData_002_76d9:
     cp $e2
     db $fd
     ld a, a
@@ -12635,7 +12635,7 @@ ErrorLoop_002_76df:
     ld a, a
     cp $01
     ld a, a
-    jr c, DataZone_002_76d9
+    jr c, UnreachableCodeData_002_76d9
 
     add d
     add d
@@ -13300,7 +13300,7 @@ PaddingZone_002_79f2:
     nop
     inc c
     ccf
-    jr nz, DataZone_002_7a8d
+    jr nz, UnreachableCodeData_002_7a8d
 
     ld d, b
     ld l, a
@@ -13409,7 +13409,7 @@ AudioDispatchTable_7a71:
     and b
     cp a
 
-DataZone_002_7a8d:
+UnreachableCodeData_002_7a8d:
     and e
     cp [hl]
     and d
@@ -13451,7 +13451,7 @@ DataZone_002_7a8d:
     nop
     rst $38
 
-DataZone_002_7ab7:
+UnreachableCodeData_002_7ab7:
     rra
     ldh a, [rNR10]
     cp a
@@ -13468,7 +13468,7 @@ DataZone_002_7ab7:
     cp a
     and e
     inc a
-    jr nz, DataZone_002_7ab7
+    jr nz, UnreachableCodeData_002_7ab7
 
     inc c
     db $f4
@@ -13857,7 +13857,7 @@ AudioDispatchEntry_7c28:
     and c
     rra
     rra
-    jr nc, DataZone_002_7c7e
+    jr nc, UnreachableCodeData_002_7c7e
 
     ld a, a
     ld h, b
@@ -13914,7 +13914,7 @@ AudioDispatchEntry_7c68:
     sub c
     sub c
 
-DataZone_002_7c7e:
+UnreachableCodeData_002_7c7e:
     rst $18
     pop de
     ld e, a
@@ -13976,7 +13976,7 @@ JumpTableDispatcher_7c9a:
 
 AudioDataRaw_002_7cbe:
     ccf
-    jr nc, DataZone_002_7d00
+    jr nc, UnreachableCodeData_002_7d00
 
     inc hl
     ld a, $22
@@ -14050,7 +14050,7 @@ AudioDataRaw_002_7cf7:
     ei
     inc bc
 
-DataZone_002_7d00:
+UnreachableCodeData_002_7d00:
     db $fd
     pop hl
     cp a
@@ -14500,7 +14500,7 @@ AudioDispatchData_002_7de8:
     ld bc, $0601
     ld b, $08
     ld [$1010], sp
-    jr nz, DataZone_002_7ed6
+    jr nz, UnreachableCodeData_002_7ed6
 
     ld b, l
     ld b, b
@@ -14512,7 +14512,7 @@ AudioDispatchData_002_7de8:
 
     ret nz
 
-    jr nc, DataZone_002_7ef0
+    jr nc, UnreachableCodeData_002_7ef0
 
     ld [$5508], sp
     dec b
@@ -14527,12 +14527,12 @@ AudioDispatchData_002_7de8:
     nop
     nop
     ldh [hVramPtrLow], a
-    jr DataZone_002_7eec
+    jr UnreachableCodeData_002_7eec
 
     inc b
     inc b
 
-DataZone_002_7ed6:
+UnreachableCodeData_002_7ed6:
     ld [bc], a
     ld [bc], a
     add c
@@ -14551,13 +14551,13 @@ DataZone_002_7ed6:
     call c, CheckCoinCollision
     ld [de], a
 
-DataZone_002_7eec:
+UnreachableCodeData_002_7eec:
     rra
     db $10
     rrca
     ld a, [bc]
 
-DataZone_002_7ef0:
+UnreachableCodeData_002_7ef0:
     rrca
     rrca
     db $10

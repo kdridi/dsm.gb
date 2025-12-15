@@ -450,7 +450,7 @@ SpriteGraphicsData_Enemy_Set2:
     rst $38
     nop
     nop
-    jr c, DataZone_003_420e
+    jr c, UnreachableCodeData_003_420e
 
     ld b, [hl]
     ld b, [hl]
@@ -501,7 +501,7 @@ SpriteGraphicsData_Enemy_Set2:
     dec e
     and $de
 
-DataZone_003_420e:
+UnreachableCodeData_003_420e:
     db $e4
     inc e
     db $e4
@@ -612,7 +612,7 @@ CorruptedData_425e:
     db $f4
     ret z
 
-    jr c, DataZone_003_4301
+    jr c, UnreachableCodeData_003_4301
 
     ldh a, [rNR42]
     ld [hl+], a
@@ -712,7 +712,7 @@ CorruptedData_425e:
     ld a, [hl]
     sub c
 
-DataZone_003_4301:
+UnreachableCodeData_003_4301:
     sub c
     db $e4
     inc e
@@ -1831,7 +1831,7 @@ PaddingZone_003_46d1:
     ld [hl], d
     jr nc, AudioData_003_47c0
 
-    jr nz, DataZone_003_47b2
+    jr nz, UnreachableCodeData_003_47b2
 
     ld a, [hl]
     ld a, [hl]
@@ -1862,7 +1862,7 @@ PaddingZone_003_46d1:
     ld a, [hl]
     ld a, [hl]
 
-DataZone_003_47b2:
+UnreachableCodeData_003_47b2:
     ld a, a
     ld a, a
     rst $30
@@ -3315,7 +3315,7 @@ DispatchDataZone_4dd8:
     jr PaddingZone_003_4e6d
 
 PaddingZone_003_4e6d:
-    jr nz, DataZone_003_4e77
+    jr nz, UnreachableCodeData_003_4e77
 
     jr nz, PaddingZone_003_4e71
 
@@ -3328,7 +3328,7 @@ PaddingZone_003_4e73:
     rrca
     inc a
 
-DataZone_003_4e77:
+UnreachableCodeData_003_4e77:
     db $10
     ld c, a
     ret
@@ -4421,7 +4421,7 @@ AudioDataRaw_003_5319:
     cp $32
     ld [hl-], a
     ld [hl], $97
-    jr c, DataZone_003_5378
+    jr c, UnreachableCodeData_003_5378
 
     ld a, $41
     ld b, h
@@ -4473,7 +4473,7 @@ GfxData_TileSheet:
     ld hl, $fe34
     ld [de], a
 
-DataZone_003_5378:
+UnreachableCodeData_003_5378:
     ld sp, $fe35
     ld [de], a
     ld [hl-], a
@@ -4750,7 +4750,7 @@ ByteValueDispatchCase_31:
     ld b, b
     ld b, e
     cp $b5
-    jr c, DataZone_003_551f
+    jr c, UnreachableCodeData_003_551f
 
     ld a, $41
     ld b, h
@@ -4797,7 +4797,7 @@ ByteValueDispatchCase_31:
     db $fd
     ld h, e
 
-DataZone_003_551f:
+UnreachableCodeData_003_551f:
     cp $88
     db $fd
     ld h, h
@@ -7860,7 +7860,7 @@ DataPadding_62c2:
     db $ed
     ld h, c
     cp $97
-    jr c, DataZone_003_6357
+    jr c, UnreachableCodeData_003_6357
 
     ld a, $41
     ld b, h
@@ -7912,7 +7912,7 @@ DataPadding_62c2:
     ld h, h
     ld h, c
 
-DataZone_003_6357:
+UnreachableCodeData_003_6357:
     ld h, c
     cp $43
     db $fd
@@ -8636,7 +8636,7 @@ AudioTable_Block6:
     db $10
     inc b
     nop
-    jr nz, DataZone_003_66b3
+    jr nz, UnreachableCodeData_003_66b3
 
     dec c
     ld de, $101c
@@ -8650,7 +8650,7 @@ AudioTable_Block6:
     inc l
     db $10
 
-DataZone_003_66b3:
+UnreachableCodeData_003_66b3:
     inc bc
     ld de, $1011
     ld c, $00
