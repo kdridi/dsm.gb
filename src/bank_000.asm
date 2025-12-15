@@ -1579,7 +1579,7 @@ CheckStartButtonForPause:
     ; --- TogglePause ---
     ld hl, rLCDC
     ldh a, [hPauseFlag]          ; Lire flag pause
-    xor $01                 ; Toggle (0↔1)
+    xor BIT_0_MASK          ; Toggle (0↔1)
     ldh [hPauseFlag], a          ; Sauvegarder
     jr z, ExitPause       ; Si maintenant 0 → unpause
 
@@ -2886,8 +2886,8 @@ State1D_SetupVRAMPointer::
     ret nz
 
     ldh a, [hVramPtrLow]
-    sub $02
-    cp $40
+    sub COLLISION_ADJUST_POS    ; Décalage de 2 colonnes
+    cp SCROLL_COLUMN_DEFAULT    ; Seuil wrap-around (64)
     jr nc, VRAMPointerAdjustmentPath
 
     add TILEMAP_STRIDE          ; Ajuster wrap-around (+32 = 1 ligne tilemap)
@@ -3091,11 +3091,11 @@ State23_WalkToDoor::
     and NIBBLE_HIGH_MASK
     ld [wPlayerDir], a
     ldh a, [hVramPtrLow]
-    sub $40
-    add $04
+    sub SCROLL_COLUMN_DEFAULT    ; Soustraction offset 64
+    add MOVEMENT_OFFSET_4        ; Ajout offset 4
     ld b, a
     and NIBBLE_HIGH_MASK         ; Isoler bits hauts position
-    cp $c0
+    cp PLAYER_POS_THRESHOLD      ; Comparer avec seuil $C0 (192)
     ld a, b
     jr nz, DoorPositionCalculationPath
 
@@ -3684,7 +3684,7 @@ State2E_DuoAnimation::
 
     ld hl, wPlayerUnk13
     ld a, [hl]
-    xor $01
+    xor BIT_0_MASK              ; Toggle animation frame (0↔1)
     ld [hl], a
 
 State2E_CheckCharPosition:
@@ -3799,7 +3799,7 @@ ToggleAnimFrame:
 
     inc l
     ld a, [hl]
-    xor $01
+    xor BIT_0_MASK              ; Toggle animation frame (0↔1)
     ld [hl], a
     ret
 
@@ -6254,13 +6254,13 @@ UpdatePlayerInvulnBlink:
     and a
     ret z
 
-    cp $01
+    cp FLAG_TRUE                ; Dernière frame d'invulnérabilité ?
     jr z, .end_invuln
 
     dec a
     ld [wPlayerInvuln], a
     ld a, [wPlayerY]
-    xor $80
+    xor BIT_7_MASK              ; Toggle bit 7 pour effet clignotement
     ld [wPlayerY], a
     ld a, [wStateVar9]
     and a
@@ -7289,7 +7289,7 @@ State0D_GameplayFull::
     ret nz
 
     ld a, [wPlayerDir]
-    xor $01
+    xor BIT_0_MASK              ; Toggle direction (0↔1)
     ld [wPlayerDir], a
     ret
 

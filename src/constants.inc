@@ -881,6 +881,7 @@ DEF BIT_1_MASK              EQU $02   ; Masque bit 1 uniquement
 DEF BIT_2_MASK              EQU $04   ; Masque bit 2 uniquement
 DEF BIT_3_MASK              EQU $08   ; Masque bit 3 uniquement
 DEF BIT_6_MASK              EQU $40   ; Masque bit 6 uniquement
+DEF BIT_7_MASK              EQU $80   ; Masque bit 7 uniquement
 DEF BITS_2_3_MASK           EQU $0c   ; Masque bits 2-3
 DEF BITS_2_3_CLEAR_MASK     EQU $f3   ; Efface bits 2-3 (inverse de $0c)
 DEF BITS_4_5_MASK           EQU $30   ; Masque bits 4-5
