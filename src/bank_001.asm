@@ -4016,7 +4016,7 @@ jr_001_5120:
     and a
     jr nz, jr_001_512c
 
-jr_001_5124:
+IncrementOamPointerAndLoop_001_5124:
     inc e
     inc e
     inc e
@@ -4039,16 +4039,16 @@ jr_001_512c:
     ldh [hTemp1], a
     ldh [hSoundParam2], a
     cp $a9
-    jr c, jr_001_5143
+    jr c, CheckCoinCollisionLogic_001_5143
 
-jr_001_513c:
+ClearOamAndMemory_001_513c:
     xor a
     res 0, e
     ld [de], a
     ld [hl], a
-    jr jr_001_5156
+    jr ProcessCollisionAndLoopContinue_001_5156
 
-jr_001_5143:
+CheckCoinCollisionLogic_001_5143:
     add $02
     push af
     dec e
@@ -4058,25 +4058,25 @@ jr_001_5143:
     ldh [hSpriteY], a
     pop af
     call CheckTileForCoin
-    jr c, jr_001_5156
+    jr c, ProcessCollisionAndLoopContinue_001_5156
 
-    jr jr_001_513c
+    jr ClearOamAndMemory_001_513c
 
-jr_001_5156:
+ProcessCollisionAndLoopContinue_001_5156:
     pop bc
     pop de
     pop hl
     call ProcessObjectCollisions
-    jr jr_001_5124
+    jr IncrementOamPointerAndLoop_001_5124
 
     ld a, [$c202]
     cp $01
-    jr c, jr_001_5168
+    jr c, ResetGameStateInit_001_5168
 
     cp $f0
     ret c
 
-jr_001_5168:
+ResetGameStateInit_001_5168:
     xor a
     ldh [hTimerAux], a
     ldh [hSubState], a
