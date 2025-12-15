@@ -1575,6 +1575,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2B21",
+      "node_type": "code",
+      "description": "DestroyAllObjects - D\u00e9truit tous les objets actifs",
+      "source": "$0C37",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1588,6 +1596,7 @@
     "$05B8",
     "$04CE",
     "$07B7",
+    "$0C37",
     "$0000",
     "$06C5",
     "$0BCD",
@@ -1644,6 +1653,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 4,
-  "total_explored": 65
+  "commits_since_push": 0,
+  "total_explored": 66
 }

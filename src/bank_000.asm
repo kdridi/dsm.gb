@@ -2793,7 +2793,15 @@ AnimTransitionTableData:
 ;; ==========================================================================
 ;; State07_WaitBank3 - Handler d'état $07 ($0C37)
 ;; ==========================================================================
-;; Attente timer puis appel bank 3, transition vers état $05.
+;; Description: Handler d'état $07 - Gère l'attente et la transition vers
+;;              le niveau spécial. Appelle la logique bank 3 pendant le timer,
+;;              puis passe à l'état SPECIAL_LEVEL ($05). Cas spécial pour W4-L3
+;;              qui passe directement à POST_LEVEL ($06).
+;; In:  hTimer1 = timer d'attente
+;;      wAudioCondition = condition audio (si 0, réinitialise timer)
+;;      hAnimTileIndex = index tuile animation (détection style/niveau)
+;; Out: hGameState = GAME_STATE_SPECIAL_LEVEL ou GAME_STATE_POST_LEVEL
+;; Modifie: a, hl, wSpecialState, rTMA
 ;; ==========================================================================
 State07_WaitBank3::
     ld hl, hTimer1
