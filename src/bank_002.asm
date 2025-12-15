@@ -2067,7 +2067,7 @@ DispatchEntry_002_489a:
     rrca
     rra
     db $10
-    jr c, UnknownCode_002_48f8
+    jr c, PaddingZone_002_48f8
 
     ld [hl], b
     ld b, b
@@ -2121,7 +2121,7 @@ PaddingZone_002_48d6:
     add b
     ldh [hJoypadState], a
 
-UnknownCode_002_48f8:
+PaddingZone_002_48f8:
     ld [hl], b
     ld b, b
     ld a, $20
@@ -2751,7 +2751,7 @@ FlagDispatch_Default:
     rra
     jr @+$31
 
-    jr nz, UnknownCode_002_4bd8
+    jr nz, DataZone_002_4bd8
 
     ld b, e
     ld e, l
@@ -2837,7 +2837,7 @@ ConstTable_002_4baa:
     cpl
     cpl
 
-UnknownCode_002_4bd8:
+DataZone_002_4bd8:
     daa
     daa
     ld h, a
@@ -3421,7 +3421,7 @@ PaddingZone_002_4d82:
     ld a, [hl]
     inc a
     inc a
-    jr UnknownCode_002_4e64
+    jr PaddingZone_002_4e64
 
     rst $38
     rst $38
@@ -3456,7 +3456,7 @@ UnknownCode_002_4e52:
     nop
     nop
 
-UnknownCode_002_4e64:
+PaddingZone_002_4e64:
     inc a
     inc a
     ld h, [hl]
@@ -3551,7 +3551,7 @@ PaddingZone_002_4eae:
 
     jr AudioDispatchEntry_4ede
 
-    jr c, UnknownCode_002_4f00
+    jr c, DataZone_002_4f00
 
     ld hl, sp-$08
     ldh a, [hCurrentTile]
@@ -3603,7 +3603,7 @@ AudioDispatchEntry_4ede:
     jp $c3ff
 
 
-UnknownCode_002_4f00:
+DataZone_002_4f00:
     ld a, [hl]
     ld a, [hl]
     db $10
@@ -3667,7 +3667,7 @@ UnknownCode_002_4f32:
     scf
     jr nc, Return_IfCarry_002_4f6e
 
-    jr nz, UnknownCode_002_4f70
+    jr nz, PaddingZone_002_4f70
 
     daa
     ldh a, [hCurrentTile]
@@ -3710,7 +3710,7 @@ Return_IfCarry_002_4f6e:
 
     ret c
 
-UnknownCode_002_4f70:
+PaddingZone_002_4f70:
     nop
     nop
     jr c, UnknownCode_002_4fac
@@ -3779,11 +3779,11 @@ UnknownCode_002_4fac:
     inc b
     jr UnknownCode_002_4fca
 
-    jr UnknownCode_002_4fcc
+    jr PaddingZone_002_4fcc
 
-    jr UnknownCode_002_4fce
+    jr PaddingZone_002_4fce
 
-    jr UnknownCode_002_4fd0
+    jr PaddingZone_002_4fd0
 
     jr PaddingZone_002_4fd2
 
@@ -3809,14 +3809,14 @@ UnknownCode_002_4fca:
     xor [hl]
     xor a
 
-UnknownCode_002_4fcc:
+PaddingZone_002_4fcc:
     cp $ff
 
-UnknownCode_002_4fce:
+PaddingZone_002_4fce:
     ld a, [hl]
     ld a, a
 
-UnknownCode_002_4fd0:
+PaddingZone_002_4fd0:
     ld a, $3e
 
 PaddingZone_002_4fd2:
@@ -3913,9 +3913,9 @@ PaddingZone_002_501a:
     nop
     nop
     nop
-    jr UnknownCode_002_503c
+    jr PaddingZone_002_503c
 
-    jr UnknownCode_002_503e
+    jr PaddingZone_002_503e
 
     inc e
     inc e
@@ -3942,18 +3942,18 @@ DataVector_Handler_3:
     ld h, [hl]
     ld h, [hl]
 
-UnknownCode_002_503c:
+PaddingZone_002_503c:
     ld h, [hl]
     ld h, [hl]
 
-UnknownCode_002_503e:
+PaddingZone_002_503e:
     inc a
     inc a
     nop
     nop
     nop
     nop
-    jr UnknownCode_002_505e
+    jr PaddingZone_002_505e
 
     jr c, DataVector_Handler_7
 
@@ -3979,7 +3979,7 @@ UnknownCode_002_503e:
     ld [hl], b
     ld [hl], b
 
-UnknownCode_002_505e:
+PaddingZone_002_505e:
     ld a, [hl]
     ld a, [hl]
     nop
@@ -4059,11 +4059,11 @@ DataVector_Handler_7:
     ld b, $06
     inc c
     inc c
-    jr UnknownCode_002_50c4
+    jr PaddingZone_002_50c4
 
-    jr c, UnknownCode_002_50e6
+    jr c, PaddingZone_002_50e6
 
-    jr c, UnknownCode_002_50e8
+    jr c, PaddingZone_002_50e8
 
     nop
     nop
@@ -4086,7 +4086,7 @@ DataVector_Handler_7:
     nop
     nop
 
-UnknownCode_002_50c4:
+PaddingZone_002_50c4:
     inc a
     inc a
     ld c, [hl]
@@ -4120,11 +4120,11 @@ UnknownCode_002_50c4:
     ld a, h
     ld a, h
 
-UnknownCode_002_50e6:
+PaddingZone_002_50e6:
     ld h, [hl]
     ld h, [hl]
 
-UnknownCode_002_50e8:
+PaddingZone_002_50e8:
     ld a, h
     ld a, h
     ld h, [hl]
@@ -4563,13 +4563,13 @@ ControlFlow_Target_9:
     nop
     nop
     nop
-    jr nc, UnknownCode_002_52b8
+    jr nc, PaddingZone_002_52b8
 
-    jr nc, UnknownCode_002_52ba
+    jr nc, PaddingZone_002_52ba
 
     nop
     nop
-    jr nc, UnknownCode_002_52be
+    jr nc, PaddingZone_002_52be
 
     jr nc, PaddingZone_002_52c0
 
@@ -4585,7 +4585,7 @@ ControlFlow_Target_9:
     nop
     jr nc, PaddingZone_002_52cc
 
-    jr nc, UnknownCode_002_52ce
+    jr nc, PaddingZone_002_52ce
 
 ConstTable_002_529e:
     db $10
@@ -4616,17 +4616,17 @@ DispatchEntry_002_52a0:
     inc e
     inc e
 
-UnknownCode_002_52b8:
+PaddingZone_002_52b8:
     inc e
     inc e
 
-UnknownCode_002_52ba:
+PaddingZone_002_52ba:
     inc e
     inc e
     nop
     nop
 
-UnknownCode_002_52be:
+PaddingZone_002_52be:
     inc e
     inc e
 
@@ -4650,7 +4650,7 @@ PaddingZone_002_52cc:
     nop
     nop
 
-UnknownCode_002_52ce:
+PaddingZone_002_52ce:
     nop
     nop
     nop
@@ -5293,7 +5293,7 @@ AudioDispatchEntry_5506:
     ld e, d
     inc h
     inc h
-    jr UnknownCode_002_55a8
+    jr PaddingZone_002_55a8
 
     nop
     nop
@@ -5324,7 +5324,7 @@ UnknownCode_002_559e:
     ld h, d
     ld h, d
 
-UnknownCode_002_55a8:
+PaddingZone_002_55a8:
     nop
     nop
     ld a, [hl]
