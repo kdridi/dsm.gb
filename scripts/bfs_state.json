@@ -1807,6 +1807,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1CA8",
+      "node_type": "code",
+      "description": "InitScrollBuffer - Remplit buffer scroll avec tiles vides",
+      "source": "$0808",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1827,6 +1835,7 @@
     "$0E28",
     "$0150",
     "$0095",
+    "$0808",
     "$0FF4",
     "$0ab6",
     "$0610",
@@ -1918,6 +1927,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 1,
-  "total_explored": 107
+  "commits_since_push": 2,
+  "total_explored": 108
 }
