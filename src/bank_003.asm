@@ -8995,7 +8995,7 @@ jr_003_6851:
     rst $00
     ld a, $03
     ld hl, $6868
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     inc a
@@ -9008,7 +9008,7 @@ jr_003_6851:
 
     ld a, $0e
     ld hl, $6875
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     nop
@@ -9094,7 +9094,7 @@ jr_003_68a1:
 
     ld a, $03
     ld hl, $688b
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     call UpdateAudioFrameCounter
@@ -9126,7 +9126,7 @@ jr_003_68f8:
     ret z
 
     ld hl, $6902
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     ld hl, $dfe4
@@ -9164,7 +9164,7 @@ jr_003_6935:
 
     ld a, $08
     ld hl, $692c
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     call UpdateAudioFrameCounter
@@ -9199,7 +9199,7 @@ Jump_003_6963:
     ld [$dfe6], a
     ld a, $05
     ld hl, $695c
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     daa
@@ -9211,7 +9211,7 @@ Jump_003_6963:
     ld [$dfe6], a
     ld a, $05
     ld hl, $696e
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     call UpdateAudioFrameCounter
@@ -9243,7 +9243,7 @@ Jump_003_6963:
 
     ld a, $08
     ld hl, $6999
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     ld a, [hl-]
@@ -9271,7 +9271,7 @@ Jump_003_6963:
 
     ld a, $06
     ld hl, $69aa
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     call UpdateAudioFrameCounter
@@ -9304,7 +9304,7 @@ jr_003_69e9:
     ld hl, $69f1
 
 jr_003_69ee:
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     nop
@@ -9386,10 +9386,10 @@ jr_003_6a49:
     add b
     ld a, $30
     ld hl, $6a4c
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
-Call_003_6a58:
+CheckAudioActive:
     ld a, [$dff9]
     cp $01
     ret z
@@ -9406,12 +9406,12 @@ Call_003_6a58:
     dec a
     ccf
     nop
-    call Call_003_6a58
+    call CheckAudioActive
     ret z
 
     ld a, $06
     ld hl, $6a5f
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     call UpdateAudioFrameCounter
@@ -9438,19 +9438,19 @@ Call_003_6a58:
     add b
     ld a, $16
     ld hl, $6a8c
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     nop
     ldh a, [c]
     ld d, l
     add b
-    call Call_003_6a58
+    call CheckAudioActive
     ret z
 
     ld a, $15
     ld hl, $6a98
-    jp Jump_003_6ab9
+    jp DispatchAudioCommand
 
 
     call UpdateAudioFrameCounter
@@ -9467,7 +9467,6 @@ jr_003_6aad:
 
 
 DispatchAudioCommand:
-Jump_003_6ab9:
     push af
     dec e
     ldh a, [hAudioStatus]
@@ -9941,14 +9940,14 @@ jr_003_6cf2:
     jr jr_003_6d28
 
 Jump_003_6cfe:
-    call Call_003_6d2e
-    call Call_003_6d43
+    call IncrementAudioWord
+    call DereferenceAudioPointer
     ld e, a
-    call Call_003_6d2e
-    call Call_003_6d43
+    call IncrementAudioWord
+    call DereferenceAudioPointer
     ld d, a
-    call Call_003_6d2e
-    call Call_003_6d43
+    call IncrementAudioWord
+    call DereferenceAudioPointer
     ld c, a
     inc l
     inc l
@@ -9969,11 +9968,11 @@ Jump_003_6cfe:
     jr z, jr_003_6cf2
 
 jr_003_6d28:
-    call Call_003_6d2e
+    call IncrementAudioWord
     jp Jump_003_6dd1
 
 
-Call_003_6d2e:
+IncrementAudioWord:
     push de
     ld a, [hl+]
     ld e, a
@@ -9990,7 +9989,7 @@ jr_003_6d34:
     ret
 
 
-Call_003_6d3a:
+AdvanceAudioPointerByWord:
     push de
     ld a, [hl+]
     ld e, a
@@ -10000,7 +9999,7 @@ Call_003_6d3a:
     inc de
     jr jr_003_6d34
 
-Call_003_6d43:
+DereferenceAudioPointer:
     ld a, [hl+]
     ld c, a
     ld a, [hl-]
@@ -10061,7 +10060,7 @@ Jump_003_6d7d:
     dec l
     dec l
     dec l
-    call Call_003_6d3a
+    call AdvanceAudioPointerByWord
 
 jr_003_6d84:
     ld a, l
@@ -10082,11 +10081,11 @@ jr_003_6d84:
 jr_003_6d98:
     dec l
     push hl
-    call Call_003_6d3a
-    call Call_003_6d43
+    call AdvanceAudioPointerByWord
+    call DereferenceAudioPointer
     ld e, a
-    call Call_003_6d2e
-    call Call_003_6d43
+    call IncrementAudioWord
+    call DereferenceAudioPointer
     ld d, a
     pop hl
     ld a, e
@@ -10126,7 +10125,7 @@ Jump_003_6dcf:
     inc l
 
 Jump_003_6dd1:
-    call Call_003_6d43
+    call DereferenceAudioPointer
     cp $00
     jp z, Jump_003_6d7d
 
@@ -10153,14 +10152,14 @@ Jump_003_6dd1:
     pop hl
     dec l
     ld [hl+], a
-    call Call_003_6d2e
-    call Call_003_6d43
+    call IncrementAudioWord
+    call DereferenceAudioPointer
 
 jr_003_6dfe:
     ld a, b
     ld c, a
     ld b, $00
-    call Call_003_6d2e
+    call IncrementAudioWord
     ldh a, [hAudioControl]
     cp $04
     jp z, Jump_003_6e2e
