@@ -1199,6 +1199,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$3F87",
+      "node_type": "data",
+      "description": "ROM_HUD_TILEMAP - Donn\u00e9es tilemap du HUD (40 bytes, 2 lignes)",
+      "source": "$05F8",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1225,6 +1233,7 @@
     "$055F",
     "$046D",
     "$05C7",
+    "$05F8",
     "$00CD",
     "$4000:1",
     "$0150",
@@ -1244,6 +1253,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 0,
-  "total_explored": 41
+  "commits_since_push": 1,
+  "total_explored": 42
 }

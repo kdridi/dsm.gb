@@ -1395,6 +1395,14 @@ LoadGameTiles_TileCopyLoop:
     ret
 
 
+; ===========================================================================
+; CopyHudTilemap
+; --------------
+; Description: Copie les 2 lignes du HUD depuis ROM vers la tilemap VRAM
+; In:  Aucun
+; Out: Aucun
+; Modifie: a, b, de, hl
+; ===========================================================================
 CopyHudTilemap:
     ld hl, ROM_HUD_TILEMAP
     ld de, VRAM_BG_BASE
