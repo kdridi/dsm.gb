@@ -526,6 +526,8 @@ DEF ANIM_STRUCT_STRIDE  EQU $10   ; Taille structure animation (16 octets)
 ; === Valeurs de gameplay ===
 
 DEF POINTS_PER_COIN     EQU $0100 ; Points par pièce (100 en BCD)
+DEF SCORE_BONUS_10      EQU $0010 ; Bonus 10 points (score)
+DEF SCORE_BONUS_50      EQU $0050 ; Bonus 50 points (score)
 
 ; Bornes de position X joueur (vérification zone centrale)
 DEF PLAYER_X_LEFT       EQU $60   ; Position X limite gauche zone centrale (96px)

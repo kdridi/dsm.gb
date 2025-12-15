@@ -2559,7 +2559,7 @@ AnimationCheckCompleteExit:
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [rROMB0], a
-    ld de, $0010
+    ld de, SCORE_BONUS_10
     call AddScore
     ld a, FLAG_TRUE
     ldh [hTimer1], a
@@ -3963,7 +3963,7 @@ State32_CreditsScroll::
 
 UpdateCreditsStars:
     ld hl, wPlayerUnk12
-    ld de, $0010
+    ld de, OBJECT_STRUCT_SIZE
     ld b, $03
 
 ScrollAnimationLoop:
@@ -5246,7 +5246,7 @@ InitObjectsLoop:
     ldh [hRenderAttr], a
     ld a, $02
     ld [wStateFinal], a
-    ld de, $0050
+    ld de, SCORE_BONUS_50
     call AddScore
     ld a, $02
     ld [wPlayerUnk07], a
@@ -6614,7 +6614,7 @@ HandleBlockCollision:
 
 InitBlockHitSprites:
     ld hl, wPlayerUnk10
-    ld de, $0010
+    ld de, OBJECT_STRUCT_SIZE
     ld b, $04
 
 SpriteSetupLoop:
@@ -6655,7 +6655,7 @@ SpriteSetupLoop:
     ld [hl], $0b
     ldh a, [hShadowSCX]
     ldh [hRenderAttr], a
-    ld de, $0050
+    ld de, SCORE_BONUS_50
     call AddScore
     ld a, $02
     ld [wStateFinal], a
@@ -7025,7 +7025,7 @@ HandleSpecialMarkerTile:
 TilemapScrollLoop:
     inc e
     push de
-    ld de, $0020
+    ld de, TILEMAP_STRIDE
     add hl, de
     pop de
     dec b
@@ -7422,7 +7422,7 @@ FindAudioTableEntry_Found:
     ld a, h
     ld [wAudioState1], a
     ld hl, wObjectBuffer
-    ld de, $0010
+    ld de, OBJECT_STRUCT_SIZE
 
 ClearObjectBuffer_Loop:
     ld [hl], $ff
@@ -7552,7 +7552,7 @@ InitAudioChannels:
     ld [wStateRender], a
 
 ConfigAudioChannel:
-    ld de, $0010
+    ld de, OBJECT_STRUCT_SIZE
     ld b, $00
     ld hl, wObjectBuffer
 
@@ -9037,7 +9037,7 @@ OffsetSpritesX.loop:
     push hl
     push de
     ld hl, wObjBufferVar03
-    ld de, $0010
+    ld de, OBJECT_STRUCT_SIZE
 
 OffsetSpritesX.apply_offset:
     ld a, [hl]
@@ -12472,7 +12472,7 @@ FillBorderRow:
 
     ld a, $fc
     ld [hl], a
-    ld de, $0020
+    ld de, TILEMAP_STRIDE
     ld l, e
     ld b, $10
     ld c, $02
@@ -12618,7 +12618,7 @@ CopyToBackBuffer:
 ; Copie données depuis $DA23 vers tilemap, avec compteur $DA28/$DA29 → état $15
 ; ===========================================================================
 State16_CopyTilemapData::
-    ld bc, $0020
+    ld bc, TILEMAP_STRIDE
 
 CopyTilemapOuter:
     ld de, $da23
