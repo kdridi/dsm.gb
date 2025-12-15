@@ -4057,10 +4057,13 @@ ClearOamBuffer_Loop:
     inc [hl]
     ret
 
-; ===========================================================================
-; État $2A - Affichage texte fin ($115C)
-; Affiche texte "OH! DAISY", puis configure sprite princesse
-; ===========================================================================
+; State2A_DisplayEndText
+; -----------------------
+; Description: Affiche le texte "OH! DAISY", configure la destination VRAM pour
+;              le sprite de la princesse et passe à l'état suivant
+; In:  Aucun
+; Out: Aucun (avance l'état du jeu si texte terminé)
+; Modifie: a, hl, [hOAMIndex], [hCopyDstLow], [hCopyDstHigh], [wPlayerUnk13], [hGameState]
 State2A_DisplayEndText::
     ld hl, TextData_OhDaisy
     call WriteCharToVRAM

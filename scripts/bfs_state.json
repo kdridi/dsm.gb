@@ -1097,6 +1097,14 @@
       "priority": 3
     },
     {
+      "address": "$1CA8",
+      "node_type": "code",
+      "description": "InitScrollBuffer - Remplit buffer scroll avec tiles vides",
+      "source": "$0808",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1CDB",
       "node_type": "code",
       "description": "State3B_WindowSetup - Setup window",
@@ -1809,10 +1817,10 @@
       "priority": 3
     },
     {
-      "address": "$1CA8",
-      "node_type": "code",
-      "description": "InitScrollBuffer - Remplit buffer scroll avec tiles vides",
-      "source": "$0808",
+      "address": "$117A",
+      "node_type": "data",
+      "description": "Table de texte 'OH! DAISY' affich\u00e9e en fin de niveau",
+      "source": "$115C",
       "bank": 0,
       "priority": 3
     }
@@ -1887,6 +1895,7 @@
     "$0C37",
     "$0000",
     "$06C5",
+    "$115C",
     "$0ad1",
     "$04A2",
     "$10FE",
@@ -1927,6 +1936,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 2,
-  "total_explored": 108
+  "commits_since_push": 3,
+  "total_explored": 109
 }
