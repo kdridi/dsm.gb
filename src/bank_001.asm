@@ -2670,7 +2670,7 @@ PaddingZone_4b18:
     rlca
     rlca
     dec b
-    jp nz, InfiniteLoop_3cc2
+    jp nz, ErrorTrap_3cc2
 
     db $fc
     ldh [hVramPtrLow], a

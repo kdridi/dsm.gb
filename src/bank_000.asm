@@ -10073,7 +10073,7 @@ AnimFrameDataLookup:
     nop
     nop
 
-InfiniteLoop_31c2:
+ErrorTrap_31c2:
     nop
     rrca
     dec d
@@ -12242,7 +12242,7 @@ RawDataBlock_3b46:
     db $f4
     ld bc, $ea21
 
-InfiniteLoop_3cc2:
+ErrorTrap_3cc2:
     db $f4
     nop
     add sp, $02

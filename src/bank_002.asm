@@ -1533,7 +1533,7 @@ SetVramPointer:
     ld d, a
     ld a, e
 
-InfiniteLoop_002_4685:
+ErrorTrap_002_4685:
     ld a, b
     ld c, a
     ld c, a
@@ -1546,7 +1546,7 @@ InfiniteLoop_002_4685:
     rlca
     rlca
     ld bc, $f801
-    jr nc, InfiniteLoop_002_4685
+    jr nc, ErrorTrap_002_4685
 
     nop
     ld hl, sp-$08
