@@ -561,7 +561,9 @@ DEF LY_WINDOW_MAX       EQU $87 ; Ligne max pour animation window (135)
 ; === Dimensions tilemap ===
 
 DEF TILEMAP_ROW_WIDTH   EQU $14 ; 20 tiles = largeur écran visible (160px / 8px)
+DEF TILEMAP_STRIDE      EQU $20 ; 32 tiles = largeur complète tilemap (256px / 8px)
 DEF TILEMAP_INIT_SIZE   EQU $09 ; Taille données init tilemap (9 octets)
+DEF HUD_LINE_COUNT      EQU $02 ; Nombre de lignes HUD à copier
 
 ; === Audio/Sound ===
 
@@ -693,7 +695,20 @@ DEF WX_INIT_GAME            EQU $60 ; Position Window X initiale gameplay (96)
 
 DEF SCROLL_COLUMN_INIT      EQU $5b ; Colonne scroll initiale (91)
 DEF SCRN1_CLEAR_SIZE        EQU $5f ; Taille clear _SCRN1 (95 octets)
+DEF LEVEL_DATA_INIT         EQU $28 ; Valeur initiale wLevelData (timer niveau)
+DEF LEVEL_BCD2_INIT         EQU $04 ; Valeur initiale wLevelBCD2
 
 ; === Tables ROM (adresses lookup) ===
 
 DEF ROM_ATTRACT_INDEX_TABLE EQU $0552 ; Table index attract mode par bank
+DEF ROM_RENDER_TABLE        EQU $07b7 ; Table contexte rendu par index
+
+; === Directions joueur (wPlayerDir) ===
+; Bits bas utilisés pour le mode gameplay
+
+DEF PLAYER_MODE_GAMEPLAY    EQU $0a ; Mode gameplay standard
+DEF PLAYER_MODE_SPECIAL     EQU $0c ; Mode niveau spécial
+
+; === Tailles de buffer ===
+
+DEF ANIM_BUFFER_COPY_SIZE   EQU $08 ; Taille copie buffer animation (8 octets)

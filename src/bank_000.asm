@@ -1204,7 +1204,7 @@ LoadGameTiles:
     call MemCopy
     ld hl, ROM_ANIM_BUFFER
     ld de, wAnimBuffer
-    ld b, $08
+    ld b, ANIM_BUFFER_COPY_SIZE
 
 LoadGameTiles_TileCopyLoop:
     ld a, [hl+]
@@ -1220,7 +1220,7 @@ LoadGameTiles_TileCopyLoop:
 CopyHudTilemap:
     ld hl, ROM_HUD_TILEMAP
     ld de, VRAM_BG_BASE
-    ld b, $02
+    ld b, HUD_LINE_COUNT
 
 .copyHudTilemapLoop:
     ld a, [hl+]
@@ -1228,10 +1228,10 @@ CopyHudTilemap:
     inc e
     ld a, e
     and $1f
-    cp $14
+    cp TILEMAP_ROW_WIDTH
     jr nz, .copyHudTilemapLoop
 
-    ld e, $20
+    ld e, TILEMAP_STRIDE
     dec b
     jr nz, .copyHudTilemapLoop
 
@@ -1447,7 +1447,7 @@ ApplyLevelStyleConfig:
     ld [hl], a
     ld hl, _SCRN1
     ld de, ROM_TILEMAP_INIT
-    ld b, $09
+    ld b, TILEMAP_INIT_SIZE
 
 .copyTilemapInitLoop:
     ld a, [de]
@@ -1469,19 +1469,19 @@ ApplyLevelStyleConfig:
     ldh [hBlockHitType], a
     ld [wSpecialState], a
     ldh [rTMA], a
-    ld hl, $da01
+    ld hl, wLevelBCD1
     ld [hl+], a
-    ld [hl], $04
-    ld a, $28
+    ld [hl], LEVEL_BCD2_INIT
+    ld a, LEVEL_DATA_INIT
     ld [wLevelData], a
-    ld a, $5b
+    ld a, SCROLL_COLUMN_INIT
     ldh [hScrollColumn], a
     ldh a, [hRenderContext]
-    ld c, $0a
+    ld c, PLAYER_MODE_GAMEPLAY
     cp RENDER_CONTEXT_GAMEPLAY
     jr z, EnterGameplayState
 
-    ld c, $0c
+    ld c, PLAYER_MODE_SPECIAL
     cp RENDER_CONTEXT_SPECIAL
     jr nz, ContinueAfterStateSetup
 
@@ -1522,7 +1522,7 @@ RenderPlayerUpdate:
     jr nz, SetStateRenderEnd
 
     ldh a, [hRenderContext]
-    ld hl, $07b7
+    ld hl, ROM_RENDER_TABLE
     ld e, a
     ld d, $00
     add hl, de
