@@ -783,7 +783,7 @@ jr_001_4314:
     nop
     nop
 
-Call_001_4355:
+InitializeLevel_4355:
     nop
     nop
     nop
@@ -1195,9 +1195,9 @@ jr_001_44ce:
     inc c
     db $10
     db $10
-    jr nz, jr_001_453e
+    jr nz, DataPadding_453e
 
-    jr nz, jr_001_4540
+    jr nz, DataPadding_4540
 
     ld b, b
     ld b, b
@@ -1223,7 +1223,7 @@ jr_001_44ce:
     nop
     nop
 
-jr_001_4539:
+DataPadding_4539:
     nop
     nop
     nop
@@ -1231,11 +1231,11 @@ jr_001_4539:
     nop
 
 Jump_001_453e:
-jr_001_453e:
+DataPadding_453e:
     add b
     add b
 
-jr_001_4540:
+DataPadding_4540:
     ld b, b
     ld b, b
     ld bc, $0201
@@ -1254,7 +1254,7 @@ jr_001_4540:
     nop
     pop bc
 
-jr_001_4557:
+DataPadding_4557:
     nop
     rst $30
     nop
@@ -1283,9 +1283,9 @@ jr_001_4557:
     ld b, b
     ld b, b
     and b
-    jr nz, jr_001_4557
+    jr nz, DataPadding_4557
 
-    jr nz, jr_001_4539
+    jr nz, DataPadding_4539
 
     ld b, b
     ret nz
@@ -1303,9 +1303,9 @@ jr_001_4557:
     nop
     nop
     stop
-    jr z, jr_001_458b
+    jr z, JumpTarget_IfZero
 
-jr_001_458b:
+JumpTarget_IfZero:
     stop
     nop
     nop
@@ -1358,9 +1358,9 @@ jr_001_458b:
     inc c
     nop
     stop
-    jr nz, jr_001_45c3
+    jr nz, JumpTarget_IfNotZero
 
-jr_001_45c3:
+JumpTarget_IfNotZero:
     ld d, d
     nop
     ld d, d
@@ -1404,9 +1404,9 @@ jr_001_45c3:
     ret nz
 
     nop
-    jr nc, jr_001_45ef
+    jr nc, JumpTarget_IfNotCarry
 
-jr_001_45ef:
+JumpTarget_IfNotCarry:
     ld [$0400], sp
     nop
     ld b, b
@@ -2470,7 +2470,7 @@ jr_001_4a4f:
     nop
     nop
 
-Call_001_4a56:
+UpdateLevelState_4a56:
     inc a
     inc a
     ld a, [hl]
@@ -4534,7 +4534,7 @@ jr_001_5354:
     ld c, a
     ld [bc], a
     ld d, l
-    call Call_001_5b49
+    call ProcessLevelData_5b49
     ld c, [hl]
     ld [bc], a
     ld e, [hl]
@@ -4724,7 +4724,7 @@ jr_001_5436:
 
 
     ld b, c
-    call Call_001_4355
+    call InitializeLevel_4355
     ld d, b
     ld c, c
     ld b, h
@@ -5050,7 +5050,7 @@ jr_001_550a:
     ld e, d
     ld c, b
     ld h, b
-    call Call_001_4a56
+    call UpdateLevelState_4a56
     ld d, a
     db $eb
     ld d, a
@@ -6203,7 +6203,7 @@ Call_001_5a60:
     db $f4
     db $f4
 
-Call_001_5b49:
+ProcessLevelData_5b49:
     db $f4
     ld a, a
     ld a, a
