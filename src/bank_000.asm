@@ -3013,7 +3013,16 @@ LoadGameTilesWithBank:
 ;; ==========================================================================
 ;; State08_WorldProgress - Handler d'état $08 ($0D40)
 ;; ==========================================================================
-;; Gestion progression monde/niveau, change bank et contexte.
+;; Description: Gère la progression monde/niveau et charge les ressources
+;;              graphiques selon le monde actuel (tiles, palettes, animations)
+;; In:  hTimer1 = timer de délai
+;;      wStateEnd = flag de fin de niveau
+;;      hRenderContext = contexte de rendu actuel (0-11)
+;;      hAnimTileIndex = index monde/niveau (nibble haut=monde, nibble bas=niveau)
+;; Out: hGameState = GAME_STATE_PREPARE_RENDER ($02)
+;;      hRenderContext = incrémenté avec wrap à RENDER_CONTEXT_MAX ($0C)
+;;      hAnimTileIndex = incrémenté (wrap niveau 4→monde suivant niveau 1)
+;; Modifie: a, b, c, d, e, h, l
 ;; ==========================================================================
 State08_WorldProgress::
     ld hl, hTimer1
@@ -3149,24 +3158,25 @@ GameplayInitStart:
 ; GraphicsTableA ($0DE4): dw $4032, $4032, $47F2 (3 pointeurs)
 ; GraphicsTableB ($0DEA): dw $4402, $4402, $4BC2 (3 pointeurs)
 GraphicsTableA:
-    ld [hl-], a
-    ld b, b
-    ld [hl-], a
-    ld b, b
-    ldh a, [c]
-    ld b, a
+    dw $4032               ; Monde 1 - pointeur tiles
+    ;
+    dw $4032               ; Monde 2 - pointeur tiles (identique monde 1)
+    ;
+    dw $47F2               ; Monde 3 - pointeur tiles
+    ;
 GraphicsTableB:
-    ld [bc], a
-    ld b, h
-    ld [bc], a
-    ld b, h
-    jp nz, $f34b
+    dw $4402               ; Monde 1 - pointeur palette
+    ;
+    dw $4402               ; Monde 2 - pointeur palette (identique monde 1)
+    ;
+    dw $4BC2               ; Monde 3 - pointeur palette
 
 ; ===========================================================================
 ; État $1B - Transition bonus complété ($0DF0)
 ; Recharge l'écran après zone bonus, LCD off → charge tiles → LCD on → état $08
 ; ===========================================================================
 State1B_BonusComplete::
+    di
     xor a
     ldh [rLCDC], a
     call CopyHudTilemap

@@ -1591,6 +1591,38 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0D30",
+      "node_type": "code",
+      "description": "LoadGameTilesWithBank - Charge tiles avec bank sp\u00e9cifique",
+      "source": "$0D40",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0DCA",
+      "node_type": "code",
+      "description": "GameplayInitStart - Initialise le gameplay apr\u00e8s chargement graphiques",
+      "source": "$0D40",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0DE4",
+      "node_type": "data",
+      "description": "GraphicsTableA - Table de pointeurs vers tiles mondes",
+      "source": "$0D40",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0DEA",
+      "node_type": "data",
+      "description": "GraphicsTableB - Table de pointeurs vers palettes mondes",
+      "source": "$0D40",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1619,6 +1651,7 @@
     "$04A2",
     "$0558",
     "$0166",
+    "$0D40",
     "$0226",
     "$03E4",
     "$05D0",
@@ -1664,6 +1697,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 3,
-  "total_explored": 69
+  "commits_since_push": 4,
+  "total_explored": 70
 }
