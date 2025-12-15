@@ -986,3 +986,40 @@ DEF OAM_ATTR_XY_FLIP           EQU $60   ; Attribut OAM: flip X+Y (bits 5+6)
 ; === Offset calcul sprite position ===
 
 DEF SPRITE_X_OFFSET_NEG        EQU $f8   ; Offset X sprite négatif (-8)
+
+; === Animation StateHandler_04 ===
+; Table et constantes pour l'animation de transition d'état
+
+DEF ROM_ANIM_TRANSITION_TABLE  EQU $0c10 ; Table vitesses animation transition
+DEF ANIM_TRANSITION_END_MARKER EQU $7f   ; Marqueur fin animation (valeur max)
+DEF ANIM_TRANSITION_DEFAULT    EQU $02   ; Incrément animation par défaut
+DEF OAM_ENTRY_SIZE             EQU $04   ; Taille d'une entrée OAM (4 octets: Y, X, Tile, Attr)
+DEF SPRITE_Y_THRESHOLD_EXIT    EQU $b4   ; Seuil Y sprite pour sortie animation (180 pixels)
+
+; === Timer texte cutscene ===
+
+DEF TIMER_TEXT_CHAR            EQU $0c   ; Timer entre caractères texte (12 frames)
+DEF CUTSCENE_TEXT_OFFSET       EQU $a5   ; Offset colonne texte cutscene ($98A5)
+
+; === Animation princesse (State26) ===
+
+DEF PRINCESS_ANIM_THRESHOLD    EQU $d0   ; Seuil Y animation princesse (208 pixels)
+DEF PRINCESS_INIT_VALUE        EQU $20   ; Valeur initiale animation princesse
+DEF PRINCESS_NEXT_VALUE        EQU $21   ; Valeur suivante animation princesse
+DEF TIMER_PRINCESS_PAUSE       EQU $40   ; Timer pause animation princesse (64 frames)
+
+; === Animation oscillation (State27) ===
+
+DEF OSCIL_TIMER_INIT           EQU $20   ; Timer init oscillation (32 frames)
+DEF OSCIL_OFFSET_NEG           EQU $fc   ; Offset oscillation négatif (-4)
+DEF OSCIL_OFFSET_POS           EQU $04   ; Offset oscillation positif (+4)
+DEF OSCIL_TIMER_THRESHOLD      EQU $80   ; Seuil timer oscillation (128)
+DEF OSCIL_TIMER_END            EQU $3f   ; Timer fin oscillation (63 frames)
+
+; === État $29 - Setup écran fin ===
+
+DEF SCRN1_FIN_CLEAR_SIZE       EQU $0100 ; Taille clear _SCRN1 fin (256 octets)
+DEF END_SCREEN_PLAYER_Y        EQU $38   ; Position Y joueur écran fin (56)
+DEF END_SCREEN_PLAYER_X        EQU $10   ; Position X joueur écran fin (16)
+DEF END_SCREEN_PLAYER_POS      EQU $78   ; Position joueur écran fin (120)
+DEF OAM_CLEAR_SIZE_END         EQU $0c   ; Taille clear OAM fin (12 octets)

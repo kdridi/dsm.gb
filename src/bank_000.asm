@@ -2402,22 +2402,22 @@ StateHandler_04::
     inc a
     ld [wGameVarAC], a
     ld d, $00
-    ld hl, $0c10
+    ld hl, ROM_ANIM_TRANSITION_TABLE
     add hl, de
     ld b, [hl]
     ld a, b
-    cp $7f
+    cp ANIM_TRANSITION_END_MARKER
     jr nz, UpdateSpriteAnimationPath
 
     ld a, [wGameVarAC]
     dec a
     ld [wGameVarAC], a
-    ld b, $02
+    ld b, ANIM_TRANSITION_DEFAULT
 
 UpdateSpriteAnimationPath:
     ld hl, wOamVar0C
-    ld de, $0004
-    ld c, $04
+    ld de, OAM_ENTRY_SIZE
+    ld c, OAM_ENTRY_SIZE
 
 SpriteAnimationOAMLoop:
     ld a, b
@@ -2427,7 +2427,7 @@ SpriteAnimationOAMLoop:
     dec c
     jr nz, SpriteAnimationOAMLoop
 
-    cp $b4
+    cp SPRITE_Y_THRESHOLD_EXIT
     ret c
 
     ld a, [wSpecialState]
@@ -3178,7 +3178,7 @@ StoreDestHighByte:
     inc e
     ld a, e
     ldh [hOAMIndex], a
-    ld a, $0c
+    ld a, TIMER_TEXT_CHAR
     ldh [hTimer1], a
     ret
 
@@ -3267,7 +3267,7 @@ State25_NextState:
 ; --- Routine : copie données OAM depuis table ---
 Copy16BytesToOam:
     ld de, wOamVar1C
-    ld b, $10
+    ld b, OAM_COPY_SIZE
 
 Copy16BytesOam_Loop:
     ld a, [hl+]
@@ -3308,7 +3308,7 @@ State26_PrincessRising::
     ret nz
 
     ld hl, wPlayerUnk13
-    ld [hl], $20
+    ld [hl], PRINCESS_INIT_VALUE
     ld bc, wObject2
     ld hl, ROM_OBJECT_INIT_DATA
     push bc
@@ -3319,21 +3319,21 @@ State26_PrincessRising::
     and a
     jr nz, UpdateAnimationFrame
 
-    ld [hl], $01
+    ld [hl], FLAG_TRUE
     ld hl, wPlayerUnk13
-    ld [hl], $21
-    ld a, $40
+    ld [hl], PRINCESS_NEXT_VALUE
+    ld a, TIMER_PRINCESS_PAUSE
     ldh [hTimer1], a
 
 UpdateAnimationFrame:
     ldh a, [hFrameCounter]
-    and $01
+    and FLAG_TRUE
     jr nz, State26_SwitchBankAndCallBank3Handler
 
     ld hl, wPlayerUnk12
     inc [hl]
     ld a, [hl]
-    cp $d0
+    cp PRINCESS_ANIM_THRESHOLD
     jr nc, State26_NextState
 
 State26_SwitchBankAndCallBank3Handler:
@@ -3358,9 +3358,9 @@ State27_PlayerOscillation::
     and a
     jr nz, State27_ClearPlayerVar
 
-    ld a, $01
-    ld [$dff8], a
-    ld a, $20
+    ld a, FLAG_TRUE
+    ld [wStateFinal], a
+    ld a, OSCIL_TIMER_INIT
     ldh [hTimer2], a
 
 State27_ClearPlayerVar:
@@ -3373,12 +3373,12 @@ State27_ClearPlayerVar:
     jr nz, State27_CheckTimer
 
     ldh a, [hOAMIndex]
-    xor $01
+    xor FLAG_TRUE
     ldh [hOAMIndex], a
-    ld b, $fc
+    ld b, OSCIL_OFFSET_NEG
     jr z, State27_AddOffsetToFlag
 
-    ld b, $04
+    ld b, OSCIL_OFFSET_POS
 
 State27_AddOffsetToFlag:
     ld a, [wLevelInitFlag]
@@ -3387,7 +3387,7 @@ State27_AddOffsetToFlag:
 
 State27_CheckTimer:
     ld a, c
-    cp $80
+    cp OSCIL_TIMER_THRESHOLD
     ret nc
 
     and $1f
@@ -3426,7 +3426,7 @@ State27_CheckTimer:
 
     swap a
     ldh [hOAMAddrLow], a
-    ld a, $3f
+    ld a, OSCIL_TIMER_END
     ldh [hTimer1], a
     ret
 
@@ -3451,23 +3451,23 @@ State29_SetupEndScreen::
     ldh [rLCDC], a
     ldh [hVBlankMode], a
     ld hl, _SCRN1
-    ld bc, $0100
+    ld bc, SCRN1_FIN_CLEAR_SIZE
     call FillTilemapLoop
     call InitScrollState
     call ResetPlayerForCutscene
     ld hl, wPlayerState
-    ld [hl], $38
+    ld [hl], END_SCREEN_PLAYER_Y
     inc l
-    ld [hl], $10
+    ld [hl], END_SCREEN_PLAYER_X
     ld hl, wPlayerUnk12
-    ld [hl], $78
+    ld [hl], END_SCREEN_PLAYER_POS
     xor a
     ldh [rIF], a
     ldh [hShadowSCX], a
     ld [wLevelInitFlag], a
     ldh [hOAMIndex], a
     ld hl, wOamBuffer
-    ld b, $0c
+    ld b, OAM_CLEAR_SIZE_END
 
 ClearOamBuffer_Loop:
     ld [hl+], a
@@ -3477,7 +3477,7 @@ ClearOamBuffer_Loop:
     call SwitchBankAndCallBank3Handler
     ld a, VRAM_TILEMAP_HIGH     ; $98 = octet haut _SCRN0
     ldh [hCopyDstLow], a
-    ld a, $a5                   ; Offset colonne texte
+    ld a, CUTSCENE_TEXT_OFFSET  ; Offset colonne texte
     ldh [hCopyDstHigh], a
     ld a, STATE_RENDER_CUTSCENE
     ld [wStateRender], a
