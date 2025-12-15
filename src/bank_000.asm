@@ -4496,6 +4496,13 @@ SetupFinalScreen:
     ld hl, hGameState
     inc [hl]
 
+; PopAndReturn ($1343)
+; --------------------
+; Description: Helper local pour SetupFinalScreen - restaure af et retourne
+;              Utilisé pour sortie précoce quand compteur hOAMIndex != 0
+; In:  Stack contient af sauvegardé
+; Out: af restauré
+; Modifie: af (restauré depuis stack)
 PopAndReturn:
     pop af
     ret

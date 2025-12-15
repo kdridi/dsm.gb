@@ -977,6 +977,14 @@
       "priority": 3
     },
     {
+      "address": "$1343",
+      "node_type": "code",
+      "description": "PopAndReturn - Restaure af et retourne",
+      "source": "$130F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1345",
       "node_type": "code",
       "description": "ClearScrollBuffer - Efface buffer scroll et lignes VRAM (appel\u00e9 par SetupFinalScreen)",
@@ -989,6 +997,14 @@
       "node_type": "code",
       "description": "Copy5Bytes - Copie 5 bytes ROM\u2192RAM (appel\u00e9 3x par SetupFinalScreen)",
       "source": "$12E8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1376",
+      "node_type": "data",
+      "description": "SpriteEndData - Tables config sprites \u00e9cran final (3x5 octets)",
+      "source": "$130F",
       "bank": 0,
       "priority": 3
     },
@@ -1879,22 +1895,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1343",
-      "node_type": "code",
-      "description": "PopAndReturn - Restaure af et retourne",
-      "source": "$130F",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1376",
-      "node_type": "data",
-      "description": "SpriteEndData - Tables config sprites \u00e9cran final (3x5 octets)",
-      "source": "$130F",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1964,6 +1964,7 @@
     "$0C07",
     "$0060",
     "$0150",
+    "$1343",
     "$0FF4",
     "$0ECB",
     "$124B",
@@ -2021,6 +2022,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 122
+  "commits_since_push": 2,
+  "total_explored": 123
 }
