@@ -2854,7 +2854,7 @@ DataZone_002_4bd8:
     add hl, de
     jr PaddingZone_002_4c10
 
-    jr nz, DispatchTableEntry_002_4c69
+    jr nz, CollisionDispatchCase_099
 
     ld b, c
     ld a, l
@@ -2984,7 +2984,7 @@ PaddingZone_002_4c28:
     nop
     add b
 
-DispatchTableEntry_002_4c69:
+CollisionDispatchCase_099:
     add b
     cp [hl]
     cp [hl]
@@ -6964,13 +6964,13 @@ SpriteAnimationNextPhase:
     call ReadTileUnderSprite
     ld a, [hl]
     cp $03
-    jr z, DispatchTableEntry_002_5d4a
+    jr z, TileTypeDispatchCase_03
 
     cp $e5
-    jr z, DispatchTableEntry_002_5d51
+    jr z, TileTypeDispatchCase_E5
 
     cp $02
-    jr z, DispatchTableEntry_002_5d43
+    jr z, TileTypeDispatchCase_02
 
     ld a, $02
     ld [$da17], a
@@ -6982,17 +6982,17 @@ DispatchEntry_002_5d3c:
     ret
 
 
-DispatchTableEntry_002_5d43:
+TileTypeDispatchCase_02:
     ld a, $03
     ld [$da17], a
     jr DispatchEntry_002_5d3c
 
-DispatchTableEntry_002_5d4a:
+TileTypeDispatchCase_03:
     ld a, $04
     ld [$da17], a
     jr DispatchEntry_002_5d3c
 
-DispatchTableEntry_002_5d51:
+TileTypeDispatchCase_E5:
     ldh a, [hSubState]
     and a
     jr z, DispatchTableEntry_002_5d62

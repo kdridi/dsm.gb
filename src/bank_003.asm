@@ -4667,7 +4667,7 @@ DataZone_003_5378:
     ld b, b
     ld b, e
     cp $b5
-    jr c, DispatchTableEntry_003_54b2
+    jr c, ByteValueDispatchCase_31
 
     ld a, $41
     ld b, h
@@ -4719,7 +4719,7 @@ DataZone_003_5378:
     ld a, [hl-]
     dec a
 
-DispatchTableEntry_003_54b2:
+ByteValueDispatchCase_31:
     ld b, b
     cp $c4
     jr c, @+$3d
@@ -9023,7 +9023,7 @@ InitializeWaveAudio_ResetWave:
 
 SkipIfGameState04:
     ld a, [$dfe1]
-    jr DispatchTableEntry_003_68a1
+    jr AudioChannelDispatchCase_05
 
 SkipIfGameState03:
     ld a, [$dfe1]
@@ -9035,7 +9035,7 @@ SkipIfGameState05:
     cp $05
     ret z
 
-DispatchTableEntry_003_68a1:
+AudioChannelDispatchCase_05:
     cp $04
     ret z
 
@@ -10174,7 +10174,7 @@ AudioData_003_6dfe:
     inc l
     ld a, c
     cp $01
-    jr z, DispatchTableEntry_003_6e29
+    jr z, AudioNoteDispatchCase_01
 
     ld [hl], $00
     ld hl, $6f70
@@ -10188,7 +10188,7 @@ AudioData_003_6dfe:
     jp RouteAudioControlSetup
 
 
-DispatchTableEntry_003_6e29:
+AudioNoteDispatchCase_01:
     ld [hl], $01
     pop hl
     jr DispatchTableEntry_003_6e45
@@ -10394,16 +10394,16 @@ CalculateAudioNoteFrequency:
     ld b, [hl]
     ldh a, [hAudioStatus]
     cp $01
-    jr DispatchTableEntry_003_6f14
+    jr AudioModeDispatchCase_03_Alt
 
     cp $03
-    jr DispatchTableEntry_003_6f0f
+    jr AudioModeDispatchCase_03
 
-DispatchTableEntry_003_6f0f:
+AudioModeDispatchCase_03:
     ld hl, $ffff
     jr PaddingZone_003_6f30
 
-DispatchTableEntry_003_6f14:
+AudioModeDispatchCase_03_Alt:
     ld de, $6f39
     call GetAudioParameterFromTable
     bit 0, b
