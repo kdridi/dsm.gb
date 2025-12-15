@@ -7548,7 +7548,7 @@ InitAudioChannels:
     cp $c0
     jr c, ConfigAudioChannel
 
-    ld a, $0b
+    ld a, STATE_RENDER_STATE_BUFFER
     ld [wStateRender], a
 
 ConfigAudioChannel:
@@ -7586,7 +7586,7 @@ PlaySound:
     ldh a, [hSoundParam2]
     ld [wAudioBufVar3], a
     call InitSoundSlot
-    ld a, $0b
+    ld a, STATE_RENDER_STATE_BUFFER
     ld [wStateBuffer], a
     ret
 
