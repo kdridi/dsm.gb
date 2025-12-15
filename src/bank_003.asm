@@ -513,7 +513,7 @@ UnreachableCodeData_003_420e:
     rra
     db $10
     ccf
-    jr nz, CorruptedData_425e
+    jr nz, DataZone_425e
 
     inc a
     rlca
@@ -574,7 +574,7 @@ UnreachableCodeData_003_420e:
     ld a, b
     ld h, a
 
-CorruptedData_425e:
+DataZone_425e:
     ld sp, hl
     add $f3
     adc h

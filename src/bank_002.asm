@@ -7448,7 +7448,7 @@ WriteSpriteValuesLoop2:
     dec de
     cp $07
     add l
-    jr c, CorruptedData_5fde
+    jr c, DataZone_5fde
 
     ld e, b
     ld l, b
@@ -7510,7 +7510,7 @@ WriteSpriteValuesLoop2:
     dec a
     pop hl
 
-CorruptedData_5fde:
+DataZone_5fde:
     ld e, a
     cp $02
     ld sp, $4341
@@ -9302,7 +9302,7 @@ DataZone_667e:
     ld a, a
     cp $01
     ld a, a
-    call nz, TrapHalt_7ffd
+    call nz, Bank2EndPadding
     cp $01
     ld a, a
     ld [hl], c
@@ -9377,7 +9377,7 @@ DataZone_667e:
     ld a, a
     cp $01
     ld a, a
-    call nz, TrapHalt_7ffd
+    call nz, Bank2EndPadding
     cp $01
     ld a, a
     ldh [c], a
@@ -14832,7 +14832,7 @@ PaddingZone_002_7fad:
     rst $38
     rst $38
 
-TrapHalt_7ffd:
+Bank2EndPadding:
     rst $38
     rst $38
     rst $38

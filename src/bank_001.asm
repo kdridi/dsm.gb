@@ -1923,7 +1923,7 @@ TileSheetData_4755:
 
     ret nz
 
-    jr nc, CorruptedSection_4836
+    jr nc, DataZone_4836
 
     ldh a, [rSVBK]
     ldh a, [$ff30]
@@ -1958,7 +1958,7 @@ TileSheetData_4755:
     ccf
     ccf
 
-CorruptedSection_4836:
+DataZone_4836:
     ld b, b
     ld b, h
     or e
@@ -6882,7 +6882,7 @@ CheckResult_5c5b:
     add d
     ld l, b
     ld l, d
-    jp nz, TrapInfiniteLoop_7ff4
+    jp nz, Bank1EndPadding
 
     pop af
     ld e, l
@@ -6894,7 +6894,7 @@ CheckResult_5c5b:
     add d
     ld h, a
     ld l, c
-    jp nz, TrapInfiniteLoop_7ff4
+    jp nz, Bank1EndPadding
 
     pop af
     ld e, l
@@ -6906,7 +6906,7 @@ CheckResult_5c5b:
     add d
     ld l, b
     ld l, d
-    jp nz, TrapInfiniteLoop_7ff4
+    jp nz, Bank1EndPadding
 
     pop af
     ld e, l
@@ -6918,7 +6918,7 @@ CheckResult_5c5b:
     add d
     ld h, a
     ld l, c
-    jp nz, TrapInfiniteLoop_7ff4
+    jp nz, Bank1EndPadding
 
     pop af
     ld e, l
@@ -6930,7 +6930,7 @@ CheckResult_5c5b:
     add d
     ld l, b
     ld l, d
-    jp nz, TrapInfiniteLoop_7ff4
+    jp nz, Bank1EndPadding
 
     pop af
     ld e, l
@@ -14220,7 +14220,7 @@ DataPadding_7e55:
     rst $38
     rst $38
 
-TrapInfiniteLoop_7ff4:
+Bank1EndPadding:
     rst $38
     rst $38
     rst $38
