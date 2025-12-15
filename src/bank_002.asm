@@ -3777,7 +3777,7 @@ PaddingZone_002_4fac:
     inc b
     inc a
     inc b
-    jr SkipPadding_002_4fca
+    jr PaddingZone_002_4fca
 
     jr PaddingZone_002_4fcc
 
@@ -3805,7 +3805,7 @@ DispatchEntry_002_4fbc:
     ld c, b
     ld c, c
 
-SkipPadding_002_4fca:
+PaddingZone_002_4fca:
     xor [hl]
     xor a
 
@@ -4989,7 +4989,7 @@ PaddingZone_002_53f0:
     db $10
     jr nz, DataZone_002_546e
 
-    jr nz, SkipPadding_002_5470
+    jr nz, PaddingZone_002_5470
 
     ld b, b
     ld b, b
@@ -5026,7 +5026,7 @@ DataZone_002_546e:
     add b
     add b
 
-SkipPadding_002_5470:
+PaddingZone_002_5470:
     ld b, b
     ld b, b
     ld bc, $0201
@@ -5283,7 +5283,7 @@ AudioDispatchEntry_5506:
     rst $38
     nop
     nop
-    jr SkipPadding_002_559e
+    jr PaddingZone_002_559e
 
     inc h
     inc h
@@ -5312,7 +5312,7 @@ AudioDispatchEntry_5593:
     nop
     nop
 
-SkipPadding_002_559e:
+PaddingZone_002_559e:
     xor d
     xor d
     ld d, l

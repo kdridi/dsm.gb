@@ -1389,9 +1389,9 @@ Audio_003_45cd:
     ld [hl], b
     jr SoundEngine_Target_5
 
-    jr SkipPadding_003_463a
+    jr PaddingZone_003_463a
 
-    jr SkipPadding_003_463c
+    jr PaddingZone_003_463c
 
     add hl, bc
     jr nc, @+$07
@@ -1487,11 +1487,11 @@ PaddingZone_003_462d:
     nop
     add b
 
-SkipPadding_003_463a:
+PaddingZone_003_463a:
     nop
     add b
 
-SkipPadding_003_463c:
+PaddingZone_003_463c:
     nop
     ret nz
 
@@ -8493,7 +8493,7 @@ AudioTable_Block3:
     rst $38
     rst $38
     nop
-    jr z, SkipPadding_003_65f3
+    jr z, PaddingZone_003_65f3
 
     ld a, [bc]
     ld de, $100b
@@ -8506,7 +8506,7 @@ AudioTable_Block3:
     inc e
     db $10
 
-SkipPadding_003_65f3:
+PaddingZone_003_65f3:
     inc b
     ld de, HeaderLogo
     inc bc
@@ -10709,7 +10709,7 @@ HandleAudioConditionalLogic:
     ld [$2010], sp
     ld b, b
     add b
-    jr SkipPadding_003_70c3
+    jr PaddingZone_003_70c3
 
     ld h, b
     nop
@@ -10766,7 +10766,7 @@ DispatchTableEntry_003_70ac:
     ld d, a
     ld [hl], b
 
-SkipPadding_003_70c3:
+PaddingZone_003_70c3:
     inc hl
 
 PaddingZone_003_70c4:
@@ -11240,7 +11240,7 @@ DispatchEntry_003_7323:
 
     ld bc, $36a8
     and e
-    jr z, SkipPadding_003_7377
+    jr z, PaddingZone_003_7377
 
     and d
     ld a, [hl+]
@@ -11282,7 +11282,7 @@ ProcessInputState_Bank3_Part2:
     ld b, d
     ld b, b
 
-SkipPadding_003_7377:
+PaddingZone_003_7377:
     ld b, d
     ld b, b
     ld b, d
@@ -12753,7 +12753,7 @@ PaddingZone_003_7a19:
     and h
     inc l
     ld l, $a3
-    jr nc, SkipPadding_003_7aaf
+    jr nc, PaddingZone_003_7aaf
 
     inc [hl]
     ld [hl], $00
@@ -12794,7 +12794,7 @@ PaddingZone_003_7a86:
     db $10
     ld c, $0c
 
-SkipPadding_003_7aaf:
+PaddingZone_003_7aaf:
     ld a, [bc]
     ld [$0406], sp
     ld [bc], a
@@ -12867,7 +12867,7 @@ PaddingZone_003_7ad7:
     db $10
     ld [de], a
     ld [hl+], a
-    jr z, SkipPadding_003_7b27
+    jr z, PaddingZone_003_7b27
 
     inc [hl]
     ld a, [hl-]
@@ -12913,7 +12913,7 @@ DispatchEntry_003_7b18:
     and e
     ld b, h
 
-SkipPadding_003_7b27:
+PaddingZone_003_7b27:
     ld c, d
     ld e, h
     and h
@@ -13302,7 +13302,7 @@ JoypadInputEntry_7c7d:
 
     ld b, d
     ld d, b
-    jr c, SkipPadding_003_7d2c
+    jr c, PaddingZone_003_7d2c
 
     jr c, JoypadInputEntry_7d3c
 
@@ -13314,7 +13314,7 @@ JoypadInputEntry_7c7d:
     ld e, [hl]
     ld b, d
     ld d, b
-    jr c, SkipPadding_003_7d38
+    jr c, PaddingZone_003_7d38
 
     ld b, d
     ld bc, $a300
@@ -13349,7 +13349,7 @@ PaddingZone_003_7d0c:
     rst $38
     db $10
     ld a, l
-    jr z, SkipPadding_003_7d95
+    jr z, PaddingZone_003_7d95
 
     rst $38
     rst $38
@@ -13379,7 +13379,7 @@ AudioDispatchEntry_003_7d28:
     nop
     add b
 
-SkipPadding_003_7d2c:
+PaddingZone_003_7d2c:
     and d
     ld d, b
     ld c, [hl]
@@ -13393,12 +13393,12 @@ SkipPadding_003_7d2c:
     nop
     add b
 
-SkipPadding_003_7d38:
+PaddingZone_003_7d38:
     and d
 
-SkipPadding_003_7d39:
+PaddingZone_003_7d39:
     ld a, [hl-]
-    jr c, SkipPadding_003_7d72
+    jr c, PaddingZone_003_7d72
 
 JoypadInputEntry_7d3c:
     inc [hl]
@@ -13452,7 +13452,7 @@ DispatchEntry_003_7d40:
     ld [hl-], a
     ld [hl], $3a
 
-SkipPadding_003_7d72:
+PaddingZone_003_7d72:
     inc a
     ld b, b
     ld b, h
@@ -13486,8 +13486,8 @@ SkipPadding_003_7d72:
     scf
     ld [hl], b
 
-SkipPadding_003_7d95:
-    jr nz, SkipPadding_003_7d39
+PaddingZone_003_7d95:
+    jr nz, PaddingZone_003_7d39
 
     ld c, d
     ld bc, $4e52
@@ -13947,7 +13947,7 @@ DispatchEntry_003_7ea1:
 
     ld a, [hl-]
     ld b, d
-    jr nc, SkipPadding_003_7fdb
+    jr nc, PaddingZone_003_7fdb
 
     jr c, PaddingZone_003_7feb
 
@@ -13998,7 +13998,7 @@ MusicDispatchEntry_003_7fd3:
     dec bc
     nop
 
-SkipPadding_003_7fdb:
+PaddingZone_003_7fdb:
     and d
     ld b, $06
     db $10
