@@ -978,12 +978,12 @@ UpdateLevelSelectDisplay:
     ldh a, [hAnimTileIndex]
     inc a
     ld b, a
-    and $0f
-    cp $04
+    and NIBBLE_LOW_MASK              ; Isoler le niveau (bits bas)
+    cp ANIM_TILE_LEVELS_PER_WORLD    ; Niveau 4 atteint ?
     ld a, b
     jr nz, SkipAnimTileAdd
 
-    add $0d
+    add ANIM_TILE_WORLD_OFFSET       ; Passer au monde suivant niveau 1
 
 SkipAnimTileAdd:
     ldh [hAnimTileIndex], a
@@ -1004,7 +1004,7 @@ AnimRenderContextReady:
     ldh a, [hAnimTileIndex]
     ld b, SPRITE_Y_MENU
     ld c, a
-    and $f0
+    and NIBBLE_HIGH_MASK     ; Isoler le monde (bits hauts)
     swap a
     ld [hl], b               ; Sprite 0: Y = SPRITE_Y_MENU
     inc l
@@ -1013,7 +1013,7 @@ AnimRenderContextReady:
     ld [hl+], a
     inc l
     ld a, c
-    and $0f
+    and NIBBLE_LOW_MASK      ; Isoler le niveau (bits bas)
     ld [hl], b               ; Sprite 1: Y = SPRITE_Y_MENU
     inc l
     ld [hl], SPRITE_X_RIGHT  ; Sprite 1: X = droite
@@ -2702,18 +2702,18 @@ IncrementRenderContextPath:
     ldh a, [hAnimTileIndex]
     inc a
     ld b, a
-    and $0f
-    cp $04
+    and NIBBLE_LOW_MASK              ; Isoler le niveau (bits bas)
+    cp ANIM_TILE_LEVELS_PER_WORLD    ; Niveau 4 atteint ?
     ld a, b
     jr nz, UpdateAnimationTileIndexPath
 
-    add $0d
+    add ANIM_TILE_WORLD_OFFSET       ; Passer au monde suivant niveau 1
 
 UpdateAnimationTileIndexPath:
     ldh [hAnimTileIndex], a
 
 LoadAnimTilesByIndex:
-    and $f0
+    and NIBBLE_HIGH_MASK     ; Isoler le monde (bits hauts)
     swap a
     cp $01
     ld c, $02

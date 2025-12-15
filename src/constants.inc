@@ -775,3 +775,15 @@ DEF PLAYER_DIR_MODE_INTERACT EQU $04  ; Mode interaction direction
 ; === Style niveau ===
 
 DEF LEVEL_STYLE_SPECIAL     EQU $03   ; Style niveau spécial (non décrémenté)
+
+; === Masques génériques ===
+
+DEF NIBBLE_LOW_MASK         EQU $0f   ; Masque 4 bits bas (nibble inférieur)
+DEF NIBBLE_HIGH_MASK        EQU $f0   ; Masque 4 bits hauts (nibble supérieur)
+
+; === Animation tiles - Calcul index monde/niveau ===
+; Format hAnimTileIndex: $XY où X=monde (1-4), Y=niveau (1-3)
+; Quand Y atteint 4 (inexistant), on passe au monde suivant niveau 1
+
+DEF ANIM_TILE_LEVELS_PER_WORLD EQU $04 ; Seuil wrap niveau (3 niveaux → wrap à 4)
+DEF ANIM_TILE_WORLD_OFFSET     EQU $0d ; Offset pour passer au monde suivant ($10-$03=13)
