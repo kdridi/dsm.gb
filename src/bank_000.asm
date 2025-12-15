@@ -2483,6 +2483,14 @@ Loop_AddValueByEightV2:
     ret
 
 
+; ReturnZero
+; ----------
+; Description: Routine utilitaire retournant RETURN_FALSE (0).
+;              Point de sortie commun pour CheckBoundingBoxCollision en cas
+;              de non-collision détectée.
+; In:  Aucun
+; Out: a = RETURN_FALSE (0)
+; Modifie: a
 ReturnZero:
     xor a                       ; RETURN_FALSE
     ret
