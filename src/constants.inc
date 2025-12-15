@@ -436,6 +436,7 @@ DEF ROM_INIT_BANK3  EQU $7FF3   ; Routine d'initialisation en bank 3
 ; --- Tables audio ---
 DEF ROM_AUDIO_CONFIG    EQU $336C   ; Configurations son (3 octets/son)
 DEF ROM_AUDIO_POINTERS  EQU $3495   ; Pointeurs vers données audio (2 octets/son)
+DEF ROM_AUDIO_INDEX_TABLE EQU $401a ; Table index audio en bank 1 (2 octets/entrée)
 
 ; --- Tables style (par niveau) ---
 DEF ROM_STYLE_LVL_0     EQU $030C   ; Niveaux 0-6
@@ -1246,6 +1247,21 @@ DEF AUDIO_CMD_FD               EQU $fd   ; Commande audio FD (set state render)
 ; === Index slots audio ===
 
 DEF AUDIO_SLOT_10              EQU $0a   ; Index slot audio 10 (pour save/load)
+
+; === Seuils audio (ProcessAudioSlots, FindAudioTableEntry) ===
+
+DEF AUDIO_PARAM2_LIMIT         EQU $e0   ; Seuil param2 désactivation slot ($E0 = 224)
+DEF AUDIO_PARAM1_LIMIT         EQU $c0   ; Seuil param1 désactivation slot ($C0 = 192)
+DEF AUDIO_OBJECT_END_LOW       EQU $90   ; Octet bas fin itération objets ($D190)
+
+; === Calcul distance joueur audio (AUDIO_CMD_F6) ===
+
+DEF PLAYER_DISTANCE_OFFSET     EQU $14   ; Offset calcul distance audio (+20)
+DEF PLAYER_DISTANCE_RANGE      EQU $20   ; Plage distance audio (32 = -20 à +12)
+
+; === Valeurs canaux son ===
+
+DEF SOUND_CHANNEL_BOTH_BITS    EQU $0c   ; Bits 2-3 actifs (les deux canaux)
 
 ; === Seuils positions crédits (CheckTilemapCompletion) ===
 ; Ces valeurs représentent les positions finales des 6 buffers tilemap

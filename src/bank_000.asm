@@ -7347,7 +7347,7 @@ AnimTile_FromROM:
 
 AnimTile_Setup:
     ld de, VRAM_ANIM_DEST
-    ld b, $08
+    ld b, ANIM_BUFFER_COPY_SIZE
 
 CopyAnimTileData:
     ld a, [hl+]
@@ -7393,7 +7393,7 @@ InitAudioAndAnimContext:
 
 
 FindAudioTableEntry:
-    ld hl, $401a
+    ld hl, ROM_AUDIO_INDEX_TABLE
     ldh a, [hRenderContext]
     rlca
     ld d, $00
@@ -7547,7 +7547,7 @@ InitAudioChannels:
     ldh [hSoundVar3], a
     ld a, [hl]
     ldh [hSoundVar5], a
-    cp $c0
+    cp AUDIO_PARAM1_LIMIT
     jr c, ConfigAudioChannel
 
     ld a, STATE_RENDER_STATE_BUFFER
@@ -7566,7 +7566,7 @@ IterateObjects_Loop:
     inc b
     add hl, de
     ld a, l
-    cp $90
+    cp AUDIO_OBJECT_END_LOW
     jr nz, IterateObjects_Loop
 
     ret
@@ -7615,7 +7615,7 @@ ProcessAudioSlot_Loop:
     ld a, c
     call LoadSoundDataFromSlot
     ldh a, [hSoundParam2]
-    cp $e0
+    cp AUDIO_PARAM2_LIMIT
     jr c, ProcessAudioSlot_CheckParam1
 
 ProcessAudioSlot_Disable:
@@ -7627,7 +7627,7 @@ ProcessAudioSlot_Disable:
 
 ProcessAudioSlot_CheckParam1:
     ldh a, [hSoundParam1]
-    cp $c0
+    cp AUDIO_PARAM1_LIMIT
     jr nc, ProcessAudioSlot_Disable
 
     call ProcessAudioChannelData
@@ -8093,8 +8093,8 @@ CheckAudioCommand_F6:
     ld b, a
     ldh a, [hSoundParam2]
     sub b
-    add $14
-    cp $20
+    add PLAYER_DISTANCE_OFFSET
+    cp PLAYER_DISTANCE_RANGE
     ld a, [wAudioQueueId]
     dec a
     jr z, AudioCommand_F6_CheckTiming
@@ -8260,7 +8260,7 @@ RestoreSoundConfig:
 CheckSoundChannel:
     ldh a, [hSoundCh4]
     and BITS_2_3_MASK           ; Masque bits 2-3 (canal son)
-    cp $00
+    cp BLOCK_HIT_NONE           ; Aucun bit actif ?
     jr z, SoundParamProcessing
 
     cp BIT_2_MASK               ; Test bit 2 seul
@@ -8274,7 +8274,7 @@ SetSoundFrequency:
 
 
 CheckSoundChannel.ch4_0c:
-    cp $0c
+    cp SOUND_CHANNEL_BOTH_BITS
     jp nz, UpdatePhysicsCollision
 
     xor a
@@ -8354,7 +8354,7 @@ AlignCameraTo4PixelBoundary:
 CheckObjectTileRight_Path:
     ldh a, [hSoundCh4]
     and BITS_2_3_MASK           ; Masque bits 2-3 (canal son)
-    cp $00
+    cp BLOCK_HIT_NONE           ; Aucun bit actif ?
     jr z, ProcessVerticalCollision
 
     cp BIT_2_MASK               ; Test bit 2 seul
@@ -8367,7 +8367,7 @@ ResetSoundCh2Bit0:
     jr UpdatePhysicsCollision
 
 ClearSoundCh1AndVar1_Collision:
-    cp $0c
+    cp SOUND_CHANNEL_BOTH_BITS
     jr nz, UpdatePhysicsCollision
 
     xor a
