@@ -303,8 +303,10 @@ DEF OBJECT_SLOT_SIZE EQU $10    ; Taille d'un slot objet (16 octets)
 DEF OBJECT_SLOT_COUNT EQU 5     ; Nombre de slots objets
 DEF wObject1        EQU $C208   ; Slot objet 1
 DEF wObject2        EQU $C218   ; Slot objet 2
+DEF wObject2Unk08   EQU $C220   ; Variable objet 2 (offset +$08)
 DEF wObject2State   EQU $C222   ; État objet 2 (offset +$0A)
 DEF wObject3        EQU $C228   ; Slot objet 3
+DEF wObject3Unk08   EQU $C230   ; Variable objet 3 (offset +$08)
 DEF wObject4        EQU $C238   ; Slot objet 4
 DEF wObject4Unk08   EQU $C240   ; Variable objet 4 (offset +$08)
 DEF wObject4Unk09   EQU $C241   ; Variable objet 4 (offset +$09)

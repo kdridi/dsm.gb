@@ -3814,7 +3814,7 @@ State31_HorizontalScroll::
     inc a
     call z, SetupFinalScreen
     ldh [hShadowSCX], a
-    ld a, [$dfe9]
+    ld a, [wStateVar9]
     and a
     ret nz
 
@@ -3846,10 +3846,10 @@ SetupFinalScreen:
     ld hl, wPlayerUnk10
     ld de, $1376
     call Copy5Bytes
-    ld hl, $c220
+    ld hl, wObject2Unk08
     ld de, $137b
     call Copy5Bytes
-    ld hl, $c230
+    ld hl, wObject3Unk08
     ld de, $1380
     call Copy5Bytes
     ld hl, hGameState
@@ -5238,9 +5238,9 @@ InitObjectsLoop:
     ld a, [hl]
     sub $04
     ld [hl], a
-    ld hl, $c238
+    ld hl, wObject4
     ld [hl], $0b
-    ld hl, $c248
+    ld hl, wObject5
     ld [hl], $0b
     ldh a, [hShadowSCX]
     ldh [hRenderAttr], a
@@ -6260,7 +6260,7 @@ UpdatePlayerInvulnBlink:
     ld a, [wPlayerY]
     xor $80
     ld [wPlayerY], a
-    ld a, [$dfe9]
+    ld a, [wStateVar9]
     and a
     ret nz
 
@@ -6649,9 +6649,9 @@ SpriteSetupLoop:
     ld a, [hl]
     sub $04
     ld [hl], a
-    ld hl, $c238
+    ld hl, wObject4
     ld [hl], $0b
-    ld hl, $c248
+    ld hl, wObject5
     ld [hl], $0b
     ldh a, [hShadowSCX]
     ldh [hRenderAttr], a
