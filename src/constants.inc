@@ -637,6 +637,7 @@ DEF AUDIO_SLOT_SIZE     EQU $0D ; 13 octets par slot audio
 ; === Tailles OAM ===
 
 DEF OAM_BUFFER_SIZE     EQU $9F ; 159 octets (40 sprites × 4 - 1)
+DEF OAM_BUFFER_FULL     EQU $A0 ; 160 octets (40 sprites × 4, taille complète)
 
 ; === Joypad ===
 
@@ -768,6 +769,8 @@ DEF BLOCK_HIT_TYPE_SPECIAL  EQU $c0 ; Type spécial (annule l'animation objet)
 
 DEF WY_INIT_GAME            EQU $85 ; Position Window Y initiale gameplay (133)
 DEF WX_INIT_GAME            EQU $60 ; Position Window X initiale gameplay (96)
+DEF WY_GAME_OVER            EQU $8F ; Position Window Y écran Game Over (143)
+DEF WX_GAME_OVER            EQU $07 ; Position Window X écran Game Over (7)
 
 ; === Scroll/Tilemap initiaux ===
 
@@ -946,6 +949,7 @@ DEF TIMER_ANIM_WALK            EQU $20   ; Timer marche animation (32 frames)
 DEF TIMER_CUTSCENE             EQU $a1   ; Timer cutscene fin niveau (161 frames)
 DEF TIMER_TRANSITION_LEVEL     EQU $26   ; Timer transition niveau (38 frames)
 DEF TIMER_CREDITS_LONG         EQU $f0   ; Timer long crédits (240 frames)
+DEF TIMER_WINDOW_SETUP         EQU $a0   ; Timer setup window (160 frames)
 
 ; === Positions cutscene joueur ===
 
@@ -1175,6 +1179,10 @@ DEF ROM_SPRITE_END_DATA_1      EQU $1376 ; Table config sprite joueur final
 DEF ROM_SPRITE_END_DATA_2      EQU $137b ; Table config sprite objet 2 final
 DEF ROM_SPRITE_END_DATA_3      EQU $1380 ; Table config sprite objet 3 final
 DEF ROM_TILEMAP_END_DATA       EQU $14bb ; Table données tilemap écran final
+DEF ROM_TEXT_GAME_OVER         EQU $1cce ; Données texte "GAME OVER" (17 octets)
+DEF TEXT_GAME_OVER_SIZE        EQU $11   ; Taille texte Game Over (17 octets)
+DEF ROM_TEXT_WINDOW_DATA       EQU $1d0b ; Données texte window setup (9 octets)
+DEF TEXT_WINDOW_DATA_SIZE      EQU $09   ; Taille données window (9 octets)
 
 ; === Collision - Offsets et ajustements ===
 

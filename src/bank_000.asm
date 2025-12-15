@@ -5713,8 +5713,8 @@ DisplayLivesDecrement:
 ; ===========================================================================
 State39_GameOver::
     ld hl, _SCRN1
-    ld de, $1cce
-    ld b, $11
+    ld de, ROM_TEXT_GAME_OVER
+    ld b, TEXT_GAME_OVER_SIZE
 
 .loopWriteTile:
     ld a, [de]
@@ -5747,7 +5747,7 @@ State39_StoreConfigValue:
     ld [wGameConfigA6], a
     ld hl, wOamBuffer
     xor a
-    ld b, $a0
+    ld b, OAM_BUFFER_FULL
 
 State39_ClearOAMBuffer:
     ld [hl+], a
@@ -5757,10 +5757,10 @@ State39_ClearOAMBuffer:
     ld [wSpecialState], a
     ldh [rTMA], a
     ld hl, rWY              ; Window Y position
-    ld [hl], $8f
+    ld [hl], WY_GAME_OVER
     inc hl
-    ld [hl], $07
-    ld a, $ff
+    ld [hl], WX_GAME_OVER
+    ld a, SLOT_EMPTY
     ldh [hOAMIndex], a
     ld hl, hGameState
     inc [hl]
@@ -5800,8 +5800,8 @@ State3A_WindowUpdate::
 ; ===========================================================================
 State3B_WindowSetup::
     ld hl, _SCRN1
-    ld de, $1d0b
-    ld c, $09
+    ld de, ROM_TEXT_WINDOW_DATA
+    ld c, TEXT_WINDOW_DATA_SIZE
 
 State3B_CopyWindowData:
     ld a, [de]
@@ -5818,7 +5818,7 @@ State3B_DecrementCounter:
 
     ld hl, rLCDC
     set 5, [hl]
-    ld a, $a0
+    ld a, TIMER_WINDOW_SETUP
     ldh [hTimer1], a
     ld hl, hGameState
     inc [hl]
@@ -12415,7 +12415,7 @@ State12_EndLevelSetup::
     ldh [rLCDC], a
     ldh [hShadowSCX], a
     ld hl, wOamBuffer
-    ld b, $a0
+    ld b, OAM_BUFFER_FULL
 
 InitLoop_160Bytes:
     ld [hl+], a
