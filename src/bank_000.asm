@@ -1365,6 +1365,12 @@ MemCopy::
     ret
 
 
+; LoadGameTiles
+; -------------
+; Description: Charge les tiles du jeu en VRAM et copie le buffer d'animation
+; In:  (aucun)
+; Out: (aucun)
+; Modifie: a, bc, de, hl
 LoadGameTiles:
     ld hl, ROM_GAME_TILES_A
     ld de, VRAM_TILES_OBJECTS
