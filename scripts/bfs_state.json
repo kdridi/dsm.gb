@@ -673,6 +673,62 @@
       "priority": 3
     },
     {
+      "address": "$4E74",
+      "node_type": "code",
+      "description": "Level 4-7 handler 1",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4F1D",
+      "node_type": "code",
+      "description": "Level 4-7 handler 2",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4FD8",
+      "node_type": "code",
+      "description": "Level 4-7 handler 3",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$503F",
+      "node_type": "code",
+      "description": "Level 0-3 handler 1 (probablement init)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$5074",
+      "node_type": "code",
+      "description": "Level 0-3 handler 2 (probablement update)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$509B",
+      "node_type": "code",
+      "description": "Level 0-3 handler 3 (probablement render)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$50C0",
+      "node_type": "data",
+      "description": "Level 4 extra pointer (donn\u00e9es sp\u00e9cifiques?)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$5179",
       "node_type": "data",
       "description": "Map data niveau 5",
@@ -927,67 +983,12 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$503F",
-      "node_type": "code",
-      "description": "Level 0-3 handler 1 (probablement init)",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$5074",
-      "node_type": "code",
-      "description": "Level 0-3 handler 2 (probablement update)",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$509B",
-      "node_type": "code",
-      "description": "Level 0-3 handler 3 (probablement render)",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$50C0",
-      "node_type": "data",
-      "description": "Level 4 extra pointer (donn\u00e9es sp\u00e9cifiques?)",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4E74",
-      "node_type": "code",
-      "description": "Level 4-7 handler 1",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4F1D",
-      "node_type": "code",
-      "description": "Level 4-7 handler 2",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4FD8",
-      "node_type": "code",
-      "description": "Level 4-7 handler 3",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
     "$4000:2",
     "$0185",
+    "$0030",
     "$0060",
     "$0100",
     "$0050",
@@ -1001,6 +1002,6 @@
     "$0040",
     "$4000:3"
   ],
-  "commits_since_push": 3,
-  "total_explored": 14
+  "commits_since_push": 4,
+  "total_explored": 15
 }
