@@ -892,3 +892,35 @@ DEF FLAG_UPDATE_NEEDED         EQU $01   ; Flag mise à jour nécessaire
 ; === Bank spéciale ===
 
 DEF BANK_NONE                  EQU $ff   ; Pas de bank spécifique (hPtrBank)
+
+; === Cutscene fin de jeu (États $2A-$31) ===
+
+; Positions sprite princesse (State2B)
+DEF PRINCESS_SPRITE_Y          EQU $70   ; Position Y sprite princesse (112 pixels)
+DEF PRINCESS_SPRITE_X          EQU $3a   ; Position X sprite princesse (58 pixels)
+DEF PRINCESS_SPRITE_TILE       EQU $84   ; Tile sprite princesse
+DEF PRINCESS_DESCENT_END       EQU $44   ; Position Y fin descente princesse (68 pixels)
+
+; Oscillation sprite (State2C)
+DEF OSCIL_CLEAR_THRESHOLD      EQU $20   ; Seuil déclenchant clear écran (32)
+DEF OSCIL_DIR_CHANGE_LOW       EQU $30   ; Seuil changement direction bas (48)
+DEF OSCIL_DIR_CHANGE_HIGH      EQU $50   ; Seuil changement direction haut (80)
+DEF OSCIL_RESET_VALUE          EQU $f0   ; Valeur reset oscillation (240)
+
+; Clear écran cutscene (State2C)
+DEF CUTSCENE_CLEAR_SIZE        EQU $6d   ; Taille zone à effacer (109 octets)
+DEF VRAM_CUTSCENE_TEXT         EQU $98a5 ; Adresse début texte cutscene
+
+; Marche cutscene (State2E-$30)
+DEF CUTSCENE_COUNTER_INIT      EQU $c0   ; Compteur animation initial (192)
+DEF CUTSCENE_POS_THRESHOLD_1   EQU $50   ; Seuil position 1 (80)
+DEF CUTSCENE_POS_THRESHOLD_2   EQU $40   ; Seuil position 2 (64)
+DEF CUTSCENE_WALK_END_X        EQU $58   ; Position X fin marche gauche (88 pixels)
+
+; Transfert données sprite (State2F)
+DEF SPRITE_DATA_COPY_SIZE      EQU $06   ; Taille copie données sprite (6 octets)
+DEF PLAYER_DIR_CUTSCENE        EQU $26   ; Direction joueur cutscene
+DEF SPRITE_ANIM_RESET          EQU $f0   ; Valeur reset animation sprite
+
+; État rendu cutscene
+DEF STATE_RENDER_FINAL         EQU $11   ; Mode rendu écran final

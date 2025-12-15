@@ -3536,7 +3536,7 @@ State2B_PrincessDescending::
 
     ld hl, wPlayerUnk12
     ld a, [hl]
-    cp $44
+    cp PRINCESS_DESCENT_END
     jr c, State2B_NextState
 
     dec [hl]
@@ -3550,13 +3550,13 @@ State2B_NextState:
     ld hl, wSpriteTemp
 
 State2B_InitSpriteData:
-    ld [hl], $70
+    ld [hl], PRINCESS_SPRITE_Y
     inc l
-    ld [hl], $3a
+    ld [hl], PRINCESS_SPRITE_X
     inc l
-    ld [hl], $84
+    ld [hl], PRINCESS_SPRITE_TILE
     inc l
-    ld [hl], $00
+    ld [hl], FLAG_FALSE
     ret
 
 ; === Table de texte "THANK YOU MARIO!" ($11B6-$11C6) ===
@@ -3582,7 +3582,7 @@ State2C_SpriteOscillation::
     ld hl, wSpriteTemp
     dec [hl]
     ld a, [hl+]
-    cp $20
+    cp OSCIL_CLEAR_THRESHOLD
     jr c, State2C_ClearScreen
 
     ldh a, [hOAMIndex]
@@ -3591,7 +3591,7 @@ State2C_SpriteOscillation::
     jr nz, State2C_IncrementOscillation
 
     dec [hl]
-    cp $30
+    cp OSCIL_DIR_CHANGE_LOW
     ret nc
 
 State2C_StoreOAMIndex:
@@ -3601,16 +3601,16 @@ State2C_StoreOAMIndex:
 
 State2C_IncrementOscillation:
     inc [hl]
-    cp $50
+    cp OSCIL_DIR_CHANGE_HIGH
     ret c
 
     xor a
     jr State2C_StoreOAMIndex
 
 State2C_ClearScreen:
-    ld [hl], $f0
-    ld b, $6d
-    ld hl, $98a5
+    ld [hl], OSCIL_RESET_VALUE
+    ld b, CUTSCENE_CLEAR_SIZE
+    ld hl, VRAM_CUTSCENE_TEXT
 
 .loopClear:
     WAIT_FOR_HBLANK
@@ -3622,9 +3622,9 @@ State2C_ClearScreen:
 
     xor a
     ldh [hOAMIndex], a
-    ld a, $99
+    ld a, VRAM_SCRN1_HIGH        ; $99 = octet haut _SCRN1
     ldh [hCopyDstLow], a
-    ld a, $00
+    ld a, FLAG_FALSE
     ldh [hCopyDstHigh], a
     ld hl, hGameState
     inc [hl]
@@ -3637,7 +3637,7 @@ State2C_ClearScreen:
 State2D_DisplayText2::
     ld hl, TextData_QuestOver
     call WriteCharToVRAM
-    cp $ff
+    cp SLOT_EMPTY
     ret nz
 
     ld hl, wPlayerUnk13
@@ -3695,20 +3695,20 @@ State2E_CheckCharPosition:
     inc l
     dec [hl]
     ld a, [hl]
-    cp $50
+    cp CUTSCENE_POS_THRESHOLD_1
     jr nz, State2E_CheckCounterFrame2
 
-    ld a, $80
+    ld a, PLAYER_Y_INIT
     ld [wPlayerY], a
     jr State2E_UpdateMovement
 
 State2E_CheckCounterFrame2:
-    cp $40
+    cp CUTSCENE_POS_THRESHOLD_2
     jr nz, State2E_UpdateMovement
 
-    ld a, $80
+    ld a, PLAYER_Y_INIT
     ld [wPlayerUnk10], a
-    ld a, $40
+    ld a, CUTSCENE_POS_THRESHOLD_2
     ldh [hTimer1], a
     ld hl, hGameState
     inc [hl]
@@ -3717,7 +3717,7 @@ State2E_UpdateMovement:
     call AutoMovePlayerRight
     call UpdateScroll
     ldh a, [hTilemapScrollX]
-    cp $03
+    cp TILEMAP_SCROLL_X_INIT
     ret nz
 
     ldh a, [hTilemapScrollY]
@@ -3725,10 +3725,10 @@ State2E_UpdateMovement:
     ret nz
 
     ld hl, wObject4Unk08
-    ld [hl], $00
+    ld [hl], FLAG_FALSE
     inc l
     inc l
-    ld [hl], $c0
+    ld [hl], CUTSCENE_COUNTER_INIT
     ret
 
 ; ===========================================================================
@@ -3742,7 +3742,7 @@ State2F_TransferSpriteData::
 
     ld hl, wObject4Unk08
     ld de, wPlayerY
-    ld b, $06
+    ld b, SPRITE_DATA_COPY_SIZE
 
 CopySpriteDataToOam_Loop:
     ld a, [hl+]
@@ -3752,9 +3752,9 @@ CopySpriteDataToOam_Loop:
     jr nz, CopySpriteDataToOam_Loop
 
     ld hl, wPlayerDir
-    ld [hl], $26
+    ld [hl], PLAYER_DIR_CUTSCENE
     ld hl, wObject4Unk09
-    ld [hl], $f0
+    ld [hl], SPRITE_ANIM_RESET
     ld hl, hGameState
     inc [hl]
     ret
@@ -3771,11 +3771,11 @@ State30_WalkLeft::
     ret nz
 
     ld hl, wObject4Unk08
-    ld [hl], $ff
+    ld [hl], SLOT_EMPTY
     ld hl, wPlayerX
     dec [hl]
     ld a, [hl+]
-    cp $58
+    cp CUTSCENE_WALK_END_X
     jr z, AdvanceToNextState
 
     call ToggleAnimFrame
@@ -3818,7 +3818,7 @@ State31_HorizontalScroll::
     and a
     ret nz
 
-    ld a, $11
+    ld a, STATE_RENDER_FINAL
     ld [wStateRender], a
     ret
 
