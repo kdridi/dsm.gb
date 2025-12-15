@@ -727,6 +727,13 @@ StateJumpTable:
 ; État $0E - Initialisation niveau (chargement tiles et HUD)
 ; LCD off → charge tiles VRAM → configure HUD → LCD on → état $0F
 ; ===========================================================================
+; State0E_LevelInit
+; ----------------
+; Description: Initialise un niveau - désactive LCD, copie les tiles en VRAM,
+;              configure le HUD (MARIO, WORLD, score), et gère les sprites de menu.
+; In:  [wLevelType] = index du niveau à charger
+; Out: [hGameState] = GAME_STATE_LEVEL_SELECT
+; Modifie: af, bc, de, hl, tous les buffers VRAM/OAM
 State0E_LevelInit::
     xor a                   ; A = 0 ($AF)
     ldh [rLCDC], a          ; Désactiver LCD

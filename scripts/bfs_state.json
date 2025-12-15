@@ -609,6 +609,14 @@
       "priority": 3
     },
     {
+      "address": "$1CE7",
+      "node_type": "code",
+      "description": "State3B_WindowSetup - Setup window",
+      "source": "$02A3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$224F",
       "node_type": "code",
       "description": "UpdateScrollColumn - Mise \u00e0 jour du scroll colonne",
@@ -1001,10 +1009,42 @@
       "priority": 3
     },
     {
-      "address": "$1CE7",
+      "address": "$05C7",
       "node_type": "code",
-      "description": "State3B_WindowSetup - Setup window",
-      "source": "$02A3",
+      "description": "MemCopy - Copie BC octets de HL vers DE",
+      "source": "$0322",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$05B8",
+      "node_type": "code",
+      "description": "ClearBGTilemap - Efface la tilemap background",
+      "source": "$0322",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$07F0",
+      "node_type": "code",
+      "description": "LoadLevelData - Charge les donn\u00e9es du niveau en m\u00e9moire",
+      "source": "$0322",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0558",
+      "node_type": "code",
+      "description": "FillTilemapRow - Remplit une ligne de tilemap avec la tile A",
+      "source": "$0322",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3F38",
+      "node_type": "code",
+      "description": "ConvertBCDToTiles - Convertit score BCD en tiles pour affichage",
+      "source": "$0322",
       "bank": 0,
       "priority": 3
     }
@@ -1012,6 +1052,7 @@
   "visited": [
     "$4000:2",
     "$00CC",
+    "$0322",
     "$02A5",
     "$0000",
     "$02A3",
@@ -1033,6 +1074,6 @@
     "$0048",
     "$00C3"
   ],
-  "commits_since_push": 1,
-  "total_explored": 22
+  "commits_since_push": 2,
+  "total_explored": 23
 }
