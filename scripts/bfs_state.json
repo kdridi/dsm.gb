@@ -121,30 +121,6 @@
       "priority": 3
     },
     {
-      "address": "$47F2",
-      "node_type": "code",
-      "description": "JoypadReadHandler",
-      "source": "GameLoop",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4823",
-      "node_type": "code",
-      "description": "AnimationHandler",
-      "source": "CallBank3Handler",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$224F",
-      "node_type": "code",
-      "description": "UpdateScrollColumn - Mise \u00e0 jour du scroll colonne",
-      "source": "$0040",
-      "bank": 0,
-      "priority": 3
-    },
-    {
       "address": "$1B7D",
       "node_type": "code",
       "description": "ProcessBlockCollision - Traitement des collisions avec les blocs",
@@ -161,17 +137,17 @@
       "priority": 3
     },
     {
-      "address": "$FFB6",
+      "address": "$224F",
       "node_type": "code",
-      "description": "hDmaRoutine - Routine DMA OAM copi\u00e9e en HRAM",
+      "description": "UpdateScrollColumn - Mise \u00e0 jour du scroll colonne",
       "source": "$0040",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$3F24",
+      "address": "$23F8",
       "node_type": "code",
-      "description": "UpdateScoreDisplay - Mise \u00e0 jour de l'affichage du score",
+      "description": "UpdateAnimTiles - Mise \u00e0 jour des tiles anim\u00e9es",
       "source": "$0040",
       "bank": 0,
       "priority": 3
@@ -185,9 +161,33 @@
       "priority": 3
     },
     {
-      "address": "$23F8",
+      "address": "$3F24",
       "node_type": "code",
-      "description": "UpdateAnimTiles - Mise \u00e0 jour des tiles anim\u00e9es",
+      "description": "UpdateScoreDisplay - Mise \u00e0 jour de l'affichage du score",
+      "source": "$0040",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$47F2",
+      "node_type": "code",
+      "description": "JoypadReadHandler",
+      "source": "GameLoop",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4823",
+      "node_type": "code",
+      "description": "AnimationHandler",
+      "source": "CallBank3Handler",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$FFB6",
+      "node_type": "code",
+      "description": "hDmaRoutine - Routine DMA OAM copi\u00e9e en HRAM",
       "source": "$0040",
       "bank": 0,
       "priority": 3
@@ -196,8 +196,9 @@
   "visited": [
     "$0040",
     "$0000",
-    "$0028"
+    "$0028",
+    "$0048"
   ],
-  "commits_since_push": 2,
-  "total_explored": 3
+  "commits_since_push": 3,
+  "total_explored": 4
 }

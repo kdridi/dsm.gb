@@ -153,8 +153,14 @@ VBlankInterrupt::
     rst $38
 
 ;; --- INT $48 : LCD STAT Interrupt ---
-;; Déclenché selon les conditions configurées dans STAT (LYC=LY, mode 0/1/2).
-;; Utilisé ici pour les effets de scanline (scroll, window).
+; LCDCInterrupt
+; -------------
+; Description: Vecteur d'interruption LCD STAT. Déclenché selon STAT (LYC=LY, mode 0/1/2).
+;              Utilisé pour les effets de scanline (scroll, window).
+;              Redirige vers LCDStatHandler pour le traitement principal.
+; In:  Aucun (interruption matérielle)
+; Out: Aucun (jump vers handler)
+; Modifie: PC uniquement (jump)
 LCDCInterrupt::
     jp LCDStatHandler
 
