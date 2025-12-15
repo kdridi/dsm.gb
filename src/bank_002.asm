@@ -3,7 +3,7 @@ SECTION "ROM Bank $002", ROMX[$4000], BANK[$2]
     sub d
     ld h, c
 
-Call_002_4002:
+Routine_DataProcess_A:
     or a
     ld h, c
     jp c, $9261
@@ -114,9 +114,9 @@ Call_002_4002:
     ld c, $1f
     dec de
     rra
-    jr jr_002_4083
+    jr BytecodeDispatch_Chunk_1
 
-jr_002_4083:
+BytecodeDispatch_Chunk_1:
     nop
     nop
     nop
@@ -267,7 +267,7 @@ jr_002_4083:
     ccf
     ld a, [bc]
 
-jr_002_412e:
+BytecodeDispatch_Chunk_2:
     ccf
     inc e
     rra
@@ -296,7 +296,7 @@ Skip_9Bytes_002_413c:
     or b
     ldh a, [$ff38]
     or b
-    jr jr_002_412e
+    jr BytecodeDispatch_Chunk_2
 
     ld h, b
     ld h, b
@@ -314,7 +314,7 @@ Skip_9Bytes_002_413c:
     rrca
     db $10
     rra
-    jr jr_002_417c
+    jr BytecodeDispatch_Chunk_4
 
     ld c, $0e
     ldh a, [rP1]
@@ -323,7 +323,7 @@ Skip_9Bytes_002_413c:
 
     ld a, h
 
-jr_002_4167:
+BytecodeDispatch_Chunk_3:
     ldh [$ff3c], a
     ld [hl], b
     ld [$18c8], sp
@@ -339,7 +339,7 @@ jr_002_4167:
     inc b
     dec de
 
-jr_002_417c:
+BytecodeDispatch_Chunk_4:
     nop
     rrca
     rlca
@@ -363,16 +363,16 @@ jr_002_417c:
     add b
     add b
     rra
-    jr jr_002_419c
+    jr BytecodeDispatch_Chunk_5
 
     nop
     rrca
     rrca
     rra
     rrca
-    jr nc, jr_002_41ab
+    jr nc, BytecodeDispatch_Chunk_6
 
-jr_002_419c:
+BytecodeDispatch_Chunk_5:
     db $10
     rra
     ld sp, $213d
@@ -384,7 +384,7 @@ jr_002_419c:
     ld hl, sp-$40
     nop
 
-jr_002_41ab:
+BytecodeDispatch_Chunk_6:
     ldh [rP1], a
     ret nz
 
@@ -405,9 +405,9 @@ jr_002_41ab:
     ld h, b
     ld c, $50
     rra
-    jr c, jr_002_41ff
+    jr c, JumpOffset_Set_2
 
-    jr nz, jr_002_41e8
+    jr nz, BytecodeDispatch_Chunk_7
 
     ld hl, sp+$78
     ldh a, [rNR10]
@@ -422,7 +422,7 @@ jr_002_41ab:
     nop
     nop
     rra
-    jr jr_002_41f4
+    jr JumpOffset_Set_1
 
     rra
     rra
@@ -436,11 +436,11 @@ jr_002_41ab:
     nop
     nop
     ldh [hSoundId], a
-    jr nc, jr_002_4167
+    jr nc, BytecodeDispatch_Chunk_3
 
     ld [hl], b
 
-jr_002_41e8:
+BytecodeDispatch_Chunk_7:
     ldh [hCurrentTile], a
     ret nz
 
@@ -451,7 +451,7 @@ jr_002_41e8:
     inc a
     ccf
 
-jr_002_41f4:
+JumpOffset_Set_1:
     dec sp
     inc a
     ld [de], a
@@ -459,7 +459,7 @@ jr_002_41f4:
     ld bc, $010e
     ld e, $00
 
-jr_002_41ff:
+JumpOffset_Set_2:
     ccf
     nop
     ld a, a
@@ -495,7 +495,7 @@ jr_002_41ff:
     ld [$0e0d], sp
     ld hl, $382f
     dec a
-    jr c, jr_002_426b
+    jr c, JumpOffset_Set_5
 
     nop
     rlca
@@ -513,7 +513,7 @@ jr_002_41ff:
     ld d, $3f
     jr nc, @+$41
 
-    jr nc, jr_002_424e
+    jr nc, JumpOffset_Set_3
 
     ld [$0f0b], sp
     ret nz
@@ -526,7 +526,7 @@ jr_002_41ff:
     ld hl, sp+$40
     ldh a, [hCurrentTile]
 
-jr_002_424e:
+JumpOffset_Set_3:
     ldh [rP1], a
     add b
     ret nz
@@ -543,7 +543,7 @@ jr_002_424e:
     rra
     jr @+$21
 
-    jr jr_002_4268
+    jr JumpOffset_Set_4
 
     inc b
     nop
@@ -551,11 +551,11 @@ jr_002_424e:
     ldh [hVramPtrLow], a
     ld hl, sp-$08
 
-jr_002_4268:
+JumpOffset_Set_4:
     ldh a, [rLCDC]
     db $fc
 
-jr_002_426b:
+JumpOffset_Set_5:
     nop
     db $fc
     jr nz, @-$06
@@ -572,7 +572,7 @@ jr_002_426b:
     ld d, $3f
     jr nc, @+$41
 
-    jr nc, jr_002_428e
+    jr nc, JumpOffset_Set_6
 
     ld [$1f1f], sp
     ret nz
@@ -585,7 +585,7 @@ jr_002_426b:
     ld hl, sp+$40
     ldh a, [hCurrentTile]
 
-jr_002_428e:
+JumpOffset_Set_6:
     ldh [rP1], a
     ld b, b
     ret nz
@@ -616,7 +616,7 @@ jr_002_428e:
     nop
     nop
 
-jr_002_42ad:
+JumpOffset_Set_7:
     nop
     nop
     nop
@@ -632,9 +632,9 @@ jr_002_42ad:
     inc c
     rra
     ld d, $3f
-    jr nc, jr_002_42fe
+    jr nc, RoutineOffset_3
 
-    jr nc, jr_002_42d0
+    jr nc, RoutineOffset_1
 
     inc c
     ld c, $00
@@ -647,7 +647,7 @@ jr_002_42ad:
     db $fc
     db $fc
 
-jr_002_42d0:
+RoutineOffset_1:
     ld hl, sp+$18
     rlca
     rlca
@@ -668,14 +668,14 @@ jr_002_42d0:
     db $fc
     ld h, b
     call z, $c0b0
-    jr nz, jr_002_42ad
+    jr nz, JumpOffset_Set_7
 
     ldh a, [hVramPtrLow]
     jr c, @-$1e
 
-    jr jr_002_42f3
+    jr RoutineOffset_2
 
-jr_002_42f3:
+RoutineOffset_2:
     nop
     nop
     nop
@@ -688,7 +688,7 @@ jr_002_42f3:
     nop
     nop
 
-jr_002_42fe:
+RoutineOffset_3:
     nop
     nop
     nop
@@ -703,11 +703,11 @@ jr_002_42fe:
 
     ret nc
 
-jr_002_430a:
+RoutineOffset_4:
     ld a, b
     ld a, b
 
-jr_002_430c:
+RoutineOffset_5:
     ld l, [hl]
     xor $fb
     db $e3
@@ -758,9 +758,9 @@ DataTable_JumpDispatch_002:
     ldh [hSpriteAttr], a
     ldh a, [$ff38]
     cp b
-    jr c, jr_002_430a
+    jr c, RoutineOffset_4
 
-    jr nc, jr_002_430c
+    jr nc, RoutineOffset_5
 
     nop
     ldh a, [rSVBK]
@@ -777,7 +777,7 @@ DataTable_JumpDispatch_002:
 
     jr nc, @+$41
 
-    jr nc, jr_002_439a
+    jr nc, RoutineOffset_6
 
     jr nz, DataTable_JumpDispatch_005
 
@@ -837,26 +837,26 @@ DataTable_JumpDispatch_005:
     rra
     jr c, @+$09
 
-    jr nc, jr_002_43a1
+    jr nc, RoutineOffset_7
 
-jr_002_439a:
-    jr jr_002_43bb
+RoutineOffset_6:
+    jr TableEntry_Variant_3
 
-    jr jr_002_43bd
+    jr TableEntry_Variant_4
 
-    jr jr_002_43b8
+    jr TableEntry_Variant_2
 
     inc c
 
-jr_002_43a1:
+RoutineOffset_7:
     inc c
 
-jr_002_43a2:
+TableEntry_Variant_1:
     ld e, h
     ldh [$ff5c], a
     ldh [$ff08], a
     ld l, b
-    jr c, jr_002_43a2
+    jr c, TableEntry_Variant_1
 
     jr c, @-$06
 
@@ -871,16 +871,16 @@ jr_002_43a2:
     inc a
     inc hl
 
-jr_002_43b8:
+TableEntry_Variant_2:
     inc e
     rlca
     ld h, [hl]
 
-jr_002_43bb:
+TableEntry_Variant_3:
     ld a, a
     ld h, e
 
-jr_002_43bd:
+TableEntry_Variant_4:
     ld a, a
     ld h, b
     ld a, [hl]
@@ -924,7 +924,7 @@ jr_002_43bd:
     cp [hl]
     inc a
     ld a, h
-    jr c, jr_002_442a
+    jr c, TableEntry_Variant_5
 
     cp a
     xor c
@@ -976,7 +976,7 @@ jr_002_43bd:
     ldh [hSpriteAttr], a
     ld b, b
 
-jr_002_442a:
+TableEntry_Variant_5:
     ldh a, [rP1]
     nop
     ldh [rP1], a
@@ -1013,7 +1013,7 @@ DataTable_Lookup_001:
 
     ret nz
 
-jr_002_444e:
+TableEntry_Variant_6:
     ldh a, [hCurrentTile]
     ldh [hJoypadState], a
     rra
@@ -1039,7 +1039,7 @@ DataTable_Lookup_002:
     ld hl, sp+$18
     cp b
     xor b
-    jr jr_002_444e
+    jr TableEntry_Variant_6
 
     jr c, DataTable_Lookup_002
 
@@ -1055,7 +1055,7 @@ DataTable_Lookup_002:
     inc c
     rra
     ld d, $3f
-    jr nc, jr_002_44be
+    jr nc, TableEntry_Variant_7
 
     jr nc, DataTable_Lookup_004
 
@@ -1116,7 +1116,7 @@ DataTable_Lookup_004:
     ccf
     inc a
 
-jr_002_44be:
+TableEntry_Variant_7:
     ld a, a
     ld a, h
     ld a, a
@@ -1136,7 +1136,7 @@ jr_002_44be:
     ld b, b
     ld a, c
     ld a, d
-    jr nc, jr_002_450d
+    jr nc, TableEntry_Variant_8
 
     ld b, $01
     rlca
@@ -1181,7 +1181,7 @@ jr_002_44be:
     ld e, $fe
     db $fc
 
-jr_002_450d:
+TableEntry_Variant_8:
     db $fc
     ldh a, [hCurrentTile]
     nop
@@ -1227,9 +1227,9 @@ jr_002_450d:
     ld a, a
     ret nz
 
-    jr nz, jr_002_4545
+    jr nz, TableEntry_Variant_9
 
-jr_002_4545:
+TableEntry_Variant_9:
     ldh a, [$ff30]
     ret nz
 
@@ -3393,7 +3393,7 @@ jr_002_4d82:
     rst $38
     adc c
     rst $38
-    call Call_002_5777
+    call Routine_DataProcess_B
     ld [hl], d
     ld d, d
     ld h, d
@@ -5774,7 +5774,7 @@ DataPatch_4:
     add [hl]
     rst $38
 
-Call_002_5777:
+Routine_DataProcess_B:
     add h
     rst $38
     add h
@@ -7790,7 +7790,7 @@ jr_002_6121:
     ld c, h
     ld [bc], a
     add hl, sp
-    call Call_002_4002
+    call Routine_DataProcess_A
     inc b
     inc c
     ld b, c
@@ -8473,7 +8473,7 @@ Call_002_63fd:
     ld h, b
     ld h, c
 
-Call_002_6467:
+Routine_DataProcess_C:
     cp $02
     ld d, e
     ld b, b
@@ -8691,7 +8691,7 @@ Call_002_64fd:
     and c
     ld a, a
 
-Call_002_6565:
+Routine_DataProcess_D:
     ldh [c], a
     ld h, b
     ld h, c
@@ -8909,7 +8909,7 @@ DataTable_665a:
     ld b, b
     ld h, c
 
-Call_002_6666:
+Routine_DataProcess_E:
     ld e, [hl]
     call nz, $6363
     ld h, b
@@ -10735,7 +10735,7 @@ Call_002_6e66:
     ld l, l
     ld b, c
     dec hl
-    call nz, Call_002_6565
+    call nz, Routine_DataProcess_D
     ld l, [hl]
     ld l, l
     cp $02
@@ -10746,7 +10746,7 @@ Call_002_6e66:
     ld h, d
     ld e, l
     dec [hl]
-    call nz, Call_002_6666
+    call nz, Routine_DataProcess_E
     ld l, l
     ld l, [hl]
     cp $02
@@ -11001,7 +11001,7 @@ jr_002_6f56:
     ld l, [hl]
     ld l, l
     ld d, [hl]
-    call nz, Call_002_6565
+    call nz, Routine_DataProcess_D
     ld l, l
     ld l, [hl]
     cp $06
@@ -12654,15 +12654,15 @@ jr_002_76df:
     cp $72
     db $fd
     db $f4
-    call nz, Call_002_7774
+    call nz, Routine_DataProcess_F
     ld a, a
     ld a, a
     cp $72
     db $fd
 
-Call_002_7774:
+Routine_DataProcess_F:
     db $f4
-    call nz, Call_002_7875
+    call nz, Routine_DataProcess_G
     ld a, a
     ld a, a
     cp $00
@@ -12882,7 +12882,7 @@ Call_002_7774:
     cp $ff
     rst $38
 
-Call_002_7875:
+Routine_DataProcess_G:
     rst $38
     rst $38
     rst $38
@@ -13384,7 +13384,7 @@ jr_002_7a62:
 jr_002_7a71:
     inc b
     rst $00
-    call nz, Call_002_6467
+    call nz, Routine_DataProcess_C
     or a
     inc [hl]
     rst $10
