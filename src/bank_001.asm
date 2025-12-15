@@ -18,7 +18,7 @@ SECTION "ROM Bank $001", ROMX[$4000], BANK[$1]
     ld d, l
     dec b
     ld d, [hl]
-    jr nc, jr_001_406a
+    jr nc, PreprocessData_406a
 
     ld h, l
     ld d, [hl]
@@ -46,14 +46,14 @@ SECTION "ROM Bank $001", ROMX[$4000], BANK[$1]
     ld d, h
     rrca
 
-jr_001_4033:
+CalculateOffset_4033:
     rrca
     rra
-    jr jr_001_4072
+    jr RotateAndAdjust_4072
 
-    jr nc, jr_001_4070
+    jr nc, AdjustValue_4070
 
-    jr nz, jr_001_407a
+    jr nz, ShiftAccumulator_407a
 
     daa
     ld a, [hl-]
@@ -65,7 +65,7 @@ Call_001_403e:
     ccf
     ld h, $f0
     ldh a, [$ffd8]
-    jr c, jr_001_4033
+    jr c, CalculateOffset_4033
 
     inc e
     db $f4
@@ -82,10 +82,10 @@ Call_001_403e:
     nop
     rrca
 
-Call_001_4055:
+ProcessDataValue_4055:
     rrca
     ccf
-    jr c, jr_001_40d4
+    jr c, RotateAndAdjust_40d4
 
     ld h, b
     ld [hl], a
@@ -103,16 +103,16 @@ Call_001_4055:
     inc e
     or $0e
 
-jr_001_406a:
+PreprocessData_406a:
     ld a, [$fa06]
     and $5a
     ld d, [hl]
 
-jr_001_4070:
+AdjustValue_4070:
     sbc d
     sub [hl]
 
-jr_001_4072:
+RotateAndAdjust_4072:
     nop
     nop
     inc bc
@@ -122,7 +122,7 @@ jr_001_4072:
     inc c
     inc c
 
-jr_001_407a:
+ShiftAccumulator_407a:
     ld [de], a
     ld e, $3c
     inc a
@@ -200,7 +200,7 @@ jr_001_407a:
     nop
     nop
 
-jr_001_40d4:
+RotateAndAdjust_40d4:
     rlca
     rlca
     jr PaddingAlign_40f7
@@ -4718,7 +4718,7 @@ jr_001_5428:
 
 jr_001_5436:
     call z, $3e55
-    call Call_001_4055
+    call ProcessDataValue_4055
     ld d, b
     ret
 
@@ -9329,7 +9329,7 @@ CheckResult_5c5b:
     ld sp, $4149
     scf
     or l
-    jr c, jr_001_69ff
+    jr c, CheckStateValue_69ff
 
     ld a, a
     ld h, b
@@ -9375,10 +9375,10 @@ CheckResult_5c5b:
     ld [hl], c
     ld [hl], e
 
-Call_001_69fd:
+ValidatePlayerState_69fd:
     cp $02
 
-jr_001_69ff:
+CheckStateValue_69ff:
     ld sp, $7449
     ld b, a
     ld a, $40
@@ -9576,7 +9576,7 @@ jr_001_69ff:
     db $f4
     ld a, a
 
-Call_001_6afd:
+CheckPlayerAction_6afd:
     and c
     ld a, a
     jp nc, Jump_001_423f
@@ -11365,14 +11365,14 @@ ProcessValidation_7371:
     ld l, c
     ld [hl], c
     ld e, a
-    call nz, Call_001_69fd
+    call nz, ValidatePlayerState_69fd
     cp $05
     ld [hl-], a
     ld l, c
     ld l, d
     ld l, c
     ld l, d
-    call nz, Call_001_6afd
+    call nz, CheckPlayerAction_6afd
     cp $05
     ld sp, $696a
     ld l, d
@@ -11483,13 +11483,13 @@ Jump_001_73f3:
     ld l, d
     ld l, c
     ld l, d
-    call nz, Call_001_69fd
+    call nz, ValidatePlayerState_69fd
     cp $06
     ld sp, $696a
     ld l, d
     ld l, c
     ld l, a
-    call nz, Call_001_6afd
+    call nz, CheckPlayerAction_6afd
     cp $05
     ld [hl-], a
     ld l, c
