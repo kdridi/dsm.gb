@@ -3062,6 +3062,14 @@ IncrementRenderContextPath:
 UpdateAnimationTileIndexPath:
     ldh [hAnimTileIndex], a
 
+; LoadAnimTilesByIndex
+; --------------------
+; Description: Charge les tiles animées et palettes selon l'index du monde
+;              Extrait le numéro de monde depuis hAnimTileIndex et charge les
+;              ressources graphiques appropriées depuis la bank correspondante
+; In:  a = AnimTileIndex (déjà chargé depuis hAnimTileIndex)
+; Out: VRAM chargé avec tiles monde, palette, et buffer animation
+; Modifie: af, bc, de, hl
 LoadAnimTilesByIndex:
     and NIBBLE_HIGH_MASK     ; Isoler le monde (bits hauts)
     swap a

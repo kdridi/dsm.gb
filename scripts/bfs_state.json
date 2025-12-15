@@ -1623,6 +1623,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0D82",
+      "node_type": "code",
+      "description": "LoadAnimTilesWithBank - Point d'entr\u00e9e chargement tiles anim\u00e9es",
+      "source": "$0D64",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1652,6 +1660,7 @@
     "$0558",
     "$0166",
     "$0D40",
+    "$0D64",
     "$0226",
     "$03E4",
     "$05D0",
@@ -1698,6 +1707,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 0,
-  "total_explored": 71
+  "commits_since_push": 1,
+  "total_explored": 72
 }
