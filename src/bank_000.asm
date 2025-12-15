@@ -1002,6 +1002,16 @@ ApplyRenderContext:
     jp InitLevelStartFull
 
 
+; =============================================================================
+; ResetRenderForHighLevels
+; =============================================================================
+; Description: Réinitialise le contexte de rendu pour les niveaux élevés.
+;              Si niveau < seuil sprites ($02), réinitialise hAnimTileIndex
+;              à $11 et applique contexte rendu 0. Sinon, init complète.
+; In:  hLevelIndex = index du niveau courant
+; Out: Ne retourne pas (jp vers InitLevelStartFull ou ApplyRenderContext)
+; Modifie: a, wGameConfigA6, hAnimTileIndex (si niveau < seuil)
+; =============================================================================
 ResetRenderForHighLevels:
     xor a
     ld [wGameConfigA6], a
