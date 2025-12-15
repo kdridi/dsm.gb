@@ -28,7 +28,7 @@ from enum import Enum
 
 # Configuration
 CLAUDE_TIMEOUT = 300  # 5 minutes
-CLAUDE_MODEL = "claude-sonnet-4"  # Sonnet 4 = bon compromis qualité/coût pour le BFS
+CLAUDE_MODEL = "sonnet"  # Alias pour la dernière version de Sonnet
 STATE_FILE = "scripts/bfs_state.json"
 PUSH_EVERY = 5  # Push tous les N commits
 
