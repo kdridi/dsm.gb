@@ -301,6 +301,40 @@
 - Phase 5b/6 (exploration progressive, structures de données)
 - Phase 7.3 (renommages additionnels si new patterns découverts)
 
+### Status: 7.3 - Renommages de nomenclature (SkipPadding/Audio/ConstTable) ✅
+*Complété le 2025-12-15*
+
+- [x] Audit des labels génériques restants
+- [x] Renommer 16 labels `SkipPadding_*` → `PaddingZone_*` (cohérence)
+- [x] Renommer 10 labels `MusicDispatchEntry_*` → `AudioDispatchData_*` (clarification: données audio)
+- [x] Renommer 7 labels `ConstTable_*` → `DataTable_*` (clarification: tables de données brutes)
+- [x] Renommer 15 labels `Audio_*` → `AudioData_*` (clarification: données audio mal désassemblées)
+- [x] Compilation: HASH VERIFIED ✅
+
+**Commits** (4 commits):
+1. [ROADMAP-703] 16 SkipPadding renommés (daffc76)
+2. [ROADMAP-703] 10 MusicDispatchEntry renommés (d1b8090)
+3. [ROADMAP-703] 7 ConstTable renommés (c0aba40)
+4. [ROADMAP-703] 15 Audio renommés (b3eeac2)
+
+**Résumé**: 48 labels renommés pour améliorer la clarté
+- PaddingZone_*: +16 (cohérence nomenclature)
+- AudioDispatchData_*: +10 (données audio avec dispatch markers)
+- DataTable_*: +7 (tables de données génériques)
+- AudioData_*: +15 (données audio brutes)
+
+**État actuel** : ~280 labels restants à étudier
+- PaddingZone_*: 104 (zones d'alignement/padding)
+- DispatchEntry_*: 72 (entries de dispatch, contexte à analyser)
+- DispatchTableEntry_*: 26 (tables de dispatch, contexte à analyser)
+- DataZone_*: 26 (zones de données génériques)
+- AudioData_*: 18 (données audio)
+- AudioDispatchData_*: 10 (données avec dispatch)
+- SpriteAnimation_*: 8 (animations sprites)
+- DataTable_*: 7 (tables de données)
+- AudioDispatchEntry_*: 7 (entries de dispatch audio)
+- Autres: 6 (labels uniques explicites)
+
 ### Bank 0 (~500 labels)
 
 - [ ] Routines d'init (SystemInit fait)
