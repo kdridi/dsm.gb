@@ -219,11 +219,11 @@ PaddingZone_003_40c0:
     ld b, h
     add d
 
-DispatchEntry_003_40d7:
+PaddingZone_003_40d7:
     add d
     xor c
 
-DispatchEntry_003_40d9:
+PaddingZone_003_40d9:
     xor c
     xor d
     xor d
@@ -245,9 +245,9 @@ DispatchEntry_003_40d9:
     rst $20
     ld a, [hl]
     rst $20
-    jr DispatchEntry_003_40d7
+    jr PaddingZone_003_40d7
 
-    jr DispatchEntry_003_40d9
+    jr PaddingZone_003_40d9
 
     nop
     nop
@@ -1202,9 +1202,9 @@ JoypadInputEntry_44c7:
     nop
     ld h, b
     nop
-    jr nz, DispatchEntry_003_451b
+    jr nz, PaddingZone_003_451b
 
-DispatchEntry_003_451b:
+PaddingZone_003_451b:
     jr nz, PaddingZone_003_451d
 
 PaddingZone_003_451d:
@@ -1232,9 +1232,9 @@ PaddingZone_003_451d:
 
     nop
     stop
-    jr nz, DispatchEntry_003_453f
+    jr nz, PaddingZone_003_453f
 
-DispatchEntry_003_453f:
+PaddingZone_003_453f:
     jr nz, SoundEngine_Target_1
 
 SoundEngine_Target_1:
@@ -1396,9 +1396,9 @@ AudioData_003_45cd:
     add hl, bc
     jr nc, @+$07
 
-    jr DispatchEntry_003_45e1
+    jr PaddingZone_003_45e1
 
-DispatchEntry_003_45e1:
+PaddingZone_003_45e1:
     rrca
     nop
     add sp, -$80
@@ -1467,9 +1467,9 @@ AudioHandler_Entry_2:
     jr nz, AudioHandler_Entry_3
 
 AudioHandler_Entry_3:
-    jr nz, DispatchEntry_003_462b
+    jr nz, PaddingZone_003_462b
 
-DispatchEntry_003_462b:
+PaddingZone_003_462b:
     jr nz, PaddingZone_003_462d
 
 PaddingZone_003_462d:
@@ -2423,11 +2423,11 @@ InitializeSpriteTransferBuffer_LoadObject:
     inc e
     ld c, $02
     bit 5, b
-    jr z, DispatchEntry_003_4a41
+    jr z, PaddingZone_003_4a41
 
     ld c, $f8
 
-DispatchEntry_003_4a41:
+PaddingZone_003_4a41:
     ld a, [hl+]
     add c
     ld [de], a
@@ -2500,13 +2500,13 @@ HandleJoypadInputDelay:
 
     ld a, [$c0d8]
     and a
-    jr z, DispatchEntry_003_4aa7
+    jr z, PaddingZone_003_4aa7
 
     dec a
     ld [$c0d8], a
     jr JoypadStateUpdatePersist
 
-DispatchEntry_003_4aa7:
+PaddingZone_003_4aa7:
     ld a, [$c0dc]
     sla a
     ld e, a
@@ -2720,7 +2720,7 @@ TimerInitializeAux:
 
     ldh a, [hTimerAux]
     cp $04
-    jr z, DispatchEntry_003_4be0
+    jr z, PaddingZone_003_4be0
 
     cp $03
     ret nz
@@ -2749,7 +2749,7 @@ TimerResetState:
     ret
 
 
-DispatchEntry_003_4be0:
+PaddingZone_003_4be0:
     ldh a, [hTimer1]
     and a
     jr z, ResetTimerState
@@ -3094,7 +3094,7 @@ IncrementInputCounter:
     rst $38
     ld b, h
     ld c, [hl]
-    jr nz, DispatchEntry_003_4da2
+    jr nz, PaddingZone_003_4da2
 
     jr nc, PaddingZone_003_4db4
 
@@ -3129,7 +3129,7 @@ IncrementInputCounter:
     ld b, h
     ld c, [hl]
 
-DispatchEntry_003_4da2:
+PaddingZone_003_4da2:
     ld a, [hl+]
     dec hl
     ld a, [hl-]
@@ -3310,19 +3310,19 @@ DispatchDataZone_4dd8:
     nop
     db $10
     ld [$0010], sp
-    jr DispatchEntry_003_4e73
+    jr PaddingZone_003_4e73
 
-    jr DispatchEntry_003_4e6d
+    jr PaddingZone_003_4e6d
 
-DispatchEntry_003_4e6d:
+PaddingZone_003_4e6d:
     jr nz, DataTable_003_4e77
 
-    jr nz, DispatchEntry_003_4e71
+    jr nz, PaddingZone_003_4e71
 
-DispatchEntry_003_4e71:
-    jr z, DispatchEntry_003_4e7b
+PaddingZone_003_4e71:
+    jr z, PaddingZone_003_4e7b
 
-DispatchEntry_003_4e73:
+PaddingZone_003_4e73:
     jr z, DispatchDataTable_4e84
 
     rrca
@@ -3336,7 +3336,7 @@ DataTable_003_4e77:
 
     inc d
 
-DispatchEntry_003_4e7b:
+PaddingZone_003_4e7b:
     rrca
     inc b
     jr DispatchDataTable_4e8e
@@ -3505,12 +3505,12 @@ DispatchDataTable_4e8e:
     ld [bc], a
     ld e, $05
     dec h
-    jr nz, DispatchEntry_003_4f41
+    jr nz, PaddingZone_003_4f41
 
     or l
     ld hl, $02c4
 
-DispatchEntry_003_4f41:
+PaddingZone_003_4f41:
     jr z, DispatchDataZone_4f4a
 
     dec h
@@ -3639,7 +3639,7 @@ DispatchDataTable_4fbb:
     dec bc
     ld [de], a
     add hl, bc
-    jr c, DispatchEntry_003_4ff3
+    jr c, PaddingZone_003_4ff3
 
     add hl, bc
     add hl, sp
@@ -3658,7 +3658,7 @@ DispatchDataTable_4fbb:
     dec c
     ld b, a
 
-DispatchEntry_003_4ff3:
+PaddingZone_003_4ff3:
     jr z, DispatchDataTable_4fbb
 
     ld [bc], a
@@ -3676,7 +3676,7 @@ DispatchEntry_003_4ff3:
     ld c, $0b
     ld b, c
     adc h
-    jr c, DispatchEntry_003_504d
+    jr c, PaddingZone_003_504d
 
     adc h
     add hl, sp
@@ -3743,8 +3743,8 @@ DispatchEntry_003_4ff3:
     ld d, e
     ld d, e
 
-DispatchEntry_003_504d:
-    jr nz, DispatchEntry_003_50a3
+PaddingZone_003_504d:
+    jr nz, PaddingZone_003_50a3
 
     xor d
     ld d, h
@@ -3755,13 +3755,13 @@ DispatchEntry_003_504d:
 
 CheckAnimationState:
     ld d, h
-    jr nz, DispatchEntry_003_50af
+    jr nz, PaddingZone_003_50af
 
     xor d
     ld d, h
     ld d, e
 
-DispatchEntry_003_505e:
+PaddingZone_003_505e:
     ld d, e
     ld c, [hl]
     ld d, l
@@ -3832,7 +3832,7 @@ DispatchEntry_003_505e:
 
     ld e, l
 
-DispatchEntry_003_50a3:
+PaddingZone_003_50a3:
     rst $28
     ld e, l
     rst $28
@@ -3845,12 +3845,12 @@ DispatchEntry_003_50a3:
 Return_IfNotZero_003_50ab:
     ret nz
 
-DispatchEntry_003_50ac:
+PaddingZone_003_50ac:
     ld e, [hl]
     rst $28
     ld e, l
 
-DispatchEntry_003_50af:
+PaddingZone_003_50af:
     rst $28
     ld e, l
     ld e, h
@@ -3883,7 +3883,7 @@ DispatchEntry_003_50af:
 
     ld a, [bc]
     ld bc, $0a02
-    jr DispatchEntry_003_505e
+    jr PaddingZone_003_505e
 
     rst $38
     rlca
@@ -3941,7 +3941,7 @@ DispatchEntry_003_50af:
     ld [bc], a
     ld [bc], a
     dec bc
-    jr nz, DispatchEntry_003_50ac
+    jr nz, PaddingZone_003_50ac
 
     rst $38
     inc bc
@@ -4034,7 +4034,7 @@ DispatchDataZone_5166:
 
     rrca
     inc b
-    jr z, DispatchEntry_003_519f
+    jr z, PaddingZone_003_519f
 
     ld [$ff2a], sp
     ld bc, wOamVar09
@@ -4050,28 +4050,28 @@ DispatchDataZone_5166:
 
     rrca
 
-DispatchEntry_003_519f:
+PaddingZone_003_519f:
     inc l
     add hl, bc
     rrca
-    jr z, DispatchEntry_003_51ae
+    jr z, PaddingZone_003_51ae
 
     dec bc
     jr z, @+$01
 
     inc b
     rrca
-    jr z, DispatchEntry_003_51b1
+    jr z, PaddingZone_003_51b1
 
     ld a, [bc]
     inc l
     inc c
 
-DispatchEntry_003_51ae:
+PaddingZone_003_51ae:
     ld [bc], a
     jr z, @+$14
 
-DispatchEntry_003_51b1:
+PaddingZone_003_51b1:
     ld [bc], a
     ld a, [hl+]
     inc de
@@ -4128,7 +4128,7 @@ AudioTableRaw_003_51c2:
 
     inc bc
     db $10
-    jr z, DispatchEntry_003_51f6
+    jr z, PaddingZone_003_51f6
 
     add hl, bc
     ret nz
@@ -4140,7 +4140,7 @@ AudioTableRaw_003_51c2:
     nop
     inc l
 
-DispatchEntry_003_51f6:
+PaddingZone_003_51f6:
     ld c, $11
     ret nz
 
@@ -9937,7 +9937,7 @@ AudioData_003_6cf2:
     ld h, d
     call LoadAudioRegisterRange
     pop hl
-    jr DispatchEntry_003_6d28
+    jr PaddingZone_003_6d28
 
 LoadAudioParameterTriple:
     call IncrementAudioWord
@@ -9967,7 +9967,7 @@ LoadAudioParameterTriple:
     cp $03
     jr z, AudioData_003_6cf2
 
-DispatchEntry_003_6d28:
+PaddingZone_003_6d28:
     call IncrementAudioWord
     jp DecodeAudioOpcode
 
@@ -10011,7 +10011,7 @@ DereferenceAudioPointer:
 
 AudioControlDispatch_6d4a:
     pop hl
-    jr DispatchEntry_003_6d78
+    jr PaddingZone_003_6d78
 
 CheckAudioControl3Mode:
     ldh a, [hAudioControl]
@@ -10049,7 +10049,7 @@ UpdateAudioChannelStatus:
     call HandleAudioChannelStatus
 
 AdvanceAudioChannelState:
-DispatchEntry_003_6d78:
+PaddingZone_003_6d78:
     dec l
     dec l
     jp AdvanceAudioState
@@ -10072,13 +10072,13 @@ DecodeAudioOpcodeEntry:
     jr z, AudioChannelComplete
 
     cp $ff
-    jr z, DispatchEntry_003_6d98
+    jr z, PaddingZone_003_6d98
 
     inc l
     jp DecodeNextAudioOpcode
 
 
-DispatchEntry_003_6d98:
+PaddingZone_003_6d98:
     dec l
     push hl
     call AdvanceAudioPointerByWord
@@ -10262,7 +10262,7 @@ AudioControlCommonPath:
     ld a, [hl+]
     ld e, a
 
-DispatchEntry_003_6e7b:
+PaddingZone_003_6e7b:
     inc l
     ld a, [hl+]
     ld d, a
@@ -10273,11 +10273,11 @@ AudioDataLoad:
     inc l
     ld a, [hl+]
     and a
-    jr z, DispatchEntry_003_6e87
+    jr z, PaddingZone_003_6e87
 
     ld e, $01
 
-DispatchEntry_003_6e87:
+PaddingZone_003_6e87:
     inc l
     inc l
     ld [hl], $00
@@ -10339,7 +10339,7 @@ AudioData_003_6ec8:
     push hl
     pop hl
     inc l
-    jr DispatchEntry_003_6e7b
+    jr PaddingZone_003_6e7b
 
 GetAudioParameterFromTable:
     ld a, b
@@ -10358,7 +10358,7 @@ HandleAudioChannelStatus:
     ld l, a
     ld a, [hl]
     and $0f
-    jr z, DispatchEntry_003_6ef8
+    jr z, PaddingZone_003_6ef8
 
     ldh [hAudioStatus], a
     ldh a, [hAudioControl]
@@ -10374,7 +10374,7 @@ HandleAudioChannelStatus:
     cp $03
     jr z, AudioData_003_6efa
 
-DispatchEntry_003_6ef8:
+PaddingZone_003_6ef8:
     pop hl
     ret
 
@@ -10407,21 +10407,21 @@ AudioModeDispatchCase_03_Alt:
     ld de, $6f39
     call GetAudioParameterFromTable
     bit 0, b
-    jr nz, DispatchEntry_003_6f20
+    jr nz, PaddingZone_003_6f20
 
     swap e
 
-DispatchEntry_003_6f20:
+PaddingZone_003_6f20:
     ld a, e
     and $0f
     bit 3, a
-    jr z, DispatchEntry_003_6f2d
+    jr z, PaddingZone_003_6f2d
 
     ld h, $ff
     or $f0
     jr PaddingZone_003_6f2f
 
-DispatchEntry_003_6f2d:
+PaddingZone_003_6f2d:
     ld h, $00
 
 PaddingZone_003_6f2f:
@@ -10435,7 +10435,7 @@ PaddingZone_003_6f30:
     inc c
     ld a, h
     ldh [c], a
-    jr DispatchEntry_003_6ef8
+    jr PaddingZone_003_6ef8
 
     nop
     nop
@@ -10906,11 +10906,11 @@ AudioDataRaw_003_70f8:
     ld bc, $a33a
     ld [hl], $34
     xor c
-    jr nc, DispatchEntry_003_7173
+    jr nc, PaddingZone_003_7173
 
     inc [hl]
 
-DispatchEntry_003_7173:
+PaddingZone_003_7173:
     ld bc, $4201
     and h
     ld bc, $01a5
@@ -11207,9 +11207,9 @@ PaddingZone_003_730e:
     add c
     nop
     sbc l
-    jr nc, DispatchEntry_003_7323
+    jr nc, PaddingZone_003_7323
 
-DispatchEntry_003_7323:
+PaddingZone_003_7323:
     add b
     and a
     ld bc, $a400
@@ -11250,9 +11250,9 @@ DispatchEntry_003_7323:
     ld l, $32
     ld l, $2a
     and l
-    jr z, DispatchEntry_003_735a
+    jr z, PaddingZone_003_735a
 
-DispatchEntry_003_735a:
+PaddingZone_003_735a:
     and l
     ld a, [hl+]
     and h
@@ -11344,9 +11344,9 @@ PaddingZone_003_7383:
     ld bc, $40a2
     ld bc, $0132
     sbc l
-    jr nc, DispatchEntry_003_73c1
+    jr nc, PaddingZone_003_73c1
 
-DispatchEntry_003_73c1:
+PaddingZone_003_73c1:
     add b
     and c
     ld e, b
@@ -12284,9 +12284,9 @@ PaddingZone_003_77eb:
     and a
     ld b, b
     and h
-    jr z, DispatchEntry_003_780d
+    jr z, PaddingZone_003_780d
 
-DispatchEntry_003_780d:
+PaddingZone_003_780d:
     sbc l
     ld h, d
     nop
@@ -12895,9 +12895,9 @@ PaddingZone_003_7ad7:
     ld a, [hl-]
     ld a, [hl+]
     sbc l
-    jr nc, DispatchEntry_003_7b18
+    jr nc, PaddingZone_003_7b18
 
-DispatchEntry_003_7b18:
+PaddingZone_003_7b18:
     add c
     and c
     ld a, [hl-]
@@ -13272,7 +13272,7 @@ JoypadInputEntry_7c7d:
     ld d, b
     jr c, PaddingZone_003_7d0c
 
-    jr c, DispatchEntry_003_7d1c
+    jr c, PaddingZone_003_7d1c
 
     ld b, [hl]
     ld e, [hl]
@@ -13308,7 +13308,7 @@ JoypadInputEntry_7c7d:
 
     ld b, [hl]
     ld e, [hl]
-    jr c, DispatchEntry_003_7d40
+    jr c, PaddingZone_003_7d40
 
     ld b, [hl]
     ld e, [hl]
@@ -13355,7 +13355,7 @@ PaddingZone_003_7d0c:
     rst $38
     ld d, $7d
 
-DispatchEntry_003_7d1c:
+PaddingZone_003_7d1c:
     ld b, b
     ld a, l
     rst $38
@@ -13403,9 +13403,9 @@ PaddingZone_003_7d39:
 JoypadInputEntry_7d3c:
     inc [hl]
     ld [hl-], a
-    jr nc, DispatchEntry_003_7d40
+    jr nc, PaddingZone_003_7d40
 
-DispatchEntry_003_7d40:
+PaddingZone_003_7d40:
     sbc l
     rla
     ld [hl], b
@@ -13709,9 +13709,9 @@ AudioStateUpdate:
     sbc b
     ld a, [hl]
     sbc l
-    jr nc, DispatchEntry_003_7ea1
+    jr nc, PaddingZone_003_7ea1
 
-DispatchEntry_003_7ea1:
+PaddingZone_003_7ea1:
     add c
     xor d
     ld bc, $9d00

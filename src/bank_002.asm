@@ -2000,7 +2000,7 @@ AudioDispatchEntry_4807:
     ld b, [hl]
     inc a
     inc l
-    jr DispatchEntry_002_489a
+    jr PaddingZone_002_489a
 
     nop
     nop
@@ -2023,7 +2023,7 @@ JoypadInputEntry_488e:
     db $10
     cp $fe
 
-DispatchEntry_002_489a:
+PaddingZone_002_489a:
     ld a, h
     ld a, h
     jr c, PaddingZone_002_48d6
@@ -2403,7 +2403,7 @@ PaddingZone_002_4991:
     ld [$2708], sp
     inc h
     inc l
-    jr z, DispatchEntry_002_4a36
+    jr z, PaddingZone_002_4a36
 
     ld de, $8094
     ld e, c
@@ -2431,7 +2431,7 @@ PaddingZone_002_4991:
     nop
     nop
 
-DispatchEntry_002_4a36:
+PaddingZone_002_4a36:
     jr nc, PaddingZone_002_4a68
 
     ld c, b
@@ -2818,7 +2818,7 @@ DataTable_002_4baa:
     add e
     ld a, a
     ld a, a
-    jr c, DispatchEntry_002_4bfc
+    jr c, PaddingZone_002_4bfc
 
     xor $de
     ldh a, [c]
@@ -2873,7 +2873,7 @@ DataZone_002_4bd8:
     add d
     add d
 
-DispatchEntry_002_4bfc:
+PaddingZone_002_4bfc:
     ld b, h
     ld b, h
     jr z, PaddingZone_002_4c28
@@ -3185,7 +3185,7 @@ AudioDispatchEntry_4d2c:
     sbc a
     ld l, b
     ld l, b
-    jr nz, DispatchEntry_002_4d62
+    jr nz, PaddingZone_002_4d62
 
     db $fc
     db $fc
@@ -3217,7 +3217,7 @@ AudioDispatchEntry_4d2c:
     ld l, b
     jr nz, PaddingZone_002_4d82
 
-DispatchEntry_002_4d62:
+PaddingZone_002_4d62:
     inc a
     inc a
     ld [bc], a
@@ -3723,7 +3723,7 @@ PaddingZone_002_4f70:
     cp $92
     ld a, h
     ld b, h
-    jr c, DispatchEntry_002_4fba
+    jr c, PaddingZone_002_4fba
 
     nop
     nop
@@ -3757,7 +3757,7 @@ PaddingZone_002_4f70:
     ld h, [hl]
     inc a
     inc a
-    jr DispatchEntry_002_4fbc
+    jr PaddingZone_002_4fbc
 
     inc a
     inc b
@@ -3787,13 +3787,13 @@ PaddingZone_002_4fac:
 
     jr PaddingZone_002_4fd2
 
-DispatchEntry_002_4fba:
+PaddingZone_002_4fba:
     jr PaddingZone_002_4fd4
 
-DispatchEntry_002_4fbc:
+PaddingZone_002_4fbc:
     jr DataZone_002_4fd6
 
-    jr DispatchEntry_002_4fd8
+    jr PaddingZone_002_4fd8
 
     jr PaddingZone_002_4fda
 
@@ -3831,7 +3831,7 @@ DataZone_002_4fd6:
     add b
     add b
 
-DispatchEntry_002_4fd8:
+PaddingZone_002_4fd8:
     jr PaddingZone_002_4ff2
 
 PaddingZone_002_4fda:
@@ -4533,7 +4533,7 @@ ControlFlow_Target_6:
     nop
     jr nc, DataTable_002_529e
 
-    jr nc, DispatchEntry_002_52a0
+    jr nc, PaddingZone_002_52a0
 
     nop
     nop
@@ -4591,7 +4591,7 @@ DataTable_002_529e:
     db $10
     db $10
 
-DispatchEntry_002_52a0:
+PaddingZone_002_52a0:
     jr nz, PaddingZone_002_52c2
 
     nop
@@ -6036,18 +6036,18 @@ UpdateSpriteAnimationFrame:
     ld a, l
     ld [$da0b], a
     cp $50
-    jr nz, DispatchEntry_002_58b1
+    jr nz, PaddingZone_002_58b1
 
     ld a, $30
     ld [$da0b], a
 
-DispatchEntry_002_58b1:
+PaddingZone_002_58b1:
     pop hl
     ld c, $20
     ld d, $f6
     ld a, l
     cp $30
-    jr nz, DispatchEntry_002_58cd
+    jr nz, PaddingZone_002_58cd
 
     ld a, c
     ld [$da03], a
@@ -6060,9 +6060,9 @@ DispatchEntry_002_58b1:
     ld [$da0c], a
     jr AnimationDispatch_SelectHandler
 
-DispatchEntry_002_58cd:
+PaddingZone_002_58cd:
     cp $38
-    jr nz, DispatchEntry_002_58e3
+    jr nz, PaddingZone_002_58e3
 
     ld a, c
     ld [$da04], a
@@ -6075,9 +6075,9 @@ DispatchEntry_002_58cd:
     ld [$da0d], a
     jr AnimationDispatch_SelectHandler
 
-DispatchEntry_002_58e3:
+PaddingZone_002_58e3:
     cp $40
-    jr nz, DispatchEntry_002_58f9
+    jr nz, PaddingZone_002_58f9
 
     ld a, c
     ld [$da05], a
@@ -6090,7 +6090,7 @@ DispatchEntry_002_58e3:
     ld [$da0e], a
     jr AnimationDispatch_SelectHandler
 
-DispatchEntry_002_58f9:
+PaddingZone_002_58f9:
     ld a, c
     ld [$da06], a
     ld a, d
@@ -6232,19 +6232,19 @@ SpriteAnimationDispatch_ByType:
     ld de, $da0a
     ld hl, $da13
     cp $48
-    jr z, DispatchEntry_002_5a05
+    jr z, PaddingZone_002_5a05
 
     dec c
     dec e
     dec l
     cp $40
-    jr z, DispatchEntry_002_59f3
+    jr z, PaddingZone_002_59f3
 
     dec c
     dec e
     dec l
     cp $38
-    jr z, DispatchEntry_002_59e0
+    jr z, PaddingZone_002_59e0
 
     dec c
     dec e
@@ -6263,7 +6263,7 @@ SpriteAnimationDispatch_ByType:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
-DispatchEntry_002_59e0:
+PaddingZone_002_59e0:
     ld a, [$da0d]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
@@ -6278,7 +6278,7 @@ DispatchEntry_002_59e0:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
-DispatchEntry_002_59f3:
+PaddingZone_002_59f3:
     ld a, [$da0e]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
@@ -6293,7 +6293,7 @@ DispatchEntry_002_59f3:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
-DispatchEntry_002_5a05:
+PaddingZone_002_5a05:
     ld a, [$da0f]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
@@ -6416,12 +6416,12 @@ ComputeAnimationSpeed:
     ld d, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, DispatchEntry_002_5a93
+    jr nz, PaddingZone_002_5a93
 
     ld a, $20
     ld d, a
 
-DispatchEntry_002_5a93:
+PaddingZone_002_5a93:
     ld a, d
     ld [hl+], a
     inc l
@@ -6461,13 +6461,13 @@ DispatchEntry_002_5a93:
 SpriteAnimationState_CheckAndUpdate:
     ld a, [$da27]
     bit 0, a
-    jr z, DispatchEntry_002_5ac9
+    jr z, PaddingZone_002_5ac9
 
     ldh a, [hJoypadState]
     bit 0, a
     jp nz, SpriteAnimationState_ResetCounter
 
-DispatchEntry_002_5ac9:
+PaddingZone_002_5ac9:
     ld hl, $da22
     ld a, [hl]
     inc a
@@ -6479,13 +6479,13 @@ DispatchEntry_002_5ac9:
     ld [hl], a
     ld a, [$da27]
     bit 0, a
-    jr z, DispatchEntry_002_5b07
+    jr z, PaddingZone_002_5b07
 
     ld hl, $c030
     ld b, $04
     ld a, [hl]
     cp $80
-    jr z, DispatchEntry_002_5af1
+    jr z, PaddingZone_002_5af1
 
 UpdateSpritePositionLoop:
     ld a, $18
@@ -6497,9 +6497,9 @@ UpdateSpritePositionLoop:
     dec b
     jr nz, UpdateSpritePositionLoop
 
-    jr DispatchEntry_002_5b07
+    jr PaddingZone_002_5b07
 
-DispatchEntry_002_5af1:
+PaddingZone_002_5af1:
     ld b, $02
     ld a, $38
 
@@ -6522,7 +6522,7 @@ ResetSpriteAnimationLoop:
     dec b
     jr nz, ResetSpriteAnimationLoop
 
-DispatchEntry_002_5b07:
+PaddingZone_002_5b07:
     ld hl, $98ea
     ld bc, $0060
     ld de, $da27
@@ -6632,13 +6632,13 @@ SpriteAnimationFrameLoad:
 SpriteAnimationFrameValidation:
     ldh a, [hTimerAux]
     cp $02
-    jr nz, DispatchEntry_002_5ba0
+    jr nz, PaddingZone_002_5ba0
 
     ld a, c
     add $20
     ld c, a
 
-DispatchEntry_002_5ba0:
+PaddingZone_002_5ba0:
     ld a, c
     ld [hl+], a
     inc de
@@ -6824,18 +6824,18 @@ SpriteAnimationCompletionCheck:
     ld hl, $c030
     ld a, [hl]
     cp $38
-    jr z, DispatchEntry_002_5c93
+    jr z, PaddingZone_002_5c93
 
     cp $50
-    jr z, DispatchEntry_002_5c93
+    jr z, PaddingZone_002_5c93
 
     cp $68
-    jr z, DispatchEntry_002_5c93
+    jr z, PaddingZone_002_5c93
 
     ret
 
 
-DispatchEntry_002_5c93:
+PaddingZone_002_5c93:
     ld a, $08
     ld [$da16], a
     ld a, $17
@@ -6914,33 +6914,33 @@ CheckAnimationTilesLoop:
     ld a, [$c030]
     ld b, a
     cp $38
-    jr z, DispatchEntry_002_5cf9
+    jr z, PaddingZone_002_5cf9
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-DispatchEntry_002_5cf9:
+PaddingZone_002_5cf9:
     add hl, de
     ld a, b
     cp $50
-    jr z, DispatchEntry_002_5d03
+    jr z, PaddingZone_002_5d03
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-DispatchEntry_002_5d03:
+PaddingZone_002_5d03:
     add hl, de
     ld a, b
     cp $68
-    jr z, DispatchEntry_002_5d0d
+    jr z, PaddingZone_002_5d0d
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-DispatchEntry_002_5d0d:
+PaddingZone_002_5d0d:
     add hl, de
     ld a, b
     cp $80
@@ -6975,7 +6975,7 @@ SpriteAnimationNextPhase:
     ld a, $02
     ld [$da17], a
 
-DispatchEntry_002_5d3c:
+PaddingZone_002_5d3c:
     ld hl, $dfe8
     ld a, $0d
     ld [hl], a
@@ -6985,12 +6985,12 @@ DispatchEntry_002_5d3c:
 TileTypeDispatchCase_02:
     ld a, $03
     ld [$da17], a
-    jr DispatchEntry_002_5d3c
+    jr PaddingZone_002_5d3c
 
 TileTypeDispatchCase_03:
     ld a, $04
     ld [$da17], a
-    jr DispatchEntry_002_5d3c
+    jr PaddingZone_002_5d3c
 
 TileTypeDispatchCase_E5:
     ldh a, [hSubState]
@@ -7008,7 +7008,7 @@ TileTypeDispatchCase_E5:
 TileTypeE5_InitPaletteWrite:
     ld a, $10
     ld [$da17], a
-    jr DispatchEntry_002_5d3c
+    jr PaddingZone_002_5d3c
 
 SpriteAnimationState_WritePalette:
     ld a, [$da17]
@@ -7072,12 +7072,12 @@ SpriteAnimationTermination:
     ld b, $04
     ld a, [$da1e]
     and a
-    jr nz, DispatchEntry_002_5de8
+    jr nz, PaddingZone_002_5de8
 
     inc a
     ld [$da1e], a
 
-DispatchEntry_002_5ddd:
+PaddingZone_002_5ddd:
     ld a, [hl]
     add $20
     ld [hl+], a
@@ -7085,12 +7085,12 @@ DispatchEntry_002_5ddd:
     inc l
     inc l
     dec b
-    jr nz, DispatchEntry_002_5ddd
+    jr nz, PaddingZone_002_5ddd
 
     ret
 
 
-DispatchEntry_002_5de8:
+PaddingZone_002_5de8:
     dec a
     ld [$da1e], a
 
@@ -7180,13 +7180,13 @@ SpriteAnimationState_UpdateAnimCounters:
     ld b, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, DispatchEntry_002_5e5e
+    jr nz, PaddingZone_002_5e5e
 
     ld a, b
     add $20
     ld b, a
 
-DispatchEntry_002_5e5e:
+PaddingZone_002_5e5e:
     ld a, b
     ld [hl+], a
     inc l
@@ -7292,13 +7292,13 @@ SpriteAnimationState_IncrementCounter:
     ld b, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, DispatchEntry_002_5eea
+    jr nz, PaddingZone_002_5eea
 
     ld a, b
     add $20
     ld b, a
 
-DispatchEntry_002_5eea:
+PaddingZone_002_5eea:
     ld a, b
     ld [hl+], a
     inc l
@@ -7767,7 +7767,7 @@ DataZone_002_6017:
     daa
     ld c, a
     add d
-    jr z, DispatchEntry_002_6121
+    jr z, PaddingZone_002_6121
 
     adc h
     jr z, SpriteAnimation_002_616b
@@ -7776,7 +7776,7 @@ DataZone_002_6017:
     ld a, [hl+]
     rrca
 
-DispatchEntry_002_6121:
+PaddingZone_002_6121:
     add h
     cpl
     ld [$308c], sp
