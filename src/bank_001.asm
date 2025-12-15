@@ -4652,7 +4652,7 @@ DataTable_5354:
     rst $08
     ld [$cf56], sp
     ld c, $56
-    call nc, Call_Stack_Frame_Init_00
+    call nc, CallStub_StackInitVariant_A
     push de
     db $10
     ld [hl], $d7
@@ -4709,7 +4709,7 @@ JumpStub_5428:
 
     ccf
     inc [hl]
-    call Call_Stack_Frame_Init_01
+    call CallStub_StackInitVariant_B
     add hl, bc
     inc b
     scf

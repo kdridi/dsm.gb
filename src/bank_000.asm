@@ -11096,7 +11096,7 @@ AnimState_Dispatcher_01:
     db $f4
     ld [bc], a
 
-Call_Stack_Frame_Init_00:
+CallStub_StackInitVariant_A:
     nop
     db $e4
     ld hl, sp+$29
@@ -11259,7 +11259,7 @@ TableContinuation_372b:
     rst $28
     rst $28
 
-Call_Stack_Frame_Init_01:
+CallStub_StackInitVariant_B:
     rst $28
     rst $28
     rst $28
