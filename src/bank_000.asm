@@ -3803,7 +3803,13 @@ State25_NextState:
     inc [hl]
     ret
 
-; --- Routine : copie données OAM depuis table ---
+; Copy16BytesToOam
+; ----------------
+; Description: Copie 16 octets depuis une table source vers la zone OAM
+; In:  hl = pointeur vers données source (16 octets)
+; Out: hl = pointeur après les 16 octets lus
+;      de = wOamVar1C + 16
+; Modifie: a, b
 Copy16BytesToOam:
     ld de, wOamVar1C
     ld b, OAM_COPY_SIZE
