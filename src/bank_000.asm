@@ -4258,8 +4258,17 @@ TextData_QuestOver:
     db TEXT_CHAR_END                                        ; Fin
 
 ; ===========================================================================
-; État $2E - Animation sprites ensemble ($124B)
-; Anime Mario et Peach ensemble, toggle sprite frame
+; State2E_DuoAnimation ($124B)
+; ------------------------
+; Description: Animation de Mario et Peach ensemble. Toggle la frame d'animation
+;              toutes les 4 frames, gère le positionnement vertical des personnages
+;              selon des seuils de position, et fait avancer automatiquement vers
+;              la droite. Passe à l'état suivant quand les seuils sont atteints.
+; In:  hFrameCounter = compteur de frames global
+;      wObject4Unk08, wObject4Unk0A = état et position cutscene
+; Out: hGameState = incrémenté si seuil atteint
+;      wPlayerY, wPlayerUnk10 = positions verticales mises à jour
+; Modifie: a, hl (AutoMovePlayerRight et UpdateScroll)
 ; ===========================================================================
 State2E_DuoAnimation::
     ldh a, [hFrameCounter]
