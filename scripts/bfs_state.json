@@ -193,6 +193,14 @@
       "priority": 3
     },
     {
+      "address": "$0558",
+      "node_type": "code",
+      "description": "FillTilemapRow - Remplit une ligne de tilemap avec la tile A",
+      "source": "$0322",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$055F",
       "node_type": "code",
       "description": "State11_LevelStart - D\u00e9marrage niveau",
@@ -205,6 +213,22 @@
       "node_type": "code",
       "description": "State10_Noop - Vide (placeholder)",
       "source": "$02A5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$05B8",
+      "node_type": "code",
+      "description": "ClearBGTilemap - Efface la tilemap background",
+      "source": "$0322",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$05C7",
+      "node_type": "code",
+      "description": "MemCopy - Copie BC octets de HL vers DE",
+      "source": "$0322",
       "bank": 0,
       "priority": 3
     },
@@ -237,6 +261,14 @@
       "node_type": "code",
       "description": "CheckInputAndPause - V\u00e9rifie input pour soft reset (A+B+Start+Select) ou toggle pause",
       "source": "$0226",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$07F0",
+      "node_type": "code",
+      "description": "LoadLevelData - Charge les donn\u00e9es du niveau en m\u00e9moire",
+      "source": "$0322",
       "bank": 0,
       "priority": 3
     },
@@ -681,6 +713,14 @@
       "priority": 3
     },
     {
+      "address": "$3F38",
+      "node_type": "code",
+      "description": "ConvertBCDToTiles - Convertit score BCD en tiles pour affichage",
+      "source": "$0322",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$47F2",
       "node_type": "code",
       "description": "JoypadReadHandler",
@@ -1009,42 +1049,34 @@
       "priority": 3
     },
     {
-      "address": "$05C7",
+      "address": "$0394",
       "node_type": "code",
-      "description": "MemCopy - Copie BC octets de HL vers DE",
-      "source": "$0322",
+      "description": "StartSelectedLevel - Lance niveau s\u00e9lectionn\u00e9 (bouton Start)",
+      "source": "$04C3",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$05B8",
+      "address": "$03E4",
       "node_type": "code",
-      "description": "ClearBGTilemap - Efface la tilemap background",
-      "source": "$0322",
+      "description": "HandleSelectButtonLevelSelect - G\u00e8re bouton Select (toggle sprite Y)",
+      "source": "$04C3",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$07F0",
+      "address": "$046D",
       "node_type": "code",
-      "description": "LoadLevelData - Charge les donn\u00e9es du niveau en m\u00e9moire",
-      "source": "$0322",
+      "description": "InitLevelStartFull - Init compl\u00e8te d\u00e9marrage niveau (\u00e9tat $11)",
+      "source": "$04C3",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$0558",
-      "node_type": "code",
-      "description": "FillTilemapRow - Remplit une ligne de tilemap avec la tile A",
-      "source": "$0322",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$3F38",
-      "node_type": "code",
-      "description": "ConvertBCDToTiles - Convertit score BCD en tiles pour affichage",
-      "source": "$0322",
+      "address": "$0552",
+      "node_type": "data",
+      "description": "ROM_ATTRACT_INDEX_TABLE - Table index attract mode par ROM bank",
+      "source": "$04C3",
       "bank": 0,
       "priority": 3
     }
@@ -1066,6 +1098,7 @@
     "$4000:1",
     "$0150",
     "$0095",
+    "$04C3",
     "$0185",
     "$0030",
     "$0100",
@@ -1074,6 +1107,6 @@
     "$0048",
     "$00C3"
   ],
-  "commits_since_push": 2,
-  "total_explored": 23
+  "commits_since_push": 3,
+  "total_explored": 24
 }

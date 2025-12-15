@@ -1004,11 +1004,20 @@ HandleSelectButtonLevelSelect:
     ld [hl], a
     jr UpdateLevelSelectDisplay
 
-; ===========================================================================
-; État $0F - Menu/Écran sélection niveau
-; Gère la navigation avec le joypad, affiche les indices de niveau
-; Attend timer ou action → état $11
-; ===========================================================================
+; =============================================================================
+; State0F_LevelSelect
+; =============================================================================
+; Description: Menu de sélection de niveau. Gère l'input joypad (Start/Select/A),
+;              met à jour l'affichage des sprites menu (monde-niveau), et lance
+;              le mode attract si aucune action après timeout.
+; In:  hJoypadDelta = état boutons (edge detect)
+;      hLevelIndex = index niveau courant
+;      hAnimTileIndex = index tile animation (format $XY: X=monde, Y=niveau)
+;      wAttractModeTimer = timer avant mode attract
+; Out: hGameState = GAME_STATE_LEVEL_START ($11) si niveau lancé
+;      hRenderContext = contexte de rendu mis à jour
+; Modifie: a, b, c, de, hl
+; =============================================================================
 State0F_LevelSelect::
     ldh a, [hJoypadDelta]        ; Joypad state (edge detect)
     ld b, a
