@@ -1791,12 +1791,29 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$05BE",
+      "node_type": "code",
+      "description": "FillTilemapLoop - Remplit tilemap avec bc octets",
+      "source": "$110D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0808",
+      "node_type": "code",
+      "description": "InitScrollState - Initialise buffer de scroll",
+      "source": "$110D",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
     "$4000:2",
     "$02A5",
     "$04CE",
+    "$110D",
     "$0DEA",
     "$0FD8",
     "$0040",
@@ -1900,6 +1917,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 4,
-  "total_explored": 105
+  "commits_since_push": 0,
+  "total_explored": 106
 }

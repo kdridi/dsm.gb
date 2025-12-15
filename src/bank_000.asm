@@ -4002,6 +4002,18 @@ ResetCollisionFlags:
 ; État $29 - Setup écran fin de jeu ($110D)
 ; LCD off, clear VRAM, configure sprites, LCD on → état suivant
 ; ===========================================================================
+; State29_SetupEndScreen
+; ----------------------
+; Description: Configure l'écran de fin de jeu après victoire
+;              - Désactive LCD et interruptions
+;              - Efface tilemap _SCRN1 (256 octets)
+;              - Réinitialise état de scroll et joueur pour cutscene
+;              - Positionne joueur à (16, 56), pos=120
+;              - Clear OAM buffer (12 octets)
+;              - Configure rendu cutscene et réactive LCD
+; In:  Aucun
+; Out: Aucun (état suivant: $2A)
+; Modifie: a, bc, de, hl (via appels de fonctions)
 State29_SetupEndScreen::
     di
     xor a
