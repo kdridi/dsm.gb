@@ -1063,7 +1063,7 @@ InitLevelStartFull:
     ld [wROMBankInit], a
     dec a
     ld [wStateRender], a
-    ld a, $07
+    ld a, IE_VBLANK_STAT_TIMER
     ldh [rIE], a
     ret
 
@@ -1080,7 +1080,7 @@ InitLevelStartFull:
 ; NOTE : Remplit exactement 20 octets (largeur visible de l'écran GB)
 ; =============================================================================
 FillTilemapRow:
-    ld b, $14
+    ld b, TILEMAP_ROW_WIDTH
 
 .fillTilemapLoop:
     ld [hl+], a
@@ -1121,7 +1121,7 @@ State11_LevelStart::
     call CopyHudTilemap
     ld a, LYC_TOP_SCREEN
     ldh [rLYC], a
-    ld a, $07
+    ld a, TAC_ENABLED_16KHZ
     ldh [rTAC], a
     ld hl, rWY              ; Window Y position
     ld [hl], $85
@@ -6953,7 +6953,7 @@ StoreTilemapScrollOffsets:
     ldh [hTilemapOffsetY], a
     ldh a, [hTilemapScrollY]
     inc a
-    cp $14
+    cp TILEMAP_ROW_WIDTH       ; 20 lignes par tilemap
     jr nz, UpdateTilemapScrollConfig
 
     ld hl, hTilemapScrollX
@@ -7618,7 +7618,7 @@ ProcessAudioSlots:
 
 ProcessAudioSlot_Loop:
     ld a, [wAudioState2]
-    cp $14
+    cp MAX_AUDIO_SLOTS         ; 20 slots max
     ret nc
 
     push bc
@@ -7716,7 +7716,7 @@ LoadSoundChannel3Data:
 
 ProcessAudioCommandLoop:
     ld a, [wAudioState2]
-    cp $14
+    cp MAX_AUDIO_SLOTS         ; 20 slots max
     ret nc
 
 NextAudioCommand:
@@ -9124,7 +9124,7 @@ LoadSoundDataFromSlot:
 
 LoadSoundDataFromHL:
     ld de, hSoundId
-    ld b, $0d
+    ld b, AUDIO_SLOT_SIZE      ; 13 octets par slot
 
 CopySoundDataLoop:
     ld a, [hl+]
@@ -9143,7 +9143,7 @@ SaveSoundDataToSlot:
 
 SaveSoundDataToHL:
     ld de, hSoundId
-    ld b, $0d
+    ld b, AUDIO_SLOT_SIZE      ; 13 octets par slot
 
 SaveSoundDataLoop:
     ld a, [de]

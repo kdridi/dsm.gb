@@ -42,6 +42,11 @@ DEF LY_VBLANK_SAFE  EQU $94     ; Ligne 148, sûre en plein VBlank
 ; (IEF_VBLANK et IEF_STAT sont définis dans hardware.inc)
 
 DEF IE_VBLANK_STAT  EQU IEF_VBLANK | IEF_STAT  ; $03 - VBlank + LCD STAT
+DEF IE_VBLANK_STAT_TIMER EQU IEF_VBLANK | IEF_STAT | IEF_TIMER  ; $07 - VBlank + STAT + Timer
+
+; === Configuration Timer (TAC) ===
+; (TACF_* sont définis dans hardware.inc)
+DEF TAC_ENABLED_16KHZ EQU TACF_START | TACF_16KHZ  ; $07 - Timer actif à 16384 Hz
 
 ; === Palettes ===
 
@@ -490,6 +495,16 @@ DEF LCDC_GAME_STANDARD  EQU $C3
 DEF LYC_TOP_SCREEN      EQU $0F ; Ligne 15, haut écran (après HUD)
 DEF WY_WINDOW_DONE      EQU $40 ; Position finale window (ligne 64)
 DEF LY_WINDOW_MAX       EQU $87 ; Ligne max pour animation window (135)
+
+; === Dimensions tilemap ===
+
+DEF TILEMAP_ROW_WIDTH   EQU $14 ; 20 tiles = largeur écran visible (160px / 8px)
+DEF TILEMAP_INIT_SIZE   EQU $09 ; Taille données init tilemap (9 octets)
+
+; === Audio/Sound ===
+
+DEF MAX_AUDIO_SLOTS     EQU $14 ; 20 slots audio maximum
+DEF AUDIO_SLOT_SIZE     EQU $0D ; 13 octets par slot audio
 
 ; === Tailles OAM ===
 
