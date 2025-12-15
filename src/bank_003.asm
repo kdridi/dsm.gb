@@ -88,7 +88,7 @@ SECTION "ROM Bank $003", ROMX[$4000], BANK[$3]
     nop
     nop
     nop
-    jr jr_003_4070
+    jr SkipPadding_003_4070
 
     inc a
     inc h
@@ -114,10 +114,10 @@ SECTION "ROM Bank $003", ROMX[$4000], BANK[$3]
     db $fc
     db $f4
 
-jr_003_4070:
+SkipPadding_003_4070:
     cp [hl]
 
-jr_003_4071:
+SkipPadding_003_4071:
     and d
     nop
     nop
@@ -126,12 +126,12 @@ jr_003_4071:
     daa
     daa
     cpl
-    jr z, jr_003_40bc
+    jr z, SkipPadding_003_40bc
 
-    jr nc, jr_003_40be
+    jr nc, SkipPadding_003_40be
 
 PaddingTrap_407f:
-    jr nz, jr_003_40c0
+    jr nz, SkipPadding_003_40c0
 
     ld a, $f8
     ld hl, sp-$14
@@ -162,7 +162,7 @@ PaddingTrap_407f:
     ldh a, [hCurrentTile]
     ret c
 
-    jr c, jr_003_4071
+    jr c, SkipPadding_003_4071
 
     cp b
     ret z
@@ -185,15 +185,15 @@ PaddingTrap_407f:
     rst $38
     sbc a
 
-jr_003_40bc:
+SkipPadding_003_40bc:
     rst $38
     and l
 
-jr_003_40be:
+SkipPadding_003_40be:
     rst $38
     xor c
 
-jr_003_40c0:
+SkipPadding_003_40c0:
     ld d, [hl]
     ld d, [hl]
     nop
@@ -213,17 +213,17 @@ jr_003_40c0:
     sub l
     ld l, d
     ld l, d
-    jr c, jr_003_410c
+    jr c, SkipPadding_003_410c
 
     ld b, h
     ld b, h
     add d
 
-jr_003_40d7:
+SkipPadding_003_40d7:
     add d
     xor c
 
-jr_003_40d9:
+SkipPadding_003_40d9:
     xor c
     xor d
     xor d
@@ -245,9 +245,9 @@ jr_003_40d9:
     rst $20
     ld a, [hl]
     rst $20
-    jr jr_003_40d7
+    jr SkipPadding_003_40d7
 
-    jr jr_003_40d9
+    jr SkipPadding_003_40d9
 
     nop
     nop
@@ -275,12 +275,12 @@ jr_003_40d9:
 
     jr @+$01
 
-jr_003_410c:
+SkipPadding_003_410c:
     ld a, [hl]
     add c
     ld a, [hl]
     rst $38
-    jr jr_003_4190
+    jr SkipPadding_003_4190
 
     nop
     nop
@@ -370,7 +370,7 @@ jr_003_410c:
     rrca
     ld [$101f], sp
     rra
-    jr jr_003_4180
+    jr SkipPadding_003_4180
 
     inc b
     ld e, $19
@@ -379,7 +379,7 @@ jr_003_410c:
     rrca
     rrca
 
-jr_003_4180:
+SkipPadding_003_4180:
     nop
     nop
     db $fc
@@ -393,7 +393,7 @@ jr_003_4180:
     xor e
     xor e
 
-jr_003_4190:
+SkipPadding_003_4190:
     ld a, $3e
     rst $08
     call z, $8c8f
@@ -450,7 +450,7 @@ jr_003_4190:
     rst $38
     nop
     nop
-    jr c, jr_003_420e
+    jr c, SkipPadding_003_420e
 
     ld b, [hl]
     ld b, [hl]
@@ -501,7 +501,7 @@ jr_003_4190:
     dec e
     and $de
 
-jr_003_420e:
+SkipPadding_003_420e:
     db $e4
     inc e
     db $e4
@@ -513,7 +513,7 @@ jr_003_420e:
     rra
     db $10
     ccf
-    jr nz, jr_003_425e
+    jr nz, SkipPadding_003_425e
 
     inc a
     rlca
@@ -574,7 +574,7 @@ jr_003_420e:
     ld a, b
     ld h, a
 
-jr_003_425e:
+SkipPadding_003_425e:
     ld sp, hl
     add $f3
     adc h
@@ -612,7 +612,7 @@ jr_003_425e:
     db $f4
     ret z
 
-    jr c, jr_003_4301
+    jr c, SkipPadding_003_4301
 
     ldh a, [rNR42]
     ld [hl+], a
@@ -712,7 +712,7 @@ jr_003_425e:
     ld a, [hl]
     sub c
 
-jr_003_4301:
+SkipPadding_003_4301:
     sub c
     db $e4
     inc e
@@ -733,7 +733,7 @@ jr_003_4301:
     ld a, [hl-]
     inc a
     inc [hl]
-    jr jr_003_4330
+    jr SkipPadding_003_4330
 
     ld [$0c08], sp
     inc c
@@ -753,10 +753,10 @@ jr_003_4301:
     ld e, c
     ld b, a
 
-jr_003_432f:
+SkipPadding_003_432f:
     ld b, a
 
-jr_003_4330:
+SkipPadding_003_4330:
     add b
     add b
     nop
@@ -836,7 +836,7 @@ jr_003_4330:
     db $e4
     jp nc, $28d2
 
-    jr z, jr_003_432f
+    jr z, SkipPadding_003_432f
 
     and h
     jp nz, DataPadding_62c2
@@ -960,7 +960,7 @@ Return_IfCarry_003_43a5:
     inc c
     db $10
     db $10
-    jr nz, jr_003_442e
+    jr nz, SkipPadding_003_442e
 
     jr nz, AudioRoutine_Jump_2
 
@@ -995,7 +995,7 @@ AudioRoutine_Jump_1:
     nop
     nop
 
-jr_003_442e:
+SkipPadding_003_442e:
     add b
     add b
 
@@ -1103,9 +1103,9 @@ AudioRoutine_Jump_4:
     nop
     ld [$1000], sp
     nop
-    jr nz, jr_003_44a3
+    jr nz, SkipPadding_003_44a3
 
-jr_003_44a3:
+SkipPadding_003_44a3:
     ld b, b
     nop
     add b
@@ -1131,9 +1131,9 @@ jr_003_44a3:
     nop
     ld [$2000], sp
     nop
-    jr c, jr_003_44c7
+    jr c, SkipPadding_003_44c7
 
-jr_003_44c7:
+SkipPadding_003_44c7:
     ld e, $00
     rrca
     nop
@@ -1202,12 +1202,12 @@ jr_003_44c7:
     nop
     ld h, b
     nop
-    jr nz, jr_003_451b
+    jr nz, SkipPadding_003_451b
 
-jr_003_451b:
-    jr nz, jr_003_451d
+SkipPadding_003_451b:
+    jr nz, SkipPadding_003_451d
 
-jr_003_451d:
+SkipPadding_003_451d:
     ldh [rP1], a
     stop
     ld [$0100], sp
@@ -1232,9 +1232,9 @@ jr_003_451d:
 
     nop
     stop
-    jr nz, jr_003_453f
+    jr nz, SkipPadding_003_453f
 
-jr_003_453f:
+SkipPadding_003_453f:
     jr nz, SoundEngine_Target_1
 
 SoundEngine_Target_1:
@@ -1279,7 +1279,7 @@ SoundEngine_Target_3:
     ld bc, $0200
     nop
 
-jr_003_456b:
+SkipPadding_003_456b:
     inc b
     nop
     ld [$1000], sp
@@ -1374,9 +1374,9 @@ SoundEngine_Target_5:
     nop
     nop
     nop
-    jr nz, jr_003_45cd
+    jr nz, SkipPadding_003_45cd
 
-jr_003_45cd:
+SkipPadding_003_45cd:
     ld b, b
     nop
     ret nz
@@ -1389,16 +1389,16 @@ jr_003_45cd:
     ld [hl], b
     jr SoundEngine_Target_5
 
-    jr jr_003_463a
+    jr SkipPadding_003_463a
 
-    jr jr_003_463c
+    jr SkipPadding_003_463c
 
     add hl, bc
     jr nc, @+$07
 
-    jr jr_003_45e1
+    jr SkipPadding_003_45e1
 
-jr_003_45e1:
+SkipPadding_003_45e1:
     rrca
     nop
     add sp, -$80
@@ -1407,7 +1407,7 @@ jr_003_45e1:
     ld [hl], b
     ret nz
 
-    jr nc, jr_003_456b
+    jr nc, SkipPadding_003_456b
 
     ld h, b
     add b
@@ -1467,12 +1467,12 @@ AudioHandler_Entry_2:
     jr nz, AudioHandler_Entry_3
 
 AudioHandler_Entry_3:
-    jr nz, jr_003_462b
+    jr nz, SkipPadding_003_462b
 
-jr_003_462b:
-    jr nz, jr_003_462d
+SkipPadding_003_462b:
+    jr nz, SkipPadding_003_462d
 
-jr_003_462d:
+SkipPadding_003_462d:
     ld a, a
     nop
     add b
@@ -1487,11 +1487,11 @@ jr_003_462d:
     nop
     add b
 
-jr_003_463a:
+SkipPadding_003_463a:
     nop
     add b
 
-jr_003_463c:
+SkipPadding_003_463c:
     nop
     ret nz
 
@@ -1522,9 +1522,9 @@ AudioHandler_Entry_4:
     nop
     inc h
     nop
-    jr jr_003_465b
+    jr SkipPadding_003_465b
 
-jr_003_465b:
+SkipPadding_003_465b:
     nop
     nop
     nop
@@ -1579,9 +1579,9 @@ jr_003_465b:
     nop
     add hl, de
     nop
-    jr c, jr_003_4695
+    jr c, SkipPadding_003_4695
 
-jr_003_4695:
+SkipPadding_003_4695:
     ld b, h
     nop
     add d
@@ -1640,9 +1640,9 @@ jr_003_4695:
     nop
     inc a
     nop
-    jr jr_003_46d1
+    jr SkipPadding_003_46d1
 
-jr_003_46d1:
+SkipPadding_003_46d1:
     nop
     nop
     ld b, d
@@ -1829,9 +1829,9 @@ jr_003_46d1:
     ld e, d
     ld [hl], d
     ld [hl], d
-    jr nc, jr_003_47c0
+    jr nc, SkipPadding_003_47c0
 
-    jr nz, jr_003_47b2
+    jr nz, SkipPadding_003_47b2
 
     ld a, [hl]
     ld a, [hl]
@@ -1862,7 +1862,7 @@ jr_003_46d1:
     ld a, [hl]
     ld a, [hl]
 
-jr_003_47b2:
+SkipPadding_003_47b2:
     ld a, a
     ld a, a
     rst $30
@@ -1876,7 +1876,7 @@ jr_003_47b2:
     rst $38
     rst $38
 
-jr_003_47c0:
+SkipPadding_003_47c0:
     ld a, a
     ld a, a
     cp $fe
@@ -2423,11 +2423,11 @@ InitializeSpriteTransferBuffer_LoadObject:
     inc e
     ld c, $02
     bit 5, b
-    jr z, jr_003_4a41
+    jr z, SkipPadding_003_4a41
 
     ld c, $f8
 
-jr_003_4a41:
+SkipPadding_003_4a41:
     ld a, [hl+]
     add c
     ld [de], a
@@ -2435,16 +2435,16 @@ jr_003_4a41:
     inc e
     ldh a, [hGameState]
     cp $0d
-    jr nz, jr_003_4a57
+    jr nz, SkipPadding_003_4a57
 
     ld c, $7a
     ldh a, [$ffe4]
     cp $0b
-    jr nz, jr_003_4a57
+    jr nz, SkipPadding_003_4a57
 
     ld c, $6e
 
-jr_003_4a57:
+SkipPadding_003_4a57:
     ld a, c
     ld [de], a
     inc e
@@ -2454,11 +2454,11 @@ jr_003_4a57:
     dec l
     ld c, $0a
     bit 5, b
-    jr nz, jr_003_4a66
+    jr nz, SkipPadding_003_4a66
 
     ld c, $09
 
-jr_003_4a66:
+SkipPadding_003_4a66:
     ld [hl], c
     ld hl, $dfe0
     ld [hl], $02
@@ -2500,13 +2500,13 @@ HandleJoypadInputDelay:
 
     ld a, [$c0d8]
     and a
-    jr z, jr_003_4aa7
+    jr z, SkipPadding_003_4aa7
 
     dec a
     ld [$c0d8], a
     jr JoypadStateUpdatePersist
 
-jr_003_4aa7:
+SkipPadding_003_4aa7:
     ld a, [$c0dc]
     sla a
     ld e, a
@@ -2720,7 +2720,7 @@ TimerInitializeAux:
 
     ldh a, [hTimerAux]
     cp $04
-    jr z, jr_003_4be0
+    jr z, SkipPadding_003_4be0
 
     cp $03
     ret nz
@@ -2749,10 +2749,10 @@ TimerResetState:
     ret
 
 
-jr_003_4be0:
+SkipPadding_003_4be0:
     ldh a, [hTimer1]
     and a
-    jr z, jr_003_4bf1
+    jr z, SkipPadding_003_4bf1
 
     and $03
     ret nz
@@ -2763,7 +2763,7 @@ jr_003_4be0:
     ret
 
 
-jr_003_4bf1:
+SkipPadding_003_4bf1:
     xor a
     ldh [hTimerAux], a
     ld [$c200], a
@@ -2781,7 +2781,7 @@ jr_003_4bf1:
     ld b, a
     ld a, [$c0da]
     cp b
-    jr z, jr_003_4c2f
+    jr z, SkipPadding_003_4c2f
 
     ld hl, $c300
     ld a, [wLevelVarD9]
@@ -2803,7 +2803,7 @@ jr_003_4bf1:
     ret
 
 
-jr_003_4c2f:
+SkipPadding_003_4c2f:
     ld a, [$c0d8]
     inc a
     ld [$c0d8], a
@@ -3094,9 +3094,9 @@ jr_003_4c2f:
     rst $38
     ld b, h
     ld c, [hl]
-    jr nz, jr_003_4da2
+    jr nz, SkipPadding_003_4da2
 
-    jr nc, jr_003_4db4
+    jr nc, SkipPadding_003_4db4
 
     rst $38
     ld b, h
@@ -3121,15 +3121,15 @@ jr_003_4c2f:
     rst $38
     ld b, h
     ld c, [hl]
-    jr z, jr_003_4dc6
+    jr z, SkipPadding_003_4dc6
 
-    jr c, jr_003_4dd8
+    jr c, SkipPadding_003_4dd8
 
     rst $38
     ld b, h
     ld c, [hl]
 
-jr_003_4da2:
+SkipPadding_003_4da2:
     ld a, [hl+]
     dec hl
     ld a, [hl-]
@@ -3147,7 +3147,7 @@ jr_003_4da2:
     ld l, $2f
     ld a, $3f
 
-jr_003_4db4:
+SkipPadding_003_4db4:
     rst $38
     ld b, h
     ld c, [hl]
@@ -3167,7 +3167,7 @@ jr_003_4db4:
     ld c, [hl]
     ld [hl], l
 
-jr_003_4dc6:
+SkipPadding_003_4dc6:
     halt
     ld [hl], a
     ld a, b
@@ -3187,7 +3187,7 @@ jr_003_4dc6:
     ld l, e
     rst $38
 
-jr_003_4dd8:
+SkipPadding_003_4dd8:
     ld b, h
     ld c, [hl]
     ld l, b
@@ -3310,25 +3310,25 @@ jr_003_4dd8:
     nop
     db $10
     ld [$0010], sp
-    jr jr_003_4e73
+    jr SkipPadding_003_4e73
 
-    jr jr_003_4e6d
+    jr SkipPadding_003_4e6d
 
-jr_003_4e6d:
-    jr nz, jr_003_4e77
+SkipPadding_003_4e6d:
+    jr nz, SkipPadding_003_4e77
 
-    jr nz, jr_003_4e71
+    jr nz, SkipPadding_003_4e71
 
-jr_003_4e71:
-    jr z, jr_003_4e7b
+SkipPadding_003_4e71:
+    jr z, SkipPadding_003_4e7b
 
-jr_003_4e73:
-    jr z, jr_003_4e84
+SkipPadding_003_4e73:
+    jr z, SkipPadding_003_4e84
 
     rrca
     inc a
 
-jr_003_4e77:
+SkipPadding_003_4e77:
     db $10
     ld c, a
     ret
@@ -3336,16 +3336,16 @@ jr_003_4e77:
 
     inc d
 
-jr_003_4e7b:
+SkipPadding_003_4e7b:
     rrca
     inc b
-    jr jr_003_4e8e
+    jr SkipPadding_003_4e8e
 
     ld [hl], $18
     adc a
     ld [hl], $19
 
-jr_003_4e84:
+SkipPadding_003_4e84:
     rrca
     ld [hl], $19
     adc a
@@ -3354,7 +3354,7 @@ jr_003_4e84:
     ld [hl], $1a
     adc a
 
-jr_003_4e8e:
+SkipPadding_003_4e8e:
     ld [hl], $1d
     rrca
     inc b
@@ -3505,13 +3505,13 @@ jr_003_4e8e:
     ld [bc], a
     ld e, $05
     dec h
-    jr nz, jr_003_4f41
+    jr nz, SkipPadding_003_4f41
 
     or l
     ld hl, $02c4
 
-jr_003_4f41:
-    jr z, jr_003_4f4a
+SkipPadding_003_4f41:
+    jr z, SkipPadding_003_4f4a
 
     dec h
     ld a, [hl+]
@@ -3520,7 +3520,7 @@ jr_003_4f41:
     rrca
     inc b
 
-jr_003_4f4a:
+SkipPadding_003_4f4a:
     dec l
     add e
     or l
@@ -3616,7 +3616,7 @@ jr_003_4f4a:
     ld [hl], $8f
     add hl, bc
 
-jr_003_4fbb:
+SkipPadding_003_4fbb:
     ld [hl], $92
     adc d
     ld [hl], $94
@@ -3639,7 +3639,7 @@ jr_003_4fbb:
     dec bc
     ld [de], a
     add hl, bc
-    jr c, jr_003_4ff3
+    jr c, SkipPadding_003_4ff3
 
     add hl, bc
     add hl, sp
@@ -3658,8 +3658,8 @@ jr_003_4fbb:
     dec c
     ld b, a
 
-jr_003_4ff3:
-    jr z, jr_003_4fbb
+SkipPadding_003_4ff3:
+    jr z, SkipPadding_003_4fbb
 
     ld [bc], a
     add hl, hl
@@ -3676,7 +3676,7 @@ jr_003_4ff3:
     ld c, $0b
     ld b, c
     adc h
-    jr c, jr_003_504d
+    jr c, SkipPadding_003_504d
 
     adc h
     add hl, sp
@@ -3743,8 +3743,8 @@ jr_003_4ff3:
     ld d, e
     ld d, e
 
-jr_003_504d:
-    jr nz, jr_003_50a3
+SkipPadding_003_504d:
+    jr nz, SkipPadding_003_50a3
 
     xor d
     ld d, h
@@ -3755,13 +3755,13 @@ jr_003_504d:
 
 CheckAnimationState:
     ld d, h
-    jr nz, jr_003_50af
+    jr nz, SkipPadding_003_50af
 
     xor d
     ld d, h
     ld d, e
 
-jr_003_505e:
+SkipPadding_003_505e:
     ld d, e
     ld c, [hl]
     ld d, l
@@ -3832,7 +3832,7 @@ jr_003_505e:
 
     ld e, l
 
-jr_003_50a3:
+SkipPadding_003_50a3:
     rst $28
     ld e, l
     rst $28
@@ -3845,12 +3845,12 @@ jr_003_50a3:
 Return_IfNotZero_003_50ab:
     ret nz
 
-jr_003_50ac:
+SkipPadding_003_50ac:
     ld e, [hl]
     rst $28
     ld e, l
 
-jr_003_50af:
+SkipPadding_003_50af:
     rst $28
     ld e, l
     ld e, h
@@ -3883,7 +3883,7 @@ jr_003_50af:
 
     ld a, [bc]
     ld bc, $0a02
-    jr jr_003_505e
+    jr SkipPadding_003_505e
 
     rst $38
     rlca
@@ -3914,7 +3914,7 @@ jr_003_50af:
     dec b
     ld [bc], a
     rrca
-    jr c, jr_003_5155
+    jr c, SkipPadding_003_5155
 
     rst $38
     ld b, $02
@@ -3941,7 +3941,7 @@ jr_003_50af:
     ld [bc], a
     ld [bc], a
     dec bc
-    jr nz, jr_003_50ac
+    jr nz, SkipPadding_003_50ac
 
     rst $38
     inc bc
@@ -3972,7 +3972,7 @@ jr_003_50af:
     ld a, [hl+]
     rlca
     rrca
-    jr z, jr_003_5154
+    jr z, SkipPadding_003_5154
 
     ld c, $2c
     rrca
@@ -3984,13 +3984,13 @@ jr_003_50af:
     ld bc, $0728
     rrca
 
-jr_003_5154:
+SkipPadding_003_5154:
     ld a, [hl+]
 
-jr_003_5155:
+SkipPadding_003_5155:
     dec bc
     inc de
-    jr z, jr_003_5166
+    jr z, SkipPadding_003_5166
 
     ld c, $2a
     rst $38
@@ -4002,7 +4002,7 @@ jr_003_5155:
 
     inc bc
 
-jr_003_5166:
+SkipPadding_003_5166:
     ld [bc], a
     rlca
     ld a, [bc]
@@ -4034,7 +4034,7 @@ jr_003_5166:
 
     rrca
     inc b
-    jr z, jr_003_519f
+    jr z, SkipPadding_003_519f
 
     ld [$ff2a], sp
     ld bc, wOamVar09
@@ -4050,35 +4050,35 @@ jr_003_5166:
 
     rrca
 
-jr_003_519f:
+SkipPadding_003_519f:
     inc l
     add hl, bc
     rrca
-    jr z, jr_003_51ae
+    jr z, SkipPadding_003_51ae
 
     dec bc
     jr z, @+$01
 
     inc b
     rrca
-    jr z, jr_003_51b1
+    jr z, SkipPadding_003_51b1
 
     ld a, [bc]
     inc l
     inc c
 
-jr_003_51ae:
+SkipPadding_003_51ae:
     ld [bc], a
     jr z, @+$14
 
-jr_003_51b1:
+SkipPadding_003_51b1:
     ld [bc], a
     ld a, [hl+]
     inc de
     ld de, $ff28
     dec b
     inc bc
-    jr z, jr_003_51c2
+    jr z, SkipPadding_003_51c2
 
     nop
     ret nz
@@ -4089,7 +4089,7 @@ jr_003_51b1:
     rrca
     inc bc
 
-jr_003_51c2:
+SkipPadding_003_51c2:
     jr z, @+$01
 
     ld bc, $2812
@@ -4128,7 +4128,7 @@ jr_003_51c2:
 
     inc bc
     db $10
-    jr z, jr_003_51f6
+    jr z, SkipPadding_003_51f6
 
     add hl, bc
     ret nz
@@ -4140,7 +4140,7 @@ jr_003_51c2:
     nop
     inc l
 
-jr_003_51f6:
+SkipPadding_003_51f6:
     ld c, $11
     ret nz
 
@@ -4162,7 +4162,7 @@ AudioParam_Set_1:
     ld b, $28
     ld a, [bc]
     add hl, bc
-    jr z, jr_003_521d
+    jr z, SkipPadding_003_521d
 
     dec b
     inc l
@@ -4181,9 +4181,9 @@ AudioParam_Set_3:
     ld c, $28
     add hl, bc
 
-jr_003_521d:
+SkipPadding_003_521d:
     ld a, [bc]
-    jr z, jr_003_522a
+    jr z, SkipPadding_003_522a
 
     ld c, $2a
     inc c
@@ -4192,7 +4192,7 @@ jr_003_521d:
     ld c, $28
     jr AudioParam_Set_4
 
-jr_003_522a:
+SkipPadding_003_522a:
     jr z, @+$01
 
     ld [bc], a
@@ -4347,7 +4347,7 @@ AudioParam_Set_4:
     ld h, c
     cp $12
     ld sp, $b535
-    jr c, jr_003_5319
+    jr c, SkipPadding_003_5319
 
     ld a, $60
     ld h, b
@@ -4394,9 +4394,9 @@ AudioParam_Set_4:
     ld h, b
     ld h, b
 
-jr_003_5319:
+SkipPadding_003_5319:
     cp $c4
-    jr c, jr_003_5358
+    jr c, SkipPadding_003_5358
 
     ld h, c
     ld h, c
@@ -4421,7 +4421,7 @@ jr_003_5319:
     cp $32
     ld [hl-], a
     ld [hl], $97
-    jr c, jr_003_5378
+    jr c, SkipPadding_003_5378
 
     ld a, $41
     ld b, h
@@ -4446,7 +4446,7 @@ jr_003_5319:
     ld h, b
     cp $e2
 
-jr_003_5358:
+SkipPadding_003_5358:
     db $fd
     ld h, c
     cp $b5
@@ -4473,7 +4473,7 @@ jr_003_5358:
     ld hl, $fe34
     ld [de], a
 
-jr_003_5378:
+SkipPadding_003_5378:
     ld sp, $fe35
     ld [de], a
     ld [hl-], a
@@ -4667,7 +4667,7 @@ jr_003_5378:
     ld b, b
     ld b, e
     cp $b5
-    jr c, jr_003_54b2
+    jr c, SkipPadding_003_54b2
 
     ld a, $41
     ld b, h
@@ -4719,7 +4719,7 @@ jr_003_5378:
     ld a, [hl-]
     dec a
 
-jr_003_54b2:
+SkipPadding_003_54b2:
     ld b, b
     cp $c4
     jr c, @+$3d
@@ -4750,7 +4750,7 @@ jr_003_54b2:
     ld b, b
     ld b, e
     cp $b5
-    jr c, jr_003_551f
+    jr c, SkipPadding_003_551f
 
     ld a, $41
     ld b, h
@@ -4797,7 +4797,7 @@ jr_003_54b2:
     db $fd
     ld h, e
 
-jr_003_551f:
+SkipPadding_003_551f:
     cp $88
     db $fd
     ld h, h
@@ -4921,7 +4921,7 @@ jr_003_551f:
     ld h, c
     ld h, c
     cp $97
-    jr c, jr_003_55f1
+    jr c, SkipPadding_003_55f1
 
     ld a, $41
     ld b, h
@@ -4972,7 +4972,7 @@ jr_003_551f:
     add c
     ld d, d
 
-jr_003_55f1:
+SkipPadding_003_55f1:
     db $f4
     ld a, a
     ldh [c], a
@@ -7471,7 +7471,7 @@ jr_003_55f1:
     cp $00
     ld l, h
     ld d, l
-    jr c, jr_003_6198
+    jr c, SkipPadding_003_6198
 
     ld a, $41
     ld b, h
@@ -7527,7 +7527,7 @@ jr_003_55f1:
     cp $03
     ld l, l
 
-jr_003_6198:
+SkipPadding_003_6198:
     ld d, l
     ld d, [hl]
     ldh [c], a
@@ -7860,7 +7860,7 @@ DataPadding_62c2:
     db $ed
     ld h, c
     cp $97
-    jr c, jr_003_6357
+    jr c, SkipPadding_003_6357
 
     ld a, $41
     ld b, h
@@ -7912,7 +7912,7 @@ DataPadding_62c2:
     ld h, h
     ld h, c
 
-jr_003_6357:
+SkipPadding_003_6357:
     ld h, c
     cp $43
     db $fd
@@ -8493,7 +8493,7 @@ AudioTable_Block3:
     rst $38
     rst $38
     nop
-    jr z, jr_003_65f3
+    jr z, SkipPadding_003_65f3
 
     ld a, [bc]
     ld de, $100b
@@ -8506,7 +8506,7 @@ AudioTable_Block3:
     inc e
     db $10
 
-jr_003_65f3:
+SkipPadding_003_65f3:
     inc b
     ld de, HeaderLogo
     inc bc
@@ -8636,7 +8636,7 @@ AudioTable_Block6:
     db $10
     inc b
     nop
-    jr nz, jr_003_66b3
+    jr nz, SkipPadding_003_66b3
 
     dec c
     ld de, $101c
@@ -8650,7 +8650,7 @@ AudioTable_Block6:
     inc l
     db $10
 
-jr_003_66b3:
+SkipPadding_003_66b3:
     inc bc
     ld de, $1011
     ld c, $00
@@ -9023,7 +9023,7 @@ InitializeWaveAudio_ResetWave:
 
 SkipIfGameState04:
     ld a, [$dfe1]
-    jr jr_003_68a1
+    jr SkipPadding_003_68a1
 
 SkipIfGameState03:
     ld a, [$dfe1]
@@ -9035,7 +9035,7 @@ SkipIfGameState05:
     cp $05
     ret z
 
-jr_003_68a1:
+SkipPadding_003_68a1:
     cp $04
     ret z
 
@@ -9105,7 +9105,7 @@ ResetPulseChannel:
     xor a
     ld [$dfe1], a
 
-jr_003_68f8:
+SkipPadding_003_68f8:
     ldh [rNR10], a
     ldh [rNR12], a
     ld hl, $df1f
@@ -9150,7 +9150,7 @@ SetupAudioConfiguration:
     ld d, a
     sub [hl]
     adc h
-    jr nc, jr_003_68f8
+    jr nc, SkipPadding_003_68f8
 
     ld d, a
     sub [hl]
@@ -9175,7 +9175,7 @@ ProcessAudioFrame:
     ld a, [hl]
     inc [hl]
     cp $00
-    jr z, jr_003_6956
+    jr z, SkipPadding_003_6956
 
     cp $01
     jp z, ResetPulseChannel
@@ -9183,7 +9183,7 @@ ProcessAudioFrame:
     ret
 
 
-jr_003_6956:
+SkipPadding_003_6956:
     ld hl, $6931
     jp InitSquareChannel1
 
@@ -9292,33 +9292,33 @@ DispatchAudioWaveCommand:
     ldh [c], a
     inc c
 
-jr_003_69e4:
+SkipPadding_003_69e4:
     inc c
     ld a, $87
     ldh [c], a
     ret
 
 
-jr_003_69e9:
+SkipPadding_003_69e9:
     ld a, $06
     ld hl, $69f1
 
-jr_003_69ee:
+SkipPadding_003_69ee:
     jp DispatchAudioCommand
 
 
     nop
-    jr nc, jr_003_69e4
+    jr nc, SkipPadding_003_69e4
 
     and a
     rst $00
     nop
-    jr nc, jr_003_69e9
+    jr nc, SkipPadding_003_69e9
 
     or c
     rst $00
     nop
-    jr nc, jr_003_69ee
+    jr nc, SkipPadding_003_69ee
 
     cp d
     rst $00
@@ -9426,7 +9426,7 @@ CheckAudioActive:
     add hl, bc
     ld a, [hl]
     and a
-    jr z, jr_003_6aad
+    jr z, SkipPadding_003_6aad
 
     ldh [rNR43], a
     ret
@@ -9457,7 +9457,7 @@ CheckAudioActive:
     and a
     ret nz
 
-jr_003_6aad:
+SkipPadding_003_6aad:
     xor a
     ld [$dff9], a
     ldh [rNR42], a
@@ -9485,20 +9485,20 @@ DispatchAudioCommand:
     ld [de], a
     ld a, e
     cp $e5
-    jr z, jr_003_6ad8
+    jr z, SkipPadding_003_6ad8
 
     cp $f5
-    jr z, jr_003_6ae6
+    jr z, SkipPadding_003_6ae6
 
     cp $fd
-    jr z, jr_003_6aed
+    jr z, SkipPadding_003_6aed
 
     ret
 
 
 ConfigureAudioSe:
 InitSquareChannel1:
-jr_003_6ad8:
+SkipPadding_003_6ad8:
     push bc
     ld c, $10
     ld b, $05
@@ -9511,13 +9511,13 @@ ConfigureAudioBgm:
     jr AudioRegisterTransferLoop
 
 ConfigureAudioWave:
-jr_003_6ae6:
+SkipPadding_003_6ae6:
     push bc
     ld c, $1a
     ld b, $05
     jr AudioRegisterTransferLoop
 
-jr_003_6aed:
+SkipPadding_003_6aed:
     push bc
     ld c, $20
     ld b, $04
@@ -9560,13 +9560,13 @@ UpdateAudioFrameCounter:
     inc [hl]
     ld a, [hl+]
     cp [hl]
-    jr nz, jr_003_6b17
+    jr nz, SkipPadding_003_6b17
 
     dec l
     xor a
     ld [hl], a
 
-jr_003_6b17:
+SkipPadding_003_6b17:
     pop de
     ret
 
@@ -9672,7 +9672,7 @@ CheckAudioChannel4:
     ret
 
 
-jr_003_6b99:
+SkipPadding_003_6b99:
     call ClearAudioChannels
     ret
 
@@ -9685,7 +9685,7 @@ ProcessAudioRequest:
 
     ld [hl], a
     cp $ff
-    jr z, jr_003_6b99
+    jr z, SkipPadding_003_6b99
 
     ld b, a
     ld hl, $673c
@@ -9803,7 +9803,7 @@ SetMasterVolumeFromParam:
     ld bc, $bd00
     nop
     ld [bc], a
-    jr nz, jr_003_6cb5
+    jr nz, SkipPadding_003_6cb5
 
     or a
     ld bc, $ed00
@@ -9898,7 +9898,7 @@ InitializeAudioChannelState:
     ld de, $df40
     call CopyAudioDataPair
 
-jr_003_6cb5:
+SkipPadding_003_6cb5:
     ld hl, $df10
     ld de, $df14
     call CopyAudioDataWord
@@ -9914,13 +9914,13 @@ jr_003_6cb5:
     ld bc, $0410
     ld hl, $df12
 
-jr_003_6cdf:
+SkipPadding_003_6cdf:
     ld [hl], $01
     ld a, c
     add l
     ld l, a
     dec b
-    jr nz, jr_003_6cdf
+    jr nz, SkipPadding_003_6cdf
 
     xor a
     ld [$df1e], a
@@ -9929,7 +9929,7 @@ jr_003_6cdf:
     ret
 
 
-jr_003_6cf2:
+SkipPadding_003_6cf2:
     push hl
     xor a
     ldh [rNR30], a
@@ -9937,7 +9937,7 @@ jr_003_6cf2:
     ld h, d
     call LoadAudioRegisterRange
     pop hl
-    jr jr_003_6d28
+    jr SkipPadding_003_6d28
 
 LoadAudioParameterTriple:
     call IncrementAudioWord
@@ -9965,9 +9965,9 @@ LoadAudioParameterTriple:
     ld a, [hl]
     pop hl
     cp $03
-    jr z, jr_003_6cf2
+    jr z, SkipPadding_003_6cf2
 
-jr_003_6d28:
+SkipPadding_003_6d28:
     call IncrementAudioWord
     jp DecodeAudioOpcode
 
@@ -9980,7 +9980,7 @@ IncrementAudioWord:
     ld d, a
     inc de
 
-jr_003_6d34:
+SkipPadding_003_6d34:
     ld a, e
     ld [hl+], a
     ld a, d
@@ -9997,7 +9997,7 @@ AdvanceAudioPointerByWord:
     ld d, a
     inc de
     inc de
-    jr jr_003_6d34
+    jr SkipPadding_003_6d34
 
 DereferenceAudioPointer:
     ld a, [hl+]
@@ -10009,47 +10009,47 @@ DereferenceAudioPointer:
     ret
 
 
-jr_003_6d4a:
+SkipPadding_003_6d4a:
     pop hl
-    jr jr_003_6d78
+    jr SkipPadding_003_6d78
 
 CheckAudioControl3Mode:
     ldh a, [hAudioControl]
     cp $03
-    jr nz, jr_003_6d63
+    jr nz, SkipPadding_003_6d63
 
     ld a, [$df38]
     bit 7, a
-    jr z, jr_003_6d63
+    jr z, SkipPadding_003_6d63
 
     ld a, [hl]
     cp $06
-    jr nz, jr_003_6d63
+    jr nz, SkipPadding_003_6d63
 
     ld a, $40
     ldh [rNR32], a
 
-jr_003_6d63:
+SkipPadding_003_6d63:
     push hl
     ld a, l
     add $09
     ld l, a
     ld a, [hl]
     and a
-    jr nz, jr_003_6d4a
+    jr nz, SkipPadding_003_6d4a
 
 UpdateAudioChannelStatus:
     ld a, l
     add $04
     ld l, a
     bit 7, [hl]
-    jr nz, jr_003_6d4a
+    jr nz, SkipPadding_003_6d4a
 
     pop hl
     call HandleAudioChannelStatus
 
 AdvanceAudioChannelState:
-jr_003_6d78:
+SkipPadding_003_6d78:
     dec l
     dec l
     jp AdvanceAudioState
@@ -10072,13 +10072,13 @@ DecodeAudioOpcodeEntry:
     jr z, AudioChannelComplete
 
     cp $ff
-    jr z, jr_003_6d98
+    jr z, SkipPadding_003_6d98
 
     inc l
     jp DecodeNextAudioOpcode
 
 
-jr_003_6d98:
+SkipPadding_003_6d98:
     dec l
     push hl
     call AdvanceAudioPointerByWord
@@ -10134,7 +10134,7 @@ DecodeAudioOpcode:
 
     and $f0
     cp $a0
-    jr nz, jr_003_6dfe
+    jr nz, SkipPadding_003_6dfe
 
     ld a, b
     and $0f
@@ -10155,7 +10155,7 @@ DecodeAudioOpcode:
     call IncrementAudioWord
     call DereferenceAudioPointer
 
-jr_003_6dfe:
+SkipPadding_003_6dfe:
     ld a, b
     ld c, a
     ld b, $00
@@ -10174,7 +10174,7 @@ jr_003_6dfe:
     inc l
     ld a, c
     cp $01
-    jr z, jr_003_6e29
+    jr z, SkipPadding_003_6e29
 
     ld [hl], $00
     ld hl, $6f70
@@ -10188,10 +10188,10 @@ jr_003_6dfe:
     jp RouteAudioControlSetup
 
 
-jr_003_6e29:
+SkipPadding_003_6e29:
     ld [hl], $01
     pop hl
-    jr jr_003_6e45
+    jr SkipPadding_003_6e45
 
 CopyAudioConfigToRAM:
     push hl
@@ -10199,39 +10199,39 @@ CopyAudioConfigToRAM:
     ld hl, $7002
     add hl, bc
 
-jr_003_6e36:
+SkipPadding_003_6e36:
     ld a, [hl+]
     ld [de], a
     inc e
     ld a, e
     cp $4b
-    jr nz, jr_003_6e36
+    jr nz, SkipPadding_003_6e36
 
     ld c, $20
     ld hl, $df44
-    jr jr_003_6e72
+    jr SkipPadding_003_6e72
 
 RouteAudioControlSetup:
-jr_003_6e45:
+SkipPadding_003_6e45:
     push hl
     ldh a, [hAudioControl]
     cp $01
-    jr z, jr_003_6e6d
+    jr z, SkipPadding_003_6e6d
 
     cp $02
-    jr z, jr_003_6e69
+    jr z, SkipPadding_003_6e69
 
     ld c, $1a
     ld a, [$df3f]
     bit 7, a
-    jr nz, jr_003_6e5e
+    jr nz, SkipPadding_003_6e5e
 
     xor a
     ldh [c], a
     ld a, $80
     ldh [c], a
 
-jr_003_6e5e:
+SkipPadding_003_6e5e:
     inc c
     inc l
     inc l
@@ -10240,44 +10240,44 @@ jr_003_6e5e:
     ld a, [hl+]
     ld e, a
     ld d, $00
-    jr jr_003_6e7e
+    jr SkipPadding_003_6e7e
 
-jr_003_6e69:
+SkipPadding_003_6e69:
     ld c, $16
-    jr jr_003_6e72
+    jr SkipPadding_003_6e72
 
-jr_003_6e6d:
+SkipPadding_003_6e6d:
     ld c, $10
     ld a, $00
     inc c
 
-jr_003_6e72:
+SkipPadding_003_6e72:
     inc l
     inc l
     inc l
     ld a, [hl-]
     and a
-    jr nz, jr_003_6ec8
+    jr nz, SkipPadding_003_6ec8
 
     ld a, [hl+]
     ld e, a
 
-jr_003_6e7b:
+SkipPadding_003_6e7b:
     inc l
     ld a, [hl+]
     ld d, a
 
-jr_003_6e7e:
+SkipPadding_003_6e7e:
     push hl
     inc l
     inc l
     ld a, [hl+]
     and a
-    jr z, jr_003_6e87
+    jr z, SkipPadding_003_6e87
 
     ld e, $01
 
-jr_003_6e87:
+SkipPadding_003_6e87:
     inc l
     inc l
     ld [hl], $00
@@ -10285,7 +10285,7 @@ jr_003_6e87:
     ld a, [hl]
     pop hl
     bit 7, a
-    jr nz, jr_003_6ea5
+    jr nz, SkipPadding_003_6ea5
 
     ld a, d
     ldh [c], a
@@ -10304,7 +10304,7 @@ jr_003_6e87:
     ld l, a
     res 0, [hl]
 
-jr_003_6ea5:
+SkipPadding_003_6ea5:
     pop hl
     dec l
     ld a, [hl-]
@@ -10315,7 +10315,7 @@ AdvanceAudioState:
     ld de, hAudioControl
     ld a, [de]
     cp $04
-    jr z, jr_003_6ebb
+    jr z, SkipPadding_003_6ebb
 
     inc a
     ld [de], a
@@ -10324,7 +10324,7 @@ AdvanceAudioState:
     jp AdvanceAudioChannelLoop
 
 
-jr_003_6ebb:
+SkipPadding_003_6ebb:
     ld hl, $df1e
     inc [hl]
     ld hl, $df2e
@@ -10334,12 +10334,12 @@ jr_003_6ebb:
     ret
 
 
-jr_003_6ec8:
+SkipPadding_003_6ec8:
     ld b, $00
     push hl
     pop hl
     inc l
-    jr jr_003_6e7b
+    jr SkipPadding_003_6e7b
 
 GetAudioParameterFromTable:
     ld a, b
@@ -10358,28 +10358,28 @@ HandleAudioChannelStatus:
     ld l, a
     ld a, [hl]
     and $0f
-    jr z, jr_003_6ef8
+    jr z, SkipPadding_003_6ef8
 
     ldh [hAudioStatus], a
     ldh a, [hAudioControl]
     ld c, $13
     cp $01
-    jr z, jr_003_6efa
+    jr z, SkipPadding_003_6efa
 
     ld c, $18
     cp $02
-    jr z, jr_003_6efa
+    jr z, SkipPadding_003_6efa
 
     ld c, $1d
     cp $03
-    jr z, jr_003_6efa
+    jr z, SkipPadding_003_6efa
 
-jr_003_6ef8:
+SkipPadding_003_6ef8:
     pop hl
     ret
 
 
-jr_003_6efa:
+SkipPadding_003_6efa:
     inc l
     ld a, [hl+]
     ld e, a
@@ -10394,40 +10394,40 @@ CalculateAudioNoteFrequency:
     ld b, [hl]
     ldh a, [hAudioStatus]
     cp $01
-    jr jr_003_6f14
+    jr SkipPadding_003_6f14
 
     cp $03
-    jr jr_003_6f0f
+    jr SkipPadding_003_6f0f
 
-jr_003_6f0f:
+SkipPadding_003_6f0f:
     ld hl, $ffff
-    jr jr_003_6f30
+    jr SkipPadding_003_6f30
 
-jr_003_6f14:
+SkipPadding_003_6f14:
     ld de, $6f39
     call GetAudioParameterFromTable
     bit 0, b
-    jr nz, jr_003_6f20
+    jr nz, SkipPadding_003_6f20
 
     swap e
 
-jr_003_6f20:
+SkipPadding_003_6f20:
     ld a, e
     and $0f
     bit 3, a
-    jr z, jr_003_6f2d
+    jr z, SkipPadding_003_6f2d
 
     ld h, $ff
     or $f0
-    jr jr_003_6f2f
+    jr SkipPadding_003_6f2f
 
-jr_003_6f2d:
+SkipPadding_003_6f2d:
     ld h, $00
 
-jr_003_6f2f:
+SkipPadding_003_6f2f:
     ld l, a
 
-jr_003_6f30:
+SkipPadding_003_6f30:
     pop de
     add hl, de
     ld a, l
@@ -10435,7 +10435,7 @@ jr_003_6f30:
     inc c
     ld a, h
     ldh [c], a
-    jr jr_003_6ef8
+    jr SkipPadding_003_6ef8
 
     nop
     nop
@@ -10678,20 +10678,20 @@ HandleAudioConditionalLogic:
     ld [$2010], sp
     ld b, b
     inc c
-    jr jr_003_709b
+    jr SkipPadding_003_709b
 
     dec b
     ld a, [bc]
     ld bc, $0500
     ld a, [bc]
     inc d
-    jr z, jr_003_70c4
+    jr z, SkipPadding_003_70c4
 
     rrca
     ld e, $3c
     inc bc
     ld b, $0c
-    jr jr_003_70ac
+    jr SkipPadding_003_70ac
 
     ld h, b
     ld [de], a
@@ -10700,7 +10700,7 @@ HandleAudioConditionalLogic:
     ld [$0010], sp
     rlca
     ld c, $1c
-    jr c, jr_003_70f8
+    jr c, SkipPadding_003_70f8
 
     dec d
     ld a, [hl+]
@@ -10709,7 +10709,7 @@ HandleAudioConditionalLogic:
     ld [$2010], sp
     ld b, b
     add b
-    jr jr_003_70c3
+    jr SkipPadding_003_70c3
 
     ld h, b
     nop
@@ -10722,7 +10722,7 @@ HandleAudioConditionalLogic:
 
     ld [hl], e
 
-jr_003_709b:
+SkipPadding_003_709b:
     db $eb
     ld [hl], e
     nop
@@ -10741,7 +10741,7 @@ jr_003_709b:
     nop
     ld h, d
 
-jr_003_70ac:
+SkipPadding_003_70ac:
     ld [hl], b
     jp hl
 
@@ -10766,10 +10766,10 @@ jr_003_70ac:
     ld d, a
     ld [hl], b
 
-jr_003_70c3:
+SkipPadding_003_70c3:
     inc hl
 
-jr_003_70c4:
+SkipPadding_003_70c4:
     ld [hl], h
     cpl
     ld [hl], h
@@ -10818,7 +10818,7 @@ jr_003_70c4:
     rst $38
     xor $70
 
-jr_003_70f8:
+SkipPadding_003_70f8:
     jr nz, @+$73
 
     sub b
@@ -10906,11 +10906,11 @@ jr_003_70f8:
     ld bc, $a33a
     ld [hl], $34
     xor c
-    jr nc, jr_003_7173
+    jr nc, SkipPadding_003_7173
 
     inc [hl]
 
-jr_003_7173:
+SkipPadding_003_7173:
     ld bc, $4201
     and h
     ld bc, $01a5
@@ -11153,7 +11153,7 @@ ProcessInputState_Bank3_Part1:
     ld [hl], e
     rst $38
 
-jr_003_72f2:
+SkipPadding_003_72f2:
     rst $38
     db $eb
     ld [hl], d
@@ -11176,10 +11176,10 @@ jr_003_72f2:
     ld [hl], e
     ld [hl], e
 
-jr_003_7307:
+SkipPadding_003_7307:
     ld [hl], e
 
-jr_003_7308:
+SkipPadding_003_7308:
     ld [hl], e
     ld [hl], e
     ld [hl], e
@@ -11187,7 +11187,7 @@ jr_003_7308:
     ld [hl], e
     add l
 
-jr_003_730e:
+SkipPadding_003_730e:
     ld [hl], e
     ld [hl], e
     ld [hl], e
@@ -11207,9 +11207,9 @@ jr_003_730e:
     add c
     nop
     sbc l
-    jr nc, jr_003_7323
+    jr nc, SkipPadding_003_7323
 
-jr_003_7323:
+SkipPadding_003_7323:
     add b
     and a
     ld bc, $a400
@@ -11222,7 +11222,7 @@ jr_003_7323:
 
     ld bc, $36a8
     and e
-    jr z, jr_003_7360
+    jr z, SkipPadding_003_7360
 
     and d
     ld a, [hl+]
@@ -11234,13 +11234,13 @@ jr_003_7323:
     ld b, b
     and e
     ld a, $a9
-    jr c, jr_003_7383
+    jr c, SkipPadding_003_7383
 
-    jr c, jr_003_72f2
+    jr c, SkipPadding_003_72f2
 
     ld bc, $36a8
     and e
-    jr z, jr_003_7377
+    jr z, SkipPadding_003_7377
 
     and d
     ld a, [hl+]
@@ -11250,23 +11250,23 @@ jr_003_7323:
     ld l, $32
     ld l, $2a
     and l
-    jr z, jr_003_735a
+    jr z, SkipPadding_003_735a
 
-jr_003_735a:
+SkipPadding_003_735a:
     and l
     ld a, [hl+]
     and h
     ld bc, $a532
 
-jr_003_7360:
+SkipPadding_003_7360:
     inc a
     and h
-    jr c, jr_003_7307
+    jr c, SkipPadding_003_7307
 
-    jr c, jr_003_7308
+    jr c, SkipPadding_003_7308
 
     inc a
-    jr c, jr_003_730e
+    jr c, SkipPadding_003_730e
 
     ld [hl], $01
     ld bc, $0001
@@ -11282,12 +11282,12 @@ ProcessInputState_Bank3_Part2:
     ld b, d
     ld b, b
 
-jr_003_7377:
+SkipPadding_003_7377:
     ld b, d
     ld b, b
     ld b, d
 
-jr_003_737a:
+SkipPadding_003_737a:
     ld b, b
     ld c, [hl]
     ld b, b
@@ -11298,7 +11298,7 @@ jr_003_737a:
     ld b, d
     ld b, b
 
-jr_003_7383:
+SkipPadding_003_7383:
     inc a
     nop
     ld b, d
@@ -11344,9 +11344,9 @@ jr_003_7383:
     ld bc, $40a2
     ld bc, $0132
     sbc l
-    jr nc, jr_003_73c1
+    jr nc, SkipPadding_003_73c1
 
-jr_003_73c1:
+SkipPadding_003_73c1:
     add b
     and c
     ld e, b
@@ -11365,7 +11365,7 @@ jr_003_73c1:
     sbc l
     scf
     ld [hl], b
-    jr nz, jr_003_737a
+    jr nz, SkipPadding_003_737a
 
     ld e, b
     ld d, h
@@ -11427,7 +11427,7 @@ jr_003_73c1:
     ld [hl], h
     sub c
     ld [hl], h
-    jr jr_003_74a0
+    jr SkipPadding_003_74a0
 
     rst $38
     rst $38
@@ -11519,7 +11519,7 @@ jr_003_73c1:
     ld [hl], $44
     ld b, h
 
-jr_003_74a0:
+SkipPadding_003_74a0:
     ld b, h
     ld c, b
     ld c, d
@@ -11747,7 +11747,7 @@ jr_003_74a0:
     rst $38
     rst $38
 
-jr_003_75c6:
+SkipPadding_003_75c6:
     cp [hl]
     ld [hl], l
     db $f4
@@ -11820,7 +11820,7 @@ jr_003_75c6:
     sbc l
     scf
     ld [hl], b
-    jr nz, jr_003_75c6
+    jr nz, SkipPadding_003_75c6
 
     ld bc, $0001
     and l
@@ -11877,7 +11877,7 @@ MusicSequence_Marker_1:
     and e
     ld b, b
 
-jr_003_765a:
+SkipPadding_003_765a:
     xor b
     ld b, h
     and e
@@ -11900,7 +11900,7 @@ MusicSequence_Marker_2:
     ld a, [hl-]
     and e
 
-jr_003_766e:
+SkipPadding_003_766e:
     ld a, $3a
     ld [hl], $30
     inc l
@@ -11936,7 +11936,7 @@ MusicSequence_Marker_4:
     ld c, [hl]
     and e
 
-jr_003_768f:
+SkipPadding_003_768f:
     ld d, d
     and h
     ld e, b
@@ -11973,24 +11973,24 @@ MusicSequence_Marker_5:
     ld [hl], $a5
     ld a, [hl-]
     ld bc, $a300
-    jr z, jr_003_765a
+    jr z, SkipPadding_003_765a
 
     ld b, b
     ld [hl], $a3
-    jr z, jr_003_76fd
+    jr z, SkipPadding_003_76fd
 
     and e
     jr z, MusicSequence_Marker_2
 
     ld b, b
     ld [hl], $a3
-    jr z, jr_003_7705
+    jr z, SkipPadding_003_7705
 
     and e
     ld a, [de]
     and d
     ld [hl-], a
-    jr z, jr_003_766e
+    jr z, SkipPadding_003_766e
 
     ld a, [de]
     ld [hl-], a
@@ -12017,7 +12017,7 @@ MusicSequence_Marker_5:
     ld [hl+], a
     and d
     ld a, [hl-]
-    jr nc, jr_003_768f
+    jr nc, SkipPadding_003_768f
 
     ld [hl+], a
     ld a, [hl-]
@@ -12037,7 +12037,7 @@ MusicSequence_Marker_5:
     and h
     ld h, [hl]
 
-jr_003_76fd:
+SkipPadding_003_76fd:
     and e
     ld h, [hl]
     and d
@@ -12047,7 +12047,7 @@ jr_003_76fd:
     ld h, b
     and e
 
-jr_003_7705:
+SkipPadding_003_7705:
     ld h, [hl]
     ld h, b
     and e
@@ -12086,7 +12086,7 @@ jr_003_7705:
     xor b
     ld b, h
 
-jr_003_772c:
+SkipPadding_003_772c:
     and e
     ld c, b
     and h
@@ -12098,7 +12098,7 @@ jr_003_772c:
     ld b, h
     and e
 
-jr_003_7738:
+SkipPadding_003_7738:
     ld c, b
     and h
     ld c, [hl]
@@ -12108,7 +12108,7 @@ jr_003_7738:
     ld d, d
     ld c, [hl]
 
-jr_003_7740:
+SkipPadding_003_7740:
     and h
     ld c, b
     and e
@@ -12169,7 +12169,7 @@ jr_003_7740:
     ld a, [de]
     and d
     ld [hl-], a
-    jr z, jr_003_772c
+    jr z, SkipPadding_003_772c
 
     ld a, [de]
     ld [hl-], a
@@ -12182,18 +12182,18 @@ jr_003_7740:
     ld a, [de]
     ld [hl-], a
     and e
-    jr nc, jr_003_7738
+    jr nc, SkipPadding_003_7738
 
     ld c, b
     ld h, $a3
-    jr nc, jr_003_77e3
+    jr nc, SkipPadding_003_77e3
 
     and e
-    jr nc, jr_003_7740
+    jr nc, SkipPadding_003_7740
 
     ld c, b
     ld h, $a3
-    jr nc, jr_003_77eb
+    jr nc, SkipPadding_003_77eb
 
     and e
     ld e, $a2
@@ -12214,7 +12214,7 @@ jr_003_7740:
     ld [hl+], a
     ld [hl+], a
 
-jr_003_77bc:
+SkipPadding_003_77bc:
     nop
     and e
     ld b, $a2
@@ -12247,7 +12247,7 @@ jr_003_77bc:
     ld a, c
     rst $38
 
-jr_003_77e3:
+SkipPadding_003_77e3:
     rst $38
     sbc $77
     ld a, [de]
@@ -12256,7 +12256,7 @@ jr_003_77e3:
     ld a, b
     di
 
-jr_003_77eb:
+SkipPadding_003_77eb:
     ld a, b
     ld a, b
     ld a, c
@@ -12284,9 +12284,9 @@ jr_003_77eb:
     and a
     ld b, b
     and h
-    jr z, jr_003_780d
+    jr z, SkipPadding_003_780d
 
-jr_003_780d:
+SkipPadding_003_780d:
     sbc l
     ld h, d
     nop
@@ -12294,7 +12294,7 @@ jr_003_780d:
     and l
     ld bc, $01a2
     and a
-    jr z, jr_003_77bc
+    jr z, SkipPadding_003_77bc
 
     stop
     sbc l
@@ -12377,7 +12377,7 @@ AudioDataProcessor:
     ld d, d
     ld bc, $0152
 
-jr_003_789d:
+SkipPadding_003_789d:
     and e
     ld c, [hl]
     ld c, d
@@ -12443,7 +12443,7 @@ jr_003_789d:
     and [hl]
     ld e, b
     and c
-    jr z, jr_003_789d
+    jr z, SkipPadding_003_789d
 
     ld [hl-], a
     ld e, b
@@ -12668,7 +12668,7 @@ jr_003_789d:
     nop
     nop
 
-jr_003_7a19:
+SkipPadding_003_7a19:
     nop
     ld [hl], a
     ld [hl], b
@@ -12740,20 +12740,20 @@ jr_003_7a19:
     and h
     inc d
     ld d, $a3
-    jr jr_003_7a86
+    jr SkipPadding_003_7a86
 
     inc e
     ld e, $00
     sbc l
     scf
     ld [hl], b
-    jr nz, jr_003_7a19
+    jr nz, SkipPadding_003_7a19
 
     ld bc, $2a28
     and h
     inc l
     ld l, $a3
-    jr nc, jr_003_7aaf
+    jr nc, SkipPadding_003_7aaf
 
     inc [hl]
     ld [hl], $00
@@ -12762,7 +12762,7 @@ jr_003_7a19:
     ld b, $06
     dec bc
 
-jr_003_7a86:
+SkipPadding_003_7a86:
     ld b, $06
     ld b, $06
     ld b, $06
@@ -12775,13 +12775,13 @@ jr_003_7a86:
     pop bc
     and h
     ld e, $2a
-    jr z, jr_003_7acf
+    jr z, SkipPadding_003_7acf
 
     and l
     ld [hl-], a
     ld bc, $1ea4
     ld a, [hl+]
-    jr z, jr_003_7ad7
+    jr z, SkipPadding_003_7ad7
 
     and l
     ld [hl], $01
@@ -12794,7 +12794,7 @@ jr_003_7a86:
     db $10
     ld c, $0c
 
-jr_003_7aaf:
+SkipPadding_003_7aaf:
     ld a, [bc]
     ld [$0406], sp
     ld [bc], a
@@ -12826,7 +12826,7 @@ jr_003_7aaf:
 
     ld a, d
 
-jr_003_7acf:
+SkipPadding_003_7acf:
     rst $38
     rst $38
     call $9d7a
@@ -12834,7 +12834,7 @@ jr_003_7acf:
     nop
     add b
 
-jr_003_7ad7:
+SkipPadding_003_7ad7:
     and d
     ld b, b
     ld b, d
@@ -12867,7 +12867,7 @@ jr_003_7ad7:
     db $10
     ld [de], a
     ld [hl+], a
-    jr z, jr_003_7b27
+    jr z, SkipPadding_003_7b27
 
     inc [hl]
     ld a, [hl-]
@@ -12895,9 +12895,9 @@ jr_003_7ad7:
     ld a, [hl-]
     ld a, [hl+]
     sbc l
-    jr nc, jr_003_7b18
+    jr nc, SkipPadding_003_7b18
 
-jr_003_7b18:
+SkipPadding_003_7b18:
     add c
     and c
     ld a, [hl-]
@@ -12913,7 +12913,7 @@ jr_003_7b18:
     and e
     ld b, h
 
-jr_003_7b27:
+SkipPadding_003_7b27:
     ld c, d
     ld e, h
     and h
@@ -13183,7 +13183,7 @@ jr_003_7b27:
     sbc l
     sub e
 
-jr_003_7c4d:
+SkipPadding_003_7c4d:
     nop
     add b
     and e
@@ -13210,9 +13210,9 @@ jr_003_7c4d:
 
 
     and e
-    jr c, jr_003_7c7d
+    jr c, SkipPadding_003_7c7d
 
-jr_003_7c7d:
+SkipPadding_003_7c7d:
     and h
     ld b, d
     and d
@@ -13254,7 +13254,7 @@ jr_003_7c7d:
     ld bc, $9d00
     rla
     ld [hl], b
-    jr nz, jr_003_7c4d
+    jr nz, SkipPadding_003_7c4d
 
     ld bc, $42a2
     ld d, b
@@ -13266,17 +13266,17 @@ jr_003_7c7d:
 
     ld b, d
     ld d, b
-    jr c, jr_003_7d08
+    jr c, SkipPadding_003_7d08
 
     ld b, d
     ld d, b
-    jr c, jr_003_7d0c
+    jr c, SkipPadding_003_7d0c
 
-    jr c, jr_003_7d1c
+    jr c, SkipPadding_003_7d1c
 
     ld b, [hl]
     ld e, [hl]
-    jr c, jr_003_7d20
+    jr c, SkipPadding_003_7d20
 
     ld b, [hl]
     ld e, [hl]
@@ -13290,31 +13290,31 @@ jr_003_7c7d:
     ld b, [hl]
     ld b, d
     ld d, b
-    jr c, jr_003_7d20
+    jr c, SkipPadding_003_7d20
 
     ld b, d
     ld d, b
-    jr c, jr_003_7d24
+    jr c, SkipPadding_003_7d24
 
     ld b, d
     ld d, b
-    jr c, jr_003_7d28
+    jr c, SkipPadding_003_7d28
 
     ld b, d
     ld d, b
-    jr c, jr_003_7d2c
+    jr c, SkipPadding_003_7d2c
 
-    jr c, jr_003_7d3c
+    jr c, SkipPadding_003_7d3c
 
     ld b, [hl]
     ld e, [hl]
-    jr c, jr_003_7d40
+    jr c, SkipPadding_003_7d40
 
     ld b, [hl]
     ld e, [hl]
     ld b, d
     ld d, b
-    jr c, jr_003_7d38
+    jr c, SkipPadding_003_7d38
 
     ld b, d
     ld bc, $a300
@@ -13336,12 +13336,12 @@ jr_003_7c7d:
     ld b, $0b
     dec bc
 
-jr_003_7d08:
+SkipPadding_003_7d08:
     dec bc
     dec bc
     ld b, $0b
 
-jr_003_7d0c:
+SkipPadding_003_7d0c:
     ld b, $0b
     ld bc, $3400
     ld a, l
@@ -13349,37 +13349,37 @@ jr_003_7d0c:
     rst $38
     db $10
     ld a, l
-    jr z, jr_003_7d95
+    jr z, SkipPadding_003_7d95
 
     rst $38
     rst $38
     ld d, $7d
 
-jr_003_7d1c:
+SkipPadding_003_7d1c:
     ld b, b
     ld a, l
     rst $38
     rst $38
 
-jr_003_7d20:
+SkipPadding_003_7d20:
     inc e
     ld a, l
     ld d, l
     ld a, l
 
-jr_003_7d24:
+SkipPadding_003_7d24:
     rst $38
     rst $38
     ld [hl+], a
     ld a, l
 
-jr_003_7d28:
+SkipPadding_003_7d28:
     sbc l
     ld d, h
     nop
     add b
 
-jr_003_7d2c:
+SkipPadding_003_7d2c:
     and d
     ld d, b
     ld c, [hl]
@@ -13393,19 +13393,19 @@ jr_003_7d2c:
     nop
     add b
 
-jr_003_7d38:
+SkipPadding_003_7d38:
     and d
 
-jr_003_7d39:
+SkipPadding_003_7d39:
     ld a, [hl-]
-    jr c, jr_003_7d72
+    jr c, SkipPadding_003_7d72
 
-jr_003_7d3c:
+SkipPadding_003_7d3c:
     inc [hl]
     ld [hl-], a
-    jr nc, jr_003_7d40
+    jr nc, SkipPadding_003_7d40
 
-jr_003_7d40:
+SkipPadding_003_7d40:
     sbc l
     rla
     ld [hl], b
@@ -13452,7 +13452,7 @@ jr_003_7d40:
     ld [hl-], a
     ld [hl], $3a
 
-jr_003_7d72:
+SkipPadding_003_7d72:
     inc a
     ld b, b
     ld b, h
@@ -13486,8 +13486,8 @@ jr_003_7d72:
     scf
     ld [hl], b
 
-jr_003_7d95:
-    jr nz, jr_003_7d39
+SkipPadding_003_7d95:
+    jr nz, SkipPadding_003_7d39
 
     ld c, d
     ld bc, $4e52
@@ -13709,9 +13709,9 @@ AudioStateUpdate:
     sbc b
     ld a, [hl]
     sbc l
-    jr nc, jr_003_7ea1
+    jr nc, SkipPadding_003_7ea1
 
-jr_003_7ea1:
+SkipPadding_003_7ea1:
     add c
     xor d
     ld bc, $9d00
@@ -13923,11 +13923,11 @@ jr_003_7ea1:
     ld c, b
     ld c, b
     nop
-    jr z, jr_003_7fbb
+    jr z, SkipPadding_003_7fbb
 
     ld b, b
     ld b, b
-    jr z, jr_003_7fbf
+    jr z, SkipPadding_003_7fbf
 
     ld b, b
     ld b, b
@@ -13935,11 +13935,11 @@ jr_003_7ea1:
 
     ld b, b
     ld b, b
-    jr z, jr_003_7fc7
+    jr z, SkipPadding_003_7fc7
 
     ld b, b
     ld b, b
-    jr nc, jr_003_7fd3
+    jr nc, SkipPadding_003_7fd3
 
     ld a, [hl-]
     ld b, d
@@ -13947,13 +13947,13 @@ jr_003_7ea1:
 
     ld a, [hl-]
     ld b, d
-    jr nc, jr_003_7fdb
+    jr nc, SkipPadding_003_7fdb
 
-    jr c, jr_003_7feb
+    jr c, SkipPadding_003_7feb
 
-    jr nc, jr_003_7fdf
+    jr nc, SkipPadding_003_7fdf
 
-    jr c, jr_003_7fef
+    jr c, SkipPadding_003_7fef
 
     nop
     and c
@@ -13964,12 +13964,12 @@ jr_003_7ea1:
     ld b, $06
     and d
 
-jr_003_7fbb:
+SkipPadding_003_7fbb:
     dec bc
     and c
     ld b, $06
 
-jr_003_7fbf:
+SkipPadding_003_7fbf:
     and d
     dec bc
     and c
@@ -13978,7 +13978,7 @@ jr_003_7fbf:
     dec bc
     and c
 
-jr_003_7fc7:
+SkipPadding_003_7fc7:
     ld b, $06
     and d
     dec bc
@@ -13989,7 +13989,7 @@ jr_003_7fc7:
     and c
     ld b, $06
 
-jr_003_7fd3:
+SkipPadding_003_7fd3:
     and d
     dec bc
     and c
@@ -13998,12 +13998,12 @@ jr_003_7fd3:
     dec bc
     nop
 
-jr_003_7fdb:
+SkipPadding_003_7fdb:
     and d
     ld b, $06
     db $10
 
-jr_003_7fdf:
+SkipPadding_003_7fdf:
     ld b, $06
     ld b, $10
     ld b, $06
@@ -14011,12 +14011,12 @@ jr_003_7fdf:
     ld b, $06
     ld b, $10
 
-jr_003_7feb:
+SkipPadding_003_7feb:
     ld b, $00
     rst $38
     rst $38
 
-jr_003_7fef:
+SkipPadding_003_7fef:
     rst $38
     jp ProcessAudioSnapshot
 
