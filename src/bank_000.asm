@@ -1770,12 +1770,17 @@ RenderContextTable:
     db $07, $07, $03, $08, $08, $05, $07, $03, $03, $06, $06, $05
 
 ;; ==========================================================================
-;; CheckInputAndPause - Vérifie input pour soft reset ou toggle pause
+;; CheckInputAndPause
 ;; ==========================================================================
-;; Appelé par : GameLoop (CheckPauseOrSkip)
-;; Effets :
-;;   - Si A+B+Start+Select pressés → SOFT RESET (jp SystemInit)
-;;   - Si Start pressé (nouveau) → Toggle pause ($FFB2)
+;; Description : Vérifie input pour soft reset ou toggle pause
+;;   - Si toutes directions D-pad pressées → SOFT RESET (jp SystemInit)
+;;   - Si Start pressé (edge detect) et pas en démo → Toggle pause
+;; In  : hJoypadState = état joypad (directions)
+;;       hJoypadDelta = changements joypad (edge detect)
+;;       hGameState = état du jeu courant
+;; Out : hPauseFlag = toggle si pause activée/désactivée
+;;       rLCDC bit 5 = Window enable/disable selon état pause
+;; Modifie : A, HL
 ;; ==========================================================================
 CheckInputAndPause:
     ; --- CheckSoftReset ---
