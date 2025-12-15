@@ -849,7 +849,7 @@ JumpIfCarryClear_B2BC_001_4376:
     ldh a, [c]
     cp h
     or d
-    call c, Call_001_7c52
+    call c, DataShim_7c52
     ccf
     ccf
     ld a, [bc]
@@ -1924,7 +1924,7 @@ Call_001_4755:
 
     ret nz
 
-    jr nc, jr_001_4836
+    jr nc, CorruptedSection_4836
 
     ldh a, [rSVBK]
     ldh a, [$ff30]
@@ -1959,7 +1959,7 @@ Call_001_4755:
     ccf
     ccf
 
-jr_001_4836:
+CorruptedSection_4836:
     ld b, b
     ld b, h
     or e
@@ -2049,9 +2049,9 @@ jr_001_4836:
     inc e
     rra
     scf
-    jr c, jr_001_48c7
+    jr c, DataSection_48c7
 
-    jr nc, jr_001_4915
+    jr nc, JumpStub_4915
 
     ld h, b
     ld e, b
@@ -2079,11 +2079,11 @@ CallZeroEntry_48aa:
     db $10
     db $10
     inc h
-    jr nz, jr_001_48e3
+    jr nz, DataChain_48e3
 
-    jr nz, jr_001_48e5
+    jr nz, DataChain_48e5
 
-    jr nz, jr_001_48e8
+    jr nz, DataChain_48e8
 
     ld hl, $2121
     db $fd
@@ -2092,7 +2092,7 @@ CallZeroEntry_48aa:
     inc bc
     inc bc
 
-jr_001_48c7:
+DataSection_48c7:
     ld bc, $0001
     ld a, l
     ld a, h
@@ -2115,15 +2115,15 @@ jr_001_48c7:
     rst $08
     nop
 
-jr_001_48e3:
+DataChain_48e3:
     nop
     ld h, b
 
-jr_001_48e5:
+DataChain_48e5:
     ld h, b
     ld hl, sp-$48
 
-jr_001_48e8:
+DataChain_48e8:
     cp h
     and h
     and h
@@ -2163,7 +2163,7 @@ jr_001_48e8:
     rrca
     ccf
 
-jr_001_4915:
+JumpStub_4915:
     rrca
     jr nz, jr_001_4918
 
@@ -2529,7 +2529,7 @@ UpdateLevelState_4a56:
 
     jr nz, jr_001_4acb
 
-    jr nz, jr_001_4afd
+    jr nz, DataEntry_4afd
 
     ld b, b
     ld h, b
@@ -2632,7 +2632,7 @@ jr_001_4ad1:
     ld a, c
     inc bc
 
-jr_001_4afd:
+DataEntry_4afd:
     inc bc
     ld b, $06
     inc b
@@ -4572,7 +4572,7 @@ jr_001_5354:
     rrca
     add b
     ld a, l
-    call z, Call_001_7e55
+    call z, DataPadding_7e55
     rrca
     nop
     ld a, a
@@ -5494,7 +5494,7 @@ jr_001_5733:
     ld h, c
     add c
     ld e, a
-    call nz, Call_001_5a60
+    call nz, PatternData_5a60
     ld e, d
     ld e, l
     cp $22
@@ -6006,7 +6006,7 @@ jr_001_5733:
     ld e, l
     cp $f1
 
-Call_001_5a60:
+PatternData_5a60:
     adc [hl]
     cp $f1
     adc a
@@ -13320,7 +13320,7 @@ Call_001_7555:
     ld l, d
     ld [hl], e
 
-Call_001_7c52:
+DataShim_7c52:
     db $fd
     db $f4
     ldh [c], a
@@ -13804,7 +13804,7 @@ Call_001_7c55:
     rst $38
     rst $38
 
-Call_001_7e55:
+DataPadding_7e55:
     rst $38
     rst $38
     rst $38
