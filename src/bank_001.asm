@@ -3874,7 +3874,7 @@ CheckPlayerCollisionWithTile:
     ret c
 
 .tileIsSolid:
-    cp $f4
+    cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr z, .activateCollision
 
     ld a, $ff
@@ -3924,7 +3924,7 @@ CheckSpriteCollision:
 
 
 CheckForSpecialCollisionTile:
-    cp $f4
+    cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr nz, ReturnNoCollisionDetected
 
     push hl
@@ -3971,7 +3971,7 @@ CollisionCheckOffsetLoop:
     cp $60
     jr c, DecrementOffsetAndRetryCollision
 
-    cp $f4
+    cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr z, TriggerSpecialCollisionEvent
 
     cp $e1

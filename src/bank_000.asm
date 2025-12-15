@@ -4876,7 +4876,7 @@ InitGameAfterBlock_OnCollide:
 
 ProcessBlockEnd_OnCollide:
     pop af
-    cp $f4
+    cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr nz, InitPlayerX
 
     push hl
@@ -5157,7 +5157,7 @@ ClassifyTileTypeEntry:
     cp TILEMAP_CMD_WATER        ; Tile eau $82 ?
     jr z, HandlePlayerWaterCollision
 
-    cp $f4
+    cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jp z, CollisionHandler_SpecialF4_Setup
 
     cp TILEMAP_CMD_LOAD3        ; Tile type $81 ?
@@ -5394,7 +5394,7 @@ CollisionConfig_Offset2:
     cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     jr c, NoCollisionRestartLoop
 
-    cp $f4
+    cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr z, HandlePlayerSpikeCollision
 
     cp $77
@@ -5565,7 +5565,7 @@ ProcessBlockCollision_CommonExit:
     ld hl, hVramPtrLow
     add hl, de
     ld a, [hl]
-    cp $f4
+    cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     ret nz
 
     ld [hl], TILE_EMPTY
@@ -6423,7 +6423,7 @@ CheckTileForCoin:
     push de
     push hl
     call ReadTileUnderSprite
-    cp $f4
+    cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr nz, NotCoinTile
 
     ldh a, [hGameState]
