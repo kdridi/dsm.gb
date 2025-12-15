@@ -3904,7 +3904,7 @@ CheckSpriteCollision:
     ld b, a
     ld a, [hl]
     add b
-    add $fe
+    add HEAD_COLLISION_ADJUST_X  ; Ajustement hitbox X (-2)
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $60
@@ -3914,7 +3914,7 @@ CheckSpriteCollision:
     add $04
     ldh [hSpriteX], a
     call ReadTileUnderSprite
-    cp $e1
+    cp TILEMAP_CMD_E1            ; Tile collision spéciale E1 ?
     jp z, TriggerBlockCollisionSound_TimerDispatch
 
     cp $60
@@ -3974,7 +3974,7 @@ CollisionCheckOffsetLoop:
     cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr z, TriggerSpecialCollisionEvent
 
-    cp $e1
+    cp TILEMAP_CMD_E1            ; Tile collision spéciale E1 ?
     jp z, TriggerBlockCollisionSound_TimerDispatch
 
     cp $83

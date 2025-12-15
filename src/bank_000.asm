@@ -4787,19 +4787,19 @@ CheckPlayerHeadCollision:
 
     ld hl, wPlayerX
     ld a, [hl+]
-    add $0b
+    add HEAD_COLLISION_OFFSET_Y  ; Offset Y tête joueur (+11)
     ldh [hSpriteY], a
     ldh a, [hShadowSCX]
     ld b, a
     ld a, [hl]
     add b
-    add $fe
+    add HEAD_COLLISION_ADJUST_X  ; Ajustement hitbox X (-2)
     ldh [hSpriteX], a
     call ReadTileUnderSprite
-    cp $70
+    cp TILEMAP_CMD_SCROLL        ; Tile scroll $70 ?
     jr z, CheckJoypadUp_GameplayLoop
 
-    cp $e1
+    cp TILEMAP_CMD_E1            ; Tile collision spéciale E1 ?
     jp z, TileE1CollisionHandler
 
     cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
@@ -4847,7 +4847,7 @@ HandleBlockType_Collision:
 
 BlockCollisionPropertyHandler:
 CheckBlockProperties_OnCollide:
-    cp $ed
+    cp TILEMAP_CMD_DANGER        ; Tile danger $ED ?
     push af
     jr nz, ProcessBlockEnd_OnCollide
 
@@ -6998,7 +6998,7 @@ ClearTilemapColumn:
     pop hl
     ld a, [de]
     ld [hl], a
-    cp $70
+    cp TILEMAP_CMD_SCROLL        ; Tile scroll $70 ?
     jr nz, CheckIfNotLevelConfigTile
 
     call ProcessRenderQueue
