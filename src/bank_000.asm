@@ -3838,19 +3838,19 @@ SetupFinalScreen:
     jr nz, PopAndReturn
 
     ldh [rLYC], a
-    ld a, $21
+    ld a, OAM_INDEX_FINAL_SETUP
     ldh [hOAMIndex], a
-    ld a, $54
+    ld a, SCROLL_COLUMN_FINAL
     ldh [hScrollColumn], a
     call ClearScrollBuffer
     ld hl, wPlayerUnk10
-    ld de, $1376
+    ld de, ROM_SPRITE_END_DATA_1
     call Copy5Bytes
     ld hl, wObject2Unk08
-    ld de, $137b
+    ld de, ROM_SPRITE_END_DATA_2
     call Copy5Bytes
     ld hl, wObject3Unk08
-    ld de, $1380
+    ld de, ROM_SPRITE_END_DATA_3
     call Copy5Bytes
     ld hl, hGameState
     inc [hl]
@@ -3891,7 +3891,7 @@ ClearBufferLoop:
 
 ; --- Routine : copie 5 bytes de config sprite ---
 Copy5Bytes:
-    ld b, $05
+    ld b, SPRITE_CONFIG_COPY_SIZE
 
 CopyByteLoop:
     ld a, [de]
@@ -4152,8 +4152,8 @@ State37_FinalSpriteAnimation::
     dec l
     ld [hl], SLOT_EMPTY
     ld hl, wTilemapBuf70
-    ld de, $14bb
-    ld b, $18
+    ld de, ROM_TILEMAP_END_DATA
+    ld b, TILEMAP_END_DATA_SIZE
 
 State37_CopyTilemapData:
     ld a, [de]
@@ -4162,7 +4162,7 @@ State37_CopyTilemapData:
     dec b
     jr nz, State37_CopyTilemapData
 
-    ld b, $18
+    ld b, TILEMAP_END_DATA_SIZE
     xor a
 
 State37_ClearTilemapBuffer:
@@ -4170,7 +4170,7 @@ State37_ClearTilemapBuffer:
     dec b
     jr nz, State37_ClearTilemapBuffer
 
-    ld a, $90
+    ld a, TIMER_CREDITS_SETUP
     ldh [hTimer1], a
     ldh a, [hLevelIndex]
     inc a
@@ -4806,15 +4806,15 @@ CheckPlayerHeadCollision:
     jr nc, CheckBlockProperties_OnCollide
 
     ld a, [wPlayerUnk0E]
-    ld b, $04
-    cp $04
+    ld b, COLLISION_OFFSET_4
+    cp COLLISION_OFFSET_4
     jr nz, CalcOffsetLoop_BlockHit
 
     ld a, [wPlayerUnk07]
     and a
     jr nz, CalcOffsetLoop_BlockHit
 
-    ld b, $08
+    ld b, COLLISION_OFFSET_8
 
 CalcOffsetLoop_BlockHit:
     ldh a, [hSpriteX]
@@ -5009,7 +5009,7 @@ HandleNonC0TileValue:
     call GetSpritePosFromTileAddr
     ld hl, wOamVar2C
     ld a, [wPlayerX]
-    sub $0b
+    sub PLAYER_X_SUB_OFFSET
     ld [hl+], a
     ldh [hSoundParam1], a
     ldh [hRenderX], a
@@ -5074,7 +5074,7 @@ SetupSpriteProperties:
     call GetSpritePosFromTileAddr
     ld hl, wOamVar2C
     ld a, [wPlayerX]
-    sub $0b
+    sub PLAYER_X_SUB_OFFSET
     ld [hl+], a
     ldh [hRenderX], a
     ldh a, [hShadowSCX]

@@ -1143,3 +1143,31 @@ DEF PLAYER_STATE_PIPE_THRESHOLD EQU $4c  ; Seuil état joueur pour sortie pipe (
 ; === Adresses VRAM hautes (limites de boucle) ===
 
 DEF VRAM_COPY_LIMIT_HIGH       EQU $97   ; Octet haut limite copie VRAM ($9700)
+
+; === Tailles copie mémoire (State37/crédits) ===
+
+DEF TILEMAP_END_DATA_SIZE      EQU $18   ; Taille données tilemap fin (24 octets)
+DEF SPRITE_CONFIG_COPY_SIZE    EQU $05   ; Taille copie config sprite (5 octets)
+
+; === Valeurs scroll crédits/écran final ===
+
+DEF OAM_INDEX_FINAL_SETUP      EQU $21   ; Index OAM setup écran final (33)
+DEF SCROLL_COLUMN_FINAL        EQU $54   ; Colonne scroll écran final (84)
+
+; === Timers écran final ===
+
+DEF TIMER_CREDITS_SETUP        EQU $90   ; Timer setup crédits (144 frames)
+
+; === Adresses ROM tables données (écran final) ===
+; Tables de configuration sprites pour écran final ($1376-$1384)
+
+DEF ROM_SPRITE_END_DATA_1      EQU $1376 ; Table config sprite joueur final
+DEF ROM_SPRITE_END_DATA_2      EQU $137b ; Table config sprite objet 2 final
+DEF ROM_SPRITE_END_DATA_3      EQU $1380 ; Table config sprite objet 3 final
+DEF ROM_TILEMAP_END_DATA       EQU $14bb ; Table données tilemap écran final
+
+; === Collision - Offsets et ajustements ===
+
+DEF COLLISION_OFFSET_4         EQU $04   ; Offset collision 4 pixels
+DEF COLLISION_OFFSET_8         EQU $08   ; Offset collision 8 pixels
+DEF PLAYER_X_SUB_OFFSET        EQU $0b   ; Offset soustrait de X joueur (11 pixels)
