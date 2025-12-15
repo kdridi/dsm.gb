@@ -2142,7 +2142,7 @@ AnimRender:
 
 ; Routine $48fc - Vérifie l'état d'un objet et copie ses données
 CheckObjectState::
-    ld hl, $c209
+    ld hl, wPlayerUnk09
     ld a, [hl]
     ld b, a
     and a
@@ -2276,7 +2276,7 @@ FXDispatch_2:
     and a
     jr nz, FXDispatch_4
 
-    ld a, [$c20c]
+    ld a, [wPlayerUnk0C]
     cp $03
     ld a, $02
     jr c, FXDispatch_3
@@ -2284,7 +2284,7 @@ FXDispatch_2:
     ld a, $04
 
 FXDispatch_3:
-    ld [$c20e], a
+    ld [wPlayerUnk0E], a
 
 FXDispatch_4:
     pop af

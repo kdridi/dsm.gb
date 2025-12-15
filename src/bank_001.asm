@@ -3759,7 +3759,7 @@ UpdateScrollXAndDecreaseCollisionCounter:
     ld b, $01
     call OffsetSpritesY
     call OffsetSpritesX
-    ld hl, $c202
+    ld hl, wPlayerState
     dec [hl]
     ld a, [hl]
     and a
@@ -3770,7 +3770,7 @@ UpdateScrollXAndDecreaseCollisionCounter:
 PerformCollisionCheckAndIncrementCounter:
     ld c, $08
     call CheckSpriteCollisionWithOffset
-    ld hl, $c202
+    ld hl, wPlayerState
     inc [hl]
     ret
 
@@ -3792,7 +3792,7 @@ HandleJoypadAndCollision:
 
     ld c, $fa
     call CheckSpriteCollisionWithOffset
-    ld hl, $c202
+    ld hl, wPlayerState
     ld a, [hl]
     cp $10
     ret c
@@ -3809,7 +3809,7 @@ HandleJoypadAndCollision:
 CheckCollisionWithPositiveOffset:
     ld c, $08
     call CheckSpriteCollisionWithOffset
-    ld hl, $c202
+    ld hl, wPlayerState
     ld a, [hl]
     cp $a0
     ret nc
@@ -3823,7 +3823,7 @@ CheckSpriteCollisionSimple:
     cp $ff
     jr z, HandleJoypadAndCollision
 
-    ld hl, $c201
+    ld hl, wPlayerX
     ld a, [hl]
     cp $94
     jr nc, HandleJoypadAndCollision
@@ -3836,7 +3836,7 @@ HandleJoypadButtonB_CheckCollision:
     cp $ff
     jr z, HandleJoypadAndCollision
 
-    ld hl, $c201
+    ld hl, wPlayerX
     ld a, [hl]
     cp $30
     jr c, HandleJoypadAndCollision
@@ -3845,7 +3845,7 @@ HandleJoypadButtonB_CheckCollision:
     jr HandleJoypadAndCollision
 
 CheckPlayerCollisionWithTile:
-    ld hl, $c201
+    ld hl, wPlayerX
     ldh a, [hTimerAux]
     ld b, $fd
     and a
@@ -3896,7 +3896,7 @@ CheckPlayerCollisionWithTile:
 
 
 CheckSpriteCollision:
-    ld hl, $c201
+    ld hl, wPlayerX
     ld a, [hl+]
     add $0a
     ldh [hSpriteY], a
@@ -3954,7 +3954,7 @@ CheckSpriteCollisionWithOffset:
     ld de, $0501
 
 CollisionCheckOffsetLoop:
-    ld hl, $c201
+    ld hl, wPlayerX
     ld a, [hl+]
     add d
     ldh [hSpriteY], a
@@ -4068,7 +4068,7 @@ ProcessCollisionAndLoopContinue:
     call ProcessObjectCollisions
     jr IncrementOamPointerAndLoop
 
-    ld a, [$c202]
+    ld a, [wPlayerState]
     cp $01
     jr c, ResetGameStateInit
 
