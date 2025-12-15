@@ -2527,7 +2527,7 @@ UpdateLevelState_4a56:
     rra
     jr DataMarker_4ad1
 
-    jr nz, jr_001_4acb
+    jr nz, DataTable_4acb
 
     jr nz, DataEntry_4afd
 
@@ -2575,7 +2575,7 @@ UpdateLevelState_4a56:
     rlca
     or e
 
-jr_001_4acb:
+DataTable_4acb:
     ld c, $e7
     sbc a
     ld a, [hl]
@@ -2642,7 +2642,7 @@ DataEntry_4afd:
     ld a, a
     ld c, b
     ccf
-    jr nc, jr_001_4b18
+    jr nc, DataTable_4b18
 
     rrca
     ld a, c
@@ -2658,7 +2658,7 @@ DataEntry_4afd:
     ld c, b
     ld a, a
 
-jr_001_4b18:
+DataTable_4b18:
     ccf
     ccf
     rlca
@@ -3562,7 +3562,7 @@ DataPadding_4e5e:
     rst $38
     ld bc, $0f0f
     ccf
-    jr nc, jr_001_4f86
+    jr nc, DataTable_4f86
 
     ld b, a
     ld sp, hl
@@ -3586,7 +3586,7 @@ DataPadding_4e5e:
     ld a, a
     ld h, b
     ccf
-    jr nz, jr_001_4f5e
+    jr nz, DataPadding_4f5e
 
     jr nz, CheckScrollingConditionAndReset_001_4fa0
 
@@ -3653,7 +3653,7 @@ DataPadding_4e5e:
     db $fd
     rst $38
 
-jr_001_4f5e:
+DataPadding_4f5e:
     inc bc
     rst $38
     rst $38
@@ -3695,7 +3695,7 @@ Jump_001_4f76:
     ld a, a
     ld b, b
 
-jr_001_4f86:
+DataTable_4f86:
     ld a, a
     ld b, b
     ccf
@@ -4315,7 +4315,7 @@ ResetGameStateInit_001_5168:
     ld [hl], e
     inc de
 
-jr_001_5278:
+DataTable_5278:
     inc h
     ld [hl], a
     ld c, e
@@ -4351,7 +4351,7 @@ jr_001_5278:
     adc l
     ld [hl], $ff
 
-jr_001_529b:
+DataTable_529b:
     rrca
     dec b
     xor a
@@ -4403,13 +4403,13 @@ jr_001_529b:
     ld [$5720], sp
     ld [$5f1d], sp
     add hl, bc
-    jr nz, jr_001_5344
+    jr nz, DataTable_5344
 
     rlca
-    jr nz, jr_001_5347
+    jr nz, DataTable_5347
 
     dec c
-    jr nz, jr_001_5354
+    jr nz, DataTable_5354
 
     rlca
     cpl
@@ -4424,7 +4424,7 @@ jr_001_529b:
     inc h
     add l
     ld a, [bc]
-    jr nz, jr_001_5278
+    jr nz, DataTable_5278
 
     inc c
     cpl
@@ -4439,7 +4439,7 @@ jr_001_529b:
     sbc l
     sbc e
     dec c
-    jr nz, jr_001_529b
+    jr nz, DataTable_529b
 
     rrca
     sbc l
@@ -4505,12 +4505,12 @@ jr_001_529b:
     adc [hl]
     inc b
 
-jr_001_5344:
+DataTable_5344:
     ld c, d
     rrca
     ld d, [hl]
 
-jr_001_5347:
+DataTable_5347:
     ld c, e
     ld d, c
     ld [bc], a
@@ -4527,7 +4527,7 @@ ValidateCondition_534f:
     add d
     ld d, e
 
-jr_001_5354:
+DataTable_5354:
     ld d, c
     ld [bc], a
     ld d, h
@@ -5224,7 +5224,7 @@ Jump_001_5652:
     ld l, [hl]
     jr c, @+$72
 
-    jr c, jr_001_56e9
+    jr c, DataTable_56e9
 
     ld h, b
     ld l, a
@@ -5330,7 +5330,7 @@ Jump_001_5652:
     cp $5b
     inc [hl]
 
-jr_001_56e9:
+DataTable_56e9:
     scf
     ld b, c
     ld e, b
@@ -5343,7 +5343,7 @@ jr_001_56e9:
     ld e, l
     cp $54
     dec [hl]
-    jr c, jr_001_5733
+    jr c, DataTable_5733
 
     ccf
     ldh [c], a
@@ -5393,7 +5393,7 @@ jr_001_56e9:
     ld h, c
     call nz, $3163
 
-jr_001_5733:
+DataTable_5733:
     ld sp, $fe5d
     add c
     ld h, c
@@ -6324,7 +6324,7 @@ ProcessLevelData_5b49:
     ld e, l
     cp $24
     dec [hl]
-    jr c, jr_001_5c0c
+    jr c, DataTable_5c0c
 
     ccf
     ldh [c], a
@@ -6376,7 +6376,7 @@ ProcessLevelData_5b49:
     ld l, c
     ld h, a
 
-jr_001_5c0c:
+DataTable_5c0c:
     ld l, c
     ld e, l
     cp $b5
