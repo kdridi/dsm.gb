@@ -3109,10 +3109,10 @@ DoorPositionCalculationPath:
 
 ; ===========================================================================
 ; État $24 - Affichage texte cutscene ($0F61)
-; Affiche le texte depuis table $0FD8 caractère par caractère
+; Affiche le texte depuis TextData_ThankYou caractère par caractère
 ; ===========================================================================
 State24_DisplayText::
-    ld hl, $0fd8
+    ld hl, TextData_ThankYou
     call WriteCharToVRAM
     cp $ff
     ret nz
@@ -3203,33 +3203,23 @@ LoadOffsetAndCopy:
     jr WaitAndStoreVram
 
 ; === Table de texte cutscene ($0FD8-$0FF3) ===
-; NOTE: Mal désassemblé - données de texte (indices de tiles)
-; Contenu: "THANK YOU MARIO!" terminé par $FF
-TextData_0FD8:
-    dec e
-    ld de, $170a
-    inc d
-    inc l
-    ld [hl+], a
-    jr State25_LoadSpriteTableAddress
-
-    inc l
-    ld d, $0a
-    dec de
-    ld [de], a
-    jr State25_StoreSpriteValue
-
-    cp $73
-    jr State25_StoreOAMIndex
-
-    jr z, @+$2e
-
-    dec c
-    ld a, [bc]
-    ld [de], a
-    inc e
-    ld [hl+], a
-    rst $38
+; Texte en indices de tiles pour la cutscene de fin
+; Ligne 1: "THANK YOU MARIO!" ($FE = saut de ligne)
+; Ligne 2: "OH! DAISY" ($FF = fin)
+TextData_ThankYou:
+    db $1d, $11, $0a, $17, $14  ; "THANK"
+    db $2c                      ; " " (espace)
+    db $22, $18, $1e            ; "YOU"
+    db $2c                      ; " " (espace)
+    db $16, $0a, $1b, $12, $18  ; "MARIO"
+    db $23                      ; "!"
+    db $fe                      ; Saut de ligne
+    db $73                      ; (icône coeur?)
+    db $18, $11                 ; "OH"
+    db $28                      ; "!"
+    db $2c                      ; " " (espace)
+    db $0d, $0a, $12, $1c, $22  ; "DAISY"
+    db $ff                      ; Fin
 
 ; ===========================================================================
 ; État $25 - Animation sprite clignotant ($0FF4)
@@ -3512,10 +3502,10 @@ ClearOamBuffer_Loop:
 
 ; ===========================================================================
 ; État $2A - Affichage texte fin ($115C)
-; Affiche texte depuis table $117A, puis configure sprite princesse
+; Affiche texte "OH! DAISY", puis configure sprite princesse
 ; ===========================================================================
 State2A_DisplayEndText::
-    ld hl, $117a
+    ld hl, TextData_OhDaisy
     call WriteCharToVRAM
     cp $ff
     ret nz
@@ -3532,32 +3522,25 @@ State2A_DisplayEndText::
     inc [hl]
     ret
 
-; === Table de données texte fin ($117A-$118A) ===
-; NOTE: Mal désassemblé - données de texte
-TextData_117A:
-    jr @+$13
-
-    jr z, State2B_InitSpriteData
-
-    dec c
-    ld a, [bc]
-    ld [de], a
-    inc e
-    ld [hl+], a
-    cp $1b
-    dec c
-    ld a, [bc]
-    ld [de], a
-    inc e
-    ld [hl+], a
-    rst $38
+; === Table de texte "OH! DAISY" ($117A-$118A) ===
+; Texte affiché après la descente de la princesse
+; "OH! DAISY" ($FE = saut) "RDAISY" ($FF = fin)
+TextData_OhDaisy:
+    db $18, $11                 ; "OH"
+    db $28                      ; "!"
+    db $2c                      ; " " (espace)
+    db $0d, $0a, $12, $1c, $22  ; "DAISY"
+    db $fe                      ; Saut de ligne
+    db $1b                      ; "R" (?)
+    db $0d, $0a, $12, $1c, $22  ; "DAISY"
+    db $ff                      ; Fin
 
 ; ===========================================================================
 ; État $2B - Animation descente princesse ($118B)
-; Descend sprite princesse, affiche texte depuis $11B6
+; Descend sprite princesse, affiche texte "THANK YOU MARIO!"
 ; ===========================================================================
 State2B_PrincessDescending::
-    ld hl, $11b6
+    ld hl, TextData_ThankYouMario
     call WriteCharToVRAM
     ldh a, [hFrameCounter]
     and $03
@@ -3588,23 +3571,16 @@ State2B_InitSpriteData:
     ld [hl], $00
     ret
 
-; === Table de données texte ($11B6-$11C6) ===
-; NOTE: Mal désassemblé - données de texte
-TextData_11B6:
-    dec e
-    ld de, $170a
-    inc d
-    inc l
-    ld [hl+], a
-    jr @+$20
-
-    inc l
-    ld d, $0a
-    dec de
-    ld [de], a
-    jr State2C_ClearScreen
-
-    rst $38
+; === Table de texte "THANK YOU MARIO!" ($11B6-$11C6) ===
+; Texte affiché pendant l'animation de la princesse
+TextData_ThankYouMario:
+    db $1d, $11, $0a, $17, $14  ; "THANK"
+    db $2c                      ; " " (espace)
+    db $22, $18, $1e            ; "YOU"
+    db $2c                      ; " " (espace)
+    db $16, $0a, $1b, $12, $18  ; "MARIO"
+    db $23                      ; "!"
+    db $ff                      ; Fin
 
 ; ===========================================================================
 ; État $2C - Animation sprite oscillante ($11C7)
@@ -3668,10 +3644,10 @@ State2C_ClearScreen:
 
 ; ===========================================================================
 ; État $2D - Affichage texte deuxième partie ($1212)
-; Affiche texte depuis $1236, configure sprites Mario et Peach
+; Affiche texte "YOUR QUEST IS OVER!", configure sprites Mario et Peach
 ; ===========================================================================
 State2D_DisplayText2::
-    ld hl, $1236
+    ld hl, TextData_QuestOver
     call WriteCharToVRAM
     cp $ff
     ret nz
@@ -3693,28 +3669,19 @@ State2D_DisplayText2::
     inc [hl]
     ret
 
-; === Table de données texte ($1236-$124A) ===
-; NOTE: Mal désassemblé - données de texte
-TextData_1236:
-    add hl, hl
-    ld [hl+], a
-    jr State2E_CheckCharPosition
-
-    dec de
-    inc l
-    ld a, [de]
-    ld e, $0e
-    inc e
-    dec e
-    inc l
-    ld [de], a
-    inc e
-    inc l
-    jr @+$21
-
-    ld c, $1b
-    add hl, hl
-    rst $38
+; === Table de texte "YOUR QUEST IS OVER!" ($1236-$124A) ===
+; Texte final de fin de jeu
+TextData_QuestOver:
+    db $29                      ; "("
+    db $22, $18, $1e, $1b       ; "YOUR"
+    db $2c                      ; " " (espace)
+    db $1a, $1e, $0e, $1c, $1d  ; "QUEST"
+    db $2c                      ; " " (espace)
+    db $12, $1c                 ; "IS"
+    db $2c                      ; " " (espace)
+    db $18, $1f, $0e, $1b       ; "OVER"
+    db $29                      ; ")"
+    db $ff                      ; Fin
 
 ; ===========================================================================
 ; État $2E - Animation sprites ensemble ($124B)
