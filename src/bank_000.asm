@@ -2615,8 +2615,14 @@ CollisionCheckFailed:
 ;; ==========================================================================
 ;; State03_SetupTransition - Handler d'état $03 ($0B84)
 ;; ==========================================================================
-;; Configure les sprites OAM pour un effet visuel (transition ?).
-;; Place 4 sprites dans wOamVar0C puis passe à l'état $04.
+;; Description: Configure 4 sprites OAM pour un effet visuel de transition.
+;;              Place deux tuiles de transition (normale + flip) formant un
+;;              motif 2×2, puis passe à l'état animation ($04).
+;; In:  wLevelVarDD = Position Y de référence
+;;      wPlayerState = Position X du joueur
+;; Out: hGameState = GAME_STATE_ANIMATION ($04)
+;;      wGameVarAC, hTimerAux, hRenderCounter = 0
+;; Modifie: A, BC, DE, HL, appelle ClearOamAndSpriteBuffers
 ;; ==========================================================================
 State03_SetupTransition::
     ; Configurer 4 sprites OAM pour effet de transition

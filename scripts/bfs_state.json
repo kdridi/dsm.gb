@@ -1017,6 +1017,14 @@
       "priority": 3
     },
     {
+      "address": "$29F8",
+      "node_type": "code",
+      "description": "GetAnimationDataPointer - R\u00e9cup\u00e8re pointeur vers donn\u00e9es animation objet",
+      "source": "$0AE1",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$29f8",
       "node_type": "code",
       "description": "GetAnimationDataPointer - Obtient pointeur vers donn\u00e9es animation",
@@ -1519,14 +1527,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$29F8",
-      "node_type": "code",
-      "description": "GetAnimationDataPointer - R\u00e9cup\u00e8re pointeur vers donn\u00e9es animation objet",
-      "source": "$0AE1",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1562,6 +1562,7 @@
     "$05F8",
     "$0AE1",
     "$00CD",
+    "$0B84",
     "$4000:1",
     "$0150",
     "$049D",
@@ -1589,6 +1590,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 2,
-  "total_explored": 58
+  "commits_since_push": 3,
+  "total_explored": 59
 }
