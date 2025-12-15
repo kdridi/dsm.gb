@@ -3269,7 +3269,18 @@ TimerExpiredPath:
 
 ; ===========================================================================
 ; État $1D - Setup VRAM pointer ($0E28)
-; Calcule la position VRAM pour le scroll, configure le compteur OAM
+; State1D_SetupVRAMPointer
+; -------------------------
+; Description: Calcule l'adresse VRAM pour le rendu du scroll et initialise
+;              les compteurs OAM et timer. Attend que hTimer1 expire avant d'exécuter.
+; In:  hTimer1 = compteur frames (doit être 0 pour exécuter)
+;      hVramPtrLow = position VRAM courante
+; Out: hVramPtrLow = nouvelle position VRAM ajustée
+;      hOAMAddrLow = OAM_ADDR_INIT ($05)
+;      hTimer1 = TIMER_ANIM_STEP ($08)
+;      hGameState = incrémenté
+;      wPlayerVarAB = 0
+; Modifie: a, hl, de
 ; ===========================================================================
 State1D_SetupVRAMPointer::
     xor a
