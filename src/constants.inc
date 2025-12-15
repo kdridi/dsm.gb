@@ -668,3 +668,9 @@ DEF OAM_TITLE_TILE          EQU $ac ; Tile sprite écran titre
 ; === Masques et toggles ===
 
 DEF TOGGLE_SPRITE_Y_MASK    EQU $f8 ; Masque XOR pour toggle position Y sprite
+
+; === Types de collision bloc (hBlockHitType) ===
+; Valeurs spéciales utilisées pour les interactions joueur/blocs
+
+DEF BLOCK_HIT_NONE          EQU $00 ; Pas de collision
+DEF BLOCK_HIT_TYPE_SPECIAL  EQU $c0 ; Type spécial (annule l'animation objet)

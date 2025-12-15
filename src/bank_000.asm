@@ -2019,7 +2019,7 @@ SelectAnimationBank:
     srl a
     ld e, a
     ld d, $00
-    ld hl, $0a20
+    ld hl, AnimBankTable
     add hl, de
     ld a, [hl]
     ldh [hAnimStructBank], a
@@ -2027,16 +2027,18 @@ SelectAnimationBank:
     pop hl
     ret
 
-
-    ld bc, $0804
-    ld d, b
+; === Table des banks d'animation ($0A20) ===
+; Indexée par (hAnimObjSubState & $C0) >> 4
+; Valeurs: 0→bank $01, 1→bank $04, 2→bank $08, 3→bank $50
+AnimBankTable:
+    db $01, $04, $08, $50
 
 HandleObjectAnimationOnBlockHit:
     ldh a, [hBlockHitType]
     and a
     ret z
 
-    cp $c0
+    cp BLOCK_HIT_TYPE_SPECIAL
     ret z
 
     ld de, OBJECT_SLOT_SIZE       ; 16 bytes par slot
@@ -3276,39 +3278,25 @@ Copy16BytesOam_Loop:
 
     ret
 
-; === Tables de données sprites cutscene ($102C-$104B) ===
-; NOTE: Mal désassemblé - données de configuration sprite
-; SpriteConfig1 ($102C): 16 bytes pour position sprite normal
-; SpriteConfig2 ($103C): 16 bytes pour position sprite alternatif
-SpriteConfigTable:
-    ld a, b
-    ld e, b
-    ld b, $00
-    ld a, b
-    ld h, b
-    ld b, $20
-    add b
-    ld e, b
-    ld b, $40
-    add b
-    ld h, b
-    ld b, $60
-    ld a, b
-    ld e, b
-    rlca
-    nop
-    ld a, b
-    ld h, b
-    rlca
-    jr nz, LoadOffsetAndCopy
+; === Tables de configuration sprites cutscene ($102C-$104B) ===
+; Format OAM : Y position, X position, Tile index, Attributes
+; 4 bytes par sprite × 4 sprites × 2 configurations = 32 bytes
+;
+; SpriteConfig1 ($102C): Configuration normale (tile $06)
+; SpriteConfig2 ($103C): Configuration alternative/clignement (tile $07)
 
-    ld e, b
-    rlca
-    ld b, b
-    add b
-    ld h, b
-    rlca
-    ld h, b
+SpriteConfigTable:
+; Configuration 1 - Tile $06 (normal)
+    db $78, $58, $06, $00  ; Sprite 0: Y=$78, X=$58, Tile=$06, Attr=$00
+    db $78, $60, $06, $20  ; Sprite 1: Y=$78, X=$60, Tile=$06, Attr=$20 (X flip)
+    db $80, $58, $06, $40  ; Sprite 2: Y=$80, X=$58, Tile=$06, Attr=$40 (Y flip)
+    db $80, $60, $06, $60  ; Sprite 3: Y=$80, X=$60, Tile=$06, Attr=$60 (XY flip)
+
+; Configuration 2 - Tile $07 (clignement/alternatif)
+    db $78, $58, $07, $00  ; Sprite 0: Y=$78, X=$58, Tile=$07, Attr=$00
+    db $78, $60, $07, $20  ; Sprite 1: Y=$78, X=$60, Tile=$07, Attr=$20 (X flip)
+    db $80, $58, $07, $40  ; Sprite 2: Y=$80, X=$58, Tile=$07, Attr=$40 (Y flip)
+    db $80, $60, $07, $60  ; Sprite 3: Y=$80, X=$60, Tile=$07, Attr=$60 (XY flip)
 
 ; ===========================================================================
 ; État $26 - Animation princesse montante ($104C)
