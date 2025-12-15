@@ -12660,14 +12660,14 @@ CopyTilemapInner:
 ; -----------------------------------------------------------------------------
 GetTileAddrFromSprite:
     ldh a, [hSpriteY]
-    sub $10               ; Retire offset OAM Y
+    sub OAM_Y_OFS         ; Retire offset OAM Y
     srl a
     srl a
     srl a                 ; Y pixels → ligne tile (÷8)
     ld de, $0000
     ld e, a
     ld hl, VRAM_BG_BASE   ; Base tilemap BG
-    ld b, $20             ; Largeur = 32 tiles
+    ld b, TILEMAP_STRIDE  ; Largeur = 32 tiles
 
 .multiplyRow:
     add hl, de            ; HL += ligne (×32 via boucle)
@@ -12675,7 +12675,7 @@ GetTileAddrFromSprite:
     jr nz, .multiplyRow
 
     ldh a, [hSpriteX]
-    sub $08               ; Retire offset OAM X
+    sub OAM_X_OFS         ; Retire offset OAM X
     srl a
     srl a
     srl a                 ; X pixels → colonne tile (÷8)
