@@ -566,6 +566,17 @@ DEF GAME_STATE_BONUS_COPY   EQU $15 ; Copie données tilemap bonus
 DEF GAME_STATE_SPECIAL  EQU $1C ; État niveau spécial
 DEF GAME_STATE_INIT27   EQU $27 ; État initialisation spéciale
 
+; États crédits/fin de jeu ($30-$38)
+DEF GAME_STATE_WALK_LEFT        EQU $30 ; Marche vers la gauche
+DEF GAME_STATE_H_SCROLL         EQU $31 ; Scroll horizontal
+DEF GAME_STATE_CREDITS_SCROLL   EQU $32 ; Scroll crédits
+DEF GAME_STATE_CREDITS_TEXT     EQU $33 ; Affichage texte crédits
+DEF GAME_STATE_CREDITS_WAIT     EQU $34 ; Attente compteur crédits
+DEF GAME_STATE_WAIT_TIMER       EQU $35 ; Attente timer
+DEF GAME_STATE_CREDITS_FINAL    EQU $36 ; Transition finale crédits
+DEF GAME_STATE_SPRITE_FINAL     EQU $37 ; Animation sprite finale
+DEF GAME_STATE_CREDITS_ANIM     EQU $38 ; Animation crédits
+
 ; États game over
 DEF GAME_STATE_GAME_OVER    EQU $39 ; Écran GAME OVER
 

@@ -4080,12 +4080,12 @@ State34_WaitCreditsCounter::
     ld hl, wLevelInitFlag
     inc [hl]
     ld a, [hl]
-    cp $20
+    cp TIMER_ANIM_WALK
     ret nz
 
     ld hl, hGameState
     inc [hl]
-    ld a, $50
+    ld a, TIMER_GAMEPLAY_DELAY
     ldh [hTimer1], a
     ret
 
@@ -4116,17 +4116,17 @@ State36_CreditsFinalTransition::
     ld hl, wLevelInitFlag
     inc [hl]
     ld a, [hl]
-    cp $50
+    cp TIMER_GAMEPLAY_DELAY
     ret nz
 
     xor a
     ld [wLevelInitFlag], a
     ld a, [wAudioSaveDE]
     cp SLOT_EMPTY
-    ld a, $33
+    ld a, GAME_STATE_CREDITS_TEXT
     jr nz, SetGameStateRegister
 
-    ld a, $37
+    ld a, GAME_STATE_SPRITE_FINAL
 
 SetGameStateRegister:
     ldh [hGameState], a
@@ -4141,16 +4141,16 @@ State37_FinalSpriteAnimation::
     ld hl, wPlayerState
     inc [hl]
     ld a, [hl]
-    cp $d0
+    cp PRINCESS_ANIM_THRESHOLD
     ret nz
 
     dec l
-    ld [hl], $f0
+    ld [hl], SPRITE_ANIM_RESET
     push hl
     call SwitchBankAndCallBank3Handler
     pop hl
     dec l
-    ld [hl], $ff
+    ld [hl], SLOT_EMPTY
     ld hl, wTilemapBuf70
     ld de, $14bb
     ld b, $18
