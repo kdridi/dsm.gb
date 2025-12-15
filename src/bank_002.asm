@@ -6479,13 +6479,13 @@ PaddingZone_002_5ac9:
     ld [hl], a
     ld a, [$da27]
     bit 0, a
-    jr z, PaddingZone_002_5b07
+    jr z, ProcessAnimationFrame
 
     ld hl, wSpriteTemp
     ld b, $04
     ld a, [hl]
     cp $80
-    jr z, PaddingZone_002_5af1
+    jr z, WriteAnimValue38
 
 UpdateSpritePositionLoop:
     ld a, $18
@@ -6497,9 +6497,9 @@ UpdateSpritePositionLoop:
     dec b
     jr nz, UpdateSpritePositionLoop
 
-    jr PaddingZone_002_5b07
+    jr ProcessAnimationFrame
 
-PaddingZone_002_5af1:
+WriteAnimValue38:
     ld b, $02
     ld a, $38
 
@@ -6522,7 +6522,7 @@ ResetSpriteAnimationLoop:
     dec b
     jr nz, ResetSpriteAnimationLoop
 
-PaddingZone_002_5b07:
+ProcessAnimationFrame:
     ld hl, $98ea
     ld bc, $0060
     ld de, $da27
@@ -6824,18 +6824,18 @@ SpriteAnimationCompletionCheck:
     ld hl, wSpriteTemp
     ld a, [hl]
     cp $38
-    jr z, PaddingZone_002_5c93
+    jr z, SetState17_AfterAnimation
 
     cp $50
-    jr z, PaddingZone_002_5c93
+    jr z, SetState17_AfterAnimation
 
     cp $68
-    jr z, PaddingZone_002_5c93
+    jr z, SetState17_AfterAnimation
 
     ret
 
 
-PaddingZone_002_5c93:
+SetState17_AfterAnimation:
     ld a, $08
     ld [$da16], a
     ld a, $17
@@ -6914,33 +6914,33 @@ CheckAnimationTilesLoop:
     ld a, [wSpriteTemp]
     ld b, a
     cp $38
-    jr z, PaddingZone_002_5cf9
+    jr z, CheckAnimTile_Skip50
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-PaddingZone_002_5cf9:
+CheckAnimTile_Skip50:
     add hl, de
     ld a, b
     cp $50
-    jr z, PaddingZone_002_5d03
+    jr z, CheckAnimTile_Skip68
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-PaddingZone_002_5d03:
+CheckAnimTile_Skip68:
     add hl, de
     ld a, b
     cp $68
-    jr z, PaddingZone_002_5d0d
+    jr z, CheckAnimTile_Skip80
 
     ld a, $2c
     ld [hl+], a
     ld [hl-], a
 
-PaddingZone_002_5d0d:
+CheckAnimTile_Skip80:
     add hl, de
     ld a, b
     cp $80
@@ -7072,12 +7072,12 @@ SpriteAnimationTermination:
     ld b, $04
     ld a, [$da1e]
     and a
-    jr nz, PaddingZone_002_5de8
+    jr nz, DecrementAndSubtract
 
     inc a
     ld [$da1e], a
 
-PaddingZone_002_5ddd:
+AddSpriteOffset20Loop:
     ld a, [hl]
     add $20
     ld [hl+], a
@@ -7085,12 +7085,12 @@ PaddingZone_002_5ddd:
     inc l
     inc l
     dec b
-    jr nz, PaddingZone_002_5ddd
+    jr nz, AddSpriteOffset20Loop
 
     ret
 
 
-PaddingZone_002_5de8:
+DecrementAndSubtract:
     dec a
     ld [$da1e], a
 
@@ -7180,13 +7180,13 @@ SpriteAnimationState_UpdateAnimCounters:
     ld b, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, PaddingZone_002_5e5e
+    jr nz, WriteSpriteValuesLoop
 
     ld a, b
     add $20
     ld b, a
 
-PaddingZone_002_5e5e:
+WriteSpriteValuesLoop:
     ld a, b
     ld [hl+], a
     inc l
@@ -7292,13 +7292,13 @@ SpriteAnimationState_IncrementCounter:
     ld b, a
     ldh a, [hTimerAux]
     cp $02
-    jr nz, PaddingZone_002_5eea
+    jr nz, WriteSpriteValuesLoop2
 
     ld a, b
     add $20
     ld b, a
 
-PaddingZone_002_5eea:
+WriteSpriteValuesLoop2:
     ld a, b
     ld [hl+], a
     inc l
