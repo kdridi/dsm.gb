@@ -5397,10 +5397,10 @@ CollisionConfig_Offset2:
     cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr z, HandlePlayerSpikeCollision
 
-    cp $77
+    cp TILEMAP_CMD_SLIDE        ; Tile glissade $77 ?
     jr z, HandlePlayerSlideCollision
 
-    cp $f2
+    cp TILEMAP_CMD_BOUNCE       ; Tile rebond $F2 ?
     jr z, TriggerBlockCollisionSound_TimerCheck
 
 CollisionDefaultHandler:
@@ -5517,16 +5517,16 @@ ProcessBlockCollision:
     call nz, CollectCoin
     ld hl, hBlockHitType
     ld a, [hl]
-    cp $01
+    cp BLOCK_HIT_SOFT           ; Bloc cassable ?
     jr z, ProcessBlockCollision_HandleSoftBlock
 
-    cp $02
+    cp BLOCK_HIT_COIN           ; Bloc pièce ?
     jp z, BlockCollision_CoinProcess
 
-    cp $c0
+    cp BLOCK_HIT_TYPE_SPECIAL   ; Type spécial $C0 ?
     jr z, ProcessBlockCollision_HandleSoftBlock
 
-    cp $04
+    cp BLOCK_HIT_ITEM           ; Bloc item ?
     ret nz
 
     ld [hl], $00
@@ -7885,8 +7885,8 @@ ProcessAudioQueue_Found:
     jr z, ProcessAudioQueue_Type_F0
 
     ld a, [wAudioQueueType]
-    and $e0
-    cp $e0
+    and BITS_5_7_MASK           ; Masque bits 5-7 audio type
+    cp BITS_5_7_MASK            ; Test si tous bits 5-7 actifs
     jr nz, ProcessAudioQueue_Type_Other
 
     ld a, [wAudioQueueType]
@@ -7912,7 +7912,7 @@ ProcessAudioQueue_Type_F0:
     ld a, [hl]
     ld [wAudioQueueId], a
     ld a, [wAudioQueueType]
-    cp $f8
+    cp AUDIO_CMD_F8             ; Commande set channel 3 ?
     jr nz, ProcessAudioQueue_Type_F0_NotF8
 
     ld a, [wAudioQueueId]
@@ -7921,18 +7921,18 @@ ProcessAudioQueue_Type_F0:
     jr ProcessAudioQueue_Loop
 
 ProcessAudioQueue_Type_F0_NotF8:
-    cp $f0
+    cp AUDIO_CMD_F0             ; Commande special processing ?
     jr nz, CheckAudioCommand_F1
 
     ld a, [wAudioQueueId]
-    and $c0
+    and BITS_6_7_MASK           ; Test bits direction audio
     jr z, CheckAudioQueueBits54
 
     bit 7, a
     jr z, CheckAudioQueueBit6
 
     ldh a, [hSoundCh2]
-    and $fd
+    and CLEAR_BIT_1_MASK        ; Efface bit 1
     ld b, a
     ld a, [wPlayerX]
     ld c, a
@@ -7940,7 +7940,7 @@ ProcessAudioQueue_Type_F0_NotF8:
     sub c
     rla
     rlca
-    and $02
+    and BIT_1_MASK              ; Isole bit 1
     or b
     ldh [hSoundCh2], a
 
@@ -7960,10 +7960,10 @@ CheckAudioQueueBit6:
     add b
     sub c
     rla
-    and $01
+    and BIT_0_MASK              ; Isole bit 0
     ld b, a
     ldh a, [hSoundCh2]
-    and $fe
+    and CLEAR_BIT_0_MASK        ; Efface bit 0
     or b
     ldh [hSoundCh2], a
 
@@ -7984,8 +7984,8 @@ CheckAudioQueueBit5:
     bit 5, a
     jr z, CheckAudioQueueBit4
 
-    and $02
-    or $fd
+    and BIT_1_MASK              ; Isole bit 1
+    or CLEAR_BIT_1_MASK         ; Ou avec $FD (preserve autres bits)
     ld b, a
     ldh a, [hSoundCh2]
     set 1, a
@@ -7997,8 +7997,8 @@ CheckAudioQueueBit4:
     bit 4, a
     jr z, AudioQueueProcessDone
 
-    and $01
-    or $fe
+    and BIT_0_MASK              ; Isole bit 0
+    or CLEAR_BIT_0_MASK         ; Ou avec $FE (preserve autres bits)
     ld b, a
     ldh a, [hSoundCh2]
     set 0, a
@@ -8045,7 +8045,7 @@ CheckAudioCommand_F3:
     ld hl, hSoundId
     call InitSoundSlot
     pop hl
-    ld hl, $3495
+    ld hl, ROM_AUDIO_POINTERS   ; Table pointeurs données audio
     ldh a, [hSoundId]
     rlca
     ld d, $00
@@ -8404,11 +8404,11 @@ SubtractSoundFlagFromParam1:
 
 CheckObjectTileTop_Alternatives:
     ldh a, [hSoundCh4]
-    and $c0
-    cp $00
+    and BITS_6_7_MASK           ; Masque bits direction audio
+    cp BLOCK_HIT_NONE           ; Test si aucun bit direction
     jr z, SubtractSoundFlagFromParam1
 
-    cp $40
+    cp BIT_6_MASK               ; Test bit 6 seul
     jp nz, CollisionPhysics_SoundChannelControl
 
     ldh a, [hSoundCh2]
@@ -8417,7 +8417,7 @@ CheckObjectTileTop_Alternatives:
     jr CollisionEnd
 
 CollisionPhysics_SoundChannelControl:
-    cp $c0
+    cp BITS_6_7_MASK            ; Test bits 6-7 ($C0)
     jr nz, CollisionEnd
 
     xor a

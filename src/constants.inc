@@ -421,6 +421,7 @@ DEF ROM_INIT_BANK3  EQU $7FF3   ; Routine d'initialisation en bank 3
 
 ; --- Tables audio ---
 DEF ROM_AUDIO_CONFIG    EQU $336C   ; Configurations son (3 octets/son)
+DEF ROM_AUDIO_POINTERS  EQU $3495   ; Pointeurs vers données audio (2 octets/son)
 
 ; --- Tables style (par niveau) ---
 DEF ROM_STYLE_LVL_0     EQU $030C   ; Niveaux 0-6
@@ -704,6 +705,8 @@ DEF TILEMAP_CMD_WATER   EQU $82 ; Tile eau (collision spéciale)
 DEF TILEMAP_CMD_PIPE    EQU $F4 ; Tile tuyau/pipe (entrée zone spéciale)
 DEF TILEMAP_CMD_E1      EQU $E1 ; Tile collision spéciale E1 (transition/warp)
 DEF TILEMAP_CMD_DANGER  EQU $ED ; Tile danger (collision fatale si vulnérable)
+DEF TILEMAP_CMD_SLIDE   EQU $77 ; Tile glissade/slide (collision spéciale)
+DEF TILEMAP_CMD_BOUNCE  EQU $F2 ; Tile rebond/bloc collision (son + effet)
 
 ; Seuil pour distinguer les tiles commandes (>= $60) des tiles normaux (< $60)
 DEF TILEMAP_CMD_THRESHOLD EQU $60 ; Seuil: >= $60 = tile spécial/commande
@@ -766,6 +769,9 @@ DEF TOGGLE_SPRITE_Y_MASK    EQU $f8 ; Masque XOR pour toggle position Y sprite
 ; Valeurs spéciales utilisées pour les interactions joueur/blocs
 
 DEF BLOCK_HIT_NONE          EQU $00 ; Pas de collision
+DEF BLOCK_HIT_SOFT          EQU $01 ; Bloc cassable (soft block)
+DEF BLOCK_HIT_COIN          EQU $02 ; Bloc pièce (coin block)
+DEF BLOCK_HIT_ITEM          EQU $04 ; Bloc item (mushroom/flower)
 DEF BLOCK_HIT_TYPE_SPECIAL  EQU $c0 ; Type spécial (annule l'animation objet)
 
 ; === Window/LCD positions ===
@@ -867,11 +873,18 @@ DEF NIBBLE_HIGH_MASK        EQU $f0   ; Masque 4 bits hauts (nibble supérieur)
 
 ; === Masques bitwise individuels ===
 
+DEF BIT_0_MASK              EQU $01   ; Masque bit 0 uniquement
+DEF BIT_1_MASK              EQU $02   ; Masque bit 1 uniquement
 DEF BIT_2_MASK              EQU $04   ; Masque bit 2 uniquement
 DEF BIT_3_MASK              EQU $08   ; Masque bit 3 uniquement
+DEF BIT_6_MASK              EQU $40   ; Masque bit 6 uniquement
 DEF BITS_2_3_MASK           EQU $0c   ; Masque bits 2-3
 DEF BITS_2_3_CLEAR_MASK     EQU $f3   ; Efface bits 2-3 (inverse de $0c)
 DEF BITS_4_5_MASK           EQU $30   ; Masque bits 4-5
+DEF BITS_6_7_MASK           EQU $c0   ; Masque bits 6-7 (audio direction)
+DEF BITS_5_7_MASK           EQU $e0   ; Masque bits 5-7 (audio type)
+DEF CLEAR_BIT_0_MASK        EQU $fe   ; Efface bit 0 (inverse de $01)
+DEF CLEAR_BIT_1_MASK        EQU $fd   ; Efface bit 1 (inverse de $02)
 
 ; === Masques joypad combinés ===
 ; (Les constantes individuelles PADF_* sont dans hardware.inc)
@@ -1126,6 +1139,7 @@ DEF OAM_CLEAR_SIZE_END         EQU $0c   ; Taille clear OAM fin (12 octets)
 
 DEF AUDIO_CMD_F0               EQU $f0   ; Commande audio F0 (special processing)
 DEF AUDIO_CMD_F1               EQU $f1   ; Commande audio F1 (save/load slot)
+DEF AUDIO_CMD_F8               EQU $f8   ; Commande audio F8 (set channel 3)
 DEF AUDIO_CMD_F2               EQU $f2   ; Commande audio F2 (set channel 4)
 DEF AUDIO_CMD_F3               EQU $f3   ; Commande audio F3 (init sound)
 DEF AUDIO_CMD_F4               EQU $f4   ; Commande audio F4 (set var2)
