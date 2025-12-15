@@ -4141,13 +4141,13 @@ State2B_InitSpriteData:
 ; === Table de texte "THANK YOU MARIO!" ($11B6-$11C6) ===
 ; Texte affiché pendant l'animation de la princesse
 TextData_ThankYouMario:
-    db $1d, $11, $0a, $17, $14  ; "THANK"
-    db $2c                      ; " " (espace)
-    db $22, $18, $1e            ; "YOU"
-    db $2c                      ; " " (espace)
-    db $16, $0a, $1b, $12, $18  ; "MARIO"
-    db $23                      ; "!"
-    db $ff                      ; Fin
+    db TEXT_CHAR_T, TEXT_CHAR_H, TEXT_CHAR_A, TEXT_CHAR_N, TEXT_CHAR_K  ; "THANK"
+    db TEXT_CHAR_SPACE                                                   ; " "
+    db TEXT_CHAR_Y, TEXT_CHAR_O, TEXT_CHAR_U                             ; "YOU"
+    db TEXT_CHAR_SPACE                                                   ; " "
+    db TEXT_CHAR_M, TEXT_CHAR_A, TEXT_CHAR_R, TEXT_CHAR_I, TEXT_CHAR_O  ; "MARIO"
+    db TEXT_CHAR_EXCLAIM                                                 ; "!"
+    db TEXT_CHAR_END                                                     ; Fin
 
 ; ===========================================================================
 ; État $2C - Animation sprite oscillante ($11C7)
