@@ -1037,7 +1037,7 @@ InitAttractModeDisplay_CheckTimer:
     sla a
     ld e, a
     ld d, $00
-    ld hl, $0552
+    ld hl, ROM_ATTRACT_INDEX_TABLE
     add hl, de
     ld a, [hl+]
     ldh [hAnimTileIndex], a
@@ -1045,7 +1045,7 @@ InitAttractModeDisplay_CheckTimer:
     ldh [hRenderContext], a
 
 InitLevelStartWithAttractMode:
-    ld a, $50
+    ld a, ATTRACT_MODE_LONG
     ld [wAttractModeTimer], a
     ld a, GAME_STATE_LEVEL_START
     ldh [hGameState], a
@@ -1110,7 +1110,7 @@ State11_LevelStart::
     call LoadGameTiles
     call ClearBGTilemap
     ld hl, _SCRN1
-    ld b, $5f
+    ld b, SCRN1_CLEAR_SIZE
     ld a, TILE_EMPTY
 
 .clearTilemapLoop:
@@ -1124,16 +1124,16 @@ State11_LevelStart::
     ld a, TAC_ENABLED_16KHZ
     ldh [rTAC], a
     ld hl, rWY              ; Window Y position
-    ld [hl], $85
+    ld [hl], WY_INIT_GAME
     inc l
-    ld [hl], $60
+    ld [hl], WX_INIT_GAME
     xor a
     ldh [rTMA], a
     ldh [rIF], a
     dec a
     ldh [hTimer2], a
     ldh [hScoreNeedsUpdate], a
-    ld a, $5b
+    ld a, SCROLL_COLUMN_INIT
     ldh [hScrollColumn], a
     call InitAudioAndAnimContext
     call InitLevelData
@@ -1783,7 +1783,7 @@ ProcessPlayerInteraction:
     and a
     jr z, PlayerInteractionDone
 
-    ld hl, $c20a
+    ld hl, wPlayerUnk0A
     ld [hl], $00
     dec l
     dec l
@@ -2197,7 +2197,7 @@ ReturnZero:
 
 
 CheckPlayerObjectCollision:
-    ld a, [$c207]
+    ld a, [wPlayerUnk07]
     cp $01
     ret z
 
@@ -2306,12 +2306,12 @@ ApplyCollisionKnockback:
     add hl, bc
     ld [hl], $01
     xor a
-    ld hl, $c207
+    ld hl, wPlayerUnk07
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
     ld [hl], $01
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld a, [hl]
     cp $07
     jr c, CollisionBoundsCheckEnd
@@ -2956,7 +2956,7 @@ State1F_EnableVBlankMode::
 
     xor a
     ld [wCollisionFlag], a
-    ld [$c207], a
+    ld [wPlayerUnk07], a
     inc a
     ldh [hVBlankMode], a
     ld hl, hGameState
@@ -3021,7 +3021,7 @@ ResetPlayerForCutscene:
     ld a, [hl]
     and $f0
     ld [hl], a
-    ld hl, $c210
+    ld hl, wPlayerUnk10
     ld de, $2114
     ld b, $10
 
@@ -3032,7 +3032,7 @@ CopyOAMDataLoop:
     dec b
     jr nz, CopyOAMDataLoop
 
-    ld hl, $c211
+    ld hl, wPlayerUnk11
     ld [hl], $7e
     inc l
     ld [hl], $00
@@ -3057,7 +3057,7 @@ State22_ScrollCutscene::
     call UpdateScroll
     ld hl, wPlayerState
     dec [hl]
-    ld hl, $c212
+    ld hl, wPlayerUnk12
     dec [hl]
 
 CutsceneAnimationContinuePath:
@@ -3122,7 +3122,7 @@ State24_DisplayText::
     ld hl, hGameState
     inc [hl]
     ld a, $80
-    ld [$c210], a
+    ld [wPlayerUnk10], a
     ld a, $08
     ldh [hTimer1], a
     ld a, $08
@@ -3258,7 +3258,7 @@ State25_CopySpriteDataToOam:
 
 
 State25_NextState:
-    ld hl, $c210
+    ld hl, wPlayerUnk10
     ld [hl], $00
     ld hl, hGameState
     inc [hl]
@@ -3320,7 +3320,7 @@ State26_PrincessRising::
     jr nz, UpdateAnimationFrame
 
     ld [hl], $01
-    ld hl, $c213
+    ld hl, wPlayerUnk13
     ld [hl], $21
     ld a, $40
     ldh [hTimer1], a
@@ -3330,7 +3330,7 @@ UpdateAnimationFrame:
     and $01
     jr nz, State26_SwitchBankAndCallBank3Handler
 
-    ld hl, $c212
+    ld hl, wPlayerUnk12
     inc [hl]
     ld a, [hl]
     cp $d0
@@ -3459,7 +3459,7 @@ State29_SetupEndScreen::
     ld [hl], $38
     inc l
     ld [hl], $10
-    ld hl, $c212
+    ld hl, wPlayerUnk12
     ld [hl], $78
     xor a
     ldh [rIF], a
@@ -3505,7 +3505,7 @@ State2A_DisplayEndText::
     ld a, $02
     ldh [hCopyDstHigh], a
     ld a, $23
-    ld [$c213], a
+    ld [wPlayerUnk13], a
     ld hl, hGameState
     inc [hl]
     ret
@@ -3534,7 +3534,7 @@ State2B_PrincessDescending::
     and $03
     ret nz
 
-    ld hl, $c212
+    ld hl, wPlayerUnk12
     ld a, [hl]
     cp $44
     jr c, State2B_NextState
@@ -3640,12 +3640,12 @@ State2D_DisplayText2::
     cp $ff
     ret nz
 
-    ld hl, $c213
+    ld hl, wPlayerUnk13
     ld [hl], $24
     inc l
     inc l
     ld [hl], $00
-    ld hl, $c241
+    ld hl, wObject4Unk09
     ld [hl], $7e
     inc l
     inc l
@@ -3680,13 +3680,13 @@ State2E_DuoAnimation::
     and $03
     jr nz, State2E_CheckCharPosition
 
-    ld hl, $c213
+    ld hl, wPlayerUnk13
     ld a, [hl]
     xor $01
     ld [hl], a
 
 State2E_CheckCharPosition:
-    ld hl, $c240
+    ld hl, wObject4Unk08
     ld a, [hl]
     and a
     jr nz, State2E_UpdateMovement
@@ -3707,7 +3707,7 @@ State2E_CheckCounterFrame2:
     jr nz, State2E_UpdateMovement
 
     ld a, $80
-    ld [$c210], a
+    ld [wPlayerUnk10], a
     ld a, $40
     ldh [hTimer1], a
     ld hl, hGameState
@@ -3724,7 +3724,7 @@ State2E_UpdateMovement:
     and a
     ret nz
 
-    ld hl, $c240
+    ld hl, wObject4Unk08
     ld [hl], $00
     inc l
     inc l
@@ -3740,7 +3740,7 @@ State2F_TransferSpriteData::
     and a
     ret nz
 
-    ld hl, $c240
+    ld hl, wObject4Unk08
     ld de, wPlayerY
     ld b, $06
 
@@ -3753,7 +3753,7 @@ CopySpriteDataToOam_Loop:
 
     ld hl, wPlayerDir
     ld [hl], $26
-    ld hl, $c241
+    ld hl, wObject4Unk09
     ld [hl], $f0
     ld hl, hGameState
     inc [hl]
@@ -3770,7 +3770,7 @@ State30_WalkLeft::
     and $01
     ret nz
 
-    ld hl, $c240
+    ld hl, wObject4Unk08
     ld [hl], $ff
     ld hl, wPlayerX
     dec [hl]
@@ -3843,7 +3843,7 @@ SetupFinalScreen:
     ld a, $54
     ldh [hScrollColumn], a
     call ClearScrollBuffer
-    ld hl, $c210
+    ld hl, wPlayerUnk10
     ld de, $1376
     call Copy5Bytes
     ld hl, $c220
@@ -3962,7 +3962,7 @@ State32_CreditsScroll::
 
 
 UpdateCreditsStars:
-    ld hl, $c212
+    ld hl, wPlayerUnk12
     ld de, $0010
     ld b, $03
 
@@ -4539,7 +4539,7 @@ State0B_PipeEnterDown::
     jr c, .loadDestLevel
 
     inc [hl]                     ; Descend d'un pixel
-    ld hl, $c20b
+    ld hl, wPlayerUnk0B
     inc [hl]                     ; Compteur animation
     call UpdatePipeAnimation
     ret
@@ -4563,7 +4563,7 @@ State0B_PipeEnterDown::
     call LoadLevelData
     pop de
     ld a, $80
-    ld [$c204], a                ; Flag joueur actif
+    ld [wPlayerFlag], a          ; Flag joueur actif
     ld hl, wPlayerX
     ld a, d
     ld [hl+], a                  ; wPlayerX = destination X
@@ -4618,14 +4618,14 @@ State0C_PipeExitLeft::
 .exitComplete:
     xor a
     ldh [hGameState], a
-    ld [$c204], a
+    ld [wPlayerFlag], a
     ldh [hVBlankMode], a
     ret
 
 
 UpdatePipeAnimation:
     call SwitchBankAndCallBank3Handler
-    ld a, [$c20a]
+    ld a, [wPlayerUnk0A]
     and a
     jr z, State0C_ProcessAnimation
 
@@ -4634,8 +4634,8 @@ UpdatePipeAnimation:
     cp $0a
     jr nc, State0C_ProcessAnimation
 
-    ld hl, $c20b
-    ld a, [$c20e]
+    ld hl, wPlayerUnk0B
+    ld a, [wPlayerUnk0E]
     cp $23
     ld a, [hl]
     jr z, State0C_CheckOddFrame
@@ -4780,7 +4780,7 @@ SkipIfInvuln_OnTile:
 ; CheckPlayerHeadCollision - Vérifie collision tête du joueur (vers le haut)
 ; -----------------------------------------------------------------------------
 CheckPlayerHeadCollision:
-    ld hl, $c207
+    ld hl, wPlayerUnk07
     ld a, [hl]
     cp $01
     ret z
@@ -4805,12 +4805,12 @@ CheckPlayerHeadCollision:
     cp $60
     jr nc, CheckBlockProperties_OnCollide
 
-    ld a, [$c20e]
+    ld a, [wPlayerUnk0E]
     ld b, $04
     cp $04
     jr nz, CalcOffsetLoop_BlockHit
 
-    ld a, [$c207]
+    ld a, [wPlayerUnk07]
     and a
     jr nz, CalcOffsetLoop_BlockHit
 
@@ -4825,7 +4825,7 @@ CalcOffsetLoop_BlockHit:
     jr nc, CheckBlockProperties_OnCollide
 
 HandleBlockType_Collision:
-    ld hl, $c207
+    ld hl, wPlayerUnk07
     ld a, [hl]
     cp $02
     ret z
@@ -4834,14 +4834,14 @@ HandleBlockType_Collision:
     inc [hl]
     inc [hl]
     inc [hl]
-    ld hl, $c20a
+    ld hl, wPlayerUnk0A
     ld [hl], $00
-    ld a, [$c20e]
+    ld a, [wPlayerUnk0E]
     and a
     ret nz
 
     ld a, $02
-    ld [$c20e], a
+    ld [wPlayerUnk0E], a
     ret
 
 
@@ -4905,12 +4905,12 @@ InitPlayerX:
     or $06
     ld [hl], a
     xor a
-    ld hl, $c207
+    ld hl, wPlayerUnk07
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
     ld [hl], $01
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld a, [hl]
     cp $07
     ret c
@@ -5119,7 +5119,7 @@ HandlePlayerUpCollision:
 ; CheckPlayerFeetCollision - Vérifie collision pieds du joueur (vers le bas)
 ; -----------------------------------------------------------------------------
 CheckPlayerFeetCollision:
-    ld a, [$c207]
+    ld a, [wPlayerUnk07]
     cp $01
     ret nz
 
@@ -5167,7 +5167,7 @@ ClassifyTileTypeEntry:
     jp z, CollisionHandler_Platform_Entry
 
     ld a, $02
-    ld [$c207], a
+    ld [wPlayerUnk07], a
     ld a, $07
     ld [wStateBuffer], a
     ret
@@ -5200,7 +5200,7 @@ HandlePlayerWaterCollision:
     ld [hl], d
     inc l
     ld [hl], e
-    ld hl, $c210
+    ld hl, wPlayerUnk10
 
 InitializeGameObjects:
     ld de, $0010
@@ -5230,11 +5230,11 @@ InitObjectsLoop:
     dec b
     jr nz, InitObjectsLoop
 
-    ld hl, $c222
+    ld hl, wObject2State
     ld a, [hl]
     sub $04
     ld [hl], a
-    ld hl, $c242
+    ld hl, wObject4Unk0A
     ld a, [hl]
     sub $04
     ld [hl], a
@@ -5249,7 +5249,7 @@ InitObjectsLoop:
     ld de, $0050
     call AddScore
     ld a, $02
-    ld [$c207], a
+    ld [wPlayerUnk07], a
     ret
 
 
@@ -5404,10 +5404,10 @@ CollisionConfig_Offset2:
     jr z, TriggerBlockCollisionSound_TimerCheck
 
 CollisionDefaultHandler:
-    ld hl, $c20b
+    ld hl, wPlayerUnk0B
     inc [hl]
     ld a, $02
-    ld [$c20e], a
+    ld [wPlayerUnk0E], a
     ld a, $ff
     ret
 
@@ -5449,7 +5449,7 @@ HandlePlayerSlideCollision:
     ld a, GAME_STATE_PIPE_DOWN
     ldh [hGameState], a
     ld a, $80
-    ld [$c204], a
+    ld [wPlayerFlag], a
     ld hl, wPlayerState
     ld a, [hl-]
     add $18
@@ -5862,7 +5862,7 @@ ProcessAnimationState_DecrementFlag:
 
 
 ProcessAnimationState_CheckType:
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld a, [hl+]
     cp $06
     jr nz, ProcessAnimationState_AfterTypeCheck
@@ -5875,7 +5875,7 @@ ProcessAnimationState_CheckType:
     ld [hl], $02
 
 ProcessAnimationState_AfterTypeCheck:
-    ld de, $c207
+    ld de, wPlayerUnk07
     ldh a, [hJoypadState]
     bit 7, a
     jr nz, ProcessAnimationState_JoypadUp
@@ -5887,13 +5887,13 @@ ProcessAnimationState_JoypadTests:
     bit 5, a
     jp nz, HandleJoypadRight
 
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld a, [hl]
     and a
     jr z, ProcessAnimationState_ResetAnimation
 
     xor a
-    ld [$c20e], a
+    ld [wPlayerUnk0E], a
     dec [hl]
     inc l
     ld a, [hl]
@@ -5907,7 +5907,7 @@ ProcessAnimationState_ResetAnimation:
     ret nz
 
 ResetPlayerDirection:
-    ld a, [$c207]
+    ld a, [wPlayerUnk07]
     and a
     ret nz
 
@@ -5916,9 +5916,9 @@ ResetPlayerDirection:
     and $f0
     ld [hl], a
     ld a, $01
-    ld [$c20b], a
+    ld [wPlayerUnk0B], a
     xor a
-    ld [$c20e], a
+    ld [wPlayerUnk0E], a
     ret
 
 
@@ -5938,7 +5938,7 @@ ProcessAnimationState_JoypadUp:
     and $30
     jr nz, ProcessAnimationState_JoypadUp_ResetAndReturn
 
-    ld a, [$c20c]
+    ld a, [wPlayerUnk0C]
     and a
     jr z, ProcessAnimationState_JoypadUp_ResetAndReturn
 
@@ -5948,7 +5948,7 @@ ProcessAnimationState_JoypadUp_ContinueTests:
 
 ProcessAnimationState_JoypadUp_ResetAndReturn:
     xor a
-    ld [$c20c], a
+    ld [wPlayerUnk0C], a
     pop af
     ret
 
@@ -5983,7 +5983,7 @@ ProcessAnimationState_JoypadLeft_CheckCollision:
     ld [wPlayerDir], a
 
 ProcessAnimationState_JoypadLeft_Increment:
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld a, [hl]
     cp $06
     jr z, ProcessAnimationState_JoypadLeft_Done
@@ -6031,7 +6031,7 @@ CheckOscillationCollision_LoopSprites:
     jr nz, CheckOscillationCollision_LoopSprites
 
 CheckOscillationCollision_Done:
-    ld hl, $c20b
+    ld hl, wPlayerUnk0B
     inc [hl]
     ret
 
@@ -6068,7 +6068,7 @@ HandleJoypadRight_Setup:
     ld [hl], $01
     dec l
     ld [hl], $08
-    ld a, [$c207]
+    ld a, [wPlayerUnk07]
     and a
     ret nz
 
@@ -6078,7 +6078,7 @@ HandleJoypadRight_Setup:
     or $05
     ld [hl], a
     ld a, $01
-    ld [$c20b], a
+    ld [wPlayerUnk0B], a
     ret
 
 
@@ -6109,7 +6109,7 @@ HandlePlayerMovement:
     ld [wPlayerDir], a
 
 CheckOscillationCounter:
-    ld hl, $c20c
+    ld hl, wPlayerUnk0C
     ld a, [hl]
     cp $06
     jr z, ApplyOscillationNegOffset
@@ -6127,7 +6127,7 @@ ApplyOscillationNegOffset:
     ld [hl], a
 
 DecrementOscillationYCounter:
-    ld hl, $c20b
+    ld hl, wPlayerUnk0B
     dec [hl]
     ret
 
@@ -6152,7 +6152,7 @@ GetOscillatingOffset:
     push de
     push hl
     ld hl, OscillationTable
-    ld a, [$c20e]
+    ld a, [wPlayerUnk0E]
     ld e, a
     ld d, $00
     ld a, [$c20f]
@@ -6207,7 +6207,7 @@ ClearOamBuffer2_Loop:
     ldh [hObjParamBuf1], a
     ldh [hObjParamBuf2], a
     ldh [hObjParamBuf3], a
-    ld hl, $c210
+    ld hl, wPlayerUnk10
     ld de, $0010
     ld b, $04
     ld a, $80
@@ -6613,7 +6613,7 @@ HandleBlockCollision:
     call PlaySound
 
 InitBlockHitSprites:
-    ld hl, $c210
+    ld hl, wPlayerUnk10
     ld de, $0010
     ld b, $04
 
@@ -6641,11 +6641,11 @@ SpriteSetupLoop:
     dec b
     jr nz, SpriteSetupLoop
 
-    ld hl, $c222
+    ld hl, wObject2State
     ld a, [hl]
     sub $04
     ld [hl], a
-    ld hl, $c242
+    ld hl, wObject4Unk0A
     ld a, [hl]
     sub $04
     ld [hl], a
@@ -9335,7 +9335,7 @@ AudioAnimData_2dba:
     db $10
     db $d3
     ld de, $1ad2
-    jp $c211
+    jp wPlayerUnk11
 
 
     rst $38

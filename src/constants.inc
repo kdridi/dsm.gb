@@ -275,12 +275,16 @@ DEF wPlayerY        EQU $C200   ; Position Y joueur
 DEF wPlayerX        EQU $C201   ; Position X joueur
 DEF wPlayerState    EQU $C202   ; État joueur
 DEF wPlayerDir      EQU $C203   ; Direction joueur
+DEF wPlayerFlag     EQU $C204   ; Flag joueur actif
 DEF wPlayerUnk05    EQU $C205   ; Variable joueur
 DEF wPlayerUnk07    EQU $C207   ; Variable joueur
+DEF wPlayerUnk0A    EQU $C20A   ; Variable joueur 0A
 DEF wPlayerUnk0B    EQU $C20B   ; Variable joueur
 DEF wPlayerUnk0C    EQU $C20C   ; Variable joueur
 DEF wPlayerUnk0E    EQU $C20E   ; Variable joueur
 DEF wPlayerUnk10    EQU $C210   ; Variable joueur
+DEF wPlayerUnk11    EQU $C211   ; Variable joueur 11
+DEF wPlayerUnk12    EQU $C212   ; Variable joueur 12
 DEF wPlayerUnk13    EQU $C213   ; Variable joueur
 
 ; --- Stack WRAM ($C149) ---
@@ -291,8 +295,12 @@ DEF OBJECT_SLOT_SIZE EQU $10    ; Taille d'un slot objet (16 octets)
 DEF OBJECT_SLOT_COUNT EQU 5     ; Nombre de slots objets
 DEF wObject1        EQU $C208   ; Slot objet 1
 DEF wObject2        EQU $C218   ; Slot objet 2
+DEF wObject2State   EQU $C222   ; État objet 2 (offset +$0A)
 DEF wObject3        EQU $C228   ; Slot objet 3
 DEF wObject4        EQU $C238   ; Slot objet 4
+DEF wObject4Unk08   EQU $C240   ; Variable objet 4 (offset +$08)
+DEF wObject4Unk09   EQU $C241   ; Variable objet 4 (offset +$09)
+DEF wObject4Unk0A   EQU $C242   ; Variable objet 4 (offset +$0A)
 DEF wObject5        EQU $C248   ; Slot objet 5
 
 ; --- Buffer animation ---
@@ -574,6 +582,7 @@ DEF JOYPAD_ALL_DPAD     EQU $0F ; R+L+U+D simultanés
 ; === Attract Mode / Menu ===
 
 DEF ATTRACT_MODE_TIMEOUT EQU $28 ; Timer attract mode (40 frames)
+DEF ATTRACT_MODE_LONG    EQU $50 ; Timer attract mode long (80 frames)
 
 ; === Positions sprites menu sélection niveau ===
 
@@ -674,3 +683,17 @@ DEF TOGGLE_SPRITE_Y_MASK    EQU $f8 ; Masque XOR pour toggle position Y sprite
 
 DEF BLOCK_HIT_NONE          EQU $00 ; Pas de collision
 DEF BLOCK_HIT_TYPE_SPECIAL  EQU $c0 ; Type spécial (annule l'animation objet)
+
+; === Window/LCD positions ===
+
+DEF WY_INIT_GAME            EQU $85 ; Position Window Y initiale gameplay (133)
+DEF WX_INIT_GAME            EQU $60 ; Position Window X initiale gameplay (96)
+
+; === Scroll/Tilemap initiaux ===
+
+DEF SCROLL_COLUMN_INIT      EQU $5b ; Colonne scroll initiale (91)
+DEF SCRN1_CLEAR_SIZE        EQU $5f ; Taille clear _SCRN1 (95 octets)
+
+; === Tables ROM (adresses lookup) ===
+
+DEF ROM_ATTRACT_INDEX_TABLE EQU $0552 ; Table index attract mode par bank
