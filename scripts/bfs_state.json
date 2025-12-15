@@ -209,10 +209,42 @@
       "priority": 3
     },
     {
+      "address": "$049C",
+      "node_type": "code",
+      "description": "SelectTileIndexForLevel - S\u00e9lectionne index tuile niveau",
+      "source": "$0394",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$049D",
+      "node_type": "code",
+      "description": "ApplyRenderContext - Applique contexte de rendu",
+      "source": "$0394",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$04A2",
+      "node_type": "code",
+      "description": "ResetRenderForHighLevels - R\u00e9initialise contexte rendu pour niveaux \u00e9lev\u00e9s",
+      "source": "$0394",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$04C3",
       "node_type": "code",
       "description": "State0F_LevelSelect - Menu s\u00e9lection",
       "source": "$02A5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$053D",
+      "node_type": "code",
+      "description": "InitLevelStartFull - Initialise compl\u00e8tement le d\u00e9marrage du niveau",
+      "source": "$0394",
       "bank": 0,
       "priority": 3
     },
@@ -1081,34 +1113,10 @@
       "priority": 3
     },
     {
-      "address": "$04A2",
+      "address": "$04CE",
       "node_type": "code",
-      "description": "ResetRenderForHighLevels - R\u00e9initialise contexte rendu pour niveaux \u00e9lev\u00e9s",
-      "source": "$0394",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$049C",
-      "node_type": "code",
-      "description": "SelectTileIndexForLevel - S\u00e9lectionne index tuile niveau",
-      "source": "$0394",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$049D",
-      "node_type": "code",
-      "description": "ApplyRenderContext - Applique contexte de rendu",
-      "source": "$0394",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$053D",
-      "node_type": "code",
-      "description": "InitLevelStartFull - Initialise compl\u00e8tement le d\u00e9marrage du niveau",
-      "source": "$0394",
+      "description": "UpdateLevelSelectDisplay - Mise \u00e0 jour affichage menu s\u00e9lection",
+      "source": "$03E4",
       "bank": 0,
       "priority": 3
     }
@@ -1124,6 +1132,7 @@
     "$4000:3",
     "$0060",
     "$0226",
+    "$03E4",
     "$00C7",
     "$0050",
     "$00CD",
@@ -1140,6 +1149,6 @@
     "$00C3",
     "$0394"
   ],
-  "commits_since_push": 4,
-  "total_explored": 25
+  "commits_since_push": 0,
+  "total_explored": 26
 }

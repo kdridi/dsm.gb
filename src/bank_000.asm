@@ -1001,6 +1001,16 @@ ResetRenderForHighLevels:
     xor a
     jr ApplyRenderContext
 
+; =============================================================================
+; HandleSelectButtonLevelSelect
+; =============================================================================
+; Description: Gère le bouton Select dans le menu de sélection de niveau.
+;              Toggle la position Y du sprite menu (XOR avec $F8).
+; In:  wGameConfigA6 = flag activation (0 = désactivé, autre = activé)
+;      wOamSprite1Y = position Y actuelle du sprite
+; Out: wOamSprite1Y = position Y modifiée si activé
+; Modifie: a, hl
+; =============================================================================
 HandleSelectButtonLevelSelect:
     ld a, [wGameConfigA6]
     and a
