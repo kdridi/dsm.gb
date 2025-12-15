@@ -2842,22 +2842,28 @@ State07_WaitBank3::
     ret
 
 
-;; ==========================================================================
-;; State05_SpecialLevel - Handler d'état $05 ($0C6A)
-;; ==========================================================================
-;; Gestion niveau spécial (monde 3?), peut passer à état $06.
-;; ==========================================================================
+; State05_SpecialLevel - Handler d'état $05 ($0C6A)
+; ----------------
+; Description: Gère la logique du niveau spécial (niveau 3). Si le niveau actuel
+;              est le niveau spécial et que le timer expire, met à jour l'audio,
+;              switch vers bank 2 pour animer, ajoute bonus, et gère transition.
+; In:  hAnimTileIndex = index du niveau actuel (nibble bas)
+;      hTimer1 = timer de la frame
+;      wLevelBCD1 = compteur niveau BCD (2 octets)
+; Out: hGameState = peut être modifié vers GAME_STATE_POST_LEVEL ($06)
+;      hTimer1 = peut être modifié vers TIMER_TRANSITION_LEVEL ou FLAG_TRUE
+; Modifie: a, b, de, hl, wPlayerVarAB, wLevelData, wSpecialState, wStateBuffer
 State05_SpecialLevel::
     ldh a, [hAnimTileIndex]
     and NIBBLE_LOW_MASK          ; Isoler niveau (bits bas)
     cp LEVEL_INDEX_SPECIAL
-    jr nz, AnimationCheckCompleteExit
+    jr nz, .notSpecialLevel
 
     xor a
     ld [wPlayerVarAB], a
     call UpdateAudio
 
-AnimationCheckCompleteExit:
+.notSpecialLevel:
     ldh a, [hTimer1]
     and a
     ret nz
@@ -2866,7 +2872,7 @@ AnimationCheckCompleteExit:
     ld a, [hl+]
     ld b, [hl]
     or b
-    jr z, TransitionToLevelPath
+    jr z, .levelCompleted
 
     ld a, FLAG_TRUE
     ld [wLevelData], a
@@ -2894,7 +2900,7 @@ AnimationCheckCompleteExit:
     ret
 
 
-TransitionToLevelPath:
+.levelCompleted:
     ld a, GAME_STATE_POST_LEVEL
     ldh [hGameState], a
     ld a, TIMER_TRANSITION_LEVEL
