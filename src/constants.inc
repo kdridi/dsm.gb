@@ -653,6 +653,7 @@ DEF OBJ_TYPE_ENEMY      EQU $34 ; Ennemi
 ; Format: $XY où X = monde (1-4), Y = niveau dans le monde (1-3)
 ; Utilisés pour sélectionner le contexte de rendu selon le niveau
 
+DEF LEVEL_INDEX_SPECIAL EQU $03 ; Niveau 3 (nibble bas) = niveau spécial/boss
 DEF ANIM_TILE_W1_L1     EQU $11 ; Monde 1, Niveau 1
 DEF ANIM_TILE_W1_L2     EQU $12 ; Monde 1, Niveau 2
 DEF ANIM_TILE_W1_L3     EQU $13 ; Monde 1, Niveau 3
@@ -806,6 +807,7 @@ DEF OBJECT_COLLISION_RANGE  EQU $14   ; Distance max collision objet (20 pixels)
 DEF PLAYER_STATE_CLEAR      EQU $00   ; État joueur reset
 DEF PLAYER_ANIM_DEFAULT     EQU $0d   ; Frame animation par défaut (13)
 DEF PLAYER_FLAG_ACTIVE      EQU $01   ; Flag joueur actif
+DEF PLAYER_VAR_AB_INIT      EQU $0c   ; Valeur initiale wPlayerVarAB (12)
 
 ; === Masques direction ===
 

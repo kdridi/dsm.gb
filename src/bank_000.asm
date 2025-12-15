@@ -2530,7 +2530,7 @@ StateHandler_07::
 StateHandler_05::
     ldh a, [hAnimTileIndex]
     and NIBBLE_LOW_MASK          ; Isoler niveau (bits bas)
-    cp $03
+    cp LEVEL_INDEX_SPECIAL
     jr nz, AnimationCheckCompleteExit
 
     xor a
@@ -2597,7 +2597,7 @@ StateHandler_06::
     ldh [rTMA], a
     ldh a, [hAnimTileIndex]
     and NIBBLE_LOW_MASK          ; Isoler niveau (bits bas)
-    cp $03
+    cp LEVEL_INDEX_SPECIAL
     ld a, GAME_STATE_SPECIAL      ; État $1C si niveau spécial
     jr z, StateHandler_06_SpecialLevel
 
@@ -4584,7 +4584,7 @@ State0B_PipeEnterDown::
     xor a
     ldh [rIF], a
     ldh [hShadowSCX], a
-    ld a, $5b
+    ld a, SCROLL_COLUMN_INIT
     ldh [hScrollColumn], a
     call FindAudioTableEntry
     call ClearOamAndSpriteBuffers
@@ -4680,8 +4680,8 @@ State0C_CheckOddFrame:
 ;; ==========================================================================
 SwitchBankAndCallBank3Handler:
     ; --- SetupParameters ---
-    ld a, $0c
-    ldh [hParam2], a          ; Paramètre 1 = $0C
+    ld a, PLAYER_VAR_AB_INIT
+    ldh [hParam2], a          ; Paramètre = $0C (12)
     ld hl, wPlayerY            ; HL = adresse player data
     ld a, $c0
     ldh [hParam1], a          ; Paramètre 2 = $C0
@@ -4768,7 +4768,7 @@ CheckJoypadUp_GameplayLoop:
     and a
     jr nz, SkipIfInvuln_OnTile
 
-    ld a, $04
+    ld a, STATE_RENDER_SPECIAL
     ld [wStateRender], a
 
 SkipIfInvuln_OnTile:
@@ -7375,7 +7375,7 @@ AnimFlagTable:
 ; MODIFIE : A, DE, HL
 ; =============================================================================
 InitAudioAndAnimContext:
-    ld a, $0c
+    ld a, PLAYER_VAR_AB_INIT
     ld [wPlayerVarAB], a
     call FindAudioTableEntry
     xor a
