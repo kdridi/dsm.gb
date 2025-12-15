@@ -1254,7 +1254,7 @@ ReadJoypadInput:
 
     jr c, ConstTableA_Entry4
 
-    jr c, UnknownCode_002_459a
+    jr c, ConstTableA_Entry5
 
     xor $ee
     xor $aa
@@ -1296,7 +1296,7 @@ ConstTableA_Entry4:
     cp $b2
     xor $aa
 
-UnknownCode_002_459a:
+ConstTableA_Entry5:
     xor $aa
     cp $b2
     cp $86
@@ -1320,7 +1320,7 @@ UnknownCode_002_459a:
     nop
     nop
     nop
-    jr nz, UnknownCode_002_45d6
+    jr nz, ConstTableA_Entry6
 
     ld d, b
     ld d, b
@@ -1355,7 +1355,7 @@ UnknownCode_002_459a:
     ld [hl+], a
     ld [hl+], a
 
-UnknownCode_002_45d6:
+ConstTableA_Entry6:
     ld d, l
     ld d, l
     dec d
@@ -1539,7 +1539,7 @@ InfiniteLoop_002_4685:
     ld c, a
     ld a, h
     ld a, h
-    jr c, UnknownCode_002_46c4
+    jr c, ConstTableA_Entry7
 
     rra
     rra
@@ -1590,7 +1590,7 @@ InfiniteLoop_002_4685:
     nop
     nop
 
-UnknownCode_002_46c4:
+ConstTableA_Entry7:
     ldh [hVramPtrLow], a
     ldh a, [hCurrentTile]
     ldh a, [rLCDC]
@@ -1768,9 +1768,9 @@ LcdStatusWaitLoop:
     ld h, $2f
     dec hl
     ccf
-    jr c, UnknownCode_002_47ce
+    jr c, ConstTableA_Entry9
 
-    jr c, UnknownCode_002_47b8
+    jr c, ConstTableA_Entry8
 
     inc h
     db $fc
@@ -1804,7 +1804,7 @@ LcdStatusWaitLoop:
     rst $38
     ld a, a
 
-UnknownCode_002_47b8:
+ConstTableA_Entry8:
     ld a, l
     pop af
     pop af
@@ -1826,7 +1826,7 @@ UnknownCode_002_47b8:
     rst $18
     rst $18
 
-UnknownCode_002_47ce:
+ConstTableA_Entry9:
     rst $08
     rst $08
     jp LCDStat_CheckCarryExit
@@ -1853,7 +1853,7 @@ UnknownCode_002_47ce:
     nop
     nop
 
-UnknownCode_002_47e9:
+ConstTableA_Entry10:
     nop
     nop
     nop
@@ -1910,7 +1910,7 @@ AudioDispatchEntry_4807:
     and b
     jr nz, AudioDispatchEntry_4807
 
-    jr nz, UnknownCode_002_47e9
+    jr nz, ConstTableA_Entry10
 
     ld b, b
     ret nz
