@@ -208,8 +208,8 @@ DEF hCurrentBank    EQU $FFFD   ; Bank ROM courante
 ; --- OAM et sprites ($C000-$C0A0) ---
 DEF wOamBuffer      EQU $C000   ; Buffer OAM pour DMA (160 octets)
 DEF wOamAttrY       EQU $C001   ; Attribut Y OAM
-DEF wUnknown04      EQU $C004   ; Variable WRAM
-DEF wUnknown08      EQU $C008   ; Variable WRAM
+DEF wOamSprite1Y    EQU $C004   ; Position Y sprite 1 (OAM slot 1)
+DEF wOamSprite2     EQU $C008   ; Début données sprite 2 (OAM slot 2)
 DEF wOamVar09       EQU $C009   ; Variable OAM +09
 DEF wOamVar0C       EQU $C00C   ; Variable OAM +0C
 DEF wOamVar1C       EQU $C01C   ; Variable OAM +1C
@@ -430,9 +430,9 @@ DEF INIT_GAME_STATE     EQU $0E ; État jeu initial (hGameState)
 DEF GAME_STATE_TITLE    EQU $00 ; Écran titre (attente Start / timeout)
 DEF GAME_STATE_DEMO     EQU $0E ; Lancement démo automatique (Attract Mode)
 DEF GAME_STATE_WINDOW   EQU $3A ; État spécial window (animation écran)
-DEF INIT_ANIM_TILE_IDX  EQU $11 ; Valeur initiale hAnimTileIndex et wUnknownA8
-DEF INIT_UNKNOWN_DC     EQU $02 ; Valeur initiale wUnknownDC (et bank switch)
-DEF INIT_UNKNOWN_A4     EQU $03 ; Valeur initiale wUnknownA4 (et bank switch)
+DEF INIT_ANIM_TILE_IDX  EQU $11 ; Valeur initiale hAnimTileIndex et wAnimTileIdx
+DEF INIT_UNKNOWN_DC     EQU $02 ; Valeur initiale wCurrentROMBank (et bank switch)
+DEF INIT_UNKNOWN_A4     EQU $03 ; Valeur initiale wROMBankInit (et bank switch)
 
 ; === Marqueurs de slots ===
 
@@ -550,3 +550,26 @@ DEF TILEMAP_CMD_SCROLL  EQU $70 ; Déclenche mise à jour scrolling
 DEF TILEMAP_CMD_LOAD1   EQU $80 ; Charge tilemap niveau (type 1)
 DEF TILEMAP_CMD_LOAD2   EQU $5F ; Charge tilemap niveau (type 2)
 DEF TILEMAP_CMD_LOAD3   EQU $81 ; Charge tilemap niveau (type 3)
+
+; === Seuils de groupes de niveaux ===
+; Utilisés pour sélectionner la table de style selon le numéro de niveau
+; Les niveaux sont groupés : 0-6, 7-10, 11-14, 15-18, 19-22, 23+
+
+DEF LEVEL_GROUP_7_START  EQU $07 ; Premier niveau du groupe 2 (niveaux 7-10)
+DEF LEVEL_GROUP_11_START EQU $0B ; Premier niveau du groupe 3 (niveaux 11-14)
+DEF LEVEL_GROUP_15_START EQU $0F ; Premier niveau du groupe 4 (niveaux 15-18)
+DEF LEVEL_GROUP_19_START EQU $13 ; Premier niveau du groupe 5 (niveaux 19-22)
+DEF LEVEL_GROUP_23_START EQU $17 ; Premier niveau du groupe 6 (niveaux 23+)
+
+; === Indices OAM pour collision ===
+; Utilisés dans UpdateAnimatedObjectState pour identifier les objets par leur index OAM
+
+DEF OAM_ADDR_LOW_PLAYER  EQU $90 ; Adresse basse OAM joueur (hOAMAddrLow)
+DEF OAM_INDEX_COIN       EQU $33 ; Index OAM pièce (hOAMIndex = 51)
+
+; === Contextes de rendu ===
+; Utilisés pour déterminer le mode de rendu graphique selon l'état du jeu
+
+DEF RENDER_CONTEXT_GAMEPLAY EQU $05 ; Contexte gameplay standard
+DEF RENDER_CONTEXT_SPECIAL  EQU $0B ; Contexte niveau spécial
+DEF RENDER_CONTEXT_MAX      EQU $0C ; Valeur max contexte (wrap-around)

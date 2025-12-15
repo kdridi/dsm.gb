@@ -793,7 +793,7 @@ CompareBCDScoresToDisplay:
     ld de, wScorePrevious
     ld hl, $9969
     call ConvertBCDToTiles
-    ld hl, wUnknown04
+    ld hl, wOamSprite1Y
     ld [hl], SPRITE_Y_MENU
     ld a, [wGameConfigA6]
     and a
@@ -867,7 +867,7 @@ FinalizeGameStateAfterScore:
     dec hl
 
 StartSelectedLevel:
-    ld a, [wUnknown04]
+    ld a, [wOamSprite1Y]
     cp SPRITE_Y_MENU
     jr z, ResetRenderForHighLevels
 
@@ -947,7 +947,7 @@ HandleSelectButtonLevelSelect:
     and a
     jr z, UpdateLevelSelectDisplay
 
-    ld hl, wUnknown04
+    ld hl, wOamSprite1Y
     ld a, [hl]
     xor $f8
     ld [hl], a
@@ -989,7 +989,7 @@ SkipAnimTileAdd:
     ldh [hAnimTileIndex], a
     ldh a, [hRenderContext]
     inc a
-    cp $0c
+    cp RENDER_CONTEXT_MAX
     jr nz, AnimRenderContextUpdateDone
 
     ld a, INIT_ANIM_TILE_IDX
@@ -1000,7 +1000,7 @@ AnimRenderContextUpdateDone:
     ldh [hRenderContext], a
 
 AnimRenderContextReady:
-    ld hl, wUnknown08
+    ld hl, wOamSprite2
     ldh a, [hAnimTileIndex]
     ld b, SPRITE_Y_MENU
     ld c, a
@@ -1405,23 +1405,23 @@ StyleLevelCheck:
 
 StyleLevelAdjusted:
     ld bc, ROM_STYLE_LVL_0
-    cp $07
+    cp LEVEL_GROUP_7_START
     jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_7
-    cp $0b
+    cp LEVEL_GROUP_11_START
     jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_11
-    cp $0f
+    cp LEVEL_GROUP_15_START
     jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_15
-    cp $13
+    cp LEVEL_GROUP_19_START
     jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_19
-    cp $17
+    cp LEVEL_GROUP_23_START
     jr c, ApplyLevelStyleConfig
 
     ld bc, ROM_STYLE_LVL_23
@@ -1478,11 +1478,11 @@ ApplyLevelStyleConfig:
     ldh [hScrollColumn], a
     ldh a, [hRenderContext]
     ld c, $0a
-    cp $05
+    cp RENDER_CONTEXT_GAMEPLAY
     jr z, EnterGameplayState
 
     ld c, $0c
-    cp $0b
+    cp RENDER_CONTEXT_SPECIAL
     jr nz, ContinueAfterStateSetup
 
 EnterGameplayState:
@@ -1728,11 +1728,11 @@ CheckPlayerCollisionWithObject:
     jp z, NoCollisionReturn
 
     ldh a, [hOAMAddrLow]
-    cp $90
+    cp OAM_ADDR_LOW_PLAYER
     jp z, UpdateAnimatedObjectState_ObjectHitDispatch
 
     ldh a, [hOAMIndex]
-    cp $33
+    cp OAM_INDEX_COIN
     jp z, UpdateAnimatedObjectState_CoinProceed
 
     ldh a, [hGameState]
