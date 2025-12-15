@@ -3914,7 +3914,7 @@ DispatchEntry_003_50af:
     dec b
     ld [bc], a
     rrca
-    jr c, DispatchTableEntry_003_5155
+    jr c, AudioDataRaw_003_5155
 
     rst $38
     ld b, $02
@@ -3987,7 +3987,7 @@ DispatchEntry_003_50af:
 LoadPointerFromMemory:
     ld a, [hl+]
 
-DispatchTableEntry_003_5155:
+AudioDataRaw_003_5155:
     dec bc
     inc de
     jr z, DispatchDataZone_5166
@@ -4078,7 +4078,7 @@ DispatchEntry_003_51b1:
     ld de, $ff28
     dec b
     inc bc
-    jr z, DispatchTableEntry_003_51c2
+    jr z, AudioTableRaw_003_51c2
 
     nop
     ret nz
@@ -4089,7 +4089,7 @@ DispatchEntry_003_51b1:
     rrca
     inc bc
 
-DispatchTableEntry_003_51c2:
+AudioTableRaw_003_51c2:
     jr z, @+$01
 
     ld bc, $2812
@@ -4162,7 +4162,7 @@ AudioParam_Set_1:
     ld b, $28
     ld a, [bc]
     add hl, bc
-    jr z, DispatchTableEntry_003_521d
+    jr z, AudioDataRaw_003_521d
 
     dec b
     inc l
@@ -4181,9 +4181,9 @@ AudioParam_Set_3:
     ld c, $28
     add hl, bc
 
-DispatchTableEntry_003_521d:
+AudioDataRaw_003_521d:
     ld a, [bc]
-    jr z, DispatchTableEntry_003_522a
+    jr z, AudioDataRaw_003_522a
 
     ld c, $2a
     inc c
@@ -4192,7 +4192,7 @@ DispatchTableEntry_003_521d:
     ld c, $28
     jr AudioParam_Set_4
 
-DispatchTableEntry_003_522a:
+AudioDataRaw_003_522a:
     jr z, @+$01
 
     ld [bc], a
@@ -4347,7 +4347,7 @@ AudioParam_Set_4:
     ld h, c
     cp $12
     ld sp, $b535
-    jr c, DispatchTableEntry_003_5319
+    jr c, AudioDataRaw_003_5319
 
     ld a, $60
     ld h, b
@@ -4394,7 +4394,7 @@ AudioParam_Set_4:
     ld h, b
     ld h, b
 
-DispatchTableEntry_003_5319:
+AudioDataRaw_003_5319:
     cp $c4
     jr c, DataTable_003_5358
 
@@ -10009,7 +10009,7 @@ DereferenceAudioPointer:
     ret
 
 
-DispatchTableEntry_003_6d4a:
+AudioControlDispatch_6d4a:
     pop hl
     jr DispatchEntry_003_6d78
 
@@ -10036,14 +10036,14 @@ AudioChannelStatusCheck:
     ld l, a
     ld a, [hl]
     and a
-    jr nz, DispatchTableEntry_003_6d4a
+    jr nz, AudioControlDispatch_6d4a
 
 UpdateAudioChannelStatus:
     ld a, l
     add $04
     ld l, a
     bit 7, [hl]
-    jr nz, DispatchTableEntry_003_6d4a
+    jr nz, AudioControlDispatch_6d4a
 
     pop hl
     call HandleAudioChannelStatus
@@ -10191,7 +10191,7 @@ AudioData_003_6dfe:
 AudioNoteDispatchCase_01:
     ld [hl], $01
     pop hl
-    jr DispatchTableEntry_003_6e45
+    jr AudioChannelSetup_Ch3
 
 CopyAudioConfigToRAM:
     push hl
@@ -10212,14 +10212,14 @@ AudioData_003_6e36:
     jr AudioControlCommonPath
 
 RouteAudioControlSetup:
-DispatchTableEntry_003_6e45:
+AudioChannelSetup_Ch3:
     push hl
     ldh a, [hAudioControl]
     cp $01
     jr z, AudioChannelSetup_1
 
     cp $02
-    jr z, DispatchTableEntry_003_6e69
+    jr z, AudioChannelSetup_Ch2
 
     ld c, $1a
     ld a, [$df3f]
@@ -10242,7 +10242,7 @@ AudioControlFlagCheck:
     ld d, $00
     jr AudioDataLoad
 
-DispatchTableEntry_003_6e69:
+AudioChannelSetup_Ch2:
     ld c, $16
     jr AudioControlCommonPath
 
@@ -10691,7 +10691,7 @@ HandleAudioConditionalLogic:
     ld e, $3c
     inc bc
     ld b, $0c
-    jr DispatchTableEntry_003_70ac
+    jr AudioDataRaw_003_70ac
 
     ld h, b
     ld [de], a
@@ -10700,7 +10700,7 @@ HandleAudioConditionalLogic:
     ld [$0010], sp
     rlca
     ld c, $1c
-    jr c, DispatchTableEntry_003_70f8
+    jr c, AudioDataRaw_003_70f8
 
     dec d
     ld a, [hl+]
@@ -10741,7 +10741,7 @@ PaddingZone_003_709b:
     nop
     ld h, d
 
-DispatchTableEntry_003_70ac:
+AudioDataRaw_003_70ac:
     ld [hl], b
     jp hl
 
@@ -10818,7 +10818,7 @@ PaddingZone_003_70c4:
     rst $38
     xor $70
 
-DispatchTableEntry_003_70f8:
+AudioDataRaw_003_70f8:
     jr nz, @+$73
 
     sub b
@@ -11222,7 +11222,7 @@ DispatchEntry_003_7323:
 
     ld bc, $36a8
     and e
-    jr z, DispatchTableEntry_003_7360
+    jr z, AudioDataRaw_003_7360
 
     and d
     ld a, [hl+]
@@ -11258,7 +11258,7 @@ DispatchEntry_003_735a:
     and h
     ld bc, $a532
 
-DispatchTableEntry_003_7360:
+AudioDataRaw_003_7360:
     inc a
     and h
     jr c, AudioData_003_7307

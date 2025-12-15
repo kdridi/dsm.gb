@@ -6995,7 +6995,7 @@ TileTypeDispatchCase_03:
 TileTypeDispatchCase_E5:
     ldh a, [hSubState]
     and a
-    jr z, DispatchTableEntry_002_5d62
+    jr z, TileTypeE5_InitPaletteWrite
 
     ld hl, $dfe8
     ld a, $0e
@@ -7005,7 +7005,7 @@ TileTypeDispatchCase_E5:
     ret
 
 
-DispatchTableEntry_002_5d62:
+TileTypeE5_InitPaletteWrite:
     ld a, $10
     ld [$da17], a
     jr DispatchEntry_002_5d3c
@@ -7126,7 +7126,7 @@ SpriteAnimationState_FinishPalette:
     ld [$da1f], a
     ld a, [$da20]
     and a
-    jr nz, DispatchTableEntry_002_5e3f
+    jr nz, SpriteAnimationState_UpdateAnimCounters
 
     ld hl, $c030
     ld a, $38
@@ -7163,7 +7163,7 @@ SpriteAnimationState_FinishPalette:
     ret
 
 
-DispatchTableEntry_002_5e3f:
+SpriteAnimationState_UpdateAnimCounters:
     ld hl, $c030
     ld a, [$da21]
     cp $02
@@ -13929,7 +13929,7 @@ DataZone_002_7c7e:
     ld d, c
     rra
     rra
-    jr nc, DispatchTableEntry_002_7cbe
+    jr nc, AudioDataRaw_002_7cbe
 
     ld a, a
     ld h, b
@@ -13974,7 +13974,7 @@ JumpTableDispatcher_7c9a:
     rrca
     jr PaddingZone_002_7cd6
 
-DispatchTableEntry_002_7cbe:
+AudioDataRaw_002_7cbe:
     ccf
     jr nc, DataTable_002_7d00
 
@@ -14040,10 +14040,10 @@ AudioDispatchEntry_002_7ce8:
 
     jr z, AudioDispatchEntry_002_7ce6
 
-DispatchTableEntry_002_7cf7:
+AudioDataRaw_002_7cf7:
     jr z, AudioDispatchEntry_002_7ce8
 
-    jr z, DispatchTableEntry_002_7cf7
+    jr z, AudioDataRaw_002_7cf7
 
     db $fc
     ld b, $06
@@ -14196,7 +14196,7 @@ AudioDispatchEntry_7d68:
     rst $18
     pop de
 
-DispatchTableEntry_002_7d7e:
+AudioDispatchData_002_7d7e:
     sbc a
     sub c
     rst $18
@@ -14257,7 +14257,7 @@ AudioDispatchEntry_7db8:
     ccf
     inc hl
     inc a
-    jr nz, DispatchTableEntry_002_7d7e
+    jr nz, AudioDispatchData_002_7d7e
 
     and b
     cp a
@@ -14313,7 +14313,7 @@ AudioDispatchData_002_7de6:
     rst $30
     inc d
 
-DispatchTableEntry_002_7de8:
+AudioDispatchData_002_7de8:
     rst $30
     rst $30
     rst $28
@@ -14329,7 +14329,7 @@ DispatchTableEntry_002_7de8:
 
     jr z, AudioDispatchData_002_7de6
 
-    jr z, DispatchTableEntry_002_7de8
+    jr z, AudioDispatchData_002_7de8
 
     rst $28
     cp a
