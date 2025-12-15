@@ -1315,18 +1315,24 @@ State10_Noop::
 
 
 ; ===========================================================================
-; ClearBGTilemap - Remplit la tilemap _SCRN0 avec le tile vide
-; Entrée : Aucune
-; Sortie : _SCRN0 ($9800-$9BFF) rempli avec TILE_EMPTY
+; ClearBGTilemap
+; ----------------
+; Description: Efface toute la tilemap background en la remplissant avec le tile vide
+; In:  Aucun
+; Out: Aucun (_SCRN0 rempli avec TILE_EMPTY)
+; Modifie: a, bc, hl
 ; ===========================================================================
 ClearBGTilemap::
     ld hl, _SCRN0 + SCRN_SIZE_MINUS_1 ; Fin de _SCRN0 ($9BFF)
     ld bc, SCRN_SIZE            ; 1024 octets (32×32 tiles)
+    ; Fall through vers FillTilemapLoop
 
-; ===========================================================================
-; FillTilemapLoop - Remplit une zone mémoire avec le tile vide
-; Entrée : HL = adresse de fin (décrémente), BC = nombre d'octets
-; Sortie : Zone remplie avec TILE_EMPTY ($2C)
+; FillTilemapLoop
+; ----------------
+; Description: Remplit une zone mémoire avec le tile vide en décrémentant
+; In:  hl = adresse de fin (inclusif), bc = nombre d'octets
+; Out: Aucun (zone remplie avec TILE_EMPTY)
+; Modifie: a, bc, hl
 ; ===========================================================================
 FillTilemapLoop::
 .loop:
