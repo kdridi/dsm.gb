@@ -2744,7 +2744,7 @@ FlagDispatch_Default:
 
     ld b, b
     ldh a, [hCurrentTile]
-    jr c, ConstTable_002_4baa
+    jr c, DataTable_002_4baa
 
     ld a, a
     ld a, h
@@ -2796,7 +2796,7 @@ FlagDispatch_Default:
     ld b, $fb
     rst $00
 
-ConstTable_002_4baa:
+DataTable_002_4baa:
     db $fd
     inc bc
     db $fd
@@ -4531,7 +4531,7 @@ ControlFlow_Target_6:
     nop
     nop
     nop
-    jr nc, ConstTable_002_529e
+    jr nc, DataTable_002_529e
 
     jr nc, DispatchEntry_002_52a0
 
@@ -4587,7 +4587,7 @@ ControlFlow_Target_9:
 
     jr nc, PaddingZone_002_52ce
 
-ConstTable_002_529e:
+DataTable_002_529e:
     db $10
     db $10
 
@@ -13976,7 +13976,7 @@ JumpTableDispatcher_7c9a:
 
 DispatchTableEntry_002_7cbe:
     ccf
-    jr nc, ConstTable_002_7d00
+    jr nc, DataTable_002_7d00
 
     inc hl
     ld a, $22
@@ -14050,7 +14050,7 @@ DispatchTableEntry_002_7cf7:
     ei
     inc bc
 
-ConstTable_002_7d00:
+DataTable_002_7d00:
     db $fd
     pop hl
     cp a
