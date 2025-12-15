@@ -127,11 +127,20 @@
       "source": "CallBank3Handler",
       "bank": 3,
       "priority": 3
+    },
+    {
+      "address": "$0030",
+      "node_type": "code",
+      "description": "JumpTableDispatcherContinue - Seconde partie du dispatcher",
+      "source": "$0028",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
+    "$0028",
     "$0000"
   ],
-  "commits_since_push": 1,
-  "total_explored": 1
+  "commits_since_push": 2,
+  "total_explored": 2
 }
