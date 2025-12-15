@@ -4328,7 +4328,13 @@ State2E_UpdateMovement:
 
 ; ===========================================================================
 ; État $2F - Transfer données sprite ($1298)
-; Attend timer, copie données vers position sprite joueur
+; State2F_TransferSpriteData
+; ----------------
+; Description: Attend que timer atteigne 0, puis copie 6 octets de wObject4Unk08
+;              vers wPlayerY (position sprite joueur) et avance à l'état suivant
+; In:  hTimer1 = compteur temporisation
+; Out: hGameState = incrémenté si timer = 0
+; Modifie: a, b, de, hl
 ; ===========================================================================
 State2F_TransferSpriteData::
     ldh a, [hTimer1]
