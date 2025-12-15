@@ -689,6 +689,14 @@
       "priority": 3
     },
     {
+      "address": "$0EDE",
+      "node_type": "code",
+      "description": "ResetPlayerForCutscene - Reset position et donn\u00e9es joueur pour cutscene",
+      "source": "$0EC4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0F09",
       "node_type": "code",
       "description": "State22_ScrollCutscene - Scroll cutscene",
@@ -1703,14 +1711,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0EDE",
-      "node_type": "code",
-      "description": "ResetPlayerForCutscene - Reset position et donn\u00e9es joueur pour cutscene",
-      "source": "$0EC4",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1729,6 +1729,7 @@
     "$0150",
     "$0095",
     "$0610",
+    "$0ECB",
     "$0185",
     "$0030",
     "$0519",
@@ -1800,6 +1801,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 4,
-  "total_explored": 85
+  "commits_since_push": 0,
+  "total_explored": 86
 }
