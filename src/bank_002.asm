@@ -1246,13 +1246,13 @@ jr_002_454d:
     cp $fe
     add d
     cp $ee
-    jr c, jr_002_4582
+    jr c, ConstTableA_Entry1
 
-    jr c, jr_002_4584
+    jr c, ConstTableA_Entry2
 
-    jr c, jr_002_4586
+    jr c, ConstTableA_Entry3
 
-    jr c, jr_002_4588
+    jr c, ConstTableA_Entry4
 
     jr c, jr_002_459a
 
@@ -1275,16 +1275,16 @@ jr_002_454d:
     cp $82
     cp $fe
 
-jr_002_4582:
+ConstTableA_Entry1:
     or $f6
 
-jr_002_4584:
+ConstTableA_Entry2:
     cp $9a
 
-jr_002_4586:
+ConstTableA_Entry3:
     cp $9a
 
-jr_002_4588:
+ConstTableA_Entry4:
     cp $aa
     cp $a2
     cp $b2
@@ -4234,13 +4234,13 @@ jr_002_50e8:
     nop
     inc a
     inc a
-    jr jr_002_5170
+    jr ConstTableB_Entry1
 
-    jr jr_002_5172
+    jr ConstTableB_Entry2
 
-    jr jr_002_5174
+    jr ConstTableB_Entry3
 
-    jr jr_002_5176
+    jr ConstTableB_Entry4
 
     inc a
     inc a
@@ -4261,19 +4261,19 @@ jr_002_50e8:
     xor a
     sbc a
 
-jr_002_5170:
+ConstTableB_Entry1:
     xor a
     sbc a
 
-jr_002_5172:
+ConstTableB_Entry2:
     nop
     nop
 
-jr_002_5174:
+ConstTableB_Entry3:
     ld h, [hl]
     ld h, [hl]
 
-jr_002_5176:
+ConstTableB_Entry4:
     ld l, h
     ld l, h
     ld a, b
