@@ -1743,6 +1743,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1020",
+      "node_type": "code",
+      "description": "Copy16BytesToOam - Copie 16 octets de donn\u00e9es sprite vers OAM",
+      "source": "$0FF4",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1762,6 +1770,7 @@
     "$0E28",
     "$0150",
     "$0095",
+    "$0FF4",
     "$0610",
     "$0ECB",
     "$0185",
@@ -1841,6 +1850,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 3,
-  "total_explored": 94
+  "commits_since_push": 4,
+  "total_explored": 95
 }

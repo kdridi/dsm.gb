@@ -3731,8 +3731,16 @@ TextData_ThankYou:
 
 ; ===========================================================================
 ; État $25 - Animation sprite clignotant ($0FF4)
-; Alterne entre deux configs sprite, décrémenter compteur jusqu'à 0
 ; ===========================================================================
+
+; State25_SpriteBlinkAnimation
+; ----------------------------
+; Description: Animation de sprites clignotants qui alterne entre deux
+;              configurations sprite jusqu'à ce que le compteur atteigne 0
+; In:  hTimer1 = timer d'animation
+;      hOAMIndex = compteur de frames restantes
+; Out: hGameState = incrémenté si animation terminée
+; Modifie: a, hl, de, b
 State25_SpriteBlinkAnimation::
     ldh a, [hTimer1]
     and a
