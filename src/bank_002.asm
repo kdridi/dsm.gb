@@ -2854,7 +2854,7 @@ DataZone_002_4bd8:
     add hl, de
     jr PaddingZone_002_4c10
 
-    jr nz, UnknownCode_002_4c69
+    jr nz, DispatchTableEntry_002_4c69
 
     ld b, c
     ld a, l
@@ -2984,7 +2984,7 @@ PaddingZone_002_4c28:
     nop
     add b
 
-UnknownCode_002_4c69:
+DispatchTableEntry_002_4c69:
     add b
     cp [hl]
     cp [hl]
@@ -6212,13 +6212,13 @@ AnimationDispatch_SetAndJump:
     cp $80
     jr z, AnimationDispatch_SelectPalette
 
-    jr UnknownCode_002_59a5
+    jr SpriteAnimation_002_59a5
 
 AnimationDispatch_SelectPalette:
     call AddScore
 
 ProcessSpriteAnimation:
-UnknownCode_002_59a5:
+SpriteAnimation_002_59a5:
     ld hl, $c030
 
 SpriteAnimationDispatch_ByType:
@@ -6553,7 +6553,7 @@ UnknownCode_002_5b27:
     ld hl, $da23
     ld a, [de]
     bit 0, a
-    jr z, UnknownCode_002_5b45
+    jr z, SpriteAnimation_002_5b45
 
     ld a, $2e
     ld [hl+], a
@@ -6563,9 +6563,9 @@ UnknownCode_002_5b27:
     ld [hl+], a
     ld a, $30
     ld [hl], a
-    jr UnknownCode_002_5b51
+    jr SpriteAnimation_002_5b51
 
-UnknownCode_002_5b45:
+SpriteAnimation_002_5b45:
     ld a, $2d
     ld [hl+], a
     ld a, $2c
@@ -6575,7 +6575,7 @@ UnknownCode_002_5b45:
     ld a, $2d
     ld [hl], a
 
-UnknownCode_002_5b51:
+SpriteAnimation_002_5b51:
     ld a, $16
     ldh [hGameState], a
     ret
@@ -6595,14 +6595,14 @@ SpriteAnimationState_CheckActiveFlag:
     ld hl, $da1c
     ld a, [hl]
     and a
-    jr nz, UnknownCode_002_5b73
+    jr nz, SpriteAnimation_002_5b73
 
     inc [hl]
     ld hl, $dfe8
     ld a, $0a
     ld [hl], a
 
-UnknownCode_002_5b73:
+SpriteAnimation_002_5b73:
     ld hl, wSpriteVar31
     ld de, $5c9d
     ld b, $04
@@ -6964,13 +6964,13 @@ SpriteAnimationNextPhase:
     call ReadTileUnderSprite
     ld a, [hl]
     cp $03
-    jr z, UnknownCode_002_5d4a
+    jr z, DispatchTableEntry_002_5d4a
 
     cp $e5
-    jr z, UnknownCode_002_5d51
+    jr z, DispatchTableEntry_002_5d51
 
     cp $02
-    jr z, UnknownCode_002_5d43
+    jr z, DispatchTableEntry_002_5d43
 
     ld a, $02
     ld [$da17], a
@@ -6982,20 +6982,20 @@ DispatchEntry_002_5d3c:
     ret
 
 
-UnknownCode_002_5d43:
+DispatchTableEntry_002_5d43:
     ld a, $03
     ld [$da17], a
     jr DispatchEntry_002_5d3c
 
-UnknownCode_002_5d4a:
+DispatchTableEntry_002_5d4a:
     ld a, $04
     ld [$da17], a
     jr DispatchEntry_002_5d3c
 
-UnknownCode_002_5d51:
+DispatchTableEntry_002_5d51:
     ldh a, [hSubState]
     and a
-    jr z, UnknownCode_002_5d62
+    jr z, DispatchTableEntry_002_5d62
 
     ld hl, $dfe8
     ld a, $0e
@@ -7005,7 +7005,7 @@ UnknownCode_002_5d51:
     ret
 
 
-UnknownCode_002_5d62:
+DispatchTableEntry_002_5d62:
     ld a, $10
     ld [$da17], a
     jr DispatchEntry_002_5d3c
@@ -7094,7 +7094,7 @@ DispatchEntry_002_5de8:
     dec a
     ld [$da1e], a
 
-UnknownCode_002_5dec:
+SpriteAnimation_002_5dec:
     ld a, [hl]
     sub $20
     ld [hl+], a
@@ -7102,7 +7102,7 @@ UnknownCode_002_5dec:
     inc l
     inc l
     dec b
-    jr nz, UnknownCode_002_5dec
+    jr nz, SpriteAnimation_002_5dec
 
     ret
 
@@ -7126,7 +7126,7 @@ SpriteAnimationState_FinishPalette:
     ld [$da1f], a
     ld a, [$da20]
     and a
-    jr nz, UnknownCode_002_5e3f
+    jr nz, DispatchTableEntry_002_5e3f
 
     ld hl, $c030
     ld a, $38
@@ -7163,7 +7163,7 @@ SpriteAnimationState_FinishPalette:
     ret
 
 
-UnknownCode_002_5e3f:
+DispatchTableEntry_002_5e3f:
     ld hl, $c030
     ld a, [$da21]
     cp $02
@@ -7770,7 +7770,7 @@ DataZone_002_6017:
     jr z, DispatchEntry_002_6121
 
     adc h
-    jr z, UnknownCode_002_616b
+    jr z, SpriteAnimation_002_616b
 
     ld [bc], a
     ld a, [hl+]
@@ -7842,7 +7842,7 @@ DispatchEntry_002_6121:
     add h
     ld l, a
 
-UnknownCode_002_616b:
+SpriteAnimation_002_616b:
     ld a, [bc]
     cp a
     ld [hl], l
@@ -11219,7 +11219,7 @@ DataZone_002_70b0:
     ld [hl], b
     ld [hl], d
 
-UnknownCode_002_7104:
+SpriteAnimation_002_7104:
     ld [hl], d
     ld [hl], d
     ld l, l
@@ -11244,7 +11244,7 @@ UnknownCode_002_7104:
     ld h, [hl]
     ld l, l
     cp $31
-    jr c, UnknownCode_002_7104
+    jr c, SpriteAnimation_002_7104
 
     ld h, l
     ld l, [hl]
@@ -13366,13 +13366,13 @@ PaddingZone_002_79f2:
     rst $30
     rlca
 
-UnknownCode_002_7a62:
+SpriteAnimation_002_7a62:
     ld sp, hl
     ld bc, wGameVarFE
     ld a, a
     ld [hl], b
     dec de
-    jr UnknownCode_002_7a62
+    jr SpriteAnimation_002_7a62
 
     inc d
     rst $30
@@ -13884,7 +13884,7 @@ UnknownCode_002_7c62:
     ei
     ld a, [bc]
 
-UnknownCode_002_7c64:
+PaddingZone_002_7c64:
     ei
     ld a, [bc]
 
@@ -13902,7 +13902,7 @@ AudioDispatchEntry_7c68:
     rst $38
     jr c, UnknownCode_002_7c62
 
-    jr z, UnknownCode_002_7c64
+    jr z, PaddingZone_002_7c64
 
     jr z, AudioDispatchEntry_7c66
 
@@ -13929,7 +13929,7 @@ DataZone_002_7c7e:
     ld d, c
     rra
     rra
-    jr nc, UnknownCode_002_7cbe
+    jr nc, DispatchTableEntry_002_7cbe
 
     ld a, a
     ld h, b
@@ -13974,7 +13974,7 @@ UnknownCode_002_7c9a:
     rrca
     jr PaddingZone_002_7cd6
 
-UnknownCode_002_7cbe:
+DispatchTableEntry_002_7cbe:
     ccf
     jr nc, ConstTable_002_7d00
 
@@ -14040,10 +14040,10 @@ UnknownCode_002_7ce8:
 
     jr z, UnknownCode_002_7ce6
 
-UnknownCode_002_7cf7:
+DispatchTableEntry_002_7cf7:
     jr z, UnknownCode_002_7ce8
 
-    jr z, UnknownCode_002_7cf7
+    jr z, DispatchTableEntry_002_7cf7
 
     db $fc
     ld b, $06
@@ -14196,7 +14196,7 @@ AudioDispatchEntry_7d68:
     rst $18
     pop de
 
-UnknownCode_002_7d7e:
+DispatchTableEntry_002_7d7e:
     sbc a
     sub c
     rst $18
@@ -14257,7 +14257,7 @@ AudioDispatchEntry_7db8:
     ccf
     inc hl
     inc a
-    jr nz, UnknownCode_002_7d7e
+    jr nz, DispatchTableEntry_002_7d7e
 
     and b
     cp a
@@ -14313,7 +14313,7 @@ UnknownCode_002_7de6:
     rst $30
     inc d
 
-UnknownCode_002_7de8:
+DispatchTableEntry_002_7de8:
     rst $30
     rst $30
     rst $28
@@ -14329,7 +14329,7 @@ UnknownCode_002_7de8:
 
     jr z, UnknownCode_002_7de6
 
-    jr z, UnknownCode_002_7de8
+    jr z, DispatchTableEntry_002_7de8
 
     rst $28
     cp a
