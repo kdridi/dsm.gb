@@ -1173,6 +1173,12 @@ InitAttractModeDisplay_CheckTimer:
     ld a, [hl]
     ldh [hRenderContext], a
 
+; InitLevelStartWithAttractMode
+; ------------------------------
+; Description: Démarre un niveau avec le mode attract activé (démo auto)
+; In:  (aucun)
+; Out: (aucun)
+; Modifie: a
 InitLevelStartWithAttractMode:
     ld a, ATTRACT_MODE_LONG
     ld [wAttractModeTimer], a
