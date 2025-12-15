@@ -484,6 +484,7 @@ DEF VRAM_HUD_LINE       EQU $9820   ; Ligne HUD
 DEF VRAM_COIN_TENS      EQU $9829   ; Compteur pièces HUD (dizaines)
 DEF VRAM_COIN_UNITS     EQU $982A   ; Compteur pièces HUD (unités)
 DEF VRAM_WORLD_NUMBER   EQU $982B   ; Numéro monde HUD (après pièces)
+DEF VRAM_LIVES_DISPLAY  EQU $988B   ; Affichage compteur vies HUD
 DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
 DEF VRAM_FADE_START     EQU $8DD0   ; Début zone VRAM pour effet fade
 DEF VRAM_FADE_SIZE      EQU $0220   ; Taille zone fade (544 octets)
@@ -620,6 +621,7 @@ DEF TILEMAP_INIT_SIZE   EQU $09 ; Taille données init tilemap (9 octets)
 DEF HUD_LINE_COUNT      EQU $02 ; Nombre de lignes HUD à copier
 DEF SCRN_SIZE           EQU $0400 ; 1024 octets = taille tilemap complète (32×32 tiles)
 DEF SCRN_SIZE_MINUS_1   EQU $03FF ; SCRN_SIZE - 1 (pour adressage depuis fin)
+DEF TILEMAP_FILL_LOOPS  EQU $03   ; Nombre de boucles pour remplir tilemap (3 × 255 = 765 tiles)
 
 ; === Audio/Sound ===
 
@@ -957,6 +959,8 @@ DEF STATE_BUFFER_COIN          EQU $05   ; État buffer après collecte pièce
 
 DEF OAM_ADDR_INIT              EQU $05   ; Adresse OAM initiale colonne
 DEF OAM_COPY_SIZE              EQU $10   ; Taille copie données OAM (16 octets)
+DEF OAM_SPRITE_LOOP_3          EQU $03   ; Nombre de sprites dans boucle OAM (3)
+DEF OAM_SPRITE_LOOP_8          EQU $08   ; Nombre de sprites dans boucle OAM (8)
 
 ; === Masques animation ===
 

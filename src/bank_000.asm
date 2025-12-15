@@ -1355,7 +1355,7 @@ State01_WaitClearObjects::
     ld b, OBJECT_BUFFER_COUNT     ; 10 objets
 
 .clearLoop:
-    ld [hl], $ff                  ; Marquer comme inactif
+    ld [hl], SLOT_EMPTY           ; Marquer comme inactif
     add hl, de                    ; Passer à l'entrée suivante
     dec b
     jr nz, .clearLoop
@@ -6019,8 +6019,8 @@ CheckOscillationCollision_CheckScroll:
     call OffsetSpritesY
     call OffsetSpritesX
     ld hl, wOamAttrY
-    ld de, $0004
-    ld c, $03
+    ld de, OAM_ENTRY_SIZE
+    ld c, OAM_SPRITE_LOOP_3
 
 CheckOscillationCollision_LoopSprites:
     ld a, [hl]
@@ -6134,8 +6134,8 @@ DecrementOscillationYCounter:
 
 OffsetSpritesY:
     ld hl, wSpriteVar31
-    ld de, $0004
-    ld c, $08
+    ld de, OAM_ENTRY_SIZE
+    ld c, OAM_SPRITE_LOOP_8
 
 OffsetSpritesY_Loop:
     ld a, [hl]
@@ -12424,7 +12424,7 @@ InitLoop_160Bytes:
 
     ld hl, VRAM_BG_BASE
     ld b, $ff
-    ld c, $03
+    ld c, TILEMAP_FILL_LOOPS
     ld a, TILE_EMPTY
 
 FillTilemap_MainLoop:
@@ -12436,7 +12436,7 @@ FillTilemap_MainLoop:
     dec c
     jr nz, FillTilemap_MainLoop
 
-    ld de, $988b
+    ld de, VRAM_LIVES_DISPLAY
     ld a, [wLivesCounter]
     ld b, a
     and NIBBLE_LOW_MASK          ; Chiffre unités vies
@@ -12757,7 +12757,7 @@ UpdateScoreDisplay:
 ConvertBCDToTiles:
     xor a
     ldh [hScoreNeedsUpdate], a          ; Clear "needs update" flag
-    ld c, $03               ; 3 octets à traiter
+    ld c, SCORE_BCD_SIZE    ; 3 octets à traiter
 
 BCD_ProcessByte:
     ; --- ProcessHighNibble ---

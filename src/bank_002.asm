@@ -7239,8 +7239,8 @@ WriteSpriteValuesLoop:
     add $01
     daa
     ld [$da15], a
-    ld de, $988b
-    ld a, [$da15]
+    ld de, VRAM_LIVES_DISPLAY
+    ld a, [wLivesCounter]
     ld b, a
     and $0f
     ld [de], a
