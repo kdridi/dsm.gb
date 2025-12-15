@@ -2322,7 +2322,7 @@ StateValidExit:
 
 ValidateAndProcessGameState:
     bit 1, b
-    jr nz, jr_003_49fd
+    jr nz, ValidateAndProcessGameState_CheckLock
 
     ret
 
@@ -2345,24 +2345,24 @@ JoypadInputProcessAPress:
     push hl
     ld a, [hl]
     cp $18
-    jr z, jr_003_49f2
+    jr z, JoypadInputProcessAPress_TransitionToGame
 
     and $f0
     or $04
     ld [hl], a
     ld a, [$c20e]
     cp $04
-    jr z, jr_003_49ed
+    jr z, JoypadInputProcessAPress_SetInitialState
 
     ld a, $02
     ld [$c20e], a
     ld [$c208], a
 
-jr_003_49ed:
+JoypadInputProcessAPress_SetInitialState:
     ld hl, $c20c
     ld [hl], $30
 
-jr_003_49f2:
+JoypadInputProcessAPress_TransitionToGame:
     ld hl, $dfe0
     ld [hl], $01
     ld a, $01
@@ -2370,7 +2370,7 @@ jr_003_49f2:
     pop hl
     jr StateValidExit
 
-jr_003_49fd:
+ValidateAndProcessGameState_CheckLock:
     ld hl, $c20c
     ld a, [hl]
     cp $06
@@ -2381,11 +2381,11 @@ jr_003_49fd:
     ld [hl], $00
 
 InitializeSpriteTransferBuffer:
-jr_003_4a0c:
+InitializeSpriteTransferBuffer_CheckGameState:
     ldh a, [hGameState]
     cp $0d
     ld b, $03
-    jr z, jr_003_4a1a
+    jr z, InitializeSpriteTransferBuffer_SelectBValue
 
     ldh a, [hSubState]
     and a
@@ -2393,26 +2393,26 @@ jr_003_4a0c:
 
     ld b, $01
 
-jr_003_4a1a:
+InitializeSpriteTransferBuffer_SelectBValue:
     ld hl, $ffa9
     ld de, $c000
 
-jr_003_4a20:
+InitializeSpriteTransferBuffer_CountObjects:
     ld a, [hl+]
     and a
-    jr z, jr_003_4a2c
+    jr z, InitializeSpriteTransferBuffer_LoadObject
 
     inc e
     inc e
     inc e
     inc e
     dec b
-    jr nz, jr_003_4a20
+    jr nz, InitializeSpriteTransferBuffer_CountObjects
 
     ret
 
 
-jr_003_4a2c:
+InitializeSpriteTransferBuffer_LoadObject:
     push hl
     ld hl, $c205
     ld b, [hl]
@@ -8808,26 +8808,26 @@ ProcessAudioSnapshot:
     ei
     ldh a, [hSavedAudio]
     cp $01
-    jr z, jr_003_67b1
+    jr z, ProcessAudioSnapshot_ResetEnvelopes
 
     cp $02
-    jr z, jr_003_67cf
+    jr z, ProcessAudioSnapshot_ClearMixerSnapshot
 
     ldh a, [hAudioMixerSnapshot]
     and a
-    jr nz, jr_003_67d4
+    jr nz, ProcessAudioSnapshot_CheckMixerState
 
     ld c, $d3
     ldh a, [c]
     and a
-    jr z, jr_003_6787
+    jr z, ProcessAudioSnapshot_ProcessChannels
 
     xor a
     ldh [c], a
     ld a, $08
     ld [$dfe0], a
 
-jr_003_6787:
+ProcessAudioSnapshot_ProcessChannels:
     call CheckAudioChannel1
     call CheckAudioChannel4
     call InitializeWaveAudio
@@ -8835,7 +8835,7 @@ jr_003_6787:
     call ProcessAudioQueue
     call UpdateAudioEnvelopeAndPan
 
-jr_003_6799:
+ProcessAudioSnapshot_ClearStateAndReturn:
     xor a
     ld [$dfe0], a
     ld [$dfe8], a
@@ -8851,7 +8851,7 @@ jr_003_6799:
     reti
 
 
-jr_003_67b1:
+ProcessAudioSnapshot_ResetEnvelopes:
     call ResetAudioChannelEnvelopes
     xor a
     ld [$dfe1], a
@@ -8860,40 +8860,40 @@ jr_003_67b1:
     ld a, $30
     ldh [hAudioMixerSnapshot], a
 
-jr_003_67c2:
+ProcessAudioSnapshot_SetupBgmData:
     ld hl, $67ec
 
-jr_003_67c5:
+ProcessAudioSnapshot_ConfigureBgm:
     call ConfigureAudioBgm
-    jr jr_003_6799
+    jr ProcessAudioSnapshot_ClearStateAndReturn
 
-jr_003_67ca:
+ProcessAudioSnapshot_SetupSeData:
     ld hl, $67f0
-    jr jr_003_67c5
+    jr ProcessAudioSnapshot_ConfigureBgm
 
-jr_003_67cf:
+ProcessAudioSnapshot_ClearMixerSnapshot:
     xor a
     ldh [hAudioMixerSnapshot], a
-    jr jr_003_6787
+    jr ProcessAudioSnapshot_ProcessChannels
 
-jr_003_67d4:
+ProcessAudioSnapshot_CheckMixerState:
     ld hl, hAudioMixerSnapshot
     dec [hl]
     ld a, [hl]
     cp $28
-    jr z, jr_003_67ca
+    jr z, ProcessAudioSnapshot_SetupSeData
 
     cp $20
-    jr z, jr_003_67c2
+    jr z, ProcessAudioSnapshot_SetupBgmData
 
     cp $18
-    jr z, jr_003_67ca
+    jr z, ProcessAudioSnapshot_SetupSeData
 
     cp $10
-    jr nz, jr_003_6799
+    jr nz, ProcessAudioSnapshot_ClearStateAndReturn
 
     inc [hl]
-    jr jr_003_6799
+    jr ProcessAudioSnapshot_ClearStateAndReturn
 
     or d
     db $e3
@@ -8911,7 +8911,7 @@ InitializeWaveAudio:
 
     ld a, [$dff1]
     cp $01
-    jr z, jr_003_682d
+    jr z, InitializeWaveAudio_ConfigureWave
 
     ret
 
@@ -8940,7 +8940,7 @@ InitializeWaveAudio:
     jp ConfigureAudioWave
 
 
-jr_003_682d:
+InitializeWaveAudio_ConfigureWave:
     ldh a, [rDIV]
     and $07
     ld b, a
@@ -8949,12 +8949,12 @@ jr_003_682d:
     ld a, [hl]
     ld hl, $dff5
     cp $0e
-    jr nc, jr_003_6848
+    jr nc, InitializeWaveAudio_HighFrequency
 
     inc [hl]
     inc [hl]
 
-jr_003_6840:
+InitializeWaveAudio_WriteFrequency:
     ld a, [hl]
     and $f8
     or b
@@ -8963,16 +8963,16 @@ jr_003_6840:
     ret
 
 
-jr_003_6848:
+InitializeWaveAudio_HighFrequency:
     cp $1e
-    jr z, jr_003_6851
+    jr z, InitializeWaveAudio_ResetWave
 
     dec [hl]
     dec [hl]
     dec [hl]
-    jr jr_003_6840
+    jr InitializeWaveAudio_WriteFrequency
 
-jr_003_6851:
+InitializeWaveAudio_ResetWave:
     xor a
     ld [$dff1], a
     ldh [rNR30], a
