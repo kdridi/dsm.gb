@@ -3254,6 +3254,12 @@ State1C_WaitTimerGameplay::
     ret
 
 
+; TimerExpiredPath
+; ----------------
+; Description: Gère la fin du timer gameplay - réinitialise timer et passe à l'état suivant
+; In:  rien (appelé quand hTimer1 == 0)
+; Out: hTimer1 = TIMER_STATE07_WAIT, hGameState = incrémenté
+; Modifie: a, hl
 TimerExpiredPath:
     ld a, TIMER_STATE07_WAIT
     ldh [hTimer1], a

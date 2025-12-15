@@ -625,6 +625,14 @@
       "priority": 3
     },
     {
+      "address": "$0E1F",
+      "node_type": "code",
+      "description": "TimerExpiredPath - Chemin quand timer expir\u00e9 (interne)",
+      "source": "$0E0C",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0E28",
       "node_type": "code",
       "description": "State1D_SetupVRAMPointer - Setup pointeur VRAM",
@@ -1655,14 +1663,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0E1F",
-      "node_type": "code",
-      "description": "TimerExpiredPath - Chemin quand timer expir\u00e9 (interne)",
-      "source": "$0E0C",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1704,6 +1704,7 @@
     "$0C07",
     "$0CC2",
     "$0837",
+    "$0E1F",
     "$0394",
     "$0552",
     "$0A20",
@@ -1745,6 +1746,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 2,
-  "total_explored": 78
+  "commits_since_push": 3,
+  "total_explored": 79
 }
