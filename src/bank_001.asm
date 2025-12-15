@@ -2265,7 +2265,7 @@ DataPadding_4918:
     add c
     add c
     ld b, e
-    jp Jump_001_73f3
+    jp DataLoopHelper2
 
 
     call $db7f
@@ -2331,7 +2331,7 @@ DataPadding_4918:
     add $45
     cp [hl]
 
-Jump_001_49d1:
+DataLoopHelper1:
     adc l
     rst $38
     rst $38
@@ -4638,7 +4638,7 @@ DataTable_5354:
     or h
     add hl, bc
     ld a, [bc]
-    jp nz, Jump_001_49d1
+    jp nz, DataLoopHelper1
 
     call nz, $49cf
     push bc
@@ -11454,7 +11454,7 @@ ProcessValidation_7371:
     or l
     db $fd
 
-Jump_001_73f3:
+DataLoopHelper2:
     ld l, d
     cp $05
     ld sp, $696a

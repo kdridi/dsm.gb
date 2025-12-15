@@ -635,7 +635,7 @@ jr_003_425e:
     ld [hl-], a
     ld [hl], d
     ldh a, [c]
-    call z, Call_003_703c
+    call z, HandleAudioConditionalLogic
     ldh a, [$ff8c]
     ld l, h
     nop
@@ -915,7 +915,7 @@ Return_IfCarry_003_43a5:
     db $fc
     call nz, $83e3
     db $fc
-    call nz, Call_003_7878
+    call nz, AudioDataProcessor
     nop
     nop
     jp $3dc3
@@ -1851,7 +1851,7 @@ jr_003_46d1:
     adc [hl]
     rst $20
     rst $18
-    call Call_003_7dff
+    call AudioStateUpdate
     ld [hl], e
     ld a, [hl]
     ld h, d
@@ -10642,7 +10642,7 @@ jr_003_6f30:
     ld a, b
     sbc c
 
-Call_003_703c:
+HandleAudioConditionalLogic:
     sbc b
     halt
     ld h, a
@@ -12352,7 +12352,7 @@ jr_003_780d:
     ld bc, HeaderDestinationCode
     ld c, d
 
-Call_003_7878:
+AudioDataProcessor:
     ld bc, HeaderDestinationCode
     ld c, d
     and l
@@ -13564,7 +13564,7 @@ jr_003_7d95:
     and c
     ld h, b
 
-Call_003_7dff:
+AudioStateUpdate:
     ld h, [hl]
     ld [hl], b
     ld h, b
