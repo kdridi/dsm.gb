@@ -1225,6 +1225,22 @@
       "priority": 3
     },
     {
+      "address": "$4032",
+      "node_type": "data",
+      "description": "Tiles graphiques monde 1 et 2 (bank 1)",
+      "source": "$0DE4",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$4402",
+      "node_type": "data",
+      "description": "Palette graphique monde 1 et 2 (bank 1)",
+      "source": "$0DE4",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$47F2",
       "node_type": "code",
       "description": "JoypadReadHandler",
@@ -1310,6 +1326,14 @@
       "description": "CheckTimerAux2 - Timer auxiliaire 2 (bank 3)",
       "source": "$0610",
       "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4BC2",
+      "node_type": "data",
+      "description": "Palette graphique monde 3 (bank 1)",
+      "source": "$0DE4",
+      "bank": 1,
       "priority": 3
     },
     {
@@ -1631,30 +1655,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$4032",
-      "node_type": "data",
-      "description": "Tiles graphiques monde 1 et 2 (bank 1)",
-      "source": "$0DE4",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$4402",
-      "node_type": "data",
-      "description": "Palette graphique monde 1 et 2 (bank 1)",
-      "source": "$0DE4",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$4BC2",
-      "node_type": "data",
-      "description": "Palette graphique monde 3 (bank 1)",
-      "source": "$0DE4",
-      "bank": 1,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1671,6 +1671,7 @@
     "$05B8",
     "$04CE",
     "$07B7",
+    "$0DEA",
     "$0C37",
     "$0000",
     "$06C5",
@@ -1734,6 +1735,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 4,
-  "total_explored": 75
+  "commits_since_push": 0,
+  "total_explored": 76
 }

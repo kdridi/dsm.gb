@@ -502,6 +502,10 @@ DEF ROM_GAME_TILES_A    EQU $5032   ; Tiles de jeu partie A
 DEF ROM_GAME_TILES_B    EQU $4032   ; Tiles de jeu partie B
 DEF ROM_ANIM_BUFFER     EQU $5603   ; Buffer animation (8 octets)
 
+; --- Palettes mondes ---
+DEF ROM_WORLD1_PALETTE  EQU $4402   ; Palette monde 1 (et 2)
+DEF ROM_WORLD3_PALETTE  EQU $4BC2   ; Palette monde 3
+
 ; --- Données objets ---
 DEF ROM_OBJECT_INIT_DATA EQU $2164  ; Table init objets (vitesses/priorités)
 

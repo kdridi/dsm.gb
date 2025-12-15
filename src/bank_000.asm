@@ -3201,9 +3201,9 @@ GraphicsTableA:
 
 ; GraphicsTableB - Pointeurs vers les palettes de chaque monde ($0DEA)
 GraphicsTableB:
-    dw $4402               ; Monde 1 - pointeur palette
-    dw $4402               ; Monde 2 - pointeur palette (identique monde 1)
-    dw $4BC2               ; Monde 3 - pointeur palette
+    dw ROM_WORLD1_PALETTE  ; Monde 1 - pointeur palette
+    dw ROM_WORLD1_PALETTE  ; Monde 2 - pointeur palette (identique monde 1)
+    dw ROM_WORLD3_PALETTE  ; Monde 3 - pointeur palette
 
 ; ===========================================================================
 ; État $1B - Transition bonus complété ($0DF0)
