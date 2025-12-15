@@ -7654,7 +7654,7 @@ UnknownCode_002_6017:
 
     ld b, d
     ld e, $08
-    jp nz, UnknownData_0c22
+    jp nz, PaddingZone_0c22
 
     inc b
     inc h

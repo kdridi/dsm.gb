@@ -2463,7 +2463,7 @@ SetGameStateValue:
     rst $38
 
 ;; Zone de données ($0C10-$0C36)
-UnknownData_0c22:
+PaddingZone_0c22:
     nop
     nop
     rst $38
@@ -6739,9 +6739,9 @@ LoadDemoInput:
     ld bc, $0000
     rrca
     nop
-    jr nz, UnknownData_213b
+    jr nz, PaddingZone_213b
 
-UnknownData_213b:
+PaddingZone_213b:
     nop
     nop
     nop
@@ -6768,9 +6768,9 @@ UnknownData_213b:
     ld bc, $0000
     rrca
     nop
-    jr nz, UnknownData_215b
+    jr nz, DataTable_215b
 
-UnknownData_215b:
+DataTable_215b:
     nop
     nop
     nop
@@ -9688,7 +9688,7 @@ AudioAnimData_2e89:
     dec l
     ld hl, $262d
     dec l
-    jr z, UnknownDispatch_301a
+    jr z, AddressTable_301a
 
     dec l
     dec l
@@ -9736,7 +9736,7 @@ AudioAnimData_2e89:
     dec l
     sub e
 
-UnknownDispatch_301a:
+AddressTable_301a:
     dec l
     sub l
     dec l
@@ -9849,10 +9849,10 @@ UnknownDispatch_301a:
     dec l
     inc d
     dec l
-    jr UnknownDispatch_30e8
+    jr DataBlock_30e8
 
     ld h, $2d
-    jr z, UnknownDispatch_30ec
+    jr z, JumpTargetTable_30ec
 
     dec sp
     dec l
@@ -9896,13 +9896,13 @@ UnknownDispatch_301a:
     dec l
     adc [hl]
 
-UnknownDispatch_30e8:
+DataBlock_30e8:
     dec l
     sub c
     dec l
     sub e
 
-UnknownDispatch_30ec:
+JumpTargetTable_30ec:
     dec l
     sub l
     dec l
@@ -10209,9 +10209,9 @@ UnknownData_31c2:
     nop
     nop
     nop
-    jr z, UnknownDispatch_324d
+    jr z, PaddingZone_324d
 
-UnknownDispatch_324d:
+PaddingZone_324d:
     nop
     nop
     nop
