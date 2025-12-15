@@ -4633,12 +4633,12 @@ UpdatePipeAnimation:
 
     ld a, [wPlayerDir]
     and NIBBLE_LOW_MASK          ; Isoler mode direction
-    cp $0a
+    cp PLAYER_MODE_GAMEPLAY      ; Mode gameplay standard ($0a)
     jr nc, State0C_ProcessAnimation
 
     ld hl, wPlayerUnk0B
     ld a, [wPlayerUnk0E]
-    cp $23
+    cp PLAYER_ANIM_STATE_PIPE    ; État animation pipe (frame lente)
     ld a, [hl]
     jr z, State0C_CheckOddFrame
 
