@@ -3316,6 +3316,14 @@ VRAMPointerAdjustmentPath:
 ; État $1E - Clear tilemap progressif ($0E54)
 ; Efface une colonne de tiles à chaque frame, puis appelle bank 3
 ; ===========================================================================
+; State1E_ClearTilemapColumn
+; --------------------------
+; Description: Efface progressivement une colonne de tilemap (1 tile/frame)
+;              en montant de bas en haut. Quand terminé, switche vers bank 3.
+; In:  hOAMAddrLow = nombre de lignes restantes à effacer
+;      hVramPtrLow = position VRAM courante (octet bas)
+; Out: hGameState incrémenté (→ état $1F) si colonne complètement effacée
+; Modifie: a, hl
 State1E_ClearTilemapColumn::
     ldh a, [hTimer1]
     and a

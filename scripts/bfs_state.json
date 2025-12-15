@@ -1690,6 +1690,7 @@
     "$00CC",
     "$0C22",
     "$07B7",
+    "$0E54",
     "$4000:3",
     "$06A5",
     "$0060",
@@ -1747,6 +1748,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 4,
-  "total_explored": 80
+  "commits_since_push": 0,
+  "total_explored": 81
 }
