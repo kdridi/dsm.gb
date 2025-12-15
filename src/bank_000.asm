@@ -78,7 +78,15 @@ RST_24::
 ;;   rst $28
 ;;   dw State0Handler, State1Handler, State2Handler
 ;; ============================================================================
-RST_28::
+; JumpTableDispatcher
+; --------------------
+; Description: Dispatcher générique de jump table. Utilise A comme index
+;              pour sauter vers une entrée dans une table de pointeurs 16-bit.
+;              La table doit immédiatement suivre l'appel "rst $28".
+; In:  a = index dans la jump table (0, 1, 2...)
+; Out: Saute vers l'adresse ciblée (ne retourne jamais)
+; Modifie: de, hl
+JumpTableDispatcher::
     add a               ; A = A * 2 (car chaque entrée = 2 octets)
     pop hl              ; HL = adresse de retour (= début de la table)
     ld e, a
@@ -86,10 +94,17 @@ RST_28::
     add hl, de          ; HL = table + offset
     ld e, [hl]          ; E = octet bas de l'adresse
     inc hl
-    ; Suite dans RST $30...
+    ; Suite dans JumpTableDispatcherContinue...
 
 ;; --- RST $30 : Suite du dispatcher ---
-RST_30::
+; JumpTableDispatcherContinue
+; ----------------------------
+; Description: Seconde partie du dispatcher (continue depuis RST $28).
+;              Charge l'octet haut et effectue le saut.
+; In:  hl = pointeur vers octet haut de l'adresse cible, e = octet bas
+; Out: Saute vers l'adresse ciblée
+; Modifie: de, hl
+JumpTableDispatcherContinue::
     ld d, [hl]          ; D = octet haut de l'adresse
     push de
     pop hl              ; HL = adresse cible

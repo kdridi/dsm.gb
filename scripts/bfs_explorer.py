@@ -231,13 +231,16 @@ def run_claude_streaming(prompt: str, timeout: int = CLAUDE_TIMEOUT) -> tuple[bo
         "claude",
         "-p", prompt,
         "--model", CLAUDE_MODEL,
-        "--dangerously-skip-permissions"
+        "--dangerously-skip-permissions",
+        "--verbose",
+        "--output-format", "stream-json"
     ]
 
     print(f"\n🤖 [CLAUDE] Lancement avec timeout {timeout}s...")
     print("─" * 60)
 
-    full_output = []
+    full_text = []
+    current_tool = None
 
     try:
         process = subprocess.Popen(
@@ -249,43 +252,80 @@ def run_claude_streaming(prompt: str, timeout: int = CLAUDE_TIMEOUT) -> tuple[bo
             cwd=os.getcwd()
         )
 
-        # Threads pour lire stdout et stderr en parallèle
-        def read_stdout():
-            for line in iter(process.stdout.readline, ''):
-                if line:
-                    full_output.append(line)
-                    print(f"\033[36m│\033[0m {line.rstrip()}")
-                    sys.stdout.flush()
-
+        # Thread pour stderr
         def read_stderr():
             for line in iter(process.stderr.readline, ''):
                 if line:
-                    full_output.append(line)
-                    print(f"\033[33m│ stderr:\033[0m {line.rstrip()}")
+                    print(f"\033[33m⚠ {line.rstrip()}\033[0m")
                     sys.stdout.flush()
 
-        stdout_thread = threading.Thread(target=read_stdout)
         stderr_thread = threading.Thread(target=read_stderr)
-
-        stdout_thread.start()
         stderr_thread.start()
 
-        # Attendre avec timeout
-        try:
-            process.wait(timeout=timeout)
-        except subprocess.TimeoutExpired:
-            print(f"\n⏰ [CLAUDE] TIMEOUT après {timeout}s - arrêt forcé")
-            process.kill()
-            process.wait()
-            return False, "TIMEOUT"
+        # Lire stdout en temps réel (stream-json)
+        start_time = time.time()
+        while True:
+            if time.time() - start_time > timeout:
+                print(f"\n⏰ [CLAUDE] TIMEOUT après {timeout}s - arrêt forcé")
+                process.kill()
+                process.wait()
+                return False, "TIMEOUT"
 
-        stdout_thread.join(timeout=5)
+            line = process.stdout.readline()
+            if not line:
+                if process.poll() is not None:
+                    break
+                continue
+
+            line = line.strip()
+            if not line:
+                continue
+
+            try:
+                msg = json.loads(line)
+                msg_type = msg.get("type", "")
+
+                # Message texte assistant
+                if msg_type == "assistant":
+                    content = msg.get("message", {}).get("content", [])
+                    for block in content:
+                        if block.get("type") == "text":
+                            text = block.get("text", "")
+                            full_text.append(text)
+                            for l in text.split('\n')[-3:]:
+                                if l.strip():
+                                    print(f"\033[36m│\033[0m {l[:100]}")
+                            sys.stdout.flush()
+
+                # Utilisation d'outil
+                elif msg_type == "tool_use":
+                    tool_name = msg.get("tool", "")
+                    if tool_name != current_tool:
+                        current_tool = tool_name
+                        print(f"\033[35m🔧 {tool_name}\033[0m")
+                        sys.stdout.flush()
+
+                # Résultat d'outil
+                elif msg_type == "tool_result":
+                    tool_name = msg.get("tool", "")
+                    print(f"\033[32m✓ {tool_name}\033[0m")
+                    sys.stdout.flush()
+
+                # Résultat final
+                elif msg_type == "result":
+                    result_text = msg.get("result", "")
+                    if result_text:
+                        full_text.append(result_text)
+
+            except json.JSONDecodeError:
+                print(f"│ {line[:100]}")
+                sys.stdout.flush()
+
         stderr_thread.join(timeout=5)
-
         print("─" * 60)
 
         success = process.returncode == 0
-        output = ''.join(full_output)
+        output = '\n'.join(full_text)
 
         if success:
             print("✅ [CLAUDE] Terminé avec succès")
