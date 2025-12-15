@@ -2981,11 +2981,11 @@ State20_WaitPlayerPosition::
 
 ; --- Routine : simule input droite pour animation ---
 AutoMovePlayerRight:
-    ld a, $10
+    ld a, PADF_RIGHT
     ldh [hJoypadState], a
     ld a, [wPlayerDir]
-    and $0f
-    cp $0a
+    and NIBBLE_LOW_MASK
+    cp PLAYER_MODE_GAMEPLAY
     call c, CheckPlayerHeadCollision
     call UpdatePipeAnimation
     ret
@@ -3019,7 +3019,7 @@ ResetPlayerForCutscene:
     ld [hl], $b0
     inc l
     ld a, [hl]
-    and $f0
+    and NIBBLE_HIGH_MASK
     ld [hl], a
     ld hl, wPlayerUnk10
     ld de, ROM_LEVEL_INIT_DATA
@@ -3077,7 +3077,7 @@ CutsceneEndPath:
 ; Simule input droite, anime le joueur, calcule position VRAM destination
 ; ===========================================================================
 State23_WalkToDoor::
-    ld a, $10
+    ld a, PADF_RIGHT
     ldh [hJoypadState], a
     call CheckPlayerHeadCollision
     call UpdatePipeAnimation
@@ -3086,7 +3086,7 @@ State23_WalkToDoor::
     ret c
 
     ld a, [wPlayerDir]
-    and $f0
+    and NIBBLE_HIGH_MASK
     ld [wPlayerDir], a
     ldh a, [hVramPtrLow]
     sub $40
