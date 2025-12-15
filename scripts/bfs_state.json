@@ -1383,6 +1383,38 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1ECB",
+      "node_type": "code",
+      "description": "ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites",
+      "source": "$06C5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1655",
+      "node_type": "code",
+      "description": "ClearTilemapBuffer - Nettoie buffer tilemap",
+      "source": "$06C5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$078C",
+      "node_type": "code",
+      "description": "RenderPlayerUpdate - Met \u00e0 jour rendu du joueur",
+      "source": "$06C5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2453",
+      "node_type": "code",
+      "description": "FindAudioTableEntry - Trouve entr\u00e9e table audio",
+      "source": "$06C5",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1393,6 +1425,7 @@
     "$05B8",
     "$04CE",
     "$0000",
+    "$06C5",
     "$02A3",
     "$0040",
     "$4000:3",
@@ -1431,6 +1464,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 3,
-  "total_explored": 44
+  "commits_since_push": 4,
+  "total_explored": 45
 }

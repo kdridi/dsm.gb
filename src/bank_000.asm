@@ -1570,7 +1570,20 @@ State01_WaitClearObjects::
 ;; ==========================================================================
 ;; State02_PrepareRender - Handler d'état $02 ($06C5)
 ;; ==========================================================================
-;; Désactive LCD et prépare le rendu.
+;; State02_PrepareRender
+;; ---------------------
+;; Description: Désactive LCD, nettoie les buffers écran/sprites, charge le
+;;              style du niveau selon le monde actuel, initialise les variables
+;;              de jeu et configure le mode gameplay/special selon le contexte.
+;; In:  hVBlankMode = flag mode VBlank (0=normal, autre=mode spécial)
+;;      hRenderMode = mode rendu alternatif (si VBlank ≠ 0)
+;;      hTilemapScrollX = scroll X tilemap pour détecter style niveau
+;;      hAnimTileIndex = index tile animation (contient monde+niveau en BCD)
+;;      hRenderContext = contexte rendu (RENDER_CONTEXT_GAMEPLAY/SPECIAL)
+;; Out: hGameState = GAME_STATE_MAIN ($00) ou GAME_STATE_GAMEPLAY selon contexte
+;;      LCD éteint puis rallumé avec LCDC_GAME_STANDARD
+;;      Niveau chargé, tilemap initialisé, variables de jeu réinitialisées
+;; Modifie: af, bc, de, hl, tous les buffers OAM/tilemap/scroll
 ;; ==========================================================================
 State02_PrepareRender::
     di
@@ -1693,15 +1706,14 @@ ContinueAfterStateSetup:
     ei
     ret
 
+;; ==========================================================================
+;; Padding/Data zone ($0783-$078B)
+;; ==========================================================================
+    db $2c, $84, $19, $0a, $1e, $1c, $0e, $84, $2c
 
-    inc l
-    add h
-    add hl, de
-    ld a, [bc]
-    ld e, $1c
-    ld c, $84
-    inc l
-
+;; ==========================================================================
+;; RenderPlayerUpdate ($078C)
+;; ==========================================================================
 RenderPlayerUpdate:
     ld a, [wPlayerInvuln]
     and a
