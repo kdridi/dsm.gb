@@ -203,10 +203,10 @@ jr_001_407a:
 jr_001_40d4:
     rlca
     rlca
-    jr jr_001_40f7
+    jr PaddingAlign_40f7
 
     daa
-    jr c, jr_001_410a
+    jr c, PaddingAlign_410a
 
     jr nc, @+$5e
 
@@ -230,36 +230,36 @@ jr_001_40d4:
 
     jr nc, jr_001_411d
 
-    jr nc, jr_001_40f3
+    jr nc, PaddingAlign_40f3
 
-jr_001_40f3:
-    nop
-    nop
-    nop
-    nop
-
-jr_001_40f7:
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+PaddingAlign_40f3:
     nop
     nop
     nop
     nop
 
-jr_001_410a:
+PaddingAlign_40f7:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+
+PaddingAlign_410a:
     nop
     nop
     nop
@@ -3588,7 +3588,7 @@ jr_001_4e5e:
     ccf
     jr nz, jr_001_4f5e
 
-    jr nz, jr_001_4fa0
+    jr nz, CheckScrollingConditionAndReset_001_4fa0
 
     ld h, b
     ld a, [hl]
@@ -3717,7 +3717,7 @@ jr_001_4f86:
     and $1e
     and $1e
 
-jr_001_4fa0:
+CheckScrollingConditionAndReset_001_4fa0:
     and $1e
     rst $38
     rst $38
@@ -4520,7 +4520,7 @@ jr_001_5347:
     ld c, l
     rrca
 
-Call_001_534f:
+ValidateCondition_534f:
     add h
     ld d, c
     ld d, c
@@ -6445,7 +6445,7 @@ jr_001_5c0c:
     cp $f1
     ld e, l
 
-Call_001_5c5b:
+CheckResult_5c5b:
     cp $b1
     ld a, a
     pop af
@@ -7473,7 +7473,7 @@ Call_001_5c5b:
     ld e, [hl]
     and c
     ld c, c
-    call nz, Call_001_5c5b
+    call nz, CheckResult_5c5b
     ld l, h
     ld l, [hl]
     cp $03
@@ -7562,7 +7562,7 @@ Call_001_5c5b:
     ld e, l
     ld c, d
     ld e, [hl]
-    call nz, Call_001_534f
+    call nz, ValidateCondition_534f
     ld l, h
     ld l, [hl]
     cp $03
@@ -7644,7 +7644,7 @@ Call_001_5c5b:
     ld e, [hl]
     and c
     ld d, a
-    call nz, Call_001_5c5b
+    call nz, CheckResult_5c5b
     ld l, l
     ld l, [hl]
     cp $03
@@ -7913,7 +7913,7 @@ Call_001_5c5b:
     ld e, [hl]
     ld [hl], c
     ld l, l
-    call nz, Call_001_5c5b
+    call nz, CheckResult_5c5b
     ld l, l
     ld l, [hl]
     cp $03
@@ -8178,7 +8178,7 @@ Call_001_5c5b:
     ld e, l
     ld c, d
     ld e, [hl]
-    call nz, Call_001_534f
+    call nz, ValidateCondition_534f
     ld l, l
     ld l, [hl]
     cp $03
@@ -8233,7 +8233,7 @@ Call_001_5c5b:
     ld e, l
     ld c, d
     ld e, [hl]
-    call nz, Call_001_534f
+    call nz, ValidateCondition_534f
     ld l, h
     ld l, [hl]
     cp $03
@@ -8292,7 +8292,7 @@ Call_001_5c5b:
     ld e, l
     ld c, d
     ld e, [hl]
-    call nz, Call_001_534f
+    call nz, ValidateCondition_534f
     ld l, l
     ld l, [hl]
     cp $03
@@ -8347,7 +8347,7 @@ Call_001_5c5b:
     db $f4
     sub c
     db $f4
-    call nz, Call_001_534f
+    call nz, ValidateCondition_534f
     ld l, h
     ld l, [hl]
     cp $03
@@ -8657,7 +8657,7 @@ Call_001_5c5b:
     ld [bc], a
     ld [hl-], a
     ld a, a
-    call nz, Call_001_7371
+    call nz, ProcessValidation_7371
     ld h, c
     add sp, -$02
     ld [bc], a
@@ -8743,7 +8743,7 @@ Call_001_5c5b:
     cp $04
     ld sp, $7f7f
     ld a, a
-    call nz, Call_001_7371
+    call nz, ProcessValidation_7371
     ld [hl], e
     ld [hl], e
     cp $04
@@ -9425,7 +9425,7 @@ jr_001_69ff:
     ld c, c
     ld h, c
     ld b, a
-    call nz, Call_001_7371
+    call nz, ProcessValidation_7371
     ld [hl], e
     ld [hl], e
     cp $02
@@ -10943,7 +10943,7 @@ Call_001_6afd:
     ld l, d
     ld l, c
     ld l, d
-    call nz, Call_001_7371
+    call nz, ProcessValidation_7371
     ld l, d
     ld l, c
     cp $05
@@ -11351,7 +11351,7 @@ Call_001_7355:
     ld e, l
     cp $05
 
-Call_001_7371:
+ProcessValidation_7371:
     ld [hl-], a
     ld a, a
     ld l, d
