@@ -2737,11 +2737,23 @@ SpriteAnimationOAMLoop:
     ld a, GAME_STATE_WINDOW_UPDATE
     jr SetGameStateValue
 
+; SetGameStateSpecialPath
+; -----------------------
+; Description: Configure timer spécial et passe à l'état RESET
+; In:  aucun
+; Out: hTimer1 = TIMER_SPECIAL_PATH (144 frames), hGameState = GAME_STATE_RESET
+; Modifie: a
 SetGameStateSpecialPath:
     ld a, TIMER_SPECIAL_PATH
     ldh [hTimer1], a
     ld a, GAME_STATE_RESET
 
+; SetGameStateValue
+; -----------------
+; Description: Écrit la valeur de 'a' dans hGameState (point d'entrée partagé)
+; In:  a = nouvelle valeur de game state
+; Out: hGameState = a
+; Modifie: aucun
 SetGameStateValue:
     ldh [hGameState], a
     ret
