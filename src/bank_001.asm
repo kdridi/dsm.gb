@@ -3741,11 +3741,11 @@ jr_001_4fa0:
 
     ld a, [$c0d2]
     cp $07
-    jr c, jr_001_4fcb
+    jr c, UpdateScrollXAndDecreaseCollisionCounter_001_4fcb
 
     ldh a, [hShadowSCX]
     and $0c
-    jr nz, jr_001_4fcb
+    jr nz, UpdateScrollXAndDecreaseCollisionCounter_001_4fcb
 
     ldh a, [hShadowSCX]
     and $fc
@@ -3753,7 +3753,7 @@ jr_001_4fa0:
     ret
 
 
-jr_001_4fcb:
+UpdateScrollXAndDecreaseCollisionCounter_001_4fcb:
     ldh a, [hShadowSCX]
     inc a
     ldh [hShadowSCX], a
@@ -3778,15 +3778,15 @@ jr_001_4fe2:
 
     ldh a, [hJoypadState]
     bit 6, a
-    jr nz, jr_001_5034
+    jr nz, HandleJoypadButtonB_CheckCollision_001_5034
 
     bit 7, a
-    jr nz, jr_001_5022
+    jr nz, CheckSpriteCollisionSimple_001_5022
 
-jr_001_4ff6:
+HandleJoypadAndCollision_001_4ff6:
     ldh a, [hJoypadState]
     bit 4, a
-    jr nz, jr_001_5014
+    jr nz, CheckCollisionWithPositiveOffset_001_5014
 
     bit 5, a
     ret z
@@ -3807,7 +3807,7 @@ jr_001_4ff6:
     ret
 
 
-jr_001_5014:
+CheckCollisionWithPositiveOffset_001_5014:
     ld c, $08
     call CheckSpriteCollisionWithOffset
     ld hl, $c202
@@ -3819,31 +3819,31 @@ jr_001_5014:
     ret
 
 
-jr_001_5022:
+CheckSpriteCollisionSimple_001_5022:
     call CheckSpriteCollision
     cp $ff
-    jr z, jr_001_4ff6
+    jr z, HandleJoypadAndCollision_001_4ff6
 
     ld hl, $c201
     ld a, [hl]
     cp $94
-    jr nc, jr_001_4ff6
+    jr nc, HandleJoypadAndCollision_001_4ff6
 
     inc [hl]
-    jr jr_001_4ff6
+    jr HandleJoypadAndCollision_001_4ff6
 
-jr_001_5034:
+HandleJoypadButtonB_CheckCollision_001_5034:
     call CheckPlayerCollisionWithTile
     cp $ff
-    jr z, jr_001_4ff6
+    jr z, HandleJoypadAndCollision_001_4ff6
 
     ld hl, $c201
     ld a, [hl]
     cp $30
-    jr c, jr_001_4ff6
+    jr c, HandleJoypadAndCollision_001_4ff6
 
     dec [hl]
-    jr jr_001_4ff6
+    jr HandleJoypadAndCollision_001_4ff6
 
 CheckPlayerCollisionWithTile:
     ld hl, $c201
