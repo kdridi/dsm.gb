@@ -527,7 +527,7 @@ Jump_001_423f:
     sub c
     cp a
     adc a
-    jr jr_001_425c
+    jr PaddingAlign_425c
 
     ld a, h
     ld h, h
@@ -552,7 +552,7 @@ Jump_001_423f:
     nop
     nop
 
-jr_001_425c:
+PaddingAlign_425c:
     nop
     nop
     nop
@@ -593,7 +593,7 @@ jr_001_425c:
     sub b
     ld [hl], b
     ld e, b
-    jr c, jr_001_42ef
+    jr c, ProcessCarryFlag_42ef
 
     inc h
     ld [hl], h
@@ -688,11 +688,11 @@ BusyWait_IfNotZero_001_42e1:
     rst $00
     cp c
 
-jr_001_42ef:
+ProcessCarryFlag_42ef:
     add a
     ldh a, [c]
     adc [hl]
-    jr nz, jr_001_4314
+    jr nz, LoadStaticValue_4314
 
     jr nz, @+$22
 
@@ -721,7 +721,7 @@ jr_001_42ef:
     rlca
     rlca
 
-jr_001_4314:
+LoadStaticValue_4314:
     ld bc, $0101
     ld bc, $0101
     nop
@@ -899,7 +899,7 @@ UpdateStateCounter:
     dec de
     rst $38
     rst $38
-    jr z, jr_001_4408
+    jr z, ReturnIfZero_4408
 
     ld a, [hl+]
     ld [hl], $27
@@ -910,7 +910,7 @@ UpdateStateCounter:
     jr nz, jr_001_4417
 
     ld hl, $333c
-    jr jr_001_43fd
+    jr ContinueProcessing_43fd
 
     rrca
     rrca
@@ -935,7 +935,7 @@ UpdateStateCounter:
     nop
     nop
 
-jr_001_43fd:
+ContinueProcessing_43fd:
     nop
     nop
     nop
@@ -946,7 +946,7 @@ jr_001_43fd:
     dec b
     nop
 
-jr_001_4408:
+ReturnIfZero_4408:
     add hl, bc
     nop
     ld bc, $0300
