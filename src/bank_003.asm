@@ -2369,7 +2369,7 @@ JoypadInputProcessAPress_SetInitialState:
     ld [hl], $30
 
 JoypadInputProcessAPress_TransitionToGame:
-    ld hl, $dfe0
+    ld hl, wStateBuffer
     ld [hl], $01
     ld a, $01
     ld [de], a
@@ -2466,7 +2466,7 @@ GameModeValueSelection:
 
 JoypadInputInitialization:
     ld [hl], c
-    ld hl, $dfe0
+    ld hl, wStateBuffer
     ld [hl], $02
     ld a, $0c
     ld [wGameVarAE], a
@@ -2698,7 +2698,7 @@ CheckPlayerBounds::
     inc a
     ldh [hGameState], a
     inc a
-    ld [$dfe8], a
+    ld [wStateRender], a
     ld a, $90
     ldh [hTimer1], a
     ret
@@ -8845,7 +8845,7 @@ ProcessAudioSnapshot:
     xor a
     ldh [c], a
     ld a, $08
-    ld [$dfe0], a
+    ld [wStateBuffer], a
 
 ProcessAudioSnapshot_ProcessChannels:
     call CheckAudioChannel1
@@ -8857,10 +8857,10 @@ ProcessAudioSnapshot_ProcessChannels:
 
 ProcessAudioSnapshot_ClearStateAndReturn:
     xor a
-    ld [$dfe0], a
-    ld [$dfe8], a
-    ld [$dff0], a
-    ld [$dff8], a
+    ld [wStateBuffer], a
+    ld [wStateRender], a
+    ld [wStateVar10], a
+    ld [wStateFinal], a
     ldh [hSavedAudio], a
     ld a, $07
     ldh [rIE], a
@@ -8874,9 +8874,9 @@ ProcessAudioSnapshot_ClearStateAndReturn:
 ProcessAudioSnapshot_ResetEnvelopes:
     call ResetAudioChannelEnvelopes
     xor a
-    ld [$dfe1], a
-    ld [$dff1], a
-    ld [$dff9], a
+    ld [wStateDisplay], a
+    ld [wStateVar11], a
+    ld [wStateEnd], a
     ld a, $30
     ldh [hAudioMixerSnapshot], a
 
@@ -8925,11 +8925,11 @@ ProcessAudioSnapshot_CheckMixerState:
     rst $00
 
 InitializeWaveAudio:
-    ld a, [$dff0]
+    ld a, [wStateVar10]
     cp $01
     jr z, @+$0f
 
-    ld a, [$dff1]
+    ld a, [wStateVar11]
     cp $01
     jr z, InitializeWaveAudio_ConfigureWave
 
@@ -8946,7 +8946,7 @@ InitializeWaveAudio:
     ld hl, $df3f
     set 7, [hl]
     xor a
-    ld [$dff4], a
+    ld [wStateVar14], a
     ldh [rNR30], a
     ld hl, $7047
     call LoadAudioRegisterRange
@@ -8955,7 +8955,7 @@ InitializeWaveAudio:
     ld b, a
     ld a, $d0
     add b
-    ld [$dff5], a
+    ld [wStateVar15], a
     ld hl, $6803
     jp ConfigureAudioWave
 
@@ -8964,10 +8964,10 @@ InitializeWaveAudio_ConfigureWave:
     ldh a, [rDIV]
     and $07
     ld b, a
-    ld hl, $dff4
+    ld hl, wStateVar14
     inc [hl]
     ld a, [hl]
-    ld hl, $dff5
+    ld hl, wStateVar15
     cp $0e
     jr nc, InitializeWaveAudio_HighFrequency
 
@@ -8994,7 +8994,7 @@ InitializeWaveAudio_HighFrequency:
 
 InitializeWaveAudio_ResetWave:
     xor a
-    ld [$dff1], a
+    ld [wStateVar11], a
     ldh [rNR30], a
     ld hl, $df3f
     res 7, [hl]
@@ -9042,16 +9042,16 @@ InitializeWaveAudio_ResetWave:
     add a
 
 SkipIfGameState04:
-    ld a, [$dfe1]
+    ld a, [wStateDisplay]
     jr AudioChannelDispatchCase_05
 
 SkipIfGameState03:
-    ld a, [$dfe1]
+    ld a, [wStateDisplay]
     cp $03
     ret z
 
 SkipIfGameState05:
-    ld a, [$dfe1]
+    ld a, [wStateDisplay]
     cp $05
     ret z
 
@@ -9077,7 +9077,7 @@ AudioChannelDispatchCase_05:
     ld a, $10
     ld hl, $6886
     call DispatchAudioCommand
-    ld hl, $dfe4
+    ld hl, wStateGraphics
     ld [hl], $0a
     inc l
     ld [hl], $86
@@ -9088,7 +9088,7 @@ AudioChannelDispatchCase_05:
     and a
     jp z, ResetPulseChannel
 
-    ld hl, $dfe4
+    ld hl, wStateGraphics
     ld e, [hl]
     inc l
     ld d, [hl]
@@ -9123,7 +9123,7 @@ AudioChannelDispatchCase_05:
 
 ResetPulseChannel:
     xor a
-    ld [$dfe1], a
+    ld [wStateDisplay], a
 
 AudioData_003_68f8:
     ldh [rNR10], a
@@ -9149,7 +9149,7 @@ AudioData_003_68f8:
     jp DispatchAudioCommand
 
 
-    ld hl, $dfe4
+    ld hl, wStateGraphics
     inc [hl]
     ld a, [hl]
     cp $04
@@ -9191,7 +9191,7 @@ ProcessAudioFrame:
     and a
     ret nz
 
-    ld hl, $dfe4
+    ld hl, wStateGraphics
     ld a, [hl]
     inc [hl]
     cp $00
@@ -9216,7 +9216,7 @@ SquareChannel1_Setup:
     ld a, $60
 
 DispatchAudioWaveCommand:
-    ld [$dfe6], a
+    ld [wStateVar6], a
     ld a, $05
     ld hl, $695c
     jp DispatchAudioCommand
@@ -9228,7 +9228,7 @@ DispatchAudioWaveCommand:
     db $10
     add [hl]
     ld a, $10
-    ld [$dfe6], a
+    ld [wStateVar6], a
     ld a, $05
     ld hl, $696e
     jp DispatchAudioCommand
@@ -9238,7 +9238,7 @@ DispatchAudioWaveCommand:
     and a
     ret nz
 
-    ld hl, $dfe6
+    ld hl, wStateVar6
     ld a, $10
     add [hl]
     ld [hl], a
@@ -9285,7 +9285,7 @@ DispatchAudioWaveCommand:
     inc hl
     inc de
     nop
-    ld a, [$dfe1]
+    ld a, [wStateDisplay]
     cp $08
     ret z
 
@@ -9298,7 +9298,7 @@ DispatchAudioWaveCommand:
     and a
     ret nz
 
-    ld hl, $dfe4
+    ld hl, wStateGraphics
     ld c, [hl]
     inc [hl]
     ld b, $00
@@ -9356,9 +9356,9 @@ DispatchAudioWave_Entry:
     and a
     ret nz
 
-    ld a, [$dfe4]
+    ld a, [wStateGraphics]
     inc a
-    ld [$dfe4], a
+    ld [wStateGraphics], a
     cp $01
     jr z, ChannelType_01_PulseWave
 
@@ -9410,7 +9410,7 @@ ChannelInitDispatcher:
 
 
 CheckAudioActive:
-    ld a, [$dff9]
+    ld a, [wStateEnd]
     cp $01
     ret z
 
@@ -9479,7 +9479,7 @@ CheckAudioActive:
 
 AudioData_003_6aad:
     xor a
-    ld [$dff9], a
+    ld [wStateEnd], a
     ldh [rNR42], a
     ld hl, $df4f
     res 7, [hl]
@@ -9610,10 +9610,10 @@ LoadAudioRegisterRange:
 ClearAudioChannels:
 ResetAllAudioChannels:
     xor a
-    ld [$dfe1], a
+    ld [wStateDisplay], a
     ld [$dfe9], a
-    ld [$dff1], a
-    ld [$dff9], a
+    ld [wStateVar11], a
+    ld [wStateEnd], a
     ld [$df1f], a
     ld [$df2f], a
     ld [$df3f], a
@@ -9637,7 +9637,7 @@ ResetAudioChannelEnvelopes:
 
 
 CheckAudioChannel1:
-    ld de, $dfe0
+    ld de, wStateBuffer
     ld a, [de]
     and a
     jr z, .audioChannel1Path
@@ -9665,7 +9665,7 @@ CheckAudioChannel1:
 
 
 CheckAudioChannel4:
-    ld de, $dff8
+    ld de, wStateFinal
     ld a, [de]
     and a
     jr z, .audioChannel4Path
@@ -9698,7 +9698,7 @@ AudioClearChannels_Entry:
 
 
 ProcessAudioRequest:
-    ld hl, $dfe8
+    ld hl, wStateRender
     ld a, [hl+]
     and a
     ret z
@@ -9750,7 +9750,7 @@ LookupAudioEnvelope:
 
 
 UpdateAudioPan:
-    ld a, [$dff9]
+    ld a, [wStateEnd]
     cp $01
     ret nz
 

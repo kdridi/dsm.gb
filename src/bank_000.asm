@@ -5245,7 +5245,7 @@ InitObjectsLoop:
     ldh a, [hShadowSCX]
     ldh [hRenderAttr], a
     ld a, $02
-    ld [$dff8], a
+    ld [wStateFinal], a
     ld de, $0050
     call AddScore
     ld a, $02
@@ -6658,7 +6658,7 @@ SpriteSetupLoop:
     ld de, $0050
     call AddScore
     ld a, $02
-    ld [$dff8], a
+    ld [wStateFinal], a
 
 ProcessAnimObjectExit:
     pop af
@@ -8129,7 +8129,7 @@ CheckAudioCommand_F9:
     jr nz, CheckAudioCommand_FA
 
     ld a, [wAudioQueueId]
-    ld [$dff8], a
+    ld [wStateFinal], a
     pop hl
     ret
 
@@ -8582,7 +8582,7 @@ DecrementObjectAnimationCounter:
 
 AnimationObjectTriggerSound:
     ld a, $01
-    ld [$dff0], a
+    ld [wStateVar10], a
 
 AnimationObjectSoundDone:
     ld a, $fe
@@ -8645,12 +8645,12 @@ HandleGameplayObjectSound:
 
 GameplayObject60TriggerSound:
     ld a, $01
-    ld [$dff8], a
+    ld [wStateFinal], a
     jr GameplayObjectSoundDone
 
 GameplayObjectTriggerSound:
     ld a, $01
-    ld [$dff0], a
+    ld [wStateVar10], a
 
 GameplayObjectSoundDone:
     ld a, $fe
@@ -8764,7 +8764,7 @@ NextObjectEntry:
 StoreAudioChannel4:
     ldh [hSoundCh4], a
     inc a
-    ld [$dff8], a
+    ld [wStateFinal], a
     ret
 
 
@@ -12632,20 +12632,20 @@ CopyTilemapInner:
     ld [hl], a
     inc de
     add hl, bc
-    ld a, [$da28]
+    ld a, [wLevelParam28]
     dec a
-    ld [$da28], a
+    ld [wLevelParam28], a
     jr nz, CopyTilemapInner
 
     ld a, $04
-    ld [$da28], a
-    ld a, [$da29]
+    ld [wLevelParam28], a
+    ld a, [wLevelParam29]
     dec a
-    ld [$da29], a
+    ld [wLevelParam29], a
     jr nz, CopyTilemapOuter
 
     ld a, $11
-    ld [$da29], a
+    ld [wLevelParam29], a
     ld a, GAME_STATE_BONUS_COPY
     ldh [hGameState], a
     ret
