@@ -3240,7 +3240,7 @@ State25_StoreOAMIndex:
     ldh [hOAMIndex], a
 
 State25_LoadSpriteTableAddress:
-    and $01
+    and FRAME_MASK_2             ; Sélection table selon parité
     ld hl, ROM_SPRITE_CONFIG_1
     jr nz, State25_CopySpriteDataToOam
 
@@ -4530,7 +4530,7 @@ ClearTilemapBuffer::
 ; ===========================================================================
 State0B_PipeEnterDown::
     ldh a, [hFrameCounter]
-    and $01                      ; 1 frame sur 2 seulement
+    and FRAME_MASK_2             ; 1 frame sur 2 seulement
     ret z
 
     ld hl, wPlayerState
@@ -4603,7 +4603,7 @@ State0B_PipeEnterDown::
 ; ===========================================================================
 State0C_PipeExitLeft::
     ldh a, [hFrameCounter]
-    and $01                      ; 1 frame sur 2 seulement
+    and FRAME_MASK_2             ; 1 frame sur 2 seulement
     ret z
 
     ld hl, wPlayerX
@@ -4901,7 +4901,7 @@ InitPlayerX:
     ld a, [hl]
     dec a
     dec a
-    and $fc
+    and SCROLL_ALIGN_MASK        ; Aligner sur 4 pixels
     or $06
     ld [hl], a
     xor a
@@ -6332,7 +6332,7 @@ IncrementYAndCheckCoin:
     jr c, CheckBit2AndProcessY
 
     ld a, [hl]
-    and $fc
+    and SCROLL_ALIGN_MASK        ; Aligner sur 4 pixels
     or $02
     ld [hl], a
 
@@ -6407,7 +6407,7 @@ DecrementYIfConfigBit0Clear:
     jr c, CheckBit2AndProcessY
 
     ld a, [hl]
-    and $fc
+    and SCROLL_ALIGN_MASK        ; Aligner sur 4 pixels
     or $01
     ld [hl], a
     jr CheckBit2AndProcessY
