@@ -5183,7 +5183,7 @@ HandlePlayerWaterCollision:
     ld h, a
     ld a, [hl]
     pop hl
-    cp $c0
+    cp BLOCK_HIT_TYPE_SPECIAL   ; Type spécial ($C0) ?
     jp z, PlatformCollisionSetup
 
     ldh a, [hTimerAux]
@@ -12607,7 +12607,7 @@ CopyToBackBuffer:
     inc de
     add hl, bc
     ld a, l
-    cp $52
+    cp VRAM_END_COPY_END_LOW    ; Fin de la copie ?
     jr nz, CopyToBackBuffer
 
     ld a, LCDC_END_SCREEN

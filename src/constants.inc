@@ -525,6 +525,7 @@ DEF VRAM_BORDER_BOTTOM_ROW  EQU $9a20   ; Ligne bas bordure écran fin
 DEF VRAM_END_TEXT_ROW1      EQU $9845   ; Ligne texte 1 écran fin (PUSH GAME)
 DEF VRAM_END_TEXT_ROW2      EQU $9887   ; Ligne texte 2 écran fin
 DEF VRAM_END_COPY_START     EQU $98d2   ; Début copie données écran fin
+DEF VRAM_END_COPY_END_LOW   EQU $52     ; Octet bas adresse fin boucle copie
 
 ; === Tiles spéciaux ===
 
