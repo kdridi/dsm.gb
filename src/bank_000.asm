@@ -145,7 +145,7 @@ TimerOverflowInterrupt::
     push af
     ld a, BANK_AUDIO         ; Bank 3 = audio
     ld [rROMB0], a           ; Switch to audio bank
-    call $7ff0               ; Routine audio en bank 3
+    call AudioEntryPoint      ; Routine audio en bank 3
     ldh a, [hCurrentBank]    ; Restaurer bank courante
     ld [rROMB0], a
     pop af
@@ -1260,35 +1260,35 @@ StateHandler_00::
     ldh [hCurrentBank], a
     ld [rROMB0], a
 
-    ; Init structure à $48fc
-    call $48fc
+    ; Vérifier état des objets
+    call CheckObjectState
 
     ; Init 5 buffers objets (wObject1-wObject5)
-    ; Chaque buffer = 16 bytes, pattern $2164
+    ; Chaque buffer = 16 bytes, données depuis ROM_OBJECT_INIT_DATA
     ld bc, wObject1
-    ld hl, $2164
-    call $490d
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
     ld bc, wObject2
-    ld hl, $2164
-    call $490d
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
     ld bc, wObject3
-    ld hl, $2164
-    call $490d
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
     ld bc, wObject4
-    ld hl, $2164
-    call $490d
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
     ld bc, wObject5
-    ld hl, $2164
-    call $490d
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
 
-    ; Autres inits bank 3
-    call $4a94
-    call $498b
-    call $4aea
-    call $4b3c
-    call $4b6f
-    call $4b8a
-    call $4bb5
+    ; Autres routines bank 3
+    call CheckUnlockState
+    call ProcessGameStateInput
+    call InitRenderLoop
+    call CheckBlockCollision
+    call CheckPlayerBounds
+    call CheckTimerAux1
+    call CheckTimerAux2
 
     ; Restaurer bank
     ldh a, [hSavedBank]
@@ -3322,9 +3322,9 @@ State26_PrincessRising::
     ld hl, wPlayerUnk13
     ld [hl], $20
     ld bc, wObject2
-    ld hl, $2164
+    ld hl, ROM_OBJECT_INIT_DATA
     push bc
-    call $490d
+    call ProcessObjectData
     pop hl
     dec l
     ld a, [hl]
@@ -4710,7 +4710,7 @@ SwitchBankAndCallBank3Handler:
     ld [rROMB0], a           ; MBC: switch vers bank 3
 
     ; --- CallTargetRoutine ---
-    call $4823              ; Appeler routine en bank 3
+    call AnimationHandler   ; Appeler routine d'animation en bank 3
 
     ; --- RestorePreviousBank ---
     ldh a, [hSavedBank]          ; Récupérer bank sauvegardée
@@ -7254,22 +7254,22 @@ State0D_GameplayFull::
     ld a, $03
     ldh [hCurrentBank], a
     ld [rROMB0], a
-    call $498b                   ; Bank 3: init update
+    call ProcessGameStateInput   ; Bank 3: traiter entrées
     ld bc, wObject2              ; Slot objet 2
-    ld hl, $2164
-    call $490d
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
     ld bc, wObject3              ; Slot objet 3
-    ld hl, $2164
-    call $490d
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
     ld bc, wObject4              ; Slot objet 4
-    ld hl, $2164
-    call $490d
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
     ld bc, wObject5              ; Slot objet 5
-    ld hl, $2164
-    call $490d
-    call $4aea                   ; Bank 3: finalize
-    call $4b8a
-    call $4bb5
+    ld hl, ROM_OBJECT_INIT_DATA
+    call ProcessObjectData
+    call InitRenderLoop          ; Bank 3: init boucle rendu
+    call CheckTimerAux1
+    call CheckTimerAux2
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [rROMB0], a

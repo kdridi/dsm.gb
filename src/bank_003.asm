@@ -2140,6 +2140,8 @@ AnimRender:
     jp AnimProcessFrame
 
 
+; Routine $48fc - Vérifie l'état d'un objet et copie ses données
+CheckObjectState::
     ld hl, $c209
     ld a, [hl]
     ld b, a
@@ -2157,6 +2159,8 @@ AnimRender:
     ret
 
 
+; Routine $490d - Traite les données d'un objet via BC
+ProcessObjectData::
     ld a, [bc]
     ld e, a
     ld d, $00
@@ -2286,6 +2290,8 @@ FXDispatch_4:
     pop af
     jr JoypadInputBit0Check
 
+; Routine $498b - Traite les entrées en fonction de l'état du jeu
+ProcessGameStateInput::
     ldh a, [hGameState]
     cp GAME_STATE_GAMEPLAY  ; État $0D (gameplay actif) ?
     jp z, HandleJoypadInputDelay
@@ -2493,6 +2499,8 @@ HandleJoypadInputDelay:
     ret
 
 
+; Routine $4a94 - Vérifie l'état de verrouillage et gère le démo/input
+CheckUnlockState::
     ReturnIfUnlocked
 
     cp $ff
@@ -2548,11 +2556,15 @@ JoypadStateClearRegister:
     ld [$c0da], a
     jr JoypadStateUpdatePersist
 
+; Données ou code orphelin (zone $4ae4-$4ae9)
     ld d, b
     ld h, l
     ldh [$ff65], a
     ld [hl], b
     ld h, [hl]
+
+; Routine $4aea - Initialise et traite la boucle de rendu des objets
+InitRenderLoop::
     ld b, $04
     ld de, $0010
     ld hl, $c210
@@ -2628,6 +2640,8 @@ RenderLoopSetFlag:
     ld [hl], $ff
     jr RenderLoopProcessActive
 
+; Routine $4b3c - Vérifie les collisions de blocs
+CheckBlockCollision::
     ldh a, [hBlockHitType]
     cp $03
     ret nz
@@ -2668,6 +2682,8 @@ HandleBlockCollisionResolve:
     ret
 
 
+; Routine $4b6f - Vérifie les limites de position du joueur
+CheckPlayerBounds::
     ld hl, $c201
     ld a, [hl]
     cp $b4
@@ -2688,6 +2704,8 @@ HandleBlockCollisionResolve:
     ret
 
 
+; Routine $4b8a - Vérifie l'état du timer auxiliaire (cas 1)
+CheckTimerAux1::
     ldh a, [hTimerAux]
     cp $01
     ret nz
@@ -2718,6 +2736,8 @@ TimerInitializeAux:
     ret
 
 
+; Routine $4bb5 - Vérifie l'état du timer auxiliaire (cas 2)
+CheckTimerAux2::
     ldh a, [hTimerAux]
     cp $04
     jr z, PaddingZone_003_4be0
@@ -14018,6 +14038,9 @@ PaddingZone_003_7feb:
 
 PaddingZone_003_7fef:
     rst $38
+
+; Routine $7ff0 - Point d'entrée audio (trampoline vers ProcessAudioSnapshot)
+AudioEntryPoint::
     jp ProcessAudioSnapshot
 
 

@@ -432,6 +432,9 @@ DEF ROM_GAME_TILES_A    EQU $5032   ; Tiles de jeu partie A
 DEF ROM_GAME_TILES_B    EQU $4032   ; Tiles de jeu partie B
 DEF ROM_ANIM_BUFFER     EQU $5603   ; Buffer animation (8 octets)
 
+; --- Données objets ---
+DEF ROM_OBJECT_INIT_DATA EQU $2164  ; Table init objets (vitesses/priorités)
+
 ; === Adresses VRAM ===
 ; --- Destinations copie tiles ---
 DEF VRAM_TILES_MAIN     EQU $9300   ; Destination tiles principaux
