@@ -361,6 +361,14 @@
       "priority": 3
     },
     {
+      "address": "$078C",
+      "node_type": "code",
+      "description": "RenderPlayerUpdate - Met \u00e0 jour rendu du joueur",
+      "source": "$06C5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$07C3",
       "node_type": "code",
       "description": "CheckInputAndPause - V\u00e9rifie input pour soft reset (A+B+Start+Select) ou toggle pause",
@@ -721,6 +729,14 @@
       "priority": 3
     },
     {
+      "address": "$1655",
+      "node_type": "code",
+      "description": "ClearTilemapBuffer - Nettoie buffer tilemap",
+      "source": "$06C5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1663",
       "node_type": "code",
       "description": "State0B_PipeEnterDown - Descente tuyau",
@@ -833,6 +849,14 @@
       "priority": 3
     },
     {
+      "address": "$1ECB",
+      "node_type": "code",
+      "description": "ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites",
+      "source": "$06C5",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1EFA",
       "node_type": "code",
       "description": "UpdatePlayerInvulnBlink - Clignotement invuln\u00e9rabilit\u00e9",
@@ -901,6 +925,14 @@
       "node_type": "code",
       "description": "InitAudioAndAnimContext - Init contexte audio et animations",
       "source": "$055F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2453",
+      "node_type": "code",
+      "description": "FindAudioTableEntry - Trouve entr\u00e9e table audio",
+      "source": "$06C5",
       "bank": 0,
       "priority": 3
     },
@@ -1385,34 +1417,10 @@
       "priority": 3
     },
     {
-      "address": "$1ECB",
-      "node_type": "code",
-      "description": "ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites",
-      "source": "$06C5",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1655",
-      "node_type": "code",
-      "description": "ClearTilemapBuffer - Nettoie buffer tilemap",
-      "source": "$06C5",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$078C",
-      "node_type": "code",
-      "description": "RenderPlayerUpdate - Met \u00e0 jour rendu du joueur",
-      "source": "$06C5",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2453",
-      "node_type": "code",
-      "description": "FindAudioTableEntry - Trouve entr\u00e9e table audio",
-      "source": "$06C5",
+      "address": "$07B7",
+      "node_type": "table",
+      "description": "ROM_RENDER_TABLE - Table de contexte de rendu index\u00e9e par hRenderContext",
+      "source": "$078C",
       "bank": 0,
       "priority": 3
     }
@@ -1453,6 +1461,7 @@
     "$0095",
     "$04C3",
     "$0610",
+    "$078C",
     "$0185",
     "$0030",
     "$0100",
@@ -1464,6 +1473,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 4,
-  "total_explored": 45
+  "commits_since_push": 0,
+  "total_explored": 46
 }

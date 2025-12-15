@@ -1714,20 +1714,33 @@ ContinueAfterStateSetup:
 ;; ==========================================================================
 ;; RenderPlayerUpdate ($078C)
 ;; ==========================================================================
+;; Description: Met à jour l'état de rendu du joueur selon le contexte actuel
+;; In:  hRenderContext = index dans la table de rendu
+;;      hRenderCounter = compteur (0 = normal, ≠0 = mode spécial)
+;;      wPlayerInvuln = flag d'invulnérabilité
+;; Out: wStateRender = nouvel état de rendu
+;; Modifie: a, de, hl
+;; ==========================================================================
 RenderPlayerUpdate:
+    ; Si joueur invulnérable, ne pas mettre à jour le rendu
     ld a, [wPlayerInvuln]
     and a
     ret nz
 
+    ; Initialiser la bank audio (bank 3)
     ld a, BANK_AUDIO
     ld [rROMB0], a
     call ROM_INIT_BANK3
+    ; Restaurer la bank courante
     ldh a, [hCurrentBank]
     ld [rROMB0], a
+
+    ; Vérifier le compteur de rendu
     ldh a, [hRenderCounter]
     and a
     jr nz, SetStateRenderEnd
 
+    ; Mode normal: chercher l'état de rendu dans la table
     ldh a, [hRenderContext]
     ld hl, ROM_RENDER_TABLE
     ld e, a
@@ -1737,8 +1750,8 @@ RenderPlayerUpdate:
     ld [wStateRender], a
     ret
 
-
 SetStateRenderEnd:
+    ; Mode spécial: forcer l'état de rendu de fin
     ld a, STATE_RENDER_SPECIAL
     ld [wStateRender], a
     ret
