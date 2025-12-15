@@ -8011,20 +8011,20 @@ AudioQueueProcessDone:
 
 
 CheckAudioCommand_F1:
-    cp $f1
+    cp AUDIO_CMD_F1
     jr nz, CheckAudioCommand_F2
 
-    ld a, $0a
+    ld a, AUDIO_SLOT_10
     call SaveSoundDataToSlot
     call LoadQueuedAudioConfig
-    ld a, $0a
+    ld a, AUDIO_SLOT_10
     call LoadSoundDataFromSlot
     pop hl
     jp AudioQueueProcessing
 
 
 CheckAudioCommand_F2:
-    cp $f2
+    cp AUDIO_CMD_F2
     jr nz, CheckAudioCommand_F3
 
     ld a, [wAudioQueueId]
@@ -8034,7 +8034,7 @@ CheckAudioCommand_F2:
 
 
 CheckAudioCommand_F3:
-    cp $f3
+    cp AUDIO_CMD_F3
     jr nz, CheckAudioCommand_F4
 
     ld a, [wAudioQueueId]
@@ -8061,7 +8061,7 @@ CheckAudioCommand_F3:
 
 
 CheckAudioCommand_F4:
-    cp $f4
+    cp AUDIO_CMD_F4
     jr nz, CheckAudioCommand_F5
 
     ld a, [wAudioQueueId]
@@ -8071,12 +8071,12 @@ CheckAudioCommand_F4:
 
 
 CheckAudioCommand_F5:
-    cp $f5
+    cp AUDIO_CMD_F5
     jr nz, CheckAudioCommand_F6
 
     ldh a, [rDIV]
     and FRAME_MASK_4
-    ld a, $f1
+    ld a, AUDIO_CMD_F1
     jr z, CheckAudioCommand_F1
 
     pop hl
@@ -8084,7 +8084,7 @@ CheckAudioCommand_F5:
 
 
 CheckAudioCommand_F6:
-    cp $f6
+    cp AUDIO_CMD_F6
     jr nz, CheckAudioCommand_F7
 
     ld a, [wPlayerState]
@@ -8116,7 +8116,7 @@ AudioCommand_F6_Return:
 
 
 CheckAudioCommand_F7:
-    cp $f7
+    cp AUDIO_CMD_F7
     jr nz, CheckAudioCommand_F9
 
     call DestroyAllObjects
@@ -8125,7 +8125,7 @@ CheckAudioCommand_F7:
 
 
 CheckAudioCommand_F9:
-    cp $f9
+    cp AUDIO_CMD_F9
     jr nz, CheckAudioCommand_FA
 
     ld a, [wAudioQueueId]
@@ -8135,7 +8135,7 @@ CheckAudioCommand_F9:
 
 
 CheckAudioCommand_FA:
-    cp $fa
+    cp AUDIO_CMD_FA
     jr nz, CheckAudioCommand_FB
 
     ld a, [wAudioQueueId]
@@ -8145,7 +8145,7 @@ CheckAudioCommand_FA:
 
 
 CheckAudioCommand_FB:
-    cp $fb
+    cp AUDIO_CMD_FB
     jr nz, CheckAudioCommand_FC
 
     ld a, [wAudioQueueId]
@@ -8169,7 +8169,7 @@ AudioCommand_FB_CarryJump:
 
 
 CheckAudioCommand_FC:
-    cp $fc
+    cp AUDIO_CMD_FC
     jr nz, CheckAudioCommand_FD
 
     ld a, [wAudioQueueId]
@@ -8181,7 +8181,7 @@ CheckAudioCommand_FC:
 
 
 CheckAudioCommand_FD:
-    cp $fd
+    cp AUDIO_CMD_FD
     jr nz, AudioCommand_Default
 
     ld a, [wAudioQueueId]

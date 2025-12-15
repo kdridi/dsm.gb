@@ -1089,3 +1089,24 @@ DEF END_SCREEN_PLAYER_Y        EQU $38   ; Position Y joueur écran fin (56)
 DEF END_SCREEN_PLAYER_X        EQU $10   ; Position X joueur écran fin (16)
 DEF END_SCREEN_PLAYER_POS      EQU $78   ; Position joueur écran fin (120)
 DEF OAM_CLEAR_SIZE_END         EQU $0c   ; Taille clear OAM fin (12 octets)
+
+; === Commandes audio (queue processing) ===
+; Commandes spéciales dans les données audio ($f0-$fd)
+
+DEF AUDIO_CMD_F0               EQU $f0   ; Commande audio F0 (special processing)
+DEF AUDIO_CMD_F1               EQU $f1   ; Commande audio F1 (save/load slot)
+DEF AUDIO_CMD_F2               EQU $f2   ; Commande audio F2 (set channel 4)
+DEF AUDIO_CMD_F3               EQU $f3   ; Commande audio F3 (init sound)
+DEF AUDIO_CMD_F4               EQU $f4   ; Commande audio F4 (set var2)
+DEF AUDIO_CMD_F5               EQU $f5   ; Commande audio F5 (random timing)
+DEF AUDIO_CMD_F6               EQU $f6   ; Commande audio F6 (player position check)
+DEF AUDIO_CMD_F7               EQU $f7   ; Commande audio F7 (destroy all objects)
+DEF AUDIO_CMD_F9               EQU $f9   ; Commande audio F9 (set state final)
+DEF AUDIO_CMD_FA               EQU $fa   ; Commande audio FA (set state buffer)
+DEF AUDIO_CMD_FB               EQU $fb   ; Commande audio FB (player distance check)
+DEF AUDIO_CMD_FC               EQU $fc   ; Commande audio FC (set sound params)
+DEF AUDIO_CMD_FD               EQU $fd   ; Commande audio FD (set state render)
+
+; === Index slots audio ===
+
+DEF AUDIO_SLOT_10              EQU $0a   ; Index slot audio 10 (pour save/load)
