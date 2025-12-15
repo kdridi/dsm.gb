@@ -1,68 +1,30 @@
 SECTION "ROM Bank $003", ROMX[$4000], BANK[$3]
 
-    ccf
-    ld d, b
-    ld [hl], h
-    ld d, b
-    sbc e
-    ld d, b
-    ccf
-    ld d, b
-    ld [hl], h
-    ld d, b
-    sbc e
-    ld d, b
-    ccf
-    ld d, b
-    ld [hl], h
-    ld d, b
-    sbc e
-    ld d, b
-    ccf
-    ld d, b
-    ld [hl], h
-    ld d, b
-    sbc e
-    ld d, b
-    ret nz
-
-    ld d, b
-    ld [hl], h
-    ld c, [hl]
-    dec e
-    ld c, a
-    ret c
-
-    ld c, a
-    ld [hl], h
-    ld c, [hl]
-    dec e
-    ld c, a
-    ret c
-
-    ld c, a
-    ld [hl], h
-    ld c, [hl]
-    dec e
-    ld c, a
-    ret c
-
-    ld c, a
-    ld [hl], h
-    ld c, [hl]
-    dec e
-    ld c, a
-    ret c
-
-    ld c, a
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+; LevelJumpTable Bank 3
+; ----------------------
+; Description: Table de pointeurs pour les niveaux supplémentaires (Bank 3)
+; Format: 3 word-pointers par niveau (init/update/render typiquement)
+; Utilisé par: level loader pour charger les routines spécifiques aux niveaux
+; Note: Niveau 4 a une entrée supplémentaire ($50C0) - possiblement pointeur de données
+LevelJumpTable_Bank3:
+    ; Niveau 0
+    dw $503F, $5074, $509B
+    ; Niveau 1
+    dw $503F, $5074, $509B
+    ; Niveau 2
+    dw $503F, $5074, $509B
+    ; Niveau 3
+    dw $503F, $5074, $509B
+    ; Niveau 4 (4 pointeurs - structure différente)
+    dw $50C0, $4E74, $4F1D, $4FD8
+    ; Niveau 5
+    dw $4E74, $4F1D, $4FD8
+    ; Niveau 6
+    dw $4E74, $4F1D, $4FD8
+    ; Niveau 7
+    dw $4E74, $4F1D, $4FD8
+    ; Fin de table / Padding
+    dw $0000, $0000, $0000, $0000
     inc e
     inc e
     ld a, $22

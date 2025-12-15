@@ -817,6 +817,38 @@
       "priority": 3
     },
     {
+      "address": "$6190",
+      "node_type": "data",
+      "description": "Donn\u00e9es niveau (variante A)",
+      "source": "$4000:2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$6192",
+      "node_type": "data",
+      "description": "Donn\u00e9es niveau (variante B)",
+      "source": "$4000:2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$61B7",
+      "node_type": "data",
+      "description": "Donn\u00e9es niveau (variante C)",
+      "source": "$4000:2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$61DA",
+      "node_type": "data",
+      "description": "Donn\u00e9es niveau (variante D)",
+      "source": "$4000:2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$7FF0",
       "node_type": "code",
       "description": "AudioEntryPoint - Routine audio principale en bank 3",
@@ -897,35 +929,59 @@
       "priority": 3
     },
     {
-      "address": "$6190",
-      "node_type": "data",
-      "description": "Donn\u00e9es niveau (variante A)",
-      "source": "$4000:2",
-      "bank": 2,
+      "address": "$503F",
+      "node_type": "code",
+      "description": "Level 0-3 handler 1 (probablement init)",
+      "source": "$4000:3",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$6192",
-      "node_type": "data",
-      "description": "Donn\u00e9es niveau (variante B)",
-      "source": "$4000:2",
-      "bank": 2,
+      "address": "$5074",
+      "node_type": "code",
+      "description": "Level 0-3 handler 2 (probablement update)",
+      "source": "$4000:3",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$61B7",
-      "node_type": "data",
-      "description": "Donn\u00e9es niveau (variante C)",
-      "source": "$4000:2",
-      "bank": 2,
+      "address": "$509B",
+      "node_type": "code",
+      "description": "Level 0-3 handler 3 (probablement render)",
+      "source": "$4000:3",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$61DA",
+      "address": "$50C0",
       "node_type": "data",
-      "description": "Donn\u00e9es niveau (variante D)",
-      "source": "$4000:2",
-      "bank": 2,
+      "description": "Level 4 extra pointer (donn\u00e9es sp\u00e9cifiques?)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4E74",
+      "node_type": "code",
+      "description": "Level 4-7 handler 1",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4F1D",
+      "node_type": "code",
+      "description": "Level 4-7 handler 2",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4FD8",
+      "node_type": "code",
+      "description": "Level 4-7 handler 3",
+      "source": "$4000:3",
+      "bank": 3,
       "priority": 3
     }
   ],
@@ -942,8 +998,9 @@
     "$0048",
     "$0000",
     "$0095",
-    "$0040"
+    "$0040",
+    "$4000:3"
   ],
-  "commits_since_push": 2,
-  "total_explored": 13
+  "commits_since_push": 3,
+  "total_explored": 14
 }
