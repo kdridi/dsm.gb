@@ -1237,9 +1237,9 @@ TableEntry_Variant_9:
     add b
     ret nz
 
-    jr nz, jr_002_454d
+    jr nz, ReadJoypadInput
 
-jr_002_454d:
+ReadJoypadInput:
     ldh a, [rP1]
     ldh a, [rP1]
     ldh a, [$fffe]
@@ -1477,7 +1477,7 @@ jr_002_45e0:
     db $10
     jr nz, jr_002_466e
 
-    jr nz, jr_002_4670
+    jr nz, SetVramPointer
 
     ld b, b
     ld b, b
@@ -1485,7 +1485,7 @@ jr_002_45e0:
     nop
     nop
     nop
-    jr jr_002_4670
+    jr SetVramPointer
 
     inc a
     inc h
@@ -1514,7 +1514,7 @@ jr_002_466e:
     ld h, h
     ld h, h
 
-jr_002_4670:
+SetVramPointer:
     ld d, h
     ld d, l
     nop
@@ -1636,11 +1636,11 @@ jr_002_46c4:
     ldh a, [hCurrentTile]
     ldh a, [rLCDC]
 
-jr_002_46fa:
+LcdStatusWaitLoop:
     rst $38
     inc bc
     rst $38
-    jr nz, jr_002_46fa
+    jr nz, LcdStatusWaitLoop
 
     ld a, e
     di

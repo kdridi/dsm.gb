@@ -3753,7 +3753,7 @@ jr_003_504d:
     ld d, e
     call z, CheckAnimObjectState
 
-jr_003_5058:
+CheckAnimationState:
     ld d, h
     jr nz, jr_003_50af
 
@@ -3879,7 +3879,7 @@ jr_003_50af:
     nop
     dec b
     ld bc, $0501
-    jr jr_003_5058
+    jr CheckAnimationState
 
     ld a, [bc]
     ld bc, $0a02
@@ -9133,7 +9133,7 @@ jr_003_68f8:
     inc [hl]
     ld a, [hl]
     cp $04
-    jr z, jr_003_6925
+    jr z, SetupAudioConfiguration
 
     cp $18
     jp z, ResetPulseChannel
@@ -9141,7 +9141,7 @@ jr_003_68f8:
     ret
 
 
-jr_003_6925:
+SetupAudioConfiguration:
     ld hl, $6907
     call ConfigureAudioSe
     ret
@@ -9157,7 +9157,7 @@ jr_003_6925:
     adc h
     dec [hl]
 
-jr_003_6935:
+ProcessAudioFrame:
     rst $00
     call SkipIfGameState05
     ret z
@@ -9249,7 +9249,7 @@ DispatchAudioWaveCommand:
     ld a, [hl-]
     add b
     db $e3
-    jr nz, jr_003_6935
+    jr nz, ProcessAudioFrame
 
     di
     or e
