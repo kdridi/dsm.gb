@@ -4621,43 +4621,52 @@ State32_CreditsScroll::
     ret
 
 
+; UpdateCreditsStars
+; ----------------
+; Description: Met à jour l'animation des 3 étoiles de l'écran de crédits.
+;              Décrémente le compteur d'animation de chaque étoile, et le réinitialise
+;              avec randomisation de position quand il atteint les seuils min/max.
+; In:  Rien (utilise wPlayerUnk12 comme base des structures d'objets)
+; Out: Rien
+; Modifie: af, bc, de, hl
 UpdateCreditsStars:
     ld hl, wPlayerUnk12
     ld de, OBJECT_STRUCT_SIZE
     ld b, CREDITS_STAR_COUNT
 
-ScrollAnimationLoop:
-    dec [hl]
+.animationLoop:
+    dec [hl]                              ; Décrémente compteur animation
     ld a, [hl]
-    cp CREDITS_ANIM_LOW_THRESH
-    jr nz, State32_CheckCounterReset
+    cp CREDITS_ANIM_LOW_THRESH            ; Atteint le seuil bas (1)?
+    jr nz, .checkCounterReset
 
-    ld [hl], CREDITS_ANIM_RESET
-    jr State32_MoveToNextSprite
+    ld [hl], CREDITS_ANIM_RESET           ; Oui: réinitialiser à 254
+    jr .moveToNextSprite
 
-State32_CheckCounterReset:
-    cp CREDITS_ANIM_HIGH_THRESH
-    jr nz, State32_MoveToNextSprite
+.checkCounterReset:
+    cp CREDITS_ANIM_HIGH_THRESH           ; Atteint le seuil haut (224)?
+    jr nz, .moveToNextSprite
 
+    ; Randomisation de la position
     push hl
-    ldh a, [rDIV]
-    dec l
-    add [hl]
-    and CLEAR_BIT7_MASK
-    cp CREDITS_POS_RANDOM_THRESH
-    jr nc, State32_StoreOffsetValue
+    ldh a, [rDIV]                         ; Source d'aléatoire (timer DIV)
+    dec l                                 ; Pointe vers le champ précédent
+    add [hl]                              ; Ajoute valeur actuelle
+    and CLEAR_BIT7_MASK                   ; Garde bits 0-6
+    cp CREDITS_POS_RANDOM_THRESH          ; Comparaison avec seuil 104
+    jr nc, .storeOffsetValue
 
-    and ANIM_COUNTER_MASK
+    and ANIM_COUNTER_MASK                 ; Applique masque bits 0-5
 
-State32_StoreOffsetValue:
-    ld [hl-], a
-    ld [hl], FLAG_FALSE
+.storeOffsetValue:
+    ld [hl-], a                           ; Stocke nouvelle position
+    ld [hl], FLAG_FALSE                   ; Reset flag
     pop hl
 
-State32_MoveToNextSprite:
-    add hl, de
+.moveToNextSprite:
+    add hl, de                            ; Passe à la structure suivante
     dec b
-    jr nz, ScrollAnimationLoop
+    jr nz, .animationLoop
 
     ret
 
