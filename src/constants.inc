@@ -474,3 +474,19 @@ DEF OAM_BUFFER_SIZE     EQU $9F ; 159 octets (40 sprites × 4 - 1)
 DEF JOYPAD_DPAD_MASK    EQU $0F ; Masque 4 bits bas (R/L/U/D)
 ; Valeur quand toutes les directions sont pressées (combo soft reset)
 DEF JOYPAD_ALL_DPAD     EQU $0F ; R+L+U+D simultanés
+
+; === Attract Mode / Menu ===
+
+DEF ATTRACT_MODE_TIMEOUT EQU $28 ; Timer attract mode (40 frames)
+
+; === Positions sprites menu sélection niveau ===
+
+DEF SPRITE_Y_MENU       EQU $78 ; Position Y sprites menu (120 pixels)
+DEF SPRITE_X_LEFT       EQU $78 ; Position X gauche (120 pixels)
+DEF SPRITE_X_CENTER     EQU $80 ; Position X centre (128 pixels)
+DEF SPRITE_X_RIGHT      EQU $88 ; Position X droite (136 pixels)
+DEF TILE_LEVEL_SELECT   EQU $29 ; Tile indicateur sélection niveau
+
+; === DMA ===
+
+DEF DMA_WAIT_CYCLES     EQU $28 ; Cycles d'attente DMA (40 cycles)

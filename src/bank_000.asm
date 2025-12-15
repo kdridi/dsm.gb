@@ -794,7 +794,7 @@ CompareBCDScoresToDisplay:
     ld hl, $9969
     call ConvertBCDToTiles
     ld hl, wUnknown04
-    ld [hl], $78
+    ld [hl], SPRITE_Y_MENU
     ld a, [wGameConfigA6]
     and a
     jr z, FinalizeGameStateAfterScore
@@ -843,7 +843,7 @@ FinalizeGameStateAfterScore:
     ldh [hGameState], a
     xor a
     ldh [hVBlankMode], a
-    ld a, $28
+    ld a, ATTRACT_MODE_TIMEOUT
     ld [wAttractModeTimer], a
     ldh [hUpdateLockFlag], a
     ld hl, wCurrentROMBank
@@ -868,7 +868,7 @@ FinalizeGameStateAfterScore:
 
 StartSelectedLevel:
     ld a, [wUnknown04]
-    cp $78
+    cp SPRITE_Y_MENU
     jr z, ResetRenderForHighLevels
 
     ld a, [wGameConfigA6]
@@ -1002,29 +1002,29 @@ AnimRenderContextUpdateDone:
 AnimRenderContextReady:
     ld hl, wUnknown08
     ldh a, [hAnimTileIndex]
-    ld b, $78
+    ld b, SPRITE_Y_MENU
     ld c, a
     and $f0
     swap a
-    ld [hl], b
+    ld [hl], b               ; Sprite 0: Y = SPRITE_Y_MENU
     inc l
-    ld [hl], $78
+    ld [hl], SPRITE_X_LEFT   ; Sprite 0: X = gauche
     inc l
     ld [hl+], a
     inc l
     ld a, c
     and $0f
-    ld [hl], b
+    ld [hl], b               ; Sprite 1: Y = SPRITE_Y_MENU
     inc l
-    ld [hl], $88
+    ld [hl], SPRITE_X_RIGHT  ; Sprite 1: X = droite
     inc l
     ld [hl+], a
     inc l
-    ld [hl], b
+    ld [hl], b               ; Sprite 2: Y = SPRITE_Y_MENU
     inc l
-    ld [hl], $80
+    ld [hl], SPRITE_X_CENTER ; Sprite 2: X = centre
     inc l
-    ld [hl], $29
+    ld [hl], TILE_LEVEL_SELECT
 
 InitAttractModeDisplay:
     ld a, [wAttractModeTimer]
@@ -12845,7 +12845,7 @@ BCD_MarkNonZeroLow:
 
     ld a, $c0
     ldh [rDMA], a
-    ld a, $28
+    ld a, DMA_WAIT_CYCLES
 
 DMA_WaitLoop:
     dec a
