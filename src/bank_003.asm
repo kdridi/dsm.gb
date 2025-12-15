@@ -9749,20 +9749,20 @@ UpdateAudioPan:
 UpdateAudioEnvelopeAndPan:
     ld a, [$dfe9]
     and a
-    jr z, jr_003_6c23
+    jr z, SetMasterVolumeToFull
 
     ld hl, hAudioEnvPos
     call UpdateAudioPan
     ld a, [hGameState]
     cp $05
-    jr z, jr_003_6c23
+    jr z, SetMasterVolumeToFull
 
     ldh a, [hAudioEnvCounter]
     cp $01
-    jr z, jr_003_6c27
+    jr z, SetMasterVolumeFromParam
 
     cp $03
-    jr z, jr_003_6c23
+    jr z, SetMasterVolumeToFull
 
     inc [hl]
     ld a, [hl+]
@@ -9782,19 +9782,19 @@ UpdateAudioEnvelopeAndPan:
 
 WriteAudioRegisterNr24:
 SetAudioMasterVolume:
-jr_003_6c1f:
+SetAudioMasterVolumeImpl:
     ld c, $25
     ldh [c], a
     ret
 
 
-jr_003_6c23:
+SetMasterVolumeToFull:
     ld a, $ff
-    jr jr_003_6c1f
+    jr SetAudioMasterVolumeImpl
 
-jr_003_6c27:
+SetMasterVolumeFromParam:
     ldh a, [hAudioEnvParam1]
-    jr jr_003_6c1f
+    jr SetAudioMasterVolumeImpl
 
     ld [bc], a
     inc h
