@@ -346,6 +346,12 @@ LCDStat_SetLYC:
     ldh [rLYC], a               ; Programmer prochaine interruption
     ld [wGameConfigA5], a       ; Mémoriser pour mode retour
 
+; LCDStatHandler_Exit
+; --------------------
+; Description: Point de sortie du handler LCD STAT - restaure registres et flow-through vers PopAndReti
+; In:  hl = sur la pile (sauvegardé en début de handler)
+; Out: rien (flow-through vers LCDStat_PopAndReti)
+; Modifie: hl (restauré depuis pile)
 LCDStatHandler_Exit:
     pop hl
 
