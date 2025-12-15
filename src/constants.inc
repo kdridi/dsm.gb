@@ -332,6 +332,9 @@ DEF wObject4Unk09   EQU $C241   ; Variable objet 4 (offset +$09)
 DEF wObject4Unk0A   EQU $C242   ; Variable objet 4 (offset +$0A)
 DEF wObject5        EQU $C248   ; Slot objet 5
 
+; --- Buffer enregistrement démo ($C300) ---
+DEF wDemoRecordBuffer EQU $C300   ; Buffer enregistrement inputs démo
+
 ; --- Buffer animation ---
 DEF wAnimBuffer     EQU $C600   ; Buffer animation
 

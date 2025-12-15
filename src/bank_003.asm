@@ -2400,8 +2400,8 @@ InitializeSpriteTransferBuffer_CheckGameState:
     ld b, $01
 
 InitializeSpriteTransferBuffer_SelectBValue:
-    ld hl, $ffa9
-    ld de, $c000
+    ld hl, hObjParamBuf1
+    ld de, wOamBuffer
 
 InitializeSpriteTransferBuffer_CountObjects:
     ld a, [hl+]
@@ -2506,16 +2506,16 @@ CheckUnlockState::
     cp $ff
     ret z
 
-    ld a, [$c0d8]
+    ld a, [wLevelVarD8]
     and a
     jr z, PaddingZone_003_4aa7
 
     dec a
-    ld [$c0d8], a
+    ld [wLevelVarD8], a
     jr JoypadStateUpdatePersist
 
 PaddingZone_003_4aa7:
-    ld a, [$c0dc]
+    ld a, [wCurrentROMBank]
     sla a
     ld e, a
     ld d, $00
@@ -2534,9 +2534,9 @@ PaddingZone_003_4aa7:
     cp $ff
     jr z, JoypadStateClearRegister
 
-    ld [$c0da], a
+    ld [wLevelVarDA], a
     ld a, [hl]
-    ld [$c0d8], a
+    ld [wLevelVarD8], a
     inc e
     inc e
     ld a, e
@@ -2544,8 +2544,8 @@ PaddingZone_003_4aa7:
 
 JoypadStateUpdatePersist:
     ldh a, [hJoypadState]
-    ld [$c0db], a
-    ld a, [$c0da]
+    ld [wLevelVarDB], a
+    ld a, [wLevelVarDA]
     ldh [hJoypadState], a
     ldh [hJoypadDelta], a
     ret
@@ -2553,7 +2553,7 @@ JoypadStateUpdatePersist:
 
 JoypadStateClearRegister:
     xor a
-    ld [$c0da], a
+    ld [wLevelVarDA], a
     jr JoypadStateUpdatePersist
 
 ; Données ou code orphelin (zone $4ae4-$4ae9)
@@ -2649,7 +2649,7 @@ CheckBlockCollision::
     ld hl, wOamVar2D
     ldh a, [hShadowSCX]
     ld b, a
-    ldh a, [$fff2]
+    ldh a, [hRenderY]
     sub b
     ld [hl-], a
     ld a, [wPlayerX]
@@ -2659,7 +2659,7 @@ CheckBlockCollision::
     and a
     jr nz, HandleBlockCollisionClear
 
-    ldh a, [$fff1]
+    ldh a, [hRenderX]
     ld b, a
     sub $04
     cp [hl]
@@ -2799,34 +2799,34 @@ ResetTimerState:
 
     ldh a, [hJoypadState]
     ld b, a
-    ld a, [$c0da]
+    ld a, [wLevelVarDA]
     cp b
     jr z, IncrementInputCounter
 
-    ld hl, $c300
+    ld hl, wDemoRecordBuffer
     ld a, [wLevelVarD9]
     ld e, a
     ld d, $00
     add hl, de
-    ld a, [$c0da]
+    ld a, [wLevelVarDA]
     ld [hl+], a
-    ld a, [$c0d8]
+    ld a, [wLevelVarD8]
     ld [hl], a
     inc e
     inc e
     ld a, e
     ld [wLevelVarD9], a
     ld a, b
-    ld [$c0da], a
+    ld [wLevelVarDA], a
     xor a
-    ld [$c0d8], a
+    ld [wLevelVarD8], a
     ret
 
 
 IncrementInputCounter:
-    ld a, [$c0d8]
+    ld a, [wLevelVarD8]
     inc a
-    ld [$c0d8], a
+    ld [wLevelVarD8], a
     ret
 
 
