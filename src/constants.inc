@@ -933,6 +933,8 @@ DEF OAM_COPY_SIZE              EQU $10   ; Taille copie données OAM (16 octets)
 
 DEF ANIM_SUBSTATE_MASK         EQU $c0   ; Masque bits hauts sous-état animation
 DEF ANIM_HEIGHT_MASK           EQU $70   ; Masque hauteur objet animation
+DEF ANIM_COUNTER_MASK          EQU $3f   ; Masque compteur animation (bits 0-5)
+DEF CLEAR_BIT7_MASK            EQU $7f   ; Masque pour effacer le bit 7 (garde bits 0-6)
 DEF FRAME_MASK_2               EQU $01   ; Masque pour exécuter toutes les 2 frames (counter & 1)
 DEF FRAME_MASK_4               EQU $03   ; Masque pour exécuter toutes les 4 frames (counter & 3)
 DEF FRAME_MASK_8               EQU $07   ; Masque pour exécuter toutes les 8 frames (counter & 7)

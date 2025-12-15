@@ -3983,11 +3983,11 @@ State32_CheckCounterReset:
     ldh a, [rDIV]
     dec l
     add [hl]
-    and $7f
+    and CLEAR_BIT7_MASK
     cp $68
     jr nc, State32_StoreOffsetValue
 
-    and $3f
+    and ANIM_COUNTER_MASK
 
 State32_StoreOffsetValue:
     ld [hl-], a
@@ -7511,7 +7511,7 @@ InitSoundConditional:
 
 InitAudioFromSound:
     ld a, [hl]
-    and $7f
+    and CLEAR_BIT7_MASK
     ldh [hSoundId], a
     ld d, $00
     ld e, a
@@ -7954,7 +7954,7 @@ CheckAudioQueueBit6:
     ldh a, [hSoundParam2]
     ld b, a
     ldh a, [hSoundVar3]
-    and $70
+    and ANIM_HEIGHT_MASK
     rrca
     rrca
     add b
@@ -8564,7 +8564,7 @@ DecrementObjectAnimationCounter:
     add $0c
     ld l, a
     ld a, [hl]
-    and $3f
+    and ANIM_COUNTER_MASK
     jr z, AnimationCounterZero
 
     ld a, [hl]
@@ -8624,7 +8624,7 @@ HandleGameplayObjectSound:
     add $0c
     ld l, a
     ld a, [hl]
-    and $3f
+    and ANIM_COUNTER_MASK
     jr z, GameplayCounterZero
 
     ld a, [hl]
@@ -8780,7 +8780,7 @@ StoreAudioChannel4:
     jr LoadSpriteCoordinates
 
     ldh a, [hSoundVar3]
-    and $70
+    and ANIM_HEIGHT_MASK
     rrca
     add c
     ldh [hSpriteX], a
@@ -8831,7 +8831,7 @@ CheckObjectTileRight:
     add $08
     ld c, a
     ldh a, [hSoundVar3]
-    and $70
+    and ANIM_HEIGHT_MASK
     rrca
     add c
     sub $08
@@ -8863,7 +8863,7 @@ CheckObjectTileBottomLeft:
     jr .setY
 
     ldh a, [hSoundVar3]
-    and $70
+    and ANIM_HEIGHT_MASK
     rrca
     add c
     ldh [hSpriteX], a
@@ -8914,7 +8914,7 @@ CheckObjectTileBottomRight:
     add $05
     ld c, a
     ldh a, [hSoundVar3]
-    and $70
+    and ANIM_HEIGHT_MASK
     rrca
     add c
     sub $08
@@ -8947,7 +8947,7 @@ CheckObjectTileTop:
     jr .calcY
 
     ldh a, [hSoundVar3]
-    and $70
+    and ANIM_HEIGHT_MASK
     rrca
     add c
     ldh [hSpriteX], a
@@ -9002,7 +9002,7 @@ CheckObjectTileTop:
     add $05
     ld c, a
     ldh a, [hSoundVar3]
-    and $70
+    and ANIM_HEIGHT_MASK
     rrca
     sub c
     sub $08
