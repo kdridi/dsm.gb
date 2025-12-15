@@ -88,7 +88,7 @@ SECTION "ROM Bank $003", ROMX[$4000], BANK[$3]
     nop
     nop
     nop
-    jr UnknownCode_003_4070
+    jr PaddingZone_003_4070
 
     inc a
     inc h
@@ -114,10 +114,10 @@ SECTION "ROM Bank $003", ROMX[$4000], BANK[$3]
     db $fc
     db $f4
 
-UnknownCode_003_4070:
+PaddingZone_003_4070:
     cp [hl]
 
-UnknownCode_003_4071:
+PaddingZone_003_4071:
     and d
     nop
     nop
@@ -126,12 +126,12 @@ UnknownCode_003_4071:
     daa
     daa
     cpl
-    jr z, UnknownCode_003_40bc
+    jr z, PaddingZone_003_40bc
 
-    jr nc, UnknownCode_003_40be
+    jr nc, PaddingZone_003_40be
 
 PaddingTrap_407f:
-    jr nz, UnknownCode_003_40c0
+    jr nz, PaddingZone_003_40c0
 
     ld a, $f8
     ld hl, sp-$14
@@ -162,7 +162,7 @@ PaddingTrap_407f:
     ldh a, [hCurrentTile]
     ret c
 
-    jr c, UnknownCode_003_4071
+    jr c, PaddingZone_003_4071
 
     cp b
     ret z
@@ -185,15 +185,15 @@ PaddingTrap_407f:
     rst $38
     sbc a
 
-UnknownCode_003_40bc:
+PaddingZone_003_40bc:
     rst $38
     and l
 
-UnknownCode_003_40be:
+PaddingZone_003_40be:
     rst $38
     xor c
 
-UnknownCode_003_40c0:
+PaddingZone_003_40c0:
     ld d, [hl]
     ld d, [hl]
     nop
@@ -213,7 +213,7 @@ UnknownCode_003_40c0:
     sub l
     ld l, d
     ld l, d
-    jr c, UnknownCode_003_410c
+    jr c, PaddingZone_003_410c
 
     ld b, h
     ld b, h
@@ -275,7 +275,7 @@ DispatchEntry_003_40d9:
 
     jr @+$01
 
-UnknownCode_003_410c:
+PaddingZone_003_410c:
     ld a, [hl]
     add c
     ld a, [hl]
@@ -1831,7 +1831,7 @@ PaddingZone_003_46d1:
     ld [hl], d
     jr nc, UnknownCode_003_47c0
 
-    jr nz, UnknownCode_003_47b2
+    jr nz, DataZone_003_47b2
 
     ld a, [hl]
     ld a, [hl]
@@ -1862,7 +1862,7 @@ PaddingZone_003_46d1:
     ld a, [hl]
     ld a, [hl]
 
-UnknownCode_003_47b2:
+DataZone_003_47b2:
     ld a, a
     ld a, a
     rst $30
@@ -4421,7 +4421,7 @@ DispatchTableEntry_003_5319:
     cp $32
     ld [hl-], a
     ld [hl], $97
-    jr c, UnknownCode_003_5378
+    jr c, DataZone_003_5378
 
     ld a, $41
     ld b, h
@@ -4473,7 +4473,7 @@ ConstTable_003_5358:
     ld hl, $fe34
     ld [de], a
 
-UnknownCode_003_5378:
+DataZone_003_5378:
     ld sp, $fe35
     ld [de], a
     ld [hl-], a
@@ -7860,7 +7860,7 @@ DataPadding_62c2:
     db $ed
     ld h, c
     cp $97
-    jr c, UnknownCode_003_6357
+    jr c, DataZone_003_6357
 
     ld a, $41
     ld b, h
@@ -7912,7 +7912,7 @@ DataPadding_62c2:
     ld h, h
     ld h, c
 
-UnknownCode_003_6357:
+DataZone_003_6357:
     ld h, c
     cp $43
     db $fd
@@ -8636,7 +8636,7 @@ AudioTable_Block6:
     db $10
     inc b
     nop
-    jr nz, UnknownCode_003_66b3
+    jr nz, DataZone_003_66b3
 
     dec c
     ld de, $101c
@@ -8650,7 +8650,7 @@ AudioTable_Block6:
     inc l
     db $10
 
-UnknownCode_003_66b3:
+DataZone_003_66b3:
     inc bc
     ld de, $1011
     ld c, $00
@@ -10685,7 +10685,7 @@ HandleAudioConditionalLogic:
     ld bc, $0500
     ld a, [bc]
     inc d
-    jr z, UnknownCode_003_70c4
+    jr z, PaddingZone_003_70c4
 
     rrca
     ld e, $3c
@@ -10769,7 +10769,7 @@ DispatchTableEntry_003_70ac:
 SkipPadding_003_70c3:
     inc hl
 
-UnknownCode_003_70c4:
+PaddingZone_003_70c4:
     ld [hl], h
     cpl
     ld [hl], h
@@ -11900,7 +11900,7 @@ MusicSequence_Marker_2:
     ld a, [hl-]
     and e
 
-UnknownCode_003_766e:
+PaddingZone_003_766e:
     ld a, $3a
     ld [hl], $30
     inc l
@@ -11990,7 +11990,7 @@ MusicSequence_Marker_5:
     ld a, [de]
     and d
     ld [hl-], a
-    jr z, UnknownCode_003_766e
+    jr z, PaddingZone_003_766e
 
     ld a, [de]
     ld [hl-], a
