@@ -2542,7 +2542,7 @@ AnimationCheckCompleteExit:
     and a
     ret nz
 
-    ld hl, $da01
+    ld hl, wLevelBCD1
     ld a, [hl+]
     ld b, [hl]
     or b
@@ -2565,7 +2565,7 @@ AnimationCheckCompleteExit:
     ldh [hTimer1], a
     xor a
     ld [wSpecialState], a
-    ld a, [$da01]
+    ld a, [wLevelBCD1]
     and $01
     ret nz
 
@@ -2686,7 +2686,7 @@ StateHandler_08::
     and a
     ret nz
 
-    ld a, [$dff9]
+    ld a, [wStateEnd]
     and a
     ret nz
 
@@ -2716,18 +2716,18 @@ LoadAnimTilesByIndex:
     and NIBBLE_HIGH_MASK     ; Isoler le monde (bits hauts)
     swap a
     cp WORLD_1              ; Monde 1 ?
-    ld c, $02               ; Bank 2 pour monde 1
+    ld c, BANK_2            ; Bank 2 pour monde 1
     jr z, LoadGameTilesWithBank
 
     cp WORLD_2              ; Monde 2 ?
-    ld c, $01               ; Bank 1 pour monde 2
+    ld c, BANK_1            ; Bank 1 pour monde 2
     jr z, LoadAnimTilesWithBank
 
     cp WORLD_3              ; Monde 3 ?
-    ld c, $03               ; Bank 3 pour monde 3
+    ld c, BANK_3            ; Bank 3 pour monde 3
     jr z, LoadAnimTilesWithBank
 
-    ld c, $01               ; Bank 1 par défaut (monde 4+)
+    ld c, BANK_1            ; Bank 1 par défaut (monde 4+)
 
 LoadAnimTilesWithBank:
     ld b, a
@@ -3393,8 +3393,8 @@ State27_CheckTimer:
     and $1f
     ret nz
 
-    ld hl, $8dd0
-    ld bc, $0220
+    ld hl, VRAM_FADE_START
+    ld bc, VRAM_FADE_SIZE
     ldh a, [hOAMAddrLow]
     ld d, a
 
@@ -3408,10 +3408,10 @@ State27_CheckTimer:
     ld [hl], e
     inc hl
     ld a, h
-    cp $8f
+    cp VRAM_FADE_BOUND_HI
     jr nz, .skipWrap
 
-    ld hl, $9690
+    ld hl, VRAM_FADE_WRAP
 
 .skipWrap:
     rrc d
@@ -12387,7 +12387,7 @@ UpdateLevelScore:
 
 DisplayLevelBCDScore:
     ld de, $9833
-    ld a, [$da01]
+    ld a, [wLevelBCD1]
     ld b, a
     and $0f
     ld [de], a

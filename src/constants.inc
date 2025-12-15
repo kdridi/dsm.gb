@@ -61,6 +61,9 @@ DEF AUDTERM_ALL     EQU $FF     ; Tous canaux (1-4) sur sorties L et R
 
 ; === ROM Banks ===
 
+DEF BANK_1          EQU $01     ; Bank 1 = données monde 2/4
+DEF BANK_2          EQU $02     ; Bank 2 = données monde 1
+DEF BANK_3          EQU $03     ; Bank 3 = données monde 3
 DEF BANK_AUDIO      EQU $03     ; Bank 3 = routines audio
 DEF BANK_DEMO       EQU $02     ; Bank 2 = démo automatique (Attract Mode)
 
@@ -466,6 +469,10 @@ DEF VRAM_COIN_TENS      EQU $9829   ; Compteur pièces HUD (dizaines)
 DEF VRAM_COIN_UNITS     EQU $982A   ; Compteur pièces HUD (unités)
 DEF VRAM_WORLD_NUMBER   EQU $982B   ; Numéro monde HUD (après pièces)
 DEF VRAM_ANIM_DEST      EQU $95D1   ; Destination tiles animation
+DEF VRAM_FADE_START     EQU $8DD0   ; Début zone VRAM pour effet fade
+DEF VRAM_FADE_SIZE      EQU $0220   ; Taille zone fade (544 octets)
+DEF VRAM_FADE_WRAP      EQU $9690   ; Adresse après wrap zone fade
+DEF VRAM_FADE_BOUND_HI  EQU $8F     ; Octet haut limite zone fade
 
 ; === Tiles spéciaux ===
 
