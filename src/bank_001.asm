@@ -3770,7 +3770,7 @@ jr_001_4fcb:
 
 jr_001_4fe2:
     ld c, $08
-    call Call_001_50cc
+    call CheckSpriteCollisionWithOffset
     ld hl, $c202
     inc [hl]
     ret
@@ -3792,7 +3792,7 @@ jr_001_4ff6:
     ret z
 
     ld c, $fa
-    call Call_001_50cc
+    call CheckSpriteCollisionWithOffset
     ld hl, $c202
     ld a, [hl]
     cp $10
@@ -3809,7 +3809,7 @@ jr_001_4ff6:
 
 jr_001_5014:
     ld c, $08
-    call Call_001_50cc
+    call CheckSpriteCollisionWithOffset
     ld hl, $c202
     ld a, [hl]
     cp $a0
@@ -3820,7 +3820,7 @@ jr_001_5014:
 
 
 jr_001_5022:
-    call Call_001_5089
+    call CheckSpriteCollision
     cp $ff
     jr z, jr_001_4ff6
 
@@ -3896,7 +3896,7 @@ CheckPlayerCollisionWithTile:
     ret
 
 
-Call_001_5089:
+CheckSpriteCollision:
     ld hl, $c201
     ld a, [hl+]
     add $0a
@@ -3946,7 +3946,7 @@ jr_001_50c9:
     ret
 
 
-Call_001_50cc:
+CheckSpriteCollisionWithOffset:
     ld de, $0502
     ldh a, [hTimerAux]
     cp $02

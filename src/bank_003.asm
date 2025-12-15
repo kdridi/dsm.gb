@@ -8830,10 +8830,10 @@ Jump_003_6762:
 jr_003_6787:
     call CheckAudioChannel1
     call CheckAudioChannel4
-    call Call_003_67f4
-    call Call_003_6b9d
+    call InitializeWaveAudio
+    call ProcessAudioRequest
     call Call_003_6db8
-    call Call_003_6bef
+    call UpdateAudioEnvelopeAndPan
 
 jr_003_6799:
     xor a
@@ -8864,7 +8864,7 @@ jr_003_67c2:
     ld hl, $67ec
 
 jr_003_67c5:
-    call Call_003_6adf
+    call ConfigureAudioBgm
     jr jr_003_6799
 
 jr_003_67ca:
@@ -8904,7 +8904,7 @@ jr_003_67d4:
     pop bc
     rst $00
 
-Call_003_67f4:
+InitializeWaveAudio:
     ld a, [$dff0]
     cp $01
     jr z, @+$0f
@@ -8937,7 +8937,7 @@ Call_003_67f4:
     add b
     ld [$dff5], a
     ld hl, $6803
-    jp Jump_003_6ae6
+    jp ConfigureAudioWave
 
 
 jr_003_682d:
@@ -9003,7 +9003,7 @@ jr_003_6851:
     and b
     ld d, b
     add h
-    call Call_003_689b
+    call SkipIfGameState05
     ret z
 
     ld a, $0e
@@ -9021,16 +9021,16 @@ jr_003_6851:
     add hl, bc
     add a
 
-Call_003_6890:
+SkipIfGameState04:
     ld a, [$dfe1]
     jr jr_003_68a1
 
-Call_003_6895:
+SkipIfGameState03:
     ld a, [$dfe1]
     cp $03
     ret z
 
-Call_003_689b:
+SkipIfGameState05:
     ld a, [$dfe1]
     cp $05
     ret z
@@ -9051,12 +9051,12 @@ jr_003_68a1:
     ret
 
 
-    call Call_003_6895
+    call SkipIfGameState03
     ret z
 
     ld a, $10
     ld hl, $6886
-    call Call_003_6ab9
+    call DispatchAudioCommand
     ld hl, $dfe4
     ld [hl], $0a
     inc l
@@ -9064,7 +9064,7 @@ jr_003_68a1:
     ret
 
 
-    call Call_003_6b0c
+    call UpdateAudioFrameCounter
     and a
     jp z, Jump_003_68f4
 
@@ -9089,7 +9089,7 @@ jr_003_68a1:
     ret
 
 
-    call Call_003_6895
+    call SkipIfGameState03
     ret z
 
     ld a, $03
@@ -9097,7 +9097,7 @@ jr_003_68a1:
     jp Jump_003_6ab9
 
 
-    call Call_003_6b0c
+    call UpdateAudioFrameCounter
     and a
     ret nz
 
@@ -9122,7 +9122,7 @@ jr_003_68f8:
     ldh [c], a
     add e
     add a
-    call Call_003_6890
+    call SkipIfGameState04
     ret z
 
     ld hl, $6902
@@ -9143,7 +9143,7 @@ jr_003_68f8:
 
 jr_003_6925:
     ld hl, $6907
-    call Call_003_6ad8
+    call ConfigureAudioSe
     ret
 
 
@@ -9159,7 +9159,7 @@ jr_003_6925:
 
 jr_003_6935:
     rst $00
-    call Call_003_689b
+    call SkipIfGameState05
     ret z
 
     ld a, $08
@@ -9167,7 +9167,7 @@ jr_003_6935:
     jp Jump_003_6ab9
 
 
-    call Call_003_6b0c
+    call UpdateAudioFrameCounter
     and a
     ret nz
 
@@ -9214,7 +9214,7 @@ Jump_003_6963:
     jp Jump_003_6ab9
 
 
-    call Call_003_6b0c
+    call UpdateAudioFrameCounter
     and a
     ret nz
 
@@ -9238,7 +9238,7 @@ Jump_003_6963:
     db $d3
     ld b, b
     add h
-    call Call_003_689b
+    call SkipIfGameState05
     ret z
 
     ld a, $08
@@ -9274,7 +9274,7 @@ Jump_003_6963:
     jp Jump_003_6ab9
 
 
-    call Call_003_6b0c
+    call UpdateAudioFrameCounter
     and a
     ret nz
 
@@ -9332,7 +9332,7 @@ jr_003_69ee:
     jr nc, @-$0e
 
     set 0, a
-    call Call_003_6b0c
+    call UpdateAudioFrameCounter
     and a
     ret nz
 
@@ -9414,7 +9414,7 @@ Call_003_6a58:
     jp Jump_003_6ab9
 
 
-    call Call_003_6b0c
+    call UpdateAudioFrameCounter
     and a
     ret nz
 
@@ -9453,7 +9453,7 @@ Call_003_6a58:
     jp Jump_003_6ab9
 
 
-    call Call_003_6b0c
+    call UpdateAudioFrameCounter
     and a
     ret nz
 
@@ -9466,7 +9466,7 @@ jr_003_6aad:
     ret
 
 
-Call_003_6ab9:
+DispatchAudioCommand:
 Jump_003_6ab9:
     push af
     dec e
@@ -9497,7 +9497,7 @@ Jump_003_6ab9:
     ret
 
 
-Call_003_6ad8:
+ConfigureAudioSe:
 Jump_003_6ad8:
 jr_003_6ad8:
     push bc
@@ -9505,13 +9505,13 @@ jr_003_6ad8:
     ld b, $05
     jr jr_003_6af2
 
-Call_003_6adf:
+ConfigureAudioBgm:
     push bc
     ld c, $16
     ld b, $04
     jr jr_003_6af2
 
-Jump_003_6ae6:
+ConfigureAudioWave:
 jr_003_6ae6:
     push bc
     ld c, $1a
@@ -9534,11 +9534,11 @@ jr_003_6af2:
     ret
 
 
-Call_003_6afa:
+SetAudioStatus:
     inc e
     ldh [hAudioStatus], a
 
-Call_003_6afd:
+IndexAudioTable:
     inc e
     dec a
     sla a
@@ -9554,7 +9554,7 @@ Call_003_6afd:
     ret
 
 
-Call_003_6b0c:
+UpdateAudioFrameCounter:
     push de
     ld l, e
     ld h, d
@@ -9626,7 +9626,7 @@ CheckAudioChannel1:
     ld hl, $df1f
     set 7, [hl]
     ld hl, $6700
-    call Call_003_6afa
+    call SetAudioStatus
     jp hl
 
 
@@ -9637,7 +9637,7 @@ CheckAudioChannel1:
     jr z, .audioChannelEnd
 
     ld hl, $6716
-    call Call_003_6afd
+    call IndexAudioTable
     jp hl
 
 
@@ -9654,7 +9654,7 @@ CheckAudioChannel4:
     ld hl, $df4f
     set 7, [hl]
     ld hl, $672c
-    call Call_003_6afa
+    call SetAudioStatus
     jp hl
 
 
@@ -9665,7 +9665,7 @@ CheckAudioChannel4:
     jr z, .audioChannel4End
 
     ld hl, $6734
-    call Call_003_6afd
+    call IndexAudioTable
     jp hl
 
 
@@ -9678,7 +9678,7 @@ jr_003_6b99:
     ret
 
 
-Call_003_6b9d:
+ProcessAudioRequest:
     ld hl, $dfe8
     ld a, [hl+]
     and a
@@ -9692,8 +9692,8 @@ Call_003_6b9d:
     ld hl, $673c
     ld a, b
     and $1f
-    call Call_003_6afd
-    call Call_003_6c88
+    call IndexAudioTable
+    call InitializeAudioChannelState
     call LookupAudioEnvelope
     ret
 
@@ -9743,11 +9743,11 @@ UpdateAudioPan:
     ld a, $7f
 
 .panUpdateDisabled:
-    call Call_003_6c1f
+    call WriteAudioRegisterNr24
     ret
 
 
-Call_003_6bef:
+UpdateAudioEnvelopeAndPan:
     ld a, [$dfe9]
     and a
     jr z, jr_003_6c23
@@ -9781,7 +9781,7 @@ Call_003_6bef:
 
     ldh a, [hAudioEnvParam2]
 
-Call_003_6c1f:
+WriteAudioRegisterNr24:
 Jump_003_6c1f:
 jr_003_6c1f:
     ld c, $25
@@ -9856,7 +9856,7 @@ jr_003_6c27:
     ld bc, $de00
     nop
 
-Call_003_6c77:
+CopyAudioDataWord:
     ld a, [hl+]
     ld c, a
     ld a, [hl]
@@ -9870,7 +9870,7 @@ Call_003_6c77:
     ret
 
 
-Call_003_6c82:
+CopyAudioDataPair:
     ld a, [hl+]
     ld [de], a
     inc e
@@ -9879,7 +9879,7 @@ Call_003_6c82:
     ret
 
 
-Call_003_6c88:
+InitializeAudioChannelState:
     call ResetAudioChannelEnvelopes
     xor a
     ld [hAudioEnvPos], a
@@ -9889,29 +9889,29 @@ Call_003_6c88:
     ld a, [hl+]
     ld [de], a
     inc e
-    call Call_003_6c82
+    call CopyAudioDataPair
     ld de, $df10
-    call Call_003_6c82
+    call CopyAudioDataPair
     ld de, $df20
-    call Call_003_6c82
+    call CopyAudioDataPair
     ld de, $df30
-    call Call_003_6c82
+    call CopyAudioDataPair
     ld de, $df40
-    call Call_003_6c82
+    call CopyAudioDataPair
 
 jr_003_6cb5:
     ld hl, $df10
     ld de, $df14
-    call Call_003_6c77
+    call CopyAudioDataWord
     ld hl, $df20
     ld de, $df24
-    call Call_003_6c77
+    call CopyAudioDataWord
     ld hl, $df30
     ld de, $df34
-    call Call_003_6c77
+    call CopyAudioDataWord
     ld hl, $df40
     ld de, $df44
-    call Call_003_6c77
+    call CopyAudioDataWord
     ld bc, $0410
     ld hl, $df12
 
@@ -10068,7 +10068,7 @@ jr_003_6d84:
     add $04
     ld e, a
     ld d, h
-    call Call_003_6c77
+    call CopyAudioDataWord
     cp $00
     jr z, jr_003_6daf
 

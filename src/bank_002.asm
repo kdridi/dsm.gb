@@ -5947,12 +5947,12 @@ jr_002_580a:
     jp Jump_002_5cde
 
 
-    call Call_002_584b
-    call Call_002_5892
+    call DecrementGameTimer
+    call UpdateSpriteAnimationFrame
     ret
 
 
-Call_002_584b:
+DecrementGameTimer:
     ld a, [$da1d]
     cp $03
     ret z
@@ -6021,7 +6021,7 @@ jr_002_5886:
     ret
 
 
-Call_002_5892:
+UpdateSpriteAnimationFrame:
     ldh a, [hPtrBank]
     ld b, a
     and a
