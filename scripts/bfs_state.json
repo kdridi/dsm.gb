@@ -1495,6 +1495,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0A07",
+      "node_type": "code",
+      "description": "SelectAnimationBank - S\u00e9lectionne la bank d'animation selon hAnimObjSubState",
+      "source": "$0A24",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2A1A",
+      "node_type": "code",
+      "description": "CheckObjectBottomCollision - V\u00e9rifie collision bas objet avec joueur",
+      "source": "$0A24",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1550,9 +1566,10 @@
     "$0048",
     "$00C3",
     "$09d7",
+    "$0A24",
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 3,
-  "total_explored": 54
+  "commits_since_push": 4,
+  "total_explored": 55
 }

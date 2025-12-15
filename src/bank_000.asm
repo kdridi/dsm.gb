@@ -2286,6 +2286,14 @@ SelectAnimationBank:
 AnimBankTable:
     db $01, $04, $08, $50
 
+; HandleObjectAnimationOnBlockHit
+; --------------------------------
+; Description: Déclenche l'animation d'un objet quand le joueur frappe un bloc (via saut)
+; In:  hBlockHitType = type de bloc frappé (0=rien, $c0=spécial, autres=normal)
+;      wPlayerX, wPlayerState = position du joueur
+;      wObjectBuffer = table des objets actifs
+; Out: hPtrLow, hPtrHigh, hPtrBank = coordonnées collision si détectée
+; Modifie: a, bc, de, hl
 HandleObjectAnimationOnBlockHit:
     ldh a, [hBlockHitType]
     and a
