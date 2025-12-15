@@ -673,8 +673,8 @@ PaddingAlign_425c:
     inc c
     ld de, $2110
 
-BusyWait_IfNotZero_001_42e1:
-    jr nz, BusyWait_IfNotZero_001_42e1
+BusyWait_IfNotZero:
+    jr nz, BusyWait_IfNotZero
 
     ld b, $fb
     adc e
@@ -757,7 +757,7 @@ LoadStaticValue_4314:
     db $10
     ld a, h
     ld a, h
-    jr c, JumpIfCarryClear_B2BC_001_4376
+    jr c, JumpIfCarryClear_B2BC
 
     ld b, h
     ld b, h
@@ -773,7 +773,7 @@ LoadStaticValue_4314:
     ld a, h
     db $10
     db $10
-    jr z, JumpIfCarryClear_B2BC_001_4376
+    jr z, JumpIfCarryClear_B2BC
 
     ld b, h
     ld b, h
@@ -818,7 +818,7 @@ InitializeLevel_4355:
     ld [hl], d
     ld e, h
 
-JumpIfCarryClear_B2BC_001_4376:
+JumpIfCarryClear_B2BC:
     jp nc, $b2bc
 
     db $fc
@@ -1062,7 +1062,7 @@ RstMarkerBlock_4417:
     jr nz, DataPaddingWithRst_44ce
 
     ccf
-    jr nz, Return_IfNotZero_001_44b2
+    jr nz, Return_IfNotZero
 
     rst $38
     rst $38
@@ -1094,7 +1094,7 @@ RstMarkerBlock_4417:
     nop
     nop
 
-Return_IfNotZero_001_44b2:
+Return_IfNotZero:
     ret nz
 
     ret nz
@@ -2899,9 +2899,9 @@ DataPadding_4baa:
     nop
     nop
     stop
-    jr Trampoline_To_4c1f_001_4c1d
+    jr Trampoline_To_4c1f
 
-Trampoline_To_4c1f_001_4c1d:
+Trampoline_To_4c1f:
     jr DataPadding_4c1f
 
 DataPadding_4c1f:
@@ -3587,7 +3587,7 @@ DataPadding_4e5e:
     ccf
     jr nz, DataPadding_4f5e
 
-    jr nz, CheckScrollingConditionAndReset_001_4fa0
+    jr nz, CheckScrollingConditionAndReset
 
     ld h, b
     ld a, [hl]
@@ -3716,7 +3716,7 @@ PaddingZone_4f86:
     and $1e
     and $1e
 
-CheckScrollingConditionAndReset_001_4fa0:
+CheckScrollingConditionAndReset:
     and $1e
     rst $38
     rst $38
@@ -3740,11 +3740,11 @@ CheckScrollingConditionAndReset_001_4fa0:
 
     ld a, [$c0d2]
     cp $07
-    jr c, UpdateScrollXAndDecreaseCollisionCounter_001_4fcb
+    jr c, UpdateScrollXAndDecreaseCollisionCounter
 
     ldh a, [hShadowSCX]
     and $0c
-    jr nz, UpdateScrollXAndDecreaseCollisionCounter_001_4fcb
+    jr nz, UpdateScrollXAndDecreaseCollisionCounter
 
     ldh a, [hShadowSCX]
     and $fc
@@ -3752,7 +3752,7 @@ CheckScrollingConditionAndReset_001_4fa0:
     ret
 
 
-UpdateScrollXAndDecreaseCollisionCounter_001_4fcb:
+UpdateScrollXAndDecreaseCollisionCounter:
     ldh a, [hShadowSCX]
     inc a
     ldh [hShadowSCX], a
@@ -3763,11 +3763,11 @@ UpdateScrollXAndDecreaseCollisionCounter_001_4fcb:
     dec [hl]
     ld a, [hl]
     and a
-    jr nz, PerformCollisionCheckAndIncrementCounter_001_4fe2
+    jr nz, PerformCollisionCheckAndIncrementCounter
 
     ld [hl], $f0
 
-PerformCollisionCheckAndIncrementCounter_001_4fe2:
+PerformCollisionCheckAndIncrementCounter:
     ld c, $08
     call CheckSpriteCollisionWithOffset
     ld hl, $c202
@@ -3777,15 +3777,15 @@ PerformCollisionCheckAndIncrementCounter_001_4fe2:
 
     ldh a, [hJoypadState]
     bit 6, a
-    jr nz, HandleJoypadButtonB_CheckCollision_001_5034
+    jr nz, HandleJoypadButtonB_CheckCollision
 
     bit 7, a
-    jr nz, CheckSpriteCollisionSimple_001_5022
+    jr nz, CheckSpriteCollisionSimple
 
-HandleJoypadAndCollision_001_4ff6:
+HandleJoypadAndCollision:
     ldh a, [hJoypadState]
     bit 4, a
-    jr nz, CheckCollisionWithPositiveOffset_001_5014
+    jr nz, CheckCollisionWithPositiveOffset
 
     bit 5, a
     ret z
@@ -3806,7 +3806,7 @@ HandleJoypadAndCollision_001_4ff6:
     ret
 
 
-CheckCollisionWithPositiveOffset_001_5014:
+CheckCollisionWithPositiveOffset:
     ld c, $08
     call CheckSpriteCollisionWithOffset
     ld hl, $c202
@@ -3818,31 +3818,31 @@ CheckCollisionWithPositiveOffset_001_5014:
     ret
 
 
-CheckSpriteCollisionSimple_001_5022:
+CheckSpriteCollisionSimple:
     call CheckSpriteCollision
     cp $ff
-    jr z, HandleJoypadAndCollision_001_4ff6
+    jr z, HandleJoypadAndCollision
 
     ld hl, $c201
     ld a, [hl]
     cp $94
-    jr nc, HandleJoypadAndCollision_001_4ff6
+    jr nc, HandleJoypadAndCollision
 
     inc [hl]
-    jr HandleJoypadAndCollision_001_4ff6
+    jr HandleJoypadAndCollision
 
-HandleJoypadButtonB_CheckCollision_001_5034:
+HandleJoypadButtonB_CheckCollision:
     call CheckPlayerCollisionWithTile
     cp $ff
-    jr z, HandleJoypadAndCollision_001_4ff6
+    jr z, HandleJoypadAndCollision
 
     ld hl, $c201
     ld a, [hl]
     cp $30
-    jr c, HandleJoypadAndCollision_001_4ff6
+    jr c, HandleJoypadAndCollision
 
     dec [hl]
-    jr HandleJoypadAndCollision_001_4ff6
+    jr HandleJoypadAndCollision
 
 CheckPlayerCollisionWithTile:
     ld hl, $c201
@@ -3908,7 +3908,7 @@ CheckSpriteCollision:
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $60
-    jr nc, CheckForSpecialCollisionTile_001_50b4
+    jr nc, CheckForSpecialCollisionTile
 
     ldh a, [hSpriteX]
     add $04
@@ -3918,14 +3918,14 @@ CheckSpriteCollision:
     jp z, TriggerBlockCollisionSound_TimerDispatch
 
     cp $60
-    jr nc, CheckForSpecialCollisionTile_001_50b4
+    jr nc, CheckForSpecialCollisionTile
 
     ret
 
 
-CheckForSpecialCollisionTile_001_50b4:
+CheckForSpecialCollisionTile:
     cp $f4
-    jr nz, ReturnNoCollisionDetected_001_50c9
+    jr nz, ReturnNoCollisionDetected
 
     push hl
     pop de
@@ -3940,7 +3940,7 @@ CheckForSpecialCollisionTile_001_50b4:
     ret
 
 
-ReturnNoCollisionDetected_001_50c9:
+ReturnNoCollisionDetected:
     ld a, $ff
     ret
 
@@ -3949,11 +3949,11 @@ CheckSpriteCollisionWithOffset:
     ld de, $0502
     ldh a, [hTimerAux]
     cp $02
-    jr z, CollisionCheckOffsetLoop_001_50d8
+    jr z, CollisionCheckOffsetLoop
 
     ld de, $0501
 
-CollisionCheckOffsetLoop_001_50d8:
+CollisionCheckOffsetLoop:
     ld hl, $c201
     ld a, [hl+]
     add d
@@ -3969,10 +3969,10 @@ CollisionCheckOffsetLoop_001_50d8:
     call ReadTileUnderSprite
     pop de
     cp $60
-    jr c, DecrementOffsetAndRetryCollisionCheck_001_5101
+    jr c, DecrementOffsetAndRetryCollision
 
     cp $f4
-    jr z, TriggerSpecialCollisionEvent_001_5107
+    jr z, TriggerSpecialCollisionEvent
 
     cp $e1
     jp z, TriggerBlockCollisionSound_TimerDispatch
@@ -3984,15 +3984,15 @@ CollisionCheckOffsetLoop_001_50d8:
     ret
 
 
-DecrementOffsetAndRetryCollisionCheck_001_5101:
+DecrementOffsetAndRetryCollision:
     ld d, $fd
     dec e
-    jr nz, CollisionCheckOffsetLoop_001_50d8
+    jr nz, CollisionCheckOffsetLoop
 
     ret
 
 
-TriggerSpecialCollisionEvent_001_5107:
+TriggerSpecialCollisionEvent:
     push hl
     pop de
     ld hl, $ffee
@@ -4010,23 +4010,23 @@ TriggerSpecialCollisionEvent_001_5107:
     ld hl, $ffa9
     ld de, wOamAttrY
 
-OamSpriteActivityCheckLoop_001_5120:
+OamSpriteActivityCheckLoop:
     ld a, [hl+]
     and a
-    jr nz, ProcessActiveSpriteOffset_001_512c
+    jr nz, ProcessActiveSpriteOffset
 
-IncrementOamPointerAndLoop_001_5124:
+IncrementOamPointerAndLoop:
     inc e
     inc e
     inc e
     inc e
     dec b
-    jr nz, OamSpriteActivityCheckLoop_001_5120
+    jr nz, OamSpriteActivityCheckLoop
 
     ret
 
 
-ProcessActiveSpriteOffset_001_512c:
+ProcessActiveSpriteOffset:
     push hl
     push de
     push bc
@@ -4038,16 +4038,16 @@ ProcessActiveSpriteOffset_001_512c:
     ldh [hTemp1], a
     ldh [hSoundParam2], a
     cp $a9
-    jr c, CheckCoinCollisionLogic_001_5143
+    jr c, CheckCoinCollisionLogic
 
-ClearOamAndMemory_001_513c:
+ClearOamAndMemory:
     xor a
     res 0, e
     ld [de], a
     ld [hl], a
-    jr ProcessCollisionAndLoopContinue_001_5156
+    jr ProcessCollisionAndLoopContinue
 
-CheckCoinCollisionLogic_001_5143:
+CheckCoinCollisionLogic:
     add $02
     push af
     dec e
@@ -4057,25 +4057,25 @@ CheckCoinCollisionLogic_001_5143:
     ldh [hSpriteY], a
     pop af
     call CheckTileForCoin
-    jr c, ProcessCollisionAndLoopContinue_001_5156
+    jr c, ProcessCollisionAndLoopContinue
 
-    jr ClearOamAndMemory_001_513c
+    jr ClearOamAndMemory
 
-ProcessCollisionAndLoopContinue_001_5156:
+ProcessCollisionAndLoopContinue:
     pop bc
     pop de
     pop hl
     call ProcessObjectCollisions
-    jr IncrementOamPointerAndLoop_001_5124
+    jr IncrementOamPointerAndLoop
 
     ld a, [$c202]
     cp $01
-    jr c, ResetGameStateInit_001_5168
+    jr c, ResetGameStateInit
 
     cp $f0
     ret c
 
-ResetGameStateInit_001_5168:
+ResetGameStateInit:
     xor a
     ldh [hTimerAux], a
     ldh [hSubState], a
