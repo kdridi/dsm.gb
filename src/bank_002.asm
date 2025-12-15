@@ -6219,7 +6219,7 @@ AnimationDispatch_SelectPalette:
 
 ProcessSpriteAnimation:
 SpriteAnimationDispatchEntry:
-    ld hl, $c030
+    ld hl, wSpriteTemp
 
 SpriteAnimationDispatch_ByType:
     push hl
@@ -6395,7 +6395,7 @@ SpriteAnimationLoopExit:
 
 
 ComputeAnimationSpeed:
-    ld hl, $c030
+    ld hl, wSpriteTemp
     ldh a, [rDIV]
     and $03
     inc a
@@ -6481,7 +6481,7 @@ PaddingZone_002_5ac9:
     bit 0, a
     jr z, PaddingZone_002_5b07
 
-    ld hl, $c030
+    ld hl, wSpriteTemp
     ld b, $04
     ld a, [hl]
     cp $80
@@ -6700,7 +6700,7 @@ SetGameStateAnimationComplete:
 
 
 SpriteAnimationState_LoadTileIndex:
-    ld hl, $c030
+    ld hl, wSpriteTemp
     ld b, $04
     ld de, $5c9d
     ld a, [$da14]
@@ -6749,7 +6749,7 @@ SpriteAnimationPointerValidation:
     ld a, [$da14]
     add $04
     ld [$da14], a
-    ld hl, $c030
+    ld hl, wSpriteTemp
     ld a, [hl]
     cp $50
     jr z, OnAnimationThresholdReached
@@ -6772,7 +6772,7 @@ OnAnimationThresholdReached:
 
 
 SpriteAnimationState_ValidateAndLoad:
-    ld hl, $c030
+    ld hl, wSpriteTemp
     ld b, $04
     ld de, $5c9d
     ld a, [$da14]
@@ -6821,7 +6821,7 @@ SpriteAnimationCompletionCheck:
     ld a, [$da14]
     add $04
     ld [$da14], a
-    ld hl, $c030
+    ld hl, wSpriteTemp
     ld a, [hl]
     cp $38
     jr z, PaddingZone_002_5c93
@@ -6911,7 +6911,7 @@ SpriteAnimationState_LoadPalette:
 CheckAnimationTilesLoop:
     ld hl, $98d1
     ld de, $0060
-    ld a, [$c030]
+    ld a, [wSpriteTemp]
     ld b, a
     cp $38
     jr z, PaddingZone_002_5cf9
@@ -7128,7 +7128,7 @@ SpriteAnimationState_FinishPalette:
     and a
     jr nz, SpriteAnimationState_UpdateAnimCounters
 
-    ld hl, $c030
+    ld hl, wSpriteTemp
     ld a, $38
     ld b, a
     ld [hl+], a
@@ -7164,7 +7164,7 @@ SpriteAnimationState_FinishPalette:
 
 
 SpriteAnimationState_UpdateAnimCounters:
-    ld hl, $c030
+    ld hl, wSpriteTemp
     ld a, [$da21]
     cp $02
     jp z, SpriteAnimationState_IncrementCounter

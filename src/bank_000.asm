@@ -1263,21 +1263,21 @@ StateHandler_00::
     ; Init structure à $48fc
     call $48fc
 
-    ; Init 5 buffers objets ($c208, $c218, $c228, $c238, $c248)
+    ; Init 5 buffers objets (wObject1-wObject5)
     ; Chaque buffer = 16 bytes, pattern $2164
-    ld bc, $c208
+    ld bc, wObject1
     ld hl, $2164
     call $490d
-    ld bc, $c218
+    ld bc, wObject2
     ld hl, $2164
     call $490d
-    ld bc, $c228
+    ld bc, wObject3
     ld hl, $2164
     call $490d
-    ld bc, $c238
+    ld bc, wObject4
     ld hl, $2164
     call $490d
-    ld bc, $c248
+    ld bc, wObject5
     ld hl, $2164
     call $490d
 
@@ -3329,9 +3329,9 @@ State26_PrincessRising::
     and a
     ret nz
 
-    ld hl, $c213
+    ld hl, wPlayerUnk13
     ld [hl], $20
-    ld bc, $c218
+    ld bc, wObject2
     ld hl, $2164
     push bc
     call $490d
@@ -7273,16 +7273,16 @@ State0D_GameplayFull::
     ldh [hCurrentBank], a
     ld [$2000], a
     call $498b                   ; Bank 3: init update
-    ld bc, $c218                 ; Slot objet 1
+    ld bc, wObject2              ; Slot objet 2
     ld hl, $2164
     call $490d
-    ld bc, $c228                 ; Slot objet 2
+    ld bc, wObject3              ; Slot objet 3
     ld hl, $2164
     call $490d
-    ld bc, $c238                 ; Slot objet 3
+    ld bc, wObject4              ; Slot objet 4
     ld hl, $2164
     call $490d
-    ld bc, $c248                 ; Slot objet 4
+    ld bc, wObject5              ; Slot objet 5
     ld hl, $2164
     call $490d
     call $4aea                   ; Bank 3: finalize
