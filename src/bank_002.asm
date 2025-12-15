@@ -1879,7 +1879,7 @@ UnknownCode_002_47e9:
     nop
     pop bc
 
-UnknownCode_002_4807:
+AudioDispatchEntry_4807:
     nop
     rst $30
     nop
@@ -1908,7 +1908,7 @@ UnknownCode_002_4807:
     ld b, b
     ld b, b
     and b
-    jr nz, UnknownCode_002_4807
+    jr nz, AudioDispatchEntry_4807
 
     jr nz, UnknownCode_002_47e9
 
@@ -3040,7 +3040,7 @@ UnknownCode_002_4c69:
     nop
     nop
     ldh [hVramPtrLow], a
-    jr c, UnknownCode_002_4ce2
+    jr c, AudioDispatchEntry_4ce2
 
     db $ec
     inc c
@@ -3089,7 +3089,7 @@ UnknownCode_002_4c69:
     ld [bc], a
     ld [bc], a
 
-UnknownCode_002_4ce2:
+AudioDispatchEntry_4ce2:
     rst $38
     rst $38
     ld b, l
@@ -3115,7 +3115,7 @@ UnknownCode_002_4ce2:
 
     ret nz
 
-    jr nc, UnknownCode_002_4d2c
+    jr nc, AudioDispatchEntry_4d2c
 
     jp hl
 
@@ -3164,7 +3164,7 @@ UnknownCode_002_4ce2:
     nop
     nop
 
-UnknownCode_002_4d2c:
+AudioDispatchEntry_4d2c:
     nop
     nop
     nop
@@ -3547,9 +3547,9 @@ PaddingZone_002_4eae:
     nop
     rst $38
     nop
-    jr UnknownCode_002_4edc
+    jr AudioDispatchEntry_4edc
 
-    jr UnknownCode_002_4ede
+    jr AudioDispatchEntry_4ede
 
     jr c, UnknownCode_002_4f00
 
@@ -3572,11 +3572,11 @@ PaddingZone_002_4eae:
     add c
     rst $38
 
-UnknownCode_002_4edc:
+AudioDispatchEntry_4edc:
     add c
     rst $38
 
-UnknownCode_002_4ede:
+AudioDispatchEntry_4ede:
     add c
     rst $38
     ld a, [hl]
@@ -4655,7 +4655,7 @@ UnknownCode_002_52ce:
     nop
     nop
     nop
-    jr c, UnknownCode_002_530c
+    jr c, AudioDispatchEntry_530c
 
     ld a, h
     ld b, h
@@ -4675,7 +4675,7 @@ UnknownCode_002_52e4:
     nop
     ld b, h
     ld b, h
-    jr z, UnknownCode_002_5312
+    jr z, AudioDispatchEntry_5312
 
     db $10
     db $10
@@ -4712,7 +4712,7 @@ UnknownCode_002_52e4:
     rst $38
     rst $38
 
-UnknownCode_002_530c:
+AudioDispatchEntry_530c:
     rst $38
     rst $38
     nop
@@ -4720,7 +4720,7 @@ UnknownCode_002_530c:
     nop
     nop
 
-UnknownCode_002_5312:
+AudioDispatchEntry_5312:
     ld a, [hl]
     ld a, h
     rst $38
@@ -5045,7 +5045,7 @@ UnknownCode_002_5470:
     nop
     pop bc
 
-UnknownCode_002_5487:
+AudioDispatchEntry_5487:
     nop
     rst $30
     nop
@@ -5074,7 +5074,7 @@ UnknownCode_002_5487:
     ld b, b
     ld b, b
     and b
-    jr nz, UnknownCode_002_5487
+    jr nz, AudioDispatchEntry_5487
 
     jr nz, UnknownCode_002_5469
 
@@ -5109,9 +5109,9 @@ UnknownCode_002_5487:
 
     ld h, b
     ld h, b
-    jr nz, UnknownCode_002_54e8
+    jr nz, AudioDispatchEntry_54e8
 
-    jr nc, UnknownCode_002_54fa
+    jr nc, AudioDispatchEntry_54fa
 
     db $10
     db $10
@@ -5140,12 +5140,12 @@ UnknownCode_002_5487:
     nop
     nop
 
-UnknownCode_002_54e8:
+AudioDispatchEntry_54e8:
     nop
     nop
     rlca
     rlca
-    jr UnknownCode_002_5506
+    jr AudioDispatchEntry_5506
 
     ld [de], a
     ld [de], a
@@ -5159,7 +5159,7 @@ UnknownCode_002_54e8:
     ld [bc], a
     ld [bc], a
 
-UnknownCode_002_54fa:
+AudioDispatchEntry_54fa:
     add c
     add c
     ld bc, $4101
@@ -5170,7 +5170,7 @@ UnknownCode_002_54fa:
     rst $38
     rst $38
 
-UnknownCode_002_5506:
+AudioDispatchEntry_5506:
     rst $38
     ret z
 
@@ -5299,7 +5299,7 @@ UnknownCode_002_5506:
     nop
     nop
 
-UnknownCode_002_5593:
+AudioDispatchEntry_5593:
     nop
     rst $38
     rst $38
@@ -5433,7 +5433,7 @@ UnknownCode_002_560b:
     nop
     ld l, h
     nop
-    jr c, UnknownCode_002_5593
+    jr c, AudioDispatchEntry_5593
 
     add b
 
@@ -13484,9 +13484,9 @@ UnknownCode_002_7ab7:
     db $fc
     adc h
     ld a, b
-    jr UnknownCode_002_7adb
+    jr AudioDispatchEntry_7adb
 
-UnknownCode_002_7adb:
+AudioDispatchEntry_7adb:
     ld l, b
     nop
     sub [hl]
@@ -13818,11 +13818,11 @@ UnknownCode_002_7c24:
     inc bc
     ld [bc], a
 
-UnknownCode_002_7c26:
+AudioDispatchEntry_7c26:
     inc bc
     ld [bc], a
 
-UnknownCode_002_7c28:
+AudioDispatchEntry_7c28:
     inc bc
     ld [bc], a
     ei
@@ -13836,9 +13836,9 @@ UnknownCode_002_7c28:
 
     jr z, UnknownCode_002_7c24
 
-    jr z, UnknownCode_002_7c26
+    jr z, AudioDispatchEntry_7c26
 
-    jr z, UnknownCode_002_7c28
+    jr z, AudioDispatchEntry_7c28
 
     jr z, @-$03
 
@@ -13888,11 +13888,11 @@ UnknownCode_002_7c64:
     ei
     ld a, [bc]
 
-UnknownCode_002_7c66:
+AudioDispatchEntry_7c66:
     ei
     ld a, [bc]
 
-UnknownCode_002_7c68:
+AudioDispatchEntry_7c68:
     ei
     ld a, [bc]
     rst $38
@@ -13904,9 +13904,9 @@ UnknownCode_002_7c68:
 
     jr z, UnknownCode_002_7c64
 
-    jr z, UnknownCode_002_7c66
+    jr z, AudioDispatchEntry_7c66
 
-    jr z, UnknownCode_002_7c68
+    jr z, AudioDispatchEntry_7c68
 
     jr z, UnknownCode_002_7c9a
 
@@ -14170,11 +14170,11 @@ UnknownCode_002_7d64:
     ei
     ld a, [bc]
 
-UnknownCode_002_7d66:
+AudioDispatchEntry_7d66:
     ei
     ld a, [bc]
 
-UnknownCode_002_7d68:
+AudioDispatchEntry_7d68:
     ei
     ei
     rst $38
@@ -14186,9 +14186,9 @@ UnknownCode_002_7d68:
     rst $28
     jr z, UnknownCode_002_7d64
 
-    jr z, UnknownCode_002_7d66
+    jr z, AudioDispatchEntry_7d66
 
-    jr z, UnknownCode_002_7d68
+    jr z, AudioDispatchEntry_7d68
 
     rst $28
     rst $18
@@ -14222,7 +14222,7 @@ UnknownCode_002_7d7e:
     ld a, a
     ld h, b
     ccf
-    jr nc, UnknownCode_002_7db8
+    jr nc, AudioDispatchEntry_7db8
 
     rra
     ld sp, hl
@@ -14251,7 +14251,7 @@ UnknownCode_002_7d7e:
     rst $38
     nop
 
-UnknownCode_002_7db8:
+AudioDispatchEntry_7db8:
     rst $38
     rst $38
     ccf
