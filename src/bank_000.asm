@@ -12813,7 +12813,7 @@ BCD_WriteLowNibble:
 ; --- MarkNonZeroSeen (high nibble) ---
 BCD_MarkNonZeroHigh:
     push af
-    ld a, $01
+    ld a, FLAG_TRUE
     ldh [hScoreNeedsUpdate], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
     jr BCD_WriteTile
@@ -12821,7 +12821,7 @@ BCD_MarkNonZeroHigh:
 ; --- MarkNonZeroSeen (low nibble) ---
 BCD_MarkNonZeroLow:
     push af
-    ld a, $01
+    ld a, FLAG_TRUE
     ldh [hScoreNeedsUpdate], a          ; Marquer "a vu un chiffre non-zéro"
     pop af
     jr BCD_WriteLowNibble

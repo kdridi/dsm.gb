@@ -7008,8 +7008,8 @@ TileTypeDispatchCase_E5:
     ld hl, $dfe8
     ld a, $0e
     ld [hl], a
-    ld a, $01
-    ld [$da17], a
+    ld a, FLAG_TRUE
+    ld [wLevelBonus], a
     ret
 
 
@@ -7116,8 +7116,8 @@ SpriteAnimationDispatch_Type2:
 
 
 SpriteAnimationFinalCleanup:
-    ld a, $01
-    ld [$da17], a
+    ld a, FLAG_TRUE
+    ld [wLevelBonus], a
     inc a
     ldh [hTimerAux], a
     ldh [hSubState], a
@@ -7251,9 +7251,9 @@ WriteSpriteValuesLoop:
     ld [de], a
 
 AnimationCycleMarked:
-    ld a, $01
-    ld [$da20], a
-    ld [$da21], a
+    ld a, FLAG_TRUE
+    ld [wLevelParam20], a
+    ld [wLevelParam21], a
     ret
 
 

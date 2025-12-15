@@ -10127,7 +10127,7 @@ ProcessAudioQueue:
     and a
     ret z
 
-    ld a, $01
+    ld a, FLAG_TRUE
     ldh [hAudioControl], a
     ld hl, $df10
 
