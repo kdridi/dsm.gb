@@ -1956,7 +1956,7 @@ jr_003_47c0:
     ret
 
 
-jr_003_4823:
+AnimationHandler:
     ld a, h
     ldh [hAnimStructHigh], a
     ld a, l
@@ -1980,7 +1980,7 @@ AnimAdvanceFrame:
     ldh [hParam3], a
     ret z
 
-    jr jr_003_4823
+    jr AnimationHandler
 
 AnimClearHidden:
     xor a
