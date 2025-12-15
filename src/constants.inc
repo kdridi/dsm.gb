@@ -191,6 +191,8 @@ DEF hRenderY        EQU $FFF2   ; Position Y rendu
 DEF hRenderAttr     EQU $FFF3   ; Attributs rendu
 DEF hRenderCounter  EQU $FFF4   ; Compteur rendu
 DEF hRenderMode     EQU $FFF5   ; Mode rendu
+DEF hDestY          EQU $FFF6   ; Position Y destination (pipe/transition)
+DEF hDestX          EQU $FFF7   ; Position X destination (pipe/transition)
 
 ; --- VBlank et OAM ---
 DEF hVBlankSelector EQU $FFF8   ; Sélecteur routine VBlank
@@ -451,3 +453,10 @@ DEF LY_WINDOW_MAX       EQU $87 ; Ligne max pour animation window (135)
 ; === Tailles OAM ===
 
 DEF OAM_BUFFER_SIZE     EQU $9F ; 159 octets (40 sprites × 4 - 1)
+
+; === Joypad ===
+
+; Masque pour isoler les directions D-pad (bits 0-3 de hJoypadState)
+DEF JOYPAD_DPAD_MASK    EQU $0F ; Masque 4 bits bas (R/L/U/D)
+; Valeur quand toutes les directions sont pressées (combo soft reset)
+DEF JOYPAD_ALL_DPAD     EQU $0F ; R+L+U+D simultanés

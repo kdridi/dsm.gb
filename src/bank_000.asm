@@ -959,7 +959,7 @@ HandleSelectButtonLevelSelect:
 ; Attend timer ou action → état $11
 ; ===========================================================================
 State0F_LevelSelect::
-    ldh a, [$ff81]               ; Joypad state
+    ldh a, [hJoypadDelta]        ; Joypad state (edge detect)
     ld b, a
     bit 3, b                     ; Start pressé ?
     jr nz, StartSelectedLevel
@@ -1559,15 +1559,15 @@ CheckInputAndPause:
     ; --- CheckSoftReset ---
     ; Si D-pad = $0F (toutes directions), c'est la combo reset
     ldh a, [hJoypadState]          ; Lire joypad (directions)
-    and $0f                 ; Masquer les 4 bits bas
-    cp $0f                  ; Toutes les directions ?
+    and JOYPAD_DPAD_MASK           ; Masquer les 4 bits bas
+    cp JOYPAD_ALL_DPAD             ; Toutes les directions ?
     jr nz, CheckStartButtonForPause      ; Non → vérifier pause
 
     jp SystemInit        ; OUI → SOFT RESET !
 
 ; --- CheckStartPressed ---
 CheckStartButtonForPause:
-    ldh a, [$ff81]          ; Lire joypad (boutons, edge detect)
+    ldh a, [hJoypadDelta]          ; Lire joypad (boutons, edge detect)
     bit 3, a                ; Start pressé (nouveau) ?
     ret z                   ; Non → return
 
@@ -4307,7 +4307,7 @@ CheckTilemapCompletion:
 
 
 InitializeCreditsMode:
-    ldh a, [$ff81]
+    ldh a, [hJoypadDelta]
     and a
     ret z
 
@@ -4600,9 +4600,9 @@ State0B_PipeEnterDown::
     ld hl, hRenderCounter
     ld [hl+], a
     ld [hl+], a
-    ldh a, [$fff7]               ; Position X destination
+    ldh a, [hDestX]              ; Position X destination
     ld d, a
-    ldh a, [$fff6]               ; Position Y destination
+    ldh a, [hDestY]              ; Position Y destination
     ld e, a
     push de
     call LoadLevelData
@@ -7159,10 +7159,10 @@ ProcessRenderQueue:
     ldh a, [hRenderMode]
     add hl, de
     ld [hl], a
-    ldh a, [$fff6]
+    ldh a, [hDestY]
     add hl, de
     ld [hl], a
-    ldh a, [$fff7]
+    ldh a, [hDestX]
     add hl, de
     ld [hl], a
     xor a
