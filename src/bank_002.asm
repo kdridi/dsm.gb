@@ -5973,7 +5973,7 @@ DecrementGameTimer:
     daa
     ld [hl+], a
     cp $99
-    jr nz, jr_002_586b
+    jr nz, CounterStateDispatcher
 
     dec c
     ld a, c
@@ -5981,23 +5981,23 @@ DecrementGameTimer:
     ret
 
 
-jr_002_586b:
+CounterStateDispatcher:
     ld hl, $da1d
     cp $50
-    jr z, jr_002_587b
+    jr z, SetTimerForSpecialCase
 
     and a
     ret nz
 
     or c
-    jr nz, jr_002_5886
+    jr nz, SetTimerForAlternateCase
 
     ld a, $03
     ld [hl], a
     ret
 
 
-jr_002_587b:
+SetTimerForSpecialCase:
     ld a, c
     and a
     ret nz
@@ -6009,7 +6009,7 @@ jr_002_587b:
     ret
 
 
-jr_002_5886:
+SetTimerForAlternateCase:
     ld a, c
     cp $01
     ret nz
@@ -6653,7 +6653,7 @@ jr_002_5ba0:
     ld hl, wSpriteVar31
     ld a, [hl-]
     cp $80
-    jr nc, jr_002_5be2
+    jr nc, SetGameStateAnimationComplete
 
     add $04
     ldh [hSpriteX], a
@@ -6671,27 +6671,27 @@ jr_002_5ba0:
     call ReadTileUnderSprite
     ld a, [hl]
     cp $2e
-    jr z, jr_002_5bd8
+    jr z, SetGameStateCollisionTile1
 
     cp $30
-    jr z, jr_002_5bdd
+    jr z, SetGameStateCollisionTile2
 
     ret
 
 
-jr_002_5bd8:
+SetGameStateCollisionTile1:
     ld a, $18
     ldh [hGameState], a
     ret
 
 
-jr_002_5bdd:
+SetGameStateCollisionTile2:
     ld a, $19
     ldh [hGameState], a
     ret
 
 
-jr_002_5be2:
+SetGameStateAnimationComplete:
     xor a
     ld [$da1c], a
     ld a, $1a
