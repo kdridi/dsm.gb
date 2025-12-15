@@ -3033,7 +3033,7 @@ CopyOAMDataLoop:
     jr nz, CopyOAMDataLoop
 
     ld hl, wPlayerUnk11
-    ld [hl], $7e
+    ld [hl], CUTSCENE_PLAYER_X
     inc l
     ld [hl], $00
     inc l
@@ -3646,7 +3646,7 @@ State2D_DisplayText2::
     inc l
     ld [hl], $00
     ld hl, wObject4Unk09
-    ld [hl], $7e
+    ld [hl], CUTSCENE_PLAYER_X
     inc l
     inc l
     ld [hl], $28
