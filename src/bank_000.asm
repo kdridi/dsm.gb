@@ -483,11 +483,12 @@ HeaderComplementCheck::
 HeaderGlobalChecksum::
     db $41, $6b
 
-;; ==========================================================================
-;; After Header ($0150)
-;; ==========================================================================
-;; Premier code exécutable après le header. Saute vers l'initialisation.
-;; ==========================================================================
+; AfterHeader
+; -----------
+; Description: Point d'entrée après le header ROM. Saute vers l'initialisation système.
+; In:  (aucun)
+; Out: (ne retourne jamais, saute vers SystemInit)
+; Modifie: (aucun avant le saut)
 AfterHeader:
     jp SystemInit
 
