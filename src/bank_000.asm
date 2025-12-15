@@ -5224,9 +5224,9 @@ InitObjectsLoop:
     inc l
     inc l
     inc l
-    ld [hl], $01
+    ld [hl], FLAG_TRUE          ; Flag objet actif
     inc l
-    ld [hl], $07
+    ld [hl], STATE_BUFFER_DEFAULT ; État par défaut ($07)
     pop hl
     add hl, de
     dec b
@@ -6635,9 +6635,9 @@ SpriteSetupLoop:
     inc l
     inc l
     inc l
-    ld [hl], $01
+    ld [hl], FLAG_TRUE          ; Flag sprite actif
     inc l
-    ld [hl], $07
+    ld [hl], STATE_BUFFER_DEFAULT ; État par défaut ($07)
     pop hl
     add hl, de
     dec b
