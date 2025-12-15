@@ -1702,7 +1702,7 @@ ProcessAudioSlot:
     cp PLAYER_DIR_LEFT
     jr z, AdjustPlayerXForCollision
 
-    ld a, $fe                       ; -2 (ajustement collision droite)
+    ld a, COLLISION_ADJUST_NEG      ; -2 (ajustement collision droite)
     add b
     ld b, a
 
@@ -1718,7 +1718,7 @@ CheckPlayerCollisionWithObject:
     ld b, a
     sub COLLISION_MARGIN_3      ; -3 pixels marge haute
     ldh [hTemp2], a
-    ld a, $02
+    ld a, COLLISION_ADJUST_POS  ; +2 pixels
     add b
     ldh [hParam3], a
     pop hl
@@ -1959,7 +1959,7 @@ ObjectInteraction_SpecialHit:
 
 UpdateAnimatedObjectState_CoinProceed:
     ldh [hPendingCoin], a
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
     jr ObjectInteraction_MarkSpriteHandled
 
@@ -2001,7 +2001,7 @@ InitGameState:
     ld [wStateRender], a           ; Variable WRAM = $02
 
     ; --- InitPlayerState ---
-    ld a, $80
+    ld a, PLAYER_Y_INIT
     ld [wPlayerY], a           ; Player state = $80
 
     ld a, [wPlayerX]           ; Lire position/état
@@ -2013,7 +2013,7 @@ SelectAnimationBank:
     push hl
     push de
     ldh a, [hAnimObjSubState]
-    and $c0
+    and ANIM_SUBSTATE_MASK
     swap a
     srl a
     srl a
@@ -2090,7 +2090,7 @@ ProcessFoundObject:
 
     inc l
     ld a, c
-    and $70
+    and ANIM_HEIGHT_MASK
     swap a
     ld c, a
     ld a, [hl]
@@ -2172,7 +2172,7 @@ Loop_SubtractValueByEightEnd:
     jr c, ReturnZero
 
     ld a, c
-    and $70
+    and ANIM_HEIGHT_MASK
     swap a
     ld b, a
     ld a, [hl]
@@ -2273,7 +2273,7 @@ CheckCollisionYAxisPath:
     inc l
     inc l
     ld a, [hl]
-    and $70
+    and ANIM_HEIGHT_MASK
     swap a
     ld b, a
     pop hl
@@ -2577,7 +2577,7 @@ AnimationCheckCompleteExit:
 TransitionToLevelPath:
     ld a, GAME_STATE_POST_LEVEL
     ldh [hGameState], a
-    ld a, $26
+    ld a, TIMER_TRANSITION_LEVEL
     ldh [hTimer1], a
     ret
 
@@ -2897,9 +2897,9 @@ VRAMPointerAdjustmentPath:
     add hl, de
     ld a, l
     ldh [hVramPtrLow], a
-    ld a, $05
+    ld a, OAM_ADDR_INIT
     ldh [hOAMAddrLow], a
-    ld a, $08
+    ld a, TIMER_ANIM_STEP
     ldh [hTimer1], a
     ld hl, hGameState
     inc [hl]
@@ -2927,7 +2927,7 @@ State1E_ClearTilemapColumn::
 
     WAIT_FOR_HBLANK
     ld [hl], TILE_EMPTY
-    ld a, $08                   ; Timer = 8 frames
+    ld a, TIMER_ANIM_STEP       ; Timer = 8 frames
     ldh [hTimer1], a
     ld a, STATE_RENDER_STATE_BUFFER
     ld [wStateBuffer], a
@@ -2935,7 +2935,7 @@ State1E_ClearTilemapColumn::
 
 
 TilemapColumnClearCompletePath:
-    ld a, $10
+    ld a, TIMER_ANIM_TRANSITION
     ldh [hTimer1], a
     ld a, BANK_AUDIO
     ldh [hCurrentBank], a
@@ -2970,10 +2970,10 @@ State1F_EnableVBlankMode::
 State20_WaitPlayerPosition::
     call AutoMovePlayerRight
     ld a, [wPlayerState]
-    cp $c0
+    cp PLAYER_POS_THRESHOLD
     ret c
 
-    ld a, $20
+    ld a, TIMER_ANIM_WALK
     ldh [hTimer1], a
     ld hl, hGameState
     inc [hl]
@@ -3003,7 +3003,7 @@ State21_SetupEndCutscene::
     xor a
     ldh [hScrollPhase], a
     ldh [hTemp3], a
-    ld a, $a1                   ; Timer cutscene (161 frames)
+    ld a, TIMER_CUTSCENE        ; Timer cutscene (161 frames)
     ldh [hTimer1], a
     ld a, STATE_RENDER_CUTSCENE
     ld [wStateRender], a
@@ -3014,16 +3014,16 @@ State21_SetupEndCutscene::
 ; --- Routine : reset position joueur pour cutscene ---
 ResetPlayerForCutscene:
     ld hl, wPlayerX
-    ld [hl], $7e
+    ld [hl], CUTSCENE_PLAYER_X
     inc l
-    ld [hl], $b0
+    ld [hl], CUTSCENE_PLAYER_Y
     inc l
     ld a, [hl]
     and NIBBLE_HIGH_MASK
     ld [hl], a
     ld hl, wPlayerUnk10
     ld de, ROM_LEVEL_INIT_DATA
-    ld b, $10
+    ld b, OAM_COPY_SIZE
 
 CopyOAMDataLoop:
     ld a, [de]

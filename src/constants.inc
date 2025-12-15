@@ -835,6 +835,8 @@ DEF COLLISION_OFFSET_6         EQU $06   ; Offset collision ±6 pixels (demi-til
 DEF COLLISION_THRESHOLD_7      EQU $07   ; Seuil collision 7 pixels
 DEF COLLISION_MARGIN_3         EQU $03   ; Marge collision 3 pixels
 DEF COLLISION_KNOCKBACK        EQU $0a   ; Distance knockback (10 pixels)
+DEF COLLISION_ADJUST_NEG       EQU $fe   ; Ajustement collision négatif (-2)
+DEF COLLISION_ADJUST_POS       EQU $02   ; Ajustement collision positif (+2)
 
 ; === Identifiants Monde (pour sélection banque/tiles) ===
 
@@ -842,3 +844,35 @@ DEF WORLD_1                    EQU $01   ; Monde 1
 DEF WORLD_2                    EQU $02   ; Monde 2
 DEF WORLD_3                    EQU $03   ; Monde 3
 DEF WORLD_4                    EQU $04   ; Monde 4
+
+; === Timers animations/cutscenes ===
+
+DEF TIMER_ANIM_STEP            EQU $08   ; Timer step animation (8 frames)
+DEF TIMER_ANIM_TRANSITION      EQU $10   ; Timer transition animation (16 frames)
+DEF TIMER_ANIM_WALK            EQU $20   ; Timer marche animation (32 frames)
+DEF TIMER_CUTSCENE             EQU $a1   ; Timer cutscene fin niveau (161 frames)
+DEF TIMER_TRANSITION_LEVEL     EQU $26   ; Timer transition niveau (38 frames)
+
+; === Positions cutscene joueur ===
+
+DEF CUTSCENE_PLAYER_X          EQU $7e   ; Position X joueur cutscene (126 pixels)
+DEF CUTSCENE_PLAYER_Y          EQU $b0   ; Position Y joueur cutscene (176 pixels)
+
+; === Seuils position état ===
+
+DEF PLAYER_POS_THRESHOLD       EQU $c0   ; Seuil position Y joueur ($C0 = 192)
+DEF PLAYER_Y_INIT              EQU $80   ; Position Y joueur initial (128 pixels)
+
+; === État buffer (wStateBuffer) ===
+
+DEF STATE_BUFFER_COIN          EQU $05   ; État buffer après collecte pièce
+
+; === OAM et animation ===
+
+DEF OAM_ADDR_INIT              EQU $05   ; Adresse OAM initiale colonne
+DEF OAM_COPY_SIZE              EQU $10   ; Taille copie données OAM (16 octets)
+
+; === Masques animation ===
+
+DEF ANIM_SUBSTATE_MASK         EQU $c0   ; Masque bits hauts sous-état animation
+DEF ANIM_HEIGHT_MASK           EQU $70   ; Masque hauteur objet animation
