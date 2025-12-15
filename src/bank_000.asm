@@ -825,7 +825,7 @@ CopySpriteDataLoop:
     ld a, [wGameConfigA6]
     ld [hl], a
     inc l
-    ld [hl], $00                     ; Attributs sprite (palette 0)
+    ld [hl], OAM_ATTR_NORMAL         ; Attributs sprite (palette 0, pas de flip)
     inc l
     ld [hl], OAM_TITLE_SPRITE2_Y
 
@@ -852,7 +852,7 @@ FinalizeGameStateAfterScore:
     cp ROM_BANK_COUNT
     ret nz
 
-    ld [hl], $00                     ; Reset au bank 0
+    ld [hl], BANK_0                  ; Reset au bank 0
     ret
 
 
@@ -1379,7 +1379,7 @@ State01_WaitClearObjects::
 ;; ==========================================================================
 State02_PrepareRender::
     di
-    ld a, $00
+    ld a, LCDCF_OFF
     ldh [rLCDC], a
     call ClearOamAndSpriteBuffers
     call ClearTilemapBuffer

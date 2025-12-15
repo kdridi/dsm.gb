@@ -61,6 +61,7 @@ DEF AUDTERM_ALL     EQU $FF     ; Tous canaux (1-4) sur sorties L et R
 
 ; === ROM Banks ===
 
+DEF BANK_0          EQU $00     ; Bank 0 = bank fixe (vecteurs, init, main)
 DEF BANK_1          EQU $01     ; Bank 1 = données monde 2/4
 DEF BANK_2          EQU $02     ; Bank 2 = données monde 1
 DEF BANK_3          EQU $03     ; Bank 3 = données monde 3
