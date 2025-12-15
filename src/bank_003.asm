@@ -2483,7 +2483,7 @@ ResetMenuStateToIdle:
 
 HandleJoypadInputDelay:
     ldh a, [hJoypadDelta]
-    and $03
+    and FRAME_MASK_4
     jr nz, InitializeSpriteTransferBuffer
 
     ldh a, [hJoypadState]
@@ -2714,7 +2714,7 @@ CheckTimerAux1::
     and a
     jr z, TimerInitializeAux
 
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     xor a
@@ -2749,7 +2749,7 @@ CheckTimerAux2::
     and a
     jr z, TimerResetState
 
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     ld a, [$c203]
@@ -2774,7 +2774,7 @@ PaddingZone_003_4be0:
     and a
     jr z, ResetTimerState
 
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     ld a, [$c200]

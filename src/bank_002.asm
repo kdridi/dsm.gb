@@ -6405,7 +6405,7 @@ SpriteAnimationLoopExit:
 ComputeAnimationSpeed:
     ld hl, wSpriteTemp
     ldh a, [rDIV]
-    and $03
+    and FRAME_MASK_4
     inc a
     ld b, a
     ld a, $20

@@ -3369,7 +3369,7 @@ State27_ClearPlayerVar:
     call UpdateAudio
     ldh a, [hTimer1]
     ld c, a
-    and $03
+    and FRAME_MASK_4
     jr nz, State27_CheckTimer
 
     ldh a, [hOAMIndex]
@@ -3531,7 +3531,7 @@ State2B_PrincessDescending::
     ld hl, TextData_ThankYouMario
     call WriteCharToVRAM
     ldh a, [hFrameCounter]
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     ld hl, wPlayerUnk12
@@ -3677,7 +3677,7 @@ TextData_QuestOver:
 ; ===========================================================================
 State2E_DuoAnimation::
     ldh a, [hFrameCounter]
-    and $03
+    and FRAME_MASK_4
     jr nz, State2E_CheckCharPosition
 
     ld hl, wPlayerUnk13
@@ -3792,7 +3792,7 @@ AdvanceToNextState:
 ; --- Routine : toggle frame animation ---
 ToggleAnimFrame:
     ldh a, [hFrameCounter]
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     inc l
@@ -4074,7 +4074,7 @@ State33_SaveVRAMPointer:
 State34_WaitCreditsCounter::
     call AnimateCreditsFrame
     ldh a, [hFrameCounter]
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     ld hl, wLevelInitFlag
@@ -4110,7 +4110,7 @@ State35_WaitTimer::
 State36_CreditsFinalTransition::
     call AnimateCreditsFrame
     ldh a, [hFrameCounter]
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     ld hl, wLevelInitFlag
@@ -4640,7 +4640,7 @@ UpdatePipeAnimation:
     ld a, [hl]
     jr z, State0C_CheckOddFrame
 
-    and $03
+    and FRAME_MASK_4
     jr nz, State0C_ProcessAnimation
 
 State0C_IncrementPlayerDir:
@@ -6245,7 +6245,7 @@ InitSpriteProperties_Loop:
 ; =============================================================================
 UpdatePlayerInvulnBlink:
     ldh a, [hFrameCounter]
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     ld a, [wPlayerInvuln]
@@ -7283,7 +7283,7 @@ State0D_GameplayFull::
 
     ; Toggle direction joueur toutes les 4 frames (animation idle)
     ldh a, [hFrameCounter]
-    and $03
+    and FRAME_MASK_4
     ret nz
 
     ld a, [wPlayerDir]
@@ -8075,7 +8075,7 @@ CheckAudioCommand_F5:
     jr nz, CheckAudioCommand_F6
 
     ldh a, [rDIV]
-    and $03
+    and FRAME_MASK_4
     ld a, $f1
     jr z, CheckAudioCommand_F1
 
@@ -12587,7 +12587,7 @@ FillTextLine_4:
     ld bc, $e502
     ld de, $3e72
     ldh a, [rDIV]
-    and $03
+    and FRAME_MASK_4
     inc a
 
 SkipFrames:
