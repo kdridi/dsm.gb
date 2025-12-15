@@ -1759,6 +1759,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0ab6",
+      "node_type": "code",
+      "description": "Loop_SubtractValueByEight - Boucle soustraction par 8 pixels (calcul largeur hitbox)",
+      "source": "$0aa6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0ad1",
+      "node_type": "code",
+      "description": "Loop_AddValueByEightV2 - Boucle addition par 8 pixels (calcul hauteur hitbox)",
+      "source": "$0aa6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0adf",
+      "node_type": "code",
+      "description": "ReturnZero - Retourne 0 (pas de collision)",
+      "source": "$0aa6",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1839,6 +1863,7 @@
     "$0BCD",
     "$02A3",
     "$0C0D",
+    "$0aa6",
     "$0F09",
     "$0226",
     "$09e8",
@@ -1860,6 +1885,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 1,
-  "total_explored": 97
+  "commits_since_push": 2,
+  "total_explored": 98
 }

@@ -2418,6 +2418,16 @@ ContinueObjectScan:
     jp NextObjectSlotCheck
 
 
+; CheckBoundingBoxCollision
+; -------------------------
+; Description: Teste collision AABB (Axis-Aligned Bounding Box) entre deux hitboxes rectangulaires.
+;              Vérifie chevauchement sur axes X et Y avec calcul de dimensions multi-tiles.
+;              Algorithme: test séparation X (gauche/droite), puis Y (haut/bas).
+; In:  hl = pointeur objet+2 (position X objet), c = config (nibble bas=largeur tiles, bits 4-6=hauteur tiles)
+;      hTemp0 = position X joueur gauche, hTemp1 = position X joueur droite
+;      hParam3 = position Y joueur haut, hTemp2 = position Y joueur bas
+; Out: a = RETURN_TRUE ($01) si collision détectée, $00 sinon
+; Modifie: a, b, l
 CheckBoundingBoxCollision:
     inc l
     inc l
