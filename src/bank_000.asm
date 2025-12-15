@@ -7676,12 +7676,12 @@ ProcessAudioChannelData:
     add hl, de
     ld b, h
     ld c, l
-    ld hl, $2fd9
+    ld hl, ROM_AUDIO_CHANNEL_TABLE_1
     ldh a, [hSoundCh2]
-    and $01
+    and BIT_0_MASK
     jr nz, LoadSoundChannel3Data
 
-    ld hl, $30ab
+    ld hl, ROM_AUDIO_CHANNEL_TABLE_2
 
 LoadSoundChannel3Data:
     ldh a, [hSoundCh3]
@@ -12704,7 +12704,7 @@ GetSpritePosFromTileAddr:
     ld d, a
     ldh a, [hSpriteTile]
     ld e, a
-    ld b, $04
+    ld b, SPRITE_BITS_SHIFT
 
 .shiftRight:
     rr d
@@ -12713,18 +12713,18 @@ GetSpritePosFromTileAddr:
     jr nz, .shiftRight
 
     ld a, e
-    sub $84
-    and $fe
+    sub TILE_ADDR_Y_BASE
+    and CLEAR_BIT_0_MASK
     rlca
     rlca
-    add $08
+    add TILE_SIZE_PIXELS
     ldh [hSpriteY], a
     ldh a, [hSpriteTile]
     and TILEMAP_COLUMN_MASK
     rla
     rla
     rla
-    add $08
+    add TILE_SIZE_PIXELS
     ldh [hSpriteX], a
     ret
 

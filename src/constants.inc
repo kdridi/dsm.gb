@@ -437,6 +437,8 @@ DEF ROM_INIT_BANK3  EQU $7FF3   ; Routine d'initialisation en bank 3
 DEF ROM_AUDIO_CONFIG    EQU $336C   ; Configurations son (3 octets/son)
 DEF ROM_AUDIO_POINTERS  EQU $3495   ; Pointeurs vers données audio (2 octets/son)
 DEF ROM_AUDIO_INDEX_TABLE EQU $401a ; Table index audio en bank 1 (2 octets/entrée)
+DEF ROM_AUDIO_CHANNEL_TABLE_1 EQU $2fd9 ; Table sélection canal audio (option 1)
+DEF ROM_AUDIO_CHANNEL_TABLE_2 EQU $30ab ; Table sélection canal audio (option 2)
 
 ; --- Tables style (par niveau) ---
 DEF ROM_STYLE_LVL_0     EQU $030C   ; Niveaux 0-6
@@ -1024,6 +1026,11 @@ DEF COLLISION_MARGIN_3         EQU $03   ; Marge collision 3 pixels
 DEF COLLISION_KNOCKBACK        EQU $0a   ; Distance knockback (10 pixels)
 DEF COLLISION_ADJUST_NEG       EQU $fe   ; Ajustement collision négatif (-2)
 DEF COLLISION_ADJUST_POS       EQU $02   ; Ajustement collision positif (+2)
+
+; === Conversion adresse tile ↔ position sprite ===
+
+DEF TILE_ADDR_Y_BASE           EQU $84   ; Base pour conversion adresse tile → Y sprite
+DEF SPRITE_BITS_SHIFT          EQU $04   ; Nombre de bits à shifter (4)
 
 ; === Identifiants Monde (pour sélection banque/tiles) ===
 
