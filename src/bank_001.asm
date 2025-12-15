@@ -311,7 +311,7 @@ ProcessSoundRegister:
 
     or b
 
-Jump_001_4146:
+PaddingTrap_4146:
     ld hl, sp-$78
     ld hl, sp+$38
     cp b
@@ -523,7 +523,7 @@ RotationDataEntry_4228:
     or c
 
 ValidateOrTransformValue:
-Jump_001_423f:
+PaddingAlign_423f:
     sub c
     cp a
     adc a
@@ -1230,7 +1230,6 @@ DataPadding_4539:
     nop
     nop
 
-Jump_001_453e:
 DataPadding_453e:
     add b
     add b
@@ -3677,7 +3676,7 @@ DataPadding_4f5e:
     and $1e
     and $1e
 
-Jump_001_4f76:
+DataTable_4f76:
     rst $38
     rst $38
     rst $00
@@ -5186,7 +5185,7 @@ JumpHandler_550a:
     and c
     ld h, [hl]
 
-Jump_001_5652:
+DataTable_5652:
     add d
     ld l, b
     add d
@@ -5270,7 +5269,7 @@ Jump_001_5652:
     jp nc, $d276
 
     halt
-    jp nc, Jump_001_4f76
+    jp nc, DataTable_4f76
 
     halt
     ld c, a
@@ -6883,7 +6882,7 @@ CheckResult_5c5b:
     add d
     ld l, b
     ld l, d
-    jp nz, Jump_001_7ff4
+    jp nz, TrapInfiniteLoop_7ff4
 
     pop af
     ld e, l
@@ -6895,7 +6894,7 @@ CheckResult_5c5b:
     add d
     ld h, a
     ld l, c
-    jp nz, Jump_001_7ff4
+    jp nz, TrapInfiniteLoop_7ff4
 
     pop af
     ld e, l
@@ -6907,7 +6906,7 @@ CheckResult_5c5b:
     add d
     ld l, b
     ld l, d
-    jp nz, Jump_001_7ff4
+    jp nz, TrapInfiniteLoop_7ff4
 
     pop af
     ld e, l
@@ -6919,7 +6918,7 @@ CheckResult_5c5b:
     add d
     ld h, a
     ld l, c
-    jp nz, Jump_001_7ff4
+    jp nz, TrapInfiniteLoop_7ff4
 
     pop af
     ld e, l
@@ -6931,7 +6930,7 @@ CheckResult_5c5b:
     add d
     ld l, b
     ld l, d
-    jp nz, Jump_001_7ff4
+    jp nz, TrapInfiniteLoop_7ff4
 
     pop af
     ld e, l
@@ -9579,7 +9578,7 @@ CheckStateValue_69ff:
 CheckPlayerAction_6afd:
     and c
     ld a, a
-    jp nc, Jump_001_423f
+    jp nc, PaddingAlign_423f
 
     cp $02
     ld [hl-], a
@@ -9597,7 +9596,7 @@ CheckPlayerAction_6afd:
     ld c, c
     add c
     ld a, a
-    jp Jump_001_4146
+    jp PaddingTrap_4146
 
 
     ld b, h
@@ -10505,7 +10504,7 @@ CheckPlayerAction_6afd:
     ld c, c
     and c
     ld l, b
-    jp nz, Jump_001_453e
+    jp nz, DataPadding_453e
 
     pop af
     ld e, l
@@ -12038,7 +12037,7 @@ ConfigData_7555:
     ld d, d
     ld d, l
     ld e, c
-    jp nz, Jump_001_5652
+    jp nz, DataTable_5652
 
     cp $02
     ld d, e
@@ -12098,7 +12097,7 @@ ConfigData_7555:
     ld e, b
     ld b, c
     db $f4
-    jp nz, Jump_001_5652
+    jp nz, DataTable_5652
 
     cp $02
     ld d, l
@@ -14221,7 +14220,7 @@ DataPadding_7e55:
     rst $38
     rst $38
 
-Jump_001_7ff4:
+TrapInfiniteLoop_7ff4:
     rst $38
     rst $38
     rst $38

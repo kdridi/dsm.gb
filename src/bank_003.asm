@@ -130,7 +130,7 @@ jr_003_4071:
 
     jr nc, jr_003_40be
 
-Jump_003_407f:
+PaddingTrap_407f:
     jr nz, jr_003_40c0
 
     ld a, $f8
@@ -796,7 +796,7 @@ jr_003_4330:
     di
     adc h
     db $fd
-    jp nz, Jump_003_407f
+    jp nz, PaddingTrap_407f
 
     ld a, a
     ld b, b
@@ -839,7 +839,7 @@ jr_003_4330:
     jr z, jr_003_432f
 
     and h
-    jp nz, Jump_003_62c2
+    jp nz, DataPadding_62c2
 
     ld h, d
     ld b, h
@@ -4494,12 +4494,12 @@ jr_003_5378:
     scf
     ld [hl], c
     add c
-    call nz, Call_003_7270
+    call nz, ProcessInputState_Bank3_Part1
     ld h, b
     ld h, b
     cp $71
     add c
-    call nz, Call_003_7371
+    call nz, ProcessInputState_Bank3_Part2
     ld h, c
     ld h, c
     cp $e2
@@ -4761,12 +4761,12 @@ jr_003_54b2:
     ld b, d
     ld b, l
     cp $fe
-    call nz, Call_003_7270
+    call nz, ProcessInputState_Bank3_Part1
     ld h, e
     ld h, e
     cp $21
     inc [hl]
-    call nz, Call_003_7371
+    call nz, ProcessInputState_Bank3_Part2
     ld h, h
     ld h, h
     cp $12
@@ -5436,13 +5436,13 @@ jr_003_55f1:
     cp $02
     ld h, e
     ld l, c
-    call nz, Call_003_7270
+    call nz, ProcessInputState_Bank3_Part1
     ld h, [hl]
     ld l, b
     cp $02
     ld h, h
     ld l, c
-    call nz, Call_003_7371
+    call nz, ProcessInputState_Bank3_Part2
     ld h, l
     ld h, a
     cp $05
@@ -6719,14 +6719,14 @@ jr_003_55f1:
     ld [de], a
     ld sp, $8135
     db $f4
-    call nz, Call_003_7270
+    call nz, ProcessInputState_Bank3_Part1
     ld [hl], d
     ld l, h
     cp $12
     ld [hl-], a
     ld [hl], $81
     db $f4
-    call nz, Call_003_7371
+    call nz, ProcessInputState_Bank3_Part2
     ld [hl], e
     ld l, l
     cp $12
@@ -7791,7 +7791,7 @@ jr_003_6198:
     ld h, b
     cp $a6
 
-Jump_003_62c2:
+DataPadding_62c2:
     ld h, h
     ld h, h
     ld h, h
@@ -11066,7 +11066,7 @@ jr_003_7173:
     dec bc
     dec bc
 
-Call_003_7270:
+ProcessInputState_Bank3_Part1:
     dec bc
     dec bc
     dec bc
@@ -11274,7 +11274,7 @@ jr_003_7360:
     scf
     ld [hl], b
 
-Call_003_7371:
+ProcessInputState_Bank3_Part2:
     and b
     nop
     and e

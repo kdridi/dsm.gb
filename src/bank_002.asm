@@ -8025,13 +8025,13 @@ jr_002_616b:
     cp $02
     ld d, e
     ld b, b
-    call nz, Call_002_7270
+    call nz, ProcessInputState_Bank2_Part1
     ld h, b
     ld h, c
     cp $02
     ld d, e
     ld b, b
-    call nz, Call_002_7371
+    call nz, ProcessInputState_Bank2_Part2
     ld h, b
     ld h, c
     cp $02
@@ -8149,7 +8149,7 @@ jr_002_616b:
     cp $02
     ld d, e
     ld b, b
-    call nz, Call_002_7270
+    call nz, ProcessInputState_Bank2_Part1
     ld h, b
     ld h, c
     cp $02
@@ -9294,7 +9294,7 @@ DataTable_667e:
     ld a, a
     cp $01
     ld a, a
-    call nz, Call_002_7ffd
+    call nz, TrapHalt_7ffd
     cp $01
     ld a, a
     ld [hl], c
@@ -9369,7 +9369,7 @@ DataTable_667e:
     ld a, a
     cp $01
     ld a, a
-    call nz, Call_002_7ffd
+    call nz, TrapHalt_7ffd
     cp $01
     ld a, a
     ldh [c], a
@@ -11135,7 +11135,7 @@ jr_002_7038:
     ld l, [hl]
     ld l, l
     ld d, a
-    call nz, Call_002_7270
+    call nz, ProcessInputState_Bank2_Part1
     ld l, l
     ld l, [hl]
     cp $06
@@ -11145,7 +11145,7 @@ jr_002_7038:
     ld l, l
     ld l, [hl]
     dec hl
-    call nz, Call_002_7371
+    call nz, ProcessInputState_Bank2_Part2
     ld l, [hl]
     ld l, l
     cp $05
@@ -11210,7 +11210,7 @@ jr_002_70b0:
     ld l, l
     ld l, [hl]
     ld d, l
-    call nz, Call_002_7371
+    call nz, ProcessInputState_Bank2_Part2
     ld l, [hl]
     ld l, l
     cp $11
@@ -11469,7 +11469,7 @@ jr_002_7149:
     ld d, d
     ld e, l
     dec [hl]
-    call nz, Call_002_7f3a
+    call nz, PaddingData_7f3a
     dec sp
     ld d, e
     cp $06
@@ -11536,7 +11536,7 @@ jr_002_7149:
     ld h, l
     cp $22
 
-Call_002_7270:
+ProcessInputState_Bank2_Part1:
     ld h, [hl]
     ld l, l
     ldh [c], a
@@ -11757,7 +11757,7 @@ Call_002_7270:
     cp $02
     ld h, l
 
-Call_002_7371:
+ProcessInputState_Bank2_Part2:
     ld l, [hl]
     ld sp, $7756
     ld d, d
@@ -14629,7 +14629,7 @@ jr_002_7ef0:
     nop
     nop
 
-Call_002_7f3a:
+PaddingData_7f3a:
     rst $38
     nop
     nop
@@ -14824,7 +14824,7 @@ jr_002_7fad:
     rst $38
     rst $38
 
-Call_002_7ffd:
+TrapHalt_7ffd:
     rst $38
     rst $38
     rst $38
