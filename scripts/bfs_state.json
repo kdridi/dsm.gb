@@ -1711,6 +1711,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0F21",
+      "node_type": "code",
+      "description": "CutsceneEndPath - Termine cutscene et passe \u00e0 l'\u00e9tat suivant",
+      "source": "$0F09",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1783,6 +1791,7 @@
     "$0BCD",
     "$02A3",
     "$0C0D",
+    "$0F09",
     "$0226",
     "$09e8",
     "$05D0",
@@ -1802,6 +1811,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 1,
-  "total_explored": 87
+  "commits_since_push": 2,
+  "total_explored": 88
 }

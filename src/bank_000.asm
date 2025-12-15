@@ -3496,8 +3496,15 @@ CopyOAMDataLoop:
     ret
 
 ; ===========================================================================
-; État $22 - Animation scroll cutscene ($0F09)
-; Scroll horizontal + déplace joueur pendant timer actif
+; State22_ScrollCutscene ($0F09)
+; ----------------
+; Description: Anime le scroll horizontal de cutscene et déplace le joueur.
+;              Incrémente SCX, décrémente wPlayerState et wPlayerUnk12.
+;              Continue pendant que hTimer1 > 0, puis passe à l'état suivant.
+; In:  hTimer1 = compteur frames restantes
+; Out: hGameState = incrémenté quand timer expiré
+;      hRenderContext = hOAMIndex (à la fin)
+; Modifie: a, hl, hShadowSCX, wPlayerState, wPlayerUnk12
 ; ===========================================================================
 State22_ScrollCutscene::
     ldh a, [hTimer1]
@@ -3512,11 +3519,24 @@ State22_ScrollCutscene::
     ld hl, wPlayerUnk12
     dec [hl]
 
+; CutsceneAnimationContinuePath ($0F1D)
+; ----------------
+; Description: Appelle le handler bank 3 pour continuer l'animation cutscene
+; In:  rien
+; Out: rien
+; Modifie: a, bc, de, hl (via SwitchBankAndCallBank3Handler)
 CutsceneAnimationContinuePath:
     call SwitchBankAndCallBank3Handler
     ret
 
 
+; CutsceneEndPath ($0F21)
+; ----------------
+; Description: Termine la cutscene - copie hOAMIndex vers hRenderContext,
+;              passe à l'état suivant (State23_WalkToDoor)
+; In:  hOAMIndex = index OAM actuel
+; Out: hRenderContext = hOAMIndex, hGameState = incrémenté
+; Modifie: a, hl
 CutsceneEndPath:
     ldh a, [hOAMIndex]
     ldh [hRenderContext], a
