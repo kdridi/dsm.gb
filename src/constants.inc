@@ -1117,3 +1117,22 @@ DEF AUDIO_CMD_FD               EQU $fd   ; Commande audio FD (set state render)
 ; === Index slots audio ===
 
 DEF AUDIO_SLOT_10              EQU $0a   ; Index slot audio 10 (pour save/load)
+
+; === Seuils positions crédits (CheckTilemapCompletion) ===
+; Ces valeurs représentent les positions finales des 6 buffers tilemap
+; avant de passer à l'état InitializeCreditsMode
+
+DEF CREDITS_POS_BUF71          EQU $3c   ; Position finale wTilemapBuf71 (60)
+DEF CREDITS_POS_BUF75          EQU $44   ; Position finale wTilemapBuf75 (68)
+DEF CREDITS_POS_BUF79          EQU $4c   ; Position finale wTilemapBuf79 (76)
+DEF CREDITS_POS_BUF7D          EQU $5c   ; Position finale wTilemapBuf7D (92)
+DEF CREDITS_POS_BUF81          EQU $64   ; Position finale wTilemapBuf81 (100)
+DEF CREDITS_POS_BUF85          EQU $6c   ; Position finale wTilemapBuf85 (108)
+
+; === Seuils état joueur (pipes/transitions) ===
+
+DEF PLAYER_STATE_PIPE_THRESHOLD EQU $4c  ; Seuil état joueur pour sortie pipe (76)
+
+; === Adresses VRAM hautes (limites de boucle) ===
+
+DEF VRAM_COPY_LIMIT_HIGH       EQU $97   ; Octet haut limite copie VRAM ($9700)

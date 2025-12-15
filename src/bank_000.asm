@@ -2775,7 +2775,7 @@ CopyColorPaletteDataLoop:
     ld [hl+], a
     inc de
     ld a, h
-    cp $97
+    cp VRAM_COPY_LIMIT_HIGH
     jr nz, CopyColorPaletteDataLoop
 
     pop hl
@@ -3082,7 +3082,7 @@ State23_WalkToDoor::
     call CheckPlayerHeadCollision
     call UpdatePipeAnimation
     ld a, [wPlayerState]
-    cp $4c
+    cp PLAYER_STATE_PIPE_THRESHOLD
     ret c
 
     ld a, [wPlayerDir]
@@ -4214,7 +4214,7 @@ State38_CreditsAnimation::
 
     ld hl, wTilemapBuf71
     ld a, [hl]
-    cp $3c
+    cp CREDITS_POS_BUF71
     jr z, CheckTilemapCompletion
 
 DecrementTilemapPositions:
@@ -4227,27 +4227,27 @@ DecrementTilemapPositions:
 CheckTilemapCompletion:
     ld hl, wTilemapBuf75
     ld a, [hl]
-    cp $44
+    cp CREDITS_POS_BUF75
     jr nz, DecrementTilemapPositions
 
     ld hl, wTilemapBuf79
     ld a, [hl]
-    cp $4c
+    cp CREDITS_POS_BUF79
     jr nz, DecrementTilemapPositions
 
     ld hl, wTilemapBuf7D
     ld a, [hl]
-    cp $5c
+    cp CREDITS_POS_BUF7D
     jr nz, DecrementTilemapPositions
 
     ld hl, wTilemapBuf81
     ld a, [hl]
-    cp $64
+    cp CREDITS_POS_BUF81
     jr nz, DecrementTilemapPositions
 
     ld hl, wTilemapBuf85
     ld a, [hl]
-    cp $6c
+    cp CREDITS_POS_BUF85
     jr nz, DecrementTilemapPositions
 
     call InitializeCreditsMode
