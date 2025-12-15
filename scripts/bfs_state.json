@@ -673,6 +673,102 @@
       "priority": 3
     },
     {
+      "address": "$5179",
+      "node_type": "data",
+      "description": "Map data niveau 5",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5222",
+      "node_type": "data",
+      "description": "Entities data niveau 5",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$529B",
+      "node_type": "data",
+      "description": "Tileset data niveau 6",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5311",
+      "node_type": "data",
+      "description": "Map/Entities data partag\u00e9e niveaux 4,6,7",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5405",
+      "node_type": "data",
+      "description": "Entities data partag\u00e9e niveaux 4,6,7",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$54D5",
+      "node_type": "data",
+      "description": "Tileset data partag\u00e9e niveaux 5,7,8",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$55BB",
+      "node_type": "data",
+      "description": "Tileset data partag\u00e9e niveaux 0-2,4",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$55E2",
+      "node_type": "data",
+      "description": "Map data partag\u00e9e niveaux 0-2",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5605",
+      "node_type": "data",
+      "description": "Entities data partag\u00e9e niveaux 0-2",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5630",
+      "node_type": "data",
+      "description": "Tileset data niveau 3",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5665",
+      "node_type": "data",
+      "description": "Map data niveau 3",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5694",
+      "node_type": "data",
+      "description": "Entities data niveau 3",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$5832",
       "node_type": "code",
       "description": "State14_Handler - (Bank 1, zone donn\u00e9es)",
@@ -801,103 +897,40 @@
       "priority": 3
     },
     {
-      "address": "$5179",
+      "address": "$6190",
       "node_type": "data",
-      "description": "Map data niveau 5",
-      "source": "$4000:1",
-      "bank": 1,
+      "description": "Donn\u00e9es niveau (variante A)",
+      "source": "$4000:2",
+      "bank": 2,
       "priority": 3
     },
     {
-      "address": "$5222",
+      "address": "$6192",
       "node_type": "data",
-      "description": "Entities data niveau 5",
-      "source": "$4000:1",
-      "bank": 1,
+      "description": "Donn\u00e9es niveau (variante B)",
+      "source": "$4000:2",
+      "bank": 2,
       "priority": 3
     },
     {
-      "address": "$529B",
+      "address": "$61B7",
       "node_type": "data",
-      "description": "Tileset data niveau 6",
-      "source": "$4000:1",
-      "bank": 1,
+      "description": "Donn\u00e9es niveau (variante C)",
+      "source": "$4000:2",
+      "bank": 2,
       "priority": 3
     },
     {
-      "address": "$5311",
+      "address": "$61DA",
       "node_type": "data",
-      "description": "Map/Entities data partag\u00e9e niveaux 4,6,7",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5405",
-      "node_type": "data",
-      "description": "Entities data partag\u00e9e niveaux 4,6,7",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$54D5",
-      "node_type": "data",
-      "description": "Tileset data partag\u00e9e niveaux 5,7,8",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$55BB",
-      "node_type": "data",
-      "description": "Tileset data partag\u00e9e niveaux 0-2,4",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$55E2",
-      "node_type": "data",
-      "description": "Map data partag\u00e9e niveaux 0-2",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5605",
-      "node_type": "data",
-      "description": "Entities data partag\u00e9e niveaux 0-2",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5630",
-      "node_type": "data",
-      "description": "Tileset data niveau 3",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5665",
-      "node_type": "data",
-      "description": "Map data niveau 3",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5694",
-      "node_type": "data",
-      "description": "Entities data niveau 3",
-      "source": "$4000:1",
-      "bank": 1,
+      "description": "Donn\u00e9es niveau (variante D)",
+      "source": "$4000:2",
+      "bank": 2,
       "priority": 3
     }
   ],
   "visited": [
+    "$4000:2",
     "$0185",
     "$0060",
     "$0100",
@@ -911,6 +944,6 @@
     "$0095",
     "$0040"
   ],
-  "commits_since_push": 1,
-  "total_explored": 12
+  "commits_since_push": 2,
+  "total_explored": 13
 }
