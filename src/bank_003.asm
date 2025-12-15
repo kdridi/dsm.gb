@@ -1992,7 +1992,7 @@ AnimHiddenSet:
 
 AnimFrameEnd:
     ld b, $07
-    ld de, $ff86
+    ld de, hAnimBuffer
 
 AnimCopyLoop:
     ld a, [hl+]
@@ -2027,7 +2027,7 @@ AnimCopyLoop:
 
 AnimProcessFrame:
     inc hl
-    ldh a, [$ff8c]
+    ldh a, [hAnimBaseAttr]
     ldh [hAnimAttr], a
     ld a, [hl]
     cp $ff
@@ -2036,7 +2036,7 @@ AnimProcessFrame:
     cp $fd
     jr nz, AnimCheckFlip
 
-    ldh a, [$ff8c]
+    ldh a, [hAnimBaseAttr]
     xor $10
     ldh [hAnimAttr], a
     jr AnimProcessFrame
@@ -2051,11 +2051,11 @@ AnimCheckFlip:
     jr z, AnimSkipXY
 
     ldh [hAnimFrameIndex], a
-    ldh a, [$ff87]
+    ldh a, [hAnimOffsetX]
     ld b, a
     ld a, [de]
     ld c, a
-    ldh a, [$ff8b]
+    ldh a, [hAnimFlipFlags]
     bit 6, a
     jr nz, AnimFlipX
 
@@ -2076,13 +2076,13 @@ AnimFlipX:
 
 AnimXDone:
     ldh [hAnimCalcY], a
-    ldh a, [$ff88]
+    ldh a, [hAnimOffsetY]
     ld b, a
     inc de
     ld a, [de]
     inc de
     ld c, a
-    ldh a, [$ff8b]
+    ldh a, [hAnimFlipFlags]
     bit 5, a
     jr nz, AnimFlipY
 
@@ -2126,10 +2126,10 @@ AnimRender:
     ld [hl+], a
     ldh a, [hAnimAttr]
     ld b, a
-    ldh a, [$ff8b]
+    ldh a, [hAnimFlipFlags]
     or b
     ld b, a
-    ldh a, [$ff8a]
+    ldh a, [hAnimFlags2]
     or b
     ld [hl+], a
     ld a, h

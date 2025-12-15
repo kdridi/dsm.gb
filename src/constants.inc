@@ -87,8 +87,16 @@ DEF hJoypadDelta    EQU $FF81   ; Changement joypad (XOR ancien/nouveau)
 
 ; --- Flags système ---
 DEF hVBlankFlag     EQU $FF85   ; Flag VBlank (0=attente, 1=VBlank reçu)
-DEF hAnimFrameIndex EQU $FF89   ; Index frame animation courante
 DEF hPauseFlag      EQU $FFB2   ; Flag pause (0=normal, 1=pause)
+
+; --- Buffer animation (7 octets copiés depuis données anim) ---
+DEF hAnimBuffer     EQU $FF86   ; Début buffer animation (7 bytes)
+DEF hAnimOffsetX    EQU $FF87   ; Offset X animation (signé)
+DEF hAnimOffsetY    EQU $FF88   ; Offset Y animation (signé)
+DEF hAnimFrameIndex EQU $FF89   ; Index frame animation courante
+DEF hAnimFlags2     EQU $FF8A   ; Flags attributs supplémentaires
+DEF hAnimFlipFlags  EQU $FF8B   ; Flags flip (bit 5=Y, bit 6=X)
+DEF hAnimBaseAttr   EQU $FF8C   ; Attributs de base sprite
 
 ; --- Paramètres de fonction ---
 DEF hParam1         EQU $FF8D   ; Paramètre de fonction 1
