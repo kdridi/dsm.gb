@@ -5947,6 +5947,14 @@ PaddingZone_002_580a:
     jp SpriteAnimationState_LoadPalette
 
 
+; =============================================================================
+; UpdateGameTimersAndAnimation - Met à jour les timers et animations de jeu
+; =============================================================================
+; QUOI : Appelle DecrementGameTimer puis UpdateSpriteAnimationFrame
+; ENTRÉE : Aucune
+; SORTIE : Timers et animations mis à jour
+; =============================================================================
+UpdateGameTimersAndAnimation:
     call DecrementGameTimer
     call UpdateSpriteAnimationFrame
     ret

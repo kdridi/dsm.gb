@@ -1135,7 +1135,7 @@ State11_LevelStart::
     ldh [hScoreNeedsUpdate], a
     ld a, $5b
     ldh [hScrollColumn], a
-    call $2439
+    call InitAudioAndAnimContext
     call InitLevelData
     call UpdateCoinDisplay
     call DisplayLivesCount
@@ -1305,7 +1305,7 @@ StateHandler_00::
     ld a, $02
     ldh [hCurrentBank], a
     ld [rROMB0], a
-    call $5844
+    call UpdateGameTimersAndAnimation
 
     ; Restaurer bank
     ldh a, [hSavedBank]
@@ -1381,7 +1381,7 @@ StateHandler_02::
     di
     ld a, $00
     ldh [rLCDC], a
-    call $1ecb
+    call ClearOamAndSpriteBuffers
     call ClearTilemapBuffer
     ld hl, hTilemapScrollX
     ldh a, [hVBlankMode]
@@ -2385,7 +2385,7 @@ StateHandler_03::
     ld [wGameVarAC], a
     ldh [hTimerAux], a
     ldh [hRenderCounter], a
-    call $1ecb
+    call ClearOamAndSpriteBuffers
     ret
 
 
@@ -2553,7 +2553,7 @@ AnimationCheckCompleteExit:
     ld a, $02
     ldh [hCurrentBank], a
     ld [rROMB0], a
-    call $5844
+    call UpdateGameTimersAndAnimation
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [rROMB0], a
@@ -2803,7 +2803,7 @@ GameplayInitStart:
     ldh [hVBlankMode], a
     ld a, GAME_STATE_PREPARE_RENDER
     ldh [hGameState], a
-    call $2439
+    call InitAudioAndAnimContext
     ret
 
 ; === Tables de pointeurs graphiques ($0DE4-$0DEF) ===
@@ -4528,7 +4528,7 @@ State0A_LoadSubLevel::
     xor a
     ldh [rLCDC], a
     ldh [hTilemapScrollY], a
-    call $1ecb
+    call ClearOamAndSpriteBuffers
     call ClearTilemapBuffer
     ldh a, [hRenderCounter]
     ldh [hTilemapScrollX], a
@@ -4632,7 +4632,7 @@ State0B_PipeEnterDown::
     ld a, $5b
     ldh [hScrollColumn], a
     call FindAudioTableEntry
-    call $1ecb
+    call ClearOamAndSpriteBuffers
     ld a, LCDC_GAME_STANDARD
     ldh [rLCDC], a               ; LCD on
     ld a, GAME_STATE_PIPE_EXIT
@@ -4817,7 +4817,7 @@ CheckJoypadUp_GameplayLoop:
     ld [wStateRender], a
 
 SkipIfInvuln_OnTile:
-    call $1ecb
+    call ClearOamAndSpriteBuffers
     jp PlayerXPositionReset
 
 
@@ -5503,7 +5503,7 @@ HandlePlayerSlideCollision:
     and $f8
     add $06
     ld [hl], a
-    call $1ecb
+    call ClearOamAndSpriteBuffers
     ld a, $ff
     ret
 
@@ -5546,7 +5546,7 @@ TriggerBlockCollisionSound_ApplyMask:
     ldh [hTimer1], a
 
 TriggerBlockCollisionSound_AudioCheck:
-    call $1ecb
+    call ClearOamAndSpriteBuffers
     xor a
     ld [wPlayerY], a
     ld [wSpecialState], a
@@ -6196,7 +6196,7 @@ OffsetSpritesY_Loop:
 GetOscillatingOffset:
     push de
     push hl
-    ld hl, $1ec5
+    ld hl, OscillationTable
     ld a, [$c20e]
     ld e, a
     ld d, $00
@@ -6212,9 +6212,24 @@ GetOscillatingOffset:
     ret
 
 
-    nop
-    ld bc, $0101
-    ld bc, $e502
+; =============================================================================
+; OscillationTable - Table de valeurs pour l'effet d'oscillation
+; =============================================================================
+; Utilisée par GetOscillatingOffset pour créer un mouvement sinusoïdal
+; 6 octets : [0, 1, 1, 1, 1, 2]
+OscillationTable:
+    db $00, $01, $01, $01, $01, $02
+
+; =============================================================================
+; ClearOamAndSpriteBuffers - Réinitialise les buffers OAM et sprites
+; =============================================================================
+; QUOI : Efface les buffers OAM et initialise les propriétés des sprites
+; ENTRÉE : Aucune
+; SORTIE : Buffers OAM effacés, propriétés sprites initialisées
+; MODIFIE : A, B, DE, HL
+; =============================================================================
+ClearOamAndSpriteBuffers:
+    push hl
     push bc
     push de
     ld hl, wOamVar1C
@@ -7301,7 +7316,7 @@ State0D_GameplayFull::
     ld a, $02
     ldh [hCurrentBank], a
     ld [rROMB0], a
-    call $5844                   ; Bank 2: special update
+    call UpdateGameTimersAndAnimation                   ; Bank 2: special update
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [rROMB0], a
@@ -7388,19 +7403,29 @@ CopyAnimTileData:
     ret
 
 
-    nop
-    nop
-    ld bc, $0101
-    nop
-    nop
-    ld bc, $0001
-    ld bc, $3e00
-    inc c
+; =============================================================================
+; AnimFlagTable - Flags d'animation par contexte de rendu
+; =============================================================================
+; 12 octets : Un flag par contexte de rendu (0-11)
+; Utilisé par InitAudioAndAnimContext pour activer/désactiver les animations
+AnimFlagTable:
+    db $00, $00, $01, $01, $01, $00, $00, $01, $01, $00, $01, $00
+
+; =============================================================================
+; InitAudioAndAnimContext - Initialise le contexte audio et animation
+; =============================================================================
+; QUOI : Configure wPlayerVarAB, cherche l'entrée audio, et définit wAnimFlag
+; ENTRÉE : hRenderContext = contexte de rendu courant
+; SORTIE : wPlayerVarAB = $0c, wAudioCondition = 0, wAnimFlag = flag selon contexte
+; MODIFIE : A, DE, HL
+; =============================================================================
+InitAudioAndAnimContext:
+    ld a, $0c
     ld [wPlayerVarAB], a
     call FindAudioTableEntry
     xor a
     ld [wAudioCondition], a
-    ld hl, $242d
+    ld hl, AnimFlagTable
     ldh a, [hRenderContext]
     ld d, $00
     ld e, a
