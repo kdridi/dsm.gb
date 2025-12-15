@@ -6487,7 +6487,7 @@ jr_002_5ac9:
     cp $80
     jr z, jr_002_5af1
 
-jr_002_5ae5:
+UpdateSpritePositionLoop:
     ld a, $18
     add [hl]
     ld [hl+], a
@@ -6495,7 +6495,7 @@ jr_002_5ae5:
     inc l
     inc l
     dec b
-    jr nz, jr_002_5ae5
+    jr nz, UpdateSpritePositionLoop
 
     jr jr_002_5b07
 
@@ -6503,24 +6503,24 @@ jr_002_5af1:
     ld b, $02
     ld a, $38
 
-jr_002_5af5:
+WriteAnimationValueLoop:
     ld [hl+], a
     inc l
     inc l
     inc l
     dec b
-    jr nz, jr_002_5af5
+    jr nz, WriteAnimationValueLoop
 
     ld b, $02
     ld a, $40
 
-jr_002_5b00:
+ResetSpriteAnimationLoop:
     ld [hl+], a
     inc l
     inc l
     inc l
     dec b
-    jr nz, jr_002_5b00
+    jr nz, ResetSpriteAnimationLoop
 
 jr_002_5b07:
     ld hl, $98ea
@@ -6709,10 +6709,10 @@ SpriteAnimationState_LoadTileIndex:
 
     ld c, a
 
-jr_002_5bfa:
+SkipAnimationFrames_Loop:
     inc de
     dec c
-    jr nz, jr_002_5bfa
+    jr nz, SkipAnimationFrames_Loop
 
 jr_002_5bfe:
     inc [hl]
@@ -6752,18 +6752,18 @@ jr_002_5c1a:
     ld hl, $c030
     ld a, [hl]
     cp $50
-    jr z, jr_002_5c3a
+    jr z, OnAnimationThresholdReached
 
     cp $68
-    jr z, jr_002_5c3a
+    jr z, OnAnimationThresholdReached
 
     cp $80
-    jr z, jr_002_5c3a
+    jr z, OnAnimationThresholdReached
 
     ret
 
 
-jr_002_5c3a:
+OnAnimationThresholdReached:
     ld a, $08
     ld [$da16], a
     ld a, $17
@@ -6908,7 +6908,7 @@ SpriteAnimationState_LoadPalette:
 
     ld c, $02
 
-jr_002_5ce7:
+CheckAnimationTilesLoop:
     ld hl, $98d1
     ld de, $0060
     ld a, [$c030]
@@ -6952,7 +6952,7 @@ jr_002_5d0d:
 
 jr_002_5d17:
     dec c
-    jr nz, jr_002_5ce7
+    jr nz, CheckAnimationTilesLoop
 
     ld hl, wSpriteVar31
     ld a, [hl-]

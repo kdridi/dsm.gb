@@ -2256,7 +2256,7 @@ jr_003_4966:
     inc e
     ld a, [de]
     cp $0f
-    jr nc, jr_003_49b5
+    jr nc, StateValidExit
 
     inc e
     dec a
@@ -2264,7 +2264,7 @@ jr_003_4966:
     dec e
     ld a, $0f
     ld [de], a
-    jr jr_003_49b5
+    jr StateValidExit
 
 jr_003_4975:
     push af
@@ -2316,7 +2316,7 @@ jr_003_49ac:
     cp $01
     jr z, jr_003_4966
 
-jr_003_49b5:
+StateValidExit:
     bit 7, b
     jp nz, Jump_003_4a77
 
@@ -2330,15 +2330,15 @@ Jump_003_49ba:
 jr_003_49bf:
     ld a, [de]
     and a
-    jr nz, jr_003_49b5
+    jr nz, StateValidExit
 
     ld hl, $c20a
     ld a, [hl]
     and a
-    jr z, jr_003_49b5
+    jr z, StateValidExit
 
     bit 0, b
-    jr z, jr_003_49b5
+    jr z, StateValidExit
 
     ld [hl], $00
     ld hl, $c203
@@ -2368,7 +2368,7 @@ jr_003_49f2:
     ld a, $01
     ld [de], a
     pop hl
-    jr jr_003_49b5
+    jr StateValidExit
 
 jr_003_49fd:
     ld hl, $c20c
@@ -2557,7 +2557,7 @@ jr_003_4ade:
     ld de, $0010
     ld hl, $c210
 
-jr_003_4af2:
+ProcessRenderObjectLoop:
     push hl
     ld a, [hl]
     cp $80
@@ -2600,7 +2600,7 @@ jr_003_4b1b:
     pop hl
     add hl, de
     dec b
-    jr nz, jr_003_4af2
+    jr nz, ProcessRenderObjectLoop
 
     ldh a, [hShadowSCX]
     ldh [hRenderAttr], a
@@ -10062,14 +10062,14 @@ Jump_003_6d7d:
     dec l
     call AdvanceAudioPointerByWord
 
-jr_003_6d84:
+DecodeAudioOpcodeEntry:
     ld a, l
     add $04
     ld e, a
     ld d, h
     call CopyAudioDataWord
     cp $00
-    jr z, jr_003_6daf
+    jr z, AudioChannelComplete
 
     cp $ff
     jr z, jr_003_6d98
@@ -10092,9 +10092,9 @@ jr_003_6d98:
     ld [hl+], a
     ld a, d
     ld [hl-], a
-    jr jr_003_6d84
+    jr DecodeAudioOpcodeEntry
 
-jr_003_6daf:
+AudioChannelComplete:
     ld hl, $dfe9
     ld [hl], $00
     call ResetAudioChannelEnvelopes
