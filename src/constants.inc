@@ -245,6 +245,7 @@ DEF wSpriteVar32    EQU $C032   ; Variable sprite +02
 DEF wSpriteVar36    EQU $C036   ; Variable sprite +06
 DEF wJumpTarget43   EQU $C043   ; Cible de saut en WRAM
 DEF wSpriteVar50    EQU $C050   ; Variable sprite +20
+DEF SPRITE_BUFFER_END_LOW EQU $a0 ; Octet bas fin buffer sprite ($C0A0)
 DEF wTilemapBuf70   EQU $C070   ; Buffer tilemap +00
 DEF wTilemapBuf71   EQU $C071   ; Buffer tilemap +01
 DEF wTilemapBuf75   EQU $C075   ; Buffer tilemap +05
@@ -350,6 +351,7 @@ DEF wAudioState2    EQU $D013   ; État audio 2
 DEF wAnimFlag       EQU $D014   ; Flag animation active
 DEF wObjectBuffer   EQU $D100   ; Buffer objets (10 × 16 bytes)
 DEF OBJECT_BUFFER_COUNT EQU 10  ; Nombre de slots dans wObjectBuffer
+DEF OBJECT_BUFFER_END_LOW EQU $a0 ; Octet bas fin buffer ($D1A0 = $D100 + 10×16)
 DEF wObjBufferVar03 EQU $D103   ; Variable buffer objets +03
 DEF wObjBufferVar3D EQU $D13D   ; Variable buffer objets +3D
 DEF wRoutineWRAM    EQU $D14C   ; Routine copiée en WRAM
@@ -1340,3 +1342,8 @@ DEF TILEMAP_DEFAULT_COUNT      EQU $10   ; Nombre tiles par défaut (16)
 ; === Scroll position ===
 
 DEF SCROLL_THRESHOLD_OSCIL     EQU $50   ; Seuil scroll pour oscillation (80)
+
+; === Seuils tiles collision ===
+; Valeurs utilisées pour classifier les tiles lors des vérifications de collision
+
+DEF TILE_SPECIAL_THRESHOLD     EQU $f0   ; Seuil tiles spéciaux (>= $F0 = vide/traversable)

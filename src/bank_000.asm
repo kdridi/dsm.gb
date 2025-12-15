@@ -4949,7 +4949,7 @@ CollisionHandler_Platform_Entry:
     and a
     jp z, PlayerWaterCollisionEntry
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile $F0 = special/vide
     jr z, HandleTileValueF0
 
 TileC0Handler:
@@ -5027,7 +5027,7 @@ ProcessSoundParams:
     inc l
     ld [hl], $00
     ldh a, [hTemp0]
-    cp $f0
+    cp AUDIO_CMD_F0             ; Commande audio spéciale
     ret z
 
     cp SFX_BLOCK_HIT
@@ -6054,7 +6054,7 @@ CheckOscillationCollision_Skip:
     and SCROLL_ALIGN_MASK        ; Aligner scroll sur 4 pixels
     ldh [hShadowSCX], a
     ld a, [hl]
-    cp $a0
+    cp PLAYER_X_RIGHT            ; Position >= 160px (zone droite)
     jr c, CheckOscillationCollision_Done
 
     jp TriggerBlockCollisionSound_TimerCheck
@@ -7430,7 +7430,7 @@ ClearObjectBuffer_Loop:
     ld [hl], $ff
     add hl, de
     ld a, l
-    cp $a0
+    cp OBJECT_BUFFER_END_LOW     ; Fin buffer objets ($D1A0)
     jp nz, ClearObjectBuffer_Loop
 
     ret
@@ -7649,7 +7649,7 @@ AudioSlotLoopEnd:
 
 FillAudioBufferLoop:
     ld a, l
-    cp $a0
+    cp SPRITE_BUFFER_END_LOW     ; Fin buffer sprite ($C0A0)
     jp nc, FillAudioBuffer_Exit
 
     ld a, AUDIO_BUFFER_FILL_VALUE
@@ -7800,9 +7800,9 @@ AudioObjectLoopIteration:
 
 NextSoundObject:
     ld a, l
-    add $10
+    add OBJECT_STRUCT_SIZE
     ld l, a
-    cp $a0
+    cp OBJECT_BUFFER_END_LOW     ; Fin buffer objets
     jp nz, AudioObjectLoopIteration
 
     ret
@@ -7883,7 +7883,7 @@ ProcessAudioQueue_Found:
     ldh [hSoundCh1], a
     ld a, [wAudioQueueType]
     and NIBBLE_HIGH_MASK         ; Type audio (nibble haut)
-    cp $f0
+    cp AUDIO_CMD_F0              ; Type $F0 = traitement spécial
     jr z, ProcessAudioQueue_Type_F0
 
     ld a, [wAudioQueueType]
@@ -8753,9 +8753,9 @@ ScanObjectBuffer:
 
 NextObjectEntry:
     ld a, l
-    add $10
+    add OBJECT_STRUCT_SIZE
     ld l, a
-    cp $a0
+    cp OBJECT_BUFFER_END_LOW     ; Fin buffer objets
     jr c, ScanObjectBuffer
 
     ld a, SFX_OBJECT_COMPLETE
@@ -8794,7 +8794,7 @@ LoadSpriteCoordinates:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -8817,7 +8817,7 @@ CheckObjectTileBase:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -8844,7 +8844,7 @@ CheckObjectTileRight:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -8878,7 +8878,7 @@ CheckObjectTileBottomLeft:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -8900,7 +8900,7 @@ CheckObjectTileBottom:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -8928,7 +8928,7 @@ CheckObjectTileBottomRight:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -8968,7 +8968,7 @@ CheckObjectTileTop:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -8992,7 +8992,7 @@ CheckObjectTileTop:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -9022,7 +9022,7 @@ CheckObjectTileTop:
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
     ret c
 
-    cp $f0
+    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
     ccf
     ret
 
@@ -9047,7 +9047,7 @@ OffsetSpritesX.apply_offset:
     ld [hl], a
     add hl, de
     ld a, l
-    cp $a0
+    cp OBJECT_BUFFER_END_LOW     ; Fin buffer objets
     jr c, OffsetSpritesX.apply_offset
 
     pop de
