@@ -705,6 +705,14 @@
       "priority": 3
     },
     {
+      "address": "$0F1D",
+      "node_type": "code",
+      "description": "CutsceneAnimationContinuePath - Continue animation cutscene",
+      "source": "$0F2A",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0F21",
       "node_type": "code",
       "description": "CutsceneEndPath - Termine cutscene et passe \u00e0 l'\u00e9tat suivant",
@@ -1719,14 +1727,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0F1D",
-      "node_type": "code",
-      "description": "CutsceneAnimationContinuePath - Continue animation cutscene",
-      "source": "$0F2A",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1806,6 +1806,7 @@
     "$09e8",
     "$05D0",
     "$049C",
+    "$0F1D",
     "$0050",
     "$05C7",
     "$046D",
@@ -1821,6 +1822,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 4,
-  "total_explored": 90
+  "commits_since_push": 0,
+  "total_explored": 91
 }
