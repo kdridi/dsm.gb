@@ -6049,7 +6049,7 @@ CheckOscillationCollision_Skip:
     jr z, CheckOscillationCollision_Done
 
     ldh a, [hShadowSCX]
-    and $fc
+    and SCROLL_ALIGN_MASK        ; Aligner scroll sur 4 pixels
     ldh [hShadowSCX], a
     ld a, [hl]
     cp $a0
@@ -8345,7 +8345,7 @@ AlignCameraTo4PixelBoundary:
     jr nz, ApplyHorizontalScrollOffset
 
     ldh a, [hShadowSCX]
-    and $fc
+    and SCROLL_ALIGN_MASK        ; Aligner scroll sur 4 pixels
     ldh [hShadowSCX], a
     jr RestoreCollisionFlagAndExit
 

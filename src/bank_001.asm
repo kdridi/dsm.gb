@@ -3747,7 +3747,7 @@ CheckScrollingConditionAndReset:
     jr nz, UpdateScrollXAndDecreaseCollisionCounter
 
     ldh a, [hShadowSCX]
-    and $fc
+    and SCROLL_ALIGN_MASK        ; Aligner scroll sur 4 pixels
     ldh [hShadowSCX], a
     ret
 

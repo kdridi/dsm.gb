@@ -867,6 +867,7 @@ DEF VRAM_TILEMAP_OFFSET        EQU $0120 ; Offset pour calcul scroll (288 bytes 
 ; === Scroll initial ===
 
 DEF TILEMAP_SCROLL_X_INIT      EQU $03   ; Valeur initiale hTilemapScrollX
+DEF SCROLL_ALIGN_MASK          EQU $fc   ; Masque alignement 4 pixels (efface bits 0-1)
 
 ; === Collision - Offsets et seuils ===
 
