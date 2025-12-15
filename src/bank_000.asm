@@ -7900,7 +7900,7 @@ ProcessAudioQueue_Found:
 ProcessAudioQueue_Type_Other:
     ld a, [wAudioQueueType]
     ldh [hSoundFlag], a
-    ld a, $01
+    ld a, FLAG_TRUE
     ldh [hSoundVar1], a
     pop hl
     jp ProcessSoundAnimationLoop
@@ -8235,7 +8235,7 @@ SoundParamProcessing:
     ld a, [wPlayerUnk05]
     ld c, a
     push bc
-    ld a, $20
+    ld a, PLAYER_DIR_CHECK_LEFT  ; Valeur direction gauche pour collision
     ld [wPlayerUnk05], a
     call CheckPlayerSideCollision
     pop bc
@@ -12301,27 +12301,27 @@ ClearMemoryLoop:
     ld a, LEVEL_BCD2_INIT
     ld [hl+], a
     call DisplayLevelBCDScore
-    ld a, $20
+    ld a, LEVEL_PARAM_INIT_20
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
-    ld a, $f6
+    ld a, LEVEL_PARAM_INIT_F6
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
-    ld a, $30
+    ld a, LEVEL_PARAM_INIT_30
     ld [hl+], a
     xor a
-    ld b, $09
+    ld b, LEVEL_PARAM_LOOP_9
 
 InitLoop_9Bytes:
     ld [hl+], a
     dec b
     jr nz, InitLoop_9Bytes
 
-    ld a, $02
+    ld a, LEVEL_PARAM_INIT_02
     ld [hl+], a
     dec a
     ld [hl+], a
@@ -12330,16 +12330,16 @@ InitLoop_9Bytes:
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
-    ld a, $40
+    ld a, LEVEL_PARAM_INIT_40
     ld [hl+], a
     xor a
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
-    ld a, $40
+    ld a, LEVEL_PARAM_INIT_40
     ld [hl+], a
     xor a
-    ld b, $08
+    ld b, LEVEL_PARAM_LOOP_8
 
 InitLoop_8Bytes:
     ld [hl+], a
@@ -12411,7 +12411,7 @@ DisplayLevelBCDScore:
 ; ===========================================================================
 State12_EndLevelSetup::
     ld hl, wStateRender
-    ld a, $09
+    ld a, STATE_RENDER_END_SETUP
     ld [hl], a
     xor a
     ldh [rLCDC], a

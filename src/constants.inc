@@ -1445,3 +1445,18 @@ DEF PLAYER_ACCEL_TIMER_RIGHT   EQU $20   ; Timer accélération mouvement droite
 ; === Audio slots ===
 
 DEF AUDIO_SLOT_LOOP_COUNT      EQU $0a   ; Nombre de slots audio à traiter (10)
+
+; === Valeurs d'initialisation paramètres niveau (InitLevelData) ===
+; Ces constantes définissent les valeurs initiales pour wLevelData ($DA00-$DA29)
+
+DEF LEVEL_PARAM_INIT_20        EQU $20   ; Valeur init paramètres niveau (32)
+DEF LEVEL_PARAM_INIT_F6        EQU $f6   ; Valeur init paramètres niveau (-10)
+DEF LEVEL_PARAM_INIT_30        EQU $30   ; Valeur init paramètres niveau (48)
+DEF LEVEL_PARAM_INIT_02        EQU $02   ; Difficulté initiale niveau (2)
+DEF LEVEL_PARAM_INIT_40        EQU $40   ; Timer/compteur niveau initial (64)
+DEF LEVEL_PARAM_LOOP_9         EQU $09   ; Boucle init 9 octets
+DEF LEVEL_PARAM_LOOP_8         EQU $08   ; Boucle init 8 octets
+
+; === Valeur wStateRender (State12_EndLevelSetup) ===
+
+DEF STATE_RENDER_END_SETUP     EQU $09   ; Mode rendu fin de niveau setup
