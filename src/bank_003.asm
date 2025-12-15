@@ -6745,7 +6745,7 @@ jr_003_55f1:
     ld l, [hl]
     cp $81
     db $f4
-    call nz, Call_003_6efd
+    call nz, CalculateAudioNoteFrequency
     cp $fe
     ld b, c
     ld e, d
@@ -8832,7 +8832,7 @@ jr_003_6787:
     call CheckAudioChannel4
     call InitializeWaveAudio
     call ProcessAudioRequest
-    call Call_003_6db8
+    call ProcessAudioQueue
     call UpdateAudioEnvelopeAndPan
 
 jr_003_6799:
@@ -10013,7 +10013,7 @@ jr_003_6d4a:
     pop hl
     jr jr_003_6d78
 
-Jump_003_6d4d:
+CheckAudioControl3Mode:
     ldh a, [hAudioControl]
     cp $03
     jr nz, jr_003_6d63
@@ -10046,13 +10046,13 @@ Jump_003_6d6c:
     jr nz, jr_003_6d4a
 
     pop hl
-    call Call_003_6ed8
+    call HandleAudioChannelStatus
 
 Jump_003_6d78:
 jr_003_6d78:
     dec l
     dec l
-    jp Jump_003_6eaa
+    jp AdvanceAudioState
 
 
 Jump_003_6d7d:
@@ -10075,7 +10075,7 @@ jr_003_6d84:
     jr z, jr_003_6d98
 
     inc l
-    jp Jump_003_6dcf
+    jp DecodeNextAudioOpcode
 
 
 jr_003_6d98:
@@ -10101,7 +10101,7 @@ jr_003_6daf:
     ret
 
 
-Call_003_6db8:
+ProcessAudioQueue:
     ld hl, $dfe9
     ld a, [hl]
     and a
@@ -10111,16 +10111,16 @@ Call_003_6db8:
     ldh [hAudioControl], a
     ld hl, $df10
 
-Jump_003_6dc5:
+AdvanceAudioChannelLoop:
     inc l
     ld a, [hl+]
     and a
     jp z, Jump_003_6d78
 
     dec [hl]
-    jp nz, Jump_003_6d4d
+    jp nz, CheckAudioControl3Mode
 
-Jump_003_6dcf:
+DecodeNextAudioOpcode:
     inc l
     inc l
 
@@ -10162,7 +10162,7 @@ jr_003_6dfe:
     call IncrementAudioWord
     ldh a, [hAudioControl]
     cp $04
-    jp z, Jump_003_6e2e
+    jp z, CopyAudioConfigToRAM
 
     push hl
     ld a, l
@@ -10185,7 +10185,7 @@ jr_003_6dfe:
     ld a, [hl]
     ld [de], a
     pop hl
-    jp Jump_003_6e45
+    jp RouteAudioControlSetup
 
 
 jr_003_6e29:
@@ -10193,7 +10193,7 @@ jr_003_6e29:
     pop hl
     jr jr_003_6e45
 
-Jump_003_6e2e:
+CopyAudioConfigToRAM:
     push hl
     ld de, $df46
     ld hl, $7002
@@ -10211,7 +10211,7 @@ jr_003_6e36:
     ld hl, $df44
     jr jr_003_6e72
 
-Jump_003_6e45:
+RouteAudioControlSetup:
 jr_003_6e45:
     push hl
     ldh a, [hAudioControl]
@@ -10311,7 +10311,7 @@ jr_003_6ea5:
     ld [hl-], a
     dec l
 
-Jump_003_6eaa:
+AdvanceAudioState:
     ld de, hAudioControl
     ld a, [de]
     cp $04
@@ -10321,7 +10321,7 @@ Jump_003_6eaa:
     ld [de], a
     ld de, $0010
     add hl, de
-    jp Jump_003_6dc5
+    jp AdvanceAudioChannelLoop
 
 
 jr_003_6ebb:
@@ -10341,7 +10341,7 @@ jr_003_6ec8:
     inc l
     jr jr_003_6e7b
 
-Call_003_6ecf:
+GetAudioParameterFromTable:
     ld a, b
     srl a
     ld l, a
@@ -10351,7 +10351,7 @@ Call_003_6ecf:
     ret
 
 
-Call_003_6ed8:
+HandleAudioChannelStatus:
     push hl
     ld a, l
     add $06
@@ -10384,7 +10384,7 @@ jr_003_6efa:
     ld a, [hl+]
     ld e, a
 
-Call_003_6efd:
+CalculateAudioNoteFrequency:
     ld a, [hl]
     ld d, a
     push de
@@ -10405,7 +10405,7 @@ jr_003_6f0f:
 
 jr_003_6f14:
     ld de, $6f39
-    call Call_003_6ecf
+    call GetAudioParameterFromTable
     bit 0, b
     jr nz, jr_003_6f20
 
