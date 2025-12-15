@@ -135,8 +135,13 @@ RST_38::
 ;; ==========================================================================
 
 ;; --- INT $40 : VBlank Interrupt ---
-;; Déclenché quand LY atteint 144 (fin de l'affichage visible).
-;; C'est la seule période où on peut écrire en VRAM/OAM en toute sécurité.
+; VBlankInterrupt
+; ---------------
+; Description: Vecteur d'interruption VBlank. Déclenché quand LY atteint 144.
+;              Redirige vers VBlankHandler pour le traitement principal.
+; In:  Aucun (interruption matérielle)
+; Out: Aucun (jump vers handler)
+; Modifie: PC uniquement (jump)
 VBlankInterrupt::
     jp VBlankHandler
 

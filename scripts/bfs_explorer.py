@@ -297,13 +297,25 @@ def run_claude_streaming(prompt: str, timeout: int = CLAUDE_TIMEOUT) -> tuple[bo
                                     print(f"\033[36m│\033[0m {l[:100]}")
                             sys.stdout.flush()
 
-                # Utilisation d'outil
+                # Utilisation d'outil - afficher avec l'input
                 elif msg_type == "tool_use":
                     tool_name = msg.get("tool", "")
-                    if tool_name != current_tool:
-                        current_tool = tool_name
-                        print(f"\033[35m🔧 {tool_name}\033[0m")
-                        sys.stdout.flush()
+                    tool_input = msg.get("input", {})
+                    # Résumé de l'input
+                    if tool_name == "Read":
+                        info = tool_input.get("file_path", "")[-40:]
+                    elif tool_name == "Grep":
+                        info = tool_input.get("pattern", "")[:30]
+                    elif tool_name == "Glob":
+                        info = tool_input.get("pattern", "")[:30]
+                    elif tool_name == "Edit":
+                        info = tool_input.get("file_path", "")[-40:]
+                    elif tool_name == "Bash":
+                        info = tool_input.get("command", "")[:40]
+                    else:
+                        info = ""
+                    print(f"\033[35m🔧 {tool_name}: {info}\033[0m")
+                    sys.stdout.flush()
 
                 # Résultat d'outil
                 elif msg_type == "tool_result":
@@ -316,6 +328,11 @@ def run_claude_streaming(prompt: str, timeout: int = CLAUDE_TIMEOUT) -> tuple[bo
                     result_text = msg.get("result", "")
                     if result_text:
                         full_text.append(result_text)
+
+                # Debug: afficher les types inconnus
+                elif msg_type and msg_type not in ["system", "user"]:
+                    print(f"\033[90m[{msg_type}]\033[0m")
+                    sys.stdout.flush()
 
             except json.JSONDecodeError:
                 print(f"│ {line[:100]}")
