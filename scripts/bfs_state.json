@@ -249,6 +249,22 @@
       "priority": 3
     },
     {
+      "address": "$0519",
+      "node_type": "code",
+      "description": "InitAttractModeDisplay - Fall-through qui initialise mode attract si timer=0",
+      "source": "$04CE",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0530",
+      "node_type": "code",
+      "description": "InitLevelStartWithAttractMode - D\u00e9marre niveau avec mode attract activ\u00e9",
+      "source": "$04CE",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$053D",
       "node_type": "code",
       "description": "InitLevelStartFull - Initialise compl\u00e8tement le d\u00e9marrage du niveau",
@@ -1119,22 +1135,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0519",
-      "node_type": "code",
-      "description": "InitAttractModeDisplay - Fall-through qui initialise mode attract si timer=0",
-      "source": "$04CE",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0530",
-      "node_type": "code",
-      "description": "InitLevelStartWithAttractMode - D\u00e9marre niveau avec mode attract activ\u00e9",
-      "source": "$04CE",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1164,12 +1164,13 @@
     "$0185",
     "$0030",
     "$0100",
+    "$0519",
     "$0028",
     "$00C5",
     "$0048",
     "$00C3",
     "$0394"
   ],
-  "commits_since_push": 0,
-  "total_explored": 31
+  "commits_since_push": 1,
+  "total_explored": 32
 }

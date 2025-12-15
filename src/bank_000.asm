@@ -1140,6 +1140,21 @@ AnimRenderContextReady:
     inc l
     ld [hl], TILE_LEVEL_SELECT
 
+; =============================================================================
+; InitAttractModeDisplay
+; =============================================================================
+; Description: Point d'entrée fall-through qui initialise le mode attract si le
+;              timer attract est à 0. Charge les paramètres depuis la table ROM
+;              indexée par bank et lance l'état LEVEL_START avec mode attract.
+; In:  wAttractModeTimer = timer attract mode (0 = lancer attract)
+;      wCurrentROMBank = bank ROM courante (index dans la table)
+; Out: Si timer = 0:
+;        hAnimTileIndex, hRenderContext = chargés depuis ROM_ATTRACT_INDEX_TABLE
+;        wAttractModeTimer = ATTRACT_MODE_LONG ($50)
+;        hGameState = GAME_STATE_LEVEL_START ($11)
+;        hLevelIndex = 0
+; Modifie: a, de, hl
+; =============================================================================
 InitAttractModeDisplay:
     ld a, [wAttractModeTimer]
 
