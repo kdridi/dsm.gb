@@ -2210,15 +2210,21 @@ UpdateAnimatedObjectState_CoinProceed:
     ld [wStateBuffer], a
     jr ObjectInteraction_MarkSpriteHandled
 
+; StartGameplayPhase
+; ------------------
+; Description: Initialise la phase de gameplay après avoir pris des dégâts
+; In:  Aucun
+; Out: Aucun
+; Modifie: a
 StartGameplayPhase:
     ld a, TIMER_AUX_DAMAGE_MAX
-    ldh [hTimerAux], a
+    ldh [hTimerAux], a           ; Réinitialise timer invulnérabilité
     xor a
-    ldh [hSubState], a
+    ldh [hSubState], a           ; Reset sous-état
     ld a, TIMER_GAMEPLAY_DELAY
-    ldh [hTimer1], a
+    ldh [hTimer1], a             ; Configure délai gameplay (80 frames)
     ld a, GAME_STATE_POST_LEVEL
-    ld [wStateBuffer], a
+    ld [wStateBuffer], a         ; Prépare transition post-niveau
     ret
 
 
