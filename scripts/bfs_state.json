@@ -889,6 +889,14 @@
       "priority": 3
     },
     {
+      "address": "$2114",
+      "node_type": "data",
+      "description": "ROM_LEVEL_INIT_DATA - Table des donn\u00e9es d'initialisation du niveau (81 octets)",
+      "source": "$07F0",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2164",
       "node_type": "data",
       "description": "ROM_OBJECT_INIT_DATA - Table init objets (vitesses/priorit\u00e9s)",
@@ -901,6 +909,14 @@
       "node_type": "code",
       "description": "UpdateScroll - G\u00e8re d\u00e9filement \u00e9cran",
       "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$21A8",
+      "node_type": "code",
+      "description": "InitScrollBuffer - Initialise le buffer de scroll pour une colonne",
+      "source": "$07F0",
       "bank": 0,
       "priority": 3
     },
@@ -1423,22 +1439,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2114",
-      "node_type": "data",
-      "description": "ROM_LEVEL_INIT_DATA - Table des donn\u00e9es d'initialisation du niveau (81 octets)",
-      "source": "$07F0",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$21A8",
-      "node_type": "code",
-      "description": "InitScrollBuffer - Initialise le buffer de scroll pour une colonne",
-      "source": "$07F0",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1486,12 +1486,13 @@
     "$0028",
     "$00C5",
     "$07C3",
+    "$07b7",
     "$07F0",
     "$0048",
     "$00C3",
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 3,
-  "total_explored": 49
+  "commits_since_push": 4,
+  "total_explored": 50
 }

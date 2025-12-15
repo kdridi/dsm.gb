@@ -861,8 +861,7 @@ DEF LEVEL_DATA_INIT         EQU $28 ; Valeur initiale wLevelData (timer niveau)
 DEF LEVEL_BCD2_INIT         EQU $04 ; Valeur initiale wLevelBCD2
 
 ; === Tables ROM (adresses lookup) ===
-
-DEF ROM_RENDER_TABLE        EQU $07b7 ; Table contexte rendu par index
+; (Utiliser directement les labels des tables au lieu de constantes EQU)
 
 ; === Directions joueur (wPlayerDir) ===
 ; Bits bas utilisés pour le mode gameplay

@@ -1742,7 +1742,7 @@ RenderPlayerUpdate:
 
     ; Mode normal: chercher l'état de rendu dans la table
     ldh a, [hRenderContext]
-    ld hl, ROM_RENDER_TABLE
+    ld hl, RenderContextTable
     ld e, a
     ld d, $00
     add hl, de
@@ -1762,9 +1762,9 @@ SetStateRenderEnd:
 ;; Description: Table indexée par hRenderContext pour déterminer l'état de
 ;;              rendu du joueur (wStateRender). Chaque octet correspond à un
 ;;              contexte de rendu différent (marche, attaque, saut, etc.)
-;; In:  Utilisé avec hRenderContext comme index
+;; In:  Utilisé avec hRenderContext comme index (0-11, soit 12 entrées)
 ;; Out: Valeur d'état de rendu à stocker dans wStateRender
-;; Note: Référencée par ROM_RENDER_TABLE ($07B7) dans constants.inc
+;; Taille: 12 octets (index 0 à RENDER_CONTEXT_MAX-1)
 ;; ==========================================================================
 RenderContextTable:
     db $07, $07, $03, $08, $08, $05, $07, $03, $03, $06, $06, $05
