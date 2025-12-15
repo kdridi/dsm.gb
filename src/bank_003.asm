@@ -2288,7 +2288,7 @@ jr_003_4988:
 
     ldh a, [hGameState]
     cp $0d
-    jp z, Jump_003_4a7f
+    jp z, HandleJoypadInputDelay
 
     ld de, $c207
     ldh a, [hJoypadDelta]
@@ -2318,9 +2318,9 @@ jr_003_49ac:
 
 StateValidExit:
     bit 7, b
-    jp nz, Jump_003_4a77
+    jp nz, ResetMenuStateToIdle
 
-Jump_003_49ba:
+ValidateAndProcessGameState:
     bit 1, b
     jr nz, jr_003_49fd
 
@@ -2374,13 +2374,13 @@ jr_003_49fd:
     ld hl, $c20c
     ld a, [hl]
     cp $06
-    jr nz, jr_003_4a0c
+    jr nz, InitializeSpriteTransferBuffer
 
-    JumpIfLocked jr_003_4a0c
+    JumpIfLocked InitializeSpriteTransferBuffer
 
     ld [hl], $00
 
-Jump_003_4a0c:
+InitializeSpriteTransferBuffer:
 jr_003_4a0c:
     ldh a, [hGameState]
     cp $0d
@@ -2469,16 +2469,16 @@ jr_003_4a66:
     ret
 
 
-Jump_003_4a77:
+ResetMenuStateToIdle:
     ld hl, $c20c
     ld [hl], $20
-    jp Jump_003_49ba
+    jp ValidateAndProcessGameState
 
 
-Jump_003_4a7f:
+HandleJoypadInputDelay:
     ldh a, [hJoypadDelta]
     and $03
-    jr nz, jr_003_4a0c
+    jr nz, InitializeSpriteTransferBuffer
 
     ldh a, [hJoypadState]
     bit 0, a
@@ -2487,7 +2487,7 @@ Jump_003_4a7f:
     ld hl, wGameVarAE
     ld a, [hl]
     and a
-    jp z, Jump_003_4a0c
+    jp z, InitializeSpriteTransferBuffer
 
     dec [hl]
     ret
@@ -7582,7 +7582,7 @@ jr_003_6198:
     ld l, h
     ld d, l
     ld d, [hl]
-    jp nz, Jump_003_6d6c
+    jp nz, UpdateAudioChannelStatus
 
     cp $03
     ld l, l
@@ -9776,12 +9776,12 @@ UpdateAudioEnvelopeAndPan:
     inc [hl]
     ldh a, [hAudioEnvParam1]
     bit 0, [hl]
-    jp z, Jump_003_6c1f
+    jp z, SetAudioMasterVolume
 
     ldh a, [hAudioEnvParam2]
 
 WriteAudioRegisterNr24:
-Jump_003_6c1f:
+SetAudioMasterVolume:
 jr_003_6c1f:
     ld c, $25
     ldh [c], a
@@ -10038,7 +10038,7 @@ jr_003_6d63:
     and a
     jr nz, jr_003_6d4a
 
-Jump_003_6d6c:
+UpdateAudioChannelStatus:
     ld a, l
     add $04
     ld l, a
@@ -10048,14 +10048,14 @@ Jump_003_6d6c:
     pop hl
     call HandleAudioChannelStatus
 
-Jump_003_6d78:
+AdvanceAudioChannelState:
 jr_003_6d78:
     dec l
     dec l
     jp AdvanceAudioState
 
 
-Jump_003_6d7d:
+DecodeAudioCommandEntry:
     dec l
     dec l
     dec l
@@ -10115,7 +10115,7 @@ AdvanceAudioChannelLoop:
     inc l
     ld a, [hl+]
     and a
-    jp z, Jump_003_6d78
+    jp z, AdvanceAudioChannelState
 
     dec [hl]
     jp nz, CheckAudioControl3Mode
@@ -10127,7 +10127,7 @@ DecodeNextAudioOpcode:
 DecodeAudioOpcode:
     call DereferenceAudioPointer
     cp $00
-    jp z, Jump_003_6d7d
+    jp z, DecodeAudioCommandEntry
 
     cp $9d
     jp z, LoadAudioParameterTriple
