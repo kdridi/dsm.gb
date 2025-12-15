@@ -1,50 +1,33 @@
 SECTION "ROM Bank $001", ROMX[$4000], BANK[$1]
 
-    cp e
-    ld d, l
-    ldh [c], a
-    ld d, l
-    dec b
-    ld d, [hl]
-    cp e
-    ld d, l
-    ldh [c], a
-    ld d, l
-    dec b
-    ld d, [hl]
-    cp e
-    ld d, l
-    ldh [c], a
-    ld d, l
-    dec b
-    ld d, [hl]
-    jr nc, PreprocessData_406a
+; LevelJumpTable
+; ----------------
+; Description: Table des pointeurs pour chaque niveau (triplets: tileset/map/entities)
+; Structure: Chaque niveau utilise 3 pointeurs (6 octets)
+;   - +0: Pointeur tileset
+;   - +2: Pointeur map data
+;   - +4: Pointeur entities
+LevelJumpTable:
+    ; Niveau 0
+    dw $55BB, $55E2, $5605
+    ; Niveau 1
+    dw $55BB, $55E2, $5605
+    ; Niveau 2
+    dw $55BB, $55E2, $5605
+    ; Niveau 3
+    dw $5630, $5665, $5694
+    ; Niveau 4
+    dw $55BB, $5311, $5405
+    ; Niveau 5
+    dw $54D5, $5179, $5222
+    ; Niveau 6
+    dw $529B, $5311, $5405
+    ; Niveau 7
+    dw $54D5, $5311, $5405
+    ; Niveau 8 (incomplet)
+    dw $54D5
 
-    ld h, l
-    ld d, [hl]
-    sub h
-    ld d, [hl]
-    cp e
-    ld d, l
-    ld de, $0553
-    ld d, h
-    push de
-    ld d, h
-    ld a, c
-    ld d, c
-    ld [hl+], a
-    ld d, d
-    sbc e
-    ld d, d
-    ld de, $0553
-    ld d, h
-    push de
-    ld d, h
-    ld de, $0553
-    ld d, h
-    push de
-    ld d, h
-    rrca
+    rrca  ; $4032 - octet isolé (possiblement marqueur de fin de table)
 
 CalculateOffset_4033:
     rrca
