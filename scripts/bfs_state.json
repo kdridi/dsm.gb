@@ -665,6 +665,14 @@
       "priority": 3
     },
     {
+      "address": "$0EB2",
+      "node_type": "code",
+      "description": "AutoMovePlayerRight - Simule input droite pour d\u00e9placer automatiquement le joueur",
+      "source": "$0EA0",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0EC4",
       "node_type": "code",
       "description": "State21_SetupEndCutscene - Setup cutscene fin",
@@ -1695,14 +1703,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$0EB2",
-      "node_type": "code",
-      "description": "AutoMovePlayerRight - Simule input droite pour d\u00e9placer automatiquement le joueur",
-      "source": "$0EA0",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1728,6 +1728,7 @@
     "$09d7",
     "$0048",
     "$00C3",
+    "$0EB2",
     "$00CC",
     "$0C22",
     "$07B7",
@@ -1790,6 +1791,6 @@
     "$07F0",
     "$0BF2"
   ],
-  "commits_since_push": 2,
-  "total_explored": 83
+  "commits_since_push": 3,
+  "total_explored": 84
 }
