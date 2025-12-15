@@ -6983,7 +6983,7 @@ SpriteAnimationNextPhase:
     ld a, $02
     ld [$da17], a
 
-PaddingZone_002_5d3c:
+TileTypeCommonExit:
     ld hl, $dfe8
     ld a, $0d
     ld [hl], a
@@ -6993,12 +6993,12 @@ PaddingZone_002_5d3c:
 TileTypeDispatchCase_02:
     ld a, $03
     ld [$da17], a
-    jr PaddingZone_002_5d3c
+    jr TileTypeCommonExit
 
 TileTypeDispatchCase_03:
     ld a, $04
     ld [$da17], a
-    jr PaddingZone_002_5d3c
+    jr TileTypeCommonExit
 
 TileTypeDispatchCase_E5:
     ldh a, [hSubState]
@@ -7016,7 +7016,7 @@ TileTypeDispatchCase_E5:
 TileTypeE5_InitPaletteWrite:
     ld a, $10
     ld [$da17], a
-    jr PaddingZone_002_5d3c
+    jr TileTypeCommonExit
 
 SpriteAnimationState_WritePalette:
     ld a, [$da17]

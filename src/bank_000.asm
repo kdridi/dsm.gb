@@ -12499,10 +12499,10 @@ FillBorderColumn:
     ld b, TEXT_LINE_WIDTH
     ld a, TILE_BORDER_HORIZONTAL
 
-FillBorderRow_2:
+FillBottomBorderRow:
     ld [hl+], a
     dec b
-    jr nz, FillBorderRow_2
+    jr nz, FillBottomBorderRow
 
     ld a, TILE_BORDER_BOTTOM_RIGHT
     ld [hl], a
@@ -12537,10 +12537,10 @@ FillBorderRow_2:
     ld a, TILE_TEXT_FILL
     ld b, TEXT_LINE_WIDTH
 
-FillTextLine_1:
+FillTextLineRow1:
     ld [hl+], a
     dec b
-    jr nz, FillTextLine_1
+    jr nz, FillTextLineRow1
 
     ld l, $d1
     ld a, TILE_TEXT_CORNER
@@ -12550,10 +12550,10 @@ FillTextLine_1:
     ld a, TILE_TEXT_FILL
     ld b, TEXT_LINE_WIDTH
 
-FillTextLine_2:
+FillTextLineRow2:
     ld [hl+], a
     dec b
-    jr nz, FillTextLine_2
+    jr nz, FillTextLineRow2
 
     ld l, $31
     ld a, TILE_TEXT_CORNER
@@ -12562,10 +12562,10 @@ FillTextLine_2:
     ld a, TILE_TEXT_FILL
     ld b, TEXT_LINE_WIDTH
 
-FillTextLine_3:
+FillTextLineRow3:
     ld [hl+], a
     dec b
-    jr nz, FillTextLine_3
+    jr nz, FillTextLineRow3
 
     ld l, $91
     ld a, TILE_TEXT_CORNER
@@ -12575,10 +12575,10 @@ FillTextLine_3:
     ld a, TILE_TEXT_FILL
     ld b, TEXT_LINE_WIDTH
 
-FillTextLine_4:
+FillTextLineRow4:
     ld [hl+], a
     dec b
-    jr nz, FillTextLine_4
+    jr nz, FillTextLineRow4
 
     ld l, $f1
     dec h
