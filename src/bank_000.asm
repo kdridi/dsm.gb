@@ -4362,7 +4362,15 @@ CopySpriteDataToOam_Loop:
 
 ; ===========================================================================
 ; État $30 - Animation marche gauche ($12B9)
-; Déplace sprite vers la gauche avec animation de marche
+; ===========================================================================
+; State30_WalkLeft
+; ----------------
+; Description: Déplace le sprite du joueur vers la gauche avec animation
+;              de marche pendant une cutscene. S'arrête à CUTSCENE_WALK_END_X.
+; In:  hFrameCounter = compteur de frames pour timing
+;      wPlayerX = position X actuelle du joueur
+; Out: wPlayerX décrémenté, hGameState avancé si position finale atteinte
+; Modifie: a, b, hl, appelle SwitchBankAndCallBank3Handler, ToggleAnimFrame
 ; ===========================================================================
 State30_WalkLeft::
     call SwitchBankAndCallBank3Handler
@@ -4383,6 +4391,12 @@ State30_WalkLeft::
     ret
 
 
+; AdvanceToNextState
+; ------------------
+; Description: Passe à l'état suivant et réinitialise l'index OAM
+; In:  -
+; Out: hGameState incrémenté, hOAMIndex = OAM_ENTRY_SIZE
+; Modifie: a, hl
 AdvanceToNextState:
     ld hl, hGameState
     inc [hl]
@@ -4390,7 +4404,14 @@ AdvanceToNextState:
     ldh [hOAMIndex], a
     ret
 
-; --- Routine : toggle frame animation ---
+; ToggleAnimFrame
+; ---------------
+; Description: Alterne la frame d'animation (bit 0) toutes les 4 frames.
+;              Suppose que hl pointe vers wPlayerX-1 (utilise inc l).
+; In:  hl = pointeur vers wPlayerX-1
+;      hFrameCounter = compteur de frames
+; Out: [hl+1] = frame d'animation inversée (bit 0 togglé)
+; Modifie: a, l
 ToggleAnimFrame:
     ldh a, [hFrameCounter]
     and FRAME_MASK_4
