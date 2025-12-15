@@ -1527,6 +1527,46 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0BEA",
+      "node_type": "code",
+      "description": "UpdateSpriteAnimationPath - Mise \u00e0 jour position Y sprites OAM",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0C07",
+      "node_type": "code",
+      "description": "SetGameStateSpecialPath - Configure timer et passe \u00e0 \u00e9tat RESET",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0C0D",
+      "node_type": "code",
+      "description": "SetGameStateValue - \u00c9crit nouvel \u00e9tat dans hGameState",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0C22",
+      "node_type": "table",
+      "description": "AnimTransitionTableData - Table 21 bytes des vitesses d'animation Y",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$0ECB",
+      "node_type": "code",
+      "description": "ClearOamAndSpriteBuffers - R\u00e9initialise buffers OAM et sprites",
+      "source": "$0BCD",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1541,6 +1581,7 @@
     "$07B7",
     "$0000",
     "$06C5",
+    "$0BCD",
     "$02A3",
     "$0040",
     "$4000:3",
@@ -1590,6 +1631,6 @@
     "$0394",
     "$0552"
   ],
-  "commits_since_push": 3,
-  "total_explored": 59
+  "commits_since_push": 4,
+  "total_explored": 60
 }

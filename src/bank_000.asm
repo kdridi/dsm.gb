@@ -2678,11 +2678,16 @@ State03_SetupTransition::
     ret
 
 
-;; ==========================================================================
-;; State04_AnimTransition - Handler d'état $04 ($0BCD)
-;; ==========================================================================
-;; Animation/progression d'un effet visuel via wGameVarAC.
-;; ==========================================================================
+;; State04_AnimTransition
+;; ----------------
+;; Description: Gère l'animation de transition des sprites en modifiant leur position Y
+;;              selon une table de vitesses. Utilisé pour faire descendre des sprites
+;;              hors de l'écran avec accélération progressive.
+;; In:  wGameVarAC = index dans la table de vitesses (incrémenté à chaque frame)
+;;      wOamVar0C = buffer OAM des sprites à animer (4 sprites)
+;;      wSpecialState = détermine l'état suivant après animation
+;; Out: Sprites déplacés, état changé si animation terminée
+;; Modifie: A, B, C, D, E, HL
 State04_AnimTransition::
     ld a, [wGameVarAC]
     ld e, a
@@ -2751,21 +2756,19 @@ SetGameStateValue:
     nop
     rst $38
 
-;; Zone de données AnimTransitionTable ($0C10-$0C36)
-;; Table des vitesses d'animation pour State04_AnimTransition
-;; Référencée par ROM_ANIM_TRANSITION_TABLE ($0C10)
+;; AnimTransitionTableData
+;; ----------------
+;; Description: Table des vitesses d'animation pour State04_AnimTransition.
+;;              Chaque byte indique le déplacement Y à appliquer par frame.
+;;              Séquence d'accélération progressive avec pause initiale
+;;              Le marqueur $7F indique la fin (vitesse maintenue)
+;; Utilisé par: State04_AnimTransition ($0BCD)
+;; Taille: 21 bytes
 AnimTransitionTableData:
-    nop
-    nop
-    rst $38
-    nop
-    nop
-    nop
-    ld bc, $0000
-    ld bc, $0100
-    ld bc, $0101
-    ld bc, $0101
-    ld bc, $7f01
+    db $00, $00, $ff, $00, $00, $00  ; Pause initiale (2 frames) puis recul $FF puis pause (3 frames)
+    db $01, $00, $00, $01, $00, $01  ; Accélération très progressive
+    db $01, $01, $01, $01, $01, $01  ; Vitesse constante $01
+    db $01, $01, $7f                  ; Continue puis marqueur fin (ANIM_TRANSITION_END_MARKER)
 
 ;; ==========================================================================
 ;; State07_WaitBank3 - Handler d'état $07 ($0C37)
