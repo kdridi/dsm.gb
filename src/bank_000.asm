@@ -3,7 +3,15 @@
 ;; ============================================================================
 SECTION "ROM Bank $000", ROM0[$0]
 
-;; --- RST $00 : Soft Reset ---
+;; ============================================================================
+;; RST_00 - Soft Reset Entry Point
+;; ============================================================================
+;; Description: Vecteur RST $00, point d'entrée principal du programme.
+;;              Appelé au démarrage de la Game Boy ou lors d'un reset.
+;; In:  Aucun (état initial de la Game Boy)
+;; Out: Ne retourne jamais (jump vers SystemInit)
+;; Modifie: Tous les registres (via SystemInit)
+;; ============================================================================
 RST_00::
     jp SystemInit
 
