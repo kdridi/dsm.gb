@@ -2604,19 +2604,19 @@ jr_002_4a92:
     sbc a
     ld a, [$00fa]
     nop
-    jr c, jr_002_4b2e
+    jr c, FlagDispatch_Default
 
-    jr c, jr_002_4b20
+    jr c, FlagDispatch_Entry1
 
-    jr c, jr_002_4b22
+    jr c, FlagDispatch_Entry2
 
-    jr c, jr_002_4b24
+    jr c, FlagDispatch_Entry3
 
-    jr c, jr_002_4b26
+    jr c, FlagDispatch_Entry4
 
-    jr c, jr_002_4b28
+    jr c, FlagDispatch_Entry5
 
-    jr c, jr_002_4b2a
+    jr c, FlagDispatch_Entry6
 
     nop
     nop
@@ -2644,38 +2644,38 @@ jr_002_4a92:
     nop
     nop
     nop
-    nop
-    nop
-    nop
-    nop
-
-jr_002_4b20:
-    nop
-    nop
-
-jr_002_4b22:
-    nop
-    nop
-
-jr_002_4b24:
-    nop
-    nop
-
-jr_002_4b26:
-    nop
-    nop
-
-jr_002_4b28:
-    nop
-    nop
-
-jr_002_4b2a:
     nop
     nop
     nop
     nop
 
-jr_002_4b2e:
+FlagDispatch_Entry1:
+    nop
+    nop
+
+FlagDispatch_Entry2:
+    nop
+    nop
+
+FlagDispatch_Entry3:
+    nop
+    nop
+
+FlagDispatch_Entry4:
+    nop
+    nop
+
+FlagDispatch_Entry5:
+    nop
+    nop
+
+FlagDispatch_Entry6:
+    nop
+    nop
+    nop
+    nop
+
+FlagDispatch_Default:
     nop
     nop
     nop
@@ -14080,47 +14080,47 @@ jr_002_7d00:
     inc bc
     ld [bc], a
 
-jr_002_7d1c:
+BitDispatch_Entry0:
     inc bc
     ld [bc], a
 
-jr_002_7d1e:
+BitDispatch_Entry1:
     inc bc
     ld [bc], a
 
-jr_002_7d20:
+BitDispatch_Entry2:
     inc bc
     ld [bc], a
 
-jr_002_7d22:
+BitDispatch_Entry3:
     inc bc
     ld [bc], a
 
-jr_002_7d24:
+BitDispatch_Entry4:
     add e
     add d
 
-jr_002_7d26:
+BitDispatch_Entry5:
     add e
     add d
 
-jr_002_7d28:
+BitDispatch_Entry6:
     add e
     add e
     rst $28
-    jr z, jr_002_7d1c
+    jr z, BitDispatch_Entry0
 
-    jr z, jr_002_7d1e
+    jr z, BitDispatch_Entry1
 
-    jr z, jr_002_7d20
+    jr z, BitDispatch_Entry2
 
-    jr z, jr_002_7d22
+    jr z, BitDispatch_Entry3
 
-    jr z, jr_002_7d24
+    jr z, BitDispatch_Entry4
 
-    jr z, jr_002_7d26
+    jr z, BitDispatch_Entry5
 
-    jr z, jr_002_7d28
+    jr z, BitDispatch_Entry6
 
     rst $28
     cp a

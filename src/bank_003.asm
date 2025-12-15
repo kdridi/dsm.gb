@@ -9340,40 +9340,40 @@ jr_003_69ee:
     inc a
     ld [$dfe4], a
     cp $01
-    jr z, jr_003_6a32
+    jr z, ChannelType_01_PulseWave
 
     cp $02
-    jr z, jr_003_6a37
+    jr z, ChannelType_02_PulseWave
 
     cp $03
-    jr z, jr_003_6a3c
+    jr z, ChannelType_03_WaveMemory
 
     cp $04
-    jr z, jr_003_6a41
+    jr z, ChannelType_04_Noise
 
     cp $05
-    jr z, jr_003_6a46
+    jr z, ChannelType_05_Master
 
     jp ResetPulseChannel
 
 
-jr_003_6a32:
+ChannelType_01_PulseWave:
     ld hl, $69f6
     jr ChannelInitDispatcher
 
-jr_003_6a37:
+ChannelType_02_PulseWave:
     ld hl, $69fb
     jr ChannelInitDispatcher
 
-jr_003_6a3c:
+ChannelType_03_WaveMemory:
     ld hl, $6a00
     jr ChannelInitDispatcher
 
-jr_003_6a41:
+ChannelType_04_Noise:
     ld hl, $6a05
     jr ChannelInitDispatcher
 
-jr_003_6a46:
+ChannelType_05_Master:
     ld hl, $6a0a
 
 ChannelInitDispatcher:
