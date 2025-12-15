@@ -6055,10 +6055,10 @@ jr_002_58b1:
     ld [$da07], a
     ld a, b
     cp $c0
-    jr nz, jr_002_5909
+    jr nz, AnimationDispatch_SelectHandler
 
     ld [$da0c], a
-    jr jr_002_5909
+    jr AnimationDispatch_SelectHandler
 
 jr_002_58cd:
     cp $38
@@ -6070,10 +6070,10 @@ jr_002_58cd:
     ld [$da08], a
     ld a, b
     cp $c0
-    jr nz, jr_002_5909
+    jr nz, AnimationDispatch_SelectHandler
 
     ld [$da0d], a
-    jr jr_002_5909
+    jr AnimationDispatch_SelectHandler
 
 jr_002_58e3:
     cp $40
@@ -6085,10 +6085,10 @@ jr_002_58e3:
     ld [$da09], a
     ld a, b
     cp $c0
-    jr nz, jr_002_5909
+    jr nz, AnimationDispatch_SelectHandler
 
     ld [$da0e], a
-    jr jr_002_5909
+    jr AnimationDispatch_SelectHandler
 
 jr_002_58f9:
     ld a, c
@@ -6097,11 +6097,11 @@ jr_002_58f9:
     ld [$da0a], a
     ld a, b
     cp $c0
-    jr nz, jr_002_5909
+    jr nz, AnimationDispatch_SelectHandler
 
     ld [$da0f], a
 
-jr_002_5909:
+AnimationDispatch_SelectHandler:
     ldh a, [hPtrHigh]
     ld [hl+], a
     ldh a, [hPtrLow]
@@ -6109,53 +6109,53 @@ jr_002_5909:
     ld a, b
     ld de, $5958
     cp $01
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     cp $02
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     cp $04
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     cp $05
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     cp $08
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     ld d, $59
     dec e
     cp $10
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     cp $20
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     cp $40
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     cp $50
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     cp $80
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     inc d
     ld e, $5f
     cp $ff
-    jr z, jr_002_5950
+    jr z, AnimationDispatch_SetAndJump
 
     ld de, $f6fe
 
-jr_002_5950:
+AnimationDispatch_SetAndJump:
     ld a, d
     ld [hl+], a
     inc hl
@@ -6173,48 +6173,48 @@ jr_002_5950:
     ld a, b
     ld de, $0100
     cp $01
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     inc d
     cp $02
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     inc d
     inc d
     cp $04
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     inc d
     cp $05
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     ld d, $08
     cp $08
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     ld d, $10
     cp $10
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     ld d, $20
     cp $20
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     ld d, $40
     cp $40
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     ld d, $50
     cp $50
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     ld d, $80
     cp $80
-    jr z, jr_002_59a2
+    jr z, AnimationDispatch_SelectPalette
 
     jr jr_002_59a5
 
-jr_002_59a2:
+AnimationDispatch_SelectPalette:
     call AddScore
 
 ProcessSpriteAnimation:
