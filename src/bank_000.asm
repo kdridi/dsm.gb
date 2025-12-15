@@ -3364,18 +3364,24 @@ TilemapColumnClearCompletePath:
 ; État $1F - Activation VBlank mode ($0E8D)
 ; Attente timer, clear collision flags, active le mode VBlank
 ; ===========================================================================
+; State1F_EnableVBlankMode
+; ------------------------
+; Description: Attend la fin du timer, réinitialise les flags de collision et active le mode VBlank
+; In:  hTimer1 = timer principal (doit être 0 pour continuer)
+; Out: hVBlankMode = 1 (mode VBlank activé), hGameState incrémenté
+; Modifie: a, hl
 State1F_EnableVBlankMode::
     ldh a, [hTimer1]
-    and a
-    ret nz
+    and a                  ; Vérifie si timer est à 0
+    ret nz                 ; Retourne si timer pas encore expiré
 
-    xor a
-    ld [wCollisionFlag], a
-    ld [wPlayerUnk07], a
-    inc a
-    ldh [hVBlankMode], a
+    xor a                  ; a = 0
+    ld [wCollisionFlag], a ; Clear flag collision
+    ld [wPlayerUnk07], a   ; Clear variable joueur $07
+    inc a                  ; a = 1
+    ldh [hVBlankMode], a   ; Active mode VBlank
     ld hl, hGameState
-    inc [hl]
+    inc [hl]               ; Passe à l'état suivant ($20)
     ret
 
 ; ===========================================================================
