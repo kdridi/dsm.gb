@@ -3764,11 +3764,11 @@ UpdateScrollXAndDecreaseCollisionCounter_001_4fcb:
     dec [hl]
     ld a, [hl]
     and a
-    jr nz, jr_001_4fe2
+    jr nz, PerformCollisionCheckAndIncrementCounter_001_4fe2
 
     ld [hl], $f0
 
-jr_001_4fe2:
+PerformCollisionCheckAndIncrementCounter_001_4fe2:
     ld c, $08
     call CheckSpriteCollisionWithOffset
     ld hl, $c202
@@ -3909,7 +3909,7 @@ CheckSpriteCollision:
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp $60
-    jr nc, jr_001_50b4
+    jr nc, CheckForSpecialCollisionTile_001_50b4
 
     ldh a, [hSpriteX]
     add $04
@@ -3919,14 +3919,14 @@ CheckSpriteCollision:
     jp z, TriggerBlockCollisionSound_TimerDispatch
 
     cp $60
-    jr nc, jr_001_50b4
+    jr nc, CheckForSpecialCollisionTile_001_50b4
 
     ret
 
 
-jr_001_50b4:
+CheckForSpecialCollisionTile_001_50b4:
     cp $f4
-    jr nz, jr_001_50c9
+    jr nz, ReturnNoCollisionDetected_001_50c9
 
     push hl
     pop de
@@ -3941,7 +3941,7 @@ jr_001_50b4:
     ret
 
 
-jr_001_50c9:
+ReturnNoCollisionDetected_001_50c9:
     ld a, $ff
     ret
 
@@ -3950,11 +3950,11 @@ CheckSpriteCollisionWithOffset:
     ld de, $0502
     ldh a, [hTimerAux]
     cp $02
-    jr z, jr_001_50d8
+    jr z, CollisionCheckOffsetLoop_001_50d8
 
     ld de, $0501
 
-jr_001_50d8:
+CollisionCheckOffsetLoop_001_50d8:
     ld hl, $c201
     ld a, [hl+]
     add d
@@ -3970,10 +3970,10 @@ jr_001_50d8:
     call ReadTileUnderSprite
     pop de
     cp $60
-    jr c, jr_001_5101
+    jr c, DecrementOffsetAndRetryCollisionCheck_001_5101
 
     cp $f4
-    jr z, jr_001_5107
+    jr z, TriggerSpecialCollisionEvent_001_5107
 
     cp $e1
     jp z, TriggerBlockCollisionSound_TimerDispatch
@@ -3985,15 +3985,15 @@ jr_001_50d8:
     ret
 
 
-jr_001_5101:
+DecrementOffsetAndRetryCollisionCheck_001_5101:
     ld d, $fd
     dec e
-    jr nz, jr_001_50d8
+    jr nz, CollisionCheckOffsetLoop_001_50d8
 
     ret
 
 
-jr_001_5107:
+TriggerSpecialCollisionEvent_001_5107:
     push hl
     pop de
     ld hl, $ffee
@@ -4011,10 +4011,10 @@ jr_001_5107:
     ld hl, $ffa9
     ld de, wOamAttrY
 
-jr_001_5120:
+OamSpriteActivityCheckLoop_001_5120:
     ld a, [hl+]
     and a
-    jr nz, jr_001_512c
+    jr nz, ProcessActiveSpriteOffset_001_512c
 
 IncrementOamPointerAndLoop_001_5124:
     inc e
@@ -4022,12 +4022,12 @@ IncrementOamPointerAndLoop_001_5124:
     inc e
     inc e
     dec b
-    jr nz, jr_001_5120
+    jr nz, OamSpriteActivityCheckLoop_001_5120
 
     ret
 
 
-jr_001_512c:
+ProcessActiveSpriteOffset_001_512c:
     push hl
     push de
     push bc
