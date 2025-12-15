@@ -739,22 +739,22 @@ jr_002_430c:
     rra
     dec sp
     ccf
-    jr c, jr_002_4373
+    jr c, DataTable_JumpDispatch_004
 
-    jr c, jr_002_4341
+    jr c, DataTable_JumpDispatch_001
 
-    jr jr_002_4343
+    jr DataTable_JumpDispatch_002
 
     nop
     ld e, $1c
     inc e
     inc a
 
-jr_002_4341:
+DataTable_JumpDispatch_001:
     inc a
     and b
 
-jr_002_4343:
+DataTable_JumpDispatch_002:
     ldh [hSpriteAttr], a
     ldh a, [$ff38]
     cp b
@@ -779,7 +779,7 @@ jr_002_4343:
 
     jr nc, jr_002_439a
 
-    jr nz, jr_002_4380
+    jr nz, DataTable_JumpDispatch_005
 
     nop
     nop
@@ -790,7 +790,7 @@ jr_002_4343:
 
     ret nz
 
-jr_002_4366:
+DataTable_JumpDispatch_003:
     db $fc
     ldh [hOAMAddrLow], a
     ldh [hJoypadState], a
@@ -801,7 +801,7 @@ jr_002_4366:
     ld a, b
     rla
 
-jr_002_4373:
+DataTable_JumpDispatch_004:
     rra
     rlca
     rra
@@ -813,7 +813,7 @@ jr_002_4373:
     rlca
     ld c, $0e
 
-jr_002_4380:
+DataTable_JumpDispatch_005:
     rlca
     rlca
     ret nz
@@ -860,7 +860,7 @@ jr_002_43a2:
 
     jr c, @-$06
 
-    jr c, jr_002_4366
+    jr c, DataTable_JumpDispatch_003
 
     nop
     nop
@@ -912,7 +912,7 @@ jr_002_43bd:
     nop
     ret nz
 
-    jr nc, jr_002_4445
+    jr nc, DataTable_Lookup_001
 
     ldh [$ff78], a
     ld hl, sp-$08
@@ -1001,7 +1001,7 @@ jr_002_442a:
     nop
     nop
 
-jr_002_4445:
+DataTable_Lookup_001:
     nop
     nop
     nop
@@ -1020,12 +1020,12 @@ jr_002_444e:
     ld d, $1f
     db $10
     rra
-    jr jr_002_4490
+    jr DataTable_Lookup_004
 
     jr c, @+$3d
 
     inc sp
-    jr c, jr_002_4485
+    jr c, DataTable_Lookup_003
 
     inc e
     rra
@@ -1035,13 +1035,13 @@ jr_002_444e:
     ld hl, sp+$40
     ldh a, [hCurrentTile]
 
-jr_002_4468:
+DataTable_Lookup_002:
     ld hl, sp+$18
     cp b
     xor b
     jr jr_002_444e
 
-    jr c, jr_002_4468
+    jr c, DataTable_Lookup_002
 
     inc a
     inc a
@@ -1057,14 +1057,14 @@ jr_002_4468:
     ld d, $3f
     jr nc, jr_002_44be
 
-    jr nc, jr_002_4490
+    jr nc, DataTable_Lookup_004
 
     add hl, bc
     nop
     nop
     ret nz
 
-jr_002_4485:
+DataTable_Lookup_003:
     ret nz
 
     ldh a, [hCurrentTile]
@@ -1073,7 +1073,7 @@ jr_002_4485:
     ld hl, sp+$40
     cp $f0
 
-jr_002_4490:
+DataTable_Lookup_004:
     db $fc
     ldh a, [$ff0b]
     rrca
@@ -3869,9 +3869,9 @@ jr_002_4ff2:
     nop
     ldh a, [hCurrentTile]
     ld hl, sp-$08
-    jr c, jr_002_5036
+    jr c, DataVector_Handler_3
 
-    jr jr_002_5018
+    jr DataVector_Handler_2
 
     jr jr_002_501a
 
@@ -3891,16 +3891,16 @@ jr_002_500e:
     inc a
     nop
     ld h, [hl]
-    jr jr_002_5013
+    jr DataVector_Handler_1
 
-jr_002_5013:
+DataVector_Handler_1:
     nop
     nop
     nop
     nop
     nop
 
-jr_002_5018:
+DataVector_Handler_2:
     nop
     nop
 
@@ -3934,7 +3934,7 @@ jr_002_501a:
     inc a
     inc a
 
-jr_002_5036:
+DataVector_Handler_3:
     ld h, [hl]
     ld h, [hl]
     ld h, [hl]
@@ -3955,13 +3955,13 @@ jr_002_503e:
     nop
     jr jr_002_505e
 
-    jr c, jr_002_5080
+    jr c, DataVector_Handler_7
 
-    jr jr_002_5062
+    jr DataVector_Handler_4
 
-    jr jr_002_5064
+    jr DataVector_Handler_5
 
-    jr jr_002_5066
+    jr DataVector_Handler_6
 
     inc a
     inc a
@@ -3985,15 +3985,15 @@ jr_002_505e:
     nop
     nop
 
-jr_002_5062:
+DataVector_Handler_4:
     nop
     nop
 
-jr_002_5064:
+DataVector_Handler_5:
     ld a, h
     ld a, h
 
-jr_002_5066:
+DataVector_Handler_6:
     ld c, $0e
     inc a
     inc a
@@ -4018,7 +4018,7 @@ jr_002_5066:
     inc c
     inc c
 
-jr_002_5080:
+DataVector_Handler_7:
     nop
     nop
     nop
@@ -4417,15 +4417,15 @@ ConstTableB_Entry4:
     nop
     ld a, [hl]
     ld a, [hl]
-    jr jr_002_5220
+    jr ControlFlow_Target_1
 
-    jr jr_002_5222
+    jr ControlFlow_Target_2
 
-    jr jr_002_5224
+    jr ControlFlow_Target_3
 
-    jr jr_002_5226
+    jr ControlFlow_Target_4
 
-    jr jr_002_5228
+    jr ControlFlow_Target_5
 
     nop
     nop
@@ -4444,30 +4444,30 @@ ConstTableB_Entry4:
     inc a
     inc a
 
-jr_002_5220:
+ControlFlow_Target_1:
     nop
     nop
 
-jr_002_5222:
+ControlFlow_Target_2:
     nop
     nop
 
-jr_002_5224:
+ControlFlow_Target_3:
     ld b, [hl]
     ld b, [hl]
 
-jr_002_5226:
+ControlFlow_Target_4:
     ld b, [hl]
     ld b, [hl]
 
-jr_002_5228:
+ControlFlow_Target_5:
     ld b, [hl]
     ld b, [hl]
     ld b, [hl]
     ld b, [hl]
     inc l
     inc l
-    jr jr_002_5248
+    jr ControlFlow_Target_6
 
     nop
     nop
@@ -4494,7 +4494,7 @@ jr_002_5228:
     ei
     rlca
 
-jr_002_5248:
+ControlFlow_Target_6:
     dec c
     di
     db $fd
@@ -4513,11 +4513,11 @@ jr_002_5248:
     ld h, [hl]
     inc a
     inc a
-    jr jr_002_5274
+    jr ControlFlow_Target_7
 
-    jr jr_002_5276
+    jr ControlFlow_Target_8
 
-    jr jr_002_5278
+    jr ControlFlow_Target_9
 
     nop
     nop
@@ -4540,15 +4540,15 @@ jr_002_5248:
     xor a
     sbc a
 
-jr_002_5274:
+ControlFlow_Target_7:
     xor a
     sbc a
 
-jr_002_5276:
+ControlFlow_Target_8:
     xor a
     sbc a
 
-jr_002_5278:
+ControlFlow_Target_9:
     xor a
     sbc a
     xor a
@@ -5397,9 +5397,9 @@ jr_002_55a8:
     ld b, c
     ld b, e
     ld b, e
-    jr nz, jr_002_5614
+    jr nz, DataPatch_2
 
-    jr nz, jr_002_5616
+    jr nz, DataPatch_3
 
     ld l, a
     ld l, a
@@ -5421,9 +5421,9 @@ jr_002_55a8:
     nop
     nop
     stop
-    jr c, jr_002_5609
+    jr c, DataPatch_1
 
-jr_002_5609:
+DataPatch_1:
     jr c, jr_002_560b
 
 jr_002_560b:
@@ -5437,12 +5437,12 @@ jr_002_560b:
 
     add b
 
-jr_002_5614:
+DataPatch_2:
     ld b, b
     ld b, b
 
-jr_002_5616:
-    jr nz, jr_002_5638
+DataPatch_3:
+    jr nz, DataPatch_4
 
     db $10
     db $10
@@ -5473,7 +5473,7 @@ jr_002_5616:
     rst $38
     rst $38
 
-jr_002_5638:
+DataPatch_4:
     rst $38
     rst $38
     rst $38
