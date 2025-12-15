@@ -2123,10 +2123,10 @@ Loop_AddValueByEight:
     jr z, ContinueObjectScan
 
     ld a, [wPlayerState]
-    add $fc
+    add PLAYER_ANIM_OFFSET      ; -4 ajustement animation
     ldh [hPtrLow], a
     ld a, [wPlayerX]
-    sub $10
+    sub PLAYER_X_OFFSET         ; -16 pixels décalage X
     ldh [hPtrHigh], a
     ldh a, [hAnimStructBank]
     ldh [hPtrBank], a
