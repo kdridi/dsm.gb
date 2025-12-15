@@ -737,7 +737,7 @@ SelectLevelAudioTable:
     ldh [hTilemapScrollX], a
     ldh a, [hRenderContext]
     push af
-    ld a, $0c
+    ld a, RENDER_CONTEXT_MAX        ; $0C contexte spécial
     ldh [hRenderContext], a
     call LoadLevelData
     pop af
@@ -1351,8 +1351,8 @@ StateHandler_01::
     ; Clear 10 entrées de wObjectBuffer (16 bytes chacune)
     ; Mettre $FF dans le premier byte de chaque entrée = objet inactif
     ld hl, wObjectBuffer
-    ld de, $0010                  ; Stride = 16 bytes
-    ld b, $0a                     ; 10 objets
+    ld de, OBJECT_SLOT_SIZE       ; Stride = 16 bytes
+    ld b, OBJECT_BUFFER_COUNT     ; 10 objets
 
 .clearLoop:
     ld [hl], $ff                  ; Marquer comme inactif
@@ -1632,11 +1632,11 @@ InitScrollState:
     ldh [hScrollColumn], a
     ld b, $14
     ldh a, [hGameState]
-    cp $0a
+    cp GAME_STATE_PIPE_LOAD         ; État $0A (chargement sous-niveau)
     jr z, .initScrollColumnsLoop
 
     ldh a, [hRenderContext]
-    cp $0c
+    cp RENDER_CONTEXT_MAX           ; Contexte $0C (wrap-around)
     jr z, .initScrollColumnsLoop
 
     ld b, $1b
@@ -1663,7 +1663,7 @@ DecAnimObjCount:
 
 SkipAnimObjectLoop:
     ld de, hCurrentTile
-    ld b, $0a
+    ld b, OBJECT_BUFFER_COUNT     ; 10 slots à scanner
     ld hl, wAudioBuffer
 
 ScanObjectLoop:
@@ -2039,8 +2039,8 @@ HandleObjectAnimationOnBlockHit:
     cp $c0
     ret z
 
-    ld de, $0010
-    ld b, $0a
+    ld de, OBJECT_SLOT_SIZE       ; 16 bytes par slot
+    ld b, OBJECT_BUFFER_COUNT     ; 10 slots
     ld hl, wObjectBuffer
 
 FindObjectLoop:
@@ -2199,8 +2199,8 @@ CheckPlayerObjectCollision:
     cp $01
     ret z
 
-    ld de, $0010
-    ld b, $0a
+    ld de, OBJECT_SLOT_SIZE       ; 16 bytes par slot
+    ld b, OBJECT_BUFFER_COUNT     ; 10 slots
     ld hl, wObjectBuffer
 
 CheckCollisionLoop:
@@ -2690,7 +2690,7 @@ StateHandler_08::
 
     ldh a, [hRenderContext]
     inc a
-    cp $0c
+    cp RENDER_CONTEXT_MAX           ; $0C wrap-around
     jr nz, IncrementRenderContextPath
 
     xor a
@@ -6492,7 +6492,7 @@ ProcessObjectCollisions:
     push hl
     push de
     push bc
-    ld b, $0a
+    ld b, OBJECT_BUFFER_COUNT     ; 10 slots
     ld hl, wObjectBuffer
 
 IterateAnimObjects_Loop:
@@ -6502,7 +6502,7 @@ IterateAnimObjects_Loop:
 
 NextObjectSlot:
     push de
-    ld de, $0010
+    ld de, OBJECT_SLOT_SIZE       ; 16 bytes par slot
     add hl, de
     pop de
     dec b
@@ -12394,7 +12394,7 @@ UpdateLevelScore:
     ret nz
 
     ldh a, [hGameState]
-    cp $12
+    cp GAME_STATE_OUTER             ; État $12 (joueur en périphérie)
     ret nc
 
     ld a, [wLevelData]

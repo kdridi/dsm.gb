@@ -305,6 +305,7 @@ DEF wAudioState1    EQU $D011   ; État audio 1
 DEF wAudioState2    EQU $D013   ; État audio 2
 DEF wAnimFlag       EQU $D014   ; Flag animation active
 DEF wObjectBuffer   EQU $D100   ; Buffer objets (10 × 16 bytes)
+DEF OBJECT_BUFFER_COUNT EQU 10  ; Nombre de slots dans wObjectBuffer
 DEF wObjBufferVar03 EQU $D103   ; Variable buffer objets +03
 DEF wObjBufferVar3D EQU $D13D   ; Variable buffer objets +3D
 DEF wRoutineWRAM    EQU $D14C   ; Routine copiée en WRAM

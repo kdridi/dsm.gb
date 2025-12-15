@@ -2438,8 +2438,8 @@ PaddingZone_003_4a41:
     jr nz, GameModeValueSelection
 
     ld c, $7a
-    ldh a, [$ffe4]
-    cp $0b
+    ldh a, [hRenderContext]
+    cp RENDER_CONTEXT_SPECIAL       ; $0B contexte spécial
     jr nz, GameModeValueSelection
 
     ld c, $6e
