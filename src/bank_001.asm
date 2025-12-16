@@ -17,13 +17,13 @@ LevelJumpTable:
     ; Niveau 3
     dw $5630, $5665, $5694
     ; Niveau 4
-    dw $55BB, $5311, $5405
+    dw $55BB, SharedMapData_467, $5405
     ; Niveau 5
     dw $54D5, Level5MapData, Level5EntitiesData
     ; Niveau 6
-    dw Level6TilesetData, $5311, $5405
+    dw Level6TilesetData, SharedMapData_467, $5405
     ; Niveau 7
-    dw $54D5, $5311, $5405
+    dw $54D5, SharedMapData_467, $5405
     ; Niveau 8 (incomplet)
     dw $54D5
 
@@ -2931,6 +2931,19 @@ Level6TilesetData:
     db $9B, $0D, $20, $9C, $0F, $9D, $A5, $07
     db $A0, $A8, $0F, $1D, $AE, $0B, $48, $AF
     db $0A, $C8, $B0, $0C, $1A, $FF
+
+; ==============================================================================
+; SharedMapData_467 - Map data partagée niveaux 4, 6, 7 ($5311-$5404)
+; ==============================================================================
+; Description: Données de carte partagées entre les niveaux 4, 6 et 7
+;              Zone mal désassemblée comme du code (rrca, call z, etc.)
+;              Réellement: données de map au format similaire à Level5MapData
+; Format: Variable-length entries describing tile placement, terminated by $FF
+; Referenced by: LevelJumpTable entries for levels 4, 6, and 7
+; Size: 244 bytes ($F4)
+; Note: Reconstruire avec des 'db' statements pour une meilleure lisibilité
+; ==============================================================================
+SharedMapData_467:  ; $5311
     rrca
     call z, $1155
     pop de
@@ -6033,7 +6046,7 @@ CheckResult_5c5b:
     ld e, l
     ld c, d
     ld e, [hl]
-    call nz, ValidateCondition_534f
+    db $C4, $4F, $53  ; call nz, $534f (data within SharedMapData_467, not code)
     ld l, h
     ld l, [hl]
     cp $03
@@ -6649,7 +6662,7 @@ CheckResult_5c5b:
     ld e, l
     ld c, d
     ld e, [hl]
-    call nz, ValidateCondition_534f
+    db $C4, $4F, $53  ; call nz, $534f (data within SharedMapData_467, not code)
     ld l, l
     ld l, [hl]
     cp $03
@@ -6704,7 +6717,7 @@ CheckResult_5c5b:
     ld e, l
     ld c, d
     ld e, [hl]
-    call nz, ValidateCondition_534f
+    db $C4, $4F, $53  ; call nz, $534f (data within SharedMapData_467, not code)
     ld l, h
     ld l, [hl]
     cp $03
@@ -6763,7 +6776,7 @@ CheckResult_5c5b:
     ld e, l
     ld c, d
     ld e, [hl]
-    call nz, ValidateCondition_534f
+    db $C4, $4F, $53  ; call nz, $534f (data within SharedMapData_467, not code)
     ld l, l
     ld l, [hl]
     cp $03
@@ -6818,7 +6831,7 @@ CheckResult_5c5b:
     db $f4
     sub c
     db $f4
-    call nz, ValidateCondition_534f
+    db $C4, $4F, $53  ; call nz, $534f (data within SharedMapData_467, not code)
     ld l, h
     ld l, [hl]
     cp $03
