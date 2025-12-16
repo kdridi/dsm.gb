@@ -3553,6 +3553,30 @@
       "priority": 3
     },
     {
+      "address": "$4A0C",
+      "node_type": "code",
+      "description": "InitializeSpriteTransferBuffer - Pr\u00e9pare buffer sprites OAM",
+      "source": "$498B",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4A77",
+      "node_type": "code",
+      "description": "ResetMenuStateToIdle - R\u00e9initialise \u00e9tat menu (bit 7 joypad)",
+      "source": "$498B",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4A7F",
+      "node_type": "code",
+      "description": "HandleJoypadInputDelay - G\u00e8re d\u00e9lai input en mode gameplay",
+      "source": "$498B",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$4A94",
       "node_type": "code",
       "description": "CheckUnlockState - V\u00e9rifie d\u00e9blocages (bank 3)",
@@ -4031,30 +4055,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$4A7F",
-      "node_type": "code",
-      "description": "HandleJoypadInputDelay - G\u00e8re d\u00e9lai input en mode gameplay",
-      "source": "$498B",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4A77",
-      "node_type": "code",
-      "description": "ResetMenuStateToIdle - R\u00e9initialise \u00e9tat menu (bit 7 joypad)",
-      "source": "$498B",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4A0C",
-      "node_type": "code",
-      "description": "InitializeSpriteTransferBuffer - Pr\u00e9pare buffer sprites OAM",
-      "source": "$498B",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -4318,6 +4318,7 @@
     "$2d02",
     "$3D75",
     "$1B05",
+    "$4A0C",
     "$0C0D",
     "$2D8E",
     "$27DB",
@@ -4503,6 +4504,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 3,
-  "total_explored": 444
+  "commits_since_push": 4,
+  "total_explored": 445
 }

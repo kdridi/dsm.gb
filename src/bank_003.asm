@@ -2418,92 +2418,100 @@ ValidateAndProcessGameState_CheckLock:
 
     ld [hl], $00
 
+; InitializeSpriteTransferBuffer
+; ------------------------------
+; Description: Prépare le buffer de transfert OAM pour les sprites actifs.
+;              Initialise les coordonnées Y/X, tile et attributs des sprites
+;              selon l'état du jeu (gameplay ou autre).
+; In:  Aucun (utilise états globaux hGameState, hSubState)
+; Out: Aucun
+; Modifie: a, bc, de, hl, buffer wOamBuffer
 InitializeSpriteTransferBuffer:
 InitializeSpriteTransferBuffer_CheckGameState:
     ldh a, [hGameState]
     cp GAME_STATE_GAMEPLAY  ; État $0D (gameplay actif) ?
-    ld b, $03
+    ld b, $03               ; En gameplay: traiter 3 objets max
     jr z, InitializeSpriteTransferBuffer_SelectBValue
 
     ldh a, [hSubState]
     and a
-    ret z
+    ret z                   ; Si subState = 0, rien à faire
 
-    ld b, $01
+    ld b, $01               ; Sinon: traiter 1 objet
 
 InitializeSpriteTransferBuffer_SelectBValue:
-    ld hl, hObjParamBuf1
-    ld de, wOamBuffer
+    ld hl, hObjParamBuf1    ; Pointeur vers buffer paramètres objets
+    ld de, wOamBuffer       ; Pointeur vers buffer OAM
 
 InitializeSpriteTransferBuffer_CountObjects:
     ld a, [hl+]
-    and a
+    and a                   ; Objet actif ?
     jr z, InitializeSpriteTransferBuffer_LoadObject
 
-    inc e
-    inc e
+    inc e                   ; Skip 4 octets OAM par sprite
+    inc e                   ; (Y, X, Tile, Attributs)
     inc e
     inc e
     dec b
     jr nz, InitializeSpriteTransferBuffer_CountObjects
 
-    ret
+    ret                     ; Tous les slots traités
 
 
 InitializeSpriteTransferBuffer_LoadObject:
     push hl
-    ld hl, wPlayerUnk05
+    ld hl, wPlayerUnk05     ; Flags/attributs du joueur
     ld b, [hl]
     ld hl, wPlayerX
-    ld a, [hl+]
-    add $fe
-    ld [de], a
+    ld a, [hl+]             ; Charge X
+    add $fe                 ; Ajuste X (-2)
+    ld [de], a              ; OAM Y position
     inc e
-    ld c, $02
-    bit 5, b
-    jr z, PaddingZone_003_4a41
+    ld c, $02               ; Offset X par défaut = +2
+    bit 5, b                ; Test flip horizontal
+    jr z, SetSpriteXPosition
 
-    ld c, $f8
+    ld c, $f8               ; Si flip: offset = -8
 
-PaddingZone_003_4a41:
-    ld a, [hl+]
-    add c
-    ld [de], a
-    ld c, $60
+SetSpriteXPosition:
+    ld a, [hl+]             ; Charge Y
+    add c                   ; Applique offset
+    ld [de], a              ; OAM X position
+    ld c, $60               ; Tile par défaut = $60
     inc e
     ldh a, [hGameState]
     cp GAME_STATE_GAMEPLAY  ; État $0D (gameplay actif) ?
-    jr nz, GameModeValueSelection
+    jr nz, SelectSpriteTile
 
-    ld c, $7a
+    ld c, $7a               ; Tile gameplay = $7A
     ldh a, [hRenderContext]
     cp RENDER_CONTEXT_SPECIAL       ; $0B contexte spécial
-    jr nz, GameModeValueSelection
+    jr nz, SelectSpriteTile
 
-    ld c, $6e
+    ld c, $6e               ; Tile spécial = $6E
 
-GameModeValueSelection:
+SelectSpriteTile:
     ld a, c
-    ld [de], a
+    ld [de], a              ; OAM Tile number
     inc e
     xor a
-    ld [de], a
+    ld [de], a              ; OAM Attributs = 0
     pop hl
-    dec l
-    ld c, $0a
+    dec l                   ; Revenir au buffer de paramètres
+    ld c, $0a               ; Animation frame = $0A
     bit 5, b
-    jr nz, JoypadInputInitialization
+    jr nz, SetAnimationFrame
 
-    ld c, $09
+    ld c, $09               ; Si pas flip: frame = $09
 
-JoypadInputInitialization:
-    ld [hl], c
+SetAnimationFrame:
+    ld [hl], c              ; Écrit animation frame
     ld hl, wStateBuffer
-    ld [hl], $02
+    ld [hl], $02            ; État buffer = 2
     ld a, $0c
-    ld [wGameVarAE], a
+    ld [wGameVarAE], a      ; Timer/délai = 12 frames
     ld a, $ff
-    ld [wGameVarA9], a
+    ld [wGameVarA9], a      ; Flag = $FF
     ret
 
 
