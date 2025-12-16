@@ -7277,6 +7277,14 @@ DecrementOscillationYCounter:
     ret
 
 
+; OffsetSpritesY
+; ----------------
+; Description: Applique un offset vertical (soustraction) à 8 sprites consécutifs.
+;              Modifie la coordonnée Y de chaque sprite dans la table OAM.
+; In:  b = offset à soustraire de chaque position Y
+;      wSpriteVar31 = position Y du premier sprite ($C031)
+; Out: Les 8 sprites ont leur Y décrémenté de b
+; Modifie: a, hl, de, c
 OffsetSpritesY:
     ld hl, wSpriteVar31
     ld de, OAM_ENTRY_SIZE
