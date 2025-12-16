@@ -6169,21 +6169,31 @@ InitObjectsLoop:
     ret
 
 
+; CollisionHandler_SpecialF4_Setup
+; ---------------------------------
+; Description: Gère collision avec tile pipe/tuyau ($F4). Si aucune collision
+;              n'est active, configure type spécial et sauvegarde coordonnées tile.
+; In:  hl = adresse tile pipe dans tilemap
+;      hBlockHitType = type collision active (doit être 0 pour initialiser)
+; Out: hBlockHitType = BLOCK_HIT_TYPE_SPECIAL ($C0)
+;      hBlockHitType+1,+2 = coordonnées tile (d,e sauvegardées)
+;      wStateBuffer = STATE_BUFFER_COIN ($05)
+; Modifie: a, de, hl
 CollisionHandler_SpecialF4_Setup:
-    push hl
-    pop de
+    push hl                         ; Sauvegarder hl
+    pop de                          ; de = adresse tile
     ld hl, hBlockHitType
     ld a, [hl]
-    and a
-    ret nz
+    and a                           ; Collision déjà active ?
+    ret nz                          ; Oui: ignorer
 
-    ld [hl], BLOCK_HIT_TYPE_SPECIAL
-    inc l
-    ld [hl], d
-    inc l
-    ld [hl], e
+    ld [hl], BLOCK_HIT_TYPE_SPECIAL ; Marquer comme collision spéciale
+    inc l                           ; hBlockHitType+1
+    ld [hl], d                      ; Sauver hi byte adresse tile
+    inc l                           ; hBlockHitType+2
+    ld [hl], e                      ; Sauver lo byte adresse tile
     ld a, STATE_BUFFER_COIN
-    ld [wStateBuffer], a
+    ld [wStateBuffer], a            ; Activer état buffer coin
     ret
 
 

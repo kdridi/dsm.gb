@@ -2527,10 +2527,35 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0a24",
+      "node_type": "code",
+      "description": "HandleObjectAnimationOnBlockHit - Lit hBlockHitType pour g\u00e9rer animation objet",
+      "source": "$1a4e",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1b7d",
+      "node_type": "code",
+      "description": "ProcessBlockCollision - Traite collision selon hBlockHitType ($C0=special)",
+      "source": "$1a4e",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1bf6",
+      "node_type": "code",
+      "description": "CollectCoin - Collecte pi\u00e8ce et efface tile",
+      "source": "$1a4e",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
     "$09D7",
+    "$1a4e",
     "$1663",
     "$1BB4",
     "$147C",
@@ -2741,6 +2766,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 210
+  "commits_since_push": 0,
+  "total_explored": 211
 }
