@@ -10623,9 +10623,18 @@ CheckObjectTileBottomRight:
     ret
 
 
-; -----------------------------------------------------------------------------
-; CheckObjectTileTop - Vérifie collision haut de l'objet (hauteur variable)
-; -----------------------------------------------------------------------------
+; CheckObjectTileTop
+; ------------------
+; Description: Vérifie la collision avec la tuile située au sommet de l'objet.
+;              Calcule la position X avec un offset de 4 pixels, ajuste selon bit 0 de hSoundCh2.
+;              Calcule la position Y en fonction de la hauteur du sprite (index dans bits 0-2).
+; In:  hSoundParam2 = position X relative de l'objet
+;      hShadowSCX = scroll horizontal
+;      hSoundCh2 = flags (bit 0 utilisé pour ajustement X alternatif)
+;      hSoundVar3 = masque hauteur sprite (bits 0-2 = index, bits 4-6 = hauteur anim)
+;      hSoundParam1 = position Y de l'objet
+; Out: carry clear si collision (tuile < $5F), carry set si pas de collision (tuile >= $F0)
+; Modifie: a, c, hSpriteX, hSpriteY
 CheckObjectTileTop:
     ldh a, [hSoundParam2]
     ld c, a
@@ -10662,7 +10671,8 @@ CheckObjectTileTop:
     ccf
     ret
 
-
+; NOTE: Code mort (unreachable) - Deux variantes de collision top inutilisées
+; Adresses $2C31-$2C4E et $2C4F-$2C65 - Ne jamais supprimer (nécessaire pour hash)
     ldh a, [hSoundParam2]
     ld c, a
     ldh a, [hShadowSCX]
