@@ -10739,7 +10739,6 @@ OffsetSpritesX:
     and a
     ret z
 
-OffsetSpritesX.loop:
     ldh a, [hSoundParam2]
     sub b
     ldh [hSoundParam2], a
