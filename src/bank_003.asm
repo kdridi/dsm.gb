@@ -3,22 +3,27 @@ SECTION "ROM Bank $003", ROMX[$4000], BANK[$3]
 ; Constante pointant vers data table (offset du jr à $4E73)
 DEF LevelGraphicsData_4E74 EQU $4E74
 
-; LevelJumpTable Bank 3
+; LevelConfigTable_Bank3
 ; ----------------------
-; Description: Table de pointeurs pour les niveaux supplémentaires (Bank 3)
-; Format: 3 word-pointers par niveau (init/update/render typiquement)
-; Utilisé par: level loader pour charger les routines spécifiques aux niveaux
-; Note: Niveau 4 a une entrée supplémentaire ($50C0) - possiblement pointeur de données
-LevelJumpTable_Bank3:
-    ; Niveau 0
+; Description: Table de configuration pour chaque niveau (8 niveaux)
+; Format:
+;   - Niveaux 0-3: 3 words de paramètres ($503F, $5074, $509B) - valeurs fixes
+;     Ces valeurs ne sont PAS des pointeurs de code exécutable
+;     Probablement des paramètres de configuration niveau (scroll, limites, etc.)
+;   - Niveaux 4-7: 3-4 words avec pointeurs réels vers handlers Bank 3
+; In:  Index niveau (0-7)
+; Out: 3 ou 4 words de données selon le niveau
+; Modifie: Données lues par le level loader
+LevelConfigTable_Bank3:
+    ; Niveau 0 - Configuration fixe
     dw $503F, $5074, $509B
-    ; Niveau 1
+    ; Niveau 1 - Configuration fixe identique
     dw $503F, $5074, $509B
-    ; Niveau 2
+    ; Niveau 2 - Configuration fixe identique
     dw $503F, $5074, $509B
-    ; Niveau 3
+    ; Niveau 3 - Configuration fixe identique
     dw $503F, $5074, $509B
-    ; Niveau 4 (4 pointeurs - structure différente)
+    ; Niveau 4 - Avec handlers custom Bank 3
     dw $50C0, LevelGraphicsData_4E74, LevelHandler_4_7_Part2, $4FD8
     ; Niveau 5
     dw LevelGraphicsData_4E74, LevelHandler_4_7_Part2, $4FD8
