@@ -11273,8 +11273,10 @@ AudioAnimDataBulk:
 
 ; ===========================================================================
 ; AudioChannelCommandTable1 ($2FD9)
-; Table de 16 pointeurs vers les séquences de commandes audio (canal 1)
-; Utilisée par ProcessAudioChannelData selon hSoundCh2 (bit 0 = 0)
+; ----------------
+; Description: Table de 16 pointeurs vers les séquences de commandes audio (canal 1)
+; In:  Index multiplié par 2 depuis hSoundCh3 (LoadSoundChannel3Data @ $2CB5)
+; Utilisée par: ProcessAudioChannelData selon hSoundCh2 (bit 0 = 0)
 ; Référencée par la constante ROM_AUDIO_CHANNEL_TABLE_1
 ; ===========================================================================
 AudioChannelCommandTable1:

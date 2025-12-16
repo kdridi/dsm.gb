@@ -3631,6 +3631,126 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2d02",
+      "node_type": "data",
+      "description": "AudioCmdSeq_01 - S\u00e9quence de commandes audio n\u00b01",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d05",
+      "node_type": "data",
+      "description": "AudioCmdSeq_02 - S\u00e9quence de commandes audio n\u00b02",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d07",
+      "node_type": "data",
+      "description": "AudioCmdSeq_03 - S\u00e9quence de commandes audio n\u00b03",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d0a",
+      "node_type": "data",
+      "description": "AudioCmdSeq_04 - S\u00e9quence de commandes audio n\u00b04",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d0f",
+      "node_type": "data",
+      "description": "AudioCmdSeq_05 - S\u00e9quence de commandes audio n\u00b05",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d1c",
+      "node_type": "data",
+      "description": "AudioCmdSeq_06 - S\u00e9quence de commandes audio n\u00b06",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d21",
+      "node_type": "data",
+      "description": "AudioCmdSeq_07 - S\u00e9quence de commandes audio n\u00b07",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d26",
+      "node_type": "data",
+      "description": "AudioCmdSeq_08 - S\u00e9quence de commandes audio n\u00b08",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d28",
+      "node_type": "data",
+      "description": "AudioCmdSeq_09 - S\u00e9quence de commandes audio n\u00b09",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d2d",
+      "node_type": "data",
+      "description": "AudioCmdSeq_10 - S\u00e9quence de commandes audio n\u00b010",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d34",
+      "node_type": "data",
+      "description": "AudioCmdSeq_11 - S\u00e9quence de commandes audio n\u00b011",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d47",
+      "node_type": "data",
+      "description": "AudioCmdSeq_12 - S\u00e9quence de commandes audio n\u00b012",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d50",
+      "node_type": "data",
+      "description": "AudioCmdSeq_13 - S\u00e9quence de commandes audio n\u00b013",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d55",
+      "node_type": "data",
+      "description": "AudioCmdSeq_14 - S\u00e9quence de commandes audio n\u00b014",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d57",
+      "node_type": "data",
+      "description": "AudioCmdSeq_15 - S\u00e9quence de commandes audio n\u00b015",
+      "source": "$2fd9",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3911,6 +4031,7 @@
     "$1B05",
     "$22a0",
     "$0E0C",
+    "$2fd9",
     "$0A20",
     "$0E28",
     "$1345",
@@ -4003,6 +4124,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 2,
-  "total_explored": 368
+  "commits_since_push": 3,
+  "total_explored": 369
 }
