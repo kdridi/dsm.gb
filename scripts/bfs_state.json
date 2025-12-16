@@ -2999,6 +2999,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$27A6",
+      "node_type": "code",
+      "description": "CheckAudioCommand_F3 - V\u00e9rifie et traite la commande audio F3",
+      "source": "$2799",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3158,6 +3166,7 @@
     "$189b",
     "$0394",
     "$09E8",
+    "$2799",
     "$0C07",
     "$049C",
     "$130F",
@@ -3276,6 +3285,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 273
+  "commits_since_push": 3,
+  "total_explored": 274
 }

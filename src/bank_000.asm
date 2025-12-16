@@ -9447,6 +9447,14 @@ CheckAudioCommand_F1:
     jp AudioQueueProcessing
 
 
+; CheckAudioCommand_F2
+; --------------------
+; Description: Vérifie et traite la commande audio F2 (set channel 4)
+; In:  a = commande audio à vérifier
+;      hl = sur la pile (adresse de retour)
+; Out: Si a = AUDIO_CMD_F2, configure hSoundCh4 et continue AudioQueueProcessing
+;      Sinon, passe à CheckAudioCommand_F3
+; Modifie: a, hSoundCh4
 CheckAudioCommand_F2:
     cp AUDIO_CMD_F2
     jr nz, CheckAudioCommand_F3
