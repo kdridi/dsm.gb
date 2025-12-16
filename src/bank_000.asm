@@ -11028,12 +11028,26 @@ AudioCmdSeq_04Alt:
     db $20, $9D, $31, $9D, $0A, $9D, $11, $9D, $FF
 
 ; ===========================================================================
-; Zone de données mal désassemblées ($2D72-$2FD8)
+; AudioCmdSeq_05Alt
+; ----------------
+; Description: Séquence de commandes audio 5 (table 1 alternative)
+; In:  Utilisée via AudioChannelCommandTable1Alt[5]
+; Bytes: $20,$9E = Commande $9E avec param $20
+;        $31,$9E = Commande $9E avec param $31
+;        $0A,$9E = Commande $9E avec param $0A
+;        $11,$9E = Commande $9E avec param $11
+;        $FF = Terminateur de séquence
+; ===========================================================================
+AudioCmdSeq_05Alt:
+    db $20, $9E, $31, $9E, $0A, $9E, $11, $9E, $FF
+
+; ===========================================================================
+; Zone de données mal désassemblées ($2D7B-$2FD8)
 ; TODO BFS: Reconstruire ces séquences audio référencées par AudioChannelCommandTable1Alt
 ; et autres tables d'animation audio
 ; ===========================================================================
 AudioAnimData_10:
-    db $20, $9E, $31, $9E, $0A, $9E, $11, $9E, $FF, $83, $FF, $84, $FF, $85, $FF, $86
+    db $83, $FF, $84, $FF, $85, $FF, $86
     db $FF, $40, $E0, $FF, $E5, $FF, $40, $F6, $FF, $40, $F7, $FF, $40, $F8, $FF, $FE
     db $FF, $DF, $FF, $40, $EE, $FF, $EF, $01, $EF, $FF, $B0, $01, $B1, $0A, $A0, $01
     db $A1, $FF, $10, $B1, $11, $B0, $1A, $A1, $11, $A0, $FF, $30, $C3, $31, $C2, $3A
@@ -11109,7 +11123,7 @@ AudioChannelCommandTable1Alt:
     dw AudioCmdSeq_01_02_Shared  ; Entry  2 - Audio sequence 2 (identique à entry 1)
     dw AudioAnimData_08          ; Entry  3 - Audio sequence 3
     dw AudioCmdSeq_04Alt         ; Entry  4 - Audio sequence 4
-    dw $2D72  ; Entry  5 - Audio sequence 5
+    dw AudioCmdSeq_05Alt         ; Entry  5 - Audio sequence 5
     dw $2D7B  ; Entry  6 - Audio sequence 6
     dw $2D7D  ; Entry  7 - Audio sequence 7
     dw $2D7F  ; Entry  8 - Audio sequence 8
