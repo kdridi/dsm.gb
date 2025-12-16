@@ -2985,6 +2985,14 @@
       "priority": 3
     },
     {
+      "address": "$2d12",
+      "node_type": "data",
+      "description": "AudioAnimData_00 - Donn\u00e9es d'animation audio (partage les octets $94, $FF)",
+      "source": "$2d0f",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2d1c",
       "node_type": "data",
       "description": "AudioCmdSeq_06 - S\u00e9quence de commandes audio n\u00b06",
@@ -3753,10 +3761,18 @@
       "priority": 3
     },
     {
-      "address": "$2d12",
+      "address": "$2d14",
       "node_type": "data",
-      "description": "AudioAnimData_00 - Donn\u00e9es d'animation audio (partage les octets $94, $FF)",
-      "source": "$2d0f",
+      "description": "AudioAnimData_01 - S\u00e9quence de 4 octets pour animation audio",
+      "source": "$2d12",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d18",
+      "node_type": "data",
+      "description": "AudioAnimData_02 - S\u00e9quence de 4 octets pour animation audio",
+      "source": "$2d12",
       "bank": 0,
       "priority": 3
     }
@@ -3785,6 +3801,7 @@
     "$2D1C",
     "$255F",
     "$2A1A",
+    "$2d12",
     "$1385",
     "$00C5",
     "$1655",
@@ -4137,6 +4154,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 3,
-  "total_explored": 374
+  "commits_since_push": 4,
+  "total_explored": 375
 }
