@@ -2929,6 +2929,14 @@
       "priority": 3
     },
     {
+      "address": "$336c",
+      "node_type": "data",
+      "description": "ROM_AUDIO_CONFIG - Table de configuration audio (3 octets par son)",
+      "source": "$2cb2",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$3495",
       "node_type": "data",
       "description": "ROM_AUDIO_POINTERS - Table des pointeurs vers donn\u00e9es audio (2 octets par entr\u00e9e)",
@@ -3577,10 +3585,18 @@
       "priority": 3
     },
     {
-      "address": "$336c",
+      "address": "$2cf4",
+      "node_type": "code",
+      "description": "SaveSoundDataToHL - Fall-through direct, copie les donn\u00e9es audio vers HL",
+      "source": "$2cee",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d00",
       "node_type": "data",
-      "description": "ROM_AUDIO_CONFIG - Table de configuration audio (3 octets par son)",
-      "source": "$2cb2",
+      "description": "AudioCmdSeq_00 - D\u00e9but des s\u00e9quences de commandes audio (table 1)",
+      "source": "$2cee",
       "bank": 0,
       "priority": 3
     }
@@ -3748,6 +3764,7 @@
     "$4000:2",
     "$0ECB",
     "$1983",
+    "$2cee",
     "$2C96",
     "$2CF4",
     "$2492",
@@ -3949,6 +3966,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 1,
-  "total_explored": 362
+  "commits_since_push": 2,
+  "total_explored": 363
 }
