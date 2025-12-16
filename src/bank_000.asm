@@ -8120,6 +8120,17 @@ ProcessColumnAnimation:
     cp TILEMAP_CMD_LOAD3
     call z, LoadLevelTilemap
 
+; ProcessColumnAnimation_End
+; --------------------------
+; Description: Finalise le traitement d'un tile dans wScrollBuffer.
+;              Avance le pointeur de destination, décrémente le compteur,
+;              et boucle sur TilemapDataCopyStart ou continue vers ProcessScrollEntry.
+; In:  e = offset dans wScrollBuffer (pointeur bas)
+;      b = nombre de tiles restants à traiter
+;      hl = pointeur vers données source
+; Out: Si b != 0 après décrémentation, retour à TilemapDataCopyStart
+;      Sinon, continue vers ProcessScrollEntry pour traiter le segment suivant
+; Modifie: e, b
 ProcessColumnAnimation_End:
     inc e
     dec b
