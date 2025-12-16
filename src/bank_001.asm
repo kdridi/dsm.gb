@@ -27,7 +27,21 @@ LevelJumpTable:
     ; Niveau 8 (incomplet)
     dw $54D5
 
-    rrca  ; $4032 - octet isolé (possiblement marqueur de fin de table)
+; ==============================================================================
+; ROM_WORLD1_TILES - Données graphiques mondes 1 et 2 ($4032-$4401)
+; ==============================================================================
+; Description: Zone de tiles graphiques utilisés pour les mondes 1 et 2
+;              Cette section est mal désassemblée comme code, mais contient
+;              réellement des données graphiques (tiles 8x8, 2bpp)
+; Référencé par: GraphicsTableA ($0DE4) pointe vers $4032
+; Destination: Copié vers VRAM $8A00 par CopyPatternTileDataLoop
+; Taille: $3D0 octets (976 bytes = 61 tiles)
+; Format: Chaque tile = 16 octets (8x8 pixels, 2 bits par pixel)
+; Note: Les labels dans cette section (ProcessDataValue_4055, etc.) pointent
+;       vers des octets de données, pas du code exécutable
+; ==============================================================================
+ROM_WORLD1_TILES:  ; $4032
+    rrca  ; Début données tiles (mal désassemblé)
 
 CalculateOffset_4033:
     rrca
