@@ -6122,8 +6122,8 @@ HandlePlayerWaterCollision:
 
 ; InitializeGameObjects
 ; ---------------------
-; Description: Initialise 4 objets du jeu avec position joueur + offsets
-; In:  -
+; Description: Initialise 4 objets actifs, désactive objets 4-5, ajoute bonus +50
+; In:  hl = pointeur vers premier objet à initialiser
 ; Out: -
 ; Modifie: af, bc, de, hl
 InitializeGameObjects:
@@ -6135,11 +6135,11 @@ InitObjectsLoop:
     ld [hl], $00
     inc l
     ld a, [wPlayerX]
-    add $f3
+    add OBJECT_INIT_X_OFFSET
     ld [hl], a
     inc l
     ld a, [wPlayerState]
-    add $02
+    add OBJECT_INIT_Y_OFFSET
     ld [hl], a
     inc l
     inc l

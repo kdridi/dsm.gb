@@ -1388,6 +1388,8 @@ DEF OAM_SPRITE_TILE_82         EQU $82   ; Tile sprite eau/effet
 DEF INIT_OBJECTS_LOOP_COUNT    EQU $04   ; Nombre d'objets à initialiser (4)
 DEF OBJECT_STRUCT_SIZE         EQU $10   ; Taille structure objet (16 octets)
 DEF OBJECT_OFFSET_09           EQU $09   ; Offset +9 dans structure objet (flag état)
+DEF OBJECT_INIT_X_OFFSET       EQU $f3   ; Offset X pour init objets (-13 en signé)
+DEF OBJECT_INIT_Y_OFFSET       EQU $02   ; Offset Y pour init objets (+2)
 
 ; === Valeurs wStateBuffer ===
 

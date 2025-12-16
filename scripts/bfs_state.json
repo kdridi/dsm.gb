@@ -1345,6 +1345,14 @@
       "priority": 3
     },
     {
+      "address": "$19fc",
+      "node_type": "code",
+      "description": "InitializeGameObjects - Initialise 4 objets du jeu (appelable s\u00e9par\u00e9ment)",
+      "source": "$19d8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1B3C",
       "node_type": "code",
       "description": "TriggerBlockCollisionSound_TimerDispatch - D\u00e9clenche son collision + dispatch timer",
@@ -2167,14 +2175,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$19fc",
-      "node_type": "code",
-      "description": "InitializeGameObjects - Initialise 4 objets du jeu (appelable s\u00e9par\u00e9ment)",
-      "source": "$19d8",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2195,6 +2195,7 @@
     "$1527",
     "$09e8",
     "$0ad1",
+    "$19fc",
     "$1892",
     "$0100",
     "$00C7",
@@ -2347,6 +2348,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 168
+  "commits_since_push": 3,
+  "total_explored": 169
 }
