@@ -4267,46 +4267,26 @@ CompressedData_5A55:  ; $5A55
 TilesetPointer_5A5B:  ; $5A5B - Pointeur utilisé dans tables tilesets
     db $FE, $F1                  ; $5A5B-$5A5C: Commande compression type 2
     db $5D                       ; $5A5D: Marqueur/commande
-TilesetPointer_5A5F:  ; $5A5F - Référencé par lignes 3383, 3398
+TilesetPointer_5A5F:  ; $5A5F - Pointeur vers TilePatternData_5A60
     db $FE, $F1                  ; $5A5E-$5A5F: Commande compression type 2
 
+; PatternData_5a60
+; ----------------
+; Description: Données de pattern compressées (50 bytes)
+;              Format: séquences de commandes de décompression
+;              Pattern répété: $8E $FE $F1 $8F $FE $F1
+; Utilisation: Référencé à $5A5F (TilesetPointer)
 PatternData_5a60:
-    adc [hl]
-    cp $f1
-    adc a
-    cp $f1
-    adc [hl]
-    cp $f1
-    adc a
-    cp $f1
-    adc [hl]
-    cp $f1
-    adc a
-    cp $f1
-    adc [hl]
-    cp $f1
-    adc a
-    cp $f1
-    adc [hl]
-    cp $f1
-    adc a
-    cp $f1
-    adc [hl]
-    cp $f1
-    adc a
-    cp $f1
-    adc [hl]
-    cp $f1
-    adc a
-    cp $f1
-    adc [hl]
-    cp $f1
-    adc a
-    cp $f1
-    adc [hl]
-    cp $21
-    adc [hl]
-    pop af
+    db $8E, $FE, $F1, $8F, $FE, $F1  ; Pattern répété x8
+    db $8E, $FE, $F1, $8F, $FE, $F1
+    db $8E, $FE, $F1, $8F, $FE, $F1
+    db $8E, $FE, $F1, $8F, $FE, $F1
+    db $8E, $FE, $F1, $8F, $FE, $F1
+    db $8E, $FE, $F1, $8F, $FE, $F1
+    db $8E, $FE, $F1, $8F, $FE, $F1
+    db $8E, $FE, $F1, $8F, $FE, $F1
+    db $8E, $FE                       ; Pattern partiel final
+    ld hl, $f18e
     adc a
     cp $00
     inc de
