@@ -2457,14 +2457,21 @@ CheckCollisionWithPositiveOffset:
     ret
 
 
+; CheckSpriteCollisionSimple
+; --------------------------
+; Description: Vérifie collision sprite lorsque bouton A est pressé.
+;              Si aucune collision détectée et position X valide, déplace joueur vers la droite.
+; In:  wPlayerX = Position X actuelle du joueur
+; Out: Aucun (retourne via HandleJoypadAndCollision)
+; Modifie: a, hl (via appels)
 CheckSpriteCollisionSimple:
     call CheckSpriteCollision
-    cp $ff
+    cp RETURN_COLLISION_FOUND
     jr z, HandleJoypadAndCollision
 
     ld hl, wPlayerX
     ld a, [hl]
-    cp $94
+    cp PLAYER_X_MAX_LIMIT
     jr nc, HandleJoypadAndCollision
 
     inc [hl]

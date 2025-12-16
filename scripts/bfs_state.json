@@ -4879,6 +4879,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$5089",
+      "node_type": "code",
+      "description": "CheckSpriteCollision - D\u00e9tection collision sprite",
+      "source": "$5022",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$4FF6",
+      "node_type": "code",
+      "description": "HandleJoypadAndCollision - Gestion joypad et collisions directionnelles",
+      "source": "$5022",
+      "bank": 1,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5029,6 +5045,7 @@
     "$07F0",
     "$12B9",
     "$21f5",
+    "$5022",
     "$1892",
     "$24CD",
     "$4DA7",
@@ -5431,6 +5448,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 2,
-  "total_explored": 548
+  "commits_since_push": 3,
+  "total_explored": 549
 }

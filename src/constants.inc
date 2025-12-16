@@ -1558,6 +1558,7 @@ DEF SPRITE_Y_LIMIT_MAX         EQU $a2   ; Limite Y max sprite montant (162 pixe
 DEF SPRITE_Y_LIMIT_UPPER       EQU $a8   ; Limite Y haute sprite descendant (168 pixels)
 DEF SPRITE_Y_LIMIT_MIN         EQU $10   ; Limite Y min sprite (16 pixels = haut écran)
 DEF SPRITE_Y_LIMIT_LOW         EQU $04   ; Limite Y basse sprite (4 pixels)
+DEF PLAYER_X_MAX_LIMIT         EQU $94   ; Limite X max position joueur (148 pixels)
 
 ; === Ajustements position sprite (IncrementY/DecrementY) ===
 
