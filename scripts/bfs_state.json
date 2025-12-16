@@ -1761,6 +1761,38 @@
       "priority": 3
     },
     {
+      "address": "$1af2",
+      "node_type": "code",
+      "description": "CollisionDefaultHandler - Handler collision par d\u00e9faut pour tiles normaux",
+      "source": "$1aa4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1b05",
+      "node_type": "code",
+      "description": "HandlePlayerSpikeCollision - G\u00e8re collision avec tuyau/spike ($F4)",
+      "source": "$1aa4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1b1a",
+      "node_type": "code",
+      "description": "HandlePlayerSlideCollision - G\u00e8re collision avec glissade ($77)",
+      "source": "$1aa4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1b3c",
+      "node_type": "code",
+      "description": "TriggerBlockCollisionSound - D\u00e9clenche son collision bloc avec rebond ($F2)",
+      "source": "$1aa4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1b7d",
       "node_type": "code",
       "description": "ProcessBlockCollision - Traite collision selon hBlockHitType ($C0=special)",
@@ -1797,6 +1829,14 @@
       "node_type": "code",
       "description": "CollectCoin - Collecte pi\u00e8ce et efface tile",
       "source": "$1a4e",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1ecb",
+      "node_type": "code",
+      "description": "ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites",
+      "source": "$1aa4",
       "bank": 0,
       "priority": 3
     },
@@ -3167,46 +3207,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1b05",
-      "node_type": "code",
-      "description": "HandlePlayerSpikeCollision - G\u00e8re collision avec tuyau/spike ($F4)",
-      "source": "$1aa4",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1b1a",
-      "node_type": "code",
-      "description": "HandlePlayerSlideCollision - G\u00e8re collision avec glissade ($77)",
-      "source": "$1aa4",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1b3c",
-      "node_type": "code",
-      "description": "TriggerBlockCollisionSound - D\u00e9clenche son collision bloc avec rebond ($F2)",
-      "source": "$1aa4",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1af2",
-      "node_type": "code",
-      "description": "CollisionDefaultHandler - Handler collision par d\u00e9faut pour tiles normaux",
-      "source": "$1aa4",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1ecb",
-      "node_type": "code",
-      "description": "ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites",
-      "source": "$1aa4",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3268,6 +3268,7 @@
     "$21F5",
     "$2207",
     "$1CDF",
+    "$1af2",
     "$03E4",
     "$1E9B",
     "$1bee",
@@ -3499,6 +3500,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 288
+  "commits_since_push": 3,
+  "total_explored": 289
 }
