@@ -14233,14 +14233,18 @@ GetSpritePosFromTileAddr:
     ret
 
 
-;; ==========================================================================
-;; UpdateScoreDisplay - Met à jour l'affichage du score dans la tilemap
-;; ==========================================================================
-;; Appelé par : VBlankHandler
-;; Source     : $C0A2 (score en BCD, 3 octets = 6 chiffres)
-;; Destination: $9820 (tilemap, ligne du HUD)
-;; Format     : BCD → tiles ($00-$09 = chiffres, $2C = espace/zéro leading)
-;; ==========================================================================
+; UpdateScoreDisplay
+; ------------------
+; Description: Met à jour l'affichage du score dans la tilemap
+;              Convertit 3 octets BCD en 6 tiles chiffres avec suppression des zéros de tête
+;              Vérifie flags de condition avant mise à jour
+; In:  [wScoreBCD] = score en BCD (3 octets = 6 chiffres, octet haut en premier)
+;      [hScoreNeedsUpdate] = flag de mise à jour requise
+;      [wCoinUpdateDone] = flag blocker (si actif, pas de mise à jour)
+;      [hScrollPhase] = phase de scroll (skip si SCROLL_PHASE_DONE)
+; Out: Tilemap à VRAM_HUD_LINE ($9820) mise à jour avec tiles chiffres
+;      [hScoreNeedsUpdate] = 0 (flag cleared)
+; Modifie: a, b, c, de, hl
 UpdateScoreDisplay:
     ; --- EarlyReturnChecks ---
     ldh a, [hScoreNeedsUpdate]          ; Flag "needs update" ?
