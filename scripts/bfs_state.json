@@ -4007,6 +4007,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$35AB",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 5",
+      "source": "$35A1",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4179,6 +4187,7 @@
     "$2246",
     "$1343",
     "$2D1C",
+    "$35A1",
     "$2d88",
     "$0100",
     "$1C63",
@@ -4431,6 +4440,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 4,
-  "total_explored": 420
+  "commits_since_push": 0,
+  "total_explored": 421
 }
