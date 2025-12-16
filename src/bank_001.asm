@@ -2494,27 +2494,39 @@ CheckSpriteCollisionSimple:
     inc [hl]
     jr HandleJoypadAndCollision
 
+; HandleJoypadButtonB_CheckCollision
+; ----------------------------------
+; Description: Gère collision lors appui bouton B (mouvement gauche)
+; In:  -
+; Out: a = $FF si collision solide, autre valeur si OK ou pipe
+; Modifie: a, hl, bc, de
 HandleJoypadButtonB_CheckCollision:
     call CheckPlayerCollisionWithTile
-    cp $ff
+    cp RETURN_COLLISION_FOUND
     jr z, HandleJoypadAndCollision
 
     ld hl, wPlayerX
     ld a, [hl]
-    cp $30
+    cp GAME_STATE_WALK_LEFT        ; Limite gauche $30
     jr c, HandleJoypadAndCollision
 
     dec [hl]
     jr HandleJoypadAndCollision
 
+; CheckPlayerCollisionWithTile
+; ----------------------------
+; Description: Vérifie collision joueur avec tiles devant lui (2 points test)
+; In:  -
+; Out: a = $FF si collision solide, 0 si libre, code spécial si pipe
+; Modifie: a, b, hl, hSpriteX, hSpriteY
 CheckPlayerCollisionWithTile:
     ld hl, wPlayerX
     ldh a, [hTimerAux]
-    ld b, $fd
+    ld b, FEET_COLLISION_OFFSET_Y  ; $FD = -3
     and a
     jr z, .checkFirstTile
 
-    ld b, $fc
+    ld b, COLLISION_ADJUST_X_NEG4  ; $FC = -4
 
 .checkFirstTile:
     ld a, [hl+]
@@ -2523,37 +2535,37 @@ CheckPlayerCollisionWithTile:
     ldh a, [hShadowSCX]
     ld b, [hl]
     add b
-    add $02
+    add FEET_COLLISION_ADJUST_X    ; +2
     ldh [hSpriteX], a
     call ReadTileUnderSprite
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD       ; Tiles < $60 = non-solides
     jr nc, .tileIsSolid
 
     ldh a, [hSpriteX]
-    add $fa
+    add COLLISION_SIDE_X_NEG       ; -6 pixels
     ldh [hSpriteX], a
     call ReadTileUnderSprite
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD
     ret c
 
 .tileIsSolid:
     cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
     jr z, .activateCollision
 
-    ld a, $ff
+    ld a, RETURN_COLLISION_FOUND
     ret
 
 
 .activateCollision:
     push hl
     pop de
-    ld hl, $ffee
-    ld [hl], $c0
+    ld hl, hBlockHitType
+    ld [hl], BLOCK_HIT_TYPE_SPECIAL
     inc l
     ld [hl], d
     inc l
     ld [hl], e
-    ld a, $05
+    ld a, STATE_BUFFER_COIN
     ld [wStateBuffer], a
     ret
 
