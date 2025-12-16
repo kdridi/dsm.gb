@@ -8151,6 +8151,14 @@ UpdateCollisionFlag:
     ret
 
 
+; StoreTilemapScrollOffsets
+; -------------------------
+; Description: Sauvegarde les offsets de pointeur tilemap et gère le wraparound Y du scroll
+;              Si ScrollY atteint 20 lignes (TILEMAP_ROW_WIDTH), incrémente ScrollX et reset Y
+;              Active ensuite la phase de scroll pour déclencher la mise à jour VRAM
+; In:  hl = pointeur tilemap (h=OffsetX, l=OffsetY)
+; Out: Aucun
+; Modifie: a, hl
 StoreTilemapScrollOffsets:
     ld a, h
     ldh [hTilemapOffsetX], a
@@ -8165,6 +8173,13 @@ StoreTilemapScrollOffsets:
     inc [hl]
     xor a
 
+; UpdateTilemapScrollConfig
+; -------------------------
+; Description: Point d'entrée pour finaliser la mise à jour de la configuration de scroll
+;              Met à jour ScrollY, sauvegarde SCX shadow et active la phase de scroll
+; In:  a = nouvelle valeur de hTilemapScrollY
+; Out: Aucun
+; Modifie: a
 UpdateTilemapScrollConfig:
     ldh [hTilemapScrollY], a
     ldh a, [hShadowSCX]
