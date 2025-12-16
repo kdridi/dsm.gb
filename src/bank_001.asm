@@ -3435,8 +3435,9 @@ DataZone_5652:  ; $5652 - Référencé par du code (lignes 10194, 10254)
 ; Level3MapData - Map data niveau 3 ($5665-$5693)
 ; ==============================================================================
 ; Description: Données de map (layout de tiles) pour le niveau 3
-; Format: Séquence de words (16-bit tile IDs ou pointeurs), terminée par $FF
-;         - Chaque word représente un tile dans le layout de la map
+; Format: Séquence de words (16-bit pointeurs vers tileset data), terminée par $FF
+;         - Chaque word pointe vers des données de tileset dans bank 1
+;         - Les pointeurs référencent des blocs de tile patterns compressés
 ; Taille: 47 octets ($2F) - 23 words + terminateur
 ; Référencé par: LevelJumpTable niveau 3 (ligne 18)
 ; ==============================================================================
