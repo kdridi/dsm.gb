@@ -6384,6 +6384,12 @@ SpriteAnimationDispatch_ByType:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
+; SpriteSlot1_AnimationCheck
+; --------------------------
+; Description: Gère le compteur d'animation pour le sprite slot 1 (wSpriteTemp+$38)
+; In:  hl = pointeur vers compteur frame du slot 1
+; Out: Aucun
+; Modifie: a, saute vers SpriteAnimationMultiplexHandler ou ExitSpriteHandler
 SpriteSlot1_AnimationCheck:
     ld a, [wLevelParam0D]
     cp SPRITE_ANIM_DISABLE
