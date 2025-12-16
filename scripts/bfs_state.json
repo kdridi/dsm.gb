@@ -1505,6 +1505,14 @@
       "priority": 3
     },
     {
+      "address": "$1D0B",
+      "node_type": "data",
+      "description": "ROM_TEXT_WINDOW_DATA - 9 octets de donn\u00e9es texte pour la window",
+      "source": "$1CDB",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1D1D",
       "node_type": "code",
       "description": "ProcessAnimationState - Traite l'\u00e9tat d'animation du joueur",
@@ -2343,14 +2351,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1D0B",
-      "node_type": "data",
-      "description": "ROM_TEXT_WINDOW_DATA - 9 octets de donn\u00e9es texte pour la window",
-      "source": "$1CDB",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2458,6 +2458,7 @@
     "$1CA8",
     "$0F09",
     "$11B6",
+    "$1CDF",
     "$1451",
     "$0CC2",
     "$0a20",
@@ -2541,6 +2542,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 186
+  "commits_since_push": 1,
+  "total_explored": 187
 }

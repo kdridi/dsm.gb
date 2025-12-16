@@ -723,7 +723,7 @@ StateJumpTable:
     dw State37_FinalSpriteAnimation ; État $37 - Animation sprite finale
     dw State38_CreditsAnimation    ; État $38 - Animation crédits
     dw State39_GameOver            ; État $39 - Game Over
-    dw $1cdf    ; État $3A - (décalé de 4 bytes par rapport à State3A_WindowUpdate)
+    dw State3A_WindowUpdate        ; État $3A - Mise à jour window
     dw State3B_WindowSetup         ; État $3B - Setup window
 
 ; === Données non référencées ($031E-$0321) ===
@@ -6807,8 +6807,13 @@ GameOverText:
 
 ; ===========================================================================
 ; État $3A - Mise à jour window ($1CDF)
-; Vérifie variable player et appelle routine de mise à jour si != 0
 ; ===========================================================================
+; State3A_WindowUpdate
+; --------------------
+; Description: Vérifie le flag d'animation terminée et configure l'état crédits
+; In:  -
+; Out: -
+; Modifie: af (via SetupCreditsState si flag actif)
 State3A_WindowUpdate::
     ld a, [wPlayerVarAD]
     and a
