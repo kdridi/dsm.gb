@@ -5752,6 +5752,12 @@ CollisionHandler_Type5F_Entry:
     and a
     ret z
 
+; CollisionHandler_Platform_Entry
+; --------------------------------
+; Description: Gère la collision avec une plateforme/tile interactive
+; In:  hl = adresse tile dans tilemap
+; Out: Peut sauter vers PlayerWaterCollisionEntry ou setup sprite/son
+; Modifie: a, bc, de, hl (via appels)
 CollisionHandler_Platform_Entry:
     ldh a, [hBlockHitType]
     and a

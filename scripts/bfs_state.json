@@ -1265,6 +1265,22 @@
       "priority": 3
     },
     {
+      "address": "$18b7",
+      "node_type": "code",
+      "description": "HandleTileValueF0 - G\u00e8re tile valeur $F0 (seuil sp\u00e9cial)",
+      "source": "$1872",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$18be",
+      "node_type": "code",
+      "description": "HandleNonC0TileValue - G\u00e8re tiles avec valeur != $C0",
+      "source": "$1872",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$195d",
       "node_type": "code",
       "description": "HandlePlayerUpCollision - G\u00e8re collision vers le haut",
@@ -2097,18 +2113,18 @@
       "priority": 3
     },
     {
-      "address": "$18b7",
+      "address": "$3efe",
       "node_type": "code",
-      "description": "HandleTileValueF0 - G\u00e8re tile valeur $F0 (seuil sp\u00e9cial)",
-      "source": "$1872",
+      "description": "GetSpritePosFromTileAddr - Calcul position sprite depuis adresse tile",
+      "source": "$187f",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$18be",
+      "address": "$2544",
       "node_type": "code",
-      "description": "HandleNonC0TileValue - G\u00e8re tiles avec valeur != $C0",
-      "source": "$1872",
+      "description": "PlaySound - Joue un effet sonore",
+      "source": "$187f",
       "bank": 0,
       "priority": 3
     }
@@ -2169,6 +2185,7 @@
     "$14BB",
     "$117A",
     "$06A5",
+    "$187f",
     "$0C22",
     "$0EB2",
     "$1345",
@@ -2273,6 +2290,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 158
+  "commits_since_push": 3,
+  "total_explored": 159
 }
