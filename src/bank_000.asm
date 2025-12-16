@@ -10788,6 +10788,13 @@ CopySoundDataLoop:
     ret
 
 
+; SaveSoundDataToSlot
+; -------------------
+; Description: Sauvegarde les données audio depuis HRAM vers un slot dans wObjectBuffer
+;              Utilisé pour préserver l'état d'un effet sonore actif avant un changement de contexte
+; In:  a = index du slot (0-9), hSoundId+12 = données audio à sauvegarder (13 octets)
+; Out: wObjectBuffer[a*16..a*16+12] = données copiées depuis hSoundId
+; Modifie: a, b, de, hl
 SaveSoundDataToSlot:
     swap a
     ld hl, wObjectBuffer
