@@ -11138,10 +11138,13 @@ AudioCmdSeq_15Alt:
     db $FE, $FF, $DF, $FF
 
 ; ===========================================================================
-; Zone de données mal désassemblées ($2D95-$2FD8)
-; TODO BFS: Reconstruire les autres séquences audio et tables d'animation
+; AudioAnimDataBulk ($2D95-$2FD8)
+; Zone de données brutes d'animation/graphiques - 580 bytes de données continues
+; Note: Cette zone n'est pas référencée directement par une table connue
+;       Elle pourrait contenir des sprites, tiles ou données d'animation
+; TODO BFS: Identifier l'usage exact et décomposer en structures logiques
 ; ===========================================================================
-AudioAnimData_10:
+AudioAnimDataBulk:
     db $40, $EE, $FF, $EF, $01, $EF, $FF, $B0, $01, $B1, $0A, $A0, $01
     db $A1, $FF, $10, $B1, $11, $B0, $1A, $A1, $11, $A0, $FF, $30, $C3, $31, $C2, $3A
     db $D3, $31, $D2, $FF, $B2, $01, $B3, $0A, $A2, $01, $A3, $FF, $10, $B3, $11, $B2
