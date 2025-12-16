@@ -10318,31 +10318,41 @@ HandleGameplayObjectSound:
     ret
 
 
+; LoadAudioSlotConfiguration
+; --------------------------
+; Description: Charge la configuration audio d'un objet depuis ROM_OBJECT_SOUND_TABLE.
+;              Lit l'ID objet, calcule l'offset (ID * 5 + 4) pour récupérer le 5ème
+;              octet de l'entrée, initialise le slot audio si non-nul.
+; In:  hl = pointeur vers l'ID de l'objet
+; Out: a = 0 si aucun son, RETURN_COLLISION_FOUND ($FF) si son initialisé
+; Modifie: af, bc, de, hl (via InitSoundSlot)
 LoadAudioSlotConfiguration:
     push hl
-    ld a, [hl]
+    ld a, [hl]              ; a = ID objet
     ld e, a
     ld d, $00
     ld l, a
     ld h, $00
+    ; Calcul: de = a * 4, hl = a
     sla e
     rl d
     sla e
-    rl d
-    add hl, de
+    rl d                    ; de = a * 4
+    add hl, de              ; hl = a + (a * 4) = a * 5
     ld de, ROM_OBJECT_SOUND_TABLE
-    add hl, de
+    add hl, de              ; hl pointe sur entrée objet (5 octets)
+    ; Avance au 5ème octet (offset +4)
     inc hl
     inc hl
     inc hl
     inc hl
-    ld a, [hl]
+    ld a, [hl]              ; a = config audio (5ème octet)
     pop hl
     and a
-    ret z
+    ret z                   ; Retourne 0 si config = 0
 
-    ld [hl], a
-    call InitSoundSlot
+    ld [hl], a              ; Stocke config dans objet
+    call InitSoundSlot      ; Initialise le slot audio
     ld a, RETURN_COLLISION_FOUND
     ret
 
