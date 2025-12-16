@@ -9440,6 +9440,12 @@ CheckAudioQueueBit4:
     and b
     ldh [hSoundCh2], a
 
+; AudioQueueProcessDone
+; ---------------------
+; Description: Termine le traitement d'une commande audio et retourne à la boucle principale
+; In:  stack = hl sauvegardé précédemment
+; Out: Saute vers AudioQueueProcessing pour continuer la boucle
+; Modifie: hl (restauré depuis pile)
 AudioQueueProcessDone:
     pop hl
     jp AudioQueueProcessing
