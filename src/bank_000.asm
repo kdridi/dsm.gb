@@ -13891,6 +13891,13 @@ DisplayLevelBCDScore:
 ; État $12 - Configuration écran fin de niveau ($3D8E)
 ; LCD off, clear OAM, fill tilemap avec tiles vides, affiche vies → état $13
 ; ===========================================================================
+; State12_EndLevelSetup
+; ---------------------
+; Description: Configure l'écran de fin de niveau (éteint LCD, efface OAM,
+;              remplit tilemap, affiche compteur de vies)
+; In:  wLivesCounter = nombre de vies à afficher
+; Out: hGameState = GAME_STATE_DRAW_BORDER ($13)
+; Modifie: a, bc, de, hl, wStateRender, hShadowSCX, wOamBuffer, VRAM
 State12_EndLevelSetup::
     ld hl, wStateRender
     ld a, STATE_RENDER_END_SETUP
