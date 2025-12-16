@@ -5775,6 +5775,14 @@ CollisionHandler_Platform_Entry:
     cp TILE_SPECIAL_THRESHOLD   ; Tile $F0 = special/vide
     jr z, HandleTileValueF0
 
+; TileC0Handler
+; -------------
+; Description: Gère collision avec blocs spéciaux (tile $C0). Vide le slot niveau,
+;              puis configure état collision coin si aucune collision active.
+; In:  a = valeur tile collision (doit être BLOCK_HIT_TYPE_SPECIAL = $C0)
+;      hl = adresse tile dans map
+; Out: wLevelConfig = SLOT_EMPTY, délégué à ApplyAltSpriteAttributeIfConfigSet ou PlatformCollisionSetup
+; Modifie: a, délégué aux handlers appelés
 TileC0Handler:
     cp BLOCK_HIT_TYPE_SPECIAL
     jr nz, HandleNonC0TileValue

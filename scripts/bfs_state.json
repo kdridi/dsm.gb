@@ -1265,6 +1265,14 @@
       "priority": 3
     },
     {
+      "address": "$1892",
+      "node_type": "handler",
+      "description": "TileC0Handler - G\u00e8re blocs sp\u00e9ciaux (tile $C0) avec contenu",
+      "source": "$195d",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$18b7",
       "node_type": "code",
       "description": "HandleTileValueF0 - G\u00e8re tile valeur $F0 (seuil sp\u00e9cial)",
@@ -2145,10 +2153,18 @@
       "priority": 3
     },
     {
-      "address": "$1892",
+      "address": "$189b",
+      "node_type": "code",
+      "description": "PlatformCollisionSetup - Configure collision plateforme si pas d\u00e9j\u00e0 active",
+      "source": "$1892",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$191a",
       "node_type": "handler",
-      "description": "TileC0Handler - G\u00e8re blocs sp\u00e9ciaux (tile $C0) avec contenu",
-      "source": "$195d",
+      "description": "ApplyAltSpriteAttributeIfConfigSet - Applique attribut sprite alternatif selon config",
+      "source": "$1892",
       "bank": 0,
       "priority": 3
     }
@@ -2170,6 +2186,7 @@
     "$1527",
     "$09e8",
     "$0ad1",
+    "$1892",
     "$0100",
     "$00C7",
     "$0050",
@@ -2319,6 +2336,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 164
+  "commits_since_push": 4,
+  "total_explored": 165
 }
