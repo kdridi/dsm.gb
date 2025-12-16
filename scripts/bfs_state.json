@@ -3751,6 +3751,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2d12",
+      "node_type": "data",
+      "description": "AudioAnimData_00 - Donn\u00e9es d'animation audio (partage les octets $94, $FF)",
+      "source": "$2d0f",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3916,6 +3924,7 @@
     "$1aa0",
     "$1C5E",
     "$09E8",
+    "$2d0f",
     "$1bf2",
     "$2c96",
     "$2D2D",
@@ -4128,6 +4137,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 2,
-  "total_explored": 373
+  "commits_since_push": 3,
+  "total_explored": 374
 }
