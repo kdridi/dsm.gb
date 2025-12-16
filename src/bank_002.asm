@@ -6028,7 +6028,7 @@ SetTimerForSpecialCase:
     and a
     ret nz
 
-    ld a, $02
+    ld a, SPECIAL_STATE_SPECIAL
     ld [hl], a
     ld a, TIMER_GAMEPLAY_DELAY
     ldh [rTMA], a
@@ -6043,10 +6043,10 @@ SetTimerForSpecialCase:
 ; Modifie: a, hl
 SetTimerForAlternateCase:
     ld a, c
-    cp $01
+    cp SPECIAL_STATE_ALTERNATE
     ret nz
 
-    ld a, $01
+    ld a, SPECIAL_STATE_ALTERNATE
     ld [hl], a
     ld a, LEVEL_PARAM_INIT_30
     ldh [rTMA], a

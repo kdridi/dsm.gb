@@ -74,6 +74,8 @@ DEF BANK_DEMO       EQU $02     ; Bank 2 = démo automatique (Attract Mode)
 
 ; === GameLoop - Constantes ===
 
+DEF SPECIAL_STATE_ALTERNATE EQU $01     ; wSpecialState = 1 mode alternatif
+DEF SPECIAL_STATE_SPECIAL   EQU $02     ; wSpecialState = 2 mode spécial
 DEF SPECIAL_STATE_TRIGGER   EQU $03     ; wSpecialState = 3 déclenche reset
 DEF SPECIAL_STATE_RESET     EQU $FF     ; Valeur reset de wSpecialState
 DEF ROM_BANK3_MAIN_LOGIC    EQU $47F2   ; Routine principale en bank 3
