@@ -4890,26 +4890,19 @@ State37_ClearTilemapBuffer:
     ret
 
 ; === Table de données tilemap ($14BB-$14D2) ===
-; NOTE: Mal désassemblé - données tilemap pour écran final (24 bytes)
+; TilemapEndData
+; --------------
+; Description: Données tilemap pour l'écran final des crédits (6 entrées × 4 bytes)
+;              Copiée vers wTilemapBuf70 par State37_FinalSpriteAnimation
+;              Structure probable: Y_offset, attribut/X_hi, tile_id, padding/bank
+; Format: db Y_offset, attr, tile_id, padding (×6)
 TilemapEndData:
-    ld c, [hl]
-    call z, $0052
-    ld c, [hl]
-    call nc, $0053
-    ld c, [hl]
-    call c, $0054
-    ld c, [hl]
-    db $ec
-    ld d, h
-    nop
-    ld c, [hl]
-    db $f4
-    ld d, l
-    nop
-    ld c, [hl]
-    db $fc
-    ld d, [hl]
-    nop
+    db $4E, $CC, $52, $00  ; Entrée 0
+    db $4E, $D4, $53, $00  ; Entrée 1
+    db $4E, $DC, $54, $00  ; Entrée 2
+    db $4E, $EC, $54, $00  ; Entrée 3
+    db $4E, $F4, $55, $00  ; Entrée 4
+    db $4E, $FC, $56, $00  ; Entrée 5
 
 ; ===========================================================================
 ; État $38 - Animation crédits finale ($14D3)

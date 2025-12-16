@@ -1073,6 +1073,14 @@
       "priority": 3
     },
     {
+      "address": "$14BB",
+      "node_type": "data",
+      "description": "ROM_TILEMAP_END_DATA - Table donn\u00e9es tilemap \u00e9cran final (24 bytes)",
+      "source": "$147F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$14D3",
       "node_type": "code",
       "description": "State38_CreditsAnimation - Animation cr\u00e9dits",
@@ -1919,14 +1927,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$14BB",
-      "node_type": "data",
-      "description": "ROM_TILEMAP_END_DATA - Table donn\u00e9es tilemap \u00e9cran final (24 bytes)",
-      "source": "$147F",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -1968,6 +1968,7 @@
     "$0C0D",
     "$1090",
     "$0C6A",
+    "$14BB",
     "$117A",
     "$06A5",
     "$0C22",
@@ -2065,6 +2066,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 134
+  "commits_since_push": 4,
+  "total_explored": 135
 }
