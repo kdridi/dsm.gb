@@ -2832,7 +2832,13 @@ CheckPlayerBounds::
     ret
 
 
-; Routine $4b8a - Vérifie l'état du timer auxiliaire (cas 1)
+; CheckTimerAux1
+; ----------------
+; Description: Vérifie l'état du timer auxiliaire (cas 1). Gère l'animation
+;              du joueur en mode pipe toutes les 4 frames quand timer actif.
+; In:  hTimerAux = état timer, hTimer1 = compteur frames
+; Out: wPlayerY mis à 0, wPlayerDir bit animation modifié
+; Modifie: a
 CheckTimerAux1::
     ldh a, [hTimerAux]
     cp TIMER_AUX_ACTIVE         ; État timer actif?
@@ -2852,7 +2858,13 @@ CheckTimerAux1::
     ld [wPlayerDir], a
     ret
 
-
+; TimerInitializeAux
+; -------------------
+; Description: Initialise le mode pipe quand timer1 est à 0
+; In:  -
+; Out: hTimerAux = TIMER_AUX_PIPE_MODE, wPlayerY = 0,
+;      wPlayerDir bit animation activé
+; Modifie: a
 TimerInitializeAux:
     ld a, TIMER_AUX_PIPE_MODE   ; Passer en mode pipe
     ldh [hTimerAux], a
