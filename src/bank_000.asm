@@ -10338,44 +10338,59 @@ LoadAudioSlotConfiguration:
     ret
 
 
+; DestroyAllObjects
+; ------------------
+; Description: Initialise tous les objets actifs à l'état GAME_STATE_INIT27
+;              et réinitialise certains champs. Joue un son de complétion.
+; In:  -
+; Out: wStateFinal = 1
+; Modifie: a, hl
 DestroyAllObjects:
     ld hl, wObjectBuffer
 
-ScanObjectBuffer:
+.scanLoop:
     ld a, [hl]
     cp SLOT_EMPTY
-    jr z, NextObjectEntry
+    jr z, .nextEntry
 
+    ; Initialiser l'objet actif
     push hl
-    ld [hl], $27
+    ld [hl], GAME_STATE_INIT27   ; [hl+0] = État destruction
     inc hl
     inc hl
     inc hl
     inc hl
-    ld [hl], $00
+    ld [hl], $00                 ; [hl+4] = 0
     inc hl
     inc hl
     inc hl
     inc hl
     inc hl
-    ld [hl], $00
+    ld [hl], $00                 ; [hl+9] = 0
     inc hl
     inc hl
-    ld [hl], $00
+    ld [hl], $00                 ; [hl+11] = 0
     pop hl
 
-NextObjectEntry:
+.nextEntry:
     ld a, l
     add OBJECT_STRUCT_SIZE
     ld l, a
     cp OBJECT_BUFFER_END_LOW     ; Fin buffer objets
-    jr c, ScanObjectBuffer
+    jr c, .scanLoop
 
+    ; Finalisation audio et état
     ld a, SFX_OBJECT_COMPLETE
     ldh [hSoundId], a
     xor a
     ldh [hSoundCh1], a
 
+; StoreAudioChannel4
+; ------------------
+; Description: Stocke 0 dans hSoundCh4, puis 1 dans wStateFinal
+; In:  a = 0
+; Out: wStateFinal = 1
+; Modifie: a
 StoreAudioChannel4:
     ldh [hSoundCh4], a
     inc a
