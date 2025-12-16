@@ -3393,6 +3393,14 @@
       "priority": 3
     },
     {
+      "address": "$3D75",
+      "node_type": "code",
+      "description": "DisplayLevelBCDScore - Affiche le score BCD du niveau \u00e0 l'\u00e9cran",
+      "source": "$3D11",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$3D8E",
       "node_type": "code",
       "description": "State12_EndLevelSetup - Setup fin de niveau",
@@ -4015,14 +4023,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$3D75",
-      "node_type": "code",
-      "description": "DisplayLevelBCDScore - Affiche le score BCD du niveau \u00e0 l'\u00e9cran",
-      "source": "$3D11",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -4259,6 +4259,7 @@
     "$2d1c",
     "$2492",
     "$0519",
+    "$3D61",
     "$0A24",
     "$33ac",
     "$2CF4",
@@ -4450,6 +4451,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 2,
-  "total_explored": 423
+  "commits_since_push": 3,
+  "total_explored": 424
 }
