@@ -9527,6 +9527,18 @@ CheckAudioCommand_F4:
     jp AudioQueueProcessing
 
 
+; CheckAudioCommand_F5
+; --------------------
+; Description: Vérifie et traite la commande audio F5 (random timing).
+;              Si la commande est F5, utilise le timer DIV pour générer un comportement aléatoire:
+;              - Si DIV & 3 == 0 (1 fois sur 4), redirige vers CheckAudioCommand_F1
+;              - Sinon, continue le traitement audio normal
+; In:  a = commande audio à vérifier
+; Out: Si a = AUDIO_CMD_F5:
+;        - Soit redirige vers CheckAudioCommand_F1 (25% de chance)
+;        - Soit continue AudioQueueProcessing (75% de chance)
+;      Si a != AUDIO_CMD_F5, passe à CheckAudioCommand_F6
+; Modifie: a
 CheckAudioCommand_F5:
     cp AUDIO_CMD_F5
     jr nz, CheckAudioCommand_F6
