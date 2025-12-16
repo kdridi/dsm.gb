@@ -11231,13 +11231,13 @@ AudioCmdSeq_11Alt:
 ; AudioCmdSeq_12Alt
 ; ----------------
 ; Description: Séquence de commandes audio #12 pour table alternative
-; Format: Commande $40 $F6 terminée par $FF
+; Format: Commande $40 AUDIO_CMD_F6 terminée par $FF
 ; In:  Utilisée via AudioChannelCommandTable1Alt[12]
 ; Bytes: $40 = Paramètre commande
-;        $F6 = Commande audio $F6
+;        AUDIO_CMD_F6 = Commande audio F6 (player position check)
 ;        $FF = Terminateur de séquence
 AudioCmdSeq_12Alt:
-    db $40, $F6, $FF
+    db $40, AUDIO_CMD_F6, $FF
 
 ; AudioCmdSeq_13Alt
 ; ----------------
