@@ -3335,9 +3335,14 @@ AnimFrame_4D59:
 AnimSpeedEntry_4D5D:      ; ← NŒUD ACTUEL $4D5D
     dw $FF62              ; MAL DÉSASSEMBLÉ - vraie donnée: dw $0004
     dw $4E44              ; MAL DÉSASSEMBLÉ - vraie donnée: dw $0004
+; AnimFrame_4D61 - Données tile graphics (MAL DÉSASSEMBLÉ)
+; Description: Point d'entrée dans bloc de tile data 2bpp
+;              Référencé par AnimFrame_4CAD @ $4CAD (ligne 3085)
+; Format: Vraies données @ $4D61: db $75, $78, $7F, $66 (tile graphics data)
+; Note: Partie de zone mal désassemblée $4D55-$4DA1 - reconstruction complète nécessaire
 AnimFrame_4D61:
-    dw $7170
-    dw $7372
+    dw $7170              ; MAL DÉSASSEMBLÉ - vraies données: db $75, $78
+    dw $7372              ; MAL DÉSASSEMBLÉ - vraies données: db $7F, $66
 AnimFrame_4D65:
     dw $44FF
     dw $704E
