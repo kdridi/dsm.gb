@@ -3078,11 +3078,13 @@ AnimFrame_4CA5:
 ;       au milieu de la structure précédente ($4CA7-$4CAA).
 ;       Lecture depuis $4CA9: dw $4D56, $FBF9 (optimisation d'espace mémoire)
 AnimFrame_4CA9:
-    dw $FBF9
-    dw $4D5D
+    dw $FBF9           ; Offset Y/X relatifs (signed bytes: -5, -7)
+    dw $4D5D           ; → SpriteData (séquence de commandes sprite)
+; AnimFrame_4CAD - Structure d'animation
+; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4CAD:
-    dw $FCFC
-    dw $4D61
+    dw $FCFC           ; Offset Y/X relatifs (signed bytes: -4, -4)
+    dw $4D61           ; → SpriteData (séquence de commandes sprite - MAL DÉSASSEMBLÉ)
 AnimFrame_4CB1:
     dw $F8F9
     dw $4D68
