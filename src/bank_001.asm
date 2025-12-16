@@ -2691,17 +2691,25 @@ DecrementOffsetAndRetryCollision:
     ret
 
 
+; TriggerSpecialCollisionEvent
+; ----------------------------
+; Description: Déclenche un événement collision spéciale (tuyau/pipe $F4).
+;              Configure le type de collision à $C0 et mémorise les coordonnées du sprite.
+;              Passe l'état buffer à 5 pour traiter l'événement spécial.
+; In:  hl = coordonnées du sprite (h=Y, l=X)
+; Out: -
+; Modifie: a, de, hl
 TriggerSpecialCollisionEvent:
     push hl                     ; Copie hl -> de
     pop de
     ld hl, hBlockHitType        ; $FFEE
-    ld [hl], $c0                ; Type collision = $C0
-    inc l                       ; $FFEF (non défini comme constante)
+    ld [hl], BLOCK_HIT_TYPE_SPECIAL ; Type collision = $C0 (spécial)
+    inc l                       ; $FFEF (stocke coordonnée Y du sprite)
     ld [hl], d
     inc l                       ; hCurrentTile ($FFF0)
     ld [hl], e
     ld a, $05
-    ld [wStateBuffer], a        ; Change état buffer à 5
+    ld [wStateBuffer], a        ; Change état buffer à 5 (événement spécial)
     ret
 
 
