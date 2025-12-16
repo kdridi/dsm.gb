@@ -7878,101 +7878,33 @@ LoadDemoInput:
     ldh [hJoypadState], a
     ret
 
+; LevelInitData ($2114)
+; ---------------------
+; Description: Table complète des données d'initialisation (107 octets total).
+;              Les premiers 81 octets sont copiés vers wPlayerY-wPlayerUnk50 au démarrage.
+;              Les 26 octets suivants semblent être des données de configuration ou padding.
+; Structure:
+;   Offset $00-$50 (81 bytes): Structure joueur (wPlayerY à wPlayerUnk50)
+;   Offset $51-$6A (26 bytes): Données supplémentaires ou padding
+; Utilisé par: LoadLevelData ($0730), ResetPlayerForCutscene ($0EE6)
+LevelInitData::
+    db $00, $86, $32, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+    db $01, $00, $00, $0f, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+    db $01, $00, $00, $0f, $00, $20, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+    db $01, $00, $00, $0f, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+    db $01, $00, $00, $0f, $00, $20, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+    db $04, $04, $03, $03, $02, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $01
+    db $01, $01, $01, $01, $00, $01, $00, $01, $00, $00, $7f
 
-    nop
-    add [hl]
-    ld [hl-], a
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    ld bc, $0000
-    rrca
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    ld bc, $0000
-    rrca
-    nop
-    jr nz, PaddingZone_00
-
-PaddingZone_00:
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    ld bc, $0000
-    rrca
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    ld bc, $0000
-    rrca
-    nop
-    jr nz, PaddingZone_01
-
-PaddingZone_01:
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    inc b
-    inc b
-    inc bc
-    inc bc
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld bc, $0101
-    ld bc, $0101
-    ld bc, $0100
-    nop
-    ld bc, $0000
-    ld a, a
-
+; ResetScrollPhase ($217F)
+; ------------------------
+; Description: Réinitialise la phase de scroll ou la désactive selon l'état.
+;              Compare SCX actuel avec wGameVarAA pour déterminer si le scroll
+;              doit continuer (RESET) ou s'arrêter (INACTIVE).
+; In:  hShadowSCX = position scroll X actuelle
+;      wGameVarAA = position scroll X cible/référence
+; Out: hScrollPhase = SCROLL_PHASE_RESET ($03) ou SCROLL_PHASE_INACTIVE ($00)
+; Modifie: a, b
 ResetScrollPhase:
     ld a, SCROLL_PHASE_RESET
     ldh [hScrollPhase], a
