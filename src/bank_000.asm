@@ -10987,9 +10987,13 @@ AudioCmdSeq_14:
 AudioCmdSeq_15:
     db $9D, $11, $9D, $FF
 
-; AudioAnimData_06 ($2D5B)
-; Séquence de 4 octets pour animation audio
-AudioAnimData_06:
+; AudioCmdSeq_00Alt ($2D5B)
+; ----------------
+; Description: Séquence de commandes audio pour canal 2 (table alternative, entrée 0)
+; Format: [cmd1, param1, cmd2, terminator]
+; In: Référencée par AudioChannelCommandTable1Alt[0]
+; Commandes: $9E (2x) avec paramètre $11, terminée par $FF
+AudioCmdSeq_00Alt:
     db $9E, $11, $9E, $FF
 
 ; AudioAnimData_07 ($2D5F)
@@ -11084,7 +11088,7 @@ AudioChannelCommandTable1:
 ; Note: ROM_AUDIO_CHANNEL_TABLE_2 ($30AB) est une table différente
 ; ===========================================================================
 AudioChannelCommandTable1Alt:
-    dw $2D5B  ; Entry  0 - Audio sequence 0
+    dw AudioCmdSeq_00Alt  ; Entry  0 - Audio sequence 0
     dw $2D5F  ; Entry  1 - Audio sequence 1
     dw $2D5F  ; Entry  2 - Audio sequence 2 (identique à entry 1)
     dw $2D65  ; Entry  3 - Audio sequence 3
