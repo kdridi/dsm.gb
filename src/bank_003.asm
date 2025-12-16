@@ -3215,7 +3215,7 @@ AnimFrame_4D11:
 ; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4D15:
     dw $F7F9           ; Offset Y/X relatifs (signed bytes: -9, -7)
-    dw $4E1F           ; → SpriteData_4E1F (données sprite OAM - zone mal désassemblée, sera reconstruite)
+    dw $4E1F           ; → SpriteData_4E1F (données sprite OAM)
 ; AnimFrame_4D19 - Structure d'animation #40
 ; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4D19:
