@@ -11014,9 +11014,17 @@ AudioCmdSeq_01_02_Shared:
 AudioAnimData_08:
     db $DD, $01, $DE, $FF
 
-; AudioAnimData_09 ($2D69)
-; Séquence de 9 octets pour animation audio
-AudioAnimData_09:
+; AudioCmdSeq_04Alt ($2D69)
+; -----------------------------------
+; Description: Séquence de commandes audio #4 pour table alternative (canal 2)
+; Format: Série de paires [paramètre, commande $9D] répétées 4x, terminée par $FF
+; In:  Utilisée via AudioChannelCommandTable1Alt[4]
+; Bytes: $20,$9D = Commande $9D avec param $20
+;        $31,$9D = Commande $9D avec param $31
+;        $0A,$9D = Commande $9D avec param $0A
+;        $11,$9D = Commande $9D avec param $11
+;        $FF = Terminateur de séquence
+AudioCmdSeq_04Alt:
     db $20, $9D, $31, $9D, $0A, $9D, $11, $9D, $FF
 
 ; ===========================================================================
@@ -11100,7 +11108,7 @@ AudioChannelCommandTable1Alt:
     dw AudioCmdSeq_01_02_Shared  ; Entry  1 - Audio sequence 1
     dw AudioCmdSeq_01_02_Shared  ; Entry  2 - Audio sequence 2 (identique à entry 1)
     dw AudioAnimData_08          ; Entry  3 - Audio sequence 3
-    dw $2D69  ; Entry  4 - Audio sequence 4
+    dw AudioCmdSeq_04Alt         ; Entry  4 - Audio sequence 4
     dw $2D72  ; Entry  5 - Audio sequence 5
     dw $2D7B  ; Entry  6 - Audio sequence 6
     dw $2D7D  ; Entry  7 - Audio sequence 7
