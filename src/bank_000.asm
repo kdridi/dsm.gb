@@ -10041,7 +10041,12 @@ HandleAudioState30:
     ldh [hSoundCh1], a
     ldh [hSoundVar1], a
 
-
+; CollisionEnd
+; ------------
+; Description: Termine le traitement de collision en réinitialisant le flag hSoundVar4
+; In:  Aucun
+; Out: Aucun (void)
+; Modifie: a, hSoundVar4
 CollisionEnd:
     xor a
     ldh [hSoundVar4], a
