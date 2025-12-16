@@ -2201,6 +2201,22 @@
       "priority": 3
     },
     {
+      "address": "$27CE",
+      "node_type": "code",
+      "description": "CheckAudioCommand_F4 - V\u00e9rifie et traite la commande audio F4",
+      "source": "$27A6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$286E",
+      "node_type": "code",
+      "description": "AudioCommand_CompleteExit - Termine le traitement d'une commande audio (pop hl + ret)",
+      "source": "$27A6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2870",
       "node_type": "code",
       "description": "ProcessSoundCollisionCheck - Traite la v\u00e9rification de collision sonore",
@@ -2269,6 +2285,14 @@
       "node_type": "code",
       "description": "OffsetSpritesX - Applique offset horizontal aux sprites",
       "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2CB2",
+      "node_type": "code",
+      "description": "InitSoundSlot - Initialise un slot sonore avec config depuis ROM_AUDIO_CONFIG",
+      "source": "$27A6",
       "bank": 0,
       "priority": 3
     },
@@ -3009,26 +3033,10 @@
       "priority": 3
     },
     {
-      "address": "$27CE",
+      "address": "$27DB",
       "node_type": "code",
-      "description": "CheckAudioCommand_F4 - V\u00e9rifie et traite la commande audio F4",
-      "source": "$27A6",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$286E",
-      "node_type": "code",
-      "description": "AudioCommand_CompleteExit - Termine le traitement d'une commande audio (pop hl + ret)",
-      "source": "$27A6",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2CB2",
-      "node_type": "code",
-      "description": "InitSoundSlot - Initialise un slot sonore avec config depuis ROM_AUDIO_CONFIG",
-      "source": "$27A6",
+      "description": "CheckAudioCommand_F5 - V\u00e9rifie et traite la commande audio F5",
+      "source": "$27CE",
       "bank": 0,
       "priority": 3
     }
@@ -3273,6 +3281,7 @@
     "$118B",
     "$0185",
     "$0EA0",
+    "$27CE",
     "$1a8a",
     "$1815",
     "$0BEA",
@@ -3310,6 +3319,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 275
+  "commits_since_push": 0,
+  "total_explored": 276
 }

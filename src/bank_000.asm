@@ -9505,6 +9505,18 @@ CheckAudioCommand_F3:
     jp AudioQueueProcessing
 
 
+; CheckAudioCommand_F4
+; ----------------
+; Description: Vérifie et traite la commande audio F4 (set var2)
+;              Stocke l'ID audio dans la variable sonore 2
+; In:  a = commande audio à vérifier
+;      hl = sur la pile (adresse de retour)
+;      wAudioQueueId = ID audio à stocker
+; Out: Si a = AUDIO_CMD_F4:
+;        - hSoundVar2 = wAudioQueueId
+;        - Continue le traitement (AudioQueueProcessing)
+;      Si a != AUDIO_CMD_F4, passe à CheckAudioCommand_F5
+; Modifie: a, hl
 CheckAudioCommand_F4:
     cp AUDIO_CMD_F4
     jr nz, CheckAudioCommand_F5
