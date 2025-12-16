@@ -14106,10 +14106,20 @@ CopyToBackBuffer:
     ldh [hGameState], a
     ret
 
-; ===========================================================================
-; État $16 - Copie données tilemap ($3E9E)
-; Copie données depuis $DA23 vers tilemap, avec compteur $DA28/$DA29 → état $15
-; ===========================================================================
+; State16_CopyTilemapData
+; ----------------
+; Description: Copie un bloc de données vers la tilemap en colonnes
+;              Lit depuis wLevelParam23, écrit vers adresse [wLevelParam18:19]
+;              Dimensions: LEVEL_PARAM_COPY_COLS colonnes × LEVEL_PARAM_COPY_ROWS lignes
+; In:  wLevelParam18:19 = adresse destination tilemap (pointeur 16-bit)
+;      wLevelParam23 = adresse source des données
+;      wLevelParam28 = compteur colonnes (LEVEL_PARAM_COPY_COLS)
+;      wLevelParam29 = compteur lignes (LEVEL_PARAM_COPY_ROWS)
+; Out: wLevelParam28 = réinitialisé à LEVEL_PARAM_COPY_COLS
+;      wLevelParam29 = réinitialisé à LEVEL_PARAM_COPY_ROWS
+;      hGameState = GAME_STATE_BONUS_COPY ($15)
+; Modifie: a, bc, de, hl
+; ----------------
 State16_CopyTilemapData::
     ld bc, TILEMAP_STRIDE
 
