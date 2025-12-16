@@ -1919,6 +1919,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$14BB",
+      "node_type": "data",
+      "description": "ROM_TILEMAP_END_DATA - Table donn\u00e9es tilemap \u00e9cran final (24 bytes)",
+      "source": "$147F",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1948,6 +1956,7 @@
     "$07F0",
     "$0ab6",
     "$1385",
+    "$147F",
     "$055F",
     "$1376",
     "$049D",
@@ -2056,6 +2065,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 133
+  "commits_since_push": 3,
+  "total_explored": 134
 }

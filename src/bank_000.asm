@@ -4839,6 +4839,12 @@ SetGameStateRegister:
 ; État $37 - Animation sprite finale ($147F)
 ; Anime sprite vers $D0, copie données tilemap, incrémente niveau
 ; ===========================================================================
+; State37_FinalSpriteAnimation
+; ----------------------------
+; Description: Anime la princesse jusqu'à Y=$D0, puis setup l'écran final des crédits
+; In:  wPlayerState = position Y courante de la princesse
+; Out: hGameState incrémenté vers état suivant si animation terminée
+; Modifie: a, b, de, hl
 State37_FinalSpriteAnimation::
     call AnimateCreditsFrame
     ld hl, wPlayerState
