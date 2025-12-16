@@ -4825,7 +4825,12 @@ State36_CreditsFinalTransition::
 
     ld a, GAME_STATE_SPRITE_FINAL
 
-; Helper local: écrit a dans hGameState
+; SetGameStateRegister
+; --------------------
+; Description: Helper local pour écrire l'état de jeu dans hGameState
+; In:  a = nouvel état de jeu (GAME_STATE_*)
+; Out: [hGameState] = a
+; Modifie: rien (juste écriture mémoire)
 SetGameStateRegister:
     ldh [hGameState], a
     ret

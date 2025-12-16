@@ -1057,6 +1057,14 @@
       "priority": 3
     },
     {
+      "address": "$147C",
+      "node_type": "code",
+      "description": "SetGameStateRegister - Helper local pour \u00e9crire dans hGameState",
+      "source": "$145D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$147F",
       "node_type": "code",
       "description": "State37_FinalSpriteAnimation - Animation sprite finale",
@@ -1911,17 +1919,10 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$147C",
-      "node_type": "code",
-      "description": "SetGameStateRegister - Helper local pour \u00e9crire dans hGameState",
-      "source": "$145D",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
+    "$147C",
     "$0F61",
     "$0E28",
     "$0D64",
@@ -2055,6 +2056,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 132
+  "commits_since_push": 2,
+  "total_explored": 133
 }
