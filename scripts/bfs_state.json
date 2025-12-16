@@ -1633,6 +1633,14 @@
       "priority": 3
     },
     {
+      "address": "$1EC5",
+      "node_type": "data",
+      "description": "OscillationTable - Table de 6 valeurs pour effet d'oscillation",
+      "source": "$1EAB",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1ECB",
       "node_type": "code",
       "description": "ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites",
@@ -2471,14 +2479,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1EC5",
-      "node_type": "data",
-      "description": "OscillationTable - Table de 6 valeurs pour effet d'oscillation",
-      "source": "$1EAB",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2639,6 +2639,7 @@
     "$4000:1",
     "$05BE",
     "$1CCE",
+    "$1EC5",
     "$0E8D",
     "$1020",
     "$0A07",
@@ -2687,6 +2688,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 204
+  "commits_since_push": 4,
+  "total_explored": 205
 }
