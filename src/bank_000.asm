@@ -6874,6 +6874,24 @@ ROM_TEXT_WINDOW_DATA::
     ret
 
 
+; ProcessAnimationState
+; ---------------------
+; Description: Traite l'état d'animation et de mouvement du joueur en fonction
+;              des inputs joypad (gauche/droite/haut). Gère l'accélération,
+;              la décélération, les timers de mouvement et la direction du joueur.
+;              Applique les effets d'oscillation pour le mouvement fluide.
+; In:  hJoypadState = état boutons joypad (bits 7=Haut, 5=Droite, 4=Gauche)
+;      wPlayerUnk0C = compteur accélération (0-6)
+;      wPlayerUnk0D = flag état animation/timer
+;      wPlayerUnk07 = état chute/saut joueur
+;      wPlayerDir = direction actuelle du joueur
+;      hTimerAux = timer auxiliaire (détecte mode pipe si = $02)
+; Out: wPlayerDir = direction mise à jour selon input
+;      wPlayerUnk0C = compteur accélération ajusté
+;      wPlayerUnk0D = timer/flag animation mis à jour
+;      hShadowSCX = scroll X ajusté avec oscillation
+;      wPlayerState = état joueur (oscillation)
+; Modifie: a, bc, de, hl
 ProcessAnimationState:
     ld hl, wPlayerUnk0D
     ld a, [hl]

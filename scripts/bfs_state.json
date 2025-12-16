@@ -2351,6 +2351,54 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1AA4",
+      "node_type": "code",
+      "description": "CheckPlayerSideCollision - V\u00e9rifie collision lat\u00e9rale du joueur",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1E37",
+      "node_type": "code",
+      "description": "HandleJoypadRight - G\u00e8re mouvement du joueur vers la droite",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1E3F",
+      "node_type": "code",
+      "description": "HandleJoypadRight_Setup - Setup initial mouvement droite",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1E9B",
+      "node_type": "code",
+      "description": "OffsetSpritesY - Applique offset vertical aux sprites",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1EAB",
+      "node_type": "code",
+      "description": "GetOscillatingOffset - Calcule offset d'oscillation pour mouvement fluide",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2C96",
+      "node_type": "code",
+      "description": "OffsetSpritesX - Applique offset horizontal aux sprites",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2367,6 +2415,7 @@
     "$175C",
     "$0166",
     "$19d8",
+    "$1D1D",
     "$1520",
     "$0E54",
     "$0C37",
@@ -2544,6 +2593,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 189
+  "commits_since_push": 4,
+  "total_explored": 190
 }
