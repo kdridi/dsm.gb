@@ -3967,6 +3967,46 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$355B",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 0",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3565",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 1",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$356D",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 2",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3594",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 3",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$35A1",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 4",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4135,6 +4175,7 @@
     "$0A20",
     "$0060",
     "$2B4D",
+    "$3495",
     "$2246",
     "$1343",
     "$2D1C",
@@ -4386,6 +4427,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 4,
-  "total_explored": 415
+  "commits_since_push": 0,
+  "total_explored": 416
 }

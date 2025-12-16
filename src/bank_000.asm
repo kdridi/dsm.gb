@@ -12215,84 +12215,30 @@ AudioConfigTable::
     ld hl, $0000
     ld [hl+], a
 
+; JumpDispatchTable_00
+; --------------------
+; Description: Table de dispatch pour états d'animation (données brutes, format non encore décodé)
+; Utilisée par le moteur d'animation pour router vers différents handlers
 JumpDispatchTable_00:
-    add b
-    ld [bc], a
-    ld hl, $0000
-    ld hl, $0000
-    ld [de], a
-    nop
-    nop
-    ld [hl+], a
-    nop
-    inc [hl]
-    and d
-    nop
-    ld d, h
-    ld [hl+], a
-    rst $38
-    nop
-    sub d
-    nop
-    nop
-    ld de, $0000
-    ld de, $0040
-    sub c
-    nop
-    nop
-    sub c
-    nop
-    nop
-    sub c
-    nop
-    nop
-    ld [hl+], a
-    nop
-    nop
-    ld de, $0000
-    ld de, $0000
-    ld [hl+], a
-    ld b, b
-    nop
-    ld [hl+], a
-    ld b, b
-    nop
-    ld de, $0000
-    ld de, $b440
-    ld [hl+], a
-    add c
-    ld [bc], a
-    ld hl, $0000
-    ld de, $0000
-    ld de, $0089
-    ld de, $0000
-    ld b, e
-    ret nz
+    db $80, $02, $21, $00, $00, $21, $00, $00, $12, $00, $00, $22, $00, $34, $A2, $00
+    db $54, $22, $FF, $00, $92, $00, $00, $11, $00, $00, $11, $40, $00, $91, $00, $00
+    db $91, $00, $00, $91, $00, $00, $22, $00, $00, $11, $00, $00, $11, $00, $00, $22
+    db $40, $00, $22, $40, $00, $11, $00, $00, $11, $40, $B4, $22, $81, $02, $21, $00
+    db $00, $11, $00, $00, $11, $89, $00, $11, $00, $00, $43, $C0, $00, $11, $32, $00
+    db $11, $02, $00, $11, $05, $00, $11, $02, $00, $43, $D8, $54, $32, $D3, $54, $22
+    db $00
 
-    nop
-    ld de, $0032
-    ld de, $0002
-    ld de, $0005
-    ld de, $0002
-    ld b, e
-    ret c
-
-    ld d, h
-    ld [hl-], a
-    db $d3
-    ld d, h
-    ld [hl+], a
-    nop
-    ld e, e
-    dec [hl]
-    ld h, l
-    dec [hl]
-    ld l, l
-    dec [hl]
-    sub h
-    dec [hl]
-    and c
-    dec [hl]
+; AudioPointersTable ($3495 = ROM_AUDIO_POINTERS)
+; -------------------------------------------------
+; Description: Table des pointeurs vers données audio (2 octets par son)
+; Format: dw (little-endian)
+; Référencée par UpdateAllObjectSounds ($263F) et autres routines audio
+AudioPointersTable:
+    dw $355B  ; Son 0
+    dw $3565  ; Son 1
+    dw $356D  ; Son 2
+    dw $3594  ; Son 3
+    dw $35A1  ; Son 4
 
 AnimState_Handler_00:
     xor e
