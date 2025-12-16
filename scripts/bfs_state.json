@@ -497,6 +497,14 @@
       "priority": 3
     },
     {
+      "address": "$0AA6",
+      "node_type": "code",
+      "description": "CheckBoundingBoxCollision - Teste collision bo\u00eetes englobantes",
+      "source": "$1F24",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$0AE1",
       "node_type": "code",
       "description": "CheckPlayerObjectCollision - Collision joueur-objet",
@@ -1665,6 +1673,14 @@
       "priority": 3
     },
     {
+      "address": "$1FC9",
+      "node_type": "code",
+      "description": "CheckTileForCoin - V\u00e9rifie si tile est pi\u00e8ce et g\u00e8re collecte",
+      "source": "$1F24",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1a4e",
       "node_type": "code",
       "description": "CollisionHandler_SpecialF4_Setup - Setup collision pipe/tuyau",
@@ -1677,6 +1693,22 @@
       "node_type": "code",
       "description": "ClassifyTileType - Classifie type de tile pour collision",
       "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2001",
+      "node_type": "code",
+      "description": "ProcessObjectCollisions - G\u00e8re collisions objets avec buffer d'objets",
+      "source": "$1F24",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$208E",
+      "node_type": "code",
+      "description": "HandleBlockCollision - G\u00e8re collision avec blocs sp\u00e9ciaux",
+      "source": "$1F24",
       "bank": 0,
       "priority": 3
     },
@@ -1893,6 +1925,22 @@
       "node_type": "code",
       "description": "CheckObjectBottomCollision - V\u00e9rifie collision bas objet avec joueur",
       "source": "$0A24",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2A5F",
+      "node_type": "code",
+      "description": "DecrementObjectAnimationCounter - D\u00e9cr\u00e9mente compteur animation objet",
+      "source": "$1F24",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2AA4",
+      "node_type": "code",
+      "description": "HandleGameplayObjectSound - G\u00e8re sons des objets en gameplay",
+      "source": "$1F24",
       "bank": 0,
       "priority": 3
     },
@@ -2479,54 +2527,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1FC9",
-      "node_type": "code",
-      "description": "CheckTileForCoin - V\u00e9rifie si tile est pi\u00e8ce et g\u00e8re collecte",
-      "source": "$1F24",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2001",
-      "node_type": "code",
-      "description": "ProcessObjectCollisions - G\u00e8re collisions objets avec buffer d'objets",
-      "source": "$1F24",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$0AA6",
-      "node_type": "code",
-      "description": "CheckBoundingBoxCollision - Teste collision bo\u00eetes englobantes",
-      "source": "$1F24",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2AA4",
-      "node_type": "code",
-      "description": "HandleGameplayObjectSound - G\u00e8re sons des objets en gameplay",
-      "source": "$1F24",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2A5F",
-      "node_type": "code",
-      "description": "DecrementObjectAnimationCounter - D\u00e9cr\u00e9mente compteur animation objet",
-      "source": "$1F24",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$208E",
-      "node_type": "code",
-      "description": "HandleBlockCollision - G\u00e8re collision avec blocs sp\u00e9ciaux",
-      "source": "$1F24",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2643,6 +2643,7 @@
     "$1C73",
     "$1CA8",
     "$1E82",
+    "$0AA6",
     "$1CE7",
     "$0F09",
     "$11B6",
@@ -2739,6 +2740,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 208
+  "commits_since_push": 3,
+  "total_explored": 209
 }

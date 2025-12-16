@@ -2436,7 +2436,7 @@ CheckBoundingBoxCollision:
     ld b, a
     ldh a, [hTemp0]
     sub b
-    jr nc, ReturnZero
+    jr nc, .ReturnZero
 
     ld a, c
     and NIBBLE_LOW_MASK          ; Isoler nibble bas = largeur en tiles
@@ -2444,24 +2444,24 @@ CheckBoundingBoxCollision:
     ld a, [hl]
 
     ; Calcule position X droite objet: X_pos + (largeur_tiles - 1) * 8
-CalculateObjectRightEdge:
+.CalculateObjectRightEdge:
     dec b
     jr z, .done
 
     sub TILE_SIZE_PIXELS        ; Soustraire 8 pixels (1 tile)
-    jr CalculateObjectRightEdge
+    jr .CalculateObjectRightEdge
 
 .done:
     ld b, a
     ldh a, [hTemp1]
     sub b
-    jr c, ReturnZero
+    jr c, .ReturnZero
 
     inc l
     ldh a, [hParam3]
     ld b, [hl]
     sub b
-    jr c, ReturnZero
+    jr c, .ReturnZero
 
     ld a, c
     and ANIM_HEIGHT_MASK
@@ -2469,29 +2469,21 @@ CalculateObjectRightEdge:
     ld b, a
     ld a, [hl]
 
-Loop_AddValueByEightV2:
+.CalculateObjectBottomEdge:
     add TILE_SIZE_PIXELS        ; Ajouter 8 pixels (1 tile)
     dec b
-    jr nz, Loop_AddValueByEightV2
+    jr nz, .CalculateObjectBottomEdge
 
     ld b, a
     ldh a, [hTemp2]
     sub b
-    jr nc, ReturnZero
+    jr nc, .ReturnZero
 
     ld a, RETURN_TRUE
     ret
 
 
-; ReturnZero
-; ----------
-; Description: Routine utilitaire retournant RETURN_FALSE (0).
-;              Point de sortie commun pour CheckBoundingBoxCollision en cas
-;              de non-collision détectée.
-; In:  Aucun
-; Out: a = RETURN_FALSE (0)
-; Modifie: a
-ReturnZero:
+.ReturnZero:
     xor a                       ; RETURN_FALSE
     ret
 
