@@ -1911,6 +1911,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$147C",
+      "node_type": "code",
+      "description": "SetGameStateRegister - Helper local pour \u00e9crire dans hGameState",
+      "source": "$145D",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1965,6 +1973,7 @@
     "$0F2A",
     "$0AE1",
     "$0E1F",
+    "$145D",
     "$09E8",
     "$130F",
     "$12E8",
@@ -2046,6 +2055,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 131
+  "commits_since_push": 1,
+  "total_explored": 132
 }

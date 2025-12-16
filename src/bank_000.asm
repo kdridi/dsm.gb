@@ -4793,10 +4793,17 @@ State35_WaitTimer::
     inc [hl]
     ret
 
-; ===========================================================================
-; État $36 - Transition crédits finale ($145D)
-; Compteur jusqu'à $50, puis transition vers $33 ou $37 selon flag
-; ===========================================================================
+; State36_CreditsFinalTransition
+; -------------------------------
+; Description: Transition finale après les crédits. Incrémente un compteur jusqu'à
+;              $50 frames, puis bascule vers l'état $33 (crédits texte) ou $37 (sprite finale)
+;              selon le flag wAudioSaveDE
+; In:  [hFrameCounter] = compteur de frames global
+;      [wLevelInitFlag] = compteur local (incrémenté toutes les 4 frames)
+;      [wAudioSaveDE] = flag déterminant l'état suivant (SLOT_EMPTY → $37, autre → $33)
+; Out: [hGameState] = GAME_STATE_CREDITS_TEXT ($33) ou GAME_STATE_SPRITE_FINAL ($37)
+;      [wLevelInitFlag] = 0 (réinitialisé après transition)
+; Modifie: af, hl
 State36_CreditsFinalTransition::
     call AnimateCreditsFrame
     ldh a, [hFrameCounter]
@@ -4818,6 +4825,7 @@ State36_CreditsFinalTransition::
 
     ld a, GAME_STATE_SPRITE_FINAL
 
+; Helper local: écrit a dans hGameState
 SetGameStateRegister:
     ldh [hGameState], a
     ret
