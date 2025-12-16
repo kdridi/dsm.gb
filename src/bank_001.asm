@@ -3589,16 +3589,21 @@ DataZone_5733:
     ld sp, $3131
     ld sp, $3131
     ld e, l
-    cp $6a
-    ld h, b
-    ld e, d
-    ld e, d
-    ld e, d
-    ld e, d
-    ld e, d
-    ld e, d
-    ld e, d
-    ld e, d
+    db $FE  ; Opcode cp (partie de données compressées mal désassemblées)
+
+; ==============================================================================
+; TileGraphic_574A - Tile graphique 8x8 pixels (8 bytes)
+; ==============================================================================
+; Description: Données de tile graphique 8x8 (2 bits par pixel, 2 bytes par ligne)
+; Format: 8 bytes représentant 8 lignes de pixels (2bpp format Game Boy)
+;         Pattern: $6A $60 suivi de 6x $5A
+; Taille: 8 octets
+; Référencé par: SharedTilesetData_024 (lignes 3381-3382) - 3 occurrences
+; ==============================================================================
+TileGraphic_574A:  ; $574A
+    db $6A, $60, $5A, $5A, $5A, $5A, $5A, $5A
+
+    db $5A, $5A  ; Suite des données (2 bytes additionnels)
     ld e, l
     cp $61
     ld h, c
