@@ -1565,7 +1565,7 @@ ErrorTrap_002_4685:
     inc d
     ld a, a
     ld a, l
-    call z, ProcessSoundParams
+    call z, CalculateRelativeSpriteX
     ld hl, sp-$10
     ldh a, [rP1]
     nop

@@ -1281,6 +1281,14 @@
       "priority": 3
     },
     {
+      "address": "$192e",
+      "node_type": "code",
+      "description": "SetupSpriteProperties - Configure propri\u00e9t\u00e9s sprite apr\u00e8s collision tile",
+      "source": "$18b7",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$195d",
       "node_type": "code",
       "description": "HandlePlayerUpCollision - G\u00e8re collision vers le haut",
@@ -2129,10 +2137,10 @@
       "priority": 3
     },
     {
-      "address": "$192e",
+      "address": "$1916",
       "node_type": "code",
-      "description": "SetupSpriteProperties - Configure propri\u00e9t\u00e9s sprite apr\u00e8s collision tile",
-      "source": "$18b7",
+      "description": "PlaySoundExit - Point d'entr\u00e9e pour jouer un son avant retour",
+      "source": "$18be",
       "bank": 0,
       "priority": 3
     }
@@ -2255,6 +2263,7 @@
     "$0D82",
     "$1298",
     "$118B",
+    "$18be",
     "$4000:1",
     "$05BE",
     "$0E8D",
@@ -2299,6 +2308,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 160
+  "commits_since_push": 0,
+  "total_explored": 161
 }

@@ -5811,6 +5811,15 @@ HandleTileValueF0:
     ld [wOamVar2E], a
     jr SetupSpriteProperties
 
+; HandleNonC0TileValue
+; --------------------
+; Description: Gère collision avec tiles normales (valeur != $C0 et != $F0).
+;              Initialise sprite OAM, stocke adresse tile, calcule position sprite,
+;              et joue le son approprié selon le type de collision.
+; In:  a = valeur tile collision
+;      hl = adresse tile dans map
+; Out: (aucun retour spécifique)
+; Modifie: a, bc, de, hl, hTemp0, hSpriteAttr, hSpriteTile, hSoundParam1, hSoundParam2
 HandleNonC0TileValue:
     ldh [hTemp0], a
     ld a, OAM_SPRITE_HIDDEN
@@ -5850,7 +5859,7 @@ HandleNonC0TileValue:
     ldh a, [hSpriteX]
     ldh [hRenderY], a
 
-ProcessSoundParams:
+CalculateRelativeSpriteX:
     sub b
     ld [hl+], a
     ldh [hSoundParam2], a
