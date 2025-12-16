@@ -6245,32 +6245,34 @@ ByteMatched:
     ret
 
 
-    sub h
-    ld a, [de]
-    sbc c
-    ld a, [de]
-    sbc [hl]
-    ld a, [de]
-    and b
-    ld a, [de]
-    and d
-    ld a, [de]
-    ld l, b
-    ld l, c
-    ld l, d
-    ld a, h
-    db $fd
-    ld h, b
-    ld h, c
-    ld h, e
-    ld a, h
-    db $fd
-    ld a, h
-    db $fd
-    ld a, h
-    db $fd
-    ld a, h
-    db $fd
+; ROM_WORLD_TILE_TABLE ($1A8A)
+; -----------------------------
+; Description: Table de pointeurs vers listes de tiles spéciaux par monde
+;              Chaque monde a une liste de tile IDs terminée par $FD
+;              Utilisée pour classifier des tiles par monde (voir ClassifyTileType)
+; Format: 5 pointeurs (word) vers listes de tiles
+SECTION "ROM_WORLD_TILE_TABLE", ROM0[$1a8a]
+    dw World1_SpecialTiles  ; Monde 1 → $1A94
+    dw World2_SpecialTiles  ; Monde 2 → $1A99
+    dw World3_SpecialTiles  ; Monde 3 → $1A9E
+    dw World4_SpecialTiles  ; Monde 4 → $1AA0
+    dw World5_SpecialTiles  ; Monde 5 → $1AA2
+
+; Listes de tiles spéciaux par monde (terminées par TABLE_END_MARKER=$FD)
+World1_SpecialTiles:
+    db $68, $69, $6A, $7C, TABLE_END_MARKER
+
+World2_SpecialTiles:
+    db $60, $61, $63, $7C, TABLE_END_MARKER
+
+World3_SpecialTiles:
+    db $7C, TABLE_END_MARKER
+
+World4_SpecialTiles:
+    db $7C, TABLE_END_MARKER
+
+World5_SpecialTiles:
+    db $7C, TABLE_END_MARKER
 
 ; CheckPlayerSideCollision
 ; ------------------------
