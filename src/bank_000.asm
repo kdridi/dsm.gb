@@ -6574,10 +6574,14 @@ ProcessBlockCollision_Special:
 
 ; CollectCoin
 ; -----------
-; Description: Collecte une pièce - ajoute les points et incrémente le compteur
-; In:  rien
-; Out: rien
-; Modifie: a, bc, de, hl (via AddScore)
+; Description: Collecte une pièce - ajoute les points au score et incrémente le compteur
+;              de pièces (format BCD). Gère l'overflow à 99 pièces (retour à 00).
+; In:  rien (lit hCoinCount, écrit via AddScore et dans hCoinCount)
+; Out: hCoinCount incrémenté (BCD), score += POINTS_PER_COIN
+;      wUpdateCounter = 1 si overflow (passage de 99 à 00)
+;      hPendingCoin = 0 (remis à zéro après collection)
+;      wCoinUpdateDone = 1 (marque l'affichage comme mis à jour)
+; Modifie: a, b, de, hl (via AddScore et UpdateCoinDisplay)
 CollectCoin:
     ReturnIfLocked
 
@@ -6588,13 +6592,13 @@ CollectCoin:
     pop hl
     pop de
     ldh a, [hCoinCount]
-    add $01
-    daa
+    add FLAG_TRUE              ; Incrément BCD +1
+    daa                        ; Ajustement décimal (99 + 1 = 00 avec carry)
     ldh [hCoinCount], a
-    and a
+    and a                      ; Vérifier si = 0 (overflow de 99 à 00)
     jr nz, UpdateCoinDisplay
 
-    inc a
+    inc a                      ; Si overflow: wUpdateCounter = 1
     ld [wUpdateCounter], a
 
 ; UpdateCoinDisplay
