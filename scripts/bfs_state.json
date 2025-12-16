@@ -5025,6 +5025,14 @@
       "priority": 3
     },
     {
+      "address": "$5C9D",
+      "node_type": "data",
+      "description": "Table de donn\u00e9es r\u00e9f\u00e9renc\u00e9e dans les routines d'animation sprite",
+      "source": "$5B57",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5CA6",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
@@ -5745,11 +5753,19 @@
       "priority": 3
     },
     {
-      "address": "$5C9D",
+      "address": "$DA1C",
       "node_type": "data",
-      "description": "Table de donn\u00e9es r\u00e9f\u00e9renc\u00e9e dans les routines d'animation sprite",
-      "source": "$5B57",
-      "bank": 2,
+      "description": "Flag d'\u00e9tat animation sprite",
+      "source": "$5B58",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$DFE8",
+      "node_type": "data",
+      "description": "Valeur d'initialisation animation",
+      "source": "$5B58",
+      "bank": 0,
       "priority": 3
     }
   ],
@@ -6206,6 +6222,7 @@
     "$3D11",
     "$2D50",
     "$5A15",
+    "$5B58",
     "$2D81",
     "$4D11",
     "$4FEC",
@@ -6378,6 +6395,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 623
+  "commits_since_push": 3,
+  "total_explored": 624
 }

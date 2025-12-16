@@ -6770,19 +6770,15 @@ SpriteAnimationMergePoint:
     ret
 
 
-; [$5B57] AnimationTileGraphicsData_Type40
-; -----------------------------------------
-; Description: Données graphiques de tiles pour les animations de type $40
-;              Table référencée indirectement par AnimationDispatch_SelectHandler
-;              Contient des patterns de tiles 8x8 au format Game Boy (2bpp)
-;              ATTENTION: La zone $5B57-$5C9C est actuellement MAL DÉSASSEMBLÉE
-;              comme du code (SpriteAnimationState_ResetCounter, etc.) mais
-;              contient en réalité des DONNÉES graphiques
-; Format: Suite de bytes (patterns graphiques 2bpp Game Boy)
-; Utilisé par: AnimationDispatch_SelectHandler (type $40 → pointeur $5B57)
-; Note: Cette zone devra être reconstruite en tant que db dans une future itération BFS
+; [$5B56] AnimationTileGraphicsData_Type40 / SpriteAnimationState_ResetCounter
+; ----------------------------------------------------------------------------
+; Description: Handler d'animation type $40. Réinitialise les paramètres de niveau
+;              et les compteurs d'animation, puis passe à l'état de jeu $17.
+;              Ce label est utilisé comme point d'entrée dans la table de handlers.
+; In:  Aucun
+; Out: hGameState = $17
+; Modifie: a, wLevelParam22, wLevelParam27, wLevelParam1A
 AnimationTileGraphicsData_Type40:
-
 SpriteAnimationState_ResetCounter:
     xor a
     ld [wLevelParam22], a
@@ -6793,6 +6789,13 @@ SpriteAnimationState_ResetCounter:
     ret
 
 
+; SpriteAnimationState_CheckActiveFlag
+; ------------------------------------
+; Description: Vérifie et active le flag d'animation sprite ($DA1C).
+;              Si inactif, l'active et initialise $DFE8 à $0A.
+; In:  [$DA1C] = flag d'état (0 = inactif)
+; Out: [$DA1C] = 1 si était à 0, [$DFE8] = $0A si activation
+; Modifie: a, hl
 SpriteAnimationState_CheckActiveFlag:
     ld hl, $da1c
     ld a, [hl]
@@ -6804,6 +6807,13 @@ SpriteAnimationState_CheckActiveFlag:
     ld a, $0a
     ld [hl], a
 
+; SpriteAnimationTiles_Variant2
+; -----------------------------
+; Description: Charge les tiles d'animation depuis la table $5C9D selon la difficulté.
+;              Gère 4 sprites avec boucle d'itération basée sur wLevelDifficulty.
+; In:  wLevelDifficulty = offset dans table, wSpriteVar31 = buffer destination
+; Out: Buffer sprites mis à jour avec tiles d'animation
+; Modifie: a, b, c, de, hl, wLevelDifficulty
 SpriteAnimationTiles_Variant2:
     ld hl, wSpriteVar31
     ld de, $5c9d
