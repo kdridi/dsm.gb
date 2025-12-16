@@ -1897,6 +1897,14 @@
       "priority": 3
     },
     {
+      "address": "$21f5",
+      "node_type": "code",
+      "description": "TilemapDataNibbleNonZero - Point d'entr\u00e9e quand nibble bas non-z\u00e9ro",
+      "source": "$21df",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$21f6",
       "node_type": "code",
       "description": "TilemapDataCopyStart - Retour au d\u00e9but de la boucle de copie (via ProcessColumnAnimation_End)",
@@ -1909,6 +1917,14 @@
       "node_type": "code",
       "description": "TilemapDataNotScrollUpdate - Traite tiles non-scroll",
       "source": "$21F6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2207",
+      "node_type": "code",
+      "description": "ProcessColumnAnimation - Traite commandes LOAD1/LOAD2/LOAD3",
+      "source": "$21df",
       "bank": 0,
       "priority": 3
     },
@@ -2703,22 +2719,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$21f5",
-      "node_type": "code",
-      "description": "TilemapDataNibbleNonZero - Point d'entr\u00e9e quand nibble bas non-z\u00e9ro",
-      "source": "$21df",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2207",
-      "node_type": "code",
-      "description": "ProcessColumnAnimation - Traite commandes LOAD1/LOAD2/LOAD3",
-      "source": "$21df",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2873,6 +2873,7 @@
     "$21F6",
     "$07F0",
     "$1983",
+    "$21f5",
     "$1E96",
     "$1451",
     "$0D40",
@@ -2961,6 +2962,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 238
+  "commits_since_push": 3,
+  "total_explored": 239
 }
