@@ -5586,15 +5586,16 @@ CheckPlayerHeadCollision:
     ld a, [wPlayerUnk0E]
     ld b, COLLISION_OFFSET_4
     cp COLLISION_OFFSET_4
-    jr nz, CalcOffsetLoop_BlockHit
+    jr nz, .testSecondHitboxPoint
 
     ld a, [wPlayerUnk07]
     and a
-    jr nz, CalcOffsetLoop_BlockHit
+    jr nz, .testSecondHitboxPoint
 
     ld b, COLLISION_OFFSET_8
 
-CalcOffsetLoop_BlockHit:
+.testSecondHitboxPoint:
+    ; Test second point de collision (décalé de 4 ou 8 pixels en X)
     ldh a, [hSpriteX]
     add b
     ldh [hSpriteX], a

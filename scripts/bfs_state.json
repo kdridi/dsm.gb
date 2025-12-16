@@ -1233,6 +1233,14 @@
       "priority": 3
     },
     {
+      "address": "$1854",
+      "node_type": "code",
+      "description": "PlayerXPositionReset - Reset/init position X du joueur",
+      "source": "$175C",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1983",
       "node_type": "code",
       "description": "CheckPlayerFeetCollision - Collisions pieds joueur",
@@ -1533,6 +1541,14 @@
       "node_type": "code",
       "description": "GetTileAddrFromSprite - Calcule adresse VRAM du tile sous le sprite",
       "source": "$0153",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3EFE",
+      "node_type": "code",
+      "description": "GetSpritePosFromTileAddr - Convertit adresse tile \u2192 position sprite",
+      "source": "$175C",
       "bank": 0,
       "priority": 3
     },
@@ -2023,22 +2039,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1854",
-      "node_type": "code",
-      "description": "PlayerXPositionReset - Reset/init position X du joueur",
-      "source": "$175C",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$3EFE",
-      "node_type": "code",
-      "description": "GetSpritePosFromTileAddr - Convertit adresse tile \u2192 position sprite",
-      "source": "$175C",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2136,6 +2136,7 @@
     "$0ECB",
     "$124B",
     "$05D0",
+    "$17EC",
     "$136D",
     "$4000:3",
     "$04A2",
@@ -2194,6 +2195,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 151
+  "commits_since_push": 1,
+  "total_explored": 152
 }
