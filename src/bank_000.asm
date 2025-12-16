@@ -8937,6 +8937,14 @@ PlaySound:
     ret
 
 
+; ProcessAudioSlots
+; ------------------
+; Description: Traite les slots audio actifs, vérifie les paramètres de position et
+;              remplit le buffer audio sprite
+; In:  wObjectBuffer = buffer d'objets avec slots audio
+; Out: wAudioState2 = compteur de slots traités
+;      Buffer audio sprite rempli avec AUDIO_BUFFER_FILL_VALUE
+; Modifie: af, bc, de, hl, wAudioState2, wAudioData
 ProcessAudioSlots:
     xor a
     ld [wAudioState2], a

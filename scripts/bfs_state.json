@@ -2217,6 +2217,14 @@
       "priority": 3
     },
     {
+      "address": "$2cb2",
+      "node_type": "code",
+      "description": "InitSoundSlot - Initialise un slot audio avec les param\u00e8tres pr\u00e9par\u00e9s",
+      "source": "$2544",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2cee",
       "node_type": "code",
       "description": "SaveSoundDataToSlot - Sauvegarde donn\u00e9es audio dans un slot",
@@ -2865,10 +2873,26 @@
       "priority": 3
     },
     {
-      "address": "$2cb2",
+      "address": "$2CDC",
       "node_type": "code",
-      "description": "InitSoundSlot - Initialise un slot audio avec les param\u00e8tres pr\u00e9par\u00e9s",
-      "source": "$2544",
+      "description": "LoadSoundDataFromSlot - Charge les donn\u00e9es audio depuis le slot",
+      "source": "$255F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2CEE",
+      "node_type": "code",
+      "description": "SaveSoundDataToSlot - Sauvegarde les donn\u00e9es audio dans le slot",
+      "source": "$255F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$25B7",
+      "node_type": "code",
+      "description": "ProcessAudioChannelData - Traite les donn\u00e9es des canaux audio",
+      "source": "$255F",
       "bank": 0,
       "priority": 3
     }
@@ -3054,6 +3078,7 @@
     "$1B7D",
     "$1EAB",
     "$18be",
+    "$255F",
     "$0EC4",
     "$0E28",
     "$1a9e",
@@ -3140,6 +3165,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 265
+  "commits_since_push": 0,
+  "total_explored": 266
 }
