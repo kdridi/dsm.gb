@@ -5879,6 +5879,12 @@ CalculateRelativeSpriteX:
 
     ld a, SFX_BLOCK_HIT_ALT
 
+; PlaySoundExit
+; ----------------
+; Description: Point de sortie commun pour jouer un son et retourner
+; In:  a = identifiant du son à jouer (SFX_*)
+; Out: (aucun)
+; Modifie: a, bc, de, hl (via PlaySound)
 PlaySoundExit:
     call PlaySound
     ret

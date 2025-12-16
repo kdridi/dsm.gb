@@ -1281,6 +1281,14 @@
       "priority": 3
     },
     {
+      "address": "$1916",
+      "node_type": "code",
+      "description": "PlaySoundExit - Point d'entr\u00e9e pour jouer un son avant retour",
+      "source": "$18be",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$192e",
       "node_type": "code",
       "description": "SetupSpriteProperties - Configure propri\u00e9t\u00e9s sprite apr\u00e8s collision tile",
@@ -2135,14 +2143,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1916",
-      "node_type": "code",
-      "description": "PlaySoundExit - Point d'entr\u00e9e pour jouer un son avant retour",
-      "source": "$18be",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2252,6 +2252,7 @@
     "$04A2",
     "$14D3",
     "$11C7",
+    "$1916",
     "$0808",
     "$0BCD",
     "$049C",
@@ -2308,6 +2309,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 161
+  "commits_since_push": 1,
+  "total_explored": 162
 }
