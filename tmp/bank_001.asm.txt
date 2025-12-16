@@ -3464,7 +3464,7 @@ Level3EntitiesData:  ; $5694
     db $FF  ; Terminateur
 
 ; ==============================================================================
-; ZONE MAL DÉSASSEMBLÉE: $56CB-$5A5F (Données compressées + pointeurs états)
+; ZONE MAL DÉSASSEMBLÉE: $56CB-$574A (Données compressées)
 ; ==============================================================================
 ; ATTENTION: Les instructions ci-dessous sont en réalité des DONNÉES compressées
 ; mal interprétées comme du code par le désassembleur.
@@ -3472,29 +3472,18 @@ Level3EntitiesData:  ; $5694
 ; Structure réelle:
 ;   $56CB-$56CC: Padding (2 bytes: $00 $00)
 ;   $56CD-$5749: CompressedTilesetData (125 bytes de données compressées)
-;   $574A-$5A5F: Continuation données compressées/tiles
-;
-; Pointeurs d'états dans cette zone (bank_000.asm StateJumpTable):
-;   $5832: État $14 - State14_CompressedData (pointeur dans stream)
-;   $5835: État $15 - State15_CompressedData
-;   $5838: État $17 - State17_CompressedData
-;   $583B: État $18 - State18_CompressedData
-;   $583E: État $19 - State19_CompressedData
-;   $5841: État $1A - State1A_CompressedData
 ;
 ; Référencé par:
 ;   - SharedTilesetData_024 (ligne 3381) - niveaux 0, 1, 2
 ;   - SharedMapData_012 (ligne 3396) - niveaux 0, 1, 2
 ;   - SharedEntitiesData_012 (ligne 3411) - niveaux 0, 1, 2
-;   - StateJumpTable (bank_000.asm:688-694) - états $14-$15, $17-$1A
 ;
 ; Format compression: Stream de commandes + données
 ;   - $5D $FE: Commande de répétition/copie
 ;   - $E2 XX: Commande avec argument
 ;   - Autres: Données brutes ou arguments
 ;
-; TODO BFS: Reconstruire cette zone avec des 'db' statements corrects pour pouvoir
-;           placer les labels State14-State1A aux adresses exactes
+; TODO: Reconstruire cette zone avec des 'db' statements corrects
 ; ==============================================================================
 TilesetData_Padding:  ; $56CB
     nop
