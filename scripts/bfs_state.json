@@ -5407,6 +5407,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$584b",
+      "node_type": "code",
+      "description": "DecrementGameTimer - D\u00e9cr\u00e9mente timer BCD",
+      "source": "$5844",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5892",
+      "node_type": "code",
+      "description": "UpdateSpriteAnimationFrame - Met \u00e0 jour frame animation sprite",
+      "source": "$5844",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$59a5",
+      "node_type": "code",
+      "description": "ProcessSpriteAnimation - Traite animation sprite (appel\u00e9 par UpdateSpriteAnimationFrame)",
+      "source": "$5844",
+      "bank": 2,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5821,6 +5845,7 @@
     "$1C63",
     "$1EC5",
     "$0ECB",
+    "$5844",
     "$1CA8",
     "$4CAD",
     "$2bb2",
@@ -5998,6 +6023,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 1,
-  "total_explored": 587
+  "commits_since_push": 2,
+  "total_explored": 588
 }

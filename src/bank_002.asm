@@ -5947,22 +5947,27 @@ PaddingZone_002_580a:
     jp SpriteAnimationState_LoadPalette
 
 
-; =============================================================================
-; UpdateGameTimersAndAnimation - Met à jour les timers et animations de jeu
-; =============================================================================
-; QUOI : Appelle DecrementGameTimer puis UpdateSpriteAnimationFrame
-; ENTRÉE : Aucune
-; SORTIE : Timers et animations mis à jour
-; =============================================================================
+; UpdateGameTimersAndAnimation
+; ----------------
+; Description: Met à jour les timers de jeu et les animations des sprites
+; In:  Aucun
+; Out: Aucun
+; Modifie: Appelle DecrementGameTimer et UpdateSpriteAnimationFrame
 UpdateGameTimersAndAnimation:
     call DecrementGameTimer
     call UpdateSpriteAnimationFrame
     ret
 
 
+; DecrementGameTimer
+; ----------------
+; Description: Décrémente le timer de jeu (format BCD à $da00-$da02)
+; In:  Aucun
+; Out: Aucun, carry non modifié
+; Modifie: a, hl, c
 DecrementGameTimer:
     ld a, [wSpecialState]
-    cp $03
+    cp SPECIAL_STATE_TRIGGER
     ret z
 
     ld hl, $da00
@@ -5971,7 +5976,7 @@ DecrementGameTimer:
     ld [hl], a
     ret nz
 
-    ld a, $28
+    ld a, ATTRACT_MODE_TIMEOUT  ; Recharge $28 (40 frames)
     ld [hl], a
     inc hl
     ld a, [hl+]
@@ -5989,9 +5994,15 @@ DecrementGameTimer:
     ret
 
 
+; CounterStateDispatcher
+; ----------------
+; Description: Dispatch selon valeur timer BCD pour gérer transitions d'état
+; In:  a = valeur timer BCD, c = compteur haut
+; Out: Aucun
+; Modifie: a, hl
 CounterStateDispatcher:
     ld hl, $da1d
-    cp $50
+    cp TIMER_GAMEPLAY_DELAY  ; Compare à $50
     jr z, SetTimerForSpecialCase
 
     and a
@@ -6000,11 +6011,17 @@ CounterStateDispatcher:
     or c
     jr nz, SetTimerForAlternateCase
 
-    ld a, $03
+    ld a, SPECIAL_STATE_TRIGGER
     ld [hl], a
     ret
 
 
+; SetTimerForSpecialCase
+; ----------------
+; Description: Configure le timer matériel pour le cas spécial (timer = $50)
+; In:  c = compteur haut
+; Out: Aucun
+; Modifie: a, hl
 SetTimerForSpecialCase:
     ld a, c
     and a
@@ -6012,11 +6029,17 @@ SetTimerForSpecialCase:
 
     ld a, $02
     ld [hl], a
-    ld a, $50
+    ld a, TIMER_GAMEPLAY_DELAY
     ldh [rTMA], a
     ret
 
 
+; SetTimerForAlternateCase
+; ----------------
+; Description: Configure le timer matériel pour le cas alternatif (c = 1)
+; In:  c = compteur haut (doit être 1)
+; Out: Aucun
+; Modifie: a, hl
 SetTimerForAlternateCase:
     ld a, c
     cp $01
@@ -6024,7 +6047,7 @@ SetTimerForAlternateCase:
 
     ld a, $01
     ld [hl], a
-    ld a, $30
+    ld a, LEVEL_PARAM_INIT_30
     ldh [rTMA], a
     ret
 
