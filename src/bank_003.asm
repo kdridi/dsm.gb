@@ -3230,7 +3230,7 @@ AnimFrame_4D1D:
 ; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4D21:
     dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
-    dw $4E44           ; → SpriteData_4E44 (données sprite OAM - zone mal désassemblée)
+    dw SpriteCoordTable_20Sprites  ; → $4E44 (table de coordonnées 20 sprites)
 ; AnimFrame_4D25 - Structure d'animation #43
 ; Format différent des précédentes (pas d'offset Y/X standard)
 AnimFrame_4D25:
@@ -3534,14 +3534,15 @@ SpriteData_4E2A:
 ; Tiles: $FE,$7C,$61,$7D,$6F,$7E,$61,$7D,$6F,$7E,$7B,$7F (configuration complexe 6×2 ou 3×4 tiles)
 SpriteData_4E35:
     db $5C, $4E, $FE, $7C, $61, $7D, $6F, $7E, $61, $7D, $6F, $7E, $7B, $7F, $FF
-; GfxData_SpriteCoords_4E44 - Table de coordonnées Y/X de sprites
+; SpriteCoordTable_20Sprites - Table de coordonnées Y/X pour 20 sprites
 ; ----------------
-; Description: Table de coordonnées pour positionnement de sprites à l'écran
-; In:  Référencé par AnimFrame_4D21 @ $4D21 via dw $4E44
+; Description: Table de positionnement absolu de sprites à l'écran,
+;              utilisée pour définir des layouts de sprites multi-tiles
+; In:  Référencé par AnimFrame_4D21 @ $4D21 et autres structures d'animation
 ; Out: Aucun (données pures)
-; Format: Séquence de byte pairs (Y, X) sans terminateur - taille fixe 41 bytes
-; Note: Format différent des SpriteData_* (pas de header $XX $4E)
-SpriteData_4E44:
+; Format: 20 × (byte Y, byte X) + byte terminateur $00 = 41 bytes
+; Note: Contrairement aux SpriteData_*, c'est uniquement des coordonnées (pas de tiles)
+SpriteCoordTable_20Sprites:
     db $00, $00, $00, $08, $08, $00, $08, $08
     db $00, $00, $00, $09, $00, $11, $00, $19
     db $08, $00, $08, $09, $08, $11, $08, $19
