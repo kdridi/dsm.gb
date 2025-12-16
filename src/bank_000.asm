@@ -10094,7 +10094,7 @@ GetAnimationDataPointer:
 ; Description: Vérifie collision bas objet et joue son associé (offset +1 dans table)
 ; In:  hl = pointeur vers ID objet
 ; Out: a = RETURN_COLLISION_FOUND si son joué, 0 sinon
-; Modifie: de
+; Modifie: de, bc (via InitSoundSlot)
 CheckObjectBottomCollision:
     push hl
     ld a, [hl]              ; a = ID objet
