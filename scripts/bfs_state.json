@@ -2265,6 +2265,14 @@
       "priority": 3
     },
     {
+      "address": "$401A",
+      "node_type": "table",
+      "description": "ROM_AUDIO_INDEX_TABLE - Table index audio en bank 1",
+      "source": "$2439",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$4032",
       "node_type": "data",
       "description": "Tiles graphiques monde 1 et 2 (bank 1)",
@@ -2801,11 +2809,11 @@
       "priority": 3
     },
     {
-      "address": "$401A",
-      "node_type": "table",
-      "description": "ROM_AUDIO_INDEX_TABLE - Table index audio en bank 1",
-      "source": "$2439",
-      "bank": 1,
+      "address": "$247E",
+      "node_type": "code",
+      "description": "ClearObjectBuffer_Loop - Boucle interne qui r\u00e9initialise wObjectBuffer avec $FF",
+      "source": "$2453",
+      "bank": 0,
       "priority": 3
     }
   ],
@@ -2885,6 +2893,7 @@
     "$00C7",
     "$2246",
     "$218F",
+    "$2453",
     "$0B84",
     "$1547",
     "$05B8",
@@ -3069,6 +3078,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 258
+  "commits_since_push": 3,
+  "total_explored": 259
 }

@@ -8691,6 +8691,16 @@ InitAudioAndAnimContext:
     ret
 
 
+; FindAudioTableEntry
+; --------------------
+; Description: Recherche l'entrée audio correspondant au contexte de rendu courant
+;              et réinitialise le buffer d'objets. Parcourt la table audio ROM
+;              pour trouver la première entrée >= wPlayerVarAB.
+; In:  hRenderContext = index contexte de rendu (utilisé pour pointer dans ROM_AUDIO_INDEX_TABLE)
+;      wPlayerVarAB = valeur de recherche (seuil audio)
+; Out: wAudioState0/1 = pointeur vers l'entrée audio trouvée
+;      wObjectBuffer = rempli avec $FF (OBJECT_STRUCT_SIZE × 10 objets)
+; Modifie: a, bc, de, hl
 FindAudioTableEntry:
     ld hl, ROM_AUDIO_INDEX_TABLE
     ldh a, [hRenderContext]
