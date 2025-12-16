@@ -15,7 +15,7 @@ LevelJumpTable:
     ; Niveau 2
     dw SharedTilesetData_024, SharedMapData_012, SharedEntitiesData_012
     ; Niveau 3
-    dw $5630, $5665, $5694
+    dw Level3TilesetData, Level3MapData, Level3EntitiesData
     ; Niveau 4
     dw SharedTilesetData_024, SharedMapData_467, $5405
     ; Niveau 5
@@ -3412,161 +3412,55 @@ SharedEntitiesData_012:  ; $5605
     dw $6100, $6272, $6272, $61B8, $6327, $6327, $6272, $6272
     dw $6100, $640D, $6327, $6327, $650D
     db $FF  ; Terminateur
-    add c
-    ld l, h
-    add c
-    ld l, h
-    db $db
-    ld l, l
-    db $d3
-    ld h, l
-    and c
-    ld h, [hl]
-    cp a
-    ld h, a
-    add d
-    ld l, b
-    cp a
-    ld h, a
-    inc e
-    ld l, c
-    inc e
-    ld l, c
-    cp a
-    ld h, a
-    ldh [c], a
-    ld l, c
-    db $d3
-    ld h, l
-    add d
-    ld l, b
-    and c
-    ld h, [hl]
-    and c
-    ld h, [hl]
-    and c
-    ld h, [hl]
 
-DataZone_5652:
-    add d
-    ld l, b
-    add d
-    ld l, b
-    ldh [c], a
-    ld l, c
-    inc e
-    ld l, c
-    and b
-    ld l, d
-    ld d, c
-    ld l, e
-    inc e
-    ld l, c
-    ld d, c
-    ld l, e
-    dec de
-    ld l, h
-    rst $38
-    add c
-    ld l, h
-    add c
-    ld l, h
-    db $db
-    ld l, l
-    and [hl]
-    ld l, [hl]
-    ld h, b
-    ld l, a
-    ld h, b
-    ld l, a
-    and [hl]
-    ld l, [hl]
-    and [hl]
-    ld l, [hl]
-    jr c, @+$72
+; ==============================================================================
+; Level3TilesetData - Tileset data niveau 3 ($5630-$5664)
+; ==============================================================================
+; Description: Table de pointeurs vers tiles graphiques pour le niveau 3
+; Format: Séquence de words (16-bit pointers), terminée par $FF
+;         - Chaque word pointe vers une tile de 8 octets en mémoire
+; Taille: 53 octets ($35) - 26 pointeurs + terminateur
+; Référencé par: LevelJumpTable niveau 3 (ligne 18)
+; ==============================================================================
+Level3TilesetData:  ; $5630
+    dw $6C81, $6C81, $6DDB, $65D3, $66A1, $67BF, $6882, $67BF
+    dw $691C, $691C, $67BF, $69E2, $65D3, $6882, $66A1, $66A1
+    dw $66A1
+DataZone_5652:  ; $5652 - Référencé par du code (lignes 10194, 10254)
+    dw $6882, $6882, $69E2, $691C, $6AA0, $6B51, $691C
+    dw $6B51, $6C1B
+    db $FF  ; Terminateur
 
-    jr c, DataZone_56e9
+; ==============================================================================
+; Level3MapData - Map data niveau 3 ($5665-$5693)
+; ==============================================================================
+; Description: Données de map (layout de tiles) pour le niveau 3
+; Format: Séquence de words (16-bit tile IDs ou pointeurs), terminée par $FF
+;         - Chaque word représente un tile dans le layout de la map
+; Taille: 47 octets ($2F) - 23 words + terminateur
+; Référencé par: LevelJumpTable niveau 3 (ligne 18)
+; ==============================================================================
+Level3MapData:  ; $5665
+    dw $6C81, $6C81, $6DDB, $6EA6, $6F60, $6F60, $6EA6, $6EA6
+    dw $7038, $7038, $6F60, $7123, $7123, $71FC, $72BC, $71FC
+    dw $72BC, $7379, $7123, $7379, $7442, $757C, $6C1B
+    db $FF  ; Terminateur
 
-    ld h, b
-    ld l, a
-    inc hl
-    ld [hl], c
-    inc hl
-    ld [hl], c
-    db $fc
-    ld [hl], c
-    cp h
-    ld [hl], d
-    db $fc
-    ld [hl], c
-    cp h
-    ld [hl], d
-    ld a, c
-    ld [hl], e
-    inc hl
-    ld [hl], c
-    ld a, c
-    ld [hl], e
-    ld b, d
-    ld [hl], h
-    ld a, h
-    ld [hl], l
-    dec de
-    ld l, h
-    rst $38
-    add c
-    ld l, h
-    add c
-    ld l, h
-    db $db
-    ld l, l
-    ld c, a
-    halt
-    ld c, a
-    halt
-    ld c, a
-    halt
-    ld c, a
-    halt
-    jp nc, $d276
-
-    halt
-    jp nc, PaddingZone_4f76
-
-    halt
-    ld c, a
-    halt
-    ld c, a
-    halt
-    jp nc, $d276
-
-    halt
-    ld c, a
-    halt
-    ld e, d
-    ld [hl], a
-    ld e, d
-    ld [hl], a
-    cp l
-    ld [hl], a
-    jp hl
-
-
-    ld a, c
-    ld a, [de]
-    ld a, c
-    ld a, [de]
-    ld a, c
-    jp hl
-
-
-    ld a, c
-    or d
-    ld a, d
-    ld e, a
-    ld a, e
-    ld c, $7c
-    ld bc, $ff7d
+; ==============================================================================
+; Level3EntitiesData - Entities data niveau 3 ($5694-$56CA)
+; ==============================================================================
+; Description: Table de pointeurs vers les données d'entités pour niveau 3
+; Format: Séquence de words (16-bit pointeurs vers entités), terminée par $FF
+;         - Chaque word pointe vers une définition d'entité (position/type)
+; Taille: 55 octets ($37) - 27 words + terminateur
+; Référencé par: LevelJumpTable niveau 3 (ligne 18)
+; ==============================================================================
+Level3EntitiesData:  ; $5694
+    dw $6C81, $6C81, $6DDB, $764F, $764F, $764F, $764F, $76D2
+    dw $76D2, $76D2, $764F, $764F, $764F, $76D2, $76D2, $764F
+    dw $775A, $775A, $77BD, $79E9, $791A, $791A, $79E9, $7AB2
+    dw $7B5F, $7C0E, $7D01
+    db $FF  ; Terminateur
     nop
     nop
     pop af

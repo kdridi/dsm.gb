@@ -4825,6 +4825,14 @@
       "priority": 3
     },
     {
+      "address": "$6100",
+      "node_type": "data",
+      "description": "Entity definition data",
+      "source": "$5605",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$6190",
       "node_type": "data",
       "description": "Donn\u00e9es niveau (variante A)",
@@ -4849,11 +4857,35 @@
       "priority": 3
     },
     {
+      "address": "$61B8",
+      "node_type": "data",
+      "description": "Entity definition data",
+      "source": "$5605",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$61DA",
       "node_type": "data",
       "description": "Donn\u00e9es niveau (variante D)",
       "source": "$4000:2",
       "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$6272",
+      "node_type": "data",
+      "description": "Entity definition data",
+      "source": "$5605",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6327",
+      "node_type": "data",
+      "description": "Entity definition data",
+      "source": "$5605",
+      "bank": 1,
       "priority": 3
     },
     {
@@ -4865,11 +4897,27 @@
       "priority": 3
     },
     {
+      "address": "$640D",
+      "node_type": "data",
+      "description": "Entity definition data",
+      "source": "$5605",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$6463",
       "node_type": "data",
       "description": "Animation frame structure",
       "source": "$4C37",
       "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$650D",
+      "node_type": "data",
+      "description": "Entity definition data",
+      "source": "$5605",
+      "bank": 1,
       "priority": 3
     },
     {
@@ -5121,50 +5169,242 @@
       "priority": 3
     },
     {
-      "address": "$6100",
+      "address": "$65D3",
       "node_type": "data",
-      "description": "Entity definition data",
-      "source": "$5605",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData",
+      "source": "$5630",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$61B8",
+      "address": "$66A1",
       "node_type": "data",
-      "description": "Entity definition data",
-      "source": "$5605",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData",
+      "source": "$5630",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$6272",
+      "address": "$67BF",
       "node_type": "data",
-      "description": "Entity definition data",
-      "source": "$5605",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
+      "source": "$5630",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$6327",
+      "address": "$6882",
       "node_type": "data",
-      "description": "Entity definition data",
-      "source": "$5605",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
+      "source": "$5630",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$640D",
+      "address": "$691C",
       "node_type": "data",
-      "description": "Entity definition data",
-      "source": "$5605",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
+      "source": "$5630",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$650D",
+      "address": "$69E2",
       "node_type": "data",
-      "description": "Entity definition data",
-      "source": "$5605",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6AA0",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6B51",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6C1B",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6C81",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par toutes les tables Level3",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6DDB",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par toutes les tables Level3",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6EA6",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6F60",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7038",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7123",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$71FC",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$72BC",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7379",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7442",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$757C",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$764F",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$76D2",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$775A",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$77BD",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$791A",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$79E9",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7AB2",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7B5F",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7C0E",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7D01",
+      "node_type": "data",
+      "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
+      "source": "$5630",
       "bank": 1,
       "priority": 3
     }
@@ -5611,6 +5851,7 @@
     "$4D3A",
     "$2d21",
     "$4D84",
+    "$5630",
     "$1C12",
     "$4D69",
     "$1438",
@@ -5746,6 +5987,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 4,
-  "total_explored": 575
+  "commits_since_push": 0,
+  "total_explored": 576
 }
