@@ -3271,6 +3271,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$29eb",
+      "node_type": "code",
+      "description": "ClearSoundCh1AndVar1_Collision2 - Label interm\u00e9diaire teste \u00e9tat audio 30",
+      "source": "$29d7",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3436,6 +3444,7 @@
     "$0E0C",
     "$2492",
     "$12B9",
+    "$29d7",
     "$0F61",
     "$0a20",
     "$05C7",
@@ -3575,6 +3584,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 300
+  "commits_since_push": 0,
+  "total_explored": 301
 }

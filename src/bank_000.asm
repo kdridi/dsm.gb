@@ -10005,6 +10005,14 @@ AddSoundFlagToParam1:
     ld [wPlayerX], a
     jr CollisionEnd
 
+
+; CheckObjectTileBottomLeft_Alternatives
+; ----------------
+; Description: Teste les alternatives de collision tile bas-gauche selon l'état audio (bits 4-5 de hSoundCh4)
+; In:  hSoundCh4 contient l'état audio dans les bits 4-5
+; Out: Aucun (void)
+; Modifie: a, hSoundCh2 (si état 10), hSoundCh1 et hSoundVar1 (si état 30), hSoundVar4 (via CollisionEnd)
+; Notes: État 00 → AddSoundFlagToParam1, État 10 → efface bit 1 de Ch2, État 30 → reset Ch1 et Var1
 CheckObjectTileBottomLeft_Alternatives:
     ldh a, [hSoundCh4]
     and BITS_4_5_MASK           ; Masque bits 4-5 (état audio)
