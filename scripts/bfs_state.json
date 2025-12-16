@@ -2145,6 +2145,14 @@
       "priority": 3
     },
     {
+      "address": "$266D",
+      "node_type": "code",
+      "description": "ProcessSoundAnimation - Traite l'animation sonore pour un objet",
+      "source": "$263F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$29F8",
       "node_type": "code",
       "description": "GetAnimationDataPointer - R\u00e9cup\u00e8re pointeur vers donn\u00e9es animation objet",
@@ -2209,10 +2217,26 @@
       "priority": 3
     },
     {
+      "address": "$2CE2",
+      "node_type": "code",
+      "description": "LoadSoundDataFromHL - Charge les donn\u00e9es audio depuis HL vers HRAM",
+      "source": "$263F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2CEE",
       "node_type": "code",
       "description": "SaveSoundDataToSlot - Sauvegarde les donn\u00e9es audio dans le slot",
       "source": "$255F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2CF4",
+      "node_type": "code",
+      "description": "SaveSoundDataToHL - Sauvegarde les donn\u00e9es audio depuis HRAM vers HL",
+      "source": "$263F",
       "bank": 0,
       "priority": 3
     },
@@ -2269,6 +2293,14 @@
       "node_type": "table",
       "description": "ROM_AUDIO_CHANNEL_TABLE_2 - Table de pointeurs vers commandes audio (option 2)",
       "source": "$25B7",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3495",
+      "node_type": "data",
+      "description": "ROM_AUDIO_POINTERS - Table des pointeurs vers donn\u00e9es audio (2 octets par entr\u00e9e)",
+      "source": "$263F",
       "bank": 0,
       "priority": 3
     },
@@ -2913,34 +2945,26 @@
       "priority": 3
     },
     {
-      "address": "$2CE2",
+      "address": "$26AC",
       "node_type": "code",
-      "description": "LoadSoundDataFromHL - Charge les donn\u00e9es audio depuis HL vers HRAM",
-      "source": "$263F",
+      "description": "ProcessAudioQueue_Loop - Boucle de traitement de la file audio",
+      "source": "$266D",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$3495",
-      "node_type": "data",
-      "description": "ROM_AUDIO_POINTERS - Table des pointeurs vers donn\u00e9es audio (2 octets par entr\u00e9e)",
-      "source": "$263F",
+      "address": "$2BB2",
+      "node_type": "code",
+      "description": "CheckObjectTileBottomLeft - V\u00e9rifie la tile en bas \u00e0 gauche d'un objet",
+      "source": "$266D",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$266D",
+      "address": "$2870",
       "node_type": "code",
-      "description": "ProcessSoundAnimation - Traite l'animation sonore pour un objet",
-      "source": "$263F",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2CF4",
-      "node_type": "code",
-      "description": "SaveSoundDataToHL - Sauvegarde les donn\u00e9es audio depuis HRAM vers HL",
-      "source": "$263F",
+      "description": "ProcessSoundCollisionCheck - Traite la v\u00e9rification de collision sonore",
+      "source": "$266D",
       "bank": 0,
       "priority": 3
     }
@@ -3022,6 +3046,7 @@
     "$172D",
     "$192e",
     "$00C7",
+    "$266D",
     "$2246",
     "$218F",
     "$2453",
@@ -3215,6 +3240,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 268
+  "commits_since_push": 3,
+  "total_explored": 269
 }

@@ -9179,6 +9179,17 @@ NextSoundObject:
     ret
 
 
+; ProcessSoundAnimation
+; ----------------------
+; Description: Traite l'animation sonore d'un objet en gérant le déplacement
+;              et la synchronisation avec les tiles. Gère un compteur d'animation
+;              et vérifie les collisions avec les tiles.
+; In:  hSoundVar1 = nombre d'itérations restantes
+;      hSoundVar2 = compteur (nibble haut) et limite (nibble bas)
+;      hSoundCh4 = flags de canal audio (bit 1 = mode déplacement actif)
+;      hSoundParam1 = paramètre de position
+; Out: (aucun retour spécifique)
+; Modifie: a, b, flags
 ProcessSoundAnimation:
 
 ProcessSoundAnimationLoop:
