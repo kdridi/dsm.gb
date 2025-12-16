@@ -6084,6 +6084,13 @@ ClassifyTileTypeEntry:
     ret
 
 
+; HandlePlayerWaterCollision / PlayerWaterCollisionEntry
+; -------------------------------------------------------
+; Description: Gère collision joueur avec eau (tile $82). Vérifie type bloc,
+;              mode timer, puis initialise objets et donne bonus si conditions OK
+; In:  hl = pointeur tilemap collision
+; Out: -
+; Modifie: af, bc, de, hl
 PlayerWaterCollisionEntry:
 HandlePlayerWaterCollision:
     push hl
@@ -6113,6 +6120,12 @@ HandlePlayerWaterCollision:
     ld [hl], e
     ld hl, wPlayerUnk10
 
+; InitializeGameObjects
+; ---------------------
+; Description: Initialise 4 objets du jeu avec position joueur + offsets
+; In:  -
+; Out: -
+; Modifie: af, bc, de, hl
 InitializeGameObjects:
     ld de, OBJECT_STRUCT_SIZE
     ld b, INIT_OBJECTS_LOOP_COUNT

@@ -2167,6 +2167,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$19fc",
+      "node_type": "code",
+      "description": "InitializeGameObjects - Initialise 4 objets du jeu (appelable s\u00e9par\u00e9ment)",
+      "source": "$19d8",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2180,6 +2188,7 @@
     "$0095",
     "$175C",
     "$0166",
+    "$19d8",
     "$1520",
     "$0E54",
     "$0C37",
@@ -2338,6 +2347,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 167
+  "commits_since_push": 2,
+  "total_explored": 168
 }
