@@ -8138,6 +8138,13 @@ ProcessColumnAnimation_End:
 
     jr ProcessScrollEntry
 
+; UpdateCollisionFlag
+; -------------------
+; Description: Incrémente le compteur de collision d'une unité.
+;              Appelée quand un slot de scroll est vide (SLOT_EMPTY)
+; In:  Aucun
+; Out: Aucun
+; Modifie: hl
 UpdateCollisionFlag:
     ld hl, wCollisionFlag
     inc [hl]
