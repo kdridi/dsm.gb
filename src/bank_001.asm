@@ -2402,13 +2402,24 @@ PerformCollisionCheckAndIncrementCounter:
     inc [hl]
     ret
 
-
+; ===========================================================================
+; UpdateObjectsAndInput
+; ---------------------
+; Description: Point d'entrée pour la mise à jour des objets du jeu.
+;              Vérifie d'abord si les boutons A ou B sont pressés pour
+;              des actions spéciales, sinon traite les mouvements directionnels.
+; In:  hJoypadState = État actuel du joypad
+; Out: Aucun retour spécifique
+; Modifie: a, bc, de, hl (via appels)
+; ===========================================================================
+UpdateObjectsAndInput:
     ldh a, [hJoypadState]
-    bit 6, a
+    bit 6, a                         ; Test bit 6 (bouton B)
     jr nz, HandleJoypadButtonB_CheckCollision
 
-    bit 7, a
+    bit 7, a                         ; Test bit 7 (bouton A)
     jr nz, CheckSpriteCollisionSimple
+    ; Fall through vers HandleJoypadAndCollision
 
 HandleJoypadAndCollision:
     ldh a, [hJoypadState]

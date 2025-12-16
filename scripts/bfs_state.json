@@ -3753,6 +3753,14 @@
       "priority": 3
     },
     {
+      "address": "$50CC",
+      "node_type": "code",
+      "description": "Helper function appel\u00e9e avec param\u00e8tre c=$08",
+      "source": "$4FD8",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$5118",
       "node_type": "code",
       "description": "Call Bank 1 - Update sprites (non nomm\u00e9)",
@@ -4121,11 +4129,19 @@
       "priority": 3
     },
     {
-      "address": "$50CC",
+      "address": "$5034",
       "node_type": "code",
-      "description": "Helper function appel\u00e9e avec param\u00e8tre c=$08",
-      "source": "$4FD8",
-      "bank": 3,
+      "description": "HandleJoypadButtonB_CheckCollision - Gestion collision bouton B",
+      "source": "$4FEC",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5022",
+      "node_type": "code",
+      "description": "CheckSpriteCollisionSimple - V\u00e9rification collision simple bouton A",
+      "source": "$4FEC",
+      "bank": 1,
       "priority": 3
     }
   ],
@@ -4171,6 +4187,7 @@
     "$0F2A",
     "$0226",
     "$0BF2",
+    "$4FEC",
     "$07B7",
     "$21C0",
     "$2799",
@@ -4594,6 +4611,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 2,
-  "total_explored": 463
+  "commits_since_push": 3,
+  "total_explored": 464
 }
