@@ -6262,19 +6262,19 @@ SECTION "ROM_WORLD_TILE_TABLE", ROM0[$1a8a]
 
 ; Listes de tiles spéciaux par monde (terminées par TABLE_END_MARKER=$FD)
 World1_SpecialTiles:
-    db $68, $69, $6A, $7C, TABLE_END_MARKER
+    db $68, $69, $6A, TILE_COMMON_SPECIAL, TABLE_END_MARKER
 
 World2_SpecialTiles:
-    db $60, $61, $63, $7C, TABLE_END_MARKER
+    db $60, $61, $63, TILE_COMMON_SPECIAL, TABLE_END_MARKER
 
 World3_SpecialTiles:
-    db $7C, TABLE_END_MARKER
+    db TILE_COMMON_SPECIAL, TABLE_END_MARKER
 
 World4_SpecialTiles:
-    db $7C, TABLE_END_MARKER
+    db TILE_COMMON_SPECIAL, TABLE_END_MARKER
 
 World5_SpecialTiles:
-    db $7C, TABLE_END_MARKER
+    db TILE_COMMON_SPECIAL, TABLE_END_MARKER
 
 ; CheckPlayerSideCollision
 ; ------------------------

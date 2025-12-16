@@ -1506,6 +1506,7 @@ DEF CREDITS_POS_RANDOM_THRESH  EQU $68   ; Seuil position aléatoire (104)
 
 DEF ROM_WORLD_TILE_TABLE       EQU $1a8a ; Table tiles par monde
 DEF TABLE_END_MARKER           EQU $fd   ; Marqueur fin de table
+DEF TILE_COMMON_SPECIAL        EQU $7c   ; Tile spécial commun à tous les mondes
 
 ; === Constantes mouvement joueur ===
 ; Utilisées dans ProcessAnimationState pour gérer l'accélération/décélération
