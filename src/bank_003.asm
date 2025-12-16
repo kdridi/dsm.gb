@@ -3461,8 +3461,11 @@ SpriteData_4DDF:
 SpriteData_4DE6:
     db $44, $4E, $A2, $A3, $B2, $B3, $FF
 ; SpriteData_4DED - Données de sprites pour animation frame #31
+; ----------------
+; Description: Séquence sprite OAM avec header standard $44 $4E + 4 tiles
+; In:  Référencé par AnimFrame_4CFD @ $4CFD via dw $4DED
+; Out: Aucun (données pures)
 ; Format: 2 bytes header ($44 $4E) + 4 tile indices + $FF terminateur
-; Référencé par: AnimFrame_4CFD @ $4CFD via dw $4DED
 ; Tiles: $4E,$49,$50,$51 (configuration 2×2 tiles - note: premier tile $4E différent du header)
 SpriteData_4DED:
     db $44, $4E, $4E, $49, $50, $51, $FF
