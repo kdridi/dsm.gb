@@ -4671,8 +4671,13 @@ UpdateCreditsStars:
     ret
 
 ; ===========================================================================
-; État $33 - Affichage texte crédits ($13E7)
-; Affiche le texte des crédits ligne par ligne vers VRAM
+; State33_DisplayCreditsText
+; --------------------------
+; Description: Affiche le texte des crédits caractère par caractère en VRAM
+;              Gère l'animation des crédits et copie le texte sur 2 lignes
+; In:  hCopyDstLow/hCopyDstHigh = pointeur source texte crédits
+; Out: hGameState incrémenté, pointeur source sauvegardé
+; Modifie: a, b, de, hl, hTimer1
 ; ===========================================================================
 State33_DisplayCreditsText::
     call AnimateCreditsFrame
@@ -4686,15 +4691,15 @@ State33_DisplayCreditsText::
     ld l, a
     ld de, VRAM_CREDITS_ROW1
 
-DisplayCreditsLoop:
+.displayLoop:
     ld a, [hl]
     cp TEXT_CMD_NEWLINE
-    jr z, .clearTile
+    jr z, .handleNewline
 
     inc hl
     ld b, a
 
-.waitAndWrite:
+.writeCharToVRAM:
     WAIT_FOR_HBLANK
     WAIT_FOR_HBLANK
     ld a, b
@@ -4702,32 +4707,32 @@ DisplayCreditsLoop:
     inc de
     ld a, e
     cp VRAM_CREDITS_LIMIT1
-    jr z, State33_UpdateVRAMRow1
+    jr z, .switchToRow2
 
     cp VRAM_CREDITS_LIMIT2
-    jr z, State33_UpdateVRAMRow2
+    jr z, .finishRow2
 
-    jr DisplayCreditsLoop
+    jr .displayLoop
 
-.clearTile:
+.handleNewline:
     ld b, TILE_EMPTY
-    jr .waitAndWrite
+    jr .writeCharToVRAM
 
-State33_UpdateVRAMRow1:
+.switchToRow2:
     ld de, VRAM_CREDITS_ROW2
     inc hl
-    jr DisplayCreditsLoop
+    jr .displayLoop
 
-State33_UpdateVRAMRow2:
+.finishRow2:
     inc hl
     ld a, [hl]
     cp SLOT_EMPTY
-    jr nz, State33_SaveVRAMPointer
+    jr nz, .savePointerAndAdvanceState
 
     ld a, SLOT_EMPTY
     ld [wAudioSaveDE], a
 
-State33_SaveVRAMPointer:
+.savePointerAndAdvanceState:
     ld a, h
     ldh [hCopyDstLow], a
     ld a, l
