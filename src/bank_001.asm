@@ -3833,6 +3833,16 @@ TileGraphic_57EB:  ; $57EB
     ld h, e
     ld sp, $3131
     ld sp, $5d31
+; ==============================================================================
+; TileGraphic_586F - Tile graphique 2BPP ($586F-$5876)
+; ==============================================================================
+; Description: Tile graphique 8x8 pixels, format 2BPP Game Boy
+; Taille: 8 octets (4 lignes de pixels, 2 bytes/ligne)
+; Référencé par: SharedTilesetData_024 (lignes 3381-3382) - 2 occurrences
+; Note: Cette zone est mal désassemblée et nécessite reconstruction en db
+; TODO: Reconstruire toute la zone $57F3-$5A5F en format db (tiles graphiques)
+; ==============================================================================
+TileGraphic_586F:  ; $586F (au milieu de l'instruction ci-dessous, byte 2)
     cp $e2
     ld h, b
     ld e, l

@@ -4721,6 +4721,30 @@
       "priority": 3
     },
     {
+      "address": "$586b",
+      "node_type": "code",
+      "description": "CounterStateDispatcher - Dispatch selon valeur timer BCD",
+      "source": "$584b",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$587b",
+      "node_type": "code",
+      "description": "SetTimerForSpecialCase - Configure timer quand BCD=$50",
+      "source": "$584b",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5886",
+      "node_type": "code",
+      "description": "SetTimerForAlternateCase - Configure timer quand c=1",
+      "source": "$584b",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5892",
       "node_type": "code",
       "description": "UpdateSpriteAnimationFrame - Met \u00e0 jour frame animation sprite",
@@ -5431,30 +5455,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$586b",
-      "node_type": "code",
-      "description": "CounterStateDispatcher - Dispatch selon valeur timer BCD",
-      "source": "$584b",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$587b",
-      "node_type": "code",
-      "description": "SetTimerForSpecialCase - Configure timer quand BCD=$50",
-      "source": "$584b",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5886",
-      "node_type": "code",
-      "description": "SetTimerForAlternateCase - Configure timer quand c=1",
-      "source": "$584b",
-      "bank": 2,
-      "priority": 3
     }
   ],
   "visited": [
@@ -5851,6 +5851,7 @@
     "$2d26",
     "$4D19",
     "$2FD9",
+    "$586F",
     "$4D92",
     "$2cb2",
     "$0E0C",
@@ -6048,6 +6049,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 3,
-  "total_explored": 589
+  "commits_since_push": 4,
+  "total_explored": 590
 }
