@@ -2049,6 +2049,14 @@
       "priority": 3
     },
     {
+      "address": "$242D",
+      "node_type": "data",
+      "description": "AnimFlagTable - Table des flags d'activation animation par contexte",
+      "source": "$23F8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2439",
       "node_type": "code",
       "description": "InitAudioAndAnimContext - Init contexte audio et animations",
@@ -2237,6 +2245,14 @@
       "node_type": "data",
       "description": "ROM_HUD_TILEMAP - Donn\u00e9es tilemap du HUD (40 bytes, 2 lignes)",
       "source": "$05F8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3FAF",
+      "node_type": "data",
+      "description": "AnimTilesFrames - Table ROM des frames d'animation (eau/lave)",
+      "source": "$23F8",
       "bank": 0,
       "priority": 3
     },
@@ -2729,6 +2745,14 @@
       "priority": 3
     },
     {
+      "address": "$C600",
+      "node_type": "data",
+      "description": "wAnimBuffer - Buffer RAM pour frames d'animation custom",
+      "source": "$23F8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$FFA4",
       "node_type": "data",
       "description": "hShadowSCX - shadow register pour effets raster",
@@ -2773,30 +2797,6 @@
       "node_type": "data",
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$3FAF",
-      "node_type": "data",
-      "description": "AnimTilesFrames - Table ROM des frames d'animation (eau/lave)",
-      "source": "$23F8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C600",
-      "node_type": "data",
-      "description": "wAnimBuffer - Buffer RAM pour frames d'animation custom",
-      "source": "$23F8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$242D",
-      "node_type": "data",
-      "description": "AnimFlagTable - Table des flags d'activation animation par contexte",
-      "source": "$23F8",
       "bank": 0,
       "priority": 3
     }
@@ -3035,6 +3035,7 @@
     "$1a94",
     "$0100",
     "$187f",
+    "$242D",
     "$07B7",
     "$04C3",
     "$0150",
@@ -3059,6 +3060,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 0,
-  "total_explored": 256
+  "commits_since_push": 1,
+  "total_explored": 257
 }

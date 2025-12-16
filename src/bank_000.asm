@@ -8657,8 +8657,14 @@ CopyAnimTileData:
 ; =============================================================================
 ; 12 octets : Un flag par contexte de rendu (0-11)
 ; Utilisé par InitAudioAndAnimContext pour activer/désactiver les animations
+;
+; Répartition des flags:
+;   0=OFF, 1=OFF, 2=ON, 3=ON, 4=ON, 5=OFF (gameplay standard)
+;   6=OFF, 7=ON, 8=ON, 9=OFF, 10=ON, 11=OFF (niveau spécial)
 AnimFlagTable:
-    db $00, $00, $01, $01, $01, $00, $00, $01, $01, $00, $01, $00
+    db $00, $00, $01, $01  ; Contextes 0-3
+    db $01, $00, $00, $01  ; Contextes 4-7
+    db $01, $00, $01, $00  ; Contextes 8-11
 
 ; InitAudioAndAnimContext
 ; -----------------------
