@@ -10011,28 +10011,36 @@ CollisionEnd:
     ret
 
 
+; GetAnimationDataPointer
+; ----------------
+; Description: Récupère l'ID son associé à un ID animation et l'initialise si non-nul
+; In:  hl = pointeur vers ID animation (objet)
+; Out: a = RETURN_COLLISION_FOUND ($FF) si son trouvé, 0 sinon
+; Modifie: bc, de (via InitSoundSlot si son trouvé)
+; Notes: Calcule offset = ID * 5 dans ROM_OBJECT_SOUND_TABLE (5 octets/entrée)
 GetAnimationDataPointer:
     push hl
-    ld a, [hl]
+    ld a, [hl]              ; a = ID animation
     ld e, a
     ld d, $00
     ld l, a
     ld h, $00
+    ; Calcul: de = a * 4, hl = a
     sla e
     rl d
     sla e
     rl d
-    add hl, de
+    add hl, de              ; hl = a + (a * 4) = a * 5
     ld de, ROM_OBJECT_SOUND_TABLE
-    add hl, de
-    ld a, [hl]
+    add hl, de              ; hl pointe vers l'entrée son
+    ld a, [hl]              ; a = ID son
     pop hl
     and a
-    ret z
+    ret z                   ; Retourne 0 si pas de son
 
     push hl
-    ld [hl], a
-    call InitSoundSlot
+    ld [hl], a              ; Stocke ID son dans objet
+    call InitSoundSlot      ; Initialise le slot audio
     ld a, RETURN_COLLISION_FOUND
     pop hl
     ret
