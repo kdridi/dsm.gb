@@ -2815,6 +2815,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2492",
+      "node_type": "code",
+      "description": "UpdateAudioState - Met \u00e0 jour l'\u00e9tat audio en traitant wAudioState",
+      "source": "$2488",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$263F",
+      "node_type": "code",
+      "description": "UpdateAllObjectSounds - Met \u00e0 jour les sons de tous les objets",
+      "source": "$2488",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$255F",
+      "node_type": "code",
+      "description": "ProcessAudioSlots - Traite les slots audio actifs",
+      "source": "$2488",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3031,6 +3055,7 @@
     "$1527",
     "$00C3",
     "$145D",
+    "$2488",
     "$1B1A",
     "$1520",
     "$0530",
@@ -3079,6 +3104,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 260
+  "commits_since_push": 0,
+  "total_explored": 261
 }

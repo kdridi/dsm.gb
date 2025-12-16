@@ -8744,7 +8744,14 @@ ClearObjectBuffer_Loop:
 
     ret
 
-
+; UpdateAudio
+; ----------------
+; Description: Routine principale de mise à jour du système audio.
+;              Appelle successivement la mise à jour de l'état audio,
+;              des sons d'objets, et du traitement des slots audio.
+; In:  Aucun
+; Out: Aucun
+; Modifie: Tous les registres (via sous-routines)
 UpdateAudio:
     call UpdateAudioState
     call UpdateAllObjectSounds
