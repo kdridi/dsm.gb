@@ -9,11 +9,11 @@ SECTION "ROM Bank $001", ROMX[$4000], BANK[$1]
 ;   - +4: Pointeur entities
 LevelJumpTable:
     ; Niveau 0
-    dw SharedTilesetData_024, SharedMapData_012, $5605
+    dw SharedTilesetData_024, SharedMapData_012, SharedEntitiesData_012
     ; Niveau 1
-    dw SharedTilesetData_024, SharedMapData_012, $5605
+    dw SharedTilesetData_024, SharedMapData_012, SharedEntitiesData_012
     ; Niveau 2
-    dw SharedTilesetData_024, SharedMapData_012, $5605
+    dw SharedTilesetData_024, SharedMapData_012, SharedEntitiesData_012
     ; Niveau 3
     dw $5630, $5665, $5694
     ; Niveau 4
@@ -3397,47 +3397,21 @@ SharedMapData_012:
     dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, $5CA6
     dw $5A5F
     db $FF  ; Terminateur
-    call $2756
-    ld h, e
-    daa
-    ld h, e
-    nop
-    ld h, c
-    cp b
-    ld h, c
-    ld [hl], d
-    ld h, d
-    cp b
-    ld h, c
-    nop
-    ld h, c
-    nop
-    ld h, c
-    ld [hl], d
-    ld h, d
-    ld [hl], d
-    ld h, d
-    cp b
-    ld h, c
-    daa
-    ld h, e
-    daa
-    ld h, e
-    ld [hl], d
-    ld h, d
-    ld [hl], d
-    ld h, d
-    nop
-    ld h, c
-    dec c
-    ld h, h
-    daa
-    ld h, e
-    daa
-    ld h, e
-    dec c
-    ld h, l
-    rst $38
+
+; ==============================================================================
+; SharedEntitiesData_012 - Entities data partagée niveaux 0-2 ($5605-$562F)
+; ==============================================================================
+; Description: Table de pointeurs vers les données d'entités pour niveaux 0, 1, 2
+; Format: Séquence de words (16-bit pointeurs vers entités), terminée par $FF
+;         - Chaque word pointe vers une définition d'entité (position/type)
+; Taille: 43 octets ($2B) - 21 words + terminateur
+; Référencé par: LevelJumpTable niveaux 0, 1, 2 (lignes 12, 14, 16)
+; ==============================================================================
+SharedEntitiesData_012:  ; $5605
+    dw $56CD, $6327, $6327, $6100, $61B8, $6272, $61B8, $6100
+    dw $6100, $6272, $6272, $61B8, $6327, $6327, $6272, $6272
+    dw $6100, $640D, $6327, $6327, $650D
+    db $FF  ; Terminateur
     add c
     ld l, h
     add c

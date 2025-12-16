@@ -4753,10 +4753,66 @@
       "priority": 3
     },
     {
+      "address": "$5BA3",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
+      "source": "$55E2",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5C22",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
+      "source": "$55E2",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5CA6",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
+      "source": "$55E2",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$5D32",
       "node_type": "data",
       "description": "Tile graphique (8 bytes)",
       "source": "$55BB",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5D8A",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
+      "source": "$55E2",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5E32",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
+      "source": "$55E2",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5F44",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
+      "source": "$55E2",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5FAD",
+      "node_type": "data",
+      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
+      "source": "$55E2",
       "bank": 1,
       "priority": 3
     },
@@ -5065,58 +5121,50 @@
       "priority": 3
     },
     {
-      "address": "$5BA3",
+      "address": "$6100",
       "node_type": "data",
-      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
-      "source": "$55E2",
+      "description": "Entity definition data",
+      "source": "$5605",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$5C22",
+      "address": "$61B8",
       "node_type": "data",
-      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
-      "source": "$55E2",
+      "description": "Entity definition data",
+      "source": "$5605",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$5CA6",
+      "address": "$6272",
       "node_type": "data",
-      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
-      "source": "$55E2",
+      "description": "Entity definition data",
+      "source": "$5605",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$5D8A",
+      "address": "$6327",
       "node_type": "data",
-      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
-      "source": "$55E2",
+      "description": "Entity definition data",
+      "source": "$5605",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$5E32",
+      "address": "$640D",
       "node_type": "data",
-      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
-      "source": "$55E2",
+      "description": "Entity definition data",
+      "source": "$5605",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$5F44",
+      "address": "$650D",
       "node_type": "data",
-      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
-      "source": "$55E2",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5FAD",
-      "node_type": "data",
-      "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
-      "source": "$55E2",
+      "description": "Entity definition data",
+      "source": "$5605",
       "bank": 1,
       "priority": 3
     }
@@ -5681,6 +5729,7 @@
     "$055F",
     "$2d2d",
     "$54D5",
+    "$5605",
     "$4E14",
     "$0a24",
     "$2a3b",
@@ -5697,6 +5746,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 3,
-  "total_explored": 574
+  "commits_since_push": 4,
+  "total_explored": 575
 }
