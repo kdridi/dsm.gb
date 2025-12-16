@@ -2625,6 +2625,14 @@
       "priority": 3
     },
     {
+      "address": "$6536",
+      "node_type": "table",
+      "description": "ROM_TILEMAP_POINTERS_B - Table de pointeurs vers tilemaps en bank 3",
+      "source": "$2318",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$7FF0",
       "node_type": "code",
       "description": "AudioEntryPoint - Routine audio principale en bank 3",
@@ -2734,14 +2742,6 @@
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
       "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$6536",
-      "node_type": "table",
-      "description": "ROM_TILEMAP_POINTERS_B - Table de pointeurs vers tilemaps en bank 3",
-      "source": "$2318",
-      "bank": 3,
       "priority": 3
     }
   ],
@@ -2992,6 +2992,7 @@
     "$2239",
     "$221c",
     "$04CE",
+    "$235A",
     "$1305",
     "$221C",
     "$117A",
@@ -3000,6 +3001,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 253
+  "commits_since_push": 3,
+  "total_explored": 254
 }
