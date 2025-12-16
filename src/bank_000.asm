@@ -11128,14 +11128,14 @@ AudioCmdSeq_00Alt:
 AudioCmdSeq_01_02_Shared:
     db $EF, $01, $EF, $01, $EF, $FF
 
-; AudioAnimData_08
-; ----------------
+; AudioCmdSeq_03Alt ($2D65)
+; -----------------------------------
 ; Description: Séquence de commandes audio #3 pour table alternative (canal 2)
 ; Format: Paires de [commande, paramètre] terminées par $FF
 ; In:  Utilisée via AudioChannelCommandTable1Alt[3]
 ; Bytes: $DD, $01 = Commande $DD avec param $01
 ;        $DE, $FF = Commande $DE avec terminateur $FF
-AudioAnimData_08:
+AudioCmdSeq_03Alt:
     db $DD, $01, $DE, $FF
 
 ; AudioCmdSeq_04Alt ($2D69)
@@ -11343,7 +11343,7 @@ AudioChannelCommandTable1Alt:
     dw AudioCmdSeq_00Alt         ; Entry  0 - Audio sequence 0
     dw AudioCmdSeq_01_02_Shared  ; Entry  1 - Audio sequence 1
     dw AudioCmdSeq_01_02_Shared  ; Entry  2 - Audio sequence 2 (identique à entry 1)
-    dw AudioAnimData_08          ; Entry  3 - Audio sequence 3
+    dw AudioCmdSeq_03Alt         ; Entry  3 - Audio sequence 3
     dw AudioCmdSeq_04Alt         ; Entry  4 - Audio sequence 4
     dw AudioCmdSeq_05Alt         ; Entry  5 - Audio sequence 5
     dw AudioCmdSeq_06Alt         ; Entry  6 - Audio sequence 6
