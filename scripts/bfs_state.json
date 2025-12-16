@@ -3551,6 +3551,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2D12",
+      "node_type": "data",
+      "description": "AudioAnimData_00 - partage les octets $94, $FF avec AudioCmdSeq_05",
+      "source": "$2D0F",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3781,6 +3789,7 @@
     "$208E",
     "$217F",
     "$12DD",
+    "$2D0F",
     "$0F1D",
     "$0AA6",
     "$24c4",
@@ -3877,6 +3886,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 1,
-  "total_explored": 322
+  "commits_since_push": 2,
+  "total_explored": 323
 }

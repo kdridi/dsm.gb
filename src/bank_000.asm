@@ -10854,6 +10854,15 @@ AudioCmdSeq_03:
 AudioCmdSeq_04:
     db $40, $93, $48, $92, $FF
 
+; AudioCmdSeq_05 ($2D0F)
+; ----------------
+; Séquence de 5 octets : 2 quadruplets audio suivis du terminateur
+; Optimisation ROM: partage les 2 derniers octets ($94, $FF) avec AudioAnimData_00
+;   $40: préparer wAudioData=%10000000 (aucune modification de param1/param2)
+;   $95: écrire quadruplet [param1, param2, $95, %10000000]
+;   $48: préparer wAudioData=%10000000, param1 -= 8 (bit 3)
+;   $94: écrire quadruplet [param1-8, param2, $94, %10000000] (partagé)
+;   $FF: terminateur de séquence (partagé)
 AudioCmdSeq_05:
     db $40, $95, $48
 
