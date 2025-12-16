@@ -3068,6 +3068,9 @@ AnimFrame_Walk6:
 AnimFrame_4CA1:
     dw $F8F9           ; Offset Y/X relatifs (signed bytes)
     dw $4D4F           ; → SpriteData_Walk6 (séquence de commandes sprite)
+; WARNING: Zone mal désassemblée! Données réelles @ $4CA7: 02 00 04 00 04 00...
+; Cette zone entière ($4BF1-$4CFF) nécessite reconstruction complète
+; Adresse ROM réelle de ce label: $4CA7 (pas $4CA5)
 AnimFrame_4CA5:
     dw $FBF9
     dw $4D56
