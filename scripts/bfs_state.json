@@ -4473,6 +4473,22 @@
       "priority": 3
     },
     {
+      "address": "$50D8",
+      "node_type": "code",
+      "description": "CollisionCheckOffsetLoop - Boucle de test collision avec offsets variables",
+      "source": "$50CC",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5101",
+      "node_type": "code",
+      "description": "DecrementOffsetAndRetryCollision - Ajuste offset Y et retente collision",
+      "source": "$50CC",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$5107",
       "node_type": "code",
       "description": "TriggerSpecialCollisionEvent - \u00c9v\u00e9nement collision sp\u00e9ciale (tuyau/pipe)",
@@ -4942,22 +4958,6 @@
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
       "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$50D8",
-      "node_type": "code",
-      "description": "CollisionCheckOffsetLoop - Boucle de test collision avec offsets variables",
-      "source": "$50CC",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5101",
-      "node_type": "code",
-      "description": "DecrementOffsetAndRetryCollision - Ajuste offset Y et retente collision",
-      "source": "$50CC",
-      "bank": 1,
       "priority": 3
     }
   ],
@@ -5464,6 +5464,7 @@
     "$4DE6",
     "$0B84",
     "$1A8A",
+    "$50D8",
     "$2D8E",
     "$17EC",
     "$4A0C",
@@ -5522,6 +5523,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 3,
-  "total_explored": 559
+  "commits_since_push": 4,
+  "total_explored": 560
 }
