@@ -4825,6 +4825,14 @@
       "priority": 3
     },
     {
+      "address": "$59a2",
+      "node_type": "code",
+      "description": "AnimationDispatch_SelectPalette - S\u00e9lection palette animation",
+      "source": "$5950",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$59a5",
       "node_type": "code",
       "description": "ProcessSpriteAnimation - Traite animation sprite (appel\u00e9 par UpdateSpriteAnimationFrame)",
@@ -4982,6 +4990,14 @@
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
       "source": "$55E2",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5a66",
+      "node_type": "code",
+      "description": "ExitSpriteHandler - Sortie du handler sprite",
+      "source": "$5950",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -5583,22 +5599,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$59a2",
-      "node_type": "code",
-      "description": "AnimationDispatch_SelectPalette - S\u00e9lection palette animation",
-      "source": "$5950",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5a66",
-      "node_type": "code",
-      "description": "ExitSpriteHandler - Sortie du handler sprite",
-      "source": "$5950",
-      "bank": 2,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6003,6 +6003,7 @@
     "$4D92",
     "$2cb2",
     "$0E0C",
+    "$5957",
     "$18b7",
     "$4DED",
     "$2d50",
@@ -6200,6 +6201,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 1,
-  "total_explored": 597
+  "commits_since_push": 2,
+  "total_explored": 598
 }

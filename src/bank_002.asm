@@ -6219,6 +6219,14 @@ AnimationDispatch_SelectHandler:
 ; Description: Écrit les pointeurs d'animation calculés dans le buffer,
 ;              puis réinitialise hPtrBank/hPtrHigh/hPtrLow
 ;              Continue vers AnimationDispatch_SelectPalette
+;
+;              IMPORTANT: Cette routine a plusieurs points d'entrée selon le type:
+;              - Type $10 entre à $5957 (AnimationHandler_Type10, byte EB = xor e)
+;              - Type $01 entre à $5958 (AnimationHandler_Type01, byte C6 = add)
+;              - Types $02,$04,$05,$08 entrent aux bytes suivants
+;
+;              Cette technique permet de partager le code tout en ayant des
+;              comportements légèrement différents selon le point d'entrée.
 ; In:  de = adresse handler (calculée par AnimationDispatch_SelectHandler)
 ;      hl = pointeur buffer destination
 ;      b = bank type ($01,$02,$04,$05,$08,$10,$20,$40,$50,$80,$ff)
@@ -6231,11 +6239,23 @@ AnimationDispatch_SetAndJump:
     inc hl
     ldh a, [hPtrHigh]
     ld [hl+], a
-    ldh a, [hPtrLow]
-    add $08                 ; Offset vers données animation suivantes
-    ld [hl+], a
-    ld a, e
-    ld [hl], a
+
+; Points d'entrée multiples pour différents types d'animation:
+; Type $10 → $5957: xor e, add $08, ld [hli], a, ld a, e, ld [hl], a
+; Type $01 → $5958: add $08, ld [hli], a, ld a, e, ld [hl], a
+; Type $02 → $5959: (byte $08), ld [hli], a, ld a, e, ld [hl], a
+; Type $04 → $595a: ld [hli], a, ld a, e, ld [hl], a
+; Type $05 → $595b: ld a, e, ld [hl], a
+; Type $08 → $595c: ld [hl], a
+
+AnimationHandler_Type10:            ; $5957 - Point d'entrée type $10
+    ldh a, [hPtrLow]                ; F0 EB - le byte $EB à $5957 s'exécute comme `xor e`
+                                     ; quand on entre directement à $5957
+AnimationHandler_Type01:            ; $5958 - Point d'entrée types $01,$02,$04,$05,$08
+    add $08                 ; C6 08 - Offset vers données animation suivantes
+    ld [hl+], a             ; 22    - Point d'entrée type $04
+    ld a, e                 ; 7B    - Point d'entrée type $05
+    ld [hl], a              ; 77    - Point d'entrée type $08
     xor a
     ldh [hPtrBank], a
     ldh [hPtrHigh], a
