@@ -3385,9 +3385,17 @@ SpriteData_4D99:
     db $44, $4E             ; Header sprite (config position/attributs)
     db $28, $29, $38, $39   ; Tiles indices (grille 2×2)
     db $FF                  ; Terminateur
-; Sprite data structures (7 bytes each: header, 4 tiles, terminator)
+; SpriteData_4DA0 - Données de sprites pour animation frame #19
+; Format: 2 bytes header ($44 $4E) + 4 tile indices + $FF terminateur
+; Référencé par: AnimFrame_4CD1 @ $4CD1 via dw $4DA0
+; Tiles: $2A,$2B,$3A,$3B (configuration 2×2 tiles)
 SpriteData_4DA0:
     db $44, $4E, $2A, $2B, $3A, $3B, $FF
+
+; SpriteData_4DA7 - Données de sprites pour animation frame #20
+; Format: 2 bytes header ($44 $4E) + 4 tile indices + $FF terminateur
+; Référencé par: AnimFrame_4CD5 @ $4CD5 via dw $4DA7
+; Tiles: $2C,$2D,$3C,$3D (configuration 2×2 tiles)
 SpriteData_4DA7:
     db $44, $4E, $2C, $2D, $3C, $3D, $FF
 SpriteData_4DAE:
