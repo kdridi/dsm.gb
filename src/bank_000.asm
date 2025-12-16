@@ -10866,75 +10866,32 @@ AudioCmdSeq_04:
 AudioCmdSeq_05:
     db $40, $95, $48
 
-; Note: AudioCmdSeq_05 se termine aux octets partagés avec AudioAnimData_00 ($94, $FF)
-; pour économiser de l'espace ROM. AudioAnimData_00 commence à $2D12.
+; AudioAnimData_00 ($2D12)
+; ----------------
+; Table de données d'animation audio n°0
+; Format: séquence d'octets de commandes d'animation, terminée par $FF
+; Note: partage les 2 premiers octets ($94, $FF) avec la fin de AudioCmdSeq_05 pour économiser la ROM
 AudioAnimData_00:
-    sub h       ; $94 - fin de AudioCmdSeq_05
-    rst $38     ; $FF - terminateur de séquence
-    sub a
-    ld [$ff96], sp
-    sbc c
-    ld [$ff98], sp
-    db $10
-    sub a
-    jr InitSoundSlot.load_table
-
-    rst $38
-    db $10
-    sbc c
-    jr @-$66
-
-    rst $38
-    sbc d
-    rst $38
-    jr nz, InitSoundSlot.read_params
-
-    jr z, InitSoundSlot.config_ready
-
-    rst $38
-    db $10
-    adc c
-    ld de, $1888
-    add a
-    rst $38
-    db $10
-    adc h
-    ld de, $188b
-    adc d
-    rst $38
-    adc b
-    ld bc, $0a89
-    add a
-    rst $38
-    adc e
-    ld bc, $0a8c
-    adc d
-    rst $38
-    db $10
-    sbc h
-    ld de, hParam1
-    adc l
-    ld bc, hAnimObjCount
-    jr nz, @-$71
-
-    ld hl, hAnimObjCount
-    sbc e
-    rst $38
-    sbc l
-    ld de, hAnimScaleCounter
-    sbc [hl]
-    ld de, hAnimStructBank
-    rst $28
-    ld bc, $01ef
-    rst $28
-    rst $38
-    db $dd
-    ld bc, $ffde
-    jr nz, @-$61
-
-    ld sp, $0a9d
-    sbc l
-    ld de, hAnimScaleCounter
+    db $94, $FF  ; octets partagés avec AudioCmdSeq_05
+    db $97, $08, $96, $FF
+    db $99, $08, $98, $FF
+    db $10, $97, $18, $96, $FF
+    db $10, $99, $18, $98, $FF
+    db $9A, $FF
+    db $20, $96, $28, $97, $FF
+    db $10, $89, $11, $88, $18, $87, $FF
+    db $10, $8C, $11, $8B, $18, $8A, $FF
+    db $88, $01, $89, $0A, $87, $FF
+    db $8B, $01, $8C, $0A, $8A, $FF
+    db $10, $9C, $11, $8D, $FF
+    db $8D, $01, $9C, $FF
+    db $20, $8D, $21, $9C, $FF
+    db $9B, $FF
+    db $9D, $11, $9D, $FF
+    db $9E, $11, $9E, $FF
+    db $EF, $01, $EF, $01, $EF, $FF
+    db $DD, $01, $DE, $FF
+    db $20, $9D, $31, $9D, $0A, $9D, $11, $9D, $FF
 
 AudioAnimData_01:
     jr nz, AudioAnimData_00

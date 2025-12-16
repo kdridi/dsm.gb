@@ -2577,6 +2577,14 @@
       "priority": 3
     },
     {
+      "address": "$2D12",
+      "node_type": "data",
+      "description": "AudioAnimData_00 - partage les octets $94, $FF avec AudioCmdSeq_05",
+      "source": "$2D0F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2D1C",
       "node_type": "data",
       "description": "Audio command sequence 6 (table 1)",
@@ -3551,14 +3559,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2D12",
-      "node_type": "data",
-      "description": "AudioAnimData_00 - partage les octets $94, $FF avec AudioCmdSeq_05",
-      "source": "$2D0F",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3632,6 +3632,7 @@
     "$2318",
     "$2FD9",
     "$1b7d",
+    "$2D12",
     "$0aa6",
     "$1815",
     "$09d7",
@@ -3886,6 +3887,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 2,
-  "total_explored": 323
+  "commits_since_push": 3,
+  "total_explored": 324
 }
