@@ -2175,6 +2175,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1BF6",
+      "node_type": "code",
+      "description": "CollectCoin - Collecte une pi\u00e8ce et met \u00e0 jour le score/compteur",
+      "source": "$1B7D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1BEE",
+      "node_type": "code",
+      "description": "BlockCollision_CoinProcess - Traite sp\u00e9cifiquement les blocs pi\u00e8ce (\u00e9tat $03)",
+      "source": "$1B7D",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2255,6 +2271,7 @@
     "$0AE1",
     "$0E1F",
     "$145D",
+    "$1B7D",
     "$09E8",
     "$130F",
     "$12E8",
@@ -2349,6 +2366,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 170
+  "commits_since_push": 0,
+  "total_explored": 171
 }

@@ -6444,8 +6444,19 @@ TriggerBlockCollisionSound_AudioCheck:
     ld [wSpecialState], a
     ldh [rTMA], a
     ret
-
-
+; ProcessBlockCollision
+; ---------------------
+; Description: Gère les collisions avec les blocs frappés par le joueur.
+;              Traite différents types de blocs (cassables, pièces, items, spéciaux)
+;              et collecte les pièces en attente. Met à jour la tilemap selon le type.
+; In:  hBlockHitType = type de collision bloc ($01=soft, $02=coin, $04=item, $C0=special)
+;      hPendingCoin = flag pièce en attente de collection
+;      wOamVar2E = type de tile ($82=eau, $81=special)
+;      hBlockHitType+1,+2 = pointeur vers la tile à modifier (DE)
+; Out: Tilemap modifiée selon le type de bloc
+;      wCoinUpdateDone = 0 (réinitialisé), puis possiblement modifié par CollectCoin
+;      hBlockHitType = BLOCK_HIT_NONE ($00) après traitement
+; Modifie: a, b, de, hl
 ProcessBlockCollision:
     xor a
     ld [wCoinUpdateDone], a
