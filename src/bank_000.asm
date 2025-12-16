@@ -12091,8 +12091,17 @@ PaddingZone_02:
     nop
     nop
 
-; === Table configuration audio ($336C, 63 bytes) ===
-; Format: 3 bytes par son, indexé par sound_id * 3
+; AudioConfigTable
+; ----------------
+; Description: Table de configuration audio, 3 bytes par effet sonore
+;              Utilisée par InitSoundSlot pour initialiser les paramètres audio
+; Format: [byte1, byte2, byte3] pour chaque son (21 entrées, ID $00-$14)
+;   byte1: paramètre de durée/enveloppe
+;   byte2: paramètre de fréquence/canal
+;   byte3: paramètre de configuration additionnelle
+; Indexation: sound_id * 3 (chaque son = 3 bytes consécutifs)
+; In:  Lecture via ROM_AUDIO_CONFIG constant ($336C)
+; Référencé par: InitSoundSlot ($2CB2)
 AudioConfigTable::
     db $06, $11, $00  ; Son 00
     db $02, $11, $00  ; Son 01
