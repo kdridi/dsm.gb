@@ -6857,14 +6857,14 @@ State3B_WindowSetup::
     inc [hl]
     ret
 
+; ROM_TEXT_WINDOW_DATA ($1D0B)
+; -----------------------------
+; Description: Données texte de 9 octets copiées vers la window ($9C00)
+;              Ces tiles sont affichés dans la window layer
+; Format: 9 octets de tile IDs
+ROM_TEXT_WINDOW_DATA::
+    db $2c, $1d, $12, $16, $0e, $2c, $1e, $19, $2c
 
-    inc l
-    dec e
-    ld [de], a
-    ld d, $0e
-    inc l
-    ld e, $19
-    inc l
     ldh a, [hTimer1]
     and a
     ret nz

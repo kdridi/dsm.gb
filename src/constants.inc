@@ -1364,7 +1364,6 @@ DEF ROM_SPRITE_END_DATA_3      EQU $1380 ; Table config sprite objet 3 final
 DEF ROM_TILEMAP_END_DATA       EQU $14bb ; Table données tilemap écran final
 DEF ROM_TEXT_GAME_OVER         EQU $1cce ; Données texte "GAME OVER" (17 octets)
 DEF TEXT_GAME_OVER_SIZE        EQU $11   ; Taille texte Game Over (17 octets)
-DEF ROM_TEXT_WINDOW_DATA       EQU $1d0b ; Données texte window setup (9 octets)
 DEF TEXT_WINDOW_DATA_SIZE      EQU $09   ; Taille données window (9 octets)
 
 ; === Collision - Offsets et ajustements ===
