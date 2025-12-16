@@ -19,7 +19,7 @@ LevelJumpTable:
     ; Niveau 4
     dw $55BB, $5311, $5405
     ; Niveau 5
-    dw $54D5, Level5MapData, $5222
+    dw $54D5, Level5MapData, Level5EntitiesData
     ; Niveau 6
     dw $529B, $5311, $5405
     ; Niveau 7
@@ -2852,79 +2852,26 @@ Level5MapData:
     db $84, $7D, $87, $84, $7F, $04, $00, $80, $04, $80, $84, $13, $90, $87, $13, $24
     db $88, $08, $84, $8B, $93, $24, $8E, $0F, $84, $90, $08, $0A, $98, $08, $0A, $99
     db $10, $84, $9C, $05, $36, $9C, $85, $36, $FF
-    inc c
-    inc c
-    ld d, $12
-    inc c
-    add h
-    ld d, $0b
-    nop
-    rla
-    rlca
-    inc b
-    dec e
-    dec bc
-    inc b
-    ld [hl+], a
-    rlca
-    dec bc
-    inc hl
-    inc de
-    and h
-    daa
-    rlca
-    dec bc
-    ld a, [hl+]
-    dec c
-    inc b
-    ld sp, $1609
-    ld [hl], $09
-    inc b
-    scf
-    ld c, $00
-    ld a, [hl-]
-    add hl, bc
-    add b
-    ld a, $09
-    ld d, $41
-    ld c, $00
-    ld b, h
-    add hl, bc
-    add b
-    ld b, [hl]
-    add hl, bc
-    inc b
-    ld c, b
-    add hl, bc
-    ld d, $4b
-    ld c, $00
-    ld d, a
-    adc a
-    inc b
-    ld e, b
-    ld c, $84
-    ld e, c
-    inc c
-    nop
-    ld e, e
-    inc de
-    inc h
-    ld h, b
-    adc a
-    ld d, $65
-    add l
-    ld a, [bc]
-    ld l, e
-    ld a, [bc]
-    dec bc
-    ld [hl], b
-    dec c
-    inc b
-    ld [hl], c
-    inc de
-    and h
-    ld [hl], e
-    inc de
+
+; ==============================================================================
+; Level5EntitiesData - Entities/objects data for level 5 ($5222-$5277)
+; ==============================================================================
+; Description: Entity placement data for level 5 (enemies, coins, blocks, etc.)
+; Format: Variable-length entries, each entity contains:
+;   - Position data (X, Y coordinates)
+;   - Entity type ID
+;   - Properties/flags
+; Size: 86 bytes ($56)
+; Referenced by: LevelJumpTable entry for level 5 (line 22)
+; Note: Format appears specific to level 5 layout
+; ==============================================================================
+Level5EntitiesData:
+    db $0C, $0C, $16, $12, $0C, $84, $16, $0B, $00, $17, $07, $04, $1D, $0B, $04, $22
+    db $07, $0B, $23, $13, $A4, $27, $07, $0B, $2A, $0D, $04, $31, $09, $16, $36, $09
+    db $04, $37, $0E, $00, $3A, $09, $80, $3E, $09, $16, $41, $0E, $00, $44, $09, $80
+    db $46, $09, $04, $48, $09, $16, $4B, $0E, $00, $57, $8F, $04, $58, $0E, $84, $59
+    db $0C, $00, $5B, $13, $24, $60, $8F, $16, $65, $85, $0A, $6B, $0A, $0B, $70, $0D
+    db $04, $71, $13, $A4, $73, $13
 
 DataZone_5278:
     inc h
