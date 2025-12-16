@@ -1935,6 +1935,14 @@ JoypadReadHandler:
     ret
 
 
+; AnimationHandler
+; ----------------
+; Description: Traite les frames d'animation pour les sprites
+; In:  hl = pointeur vers structure animation
+;      hParam3 = nombre de structures à traiter
+;      hParam1:hParam2 = pointeur buffer OAM destination
+; Out: Sprites rendus dans buffer OAM
+; Modifie: af, bc, de, hl
 AnimationHandler:
     ld a, h
     ldh [hAnimStructHigh], a
@@ -1944,7 +1952,7 @@ AnimationHandler:
     and a
     jr z, AnimFrameEnd
 
-    cp $80
+    cp ANIM_FLAG_HIDDEN
     jr z, AnimHiddenSet
 
 AnimAdvanceFrame:
@@ -1970,7 +1978,7 @@ AnimHiddenSet:
     ldh [hAnimHiddenFlag], a
 
 AnimFrameEnd:
-    ld b, $07
+    ld b, ANIM_BUFFER_SIZE
     ld de, hAnimBuffer
 
 AnimCopyLoop:
@@ -1981,7 +1989,7 @@ AnimCopyLoop:
     jr nz, AnimCopyLoop
 
     ldh a, [hAnimFrameIndex]
-    ld hl, $4c37
+    ld hl, AnimFramePointerTable
     rlca
     ld e, a
     ld d, $00
@@ -2009,14 +2017,14 @@ AnimProcessFrame:
     ldh a, [hAnimBaseAttr]
     ldh [hAnimAttr], a
     ld a, [hl]
-    cp $ff
+    cp ANIM_CMD_END
     jr z, AnimClearHidden
 
-    cp $fd
+    cp ANIM_CMD_FLIP_ATTR
     jr nz, AnimCheckFlip
 
     ldh a, [hAnimBaseAttr]
-    xor $10
+    xor ANIM_ATTR_FLIP_BIT
     ldh [hAnimAttr], a
     jr AnimProcessFrame
 
@@ -2026,7 +2034,7 @@ AnimSkipXY:
     jr AnimProcessFrame
 
 AnimCheckFlip:
-    cp $fe
+    cp ANIM_CMD_SKIP_XY
     jr z, AnimSkipXY
 
     ldh [hAnimFrameIndex], a
@@ -2051,7 +2059,7 @@ AnimFlipX:
     pop af
     sub b
     sbc c
-    sbc $08
+    sbc SPRITE_SIZE_8X8
 
 AnimXDone:
     ldh [hAnimCalcY], a
@@ -2078,7 +2086,7 @@ AnimFlipY:
     pop af
     sub b
     sbc c
-    sbc $08
+    sbc SPRITE_SIZE_8X8
 
 AnimYDone:
     ldh [hAnimCalcX], a
@@ -2091,7 +2099,7 @@ AnimYDone:
     and a
     jr z, AnimHiddenY
 
-    ld a, $ff
+    ld a, ANIM_CMD_END
     jr AnimRender
 
 AnimHiddenY:
@@ -2809,6 +2817,9 @@ IncrementInputCounter:
     ret
 
 
+; Table de pointeurs vers structures d'animation
+; Utilisée par AnimationHandler (index*2) pour obtenir les données de frame
+AnimFramePointerTable:
     adc l
     ld c, h
     sub c

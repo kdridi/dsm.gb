@@ -4023,6 +4023,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$4c37",
+      "node_type": "table",
+      "description": "AnimFramePointerTable - Table de pointeurs vers structures d'animation",
+      "source": "$4823",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4430,6 +4438,7 @@
     "$10FE",
     "$22a0",
     "$1916",
+    "$4823",
     "$0a07",
     "$053D",
     "$0C22",
@@ -4466,6 +4475,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 3,
-  "total_explored": 439
+  "commits_since_push": 4,
+  "total_explored": 440
 }

@@ -592,6 +592,15 @@ DEF BORDER_COLUMN_COUNT      EQU $02   ; Nombre de colonnes bordure (2)
 ; --- Animation structures ---
 DEF ANIM_STRUCT_STRIDE  EQU $10   ; Taille structure animation (16 octets)
 
+; --- Commandes spéciales animation ---
+DEF ANIM_BUFFER_SIZE       EQU $07   ; Taille buffer animation - 1 (7 octets)
+DEF ANIM_CMD_END           EQU $FF   ; Commande fin frame/clear hidden
+DEF ANIM_CMD_FLIP_ATTR     EQU $FD   ; Commande toggle flip bit $10
+DEF ANIM_CMD_SKIP_XY       EQU $FE   ; Commande skip coordonnées X,Y
+DEF ANIM_FLAG_HIDDEN       EQU $80   ; Flag sprite caché
+DEF ANIM_ATTR_FLIP_BIT     EQU $10   ; Bit XOR pour flip horizontal
+DEF SPRITE_SIZE_8X8        EQU $08   ; Taille sprite 8x8 pixels
+
 ; === Valeurs de gameplay ===
 
 DEF POINTS_PER_COIN     EQU $0100 ; Points par pièce (100 en BCD)
