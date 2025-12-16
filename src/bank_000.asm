@@ -10834,6 +10834,8 @@ AudioCmdSeq_00:
 AudioCmdSeq_01:
     db $10, $90, $FF
 
+; AudioCmdSeq_02 ($2D05)
+; Séquence de 2 octets : $91 (commande), $FF (terminateur)
 AudioCmdSeq_02:
     db $91, $FF
 
