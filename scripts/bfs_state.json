@@ -2393,6 +2393,14 @@
       "priority": 3
     },
     {
+      "address": "$29bd",
+      "node_type": "code",
+      "description": "AddSoundFlagToParam1 - Ajoute v\u00e9locit\u00e9 collision \u00e0 param1 et wPlayerX",
+      "source": "$29b8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$29d7",
       "node_type": "code",
       "description": "CheckObjectTileBottomLeft_Alternatives - Teste alternatives collision tile bas-gauche (bits 4-5)",
@@ -3263,14 +3271,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$29bd",
-      "node_type": "code",
-      "description": "AddSoundFlagToParam1 - Ajoute v\u00e9locit\u00e9 collision \u00e0 param1 et wPlayerX",
-      "source": "$29b8",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3407,6 +3407,7 @@
     "$286E",
     "$0DE4",
     "$1aa0",
+    "$29bd",
     "$0AE1",
     "$1E58",
     "$0322",
@@ -3574,6 +3575,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 299
+  "commits_since_push": 4,
+  "total_explored": 300
 }
