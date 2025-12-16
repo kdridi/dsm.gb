@@ -9402,6 +9402,12 @@ CheckAudioQueueBits54:
     xor b
     ldh [hSoundCh2], a
 
+; CheckAudioQueueBit5
+; ----------------
+; Description: Traite le bit 5 de la queue audio pour modifier le bit 1 du canal 2
+; In:  wAudioQueueId = ID de la commande audio
+; Out: hSoundCh2 bit 1 modifié selon bit 1 de wAudioQueueId si bit 5 est set
+; Modifie: a, b
 CheckAudioQueueBit5:
     ld a, [wAudioQueueId]
     bit 5, a

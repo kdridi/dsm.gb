@@ -2193,6 +2193,14 @@
       "priority": 3
     },
     {
+      "address": "$275a",
+      "node_type": "code",
+      "description": "CheckAudioQueueBit5 - Traite le bit 5 de la queue audio",
+      "source": "$2759",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2784",
       "node_type": "code",
       "description": "CheckAudioCommand_F1 - V\u00e9rifie et traite la commande audio F1",
@@ -3065,10 +3073,26 @@
       "priority": 3
     },
     {
-      "address": "$275a",
+      "address": "$276d",
       "node_type": "code",
-      "description": "CheckAudioQueueBit5 - Traite le bit 5 de la queue audio",
-      "source": "$2759",
+      "description": "CheckAudioQueueBit4 - Traite le bit 4 de la queue audio",
+      "source": "$275a",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2780",
+      "node_type": "code",
+      "description": "AudioQueueProcessDone - Fin du traitement de la queue audio",
+      "source": "$275a",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$26ac",
+      "node_type": "code",
+      "description": "AudioQueueProcessing - Continue le traitement de la file d'attente audio",
+      "source": "$275a",
       "bank": 0,
       "priority": 3
     }
@@ -3289,6 +3313,7 @@
     "$0226",
     "$2001",
     "$21A8",
+    "$275a",
     "$0EDE",
     "$0DCA",
     "$2164",
@@ -3354,6 +3379,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 279
+  "commits_since_push": 4,
+  "total_explored": 280
 }
