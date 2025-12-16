@@ -3217,6 +3217,14 @@
       "priority": 3
     },
     {
+      "address": "$2d95",
+      "node_type": "data",
+      "description": "AudioAnimDataBulk - Zone de donn\u00e9es brutes d'animation/graphiques (580 bytes)",
+      "source": "$2d91",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2fd9",
       "node_type": "table",
       "description": "AudioChannelCommandTable1 - Table de pointeurs vers s\u00e9quences audio canal 1 (r\u00e9f\u00e9rence cette s\u00e9quence en entr\u00e9e 0)",
@@ -3911,14 +3919,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2d95",
-      "node_type": "data",
-      "description": "AudioAnimDataBulk - Zone de donn\u00e9es brutes d'animation/graphiques (580 bytes)",
-      "source": "$2d91",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -4282,6 +4282,7 @@
     "$247E",
     "$03E4",
     "$2bf5",
+    "$2d95",
     "$1916",
     "$2799",
     "$22F4",
@@ -4327,6 +4328,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 3,
-  "total_explored": 404
+  "commits_since_push": 4,
+  "total_explored": 405
 }

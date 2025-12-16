@@ -11276,13 +11276,20 @@ AudioCmdSeq_15Alt:
     db $FE, $FF, $DF, $FF
 
 ; ===========================================================================
-; AudioAnimDataBulk ($2D95-$2FD8)
-; Zone de données brutes d'animation/graphiques - 580 bytes de données continues
-; Note: Cette zone n'est pas référencée directement par une table connue
-;       Elle pourrait contenir des sprites, tiles ou données d'animation
-; TODO BFS: Identifier l'usage exact et décomposer en structures logiques
+; SpriteAnimationData ($2D95-$2FD8)
+; ----------------
+; Description: Données d'animation de sprites (OAM) - 580 bytes de données structurées
+;              Format probable: séquences [Y_pos, tile_id, attributes, X_pos] répétées
+;              Patterns observés:
+;              - Coordonnées Y: $10, $20, $30, $40, $60 (positions verticales)
+;              - Tile IDs: $A0-$AF, $B0-$BF, $C0-$CF, $D0-$DF, $E0-$EF, $F0-$FB
+;              - Attributes: $01, $0A, $11, $1A (flags palette/flip)
+;              - Terminateurs: $FF (fin de séquence)
+; In:  Référencé indirectement (potentiellement par un système d'animation)
+; Note: Non référencé directement par AudioChannelCommandTable1/1Alt
+;       Zone placée entre AudioCmdSeq_15Alt et AudioChannelCommandTable1
 ; ===========================================================================
-AudioAnimDataBulk:
+SpriteAnimationData:
     db $40, $EE, $FF, $EF, $01, $EF, $FF, $B0, $01, $B1, $0A, $A0, $01
     db $A1, $FF, $10, $B1, $11, $B0, $1A, $A1, $11, $A0, $FF, $30, $C3, $31, $C2, $3A
     db $D3, $31, $D2, $FF, $B2, $01, $B3, $0A, $A2, $01, $A3, $FF, $10, $B3, $11, $B2
