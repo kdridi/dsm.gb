@@ -3721,6 +3721,22 @@
       "priority": 3
     },
     {
+      "address": "$5022",
+      "node_type": "code",
+      "description": "CheckSpriteCollisionSimple - V\u00e9rification collision simple bouton A",
+      "source": "$4FEC",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5034",
+      "node_type": "code",
+      "description": "HandleJoypadButtonB_CheckCollision - Gestion collision bouton B",
+      "source": "$4FEC",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$503F",
       "node_type": "code",
       "description": "Level 0-3 handler 1 (probablement init)",
@@ -4129,19 +4145,691 @@
       "priority": 3
     },
     {
-      "address": "$5034",
-      "node_type": "code",
-      "description": "HandleJoypadButtonB_CheckCollision - Gestion collision bouton B",
-      "source": "$4FEC",
-      "bank": 1,
+      "address": "$44FF",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$5022",
-      "node_type": "code",
-      "description": "CheckSpriteCollisionSimple - V\u00e9rification collision simple bouton A",
-      "source": "$4FEC",
-      "bank": 1,
+      "address": "$4C8D",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4C91",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4C95",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4C99",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4C9D",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CA1",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CA5",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CA9",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CAD",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CB1",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CB5",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CB9",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CBD",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CC1",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CC5",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CC9",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CCD",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CD1",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CD5",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CD9",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CDD",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CE1",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CE5",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CE9",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CED",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CF1",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CF5",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CF9",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4CFD",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D01",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D05",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D09",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D0D",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D11",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D15",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D19",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D1D",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D21",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D25",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D2C",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D33",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D3A",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D41",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D48",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D4F",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D56",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D5D",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D61",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D68",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D6F",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D76",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D7D",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D84",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D8B",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D92",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4D99",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DA0",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DA7",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DAE",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DB5",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DBC",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DC3",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DCA",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DD1",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DD8",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DDF",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DE6",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DED",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DF4",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4DFB",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4E02",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4E09",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4E14",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4E1F",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4E2A",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4E35",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4E44",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$634E",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6463",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6564",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6665",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$704E",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7170",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7372",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7471",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
       "priority": 3
     }
   ],
@@ -4575,6 +5263,7 @@
     "$22a0",
     "$1916",
     "$4823",
+    "$4c37",
     "$0a07",
     "$053D",
     "$0C22",
@@ -4611,6 +5300,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 3,
-  "total_explored": 464
+  "commits_since_push": 4,
+  "total_explored": 465
 }
