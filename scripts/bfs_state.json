@@ -3775,6 +3775,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$25b7",
+      "node_type": "code",
+      "description": "ProcessAudioChannelData - Fonction qui utilise la table pour charger les s\u00e9quences audio",
+      "source": "$2d1c",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4043,6 +4051,7 @@
     "$1a62",
     "$208E",
     "$2d02",
+    "$2d1c",
     "$217F",
     "$12DD",
     "$2D0F",
@@ -4156,6 +4165,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 1,
-  "total_explored": 377
+  "commits_since_push": 2,
+  "total_explored": 378
 }
