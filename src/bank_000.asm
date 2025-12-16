@@ -12235,10 +12235,10 @@ JumpDispatchTable_00:
 ; Référencée par UpdateAllObjectSounds ($263F) et autres routines audio
 AudioPointersTable:
     dw AudioCommand_Sound00  ; Son 0
-    dw $3565  ; Son 1
-    dw $356D  ; Son 2
-    dw $3594  ; Son 3
-    dw $35A1  ; Son 4
+    dw AudioCommand_Sound01  ; Son 1
+    dw AudioCommand_Sound02  ; Son 2
+    dw AudioCommand_Sound03  ; Son 3
+    dw AudioCommand_Sound04  ; Son 4
 
 AnimState_Handler_00:
     xor e
@@ -12437,74 +12437,93 @@ AudioCommand_Sound00:
     db $E2, $F8  ; Paramètres E2, F8
     db $01       ; Commande 01
     db $E3, $FF  ; Paramètres E3, FF (fin séquence)
-    ld hl, sp+$02
-    nop
-    rst $28
-    rst $28
-    rst $28
-    di
-    rst $38
-    ldh a, [rNR41]
-    ld hl, sp+$04
-    nop
-    rst $28
-    or $00
-    db $10
-    rst $28
-    nop
-    rst $28
-    ld hl, sp+$05
-    rst $28
-    ld hl, sp+$04
-    rst $28
-    ld hl, sp+$05
-    rst $28
-    ld hl, sp+$04
-    rst $28
-    ld hl, sp+$05
-    rst $28
-    ld hl, sp+$04
-    rst $28
-    ldh a, [rNR43]
-    db $10
-    rst $28
-    nop
-    rst $28
-    rst $28
-    rst $28
-    rst $38
-    ld hl, sp+$1f
-    db $f4
-    ld [bc], a
-    nop
-    rst $28
-    rst $28
-    pop af
-    ld b, a
-    rst $28
-    rst $28
-    rst $28
-    rst $38
-    db $f4
-    ld [bc], a
-    ld hl, sp+$06
-    ld bc, $f8e2
-    rlca
-    db $e3
-    rst $38
-    ld hl, sp+$08
-    nop
-    rst $28
-    rst $28
-    ld hl, sp+$0e
-    db $e4
-    ld hl, sp+$08
-    db $e4
-    ld hl, sp+$0e
-    db $e4
-    ld hl, sp+$08
-    db $e4
-    ld hl, sp+$0e
+
+; AudioCommand_Sound01 ($3565)
+; -------------------------------
+; Description: Séquence de commandes audio pour son 1 (référencé par AudioPointersTable)
+; Format: Commandes audio Game Boy (octets de contrôle + paramètres)
+AudioCommand_Sound01:
+    db $F8, $02  ; Commande F8 avec paramètre 02
+    db $00       ; Paramètre 00
+    db $EF, $EF, $EF  ; Commande EF répétée
+    db $F3       ; Commande F3
+    db $FF       ; Fin de séquence
+
+; AudioCommand_Sound02 ($356D)
+; -------------------------------
+; Description: Séquence de commandes audio pour son 2 (référencé par AudioPointersTable)
+; Format: Commandes audio Game Boy (octets de contrôle + paramètres)
+AudioCommand_Sound02:
+    db $F0, $20  ; Commande F0 avec paramètre 20
+    db $F8, $04  ; Commande F8 avec paramètre 04
+    db $00       ; Paramètre 00
+    db $EF       ; Commande EF
+    db $F6, $00  ; Commande F6 avec paramètre 00
+    db $10       ; Paramètre 10
+    db $EF       ; Commande EF
+    db $00       ; Paramètre 00
+    db $EF       ; Commande EF
+    db $F8, $05  ; Commande F8 avec paramètre 05
+    db $EF       ; Commande EF
+    db $F8, $04  ; Commande F8 avec paramètre 04
+    db $EF       ; Commande EF
+    db $F8, $05  ; Commande F8 avec paramètre 05
+    db $EF       ; Commande EF
+    db $F8, $04  ; Commande F8 avec paramètre 04
+    db $EF       ; Commande EF
+    db $F8, $05  ; Commande F8 avec paramètre 05
+    db $EF       ; Commande EF
+    db $F8, $04  ; Commande F8 avec paramètre 04
+    db $EF       ; Commande EF
+    db $F0, $22  ; Commande F0 avec paramètre 22
+    db $10       ; Paramètre 10
+    db $EF       ; Commande EF
+    db $00       ; Paramètre 00
+    db $EF, $EF, $EF  ; Commande EF répétée
+    db $FF       ; Fin de séquence
+
+; AudioCommand_Sound03 ($3594)
+; -------------------------------
+; Description: Séquence de commandes audio pour son 3 (référencé par AudioPointersTable)
+; Format: Commandes audio Game Boy (octets de contrôle + paramètres)
+AudioCommand_Sound03:
+    db $F8, $1F  ; Commande F8 avec paramètre 1F
+    db $F4       ; Commande F4
+    db $02       ; Paramètre 02
+    db $00       ; Paramètre 00
+    db $EF, $EF  ; Commande EF répétée
+    db $F1, $47  ; Commande F1 avec paramètre 47
+    db $EF, $EF, $EF  ; Commande EF répétée
+    db $FF       ; Fin de séquence
+
+; AudioCommand_Sound04 ($35A1)
+; -------------------------------
+; Description: Séquence de commandes audio pour son 4 (référencé par AudioPointersTable)
+; Format: Commandes audio Game Boy (octets de contrôle + paramètres)
+AudioCommand_Sound04:
+    db $F4       ; Commande F4
+    db $02       ; Paramètre 02
+    db $F8, $06  ; Commande F8 avec paramètre 06
+    db $01       ; Paramètre 01
+    db $E2, $F8  ; Paramètres E2, F8
+    db $07       ; Paramètre 07
+    db $E3       ; Commande E3
+    db $FF       ; Fin de séquence
+
+; Données audio suivantes ($35AB+)
+AudioCommand_Sound05:
+    db $F8, $08  ; Commande F8 avec paramètre 08
+    db $00       ; Paramètre 00
+    db $EF, $EF  ; Commande EF répétée
+    db $F8, $0E  ; Commande F8 avec paramètre 0E
+    db $E4       ; Commande E4
+    db $F8, $08  ; Commande F8 avec paramètre 08
+    db $E4       ; Commande E4
+    db $F8, $0E  ; Commande F8 avec paramètre 0E
+    db $E4       ; Commande E4
+    db $F8, $08  ; Commande F8 avec paramètre 08
+    db $E4       ; Commande E4
+    db $F8, $0E  ; Commande F8 avec paramètre 0E
     db $e4
     ld hl, sp+$08
     db $e4
