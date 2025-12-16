@@ -3265,12 +3265,19 @@ SpriteData_Walk3:      ; @ $4D3A
     dw $0100           ; Sprite 2: Y_offset=$00, X_offset=$01
     dw $1716           ; Sprite 3: Y_offset=$16, X_offset=$17
     db $FF             ; Terminateur de séquence
-    dw $4E44           ; Premier sprite de SpriteData_Walk4
-; SpriteData_Walk4 - Séquence de commandes sprite pour animation marche frame 4
-SpriteData_Walk4:
-AnimFrame_4D41:
-    dw $0908
-    dw $1918
+; SpriteData_Walk4
+; ----------------
+; Description: Séquence de sprites pour animation marche frame 4
+; In:  Pointeur référencé par AnimFrame_Walk4 ($4C99 → adresse $4D41)
+; Out: Aucun (données pures)
+; Format: word pairs encodant tiles/positions sprite
+; Note: Structure mal désassemblée - vrai format: $44 $4E [tiles] [coords] $FF
+;       Le label généré AnimFrame_4D41 pointe en fait à $4D43 (décalage de 2)
+SpriteData_Walk4:           ; @ $4D41 (commence par dw $4E44 = bytes 44 4e)
+    dw $4E44                ; Prefix standard sprite: bytes $44 $4E
+SpriteData_Walk4_TileData:  ; @ $4D43 (ancien AnimFrame_4D41)
+    dw $0908                ; Tiles: bytes $08 $09
+    dw $1918                ; Coords: bytes $18 $19
 AnimFrame_4D45:
     dw $44FF
     dw $0A4E
