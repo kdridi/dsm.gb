@@ -9952,6 +9952,13 @@ CheckObjectTileTop_Alternatives:
     ldh [hSoundCh2], a
     jr CollisionEnd
 
+; CollisionPhysics_SoundChannelControl
+; ------------------------------------
+; Description: Réinitialise les canaux son si collision avec bits 6-7 actifs
+;              Appelée quand le test de collision détecte une configuration spéciale (bits 6-7 = $C0)
+; In:  a = valeur de hSoundCh4 avec bits 6-7 masqués (déjà testée pour $40)
+; Out: hSoundCh1 = 0, hSoundVar1 = 0 si a = $C0, sinon pas de changement
+; Modifie: a
 CollisionPhysics_SoundChannelControl:
     cp BITS_6_7_MASK            ; Test bits 6-7 ($C0)
     jr nz, CollisionEnd
