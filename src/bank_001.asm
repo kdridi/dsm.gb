@@ -4246,47 +4246,29 @@ TilesetBlock_596E:
     ld b, a
     pop af
     ld e, l
-    cp $02
-    ld b, h
-    ld c, b
-    pop af
-    ld e, l
-    cp $f1
-    ld e, l
-    cp $f1
-
 ; ==============================================================================
-; ClearMemoryRangeWRAM - Efface une plage de WRAM ($5A55-$5A62)
+; CompressedData_5A55 - Données compressées (tileset/map)
 ; ==============================================================================
-; Description: Routine de remplissage mémoire (clear memory loop)
-;              Initialise $0240 bytes à zéro en WRAM à partir de $CA3F
-; Adresse: $5A55-$5A62 (14 bytes dont $5A5F fait partie)
-; In:  hl = $CA3F (adresse de fin+1), bc = $0240 (taille)
-; Out: Mémoire [$C800-$CA3F] = $00
-; Modifie: a, bc, hl
-; Note: $5A5F contient l'instruction "or c" utilisée pour tester bc==0
-;       Cette zone est actuellement mal désassemblée (lignes 4249-4256)
-; Reconstruction attendue:
-;   ClearMemoryRangeWRAM:  ; $5A55
-;       ld hl, $CA3F       ; Adresse de fin (WRAM haute)
-;       ld bc, $0240       ; Taille à effacer (576 bytes)
-;   .loop:                 ; $5A5B
-;       xor a              ; a = 0
-;       ldd [hl], a        ; Écrire 0 et décrémenter hl
-;       dec bc             ; Décrémenter compteur
-;       ld a, b            ; Charger b dans a
-;       or c               ; $5A5F - Test si bc == 0
-;       jr nz, .loop       ; Continuer si bc != 0
-;       ret                ; $5A62
+; Description: Données compressées faisant partie du flux de compression
+;              utilisé pour décoder tiles/maps (continuation depuis $56CB)
+; Adresse: $5A55-$5A5F (11 bytes)
+; Format: Commandes de compression + arguments
+;   $5D $FE: Commande de répétition/copie
+;   $02/$F1: Arguments de commande ou données brutes
+; Référencé par:
+;   - SharedTilesetData_024 (ligne 3383): pointeur $5A5F
+;   - SharedMapData_012 (ligne 3398): pointeur $5A5F
+; Note: Cette zone fait partie de la grande zone mal désassemblée $56CB-$5A5F
+;       documentée ligne 3467. C'est des DONNÉES, pas du code exécutable.
 ; ==============================================================================
-; IMPORTANT: Les lignes 4249-4256 ci-dessus sont mal désassemblées
-; Elles contiennent en réalité la routine ClearMemoryRangeWRAM ($5A55-$5A62)
-; $5A5F pointe vers le byte "or c" ($B1) au milieu de cette routine
-; La reconstruction complète nécessite de remplacer ces lignes par:
-;   - Routine1 ($5A48-$5A54): Init HRAM registers
-;   - ClearMemoryRangeWRAM ($5A55-$5A62): la routine clear memory documentée ci-dessus
-;   - Routine3 ($5A63-$5A67): Check HRAM flags
-; ==============================================================================
+CompressedData_5A55:  ; $5A55
+    db $FE, $02, $44, $48, $F1  ; $5A55-$5A59: Commande compression type 1
+    db $5D                       ; $5A5A: Marqueur/commande
+TilesetPointer_5A5B:  ; $5A5B - Pointeur utilisé dans tables tilesets
+    db $FE, $F1                  ; $5A5B-$5A5C: Commande compression type 2
+    db $5D                       ; $5A5D: Marqueur/commande
+TilesetPointer_5A5F:  ; $5A5F - Référencé par lignes 3383, 3398
+    db $FE, $F1                  ; $5A5E-$5A5F: Commande compression type 2
 
 PatternData_5a60:
     adc [hl]

@@ -4929,10 +4929,26 @@
       "priority": 3
     },
     {
+      "address": "$5A5B",
+      "node_type": "code",
+      "description": "Cible de la boucle (jr nz) dans ClearMemoryRangeWRAM",
+      "source": "$5A5F",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$5A5F",
       "node_type": "data",
       "description": "Tile graphique (8 bytes)",
       "source": "$55BB",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5A60",
+      "node_type": "data",
+      "description": "PatternData_5a60 - Donn\u00e9es de pattern qui suivent la routine",
+      "source": "$5A5F",
       "bank": 1,
       "priority": 3
     },
@@ -5633,6 +5649,14 @@
       "priority": 3
     },
     {
+      "address": "$CA3F",
+      "node_type": "data",
+      "description": "Adresse cible WRAM pour le clear memory (fin de la zone \u00e0 effacer)",
+      "source": "$5A5F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$DFE0",
       "node_type": "data",
       "description": "WRAM - Variable de jeu (timer ou \u00e9tat collision)",
@@ -5718,30 +5742,6 @@
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
       "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$CA3F",
-      "node_type": "data",
-      "description": "Adresse cible WRAM pour le clear memory (fin de la zone \u00e0 effacer)",
-      "source": "$5A5F",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$5A5B",
-      "node_type": "code",
-      "description": "Cible de la boucle (jr nz) dans ClearMemoryRangeWRAM",
-      "source": "$5A5F",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5A60",
-      "node_type": "data",
-      "description": "PatternData_5a60 - Donn\u00e9es de pattern qui suivent la routine",
-      "source": "$5A5F",
-      "bank": 1,
       "priority": 3
     }
   ],
@@ -6035,6 +6035,7 @@
     "$05C7",
     "$00CC",
     "$4DA0",
+    "$5A5B",
     "$4CC1",
     "$0552",
     "$2CEE",
@@ -6364,6 +6365,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 617
+  "commits_since_push": 2,
+  "total_explored": 618
 }
