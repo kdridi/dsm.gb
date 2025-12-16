@@ -1593,6 +1593,30 @@
       "priority": 3
     },
     {
+      "address": "$1E82",
+      "node_type": "code",
+      "description": "CheckOscillationCounter - V\u00e9rifie compteur d'oscillation",
+      "source": "$1E58",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1E8E",
+      "node_type": "code",
+      "description": "ApplyOscillationNegOffset - Applique offset n\u00e9gatif d'oscillation",
+      "source": "$1E58",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1E96",
+      "node_type": "code",
+      "description": "DecrementOscillationYCounter - D\u00e9cr\u00e9mente compteur Y oscillation",
+      "source": "$1E58",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1E9B",
       "node_type": "code",
       "description": "OffsetSpritesY - Applique offset vertical aux sprites",
@@ -2447,30 +2471,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1E96",
-      "node_type": "code",
-      "description": "DecrementOscillationYCounter - D\u00e9cr\u00e9mente compteur Y oscillation",
-      "source": "$1E58",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1E8E",
-      "node_type": "code",
-      "description": "ApplyOscillationNegOffset - Applique offset n\u00e9gatif d'oscillation",
-      "source": "$1E58",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1E82",
-      "node_type": "code",
-      "description": "CheckOscillationCounter - V\u00e9rifie compteur d'oscillation",
-      "source": "$1E58",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2582,6 +2582,7 @@
     "$1C49",
     "$1C73",
     "$1CA8",
+    "$1E82",
     "$1CE7",
     "$0F09",
     "$11B6",
@@ -2674,6 +2675,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 199
+  "commits_since_push": 4,
+  "total_explored": 200
 }

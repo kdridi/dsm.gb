@@ -7229,9 +7229,16 @@ HandlePlayerMovement:
 
     ld a, [wPlayerDir]
     and NIBBLE_HIGH_MASK         ; Garder bits hauts direction
-    or $01
+    or PLAYER_DIR_MODE_RESET     ; Mode direction initial
     ld [wPlayerDir], a
 
+; CheckOscillationCounter
+; -----------------------
+; Description: Incrémente le compteur d'accélération lors de l'oscillation
+;              et initialise le timer de mouvement vers la droite
+; In:  -
+; Out: -
+; Modifie: hl, a
 CheckOscillationCounter:
     ld hl, wPlayerUnk0C
     ld a, [hl]
