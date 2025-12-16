@@ -7027,13 +7027,23 @@ SpriteAnimationCountdown:
 ; Modifie: a
 SpriteAnimationDataAdvance:
     ldh a, [hTimerAux]
-    cp $02
+    cp TIMER_AUX_ADJUST_TRIGGER
     jr nz, SpriteAnimationCompletionCheck
 
     ld a, c
-    add $20
+    add SPRITE_ANIM_OFFSET_ADJUST
     ld c, a
 
+; SpriteAnimationCompletionCheck
+; --------------------------------
+; Description: Écrit la valeur d'animation et vérifie si un cycle est complété
+; In:  c = valeur d'animation à écrire
+;      hl = pointeur dans wSpriteTemp
+;      de = pointeur dans table SpriteAnimationData
+;      b = compteur sprites restants
+; Out: Si cycle complété (valeur $38/$50/$68): transition vers état $17
+;      Sinon: retour normal
+; Modifie: a, hl, de, b
 SpriteAnimationCompletionCheck:
     ld a, c
     ld [hl+], a
@@ -7042,27 +7052,36 @@ SpriteAnimationCompletionCheck:
     dec b
     jr nz, SpriteAnimationCountdown
 
+    ; Incrémente difficulté après un cycle complet
     ld a, [wLevelDifficulty]
-    add $04
+    add LEVEL_DIFFICULTY_INCREMENT
     ld [wLevelDifficulty], a
+
+    ; Vérifie si la première valeur sprite correspond à un seuil de complétion
     ld hl, wSpriteTemp
     ld a, [hl]
-    cp $38
+    cp SPRITE_ANIM_COMPLETE_38
     jr z, SetState17_AfterAnimation
 
-    cp $50
+    cp SPRITE_ANIM_COMPLETE_50
     jr z, SetState17_AfterAnimation
 
-    cp $68
+    cp SPRITE_ANIM_COMPLETE_68
     jr z, SetState17_AfterAnimation
 
     ret
 
 
+; SetState17_AfterAnimation
+; --------------------------
+; Description: Transition vers l'état $17 après complétion d'un cycle d'animation
+; In:  (aucun)
+; Out: hGameState = $17, wLevelParam16 = $08
+; Modifie: a
 SetState17_AfterAnimation:
-    ld a, $08
+    ld a, LEVEL_PARAM_ANIM_COMPLETE
     ld [wLevelParam16], a
-    ld a, $17
+    ld a, GAME_STATE_ANIM_COMPLETE
     ldh [hGameState], a
     ret
 

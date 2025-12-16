@@ -670,6 +670,7 @@ DEF GAME_STATE_OUTER    EQU $12 ; État transition - joueur en périphérie
 DEF GAME_STATE_DRAW_BORDER  EQU $13 ; Dessin bordure écran fin
 DEF GAME_STATE_BONUS_SELECT EQU $14 ; Sélection bonus (post-bordure)
 DEF GAME_STATE_BONUS_COPY   EQU $15 ; Copie données tilemap bonus
+DEF GAME_STATE_ANIM_COMPLETE EQU $17 ; État après complétion cycle animation
 
 DEF GAME_STATE_SPECIAL  EQU $1C ; État niveau spécial
 DEF GAME_STATE_INIT27   EQU $27 ; État initialisation spéciale
@@ -1136,6 +1137,12 @@ DEF SPRITE_ANIM_DISABLE        EQU $c0   ; Valeur désactivant animation sprite
 DEF SPRITE_FRAME_COUNTER_MAX   EQU $02   ; Compteur frame max avant animation
 DEF SPRITE_ANIM_THRESHOLD_F9   EQU $f9   ; Seuil animation supérieur (-7)
 DEF SPRITE_ANIM_THRESHOLD_F7   EQU $f7   ; Seuil animation inférieur (-9)
+DEF SPRITE_ANIM_COMPLETE_38    EQU $38   ; Seuil complétion cycle animation type 1
+DEF SPRITE_ANIM_COMPLETE_50    EQU $50   ; Seuil complétion cycle animation type 2
+DEF SPRITE_ANIM_COMPLETE_68    EQU $68   ; Seuil complétion cycle animation type 3
+DEF SPRITE_ANIM_OFFSET_ADJUST  EQU $20   ; Offset d'ajustement quand hTimerAux == $02
+DEF TIMER_AUX_ADJUST_TRIGGER   EQU $02   ; Valeur hTimerAux déclenchant ajustement offset
+DEF LEVEL_DIFFICULTY_INCREMENT EQU $04   ; Incrément difficulté niveau après cycle animation
 
 ; === Masques animation ===
 
@@ -1574,6 +1581,7 @@ DEF LEVEL_PARAM_INIT_F6        EQU $f6   ; Valeur init paramètres niveau (-10)
 DEF LEVEL_PARAM_INIT_30        EQU $30   ; Valeur init paramètres niveau (48)
 DEF LEVEL_PARAM_INIT_02        EQU $02   ; Difficulté initiale niveau (2)
 DEF LEVEL_PARAM_INIT_40        EQU $40   ; Timer/compteur niveau initial (64)
+DEF LEVEL_PARAM_ANIM_COMPLETE  EQU $08   ; wLevelParam16 après complétion animation (8)
 DEF LEVEL_PARAM_LOOP_9         EQU $09   ; Boucle init 9 octets
 DEF LEVEL_PARAM_LOOP_8         EQU $08   ; Boucle init 8 octets
 
