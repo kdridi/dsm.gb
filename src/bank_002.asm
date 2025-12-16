@@ -6304,6 +6304,16 @@ AnimationHandler_Type01:            ; $5958 - Point d'entrée types $01,$02,$04,
 
     jr SpriteAnimationDispatchEntry
 
+; AnimationDispatch_SelectPalette
+; ----------------
+; Description: Point d'entrée après configuration d'animation. Appelle AddScore
+;              puis traite l'animation des sprites en multiplexant 4 slots (wSpriteTemp+$30/$38/$40/$48)
+;              selon leur paramètre niveau respectif (wLevelParam0C/0D/0E/0F).
+;              Gère le compteur d'animation et la synchronisation des frames.
+; In:  d = type palette calculé par AnimationDispatch_SetAndJump
+;      wSpriteTemp = buffer sprites ($C030-$C04F, 4 slots de 8 bytes)
+; Out: Continue vers ProcessSpriteAnimation pour traiter chaque sprite actif
+; Modifie: a, bc, de, hl
 AnimationDispatch_SelectPalette:
     call AddScore
 
@@ -6313,29 +6323,32 @@ SpriteAnimationDispatchEntry:
 
 SpriteAnimationDispatch_ByType:
     push hl
-    ld a, [hl]
+    ld a, [hl]               ; Test si sprite actif
     and a
-    jp z, ExitSpriteHandler
+    jp z, ExitSpriteHandler  ; Sprite inactif, passe au suivant
 
+    ; Identifie le slot de sprite selon son offset dans wSpriteTemp
+    ; $30 → slot 0, $38 → slot 1, $40 → slot 2, $48 → slot 3
     ld a, l
-    ld bc, $da06
-    ld de, $da0a
-    ld hl, $da13
+    ld bc, $da06             ; Pointeur compteur animation slot 0
+    ld de, $da0a             ; Pointeur état animation slot 0
+    ld hl, $da13             ; Pointeur compteur frame slot 0
     cp $48
-    jr z, PaddingZone_002_5a05
+    jr z, SpriteSlot3_AnimationCheck
 
     dec c
     dec e
     dec l
     cp $40
-    jr z, PaddingZone_002_59f3
+    jr z, SpriteSlot2_AnimationCheck
 
     dec c
     dec e
     dec l
     cp $38
-    jr z, PaddingZone_002_59e0
+    jr z, SpriteSlot1_AnimationCheck
 
+    ; Slot 0 (wSpriteTemp+$30)
     dec c
     dec e
     dec l
@@ -6353,7 +6366,7 @@ SpriteAnimationDispatch_ByType:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
-PaddingZone_002_59e0:
+SpriteSlot1_AnimationCheck:
     ld a, [wLevelParam0D]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
@@ -6368,7 +6381,7 @@ PaddingZone_002_59e0:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
-PaddingZone_002_59f3:
+SpriteSlot2_AnimationCheck:
     ld a, [wLevelParam0E]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
@@ -6383,7 +6396,7 @@ PaddingZone_002_59f3:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
-PaddingZone_002_5a05:
+SpriteSlot3_AnimationCheck:
     ld a, [wLevelParam0F]
     cp $c0
     jr z, SpriteAnimationMultiplexHandler
