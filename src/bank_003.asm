@@ -3298,6 +3298,11 @@ AnimFrame_4D49:
     dw $FF1B
 AnimFrame_4D4D:
     dw $4E44
+; SpriteData_Walk6 - Données sprite pour animation marche frame 6 (mal désassemblé comme code)
+; Référencé par AnimFrame_Walk6 ($4CA1)
+; Note: Pointe à $4D4F (second word de AnimFrame_4D4D) - optimisation mémoire
+SpriteData_Walk6:           ; @ $4D4F
+AnimFrame_4D4F:
     dw $0100
 AnimFrame_4D51:
     dw $0D0C
