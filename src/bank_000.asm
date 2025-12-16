@@ -9688,6 +9688,13 @@ AudioCommand_Default:
     jp AudioQueueProcessing
 
 
+; AudioCommand_CompleteExit
+; -------------------------
+; Description: Termine proprement le traitement d'une commande audio
+;              Restaure hl depuis la pile et retourne
+; In:  Pile = adresse de retour précédemment sauvegardée
+; Out: Rien (retour à l'appelant)
+; Modifie: hl
 AudioCommand_CompleteExit:
     pop hl
     ret
