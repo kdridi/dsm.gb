@@ -3092,9 +3092,12 @@ AnimFrame_4CAD:
 AnimFrame_4CB1:
     dw $F8F9
     dw $4D68
+; AnimFrame_Seq2_Frame1 - Frame d'animation séquence 2, frame 1
+; Format: word offset_yx, word pointeur_vers_données
+AnimFrame_Seq2_Frame1:
 AnimFrame_4CB5:
-    dw $F8F9
-    dw $4D6F
+    dw $F8F9           ; Offset Y/X relatifs (Y=-8, X=-7)
+    dw $4D6F           ; → SpriteData (zone mal désassemblée - table de 7 bytes)
 AnimFrame_4CB9:
     dw $F8F9
     dw $4D76
