@@ -4055,6 +4055,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$49BA",
+      "node_type": "code",
+      "description": "ValidateAndProcessGameState - Valide \u00e9tat jeu et v\u00e9rifie verrouillage",
+      "source": "$4A77",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4286,6 +4294,7 @@
     "$17B3",
     "$07F0",
     "$2D3B",
+    "$4A77",
     "$2a1a",
     "$490d",
     "$2780",
@@ -4504,6 +4513,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 4,
-  "total_explored": 445
+  "commits_since_push": 0,
+  "total_explored": 446
 }

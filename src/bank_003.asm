@@ -2398,7 +2398,7 @@ JoypadInputProcessAPress:
 
 JoypadInputProcessAPress_SetInitialState:
     ld hl, wPlayerUnk0C
-    ld [hl], $30
+    ld [hl], MENU_STATE_ACTIVE      ; État menu = actif (48 frames)
 
 JoypadInputProcessAPress_TransitionToGame:
     ld hl, wStateBuffer
@@ -2411,7 +2411,7 @@ JoypadInputProcessAPress_TransitionToGame:
 ValidateAndProcessGameState_CheckLock:
     ld hl, wPlayerUnk0C
     ld a, [hl]
-    cp $06
+    cp PLAYER_ACCEL_COUNTER_MAX     ; Vérifie si compteur accélération = 6
     jr nz, InitializeSpriteTransferBuffer
 
     JumpIfLocked InitializeSpriteTransferBuffer
@@ -2515,9 +2515,17 @@ SetAnimationFrame:
     ret
 
 
+; ResetMenuStateToIdle
+; --------------------
+; Description: Réinitialise l'état du menu en mode idle et valide l'état du jeu.
+;              Appelé quand le bit 7 du registre b est activé (typiquement après
+;              une action menu ou un timeout).
+; In:  b = flags d'état joypad (bit 7 = reset demandé)
+; Out: Aucun
+; Modifie: hl, a (via ValidateAndProcessGameState)
 ResetMenuStateToIdle:
     ld hl, wPlayerUnk0C
-    ld [hl], $20
+    ld [hl], MENU_STATE_IDLE        ; État menu = idle (32 frames)
     jp ValidateAndProcessGameState
 
 

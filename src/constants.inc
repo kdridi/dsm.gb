@@ -1528,6 +1528,10 @@ DEF PLAYER_DIR_CHECK_LEFT      EQU $20   ; Valeur wPlayerUnk0D = direction gauch
 DEF PLAYER_ACCEL_TIMER_LEFT    EQU $10   ; Timer accélération mouvement gauche (16 frames)
 DEF PLAYER_ACCEL_TIMER_RIGHT   EQU $20   ; Timer accélération mouvement droite (32 frames)
 
+; === États de menu wPlayerUnk0C ===
+DEF MENU_STATE_IDLE            EQU $20   ; État menu idle (32 frames)
+DEF MENU_STATE_ACTIVE          EQU $30   ; État menu actif après appui A (48 frames)
+
 ; === Audio slots ===
 
 DEF AUDIO_SLOT_LOOP_COUNT      EQU $0a   ; Nombre de slots audio à traiter (10)
