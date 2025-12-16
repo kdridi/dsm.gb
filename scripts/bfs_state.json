@@ -2719,6 +2719,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$651C",
+      "node_type": "data",
+      "description": "ROM_TILEMAP_POINTERS_A - Table de pointeurs vers les tilemaps (bank 3)",
+      "source": "$22A0",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2760,6 +2768,7 @@
     "$0BCD",
     "$11B6",
     "$14D3",
+    "$22A0",
     "$210A",
     "$1612",
     "$1872",
@@ -2972,6 +2981,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 249
+  "commits_since_push": 4,
+  "total_explored": 250
 }

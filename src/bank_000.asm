@@ -8296,6 +8296,15 @@ TilemapScrollLoop:
     ret
 
 
+; UpdateTilemapScrolling
+; ----------------------
+; Description: Cherche dans la table tilemap (bank 3) l'entrée correspondant aux
+;              coordonnées de scroll actuelles et copie les données de rendu
+; In:  hTilemapScrollX = coordonnée X à chercher
+;      hTilemapScrollY = coordonnée Y à chercher
+;      hRenderContext = index dans ROM_TILEMAP_POINTERS_A
+; Out: hRenderCounter à hRenderCounter+3 = données copiées si trouvé
+; Modifie: a, bc, de, hl
 UpdateTilemapScrolling:
     push hl
     push de
