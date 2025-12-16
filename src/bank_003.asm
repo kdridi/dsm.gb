@@ -2662,7 +2662,18 @@ DemoSequencePointersTable:
     dw $65E0    ; Bank 1 - Pointeur vers séquence démo
     dw $6670    ; Bank 2 - Pointeur vers séquence démo
 
-; Routine $4aea - Initialise et traite la boucle de rendu des objets
+; InitRenderLoop
+; ----------------
+; Description: Initialise et traite la boucle de rendu pour 4 objets.
+;              Parcourt les slots d'objets (wPlayerUnk10 + n*16) et ajuste
+;              leurs positions X en fonction du scroll (hShadowSCX).
+;              - Si objet = $80: marque comme désactivé ($ff)
+;              - Si objet = $00 et offset+7 != 0: ajuste position X
+; In:  wPlayerUnk10 = premier slot objet (structure 16 bytes)
+;      hShadowSCX = position scroll actuelle
+;      hRenderAttr = ancienne position scroll
+; Out: hRenderAttr = mis à jour avec hShadowSCX
+; Modifie: a, b, c, de, hl
 InitRenderLoop::
     ld b, INIT_OBJECTS_LOOP_COUNT
     ld de, OBJECT_SLOT_SIZE
