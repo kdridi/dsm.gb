@@ -4481,6 +4481,14 @@
       "priority": 3
     },
     {
+      "address": "$50d8",
+      "node_type": "code",
+      "description": "CollisionCheckOffsetLoop - Boucle principale de test collision",
+      "source": "$5101",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$5101",
       "node_type": "code",
       "description": "DecrementOffsetAndRetryCollision - Ajuste offset Y et retente collision",
@@ -4959,14 +4967,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$50d8",
-      "node_type": "code",
-      "description": "CollisionCheckOffsetLoop - Boucle principale de test collision",
-      "source": "$5101",
-      "bank": 1,
-      "priority": 3
     }
   ],
   "visited": [
@@ -5085,6 +5085,7 @@
     "$2d69",
     "$4D76",
     "$4CBD",
+    "$50d8",
     "$1bf2",
     "$4DA0",
     "$1F24",
@@ -5532,6 +5533,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 0,
-  "total_explored": 561
+  "commits_since_push": 1,
+  "total_explored": 562
 }
