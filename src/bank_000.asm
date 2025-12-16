@@ -9403,6 +9403,13 @@ AudioQueueProcessDone:
     jp AudioQueueProcessing
 
 
+; CheckAudioCommand_F1
+; --------------------
+; Description: Traite la commande audio F1 en sauvegardant l'état actuel,
+;              chargeant une nouvelle config audio, puis restaurant l'état
+; In:  a = commande audio à vérifier
+; Out: Si a = AUDIO_CMD_F1, saute à AudioQueueProcessing, sinon continue à CheckAudioCommand_F2
+; Modifie: a, hl (via appels), stack (pop hl)
 CheckAudioCommand_F1:
     cp AUDIO_CMD_F1
     jr nz, CheckAudioCommand_F2

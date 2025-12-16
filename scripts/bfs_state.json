@@ -2161,6 +2161,14 @@
       "priority": 3
     },
     {
+      "address": "$2784",
+      "node_type": "code",
+      "description": "CheckAudioCommand_F1 - V\u00e9rifie et traite la commande audio F1",
+      "source": "$26AC",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2870",
       "node_type": "code",
       "description": "ProcessSoundCollisionCheck - Traite la v\u00e9rification de collision sonore",
@@ -2969,10 +2977,18 @@
       "priority": 3
     },
     {
-      "address": "$2784",
+      "address": "$2799",
       "node_type": "code",
-      "description": "CheckAudioCommand_F1 - V\u00e9rifie et traite la commande audio F1",
-      "source": "$26AC",
+      "description": "CheckAudioCommand_F2 - V\u00e9rifie et traite la commande audio F2",
+      "source": "$2784",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$24CD",
+      "node_type": "code",
+      "description": "LoadQueuedAudioConfig - Charge la configuration audio en file d'attente",
+      "source": "$2784",
       "bank": 0,
       "priority": 3
     }
@@ -3220,6 +3236,7 @@
     "$0558",
     "$0a24",
     "$1a94",
+    "$2784",
     "$0100",
     "$187f",
     "$242D",
@@ -3249,6 +3266,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 270
+  "commits_since_push": 0,
+  "total_explored": 271
 }
