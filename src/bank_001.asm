@@ -2676,8 +2676,15 @@ CollisionCheckOffsetLoop:
     ret
 
 
+; DecrementOffsetAndRetryCollision
+; ---------------------------------
+; Description: Ajuste l'offset Y de collision vers le bas et retente si nécessaire.
+;              Change l'offset de +5 à -3 pour tester les pieds du sprite.
+; In:  e = compteur de tests restants, d = offset Y précédent
+; Out: (retourne ou reboucle selon compteur)
+; Modifie: d
 DecrementOffsetAndRetryCollision:
-    ld d, $fd                   ; Offset Y devient -3
+    ld d, FEET_COLLISION_OFFSET_Y  ; Offset Y devient -3 (pieds)
     dec e                       ; Décrémente compteur de tests
     jr nz, CollisionCheckOffsetLoop
 

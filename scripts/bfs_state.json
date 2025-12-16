@@ -4959,6 +4959,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$50d8",
+      "node_type": "code",
+      "description": "CollisionCheckOffsetLoop - Boucle principale de test collision",
+      "source": "$5101",
+      "bank": 1,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5452,6 +5460,7 @@
     "$0226",
     "$0394",
     "$25B7",
+    "$5101",
     "$210A",
     "$4CCD",
     "$0808",
@@ -5523,6 +5532,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 4,
-  "total_explored": 560
+  "commits_since_push": 0,
+  "total_explored": 561
 }
