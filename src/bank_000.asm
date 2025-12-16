@@ -10987,16 +10987,18 @@ AudioAnimData_00:
 AudioAnimData_01:
     db $97, $08, $96, $FF
 
-; AudioAnimData_02 ($2D18)
+; AudioCmdSeq_07_Alt2 ($2D18)
 ; ----------------
-; Description: Séquence d'animation audio avec commandes $99 et $98
-; In:  Accès potentiel via calcul d'offset ou référence directe non identifiée
-; Format: [commande1, paramètre, commande2, terminateur]
-;         $99 = commande audio 1, $08 = paramètre
-;         $98 = commande audio 2, $FF = terminateur de séquence
-; Note: Structure similaire à AudioCmdSeq_07 mais sans paramètres initiaux
+; Description: Séquence de commandes audio n°7 pour table alternative (ROM_AUDIO_CHANNEL_TABLE_2)
+; In:  via pointeur de ROM_AUDIO_CHANNEL_TABLE_2[7] à $30AB
+; Format: [commande1, paramètre1, commande2, terminateur]
+;         $99 = commande audio 1 (type inconnu)
+;         $08 = paramètre pour commande $99
+;         $98 = commande audio 2 (type inconnu)
+;         $FF = terminateur de séquence
+; Out: Exécution des commandes audio $99 et $98
 ; Modifie: Variables audio selon les commandes exécutées
-AudioAnimData_02:
+AudioCmdSeq_07_Alt2:
     db $99, $08, $98, $FF
 
 ; AudioCmdSeq_06 ($2D1C)
