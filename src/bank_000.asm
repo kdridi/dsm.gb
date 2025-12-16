@@ -4742,8 +4742,16 @@ State33_DisplayCreditsText::
     ret
 
 ; ===========================================================================
-; État $34 - Attente compteur crédits ($1438)
-; Incrémente compteur jusqu'à $20, puis configure timer et état suivant
+; State34_WaitCreditsCounter
+; --------------------------
+; Description: Gère l'attente avec compteur durant l'écran de crédits.
+;              Incrémente wLevelInitFlag toutes les 4 frames jusqu'à $20,
+;              puis passe à l'état suivant et initialise hTimer1.
+; In:  hFrameCounter = compteur de frames global
+;      wLevelInitFlag = compteur à incrémenter
+; Out: hGameState = incrémenté si wLevelInitFlag atteint $20
+;      hTimer1 = TIMER_GAMEPLAY_DELAY ($50) si transition
+; Modifie: af, hl (via AnimateCreditsFrame également)
 ; ===========================================================================
 State34_WaitCreditsCounter::
     call AnimateCreditsFrame
