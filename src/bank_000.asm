@@ -5696,27 +5696,39 @@ ProcessBlockEnd_OnCollide:
     ld [wStateBuffer], a
     jr HandleBlockType_Collision
 
+; PlayerXPositionReset / InitPlayerX
+; --------------------------------
+; Description: Réinitialise la position X du joueur et ses variables de mouvement
+;              Position X est reculée de 2px puis alignée sur grille 4px (offset +6)
+; In:  -
+; Out: -
+; Modifie: a, hl
 PlayerXPositionReset:
 InitPlayerX:
+    ; Recule de 2px puis aligne X sur grille 4 pixels avec offset de 6
     ld hl, wPlayerX
     ld a, [hl]
-    dec a
+    dec a                        ; X -= 2 pixels
     dec a
     and SCROLL_ALIGN_MASK        ; Aligner sur 4 pixels
-    or TILE_ALIGN_OFFSET
+    or TILE_ALIGN_OFFSET         ; Ajoute offset +6
     ld [hl], a
+
+    ; RAZ variables mouvement (wPlayerUnk07..09 = 0, wPlayerUnk0A = 1)
     xor a
     ld hl, wPlayerUnk07
-    ld [hl+], a
-    ld [hl+], a
-    ld [hl+], a
-    ld [hl], $01
+    ld [hl+], a                  ; wPlayerUnk07 = 0
+    ld [hl+], a                  ; wPlayerUnk08 = 0
+    ld [hl+], a                  ; wPlayerUnk09 = 0
+    ld [hl], $01                 ; wPlayerUnk0A = 1
+
+    ; Limite wPlayerUnk0C à 6 si >= 7
     ld hl, wPlayerUnk0C
     ld a, [hl]
-    cp COLLISION_THRESHOLD_7    ; Vérifie si >= 7
+    cp COLLISION_THRESHOLD_7
     ret c
 
-    ld [hl], COLLISION_OFFSET_6 ; Limite à 6
+    ld [hl], COLLISION_OFFSET_6
     ret
 
 
