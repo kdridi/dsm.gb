@@ -6534,6 +6534,11 @@ SpriteAnimationCounterDecrement:
     cp $36
     jr z, SpriteAnimationStatePurge
 
+; AnimationHandler_Type02_Entry
+; ------------------------------
+; Point d'entrée $5A58 - Utilisé pour le type d'animation $02
+; Calculé dynamiquement par AnimationDispatch_SelectHandler via inc d
+; (AnimationHandler_Type01 + $0100 = $5958 + $0100 = $5A58)
     inc l
     cp $3e
     jr z, SpriteAnimationStatePurge
