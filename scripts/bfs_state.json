@@ -1353,6 +1353,14 @@
       "priority": 3
     },
     {
+      "address": "$1AA4",
+      "node_type": "code",
+      "description": "CheckPlayerSideCollision - V\u00e9rifie collision lat\u00e9rale du joueur",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1B3C",
       "node_type": "code",
       "description": "TriggerBlockCollisionSound_TimerDispatch - D\u00e9clenche son collision + dispatch timer",
@@ -1517,6 +1525,38 @@
       "node_type": "code",
       "description": "ProcessAnimationState - Traite l'\u00e9tat d'animation du joueur",
       "source": "$16D1",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1E37",
+      "node_type": "code",
+      "description": "HandleJoypadRight - G\u00e8re mouvement du joueur vers la droite",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1E3F",
+      "node_type": "code",
+      "description": "HandleJoypadRight_Setup - Setup initial mouvement droite",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1E9B",
+      "node_type": "code",
+      "description": "OffsetSpritesY - Applique offset vertical aux sprites",
+      "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1EAB",
+      "node_type": "code",
+      "description": "GetOscillatingOffset - Calcule offset d'oscillation pour mouvement fluide",
+      "source": "$1D1D",
       "bank": 0,
       "priority": 3
     },
@@ -1781,6 +1821,14 @@
       "node_type": "code",
       "description": "DestroyAllObjects - D\u00e9truit tous les objets actifs",
       "source": "$0C37",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2C96",
+      "node_type": "code",
+      "description": "OffsetSpritesX - Applique offset horizontal aux sprites",
+      "source": "$1D1D",
       "bank": 0,
       "priority": 3
     },
@@ -2353,50 +2401,26 @@
       "priority": 3
     },
     {
-      "address": "$1AA4",
+      "address": "$1A62",
       "node_type": "code",
-      "description": "CheckPlayerSideCollision - V\u00e9rifie collision lat\u00e9rale du joueur",
-      "source": "$1D1D",
+      "description": "ClassifyTileType - Classifie type de tile",
+      "source": "$1AA4",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$1E37",
+      "address": "$1B05",
       "node_type": "code",
-      "description": "HandleJoypadRight - G\u00e8re mouvement du joueur vers la droite",
-      "source": "$1D1D",
+      "description": "HandlePlayerSpikeCollision - G\u00e8re collision avec tuyau/spike",
+      "source": "$1AA4",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$1E3F",
+      "address": "$1B1A",
       "node_type": "code",
-      "description": "HandleJoypadRight_Setup - Setup initial mouvement droite",
-      "source": "$1D1D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1E9B",
-      "node_type": "code",
-      "description": "OffsetSpritesY - Applique offset vertical aux sprites",
-      "source": "$1D1D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1EAB",
-      "node_type": "code",
-      "description": "GetOscillatingOffset - Calcule offset d'oscillation pour mouvement fluide",
-      "source": "$1D1D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2C96",
-      "node_type": "code",
-      "description": "OffsetSpritesX - Applique offset horizontal aux sprites",
-      "source": "$1D1D",
+      "description": "HandlePlayerSlideCollision - G\u00e8re collision avec glissade",
+      "source": "$1AA4",
       "bank": 0,
       "priority": 3
     }
@@ -2557,6 +2581,7 @@
     "$06C5",
     "$09d7",
     "$1752",
+    "$1AA4",
     "$03E4",
     "$02A5",
     "$0048",
@@ -2593,6 +2618,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 190
+  "commits_since_push": 0,
+  "total_explored": 191
 }

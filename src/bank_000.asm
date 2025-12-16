@@ -6269,9 +6269,21 @@ ByteMatched:
     ld a, h
     db $fd
 
-; -----------------------------------------------------------------------------
-; CheckPlayerSideCollision - Vérifie collision latérale du joueur
-; -----------------------------------------------------------------------------
+; CheckPlayerSideCollision
+; ------------------------
+; Description: Vérifie les collisions latérales du joueur avec les tiles
+;              Configure le nombre d'itérations selon le mode (pipe/normal)
+;              Détecte les collisions avec tuyaux, glissades, rebonds
+; In:  hGameState = état de jeu actuel
+;      hTimerAux = timer auxiliaire joueur
+;      wPlayerDir = direction du joueur
+;      wPlayerX, wPlayerUnk05 = position joueur
+;      hShadowSCX = scroll X
+; Out: a = RETURN_COLLISION_FOUND ($FF) si collision, 0 sinon
+;      wPlayerUnk0B = incrémenté si collision par défaut
+;      wPlayerUnk0E = PLAYER_UNK07_FALLING si collision
+;      hBlockHitType, hBlockHitCoord = mis à jour si collision spike/pipe
+; Modifie: a, bc, de, hl
 CheckPlayerSideCollision:
     ldh a, [hGameState]
     cp GAME_STATE_DEMO      ; État >= $0E (démo) ?
