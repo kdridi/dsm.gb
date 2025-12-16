@@ -8219,24 +8219,17 @@ CopyTileDataLoop:
     jp ProcessScrollEntry
 
 
-; =============================================================================
-; UpdateScrollColumn - UpdateScrollColumn
-; =============================================================================
-; QUOI : Met à jour une colonne du tilemap pour le scrolling vertical.
-;
-; ALGORITHME :
-;   1. Vérifie si phase d'update active (hScrollPhase == 1)
-;   2. Incrémente la colonne courante ($40-$5F, wrap à $40)
-;   3. Copie 16 tiles depuis wScrollBuffer vers le tilemap ($98xx)
-;   4. Pour chaque tile, vérifie les valeurs spéciales ($70, $80, $5F, $81)
-;      et appelle les handlers appropriés
-;   5. Avance de $20 (32) pour passer à la ligne suivante
-;   6. Met hScrollPhase à 2 (terminé)
-;
-; ENTRÉE : hScrollPhase ($FFEA) = 1 pour activer
-; SORTIE : hScrollPhase = 2 quand terminé
-; MODIFIE : A, B, DE, HL
-; =============================================================================
+; UpdateScrollColumn
+; ----------------
+; Description: Met à jour une colonne du tilemap pour le scrolling vertical.
+;              Copie 16 tiles depuis wScrollBuffer vers VRAM en gérant les
+;              commandes spéciales ($70/$80/$5F/$81) qui déclenchent le rendu.
+; In:  hScrollPhase = SCROLL_PHASE_ACTIVE (1) pour activer
+;      hScrollColumn = colonne courante à mettre à jour
+;      wScrollBuffer = buffer contenant les 16 tiles à copier
+; Out: hScrollPhase = SCROLL_PHASE_DONE (2) quand terminé
+;      hScrollColumn = prochaine colonne (wrap de $60 à $40)
+; Modifie: a, b, de, hl
 UpdateScrollColumn:
     ldh a, [hScrollPhase]
     cp SCROLL_PHASE_ACTIVE
