@@ -2337,6 +2337,14 @@
       "priority": 3
     },
     {
+      "address": "$285e",
+      "node_type": "code",
+      "description": "CheckAudioCommand_FD - V\u00e9rifie la commande audio $FD (fall-through)",
+      "source": "$2856",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$286E",
       "node_type": "code",
       "description": "AudioCommand_CompleteExit - Termine le traitement d'une commande audio (pop hl + ret)",
@@ -3617,10 +3625,10 @@
       "priority": 3
     },
     {
-      "address": "$285e",
+      "address": "$286a",
       "node_type": "code",
-      "description": "CheckAudioCommand_FD - V\u00e9rifie la commande audio $FD (fall-through)",
-      "source": "$2856",
+      "description": "AudioCommand_Default - Traitement par d\u00e9faut des commandes audio",
+      "source": "$285e",
       "bank": 0,
       "priority": 3
     }
@@ -3738,6 +3746,7 @@
     "$2D34",
     "$0DEA",
     "$2205",
+    "$285e",
     "$0a20",
     "$0226",
     "$0040",
@@ -3993,6 +4002,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 0,
-  "total_explored": 366
+  "commits_since_push": 1,
+  "total_explored": 367
 }

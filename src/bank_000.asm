@@ -9683,6 +9683,15 @@ CheckAudioCommand_FC:
     jp AudioQueueProcessing
 
 
+; CheckAudioCommand_FD
+; --------------------
+; Description: Vérifie si la commande audio est $FD. Si oui, copie wAudioQueueId
+;              dans wStateRender et retourne. Sinon, passe au traitement par défaut.
+; In:  a = commande audio à vérifier
+;      wAudioQueueId = ID de la queue audio
+;      Pile = adresse hl sauvegardée
+; Out: Si a == $FD, wStateRender est mis à jour et retour. Sinon, saute vers AudioCommand_Default
+; Modifie: a, hl (via pop)
 CheckAudioCommand_FD:
     cp AUDIO_CMD_FD
     jr nz, AudioCommand_Default
