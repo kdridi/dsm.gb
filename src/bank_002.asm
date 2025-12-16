@@ -6326,6 +6326,14 @@ AnimationDispatch_SelectPalette:
 ;      wLevelParam0C-0F = flags contrôle animation par slot ($c0 = désactivé)
 ; Out: Animations sprites mises à jour, compteurs décrémentés
 ; Modifie: af, bc, de, hl
+; ProcessSpriteAnimation
+; ----------------------
+; Description: Point d'entrée principal du système d'animation des sprites.
+;              Initialise le pointeur vers le buffer sprite temporaire puis lance
+;              le dispatcher d'animation par type de sprite.
+; In:  Aucun
+; Out: Tous les sprites traités (boucle complète sur 4 slots)
+; Modifie: af, bc, de, hl, stack
 ProcessSpriteAnimation:
 SpriteAnimationDispatchEntry:
     ld hl, wSpriteTemp
@@ -6348,9 +6356,9 @@ SpriteAnimationDispatch_ByType:
     ; Identifie le slot de sprite selon son offset dans wSpriteTemp
     ; $30 → slot 0, $38 → slot 1, $40 → slot 2, $48 → slot 3
     ld a, l
-    ld bc, $da06             ; Pointeur compteur animation slot 0
-    ld de, $da0a             ; Pointeur état animation slot 0
-    ld hl, $da13             ; Pointeur compteur frame slot 0
+    ld bc, wLevelParam06     ; Pointeur compteur animation slot 0
+    ld de, wLevelParam0A     ; Pointeur état animation slot 0
+    ld hl, wSpriteFrameCounter3 ; Pointeur compteur frame slot 3 (décrémenté ensuite)
     cp SPRITE_SLOT_3
     jr z, SpriteSlot3_AnimationCheck
 
@@ -6494,7 +6502,7 @@ SpriteAnimationCounterDecrement:
     ld [hl+], a
     ld [hl], a
     ld a, l
-    ld hl, $da0c
+    ld hl, wLevelParam0C
     ld bc, $0004
     cp $36
     jr z, SpriteAnimationStatePurge

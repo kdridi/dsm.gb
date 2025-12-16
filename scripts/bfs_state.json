@@ -4865,6 +4865,30 @@
       "priority": 3
     },
     {
+      "address": "$59a8",
+      "node_type": "code",
+      "description": "SpriteAnimationDispatch_ByType - Boucle traitement slots",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$59e0",
+      "node_type": "code",
+      "description": "SpriteSlot1_AnimationCheck - Gestion compteur animation slot 1",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$59f3",
+      "node_type": "code",
+      "description": "SpriteSlot2_AnimationCheck - Gestion compteur animation slot 2",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5A05",
       "node_type": "code",
       "description": "SpriteSlot3_AnimationCheck - Gestion animation slot 3 (wSpriteTemp+$48)",
@@ -5054,6 +5078,22 @@
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
       "source": "$55E2",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5a05",
+      "node_type": "code",
+      "description": "SpriteSlot3_AnimationCheck - Gestion compteur animation slot 3",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5a15",
+      "node_type": "code",
+      "description": "SpriteAnimationMultiplexHandler - Traitement multiplex animation",
+      "source": "$59a2",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -5665,42 +5705,18 @@
       "priority": 3
     },
     {
-      "address": "$59a8",
+      "address": "$5a37",
       "node_type": "code",
-      "description": "SpriteAnimationDispatch_ByType - Boucle traitement slots",
-      "source": "$59a2",
+      "description": "SpriteAnimationCounterDecrement - D\u00e9cr\u00e9mente compteur animation",
+      "source": "$59a5",
       "bank": 2,
       "priority": 3
     },
     {
-      "address": "$59e0",
+      "address": "$5a62",
       "node_type": "code",
-      "description": "SpriteSlot1_AnimationCheck - Gestion compteur animation slot 1",
-      "source": "$59a2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$59f3",
-      "node_type": "code",
-      "description": "SpriteSlot2_AnimationCheck - Gestion compteur animation slot 2",
-      "source": "$59a2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5a05",
-      "node_type": "code",
-      "description": "SpriteSlot3_AnimationCheck - Gestion compteur animation slot 3",
-      "source": "$59a2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5a15",
-      "node_type": "code",
-      "description": "SpriteAnimationMultiplexHandler - Traitement multiplex animation",
-      "source": "$59a2",
+      "description": "SpriteAnimationStatePurge - Purge \u00e9tat animation sprite",
+      "source": "$59a5",
       "bank": 2,
       "priority": 3
     }
@@ -6106,6 +6122,7 @@
     "$2D72",
     "$5074",
     "$0F09",
+    "$59a5",
     "$2d26",
     "$4D19",
     "$2FD9",
@@ -6314,6 +6331,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 1,
-  "total_explored": 607
+  "commits_since_push": 2,
+  "total_explored": 608
 }

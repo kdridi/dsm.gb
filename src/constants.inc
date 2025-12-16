@@ -384,6 +384,10 @@ DEF wLevelParam0C   EQU $DA0C   ; Paramètre niveau 0C
 DEF wLevelParam0D   EQU $DA0D   ; Paramètre niveau 0D
 DEF wLevelParam0E   EQU $DA0E   ; Paramètre niveau 0E
 DEF wLevelParam0F   EQU $DA0F   ; Paramètre niveau 0F
+DEF wSpriteFrameCounter0 EQU $DA10 ; Compteur frame sprite slot 0
+DEF wSpriteFrameCounter1 EQU $DA11 ; Compteur frame sprite slot 1
+DEF wSpriteFrameCounter2 EQU $DA12 ; Compteur frame sprite slot 2
+DEF wSpriteFrameCounter3 EQU $DA13 ; Compteur frame sprite slot 3
 DEF wLevelDifficulty EQU $DA14  ; Difficulté niveau
 DEF wLivesCounter   EQU $DA15   ; Compteur vies (BCD)
 DEF wLevelParam16   EQU $DA16   ; Paramètre niveau 16
