@@ -2057,6 +2057,14 @@
       "priority": 3
     },
     {
+      "address": "$2435",
+      "node_type": "code",
+      "description": "AudioQueueProcessing - Continue le traitement de la file d'attente audio",
+      "source": "$27DB",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2439",
       "node_type": "code",
       "description": "InitAudioAndAnimContext - Init contexte audio et animations",
@@ -2177,6 +2185,14 @@
       "priority": 3
     },
     {
+      "address": "$2759",
+      "node_type": "code",
+      "description": "CheckAudioCommand_F1 - Traitement de la commande audio F1 (redirig\u00e9 al\u00e9atoirement)",
+      "source": "$27DB",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2784",
       "node_type": "code",
       "description": "CheckAudioCommand_F1 - V\u00e9rifie et traite la commande audio F1",
@@ -2213,6 +2229,14 @@
       "node_type": "code",
       "description": "CheckAudioCommand_F5 - V\u00e9rifie et traite la commande audio F5",
       "source": "$27CE",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$27E2",
+      "node_type": "code",
+      "description": "CheckAudioCommand_F6 - V\u00e9rifie et traite la commande audio F6 (player position check)",
+      "source": "$27DB",
       "bank": 0,
       "priority": 3
     },
@@ -3039,30 +3063,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$27E2",
-      "node_type": "code",
-      "description": "CheckAudioCommand_F6 - V\u00e9rifie et traite la commande audio F6 (player position check)",
-      "source": "$27DB",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2759",
-      "node_type": "code",
-      "description": "CheckAudioCommand_F1 - Traitement de la commande audio F1 (redirig\u00e9 al\u00e9atoirement)",
-      "source": "$27DB",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2435",
-      "node_type": "code",
-      "description": "AudioQueueProcessing - Continue le traitement de la file d'attente audio",
-      "source": "$27DB",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3108,6 +3108,7 @@
     "$1AF2",
     "$236D",
     "$02A5",
+    "$2435",
     "$0BCD",
     "$11B6",
     "$14D3",
@@ -3344,6 +3345,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 1,
-  "total_explored": 277
+  "commits_since_push": 2,
+  "total_explored": 278
 }
