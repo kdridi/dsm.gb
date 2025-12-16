@@ -2121,6 +2121,14 @@
       "priority": 3
     },
     {
+      "address": "$2502",
+      "node_type": "code",
+      "description": "InitAudioChannels - Initialise les canaux audio avec la config charg\u00e9e",
+      "source": "$24CD",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2544",
       "node_type": "code",
       "description": "PlaySound - Joue un effet sonore",
@@ -2991,14 +2999,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2502",
-      "node_type": "code",
-      "description": "InitAudioChannels - Initialise les canaux audio avec la config charg\u00e9e",
-      "source": "$24CD",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3262,6 +3262,7 @@
     "$2222",
     "$2439",
     "$1236",
+    "$2502",
     "$0C22",
     "$2239",
     "$221c",
@@ -3275,6 +3276,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 1,
-  "total_explored": 272
+  "commits_since_push": 2,
+  "total_explored": 273
 }

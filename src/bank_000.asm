@@ -8868,27 +8868,41 @@ InitAudioFromSound:
     ld a, [hl]
     ldh [hSoundCh4], a
 
+; InitAudioChannels
+; -----------------
+; Description: Initialise les canaux audio et variables, charge la config depuis ROM_AUDIO_CONFIG,
+;              puis itère sur les objets pour sauvegarder les données audio
+; In:  hSoundId = ID du son à charger
+; Out: Canaux audio configurés, SaveSoundDataToSlot appelé avec le count d'objets
+; Modifie: af, bc, de, hl, hSoundCh1, hSoundCh2, hSoundVar1-5, wStateRender (conditionnel)
 InitAudioChannels:
+    ; Réinitialise les canaux audio
     xor a
     ldh [hSoundCh1], a
     ldh [hSoundCh2], a
     ldh [hSoundVar1], a
     ldh [hSoundVar2], a
     ldh [hSoundVar4], a
+
+    ; Calcule l'offset dans ROM_AUDIO_CONFIG: de = hSoundId * 3
     ldh a, [hSoundId]
     ld d, $00
     ld e, a
-    rlca
-    add e
-    rl d
+    rlca              ; a = hSoundId * 2
+    add e             ; a = hSoundId * 3
+    rl d              ; Propage carry dans d
     ld e, a
+
+    ; Charge les paramètres audio depuis ROM_AUDIO_CONFIG[id*3 + 1..2]
     ld hl, ROM_AUDIO_CONFIG
     add hl, de
-    inc hl
+    inc hl            ; Pointe vers +1
     ld a, [hl+]
     ldh [hSoundVar3], a
     ld a, [hl]
     ldh [hSoundVar5], a
+
+    ; Si Var5 >= AUDIO_PARAM1_LIMIT, active le render state buffer
     cp AUDIO_PARAM1_LIMIT
     jr c, ConfigAudioChannel
 
@@ -8896,15 +8910,18 @@ InitAudioChannels:
     ld [wStateRender], a
 
 ConfigAudioChannel:
+    ; Prépare l'itération sur les objets
     ld de, OBJECT_STRUCT_SIZE
-    ld b, $00
+    ld b, $00         ; Compteur d'objets
     ld hl, wObjectBuffer
 
 IterateObjects_Loop:
+    ; Vérifie si l'objet est actif (valeur != $FF)
     ld a, [hl]
     inc a
     jr z, IterateObjects_End
 
+    ; Incrémente compteur et passe à l'objet suivant
     inc b
     add hl, de
     ld a, l
@@ -8915,6 +8932,7 @@ IterateObjects_Loop:
 
 
 IterateObjects_End:
+    ; Sauvegarde le nombre d'objets traités
     ld a, b
     call SaveSoundDataToSlot
     ret
