@@ -10667,6 +10667,13 @@ CheckObjectTileTop:
     ret
 
 
+; OffsetSpritesX
+; ----------------
+; Description: Applique un offset horizontal (soustraction) à tous les sprites/objets
+;              et au paramètre son 2. Utilisé pour le scrolling horizontal.
+; In:  b = valeur d'offset à soustraire des positions X
+; Out: Aucun
+; Modifie: a, hl, de (sauvegardés/restaurés), objets modifiés en WRAM
 OffsetSpritesX:
     ld a, b
     and a
