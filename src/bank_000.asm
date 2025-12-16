@@ -13861,6 +13861,14 @@ UpdateLevelScore:
     ret
 
 
+; DisplayLevelBCDScore
+; --------------------
+; Description: Affiche le score BCD du niveau (3 chiffres) dans le tilemap VRAM
+;              Extrait les centaines, dizaines et unités des valeurs BCD et les écrit
+;              aux positions $9831-$9833 du tilemap
+; In:  wLevelBCD1 ($DA01) = dizaines/unités en BCD, wLevelBCD2 ($DA02) = centaines
+; Out: Aucun
+; Modifie: a, b, de
 DisplayLevelBCDScore:
     ld de, VRAM_LEVEL_BCD
     ld a, [wLevelBCD1]
