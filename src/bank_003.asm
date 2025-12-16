@@ -2358,6 +2358,14 @@ StateValidExit:
     bit 7, b
     jp nz, ResetMenuStateToIdle
 
+; ValidateAndProcessGameState
+; ----------------------------
+; Description: Valide l'état du jeu en fonction du bit 1 de b.
+;              Si bit 1 de b est activé, passe au contrôle de verrouillage.
+;              Sinon, retourne immédiatement.
+; In:  b = flags d'état (bit 1 = contrôle requis)
+; Out: Aucun (peut transférer à ValidateAndProcessGameState_CheckLock)
+; Modifie: Aucun (sauf si continue vers CheckLock)
 ValidateAndProcessGameState:
     bit 1, b
     jr nz, ValidateAndProcessGameState_CheckLock
