@@ -8051,6 +8051,13 @@ ProcessScrollEntry:
 
     ld a, TILEMAP_DEFAULT_COUNT
 
+; TilemapDataNibbleNonZero
+; ------------------------
+; Description: Point d'entrée quand le nibble bas spécifie un nombre de tiles non-zéro
+;              Charge ce nombre dans b pour la boucle de copie
+; In:  a = nombre de tiles à copier (nibble bas)
+; Out: b = nombre de tiles
+; Modifie: b
 TilemapDataNibbleNonZero:
     ld b, a
 
