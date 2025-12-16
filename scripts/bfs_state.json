@@ -3063,6 +3063,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$275a",
+      "node_type": "code",
+      "description": "CheckAudioQueueBit5 - Traite le bit 5 de la queue audio",
+      "source": "$2759",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3182,6 +3190,7 @@
     "$21C0",
     "$1ECB",
     "$1438",
+    "$2759",
     "$1626",
     "$10FE",
     "$16D1",
@@ -3345,6 +3354,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 278
+  "commits_since_push": 3,
+  "total_explored": 279
 }

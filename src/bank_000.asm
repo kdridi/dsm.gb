@@ -9384,6 +9384,12 @@ CheckAudioQueueBit6:
     or b
     ldh [hSoundCh2], a
 
+; CheckAudioQueueBits54
+; ----------------
+; Description: Traite les bits 2-3 de la queue audio pour modifier le canal 2 en XOR
+; In:  wAudioQueueId = ID de la commande audio
+; Out: hSoundCh2 modifié par XOR avec les bits 2-3 décalés
+; Modifie: a, b
 CheckAudioQueueBits54:
     ld a, [wAudioQueueId]
     and BITS_2_3_MASK           ; Masque bits 2-3 (canal audio)
