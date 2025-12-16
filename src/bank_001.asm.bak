@@ -2827,31 +2827,159 @@ ResetGameStateInit:
     ldh [hTimer1], a             ; Timer1 = TIMER_CHECKPOINT_LONG
     ret
 
-; ==============================================================================
-; Level5MapData - Map data for level 5 ($5179-$5221)
-; ==============================================================================
-; Description: Compressed map data (RLE format) for level 5
-; Format:
-;   - Standard bytes: high nibble = tile count-1, low nibble = tile base
-;   - Command $84: Special tile marker
-;   - Command $93: Repeat/pattern marker
-;   - Command $00: Separator/special marker
-;   - End marker: $FF
-; Referenced by: LevelJumpTable entry for level 5 (line 22)
-; Size: 169 bytes (0xA9)
-; ==============================================================================
-Level5MapData:
-    db $0E, $13, $10, $10, $13, $10, $11, $0D, $84, $12, $04, $84, $17, $0B, $84, $1A
-    db $93, $10, $1B, $05, $84, $1C, $93, $10, $21, $09, $0B, $25, $06, $0B, $2A, $0F
-    db $84, $2D, $0C, $84, $2E, $13, $00, $2F, $05, $84, $34, $13, $10, $37, $13, $10
-    db $3A, $13, $10, $3D, $13, $10, $40, $13, $10, $41, $08, $04, $43, $13, $10, $47
-    db $93, $10, $49, $93, $10, $4C, $13, $A4, $4E, $13, $10, $51, $07, $00, $52, $07
-    db $00, $57, $04, $00, $58, $04, $00, $59, $04, $00, $5C, $93, $10, $5E, $93, $10
-    db $60, $93, $10, $62, $93, $10, $66, $93, $10, $68, $93, $10, $6A, $93, $24, $6C
-    db $93, $90, $6F, $4E, $02, $71, $0F, $84, $78, $07, $00, $79, $07, $00, $7D, $0B
-    db $84, $7D, $87, $84, $7F, $04, $00, $80, $04, $80, $84, $13, $90, $87, $13, $24
-    db $88, $08, $84, $8B, $93, $24, $8E, $0F, $84, $90, $08, $0A, $98, $08, $0A, $99
-    db $10, $84, $9C, $05, $36, $9C, $85, $36, $FF
+
+    ld c, $13
+    db $10
+    db $10
+    inc de
+    db $10
+    ld de, $840d
+    ld [de], a
+    inc b
+    add h
+    rla
+    dec bc
+    add h
+    ld a, [de]
+    sub e
+    db $10
+    dec de
+    dec b
+    add h
+    inc e
+    sub e
+    db $10
+    ld hl, $0b09
+    dec h
+    ld b, $0b
+    ld a, [hl+]
+    rrca
+    add h
+    dec l
+    inc c
+    add h
+    ld l, $13
+    nop
+    cpl
+    dec b
+    add h
+    inc [hl]
+    inc de
+    db $10
+    scf
+    inc de
+    db $10
+    ld a, [hl-]
+    inc de
+    db $10
+    dec a
+    inc de
+    db $10
+    ld b, b
+    inc de
+    db $10
+    ld b, c
+    ld [$4304], sp
+    inc de
+    db $10
+    ld b, a
+    sub e
+    db $10
+    ld c, c
+    sub e
+    db $10
+    ld c, h
+    inc de
+    and h
+    ld c, [hl]
+    inc de
+    db $10
+    ld d, c
+    rlca
+    nop
+    ld d, d
+    rlca
+    nop
+    ld d, a
+    inc b
+    nop
+    ld e, b
+    inc b
+    nop
+    ld e, c
+    inc b
+    nop
+    ld e, h
+    sub e
+    db $10
+    ld e, [hl]
+    sub e
+    db $10
+    ld h, b
+    sub e
+    db $10
+    ld h, d
+    sub e
+    db $10
+    ld h, [hl]
+    sub e
+    db $10
+    ld l, b
+    sub e
+    db $10
+    ld l, d
+    sub e
+    inc h
+    ld l, h
+    sub e
+    sub b
+    ld l, a
+    ld c, [hl]
+    ld [bc], a
+    ld [hl], c
+    rrca
+    add h
+    ld a, b
+    rlca
+    nop
+    ld a, c
+    rlca
+    nop
+    ld a, l
+    dec bc
+    add h
+    ld a, l
+    add a
+    add h
+    ld a, a
+    inc b
+    nop
+    add b
+    inc b
+    add b
+    add h
+    inc de
+    sub b
+    add a
+    inc de
+    inc h
+    adc b
+    ld [$8b84], sp
+    sub e
+    inc h
+    adc [hl]
+    rrca
+    add h
+    sub b
+    ld [$980a], sp
+    ld [$990a], sp
+    db $10
+    add h
+    sbc h
+    dec b
+    ld [hl], $9c
+    add l
+    ld [hl], $ff
     inc c
     inc c
     ld d, $12
@@ -2961,6 +3089,32 @@ DataZone_5278:
     ld [hl], $89
     adc l
     ld [hl], $ff
+
+; ==============================================================================
+; Level5MapData - Map data for level 5 ($5179-$5221)
+; ==============================================================================
+; Description: Compressed map data (RLE format) for level 5
+; Format:
+;   - Standard bytes: high nibble = tile count-1, low nibble = tile base
+;   - Command $84: Special tile marker
+;   - Command $93: Repeat/pattern marker
+;   - Command $00: Separator/special marker
+;   - End marker: $FF
+; Referenced by: LevelJumpTable entry for level 5 (line 22)
+; Size: 169 bytes (0xA9)
+; ==============================================================================
+Level5MapData:
+    db $0E, $13, $10, $10, $13, $10, $11, $0D, $84, $12, $04, $84, $17, $0B, $84, $1A
+    db $93, $10, $1B, $05, $84, $1C, $93, $10, $21, $09, $0B, $25, $06, $0B, $2A, $0F
+    db $84, $2D, $0C, $84, $2E, $13, $00, $2F, $05, $84, $34, $13, $10, $37, $13, $10
+    db $3A, $13, $10, $3D, $13, $10, $40, $13, $10, $41, $08, $04, $43, $13, $10, $47
+    db $93, $10, $49, $93, $10, $4C, $13, $A4, $4E, $13, $10, $51, $07, $00, $52, $07
+    db $00, $57, $04, $00, $58, $04, $00, $59, $04, $00, $5C, $93, $10, $5E, $93, $10
+    db $60, $93, $10, $62, $93, $10, $66, $93, $10, $68, $93, $10, $6A, $93, $24, $6C
+    db $93, $90, $6F, $4E, $02, $71, $0F, $84, $78, $07, $00, $79, $07, $00, $7D, $0B
+    db $84, $7D, $87, $84, $7F, $04, $00, $80, $04, $80, $84, $13, $90, $87, $13, $24
+    db $88, $08, $84, $8B, $93, $24, $8E, $0F, $84, $90, $08, $0A, $98, $08, $0A, $99
+    db $10, $84, $9C, $05, $36, $9C, $85, $36, $FF
 
 DataZone_529b:
     rrca
