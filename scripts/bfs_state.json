@@ -4705,11 +4705,27 @@
       "priority": 3
     },
     {
+      "address": "$584b",
+      "node_type": "code",
+      "description": "DecrementGameTimer - D\u00e9cr\u00e9mente timer BCD",
+      "source": "$5844",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$586F",
       "node_type": "data",
       "description": "Tile graphique (8 bytes)",
       "source": "$55BB",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5892",
+      "node_type": "code",
+      "description": "UpdateSpriteAnimationFrame - Met \u00e0 jour frame animation sprite",
+      "source": "$5844",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -4734,6 +4750,14 @@
       "description": "Tile graphique (8 bytes)",
       "source": "$55BB",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$59a5",
+      "node_type": "code",
+      "description": "ProcessSpriteAnimation - Traite animation sprite (appel\u00e9 par UpdateSpriteAnimationFrame)",
+      "source": "$5844",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -5409,26 +5433,26 @@
       "priority": 3
     },
     {
-      "address": "$584b",
+      "address": "$586b",
       "node_type": "code",
-      "description": "DecrementGameTimer - D\u00e9cr\u00e9mente timer BCD",
-      "source": "$5844",
+      "description": "CounterStateDispatcher - Dispatch selon valeur timer BCD",
+      "source": "$584b",
       "bank": 2,
       "priority": 3
     },
     {
-      "address": "$5892",
+      "address": "$587b",
       "node_type": "code",
-      "description": "UpdateSpriteAnimationFrame - Met \u00e0 jour frame animation sprite",
-      "source": "$5844",
+      "description": "SetTimerForSpecialCase - Configure timer quand BCD=$50",
+      "source": "$584b",
       "bank": 2,
       "priority": 3
     },
     {
-      "address": "$59a5",
+      "address": "$5886",
       "node_type": "code",
-      "description": "ProcessSpriteAnimation - Traite animation sprite (appel\u00e9 par UpdateSpriteAnimationFrame)",
-      "source": "$5844",
+      "description": "SetTimerForAlternateCase - Configure timer quand c=1",
+      "source": "$584b",
       "bank": 2,
       "priority": 3
     }
@@ -5792,6 +5816,7 @@
     "$4D7D",
     "$2d8e",
     "$236D",
+    "$584b",
     "$1FC9",
     "$1298",
     "$1612",
@@ -6023,6 +6048,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 2,
-  "total_explored": 588
+  "commits_since_push": 3,
+  "total_explored": 589
 }

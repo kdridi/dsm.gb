@@ -5961,7 +5961,8 @@ UpdateGameTimersAndAnimation:
 
 ; DecrementGameTimer
 ; ----------------
-; Description: Décrémente le timer de jeu (format BCD à $da00-$da02)
+; Description: Décrémente le timer BCD de niveau (wLevelData/wLevelBCD1/wLevelBCD2)
+;              Structure: wLevelData = compteur frames, wLevelBCD1:wLevelBCD2 = timer BCD
 ; In:  Aucun
 ; Out: Aucun, carry non modifié
 ; Modifie: a, hl, c
@@ -5970,7 +5971,7 @@ DecrementGameTimer:
     cp SPECIAL_STATE_TRIGGER
     ret z
 
-    ld hl, $da00
+    ld hl, wLevelData
     ld a, [hl]
     dec a
     ld [hl], a
@@ -5978,17 +5979,17 @@ DecrementGameTimer:
 
     ld a, ATTRACT_MODE_TIMEOUT  ; Recharge $28 (40 frames)
     ld [hl], a
-    inc hl
-    ld a, [hl+]
-    ld c, [hl]
-    dec hl
-    sub $01
+    inc hl                      ; hl = wLevelBCD1
+    ld a, [hl+]                 ; a = wLevelBCD1, hl = wLevelBCD2
+    ld c, [hl]                  ; c = wLevelBCD2
+    dec hl                      ; hl = wLevelBCD1
+    sub $01                     ; Décrémente BCD
     daa
-    ld [hl+], a
+    ld [hl+], a                 ; Sauvegarde wLevelBCD1, hl = wLevelBCD2
     cp $99
     jr nz, CounterStateDispatcher
 
-    dec c
+    dec c                       ; Décrémente octet haut si nécessaire
     ld a, c
     ld [hl], a
     ret
@@ -5997,11 +5998,11 @@ DecrementGameTimer:
 ; CounterStateDispatcher
 ; ----------------
 ; Description: Dispatch selon valeur timer BCD pour gérer transitions d'état
-; In:  a = valeur timer BCD, c = compteur haut
+; In:  a = valeur timer BCD (wLevelBCD1), c = compteur haut (wLevelBCD2)
 ; Out: Aucun
 ; Modifie: a, hl
 CounterStateDispatcher:
-    ld hl, $da1d
+    ld hl, wSpecialState
     cp TIMER_GAMEPLAY_DELAY  ; Compare à $50
     jr z, SetTimerForSpecialCase
 
