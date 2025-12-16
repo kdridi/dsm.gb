@@ -2545,21 +2545,32 @@ ResetMenuStateToIdle:
     jp ValidateAndProcessGameState
 
 
+; HandleJoypadInputDelay
+; ----------------------
+; Description: Gère le délai d'input joypad en mode gameplay.
+;              Si un bouton pressé (hJoypadDelta & FRAME_MASK_4), passe au buffer OAM.
+;              Sinon, si bouton A appuyé et compteur wGameVarAE actif, décrémente le compteur.
+;              Si compteur atteint 0, passe au buffer OAM.
+; In:  hJoypadDelta = boutons nouvellement pressés (frame counter & 3)
+;      hJoypadState = état actuel des boutons
+;      wGameVarAE = compteur de délai (12 frames typiquement)
+; Out: Aucun (peut sauter vers InitializeSpriteTransferBuffer)
+; Modifie: a, hl
 HandleJoypadInputDelay:
     ldh a, [hJoypadDelta]
     and FRAME_MASK_4
     jr nz, InitializeSpriteTransferBuffer
 
     ldh a, [hJoypadState]
-    bit 0, a
+    bit 0, a                            ; Bouton A pressé ?
     ret z
 
     ld hl, wGameVarAE
     ld a, [hl]
-    and a
+    and a                               ; Compteur délai actif ?
     jp z, InitializeSpriteTransferBuffer
 
-    dec [hl]
+    dec [hl]                            ; Décrémenter compteur délai
     ret
 
 
