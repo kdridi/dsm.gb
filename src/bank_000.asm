@@ -11025,10 +11025,11 @@ AudioCmdSeq_07:
 
 ; AudioCmdSeq_08 ($2D26)
 ; ----------------
-; Séquence de commandes audio n°8 (entrée 8 de AudioChannelCommandTable1)
-; Description: Commande audio $9A simple
-; In: via pointeur de AudioChannelCommandTable1[8]
-; Format: [commande, $FF]
+; Description: Séquence de commandes audio #8 pour table principale (canal 1)
+; Format: Commande simple $9A terminée par $FF
+; In:  Utilisée via AudioChannelCommandTable1[8]
+; Bytes: $9A = Commande audio $9A
+;        $FF = Terminateur de séquence
 AudioCmdSeq_08:
     db $9A, $FF
 
