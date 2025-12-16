@@ -2455,6 +2455,13 @@ HandleJoypadAndCollision:
     ret
 
 
+; CheckCollisionWithPositiveOffset
+; --------------------------------
+; Description: Gère le mouvement vers la droite avec vérification de collision.
+;              Incrémente wPlayerState si pas de blocage (< PLAYER_STATE_MAX).
+; In:  wPlayerState = Position état joueur actuelle
+; Out: wPlayerState modifié (+1 si mouvement autorisé)
+; Modifie: a, bc, hl (via appels)
 CheckCollisionWithPositiveOffset:
     ld c, COLLISION_OFFSET_8         ; Offset +8 pour collision droite
     call CheckSpriteCollisionWithOffset
