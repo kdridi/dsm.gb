@@ -11106,13 +11106,13 @@ AudioCmdSeq_12Alt:
 ; AudioCmdSeq_13Alt
 ; ----------------
 ; Description: Séquence de commandes audio #13 pour table alternative
-; Format: Commande $40 $F7 terminée par $FF
+; Format: Commande $40 AUDIO_CMD_F7 terminée par $FF
 ; In:  Utilisée via AudioChannelCommandTable1Alt[13]
 ; Bytes: $40 = Paramètre commande
-;        $F7 = Commande audio $F7
+;        AUDIO_CMD_F7 = Commande audio F7 (destroy all objects)
 ;        $FF = Terminateur de séquence
 AudioCmdSeq_13Alt:
-    db $40, $F7, $FF
+    db $40, AUDIO_CMD_F7, $FF
 
 ; AudioCmdSeq_14Alt
 ; ----------------
