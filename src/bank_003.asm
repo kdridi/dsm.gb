@@ -3189,9 +3189,11 @@ AnimFrame_4CFD:
 AnimFrame_4D01:
     dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
     dw $4DF4           ; → SpriteData_4DF4 (données sprite OAM - zone mal désassemblée, sera reconstruite)
+; AnimFrame_4D05 - Structure d'animation #33
+; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4D05:
-    dw $F8F9
-    dw $4DFB
+    dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
+    dw $4DFB           ; → SpriteData_4DFB (données sprite OAM - zone mal désassemblée, sera reconstruite)
 AnimFrame_4D09:
     dw $F8F9
     dw $4E02
