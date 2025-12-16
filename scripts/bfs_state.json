@@ -2039,6 +2039,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$09D7",
+      "node_type": "code",
+      "description": "StartGameplayPhase - D\u00e9marre phase de jeu",
+      "source": "$17F8",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2083,6 +2091,7 @@
     "$0A20",
     "$07b7",
     "$13E7",
+    "$17F8",
     "$00CD",
     "$1612",
     "$16D1",
@@ -2195,6 +2204,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 152
+  "commits_since_push": 2,
+  "total_explored": 153
 }

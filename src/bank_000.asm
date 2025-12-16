@@ -5603,22 +5603,36 @@ CheckPlayerHeadCollision:
     cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     jr nc, CheckBlockProperties_OnCollide
 
+; HandleBlockType_Collision
+; -------------------------
+; Description: Gère la collision du joueur avec un bloc solide
+;              Repousse le joueur de 3 pixels vers la droite et active l'état de chute
+; In:  Aucun (appelé depuis CheckBlockProperties_OnCollide)
+; Out: Aucun
+; Modifie: a, hl
 HandleBlockType_Collision:
+    ; Si le joueur est déjà en train de tomber, ignorer la collision
     ld hl, wPlayerUnk07
     ld a, [hl]
     cp PLAYER_UNK07_FALLING
     ret z
 
+    ; Repousser le joueur de 3 pixels vers la droite
     ld hl, wPlayerX
     inc [hl]
     inc [hl]
     inc [hl]
+
+    ; Réinitialiser un compteur/état lié au mouvement
     ld hl, wPlayerUnk0A
     ld [hl], $00
+
+    ; Si wPlayerUnk0E est déjà actif, ne pas modifier l'état de chute
     ld a, [wPlayerUnk0E]
     and a
     ret nz
 
+    ; Activer l'état de chute
     ld a, PLAYER_UNK07_FALLING
     ld [wPlayerUnk0E], a
     ret
