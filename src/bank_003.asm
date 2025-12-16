@@ -3331,9 +3331,15 @@ SpriteData_4D6F:
 ; Format: Suite de tile indices suivie de terminateur $FF
 SpriteData_4D71:
     db $63, $64, $65, $66, $FF ; @ $4D71: Tiles seulement (sans header $44 $4E)
-; SpriteData_4D76 - Séquence sprite (référencé par AnimFrame_4CB9)
+; SpriteData_4D76
+; ----------------
+; Description: Séquence de tiles sprite avec header $44 $4E
+; Format: $44 $4E suivi de tile indices ($63-$67), terminé par $FF
+; Référencé par: AnimFrame_4CB9
 SpriteData_4D76:
-    db $44, $4E, $63, $64, $65, $67, $FF ; @ $4D76: Séquence sprite
+    db $44, $4E             ; Header sprite
+    db $63, $64, $65, $67   ; Tiles indices
+    db $FF                  ; Terminateur
 ; AnimFrame_4D7D - Séquence sprite (référencé par AnimFrame_4CBD)
 AnimFrame_4D7D:
     db $44, $4E, $20, $21, $30, $31 ; @ $4D7D: Séquence sprite (aussi AnimFrame_4D7D)
