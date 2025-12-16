@@ -9662,6 +9662,15 @@ AudioCommand_FB_CarryJump:
     jp AudioQueueProcessing
 
 
+; CheckAudioCommand_FC
+; --------------------
+; Description: Vérifie si la commande audio est $FC. Si oui, charge wAudioQueueId
+;              dans hSoundParam1, initialise hSoundParam2 à sa valeur par défaut,
+;              puis continue le traitement audio.
+; In:  a = commande audio à vérifier
+;      wAudioQueueId = ID de la queue audio
+; Out: Si a == $FC, saute vers AudioQueueProcessing. Sinon, continue vers CheckAudioCommand_FD
+; Modifie: a, hl (via pop)
 CheckAudioCommand_FC:
     cp AUDIO_CMD_FC
     jr nz, CheckAudioCommand_FD

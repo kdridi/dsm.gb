@@ -2329,6 +2329,14 @@
       "priority": 3
     },
     {
+      "address": "$2856",
+      "node_type": "code",
+      "description": "ProcessAudioChannelData - Routine qui lit et traite les s\u00e9quences de commandes audio",
+      "source": "$2d00",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$286E",
       "node_type": "code",
       "description": "AudioCommand_CompleteExit - Termine le traitement d'une commande audio (pop hl + ret)",
@@ -2917,6 +2925,14 @@
       "node_type": "data",
       "description": "AudioCmdSeq_00 - D\u00e9but des s\u00e9quences de commandes audio (table 1)",
       "source": "$2cee",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2fd9",
+      "node_type": "table",
+      "description": "AudioChannelCommandTable1 - Table de pointeurs vers s\u00e9quences audio canal 1 (r\u00e9f\u00e9rence cette s\u00e9quence en entr\u00e9e 0)",
+      "source": "$2d00",
       "bank": 0,
       "priority": 3
     },
@@ -3601,18 +3617,10 @@
       "priority": 3
     },
     {
-      "address": "$2fd9",
-      "node_type": "table",
-      "description": "AudioChannelCommandTable1 - Table de pointeurs vers s\u00e9quences audio canal 1 (r\u00e9f\u00e9rence cette s\u00e9quence en entr\u00e9e 0)",
-      "source": "$2d00",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2856",
+      "address": "$285e",
       "node_type": "code",
-      "description": "ProcessAudioChannelData - Routine qui lit et traite les s\u00e9quences de commandes audio",
-      "source": "$2d00",
+      "description": "CheckAudioCommand_FD - V\u00e9rifie la commande audio $FD (fall-through)",
+      "source": "$2856",
       "bank": 0,
       "priority": 3
     }
@@ -3956,6 +3964,7 @@
     "$29d7",
     "$1B7D",
     "$2D57",
+    "$2856",
     "$1A8A",
     "$0D30",
     "$0A07",
@@ -3984,6 +3993,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 4,
-  "total_explored": 365
+  "commits_since_push": 0,
+  "total_explored": 366
 }
