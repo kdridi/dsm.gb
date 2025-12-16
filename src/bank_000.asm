@@ -10922,8 +10922,13 @@ AudioCmdSeq_00:
 AudioCmdSeq_01:
     db $10, $90, $FF
 
-; AudioCmdSeq_02 ($2D05)
-; Séquence de 2 octets : $91 (commande), $FF (terminateur)
+; AudioCmdSeq_02
+; ----------------
+; Description: Séquence de commandes audio n°2 - commande $91 simple
+; In:  via pointeur de AudioChannelCommandTable1[2]
+; Format: [commande, terminateur] = [$91, $FF]
+; Out: Séquence audio basique avec commande $91 uniquement
+; Note: Utilisée par l'entrée 2 de la table principale de séquences audio
 AudioCmdSeq_02:
     db $91, $FF
 
