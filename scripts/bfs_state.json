@@ -3599,6 +3599,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2fd9",
+      "node_type": "table",
+      "description": "AudioChannelCommandTable1 - Table de pointeurs vers s\u00e9quences audio canal 1 (r\u00e9f\u00e9rence cette s\u00e9quence en entr\u00e9e 0)",
+      "source": "$2d00",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2856",
+      "node_type": "code",
+      "description": "ProcessAudioChannelData - Routine qui lit et traite les s\u00e9quences de commandes audio",
+      "source": "$2d00",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3709,6 +3725,7 @@
     "$2CEE",
     "$0BCD",
     "$2239",
+    "$2d00",
     "$21df",
     "$2D34",
     "$0DEA",
@@ -3967,6 +3984,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 3,
-  "total_explored": 364
+  "commits_since_push": 4,
+  "total_explored": 365
 }

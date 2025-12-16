@@ -10883,7 +10883,12 @@ SaveSoundDataLoop:
 ; Séquences de commandes audio référencées par AudioChannelCommandTable1
 ; Format: suite d'octets de commandes, terminées par $FF
 ; ===========================================================================
-
+; AudioCmdSeq_00
+; ----------------
+; Description: Séquence de commandes audio n°0 pour canal 1 (table principale)
+; In: via pointeur de AudioChannelCommandTable1[0]
+; Format: [commande, terminateur] = [$90, $FF]
+; Out: Séquence audio basique avec commande $90 uniquement
 AudioCmdSeq_00:
     db $90, $FF
 
