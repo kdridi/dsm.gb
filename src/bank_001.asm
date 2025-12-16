@@ -9,11 +9,11 @@ SECTION "ROM Bank $001", ROMX[$4000], BANK[$1]
 ;   - +4: Pointeur entities
 LevelJumpTable:
     ; Niveau 0
-    dw SharedTilesetData_024, $55E2, $5605
+    dw SharedTilesetData_024, SharedMapData_012, $5605
     ; Niveau 1
-    dw SharedTilesetData_024, $55E2, $5605
+    dw SharedTilesetData_024, SharedMapData_012, $5605
     ; Niveau 2
-    dw SharedTilesetData_024, $55E2, $5605
+    dw SharedTilesetData_024, SharedMapData_012, $5605
     ; Niveau 3
     dw $5630, $5665, $5694
     ; Niveau 4
@@ -3382,39 +3382,21 @@ SharedTilesetData_024:
     dw $58FE, $58FE, $596E, $574A, $57EB, $57EB, $586F, $574A
     dw $58FE, $59EE, $5A5F
     db $FF  ; Terminateur
-    call $bb56
-    ld e, d
-    ld c, b
-    ld h, b
-    and e
-    ld e, e
-    ld [hl+], a
-    ld e, h
-    and [hl]
-    ld e, h
-    ld [hl-], a
-    ld e, l
-    adc d
-    ld e, l
-    ld [hl-], a
-    ld e, [hl]
-    ld [hl-], a
-    ld e, [hl]
-    ld [hl-], a
-    ld e, [hl]
-    ld b, h
-    ld e, a
-    ld b, h
-    ld e, a
-    ld [hl-], a
-    ld e, l
-    xor l
-    ld e, a
-    and [hl]
-    ld e, h
-    ld e, a
-    ld e, d
-    rst $38
+
+; ==============================================================================
+; SharedMapData_012 - Map data partagée niveaux 0, 1, 2 ($55E2-$5604)
+; ==============================================================================
+; Description: Données de map (layout de tiles) partagées par les niveaux 0, 1 et 2
+; Format: Séquence de words (16-bit tile IDs ou pointeurs), terminée par $FF
+;         - Chaque word représente un tile dans le layout de la map
+; Taille: 35 octets ($23) - 17 words + terminateur
+; Référencé par: LevelJumpTable niveaux 0, 1, 2 (lignes 12, 14, 16)
+; ==============================================================================
+SharedMapData_012:
+    dw $56CD, $5ABB, $6048, $5BA3, $5C22, $5CA6, $5D32, $5D8A
+    dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, $5CA6
+    dw $5A5F
+    db $FF  ; Terminateur
     call $2756
     ld h, e
     daa
