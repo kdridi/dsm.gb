@@ -3475,12 +3475,17 @@ Level3EntitiesData:  ; $5694
 ;   $574A-$5A5F: Continuation données compressées/tiles
 ;
 ; Pointeurs d'états dans cette zone (bank_000.asm StateJumpTable):
-;   $5832: État $14 - State14_CompressedData (pointeur dans stream)
-;   $5835: État $15 - State15_CompressedData
-;   $5838: État $17 - State17_CompressedData
-;   $583B: État $18 - State18_CompressedData
-;   $583E: État $19 - State19_CompressedData
-;   $5841: État $1A - State1A_CompressedData
+;   Ces adresses sont utilisées comme pointeurs dans StateJumpTable mais pointent
+;   vers des DONNÉES (stream de compression) et NON vers du code exécutable.
+;   Les "états" $14, $15, $17-$1A sont en réalité des curseurs/pointeurs dans
+;   un flux de données compressées utilisé pour décoder des tiles/maps.
+;
+;   $5832: État $14 - State14_CompressedDataPtr (offset +359 depuis $56CB)
+;   $5835: État $15 - State15_CompressedDataPtr (offset +362 depuis $56CB) ← ANALYSÉ
+;   $5838: État $17 - State17_CompressedDataPtr (offset +365 depuis $56CB)
+;   $583B: État $18 - State18_CompressedDataPtr (offset +368 depuis $56CB)
+;   $583E: État $19 - State19_CompressedDataPtr (offset +371 depuis $56CB)
+;   $5841: État $1A - State1A_CompressedDataPtr (offset +374 depuis $56CB)
 ;
 ; Référencé par:
 ;   - SharedTilesetData_024 (ligne 3381) - niveaux 0, 1, 2
