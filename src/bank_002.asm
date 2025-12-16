@@ -6563,6 +6563,14 @@ SpriteAnimationStatePurge:
     add hl, bc
     ld [hl], a
 
+; ExitSpriteHandler / SpriteAnimationLoopExit
+; --------------------------------------------
+; Description: Sort du handler d'animation sprite et passe au slot suivant
+;              dans la boucle de traitement. Si tous les slots ont été traités,
+;              retourne au caller. Sinon, continue le dispatch.
+; In:  stack = pointeur hl sauvegardé vers le slot sprite actuel
+; Out: -
+; Modifie: hl, de, a
 ExitSpriteHandler:
 SpriteAnimationLoopExit:
     pop hl
