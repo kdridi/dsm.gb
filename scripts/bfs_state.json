@@ -2217,6 +2217,14 @@
       "priority": 3
     },
     {
+      "address": "$2cee",
+      "node_type": "code",
+      "description": "SaveSoundDataToSlot - Sauvegarde donn\u00e9es audio dans un slot",
+      "source": "$24e6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$3D11",
       "node_type": "code",
       "description": "InitLevelData - Initialise donn\u00e9es du niveau",
@@ -2857,10 +2865,10 @@
       "priority": 3
     },
     {
-      "address": "$2cee",
+      "address": "$2cb2",
       "node_type": "code",
-      "description": "SaveSoundDataToSlot - Sauvegarde donn\u00e9es audio dans un slot",
-      "source": "$24e6",
+      "description": "InitSoundSlot - Initialise un slot audio avec les param\u00e8tres pr\u00e9par\u00e9s",
+      "source": "$2544",
       "bank": 0,
       "priority": 3
     }
@@ -2968,6 +2976,7 @@
     "$1892",
     "$104C",
     "$1D0B",
+    "$2544",
     "$09d7",
     "$136D",
     "$1CA8",
@@ -3131,6 +3140,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 264
+  "commits_since_push": 4,
+  "total_explored": 265
 }

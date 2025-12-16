@@ -8914,6 +8914,14 @@ IterateObjects_End:
     ret
 
 
+; PlaySound
+; ---------
+; Description: Joue un effet sonore en initialisant un slot audio avec les paramètres fournis
+; In:  a = ID du son à jouer
+;      hSoundParam1 = paramètre 1 (aligné sur tile +7)
+;      hSoundParam2 = paramètre 2
+; Out: -
+; Modifie: a, hl
 PlaySound:
     ld hl, wAudioBuffer
     ld [hl], a
