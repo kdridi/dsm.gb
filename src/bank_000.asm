@@ -8188,10 +8188,27 @@ UpdateTilemapScrollConfig:
     ldh [hScrollPhase], a
     ret
 
-
+; TilemapDataCopyLoop
+; -------------------
+; Description: Point d'entrée quand TILEMAP_CMD_SKIP est détecté. Copie le même tile
+;              plusieurs fois pour remplir la zone (optimisation RLE).
+; In:  hl = pointeur vers tile à répéter
+;      de = pointeur vers wScrollBuffer (destination)
+;      b = nombre de répétitions
+; Out: hl = pointeur avancé (+1), de = avancé (+b)
+; Modifie: a, b, e
 TilemapDataCopyLoop:
     ld a, [hl]
 
+; CopyTileDataLoop
+; ----------------
+; Description: Boucle interne qui copie le tile 'a' dans [de] b fois.
+;              Incrémente e (low byte de de) à chaque itération.
+; In:  a = valeur du tile à copier
+;      de = destination
+;      b = compteur
+; Out: e = e + b
+; Modifie: b, e
 CopyTileDataLoop:
     ld [de], a
     inc e
