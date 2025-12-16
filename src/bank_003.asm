@@ -1887,33 +1887,50 @@ AudioData_003_47c0:
     nop
     nop
     nop
-    ld a, $20
+
+; JoypadReadHandler
+; ------------------
+; Description: Lit l'état du joypad et détecte les touches nouvellement pressées
+; In:  (rien)
+; Out: hJoypadState = état actuel des touches, hJoypadDelta = touches nouvellement pressées
+; Modifie: a, b, c
+JoypadReadHandler:
+    ; Lecture des boutons directionnels (D-pad)
+    ld a, $20                   ; Sélectionner D-pad
     ldh [rP1], a
+    ldh a, [rP1]                ; Lecture stabilisation
     ldh a, [rP1]
-    ldh a, [rP1]
-    cpl
-    and $0f
-    swap a
-    ld b, a
-    ld a, $10
+    cpl                         ; Inverser (bouton pressé = 1)
+    and $0f                     ; Garder seulement les 4 bits bas
+    swap a                      ; Déplacer vers bits hauts
+    ld b, a                     ; Sauvegarder D-pad dans b
+
+    ; Lecture des boutons action (A, B, Select, Start)
+    ld a, $10                   ; Sélectionner boutons action
     ldh [rP1], a
+    ldh a, [rP1]                ; Lectures multiples pour stabilisation
     ldh a, [rP1]
     ldh a, [rP1]
     ldh a, [rP1]
     ldh a, [rP1]
     ldh a, [rP1]
-    ldh a, [rP1]
-    cpl
-    and $0f
-    or b
-    ld c, a
-    ldh a, [hJoypadState]
-    xor c
-    and c
+    cpl                         ; Inverser
+    and $0f                     ; Garder les 4 bits bas
+    or b                        ; Combiner avec D-pad
+    ld c, a                     ; c = nouvel état complet
+
+    ; Calculer les touches nouvellement pressées (delta)
+    ldh a, [hJoypadState]       ; Ancien état
+    xor c                       ; XOR pour trouver changements
+    and c                       ; AND avec nouvel état = nouvelles pressions
     ldh [hJoypadDelta], a
+
+    ; Sauvegarder le nouvel état
     ld a, c
     ldh [hJoypadState], a
-    ld a, $30
+
+    ; Réinitialiser le joypad
+    ld a, $30                   ; Désélectionner tout
     ldh [rP1], a
     ret
 

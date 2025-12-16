@@ -3214,7 +3214,7 @@ GameplayInitStart:
 GraphicsTableA:
     dw $4032               ; Monde 1 - pointeur tiles
     dw $4032               ; Monde 2 - pointeur tiles (identique monde 1)
-    dw $47F2               ; Monde 3 - pointeur tiles
+    dw JoypadReadHandler   ; Monde 3 - ATTENTION: pointe vers code joypad, pas tiles!
 
 ; GraphicsTableB - Pointeurs vers les palettes de chaque monde ($0DEA)
 GraphicsTableB:
