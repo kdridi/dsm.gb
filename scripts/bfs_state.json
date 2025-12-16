@@ -2207,6 +2207,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1C5E",
+      "node_type": "code",
+      "description": "ClearUpdateCounter - R\u00e9initialise wUpdateCounter",
+      "source": "$1C4D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1C63",
+      "node_type": "code",
+      "description": "DisplayLivesGameOver - D\u00e9clenche Game Over si vies=0",
+      "source": "$1C4D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1C6C",
+      "node_type": "code",
+      "description": "DisplayLivesDecrement - D\u00e9cr\u00e9mente les vies en BCD",
+      "source": "$1C4D",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2343,6 +2367,7 @@
     "$1298",
     "$118B",
     "$18be",
+    "$1C4D",
     "$4000:1",
     "$05BE",
     "$0E8D",
@@ -2388,6 +2413,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 177
+  "commits_since_push": 2,
+  "total_explored": 178
 }

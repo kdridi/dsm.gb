@@ -6667,6 +6667,12 @@ DisplayLivesDAA:
     daa
     ld [wLivesCounter], a
 
+; DisplayLivesCount
+; ----------------
+; Description: Affiche le nombre de vies au format BCD dans le HUD
+; In:  wLivesCounter = compteur de vies en BCD (ex: $25 = 25 vies)
+; Out: VRAM mis à jour avec chiffres des dizaines et unités
+; Modifie: a, b
 DisplayLivesCount:
     ld a, [wLivesCounter]
     ld b, a
@@ -6677,6 +6683,12 @@ DisplayLivesCount:
     swap a
     ld [VRAM_SCORE_POS1], a
 
+; ClearUpdateCounter
+; ------------------
+; Description: Réinitialise le compteur de mise à jour à zéro
+; In:  Aucun
+; Out: wUpdateCounter = 0
+; Modifie: a
 ClearUpdateCounter:
     xor a
     ld [wUpdateCounter], a
