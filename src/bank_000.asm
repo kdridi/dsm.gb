@@ -7249,6 +7249,13 @@ CheckOscillationCounter:
     inc l
     ld [hl], PLAYER_ACCEL_TIMER_RIGHT  ; Timer mouvement droite ($20)
 
+; ApplyOscillationNegOffset
+; -------------------------
+; Description: Applique un offset d'oscillation négatif au PlayerState
+;              en récupérant l'offset d'oscillation et en le soustrayant
+; In:  hl = empilé (pointeur vers wPlayerState)
+; Out: [hl] = PlayerState - offset d'oscillation
+; Modifie: a, hl
 ApplyOscillationNegOffset:
     pop hl
     call GetOscillatingOffset
