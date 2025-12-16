@@ -3034,144 +3034,219 @@ AnimFramePointerTable:
     dw $4D1D
     dw $4D21
     dw $4D25
+
+; AnimFrame Structures
+; --------------------
+; Description: Structures de frames d'animation (format: 2 words par structure)
+
+AnimFrame_4C8D:
     dw $F8F9
     dw $4D2C
+AnimFrame_4C91:
     dw $F8F9
     dw $4D33
+AnimFrame_4C95:
     dw $F8F9
     dw $4D3A
+AnimFrame_4C99:
     dw $F8F9
     dw $4D41
+AnimFrame_4C9D:
     dw $F8F9
     dw $4D48
+AnimFrame_4CA1:
     dw $F8F9
     dw $4D4F
+AnimFrame_4CA5:
     dw $FBF9
     dw $4D56
+AnimFrame_4CA9:
     dw $FBF9
     dw $4D5D
+AnimFrame_4CAD:
     dw $FCFC
     dw $4D61
+AnimFrame_4CB1:
     dw $F8F9
     dw $4D68
+AnimFrame_4CB5:
     dw $F8F9
     dw $4D6F
+AnimFrame_4CB9:
     dw $F8F9
     dw $4D76
+AnimFrame_4CBD:
     dw $F8F9
     dw $4D7D
+AnimFrame_4CC1:
     dw $F8F9
     dw $4D84
+AnimFrame_4CC5:
     dw $F8F9
     dw $4D8B
+AnimFrame_4CC9:
     dw $F8F9
     dw $4D92
+AnimFrame_4CCD:
     dw $F8F9
     dw $4D99
+AnimFrame_4CD1:
     dw $F8F9
     dw $4DA0
+AnimFrame_4CD5:
     dw $F8F9
     dw $4DA7
+AnimFrame_4CD9:
     dw $FBF9
     dw $4DAE
+AnimFrame_4CDD:
     dw $FBF9
     dw $4DB5
+AnimFrame_4CE1:
     dw $F8F9
     dw $4DBC
+AnimFrame_4CE5:
     dw $F8F9
     dw $4DC3
+AnimFrame_4CE9:
     dw $F8F9
     dw $4DCA
+AnimFrame_4CED:
     dw $F8F9
     dw $4DD1
+AnimFrame_4CF1:
     dw $F8F9
     dw $4DD8
+AnimFrame_4CF5:
     dw $F8F9
     dw $4DDF
+AnimFrame_4CF9:
     dw $F8F9
     dw $4DE6
+AnimFrame_4CFD:
     dw $F8F9
     dw $4DED
+AnimFrame_4D01:
     dw $F8F9
     dw $4DF4
+AnimFrame_4D05:
     dw $F8F9
     dw $4DFB
+AnimFrame_4D09:
     dw $F8F9
     dw $4E02
+AnimFrame_4D0D:
     dw $F8F9
     dw $4E09
+AnimFrame_4D11:
     dw $F8F9
     dw $4E14
+AnimFrame_4D15:
     dw $F7F9
     dw $4E1F
+AnimFrame_4D19:
     dw $F8F9
     dw $4E2A
+AnimFrame_4D1D:
     dw $F8F9
     dw $4E35
+AnimFrame_4D21:
     dw $F8F9
     dw $4E44
+AnimFrame_4D25:
     dw $0100
     dw $1110
+AnimFrame_4D29:
     dw $44FF
     dw $024E
+AnimFrame_4D2D:
     dw $1203
     dw $FF13
+AnimFrame_4D31:
     dw $4E44
     dw $0504
+AnimFrame_4D35:
     dw $1514
     dw $44FF
+AnimFrame_4D39:
     dw $004E
     dw $1601
+AnimFrame_4D3D:
     dw $FF17
     dw $4E44
+AnimFrame_4D41:
     dw $0908
     dw $1918
+AnimFrame_4D45:
     dw $44FF
     dw $0A4E
+AnimFrame_4D49:
     dw $1A0B
     dw $FF1B
+AnimFrame_4D4D:
     dw $4E44
     dw $0100
+AnimFrame_4D51:
     dw $0D0C
     dw $44FF
+AnimFrame_4D55:
     dw $004E
     dw $1C01
+AnimFrame_4D59:
     dw $FF1D
     dw $4E44
+AnimFrame_4D5D:
     dw $FF62
     dw $4E44
+AnimFrame_4D61:
     dw $7170
     dw $7372
+AnimFrame_4D65:
     dw $44FF
     dw $704E
+AnimFrame_4D69:
     dw $7471
     dw $FF73
+AnimFrame_4D6D:
     dw $4E44
     dw $6463
+AnimFrame_4D71:
     dw $6665
     dw $44FF
+AnimFrame_4D75:
     dw $634E
     dw $6564
+AnimFrame_4D79:
     dw $FF67
     dw $4E44
+AnimFrame_4D7D:
     dw $2120
     dw $3130
+AnimFrame_4D81:
     dw $44FF
     dw $224E
+AnimFrame_4D85:
     dw $3223
     dw $FF33
+AnimFrame_4D89:
     dw $4E44
     dw $2524
+AnimFrame_4D8D:
     dw $3534
     dw $44FF
+AnimFrame_4D91:
     dw $224E
     dw $3623
+AnimFrame_4D95:
     dw $FF37
     dw $4E44
+AnimFrame_4D99:
     dw $2928
     dw $3938
+AnimFrame_4D9D:
     dw $44FF
     db $4E
+
 
 PaddingZone_003_4da2:
     ld a, [hl+]

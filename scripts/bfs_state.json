@@ -4831,6 +4831,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$F8F9",
+      "node_type": "data",
+      "description": "Pointeur structure frame (second word)",
+      "source": "$4C91",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5214,6 +5222,7 @@
     "$2870",
     "$0AA6",
     "$48FC",
+    "$4C91",
     "$29b8",
     "$2ff9",
     "$498B",
@@ -5302,6 +5311,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 1,
-  "total_explored": 467
+  "commits_since_push": 2,
+  "total_explored": 468
 }
