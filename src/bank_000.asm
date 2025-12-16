@@ -12234,7 +12234,7 @@ JumpDispatchTable_00:
 ; Format: dw (little-endian)
 ; Référencée par UpdateAllObjectSounds ($263F) et autres routines audio
 AudioPointersTable:
-    dw $355B  ; Son 0
+    dw AudioCommand_Sound00  ; Son 0
     dw $3565  ; Son 1
     dw $356D  ; Son 2
     dw $3594  ; Son 3
@@ -12425,11 +12425,18 @@ AnimState_Dispatcher_01:
     inc a
     db $fc
     inc a
-    ld hl, sp+$00
-    db $f4
-    ld [bc], a
-    ld bc, $f8e2
-    ld bc, hCopyDstHigh
+; AudioCommand_Sound00 ($355B)
+; -------------------------------
+; Description: Séquence de commandes audio pour son 0 (référencé par AudioPointersTable)
+; Format: Commandes audio Game Boy (octets de contrôle + paramètres)
+AudioCommand_Sound00:
+    db $F8, $00  ; Commande audio F8 avec paramètre 00
+    db $F4       ; Commande audio F4
+    db $02       ; Paramètre
+    db $01       ; Commande 01
+    db $E2, $F8  ; Paramètres E2, F8
+    db $01       ; Commande 01
+    db $E3, $FF  ; Paramètres E3, FF (fin séquence)
     ld hl, sp+$02
     nop
     rst $28

@@ -3329,6 +3329,46 @@
       "priority": 3
     },
     {
+      "address": "$355B",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 0",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3565",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 1",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$356D",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 2",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3594",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 3",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$35A1",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 4",
+      "source": "$3495",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$3D11",
       "node_type": "code",
       "description": "InitLevelData - Initialise donn\u00e9es du niveau",
@@ -3967,46 +4007,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$355B",
-      "node_type": "data",
-      "description": "S\u00e9quence de commandes audio pour son 0",
-      "source": "$3495",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$3565",
-      "node_type": "data",
-      "description": "S\u00e9quence de commandes audio pour son 1",
-      "source": "$3495",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$356D",
-      "node_type": "data",
-      "description": "S\u00e9quence de commandes audio pour son 2",
-      "source": "$3495",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$3594",
-      "node_type": "data",
-      "description": "S\u00e9quence de commandes audio pour son 3",
-      "source": "$3495",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$35A1",
-      "node_type": "data",
-      "description": "S\u00e9quence de commandes audio pour son 4",
-      "source": "$3495",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -4299,6 +4299,7 @@
     "$1AF2",
     "$1236",
     "$1EFA",
+    "$355B",
     "$0ad1",
     "$2453",
     "$1C73",
@@ -4427,6 +4428,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 0,
-  "total_explored": 416
+  "commits_since_push": 1,
+  "total_explored": 417
 }
