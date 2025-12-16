@@ -7577,9 +7577,15 @@ DecrementYIfConfigBit0Clear:
     ld [hl], a
     jr CheckBit2AndProcessY
 
-; -----------------------------------------------------------------------------
-; CheckTileForCoin - Vérifie si tile est une pièce ($F4) et gère la collecte
-; -----------------------------------------------------------------------------
+; CheckTileForCoin
+; ----------------
+; Description: Vérifie si la tile sous un sprite est une pièce ($F4) ou une tile spéciale,
+;              et déclenche la collecte de pièce ou gère les collisions avec eau/blocs
+; In:  a = Position X relative du sprite
+;      hSpriteY = Position Y du sprite
+; Out: a = Type de tile détectée
+;      carry set si tile >= $60 (tile spéciale)
+; Modifie: bc, de, hl, hSpriteX, hBlockHitType+1/+2, wStateBuffer (si pièce)
 CheckTileForCoin:
     ld b, a
     ldh a, [hShadowSCX]
