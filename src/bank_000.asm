@@ -12510,166 +12510,42 @@ AudioCommand_Sound04:
     db $E3       ; Commande E3
     db $FF       ; Fin de séquence
 
-; Données audio suivantes ($35AB+)
+; AudioCommand_Sound05
+; -------------------------------
+; Description: Séquence de commandes audio pour son 5 (référencé par AudioPointersTable)
+; Format: Commandes audio Game Boy (octets de contrôle + paramètres)
+; Adresse: $35AB
 AudioCommand_Sound05:
-    db $F8, $08  ; Commande F8 avec paramètre 08
-    db $00       ; Paramètre 00
-    db $EF, $EF  ; Commande EF répétée
-    db $F8, $0E  ; Commande F8 avec paramètre 0E
-    db $E4       ; Commande E4
-    db $F8, $08  ; Commande F8 avec paramètre 08
-    db $E4       ; Commande E4
-    db $F8, $0E  ; Commande F8 avec paramètre 0E
-    db $E4       ; Commande E4
-    db $F8, $08  ; Commande F8 avec paramètre 08
-    db $E4       ; Commande E4
-    db $F8, $0E  ; Commande F8 avec paramètre 0E
-    db $e4
-    ld hl, sp+$08
-    db $e4
-    ld hl, sp+$0e
-    db $e4
-    ld hl, sp+$08
-    db $e4
-    di
-    ld b, [hl]
-    ld hl, sp+$65
-    ldh a, [rNR43]
-    db $f4
-    ld bc, $ef10
-    ldh a, [rNR41]
-    db $10
-    rst $28
-    nop
-    rst $28
-    add sp, -$01
-    ld hl, sp+$68
-    db $f4
-    ld bc, $20f0
-    db $10
-    ldh [c], a
-    di
-    inc de
-    ldh a, [$ff30]
-    db $f4
-    ld bc, $48f8
-    nop
-    rst $28
-    ld hl, sp+$49
-    nop
-    rst $28
-    ld sp, hl
-    inc b
-    pop af
-    dec de
-    add sp, $10
-    rst $28
-    db $e4
-    ld sp, hl
-    inc b
-    pop af
-    dec de
-    ldh a, [rNR43]
-    db $10
-    rst $28
-    db $e4
-    rst $38
-    db $f4
-    inc bc
-    ld hl, sp+$56
-    ld bc, $f8e2
-    ld d, a
-    ldh [c], a
-    ld hl, sp+$56
-    ldh [c], a
-    ld hl, sp+$57
-    ldh [c], a
-    ld hl, sp+$56
-    ldh [c], a
-    ld hl, sp+$57
-    ldh [c], a
-    ld hl, sp+$56
-    ldh [c], a
-    ld hl, sp+$57
-    ldh [c], a
-    ld hl, sp+$56
-    ldh [c], a
-    ld hl, sp+$57
-    ldh [c], a
-    ld hl, sp+$56
-    nop
-    add sp, -$08
-    ld d, a
-    ld sp, hl
-    inc b
-    pop af
-    ld d, c
-    add sp, -$01
-    ld hl, sp+$12
-    db $f4
-    ld bc, $22f0
-    db $10
-    xor $ef
-    rst $28
-    rst $28
-    ldh a, [rNR41]
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $38
-    ld hl, sp+$12
-    db $f4
-    ld bc, $10f0
-    ld bc, $efee
-    rst $28
-    add sp, -$10
-    ld de, $efef
-    rst $28
-    add sp, -$01
-    ld hl, sp+$13
-    ldh a, [rNR43]
-    db $f4
-    rrca
-    nop
-    ld [$00f4], a
-    db $10
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $38
-    ldh a, [$ff64]
-    ld de, $01e5
-    ld de, $1101
-    ld bc, $f001
-    ld [hl+], a
-    ld bc, $1101
-    ld bc, $0111
-    ld de, $20e5
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $28
-    rst $38
-    ld hl, sp+$28
-    ldh a, [$ff60]
-    db $f4
-    ld [bc], a
-
+    db $F8, $08, $00, $EF, $EF, $F8, $0E, $E4
+    db $F8, $08, $E4, $F8, $0E, $E4, $F8, $08
+    db $E4, $F8, $0E, $E4, $F8, $08, $E4, $F8
+    db $0E, $E4, $F8, $08, $E4, $F3, $46, $F8
+    db $65, $F0, $22, $F4, $01, $10, $EF, $F0
+    db $20, $10, $EF, $00, $EF, $E8, $FF, $F8
+    db $68, $F4, $01, $F0, $20, $10, $E2, $F3
+    db $13, $F0, $30, $F4, $01, $F8, $48, $00
+    db $EF, $F8, $49, $00, $EF, $F9, $04, $F1
+    db $1B, $E8, $10, $EF, $E4, $F9, $04, $F1
+    db $1B, $F0, $22, $10, $EF, $E4, $FF, $F4
+    db $03, $F8, $56, $01, $E2, $F8, $57, $E2
+    db $F8, $56, $E2, $F8, $57, $E2, $F8, $56
+    db $E2, $F8, $57, $E2, $F8, $56, $E2, $F8
+    db $57, $E2, $F8, $56, $E2, $F8, $57, $E2
+    db $F8, $56, $00, $E8, $F8, $57, $F9, $04
+    db $F1, $51, $E8, $FF, $F8, $12, $F4, $01
+    db $F0, $22, $10, $EE, $EF, $EF, $EF, $F0
+    db $20, $EF, $EF, $EF, $EF, $FF, $F8, $12
+    db $F4, $01, $F0, $10, $01, $EE, $EF, $EF
+    db $E8, $F0, $11, $EF, $EF, $EF, $E8, $FF
+    db $F8, $13, $F0, $22, $F4, $0F, $00, $EA
+    db $F4, $00, $10, $EF, $EF, $EF, $EF, $EF
+    db $EF, $EF, $EF, $EF, $EF, $EF, $EF, $FF
+    db $F0, $64, $11
+    db $E5, $01, $11, $01, $11, $01, $01, $F0
+    db $22, $01, $01, $11, $01, $11, $01, $11
+    db $E5, $20, $EF, $EF, $EF, $EF, $EF, $EF
+    db $EF, $EF, $EF, $FF, $F8, $28, $F0, $60
+    db $F4, $02
 AudioInitData_StackVariantA:
     nop
     db $e4

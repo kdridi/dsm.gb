@@ -3369,6 +3369,14 @@
       "priority": 3
     },
     {
+      "address": "$35AB",
+      "node_type": "data",
+      "description": "S\u00e9quence de commandes audio pour son 5",
+      "source": "$35A1",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$3D11",
       "node_type": "code",
       "description": "InitLevelData - Initialise donn\u00e9es du niveau",
@@ -4007,14 +4015,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$35AB",
-      "node_type": "data",
-      "description": "S\u00e9quence de commandes audio pour son 5",
-      "source": "$35A1",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -4092,6 +4092,7 @@
     "$1527",
     "$2114",
     "$0EC4",
+    "$35AB",
     "$2D2D",
     "$2D7D",
     "$1C4D",
@@ -4440,6 +4441,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 0,
-  "total_explored": 421
+  "commits_since_push": 1,
+  "total_explored": 422
 }
