@@ -4865,6 +4865,14 @@
       "priority": 3
     },
     {
+      "address": "$DFE0",
+      "node_type": "data",
+      "description": "WRAM - Variable de jeu (timer ou \u00e9tat collision)",
+      "source": "$509B",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$F8F9",
       "node_type": "data",
       "description": "Pointeur structure frame (second word)",
@@ -4889,6 +4897,14 @@
       "priority": 3
     },
     {
+      "address": "$FFAE",
+      "node_type": "data",
+      "description": "HRAM - Position Y du joueur (hPlayerY)",
+      "source": "$509B",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$FFB3",
       "node_type": "data",
       "description": "hGameState - \u00e9tat du jeu (check GAME_STATE_WINDOW=$3A)",
@@ -4905,6 +4921,14 @@
       "priority": 3
     },
     {
+      "address": "$FFEE",
+      "node_type": "data",
+      "description": "HRAM - Buffer de contexte collision (3 bytes: flag + adresse)",
+      "source": "$509B",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$FFF9",
       "node_type": "data",
       "description": "hVBlankMode - Mode VBlank activ\u00e9 (mis \u00e0 1)",
@@ -4917,30 +4941,6 @@
       "node_type": "data",
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFAE",
-      "node_type": "data",
-      "description": "HRAM - Position Y du joueur (hPlayerY)",
-      "source": "$509B",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFEE",
-      "node_type": "data",
-      "description": "HRAM - Buffer de contexte collision (3 bytes: flag + adresse)",
-      "source": "$509B",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$DFE0",
-      "node_type": "data",
-      "description": "WRAM - Variable de jeu (timer ou \u00e9tat collision)",
-      "source": "$509B",
       "bank": 0,
       "priority": 3
     }
@@ -5122,6 +5122,7 @@
     "$2D21",
     "$1A62",
     "$2D57",
+    "$50C0",
     "$02A3",
     "$118B",
     "$2D05",
@@ -5504,6 +5505,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 1,
-  "total_explored": 557
+  "commits_since_push": 2,
+  "total_explored": 558
 }
