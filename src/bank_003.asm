@@ -3324,7 +3324,13 @@ SpriteData_4D68:
 ; Out: Aucun (données pures)
 ; Format: Séquence de bytes: $44 $4E (commande sprite), tiles, $FF (terminateur)
 SpriteData_4D6F:
-    db $44, $4E, $63, $64, $65, $66, $FF ; @ $4D6F: Séquence sprite ← NŒUD ACTUEL
+    db $44, $4E ; @ $4D6F-$4D70: Commande sprite (type $44, param $4E)
+; SpriteData_4D71 - Point d'entrée alternatif (overlapping) dans séquence sprite
+; ----------------
+; Description: Point d'entrée milieu de séquence - partage données avec SpriteData_4D6F
+; Format: Suite de tile indices suivie de terminateur $FF
+SpriteData_4D71:
+    db $63, $64, $65, $66, $FF ; @ $4D71: Tiles seulement (sans header $44 $4E)
 ; SpriteData_4D76 - Séquence sprite (référencé par AnimFrame_4CB9)
 SpriteData_4D76:
     db $44, $4E, $63, $64, $65, $67, $FF ; @ $4D76: Séquence sprite
