@@ -1417,6 +1417,14 @@
       "priority": 3
     },
     {
+      "address": "$1C49",
+      "node_type": "code",
+      "description": "DisplayLivesDAA - Applique DAA pour corriger le r\u00e9sultat BCD",
+      "source": "$1C6C",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1C4D",
       "node_type": "code",
       "description": "DisplayLivesCount - Affiche le nombre de vies",
@@ -2239,14 +2247,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1C49",
-      "node_type": "code",
-      "description": "DisplayLivesDAA - Applique DAA pour corriger le r\u00e9sultat BCD",
-      "source": "$1C6C",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2348,6 +2348,7 @@
     "$172D",
     "$0322",
     "$053D",
+    "$1C49",
     "$0F09",
     "$11B6",
     "$1451",
@@ -2432,6 +2433,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 181
+  "commits_since_push": 1,
+  "total_explored": 182
 }
