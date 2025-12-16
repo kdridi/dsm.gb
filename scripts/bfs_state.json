@@ -3279,6 +3279,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$317d",
+      "node_type": "data",
+      "description": "ROM_OBJECT_SOUND_TABLE - Table des sons objets (5 octets par entr\u00e9e)",
+      "source": "$29f8",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3581,11 +3589,12 @@
     "$1305",
     "$221C",
     "$117A",
+    "$29f8",
     "$1CE7",
     "$208E",
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 303
+  "commits_since_push": 3,
+  "total_explored": 304
 }
