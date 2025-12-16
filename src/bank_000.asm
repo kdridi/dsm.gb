@@ -8422,6 +8422,15 @@ ProcessRenderQueue:
     ret
 
 
+; LoadLevelTilemap
+; ----------------
+; Description: Charge la configuration d'une tuile de niveau basée sur les coordonnées de scroll
+;              Cherche dans une table en bank 3 une entrée correspondant à (hTilemapScrollX, hTilemapScrollY)
+; In:  hRenderContext = index table de pointeurs (multiplié par 2)
+;      hTilemapScrollX = coordonnée X de scroll à rechercher
+;      hTilemapScrollY = coordonnée Y de scroll à rechercher
+; Out: [wLevelConfig - 1] = valeur de configuration trouvée (ou inchangée si non trouvée)
+; Modifie: a, bc, de, hl
 LoadLevelTilemap:
     push hl
     push de
@@ -8479,6 +8488,16 @@ LoadLevelTilemap:
     ret
 
 
+; ApplyLevelConfig
+; ----------------
+; Description: Applique la configuration niveau précédemment chargée à une adresse ajustée
+;              Écrit la valeur config à [h+$30, l] puis efface la config
+; In:  h = adresse de base haute (sera ajustée de +$30)
+;      l = adresse de base basse
+;      [wLevelConfig - 1] = valeur de configuration à appliquer
+; Out: [wLevelConfig - 1] = 0 (effacée)
+;      Mémoire [h+$30, l] = valeur config (si config non nulle)
+; Modifie: a, hl
 ApplyLevelConfig:
     ld a, [wLevelConfig - 1]
     and a
