@@ -2097,6 +2097,22 @@
       "priority": 3
     },
     {
+      "address": "$24c4",
+      "node_type": "code",
+      "description": "StoreAudioState - Point d'entr\u00e9e alternatif qui sauvegarde le pointeur et reboucle vers UpdateAudioState",
+      "source": "$2492",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$24e6",
+      "node_type": "code",
+      "description": "InitSoundConditional - Initialise un son de mani\u00e8re conditionnelle avec les param\u00e8tres calcul\u00e9s",
+      "source": "$2492",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2544",
       "node_type": "code",
       "description": "PlaySound - Joue un effet sonore",
@@ -2839,22 +2855,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$24e6",
-      "node_type": "code",
-      "description": "InitSoundConditional - Initialise un son de mani\u00e8re conditionnelle avec les param\u00e8tres calcul\u00e9s",
-      "source": "$2492",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$24c4",
-      "node_type": "code",
-      "description": "StoreAudioState - Point d'entr\u00e9e alternatif qui sauvegarde le pointeur et reboucle vers UpdateAudioState",
-      "source": "$2492",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2880,6 +2880,7 @@
     "$0E1F",
     "$22F4",
     "$12DD",
+    "$24c4",
     "$247E",
     "$0D82",
     "$0ab6",
@@ -3121,6 +3122,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 1,
-  "total_explored": 262
+  "commits_since_push": 2,
+  "total_explored": 263
 }
