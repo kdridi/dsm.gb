@@ -2814,7 +2814,7 @@ CheckPlayerStateAndReset:
 ; Modifie: a
 ;          [hTimerAux] = $00, [hSubState] = $00
 ;          [hGameState] = $01, [wStateRender] = $02
-;          [hTimer1] = $90
+;          [hTimer1] = TIMER_CHECKPOINT_LONG
 ResetGameStateInit:
     xor a                        ; a = $00
     ldh [hTimerAux], a           ; Reset timer auxiliaire
@@ -2823,8 +2823,8 @@ ResetGameStateInit:
     ldh [hGameState], a          ; Game state = $01 (init)
     inc a                        ; a = $02
     ld [wStateRender], a         ; State render = $02
-    ld a, $90                    ; a = $90 (144 frames)
-    ldh [hTimer1], a             ; Timer1 = $90
+    ld a, TIMER_CHECKPOINT_LONG  ; Timer checkpoint (144 frames)
+    ldh [hTimer1], a             ; Timer1 = TIMER_CHECKPOINT_LONG
     ret
 
 

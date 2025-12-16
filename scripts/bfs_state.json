@@ -4521,6 +4521,14 @@
       "priority": 3
     },
     {
+      "address": "$5168",
+      "node_type": "code",
+      "description": "ResetGameStateInit - R\u00e9initialise le jeu (game state = $01)",
+      "source": "$515E",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$5179",
       "node_type": "data",
       "description": "Map data niveau 5",
@@ -4966,14 +4974,6 @@
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
       "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$5168",
-      "node_type": "code",
-      "description": "ResetGameStateInit - R\u00e9initialise le jeu (game state = $01)",
-      "source": "$515E",
-      "bank": 1,
       "priority": 3
     }
   ],
@@ -5499,6 +5499,7 @@
     "$4E1F",
     "$4D01",
     "$4E35",
+    "$5168",
     "$0adf",
     "$5046",
     "$5089",
@@ -5544,6 +5545,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 4,
-  "total_explored": 565
+  "commits_since_push": 0,
+  "total_explored": 566
 }
