@@ -3375,11 +3375,15 @@ SpriteData_4D92:
     db $44, $4E             ; Header sprite (config position/attributs)
     db $22, $23, $36, $37   ; Tiles indices (grille 2×2)
     db $FF                  ; Terminateur
-; SpriteData_4D99 - Séquence sprite
-; Référencé par: AnimFrame_4CCD @ $4CCD via dw $4D99
+; SpriteData_4D99
+; ----------------
+; Description: Données de sprites pour animation frame #18 (grille 2×2)
+; Format: 2 bytes header ($44 $4E) + 4 tile indices + $FF terminateur
+; Référencé par: AnimFrame_4CCD @ $4CCD (ligne 3120) via dw $4D99
+; Tiles: $28,$29,$38,$39 (configuration 2×2 tiles)
 SpriteData_4D99:
-    db $44, $4E             ; Header sprite
-    db $28, $29, $38, $39   ; Tiles indices
+    db $44, $4E             ; Header sprite (config position/attributs)
+    db $28, $29, $38, $39   ; Tiles indices (grille 2×2)
     db $FF                  ; Terminateur
 ; SpriteData_4DA0 - Début de séquence sprite (overlapping avec PaddingZone_003_4da2)
 ; Note: Suite de la séquence dans PaddingZone_003_4da2
