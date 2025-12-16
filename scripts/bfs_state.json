@@ -4943,12 +4943,29 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$50D8",
+      "node_type": "code",
+      "description": "CollisionCheckOffsetLoop - Boucle de test collision avec offsets variables",
+      "source": "$50CC",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5101",
+      "node_type": "code",
+      "description": "DecrementOffsetAndRetryCollision - Ajuste offset Y et retente collision",
+      "source": "$50CC",
+      "bank": 1,
+      "priority": 3
     }
   ],
   "visited": [
     "$286a",
     "$21F5",
     "$4E44",
+    "$50CC",
     "$401A",
     "$35AB",
     "$1236",
@@ -5505,6 +5522,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 2,
-  "total_explored": 558
+  "commits_since_push": 3,
+  "total_explored": 559
 }

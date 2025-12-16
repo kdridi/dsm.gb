@@ -2628,30 +2628,39 @@ ReturnNoCollisionDetected:
     ret
 
 
+; CheckSpriteCollisionWithOffset
+; --------------------------------
+; Description: Vérifie collision sprite avec tile en testant plusieurs points d'offset.
+;              Teste 5 ou 1 point(s) selon timer, détecte tiles spéciaux (pipe, blocs).
+; In:  c = offset horizontal additionnel pour le test
+; Out: a = tile ID si collision spéciale, sinon indéfini
+;      carry/zero selon résultat de collision
+; Modifie: a, bc, de, hl
+; Calls: ReadTileUnderSprite, TriggerBlockCollisionSound_TimerDispatch
 CheckSpriteCollisionWithOffset:
-    ld de, $0502
+    ld de, $0502                ; d=offset Y (+5), e=compteur (2 tests)
     ldh a, [hTimerAux]
     cp $02
     jr z, CollisionCheckOffsetLoop
 
-    ld de, $0501
+    ld de, $0501                ; Si timer != 2: d=offset Y (+5), e=1 test
 
 CollisionCheckOffsetLoop:
     ld hl, wPlayerX
-    ld a, [hl+]
-    add d
+    ld a, [hl+]                 ; a = wPlayerX (en fait Y sur GB)
+    add d                       ; Ajoute offset Y
     ldh [hSpriteY], a
-    ld b, [hl]
-    ld a, c
+    ld b, [hl]                  ; b = wPlayerX+1 (position X)
+    ld a, c                     ; Ajoute offset X passé en paramètre
     add b
     ld b, a
-    ldh a, [hShadowSCX]
+    ldh a, [hShadowSCX]         ; Ajoute scroll X
     add b
     ldh [hSpriteX], a
     push de
-    call ReadTileUnderSprite
+    call ReadTileUnderSprite    ; Lit tile aux coordonnées (hSpriteY, hSpriteX)
     pop de
-    cp TILEMAP_CMD_THRESHOLD
+    cp TILEMAP_CMD_THRESHOLD    ; Tile >= $60 ?
     jr c, DecrementOffsetAndRetryCollision
 
     cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
@@ -2668,24 +2677,24 @@ CollisionCheckOffsetLoop:
 
 
 DecrementOffsetAndRetryCollision:
-    ld d, $fd
-    dec e
+    ld d, $fd                   ; Offset Y devient -3
+    dec e                       ; Décrémente compteur de tests
     jr nz, CollisionCheckOffsetLoop
 
     ret
 
 
 TriggerSpecialCollisionEvent:
-    push hl
+    push hl                     ; Copie hl -> de
     pop de
-    ld hl, $ffee
-    ld [hl], $c0
-    inc l
+    ld hl, hBlockHitType        ; $FFEE
+    ld [hl], $c0                ; Type collision = $C0
+    inc l                       ; $FFEF (non défini comme constante)
     ld [hl], d
-    inc l
+    inc l                       ; hCurrentTile ($FFF0)
     ld [hl], e
     ld a, $05
-    ld [wStateBuffer], a
+    ld [wStateBuffer], a        ; Change état buffer à 5
     ret
 
 
