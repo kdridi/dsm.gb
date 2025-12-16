@@ -5799,6 +5799,13 @@ PlatformCollisionSetup:
     and a
     jr nz, ApplyAltSpriteAttributeIfConfigSet
 
+; HandleTileValueF0
+; -----------------
+; Description: Gère collision avec tile valeur $F0 (tile vide/traversable spécial).
+;              Cache le sprite OAM et configure les propriétés de sprite standard.
+; In:  hl = adresse tile (conservé pour SetupSpriteProperties)
+; Out: (délégué à SetupSpriteProperties)
+; Modifie: a
 HandleTileValueF0:
     ld a, OAM_SPRITE_HIDDEN
     ld [wOamVar2E], a

@@ -1521,6 +1521,14 @@
       "priority": 3
     },
     {
+      "address": "$2544",
+      "node_type": "code",
+      "description": "PlaySound - Joue un effet sonore",
+      "source": "$187f",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$29F8",
       "node_type": "code",
       "description": "GetAnimationDataPointer - R\u00e9cup\u00e8re pointeur vers donn\u00e9es animation objet",
@@ -1645,6 +1653,14 @@
       "node_type": "data",
       "description": "ROM_HUD_TILEMAP - Donn\u00e9es tilemap du HUD (40 bytes, 2 lignes)",
       "source": "$05F8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3efe",
+      "node_type": "code",
+      "description": "GetSpritePosFromTileAddr - Calcul position sprite depuis adresse tile",
+      "source": "$187f",
       "bank": 0,
       "priority": 3
     },
@@ -2113,18 +2129,10 @@
       "priority": 3
     },
     {
-      "address": "$3efe",
+      "address": "$192e",
       "node_type": "code",
-      "description": "GetSpritePosFromTileAddr - Calcul position sprite depuis adresse tile",
-      "source": "$187f",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2544",
-      "node_type": "code",
-      "description": "PlaySound - Joue un effet sonore",
-      "source": "$187f",
+      "description": "SetupSpriteProperties - Configure propri\u00e9t\u00e9s sprite apr\u00e8s collision tile",
+      "source": "$18b7",
       "bank": 0,
       "priority": 3
     }
@@ -2173,6 +2181,7 @@
     "$07b7",
     "$13E7",
     "$1872",
+    "$18b7",
     "$17F8",
     "$00CD",
     "$1612",
@@ -2290,6 +2299,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 159
+  "commits_since_push": 4,
+  "total_explored": 160
 }
