@@ -3404,6 +3404,10 @@ SpriteData_4DA7:
 ; Tiles: $2E,$2F,$3E,$3F (configuration 2×2 tiles)
 SpriteData_4DAE:
     db $44, $4E, $2E, $2F, $3E, $3F, $FF
+; SpriteData_4DB5 - Données de sprites pour animation frame #24
+; Format: 2 bytes header ($44 $4E) + 4 tile indices + $FF terminateur
+; Référencé par: AnimFrame_4CE1_Overlap @ $4CE1 via dw $4DB5
+; Tiles: $40,$41,$42,$43 (configuration 2×2 tiles)
 SpriteData_4DB5:
     db $44, $4E, $40, $41, $42, $43, $FF
 SpriteData_4DBC:
