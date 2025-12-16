@@ -11063,7 +11063,16 @@ AudioCmdSeq_11:
     db $10, $8C, $11, $8B, $18, $8A, $FF
 
 ; AudioAnimData_03 ($2D3B)
-; Séquence de 6 octets pour animation audio
+; ----------------
+; Description: Séquence de commandes audio pour animation/effets sonores
+; In:  Référencée par ROM_AUDIO_CHANNEL_TABLE_2[10] à $30BA
+; Format: [cmd1, param1, cmd2, param2, cmd3, $FF]
+;         $88 = commande audio 1 avec paramètre $01
+;         $89 = commande audio 2 avec paramètre $0A
+;         $87 = commande audio 3 (sans paramètre)
+;         $FF = terminateur de séquence
+; Out: Exécution des commandes audio $88, $89, $87
+; Modifie: Variables audio selon les commandes exécutées
 AudioAnimData_03:
     db $88, $01, $89, $0A, $87, $FF
 
