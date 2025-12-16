@@ -7301,6 +7301,17 @@ OffsetSpritesY_Loop:
     ret
 
 
+; =============================================================================
+; GetOscillatingOffset
+; =============================================================================
+; Description: Calcule un offset d'oscillation pour créer un mouvement fluide
+;              Utilise wPlayerUnk0E comme index et alterne wPlayerUnk0F
+; In:  wPlayerUnk0E = index dans OscillationTable
+;      wPlayerUnk0F = flag d'alternance (toggle à chaque appel)
+; Out: a = valeur d'offset depuis OscillationTable (0, 1 ou 2)
+; Modifie: a, wPlayerUnk0F
+; Préserve: de, hl (via stack)
+; =============================================================================
 GetOscillatingOffset:
     push de
     push hl
