@@ -2787,23 +2787,44 @@ ProcessCollisionAndLoopContinue:
     call ProcessObjectCollisions
     jr IncrementOamPointerAndLoop
 
+; CheckPlayerStateAndReset
+; -------------------------
+; Description: Vérifie l'état du joueur et réinitialise le jeu si nécessaire.
+;              Appelé en fin de boucle principale (State0D) pour détecter
+;              la mort du joueur (< $01) ou un état critique (>= $F0).
+; In:  [wPlayerState] = état actuel du joueur (0-255)
+; Out: Aucun (ou reset du jeu via ResetGameStateInit)
+; Modifie: a
+CheckPlayerStateAndReset:
     ld a, [wPlayerState]
-    cp $01
-    jr c, ResetGameStateInit
+    cp PLAYER_STATE_ALIVE_MIN
+    jr c, ResetGameStateInit     ; Si < $01 (mort), réinitialiser
 
-    cp $f0
-    ret c
+    cp PLAYER_STATE_CRITICAL
+    ret c                        ; Si < $F0, état normal, continuer
 
+    ; Si >= $F0 (état critique), tomber dans ResetGameStateInit
+
+; ResetGameStateInit
+; -------------------
+; Description: Réinitialise le jeu à l'état initial (game state = $01).
+;              Appelé quand le joueur meurt ou atteint un état critique.
+; In:  Aucun
+; Out: Aucun
+; Modifie: a
+;          [hTimerAux] = $00, [hSubState] = $00
+;          [hGameState] = $01, [wStateRender] = $02
+;          [hTimer1] = $90
 ResetGameStateInit:
-    xor a
-    ldh [hTimerAux], a
-    ldh [hSubState], a
-    inc a
-    ldh [hGameState], a
-    inc a
-    ld [wStateRender], a
-    ld a, $90
-    ldh [hTimer1], a
+    xor a                        ; a = $00
+    ldh [hTimerAux], a           ; Reset timer auxiliaire
+    ldh [hSubState], a           ; Reset sous-état
+    inc a                        ; a = $01
+    ldh [hGameState], a          ; Game state = $01 (init)
+    inc a                        ; a = $02
+    ld [wStateRender], a         ; State render = $02
+    ld a, $90                    ; a = $90 (144 frames)
+    ldh [hTimer1], a             ; Timer1 = $90
     ret
 
 

@@ -1527,6 +1527,9 @@ DEF TILE_COMMON_SPECIAL        EQU $7c   ; Tile spécial commun à tous les mond
 ; Utilisées dans ProcessAnimationState pour gérer l'accélération/décélération
 
 DEF PLAYER_ACCEL_COUNTER_MAX   EQU $06   ; Compteur max accélération mouvement (6 étapes)
+DEF PLAYER_STATE_DEAD          EQU $00   ; État joueur mort (déclenche reset jeu)
+DEF PLAYER_STATE_ALIVE_MIN     EQU $01   ; État joueur vivant minimum (< ce seuil = mort)
+DEF PLAYER_STATE_CRITICAL      EQU $f0   ; Seuil état critique (>= déclenche reset jeu)
 DEF PLAYER_STATE_OSCIL_THRESH  EQU $0f   ; Seuil état joueur pour oscillation ($0F = 15)
 DEF PLAYER_STATE_MIN           EQU $10   ; État joueur minimum (16, bloque mouvement gauche)
 DEF PLAYER_STATE_MAX           EQU $a0   ; État joueur maximum (160, bloque mouvement droite)

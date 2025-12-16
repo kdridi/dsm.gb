@@ -8583,7 +8583,7 @@ State0D_GameplayFull::
 
     ; Finalize
     call SwitchBankAndCallBank3Handler
-    call $515e                   ; Bank 1: final update
+    call CheckPlayerStateAndReset ; Bank 1: vérification état joueur
     call UpdatePlayerInvulnBlink  ; Clignotement invulnérabilité
 
     ; Toggle direction joueur toutes les 4 frames (animation idle)

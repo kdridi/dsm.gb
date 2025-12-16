@@ -4967,6 +4967,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$5168",
+      "node_type": "code",
+      "description": "ResetGameStateInit - R\u00e9initialise le jeu (game state = $01)",
+      "source": "$515E",
+      "bank": 1,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5326,6 +5334,7 @@
     "$07b7",
     "$2D50",
     "$4BC2",
+    "$515E",
     "$1E82",
     "$4DFB",
     "$2227",
@@ -5535,6 +5544,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 3,
-  "total_explored": 564
+  "commits_since_push": 4,
+  "total_explored": 565
 }
