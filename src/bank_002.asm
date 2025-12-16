@@ -6498,6 +6498,16 @@ SpriteAnimationMultiplexHandler:
     ld [de], a
     ld [hl], a
 
+; SpriteAnimationCounterDecrement
+; --------------------------------
+; Description: Décrémente le compteur d'animation et réinitialise les états si compteur atteint 0.
+;              Si le compteur expire, réinitialise le compteur à $20, l'état à $F6, purge 6 octets
+;              de données sprite et identifie quel slot (0-3) doit avoir son état purgé dans wLevelParam.
+; In:  bc = pointeur vers compteur animation
+;      de = pointeur vers état animation
+;      hl = pointeur dans sprite data (après manipulation offset +2)
+; Out: Compteur décrémenté, états purgés si compteur=0
+; Modifie: af, bc, de, hl
 SpriteAnimationCounterDecrement:
     ld a, [bc]
     dec a
