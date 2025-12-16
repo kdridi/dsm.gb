@@ -6434,6 +6434,12 @@ SpriteSlot2_AnimationCheck:
     ld [hl], a
     jr SpriteAnimationMultiplexHandler
 
+; SpriteSlot3_AnimationCheck
+; --------------------------
+; Description: Gère le compteur d'animation pour le sprite slot 3 (wSpriteTemp+$48)
+; In:  hl = pointeur vers compteur frame du slot 3
+; Out: Aucun
+; Modifie: a, saute vers SpriteAnimationMultiplexHandler ou SpriteAnimationLoopExit
 SpriteSlot3_AnimationCheck:
     ld a, [wLevelParam0F]
     cp SPRITE_ANIM_DISABLE
