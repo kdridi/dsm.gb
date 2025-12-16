@@ -9421,6 +9421,12 @@ CheckAudioQueueBit5:
     and b
     ldh [hSoundCh2], a
 
+; CheckAudioQueueBit4
+; ----------------
+; Description: Traite le bit 4 de la queue audio pour modifier le bit 0 du canal 2
+; In:  wAudioQueueId = ID de la commande audio
+; Out: hSoundCh2 bit 0 modifié selon bit 0 de wAudioQueueId si bit 4 est set
+; Modifie: a, b
 CheckAudioQueueBit4:
     ld a, [wAudioQueueId]
     bit 4, a

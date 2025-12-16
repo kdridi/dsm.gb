@@ -2433,6 +2433,14 @@
       "priority": 3
     },
     {
+      "address": "$2bb2",
+      "node_type": "code",
+      "description": "CheckObjectTileBottomLeft - V\u00e9rifie collision avec tile en bas \u00e0 gauche de l'objet",
+      "source": "$266d",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2cb2",
       "node_type": "code",
       "description": "InitSoundSlot - Initialise un slot audio avec les param\u00e8tres pr\u00e9par\u00e9s",
@@ -3103,14 +3111,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2bb2",
-      "node_type": "code",
-      "description": "CheckObjectTileBottomLeft - V\u00e9rifie collision avec tile en bas \u00e0 gauche de l'objet",
-      "source": "$266d",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3138,6 +3138,7 @@
     "$12DD",
     "$24c4",
     "$247E",
+    "$276d",
     "$26AC",
     "$0D82",
     "$0ab6",
@@ -3397,6 +3398,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 1,
-  "total_explored": 282
+  "commits_since_push": 2,
+  "total_explored": 283
 }
