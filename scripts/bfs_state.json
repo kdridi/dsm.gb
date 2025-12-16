@@ -5097,6 +5097,22 @@
       "priority": 3
     },
     {
+      "address": "$5a37",
+      "node_type": "code",
+      "description": "SpriteAnimationCounterDecrement - D\u00e9cr\u00e9mente compteur animation",
+      "source": "$59a5",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5a62",
+      "node_type": "code",
+      "description": "SpriteAnimationStatePurge - Purge \u00e9tat animation sprite",
+      "source": "$59a5",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5a66",
       "node_type": "code",
       "description": "ExitSpriteHandler - Sortie du handler sprite",
@@ -5703,22 +5719,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$5a37",
-      "node_type": "code",
-      "description": "SpriteAnimationCounterDecrement - D\u00e9cr\u00e9mente compteur animation",
-      "source": "$59a5",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5a62",
-      "node_type": "code",
-      "description": "SpriteAnimationStatePurge - Purge \u00e9tat animation sprite",
-      "source": "$59a5",
-      "bank": 2,
-      "priority": 3
     }
   ],
   "visited": [
@@ -5733,6 +5733,7 @@
     "$0FF4",
     "$1bb4",
     "$266d",
+    "$59a8",
     "$1b3c",
     "$4000:3",
     "$078C",
@@ -6331,6 +6332,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 2,
-  "total_explored": 608
+  "commits_since_push": 3,
+  "total_explored": 609
 }
