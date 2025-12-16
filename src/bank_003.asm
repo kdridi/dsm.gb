@@ -2127,22 +2127,33 @@ AnimRender:
     jp AnimProcessFrame
 
 
-; Routine $48fc - Vérifie l'état d'un objet et copie ses données
+; CheckObjectState
+; ----------------
+; Description: Vérifie et met à jour l'état du premier objet (wObject1)
+;              Si l'état suivant est valide (< $0F), il est copié depuis wObject1+1
+;              vers wObject1 et wObject1+1 est réinitialisé à 0.
+; In:  Aucun paramètre direct
+; Out: Aucun
+; Modifie: a, b, hl
+; Notes: wObject1+0 = wPlayerUnk08 (état actuel objet 1)
+;        wObject1+1 = wPlayerUnk09 (état suivant objet 1)
+;        Si état suivant = 0, rien n'est fait
+;        Si état actuel >= $0F, rien n'est fait (état invalide)
 CheckObjectState::
-    ld hl, wPlayerUnk09
-    ld a, [hl]
-    ld b, a
-    and a
-    ret z
+    ld hl, wPlayerUnk09         ; hl = adresse état suivant (wObject1+1)
+    ld a, [hl]                  ; a = état suivant
+    ld b, a                     ; b = sauvegarde état suivant
+    and a                       ; Vérifier si état suivant = 0
+    ret z                       ; Si 0, rien à faire
 
-    dec l
-    ld a, [hl]
-    cp $0f
-    ret nc
+    dec l                       ; hl = wPlayerUnk08 (état actuel = wObject1+0)
+    ld a, [hl]                  ; a = état actuel
+    cp $0f                      ; Comparer avec état max
+    ret nc                      ; Si >= $0F, état invalide, retour
 
-    ld [hl], b
-    inc l
-    ld [hl], $00
+    ld [hl], b                  ; État actuel = état suivant
+    inc l                       ; hl = wPlayerUnk09 (état suivant)
+    ld [hl], $00                ; Réinitialiser état suivant à 0
     ret
 
 

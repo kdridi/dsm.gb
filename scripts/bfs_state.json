@@ -3649,6 +3649,14 @@
       "priority": 3
     },
     {
+      "address": "$4c37",
+      "node_type": "table",
+      "description": "AnimFramePointerTable - Table de pointeurs vers structures d'animation",
+      "source": "$4823",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$503F",
       "node_type": "code",
       "description": "Level 0-3 handler 1 (probablement init)",
@@ -4023,14 +4031,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$4c37",
-      "node_type": "table",
-      "description": "AnimFramePointerTable - Table de pointeurs vers structures d'animation",
-      "source": "$4823",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -4393,6 +4393,7 @@
     "$00C5",
     "$2870",
     "$0AA6",
+    "$48FC",
     "$29b8",
     "$2ff9",
     "$2d00",
@@ -4475,6 +4476,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 4,
-  "total_explored": 440
+  "commits_since_push": 0,
+  "total_explored": 441
 }
