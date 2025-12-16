@@ -7639,6 +7639,12 @@ ReturnAfterCoinCheck:
     ret
 
 
+; ProcessObjectCollisions
+; -----------------------
+; Description: Parcourt le buffer d'objets animés et vérifie les collisions avec le joueur
+; In:  de = pointeur vers coordonnées joueur (X, Y)
+; Out: Peut modifier wStateBuffer, hPtrBank si collision détectée
+; Modifie: af, bc, de, hl, hAnimObjSubState, hTemp0, hTemp1, hTemp2, hParam3, hPtrHigh, hPtrLow
 ProcessObjectCollisions:
     push hl
     push de
