@@ -5456,6 +5456,13 @@ SwitchBankAndCallBank3Handler:
     ret
 
 
+; TileE1CollisionHandler
+; ----------------------
+; Description: Handler de collision pour tile E1 (warp/transition spéciale)
+;              Comportement différent selon le mode (jeu vs démo)
+; In:  -
+; Out: -
+; Modifie: a (via jumps)
 TileE1CollisionHandler:
     ldh a, [hGameState]
     cp GAME_STATE_DEMO      ; État >= $0E (démo) ?

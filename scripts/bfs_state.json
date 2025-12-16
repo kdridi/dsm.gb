@@ -1521,6 +1521,14 @@
       "priority": 3
     },
     {
+      "address": "$3ED1",
+      "node_type": "code",
+      "description": "GetTileAddrFromSprite - Calcule adresse VRAM du tile sous le sprite",
+      "source": "$0153",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$3F24",
       "node_type": "code",
       "description": "UpdateScoreDisplay - Mise \u00e0 jour de l'affichage du score",
@@ -2009,10 +2017,10 @@
       "priority": 3
     },
     {
-      "address": "$3ED1",
+      "address": "$1B3C",
       "node_type": "code",
-      "description": "GetTileAddrFromSprite - Calcule adresse VRAM du tile sous le sprite",
-      "source": "$0153",
+      "description": "TriggerBlockCollisionSound_TimerDispatch - D\u00e9clenche son collision + dispatch timer",
+      "source": "$1752",
       "bank": 0,
       "priority": 3
     }
@@ -2136,6 +2144,7 @@
     "$0FD8",
     "$06C5",
     "$09d7",
+    "$1752",
     "$03E4",
     "$02A5",
     "$0048",
@@ -2168,6 +2177,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 149
+  "commits_since_push": 4,
+  "total_explored": 150
 }
