@@ -10557,25 +10557,32 @@ CheckObjectTileBottomLeft:
     ret
 
 
-; -----------------------------------------------------------------------------
-; CheckObjectTileBottom - Vérifie collision bas centre de l'objet
-; -----------------------------------------------------------------------------
+; CheckObjectTileBottom
+; ---------------------
+; Description: Vérifie collision avec la tuile située au bas-centre de l'objet
+;              (point situé à 3 pixels du bord gauche, 8 pixels vers le bas)
+; In:  hSoundParam2 = position X relative de l'objet
+;      hSoundParam1 = position Y relative de l'objet
+;      hShadowSCX   = scroll X de l'écran
+; Out: carry clear = collision avec tile solide (tile < $5F)
+;      carry set   = pas de collision (tile >= $F0 = traversable)
+; Modifie: a, c
 CheckObjectTileBottom:
-    ldh a, [hSoundParam2]
+    ldh a, [hSoundParam2]       ; Récupère X relatif de l'objet
     ld c, a
-    ldh a, [hShadowSCX]
+    ldh a, [hShadowSCX]         ; Ajoute le scroll X
     add c
-    add COLLISION_OFFSET_3
-    ldh [hSpriteX], a
-    ldh a, [hSoundParam1]
-    add COLLISION_OFFSET_8
-    ldh [hSpriteY], a
-    call ReadTileUnderSprite
+    add COLLISION_OFFSET_3      ; +3 pixels vers le centre
+    ldh [hSpriteX], a           ; Position X du point de test
+    ldh a, [hSoundParam1]       ; Récupère Y relatif de l'objet
+    add COLLISION_OFFSET_8      ; +8 pixels vers le bas
+    ldh [hSpriteY], a           ; Position Y du point de test
+    call ReadTileUnderSprite    ; Lit le tile à (hSpriteX, hSpriteY) → a
     cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
-    ret c
+    ret c                       ; Retourne avec carry clear si solide
 
     cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
-    ccf
+    ccf                         ; Inverse carry (>= $F0 → carry set)
     ret
 
 
