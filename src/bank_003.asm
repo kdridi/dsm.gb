@@ -3151,9 +3151,11 @@ AnimFrame_4CE1_Overlap:
 AnimFrame_4CE1:
     dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
     dw $4DBC           ; → SpriteData_4DBC (données sprite OAM)
+; AnimFrame_4CE5 - Structure d'animation #25
+; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4CE5:
-    dw $F8F9
-    dw $4DC3
+    dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
+    dw $4DC3           ; → SpriteData_4DC3 (données sprite OAM)
 AnimFrame_4CE9:
     dw $F8F9
     dw $4DCA
