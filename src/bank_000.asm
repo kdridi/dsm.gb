@@ -5471,59 +5471,75 @@ TileE1CollisionHandler:
     jp TriggerBlockCollisionSound_TimerDispatch
 
 
+; CheckJoypadUp_GameplayLoop
+; --------------------------
+; Description: Gère entrée du joueur dans un tuyau (pipe) par le haut
+;              Vérifie bouton haut pressé et copie données VRAM vers buffer de rendu
+;              puis change l'état du jeu vers PIPE_ENTER_RIGHT
+; In:  hl = pointeur vers données (position/tile info)
+; Out: (aucun) - Change hGameState, wStateRender, met à jour wPlayerX
+; Modifie: a, bc, de, hl
 CheckJoypadUp_GameplayLoop:
     ldh a, [hJoypadState]
-    bit 7, a
+    bit 7, a                    ; Bit 7 = bouton Haut pressé ?
     jp z, PlayerXPositionReset
 
+    ; Copie données depuis hl vers HRAM pour rendu
     ld bc, hVramPtrLow
     ld a, h
     ldh [hSpriteAttr], a
     ld a, l
     ldh [hSpriteTile], a
     ld a, h
-    add BCD_TO_ASCII
+    add BCD_TO_ASCII            ; Conversion BCD → ASCII
     ld h, a
     ld de, hRenderCounter
     ld a, [hl]
-    and a
+    and a                       ; Valeur = 0 ?
     jp z, PlayerXPositionReset
 
-    ld [de], a
+    ; Copie 4 bytes de données de hl vers de (buffer de rendu)
+    ld [de], a                  ; Byte 1
     inc e
     add hl, bc
     ld a, [hl]
-    ld [de], a
+    ld [de], a                  ; Byte 2
     inc e
     add hl, bc
     ld a, [hl]
-    ld [de], a
+    ld [de], a                  ; Byte 3
     inc e
     add hl, bc
     ld a, [hl]
-    ld [de], a
+    ld [de], a                  ; Byte 4
     inc e
     push de
     call GetSpritePosFromTileAddr
     pop de
+    ; Calcule et sauvegarde position du joueur
     ld hl, wPlayerX
     ld a, [hl+]
-    add PLAYER_X_OFFSET
-    ld [de], a
+    add PLAYER_X_OFFSET         ; Ajuste Y joueur (+16)
+    ld [de], a                  ; Stocke Y dans buffer
     ldh a, [hShadowSCX]
     ld b, a
     ldh a, [hSpriteX]
     sub b
-    add TILE_SIZE_PIXELS
-    ld [hl+], a
+    add TILE_SIZE_PIXELS        ; Ajuste X du tuyau (+8)
+    ld [hl+], a                 ; Mise à jour X joueur (wPlayerX+1)
     inc l
-    ld [hl], $80
+    ld [hl], $80                ; Flag spécial à wPlayerX+3
+
+    ; Change état jeu → entrée tuyau
     ld a, GAME_STATE_PIPE_ENTER_RIGHT
     ldh [hGameState], a
+
+    ; Si joueur invulnérable, skip update rendu
     ld a, [wPlayerInvuln]
     and a
     jr nz, SkipIfInvuln_OnTile
 
+    ; Active mode rendu spécial
     ld a, STATE_RENDER_SPECIAL
     ld [wStateRender], a
 

@@ -1241,6 +1241,14 @@
       "priority": 3
     },
     {
+      "address": "$1B3C",
+      "node_type": "code",
+      "description": "TriggerBlockCollisionSound_TimerDispatch - D\u00e9clenche son collision + dispatch timer",
+      "source": "$1752",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1B7D",
       "node_type": "code",
       "description": "ProcessBlockCollision - Traitement des collisions avec les blocs",
@@ -2017,10 +2025,18 @@
       "priority": 3
     },
     {
-      "address": "$1B3C",
+      "address": "$1854",
       "node_type": "code",
-      "description": "TriggerBlockCollisionSound_TimerDispatch - D\u00e9clenche son collision + dispatch timer",
-      "source": "$1752",
+      "description": "PlayerXPositionReset - Reset/init position X du joueur",
+      "source": "$175C",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$3EFE",
+      "node_type": "code",
+      "description": "GetSpritePosFromTileAddr - Convertit adresse tile \u2192 position sprite",
+      "source": "$175C",
       "bank": 0,
       "priority": 3
     }
@@ -2033,6 +2049,7 @@
     "$17B3",
     "$0D64",
     "$0095",
+    "$175C",
     "$0166",
     "$1520",
     "$0E54",
@@ -2177,6 +2194,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 150
+  "commits_since_push": 0,
+  "total_explored": 151
 }
