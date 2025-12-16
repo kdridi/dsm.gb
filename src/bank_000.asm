@@ -6385,7 +6385,20 @@ HandlePlayerSlideCollision:
     call ClearOamAndSpriteBuffers
     ld a, RETURN_COLLISION_FOUND
     ret
-
+; TriggerBlockCollisionSound_TimerDispatch
+; ----------------------------------------
+; Description: Gère collision bloc avec masquage direction joueur selon timer
+;              Si timer actif (joueur en chute), masque direction avec $FF
+;              Sinon réinitialise timer et masque avec $0F
+;              Configure état d'attente, rendu et audio selon conditions
+; In:  hTimerAux = état timer joueur
+;      wPlayerDir = direction/mode actuel du joueur
+;      wAudioCondition = condition audio active
+; Out: hGameState = GAME_STATE_WAIT_PROCESS
+;      wPlayerY = 0
+;      wSpecialState = 0
+;      rTMA = 0 (registre timer audio)
+; Modifie: a, b
 
 TriggerBlockCollisionSound:
 TriggerBlockCollisionSound_TimerDispatch:
