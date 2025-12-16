@@ -8082,9 +8082,27 @@ TilemapDataCopyStart:
     call UpdateTilemapScrolling
     jr ProcessColumnAnimation_End
 
+; TilemapDataNotScrollUpdate
+; --------------------------
+; Description: Point de passage quand le tile n'est pas TILEMAP_CMD_SCROLL.
+;              Vérifie si c'est une commande LOAD (animation/tilemap level)
+; In:  a = valeur du tile (déjà écrite dans [de])
+;      hl = pointeur vers données source (après le tile lu)
+;      de = pointeur dans wScrollBuffer (sur le tile écrit)
+;      b = nombre de tiles restants
+; Out: Branche vers ProcessColumnAnimation pour traiter les LOAD
+; Modifie: a (via comparaisons)
 TilemapDataNotScrollUpdate:
     cp TILEMAP_CMD_LOAD1
 
+; ProcessColumnAnimation
+; ----------------------
+; Description: Traite les commandes LOAD1/LOAD2/LOAD3 qui chargent les données
+;              tilemap du niveau (pour animation des colonnes de scroll)
+; In:  a = valeur du tile à tester
+;      hl, de, b = hérités de TilemapDataCopyStart
+; Out: Appelle LoadLevelTilemap si match, puis continue vers ProcessColumnAnimation_End
+; Modifie: Dépend de LoadLevelTilemap si appelé
 ProcessColumnAnimation:
     jr nz, .not_load1
 
