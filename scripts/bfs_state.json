@@ -441,6 +441,14 @@
       "priority": 3
     },
     {
+      "address": "$09D7",
+      "node_type": "code",
+      "description": "StartGameplayPhase - D\u00e9marre phase de jeu",
+      "source": "$17F8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$09E8",
       "node_type": "code",
       "description": "InitGameState - Initialise l'\u00e9tat de jeu (appel\u00e9 quand wSpecialState == 3)",
@@ -2039,17 +2047,10 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$09D7",
-      "node_type": "code",
-      "description": "StartGameplayPhase - D\u00e9marre phase de jeu",
-      "source": "$17F8",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
+    "$09D7",
     "$1663",
     "$147C",
     "$0F61",
@@ -2204,6 +2205,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 153
+  "commits_since_push": 3,
+  "total_explored": 154
 }
