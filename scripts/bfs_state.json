@@ -1089,6 +1089,14 @@
       "priority": 3
     },
     {
+      "address": "$1520",
+      "node_type": "code",
+      "description": "InitializeCreditsMode - Initialise mode d\u00e9mo si touche press\u00e9e",
+      "source": "$14D3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1547",
       "node_type": "code",
       "description": "AnimateCreditsFrame - Anime sprites et appelle bank 3",
@@ -1929,10 +1937,10 @@
       "priority": 3
     },
     {
-      "address": "$1520",
+      "address": "$1527",
       "node_type": "code",
-      "description": "InitializeCreditsMode - Initialise mode d\u00e9mo si touche press\u00e9e",
-      "source": "$14D3",
+      "description": "SetupCreditsState - Configure bank et \u00e9tat du jeu pour mode d\u00e9mo",
+      "source": "$1520",
       "bank": 0,
       "priority": 3
     }
@@ -1944,6 +1952,7 @@
     "$0D64",
     "$0095",
     "$0166",
+    "$1520",
     "$0E54",
     "$0C37",
     "$09e8",
@@ -2075,6 +2084,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 136
+  "commits_since_push": 1,
+  "total_explored": 137
 }
