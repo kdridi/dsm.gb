@@ -3959,6 +3959,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$33ac",
+      "node_type": "data",
+      "description": "Zone de donn\u00e9es non \u00e9tiquet\u00e9e apr\u00e8s AudioConfigTable, potentiellement table audio suppl\u00e9mentaire",
+      "source": "$336c",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4104,6 +4112,7 @@
     "$296c",
     "$2d05",
     "$1CDB",
+    "$336c",
     "$0F81",
     "$2D21",
     "$29f4",
@@ -4376,6 +4385,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 2,
-  "total_explored": 413
+  "commits_since_push": 3,
+  "total_explored": 414
 }
