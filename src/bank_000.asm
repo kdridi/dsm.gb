@@ -7764,6 +7764,12 @@ StoreAnimObjectData:
     ld [hl], a
     jr IterateAnimObjects_NextSlot
 
+; HandleBlockCollision
+; --------------------
+; Description: Gère la collision du joueur avec des blocs spéciaux (eau $82, type $80)
+; In:  a = type de tile touché, de = position du bloc, hl = pointeur sprite
+; Out: Initialise sprites de frappe, active hBlockHitType, ajoute score
+; Modifie: af, bc, de, hl
 HandleBlockCollision:
     push hl
     push bc
