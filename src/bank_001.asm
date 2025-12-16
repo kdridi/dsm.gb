@@ -9,15 +9,15 @@ SECTION "ROM Bank $001", ROMX[$4000], BANK[$1]
 ;   - +4: Pointeur entities
 LevelJumpTable:
     ; Niveau 0
-    dw $55BB, $55E2, $5605
+    dw SharedTilesetData_024, $55E2, $5605
     ; Niveau 1
-    dw $55BB, $55E2, $5605
+    dw SharedTilesetData_024, $55E2, $5605
     ; Niveau 2
-    dw $55BB, $55E2, $5605
+    dw SharedTilesetData_024, $55E2, $5605
     ; Niveau 3
     dw $5630, $5665, $5694
     ; Niveau 4
-    dw $55BB, SharedMapData_467, $5405
+    dw SharedTilesetData_024, SharedMapData_467, $5405
     ; Niveau 5
     dw SharedTilesetData_578, Level5MapData, Level5EntitiesData
     ; Niveau 6
@@ -3367,37 +3367,21 @@ SharedTilesetData_578:
     db $89, $0E, $D2, $8E, $0A, $52, $90, $07, $52, $93, $0D, $53, $93, $06, $52, $CF
     db $8A, $54, $D9, $87, $D4, $DB, $0C, $54, $DC, $0D, $86, $E0, $08, $06, $E1, $08
     db $06, $EC, $8A, $61, $FF, $FF
-    call $bb56
-    ld e, d
-    ld c, b
-    ld h, b
-    call UpdateLevelState_4a56
-    ld d, a
-    db $eb
-    ld d, a
-    ld [hl-], a
-    ld e, l
-    ld l, a
-    ld e, b
-    cp $58
-    cp $58
-    ld l, [hl]
-    ld e, c
-    ld c, d
-    ld d, a
-    db $eb
-    ld d, a
-    db $eb
-    ld d, a
-    ld l, a
-    ld e, b
-    ld c, d
-    ld d, a
-    cp $58
-    xor $59
-    ld e, a
-    ld e, d
-    rst $38
+
+; ==============================================================================
+; SharedTilesetData_024 - Tileset data partagée niveaux 0, 1, 2, 4 ($55BB-$55E1)
+; ==============================================================================
+; Description: Table de pointeurs vers tiles graphiques (8 bytes/tile)
+; Format: Séquence de words (16-bit pointers), terminée par $FF
+;         - Chaque word pointe vers une tile de 8 octets en mémoire
+; Taille: 39 octets ($27) - 19 pointeurs + terminateur
+; Référencé par: LevelJumpTable niveaux 0, 1, 2, 4 (lignes 12, 14, 16, 20)
+; ==============================================================================
+SharedTilesetData_024:
+    dw $56CD, $5ABB, $6048, $56CD, $574A, $57EB, $5D32, $586F
+    dw $58FE, $58FE, $596E, $574A, $57EB, $57EB, $586F, $574A
+    dw $58FE, $59EE, $5A5F
+    db $FF  ; Terminateur
     call $bb56
     ld e, d
     ld c, b
