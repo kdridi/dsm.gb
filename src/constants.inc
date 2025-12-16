@@ -1562,5 +1562,6 @@ DEF SCROLL_Y_CALC_OFFSET       EQU $0c   ; Offset calcul Y scroll (12 pixels)
 
 ; === Audio - Bases de calcul position ===
 
+DEF AUDIO_STATE_ENTRY_SIZE     EQU $03   ; Taille entrée table état audio (seuil+position+flags)
 DEF AUDIO_PARAM_BASE_Y         EQU $10   ; Base calcul Y audio (16 pixels)
 DEF AUDIO_PARAM_BASE_X         EQU $d0   ; Base calcul X audio (208 pixels)

@@ -8759,6 +8759,14 @@ UpdateAudio:
     ret
 
 
+; UpdateAudioState
+; ----------------
+; Description: Traite la table d'états audio en comparant wPlayerVarAB avec les seuils
+;              et déclenche des sons positionnés lorsque les seuils sont franchis
+; In:  wAudioState0/1 = pointeur vers table d'états audio (seuil, position, flags)
+;      wPlayerVarAB = valeur actuelle à comparer
+; Out: wAudioState0/1 = pointeur mis à jour (avance de 3 octets par entrée traitée)
+; Modifie: af, bc, de, hl
 UpdateAudioState:
     ld a, [wAudioState0]
     ld l, a
@@ -8791,10 +8799,16 @@ UpdateAudioState:
     ldh [hSoundParam2], a
     call InitSoundConditional
     pop hl
-    ld de, $0003
+    ld de, AUDIO_STATE_ENTRY_SIZE
     add hl, de
     ld a, l
 
+; StoreAudioState
+; ----------------
+; Description: Sauvegarde le pointeur audio et reboucle vers UpdateAudioState
+; In:  a = low byte du pointeur, h = high byte du pointeur
+; Out: wAudioState0/1 = pointeur sauvegardé
+; Modifie: af
 StoreAudioState:
     ld [wAudioState0], a
     ld a, h

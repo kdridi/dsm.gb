@@ -2089,10 +2089,34 @@
       "priority": 3
     },
     {
+      "address": "$2492",
+      "node_type": "code",
+      "description": "UpdateAudioState - Met \u00e0 jour l'\u00e9tat audio en traitant wAudioState",
+      "source": "$2488",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2544",
       "node_type": "code",
       "description": "PlaySound - Joue un effet sonore",
       "source": "$187f",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$255F",
+      "node_type": "code",
+      "description": "ProcessAudioSlots - Traite les slots audio actifs",
+      "source": "$2488",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$263F",
+      "node_type": "code",
+      "description": "UpdateAllObjectSounds - Met \u00e0 jour les sons de tous les objets",
+      "source": "$2488",
       "bank": 0,
       "priority": 3
     },
@@ -2817,26 +2841,18 @@
       "priority": 3
     },
     {
-      "address": "$2492",
+      "address": "$24e6",
       "node_type": "code",
-      "description": "UpdateAudioState - Met \u00e0 jour l'\u00e9tat audio en traitant wAudioState",
-      "source": "$2488",
+      "description": "InitSoundConditional - Initialise un son de mani\u00e8re conditionnelle avec les param\u00e8tres calcul\u00e9s",
+      "source": "$2492",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$263F",
+      "address": "$24c4",
       "node_type": "code",
-      "description": "UpdateAllObjectSounds - Met \u00e0 jour les sons de tous les objets",
-      "source": "$2488",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$255F",
-      "node_type": "code",
-      "description": "ProcessAudioSlots - Traite les slots audio actifs",
-      "source": "$2488",
+      "description": "StoreAudioState - Point d'entr\u00e9e alternatif qui sauvegarde le pointeur et reboucle vers UpdateAudioState",
+      "source": "$2492",
       "bank": 0,
       "priority": 3
     }
@@ -2981,6 +2997,7 @@
     "$1376",
     "$14BB",
     "$0E0C",
+    "$2492",
     "$12B9",
     "$0F61",
     "$0a20",
@@ -3104,6 +3121,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 0,
-  "total_explored": 261
+  "commits_since_push": 1,
+  "total_explored": 262
 }
