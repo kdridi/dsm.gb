@@ -1833,6 +1833,14 @@
       "priority": 3
     },
     {
+      "address": "$217F",
+      "node_type": "code",
+      "description": "ResetScrollPhase - Reset la phase de scroll",
+      "source": "$218F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$218F",
       "node_type": "code",
       "description": "UpdateScroll - G\u00e8re d\u00e9filement \u00e9cran",
@@ -1945,10 +1953,26 @@
       "priority": 3
     },
     {
+      "address": "$22F4",
+      "node_type": "code",
+      "description": "ProcessRenderQueue - Traite queue de rendu",
+      "source": "$218F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2318",
       "node_type": "code",
       "description": "LoadLevelTilemap - Charge la tilemap du niveau",
       "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$235A",
+      "node_type": "code",
+      "description": "ApplyLevelConfig - Applique config niveau",
+      "source": "$218F",
       "bank": 0,
       "priority": 3
     },
@@ -2639,30 +2663,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$217F",
-      "node_type": "code",
-      "description": "ResetScrollPhase - Reset la phase de scroll",
-      "source": "$218F",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$22F4",
-      "node_type": "code",
-      "description": "ProcessRenderQueue - Traite queue de rendu",
-      "source": "$218F",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$235A",
-      "node_type": "code",
-      "description": "ApplyLevelConfig - Applique config niveau",
-      "source": "$218F",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2726,6 +2726,7 @@
     "$1345",
     "$1C4D",
     "$2114",
+    "$217F",
     "$172D",
     "$192e",
     "$00C7",
@@ -2897,6 +2898,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 230
+  "commits_since_push": 0,
+  "total_explored": 231
 }
