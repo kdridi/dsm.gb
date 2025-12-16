@@ -8516,8 +8516,15 @@ ApplyLevelConfig:
     ret
 
 ; ===========================================================================
-; État $0D - Gameplay principal avec objets/ennemis actifs
-; C'est le mode de jeu normal où les ennemis et bonus sont mis à jour.
+; State0D_GameplayFull
+; --------------------
+; Description: État $0D - Gameplay principal avec objets/ennemis actifs.
+;              Gère le scrolling, met à jour les objets des slots 2-5,
+;              traite les collisions, l'audio, et l'animation du joueur.
+; In:  hPauseFlag = flag de pause (0 = actif, !=0 = pause)
+; Out: Aucun retour spécifique
+; Modifie: Tous les registres (a, bc, de, hl)
+;          Switche temporairement vers Bank 3 et Bank 2
 ; ===========================================================================
 State0D_GameplayFull::
     ldh a, [hPauseFlag]

@@ -2743,6 +2743,38 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$4FB2",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update level (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$4FEC",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update objects (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5118",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update sprites (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$515E",
+      "node_type": "code",
+      "description": "Call Bank 1 - Final update (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2782,6 +2814,7 @@
     "$07C3",
     "$0E54",
     "$1AF2",
+    "$236D",
     "$02A5",
     "$0BCD",
     "$11B6",
@@ -3001,6 +3034,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 254
+  "commits_since_push": 4,
+  "total_explored": 255
 }
