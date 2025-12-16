@@ -1951,6 +1951,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1D1D",
+      "node_type": "code",
+      "description": "ProcessAnimationState - Traite l'\u00e9tat d'animation du joueur",
+      "source": "$16D1",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1994,6 +2002,7 @@
     "$13E7",
     "$00CD",
     "$1612",
+    "$16D1",
     "$0C0D",
     "$1090",
     "$0C6A",
@@ -2099,6 +2108,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 144
+  "commits_since_push": 4,
+  "total_explored": 145
 }

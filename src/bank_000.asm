@@ -5326,9 +5326,18 @@ State0B_PipeEnterDown::
     ret
 
 ; ===========================================================================
-; État $0C - Sortie tuyau (déplacement vers la GAUCHE)
-; Déplace le joueur horizontalement vers la position cible
-; puis retourne à l'état $00 (gameplay normal)
+; State0C_PipeExitLeft
+; --------------------
+; Description: État $0C - Sortie tuyau gauche. Déplace le joueur
+;              horizontalement vers la position cible puis retourne
+;              à l'état $00 (gameplay normal).
+; In:  hFrameCounter = compteur de frames
+;      hVBlankSelector = position X cible
+;      wPlayerX = position X actuelle du joueur
+; Out: hGameState = $00 si sortie complète
+;      wPlayerFlag = 0 si sortie complète
+;      hVBlankMode = 0 si sortie complète
+; Modifie: a, hl
 ; ===========================================================================
 State0C_PipeExitLeft::
     ldh a, [hFrameCounter]
@@ -5351,7 +5360,17 @@ State0C_PipeExitLeft::
     ldh [hVBlankMode], a
     ret
 
-
+; UpdatePipeAnimation
+; -------------------
+; Description: Gère l'animation du joueur pendant les transitions de tuyau.
+;              Appelle le handler bank 3, puis ajuste la direction du joueur
+;              en fonction de l'état d'animation.
+; In:  wPlayerUnk0A = flag d'état animation
+;      wPlayerDir = direction actuelle
+;      wPlayerUnk0E = état d'animation
+;      wPlayerUnk0B = compteur de frames
+; Out: Aucun
+; Modifie: a, hl
 UpdatePipeAnimation:
     call SwitchBankAndCallBank3Handler
     ld a, [wPlayerUnk0A]
