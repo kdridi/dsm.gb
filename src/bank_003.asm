@@ -2416,6 +2416,14 @@ JoypadInputProcessAPress_TransitionToGame:
     pop hl
     jr StateValidExit
 
+; ValidateAndProcessGameState_CheckLock
+; --------------------------------------
+; Description: Vérifie le compteur d'accélération du joueur et le flag de verrouillage.
+;              Si le compteur atteint la valeur max (6) ET que les updates ne sont pas
+;              verrouillées, réinitialise le compteur. Sinon, passe directement au buffer OAM.
+; In:  Aucun (lit wPlayerUnk0C et hUpdateLockFlag)
+; Out: Aucun (peut réinitialiser wPlayerUnk0C à 0)
+; Modifie: a, hl
 ValidateAndProcessGameState_CheckLock:
     ld hl, wPlayerUnk0C
     ld a, [hl]
