@@ -8381,32 +8381,42 @@ SearchTilemapExit:
     ret
 
 
+; ProcessRenderQueue
+; ------------------
+; Description: Traite la queue de rendu en écrivant les données de rendu dans la table VRAM
+; In:  hRenderCounter = nombre d'éléments à traiter (0 = rien à faire)
+;      hRenderMode = mode de rendu à appliquer
+;      hDestY = position Y de destination
+;      hDestX = position X de destination
+;      h = base du pointeur de queue
+; Out: Queue de rendu vidée (hRenderCounter = 0, hRenderMode = 0)
+; Modifie: af, hl, de
 ProcessRenderQueue:
     ldh a, [hRenderCounter]
     and a
-    ret z
+    ret z                       ; Si compteur = 0, rien à faire
 
     push hl
     push de
-    ld de, hVramPtrLow
+    ld de, hVramPtrLow         ; Offset pour itération dans la queue
     push af
     ld a, h
-    add BCD_TO_ASCII
+    add BCD_TO_ASCII           ; Ajuste le pointeur de base (+$30)
     ld h, a
     pop af
-    ld [hl], a
+    ld [hl], a                 ; Écrit le compteur
     ldh a, [hRenderMode]
-    add hl, de
-    ld [hl], a
+    add hl, de                 ; hl += offset
+    ld [hl], a                 ; Écrit le mode
     ldh a, [hDestY]
-    add hl, de
-    ld [hl], a
+    add hl, de                 ; hl += offset
+    ld [hl], a                 ; Écrit Y
     ldh a, [hDestX]
-    add hl, de
-    ld [hl], a
+    add hl, de                 ; hl += offset
+    ld [hl], a                 ; Écrit X
     xor a
-    ldh [hRenderCounter], a
-    ldh [hRenderMode], a
+    ldh [hRenderCounter], a    ; Réinitialise le compteur
+    ldh [hRenderMode], a       ; Réinitialise le mode
     pop de
     pop hl
     ret
