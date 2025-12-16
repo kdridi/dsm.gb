@@ -4321,6 +4321,14 @@
       "priority": 3
     },
     {
+      "address": "$4E6D",
+      "node_type": "code",
+      "description": "PaddingZone_003_4e6d - Zone de padding/code inaccessible",
+      "source": "$4E44",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$4E74",
       "node_type": "code",
       "description": "Level 4-7 handler 1",
@@ -4871,14 +4879,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$4E6D",
-      "node_type": "code",
-      "description": "PaddingZone_003_4e6d - Zone de padding/code inaccessible",
-      "source": "$4E44",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -4906,6 +4906,7 @@
     "$0E1F",
     "$0a07",
     "$4D4F",
+    "$4E6D",
     "$0552",
     "$1916",
     "$4c37",
@@ -5430,6 +5431,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 1,
-  "total_explored": 547
+  "commits_since_push": 2,
+  "total_explored": 548
 }
