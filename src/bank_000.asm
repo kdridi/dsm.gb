@@ -10702,6 +10702,17 @@ OffsetSpritesX.apply_offset:
     ret
 
 
+; InitSoundSlot
+; --------------
+; Description: Initialise un slot audio avec la configuration issue de ROM_AUDIO_CONFIG
+;              Lit l'ID du son depuis le slot, calcule l'offset dans la table ROM (ID*3),
+;              puis initialise les champs du slot avec les 3 octets de config lus.
+; In:  hl = pointeur vers un slot audio (wObjectBuffer + offset)
+;      [hl] = ID du son (index dans ROM_AUDIO_CONFIG)
+; Out: Slot audio initialisé avec config depuis ROM_AUDIO_CONFIG
+;      hl+4  = $00, hl+7 = param1, hl+8 = $00, hl+9 = $00
+;      hl+10 = param2, hl+12 = param3
+; Modifie: af, bc, de, hl
 InitSoundSlot:
     push hl
     ld a, [hl]
