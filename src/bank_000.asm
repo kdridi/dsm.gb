@@ -4905,8 +4905,13 @@ TilemapEndData:
     db $4E, $FC, $56, $00  ; Entrée 5
 
 ; ===========================================================================
-; État $38 - Animation crédits finale ($14D3)
-; Attend timer, anime les positions tilemap jusqu'à valeurs finales
+; State38_CreditsAnimation
+; ----------------
+; Description: Animation finale des crédits, décrémente les positions tilemap
+;              jusqu'à atteindre les positions cibles de fin
+; In:  hTimer1 = compteur de frames
+; Out: -
+; Modifie: af, hl (via AnimateCreditsFrame, InitializeCreditsMode)
 ; ===========================================================================
 State38_CreditsAnimation::
     call AnimateCreditsFrame
@@ -4914,18 +4919,26 @@ State38_CreditsAnimation::
     and a
     ret nz
 
+    ; Vérifier si première position tilemap a atteint sa cible
     ld hl, wTilemapBuf71
     ld a, [hl]
     cp CREDITS_POS_BUF71
     jr z, CheckTilemapCompletion
 
 DecrementTilemapPositions:
+    ; Décrémenter 3 fois la position courante
     dec [hl]
     dec [hl]
     dec [hl]
     ret
 
 
+; CheckTilemapCompletion
+; ----------------
+; Description: Vérifie si toutes les positions tilemap ont atteint leurs valeurs finales
+; In:  -
+; Out: -
+; Modifie: af, hl
 CheckTilemapCompletion:
     ld hl, wTilemapBuf75
     ld a, [hl]
@@ -4952,6 +4965,7 @@ CheckTilemapCompletion:
     cp CREDITS_POS_BUF85
     jr nz, DecrementTilemapPositions
 
+    ; Toutes les positions ont atteint leurs cibles -> réinitialiser pour mode démo
     call InitializeCreditsMode
     xor a
     ldh [hRenderContext], a
@@ -4963,6 +4977,12 @@ CheckTilemapCompletion:
     ret
 
 
+; InitializeCreditsMode
+; ----------------
+; Description: Initialise le mode démo si une touche est pressée
+; In:  hJoypadDelta = touches pressées depuis dernière frame
+; Out: -
+; Modifie: af (via ROM_INIT_BANK3 et SetupCreditsState si touche pressée)
 InitializeCreditsMode:
     ldh a, [hJoypadDelta]
     and a
@@ -4970,6 +4990,12 @@ InitializeCreditsMode:
 
     call ROM_INIT_BANK3
 
+; SetupCreditsState
+; ----------------
+; Description: Configure la bank et l'état du jeu pour mode démo
+; In:  -
+; Out: -
+; Modifie: af
 SetupCreditsState:
     ld a, BANK_DEMO
     ldh [hCurrentBank], a
@@ -4987,6 +5013,12 @@ SetupCreditsState:
     ret
 
 
+; AnimateCreditsFrame
+; ----------------
+; Description: Anime une frame des crédits (sprites et étoiles)
+; In:  -
+; Out: -
+; Modifie: af, bc, de, hl (via AnimateAndCallBank3, UpdateCreditsStars)
 AnimateCreditsFrame:
     call AnimateAndCallBank3
     call UpdateCreditsStars

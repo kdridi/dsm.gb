@@ -1927,6 +1927,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1520",
+      "node_type": "code",
+      "description": "InitializeCreditsMode - Initialise mode d\u00e9mo si touche press\u00e9e",
+      "source": "$14D3",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2015,6 +2023,7 @@
     "$136D",
     "$4000:3",
     "$04A2",
+    "$14D3",
     "$11C7",
     "$0808",
     "$0BCD",
@@ -2066,6 +2075,6 @@
     "$0394",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 135
+  "commits_since_push": 0,
+  "total_explored": 136
 }
