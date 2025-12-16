@@ -3462,8 +3462,33 @@ Level3EntitiesData:  ; $5694
     dw $775A, $775A, $77BD, $79E9, $791A, $791A, $79E9, $7AB2
     dw $7B5F, $7C0E, $7D01
     db $FF  ; Terminateur
+
+; ==============================================================================
+; ZONE MAL DÉSASSEMBLÉE: $56CB-$574A (Données compressées)
+; ==============================================================================
+; ATTENTION: Les instructions ci-dessous sont en réalité des DONNÉES compressées
+; mal interprétées comme du code par le désassembleur.
+;
+; Structure réelle:
+;   $56CB-$56CC: Padding (2 bytes: $00 $00)
+;   $56CD-$5749: CompressedTilesetData (125 bytes de données compressées)
+;
+; Référencé par:
+;   - SharedTilesetData_024 (ligne 3381) - niveaux 0, 1, 2
+;   - SharedMapData_012 (ligne 3396) - niveaux 0, 1, 2
+;   - SharedEntitiesData_012 (ligne 3411) - niveaux 0, 1, 2
+;
+; Format compression: Stream de commandes + données
+;   - $5D $FE: Commande de répétition/copie
+;   - $E2 XX: Commande avec argument
+;   - Autres: Données brutes ou arguments
+;
+; TODO: Reconstruire cette zone avec des 'db' statements corrects
+; ==============================================================================
+TilesetData_Padding:  ; $56CB
     nop
     nop
+CompressedTilesetData:  ; $56CD
     pop af
     ld e, l
     cp $f1
