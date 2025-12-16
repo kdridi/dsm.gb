@@ -3365,11 +3365,15 @@ SpriteData_4D8B:
     db $44, $4E             ; Header sprite
     db $24, $25, $34, $35   ; Tiles indices
     db $FF                  ; Terminateur
-; SpriteData_4D92 - Séquence sprite
-; Référencé par: AnimFrame_4CC9 @ $4CC9 via dw $4D92
+; SpriteData_4D92
+; ----------------
+; Description: Données de sprites pour animation frame #17
+; Format: 2 bytes header ($44 $4E) + 4 tile indices + $FF terminateur
+; Référencé par: AnimFrame_4CC9 @ $4CC9 (ligne 3114) via dw $4D92
+; Tiles: $22,$23,$36,$37 (frame d'animation 2×2)
 SpriteData_4D92:
-    db $44, $4E             ; Header sprite
-    db $22, $23, $36, $37   ; Tiles indices
+    db $44, $4E             ; Header sprite (config position/attributs)
+    db $22, $23, $36, $37   ; Tiles indices (grille 2×2)
     db $FF                  ; Terminateur
 ; SpriteData_4D99 - Séquence sprite
 ; Référencé par: AnimFrame_4CCD @ $4CCD via dw $4D99
