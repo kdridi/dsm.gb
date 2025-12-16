@@ -1889,6 +1889,22 @@
       "priority": 3
     },
     {
+      "address": "$21df",
+      "node_type": "code",
+      "description": "ProcessScrollEntry - Traite l'entr\u00e9e suivante dans les donn\u00e9es de scroll",
+      "source": "$2205",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$21f6",
+      "node_type": "code",
+      "description": "TilemapDataCopyStart - Retour au d\u00e9but de la boucle de copie (via ProcessColumnAnimation_End)",
+      "source": "$2205",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2205",
       "node_type": "code",
       "description": "TilemapDataNotScrollUpdate - Traite tiles non-scroll",
@@ -1901,6 +1917,14 @@
       "node_type": "code",
       "description": "ProcessColumnAnimation_End - Fin du traitement d'animation de colonne",
       "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$221c",
+      "node_type": "code",
+      "description": "ProcessColumnAnimation_End - Fin du traitement, incr\u00e9mente de/d\u00e9cr\u00e9mente b et boucle",
+      "source": "$2205",
       "bank": 0,
       "priority": 3
     },
@@ -1965,6 +1989,14 @@
       "node_type": "code",
       "description": "ProcessRenderQueue - Traite queue de rendu",
       "source": "$218F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$22a0",
+      "node_type": "code",
+      "description": "UpdateTilemapScrolling - Met \u00e0 jour le scrolling de la tilemap",
+      "source": "$2205",
       "bank": 0,
       "priority": 3
     },
@@ -2673,34 +2705,18 @@
       "priority": 3
     },
     {
-      "address": "$22a0",
+      "address": "$21f5",
       "node_type": "code",
-      "description": "UpdateTilemapScrolling - Met \u00e0 jour le scrolling de la tilemap",
-      "source": "$2205",
+      "description": "TilemapDataNibbleNonZero - Point d'entr\u00e9e quand nibble bas non-z\u00e9ro",
+      "source": "$21df",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$221c",
+      "address": "$2207",
       "node_type": "code",
-      "description": "ProcessColumnAnimation_End - Fin du traitement, incr\u00e9mente de/d\u00e9cr\u00e9mente b et boucle",
-      "source": "$2205",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$21f6",
-      "node_type": "code",
-      "description": "TilemapDataCopyStart - Retour au d\u00e9but de la boucle de copie (via ProcessColumnAnimation_End)",
-      "source": "$2205",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$21df",
-      "node_type": "code",
-      "description": "ProcessScrollEntry - Traite l'entr\u00e9e suivante dans les donn\u00e9es de scroll",
-      "source": "$2205",
+      "description": "ProcessColumnAnimation - Traite commandes LOAD1/LOAD2/LOAD3",
+      "source": "$21df",
       "bank": 0,
       "priority": 3
     }
@@ -2734,6 +2750,7 @@
     "$0552",
     "$1CDB",
     "$0028",
+    "$21df",
     "$1a4e",
     "$07C3",
     "$0E54",
@@ -2944,6 +2961,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 1,
-  "total_explored": 237
+  "commits_since_push": 2,
+  "total_explored": 238
 }
