@@ -5024,49 +5024,21 @@ AnimateCreditsFrame:
     call UpdateCreditsStars
     ret
 
-
-    add hl, de
-    dec de
-    jr @+$0f
-
-    ld e, $0c
-    ld c, $1b
-    cp $10
-    inc hl
-    ld [hl+], a
-    jr @+$16
-
-    jr @+$14
-
-    cp $0d
-    ld [de], a
-    dec de
-    ld c, $0c
-    dec e
-    jr @+$1d
-
-    cp $1c
-    inc hl
-    jr @+$16
-
-    ld a, [bc]
-    dec c
-    ld a, [bc]
-    cp $19
-    dec de
-    jr InfiniteLockup_CollideScore
-
-    dec de
-    ld a, [bc]
-    ld d, $16
-    ld c, $1b
-    cp $16
-    inc hl
-    ld [hl+], a
-    ld a, [bc]
-    ld d, $0a
-    ld d, $18
-    dec e
+; === TextData_CreditsStaff ($154E-$1583) ===
+; TextData_CreditsStaff
+; ---------------------
+; Description: Données texte des crédits affichées dans State33_DisplayCreditsText
+;              Référencé par ROM_CREDITS_TEXT ($154E) dans constants.inc
+;              Format: caractères tilemap encodés, $FE = TEXT_CMD_NEWLINE
+;              Contient 6 lignes de texte pour l'écran de crédits final
+; Structure: 54 bytes au total ($154E-$1583)
+TextData_CreditsStaff:
+    db $19, $1b, $18, $0d, $1e, $0c, $0e, $1b, $fe  ; Ligne 1: "producer" + newline (9 bytes)
+    db $10, $23, $22, $18, $14, $18, $12, $fe        ; Ligne 2: nom producteur + newline (8 bytes)
+    db $0d, $12, $1b, $0e, $0c, $1d, $18, $1b, $fe  ; Ligne 3: "director" + newline (9 bytes)
+    db $1c, $23, $18, $14, $0a, $0d, $0a, $fe        ; Ligne 4: nom directeur + newline (8 bytes)
+    db $19, $1b, $18, $10, $1b, $0a, $16, $16, $0e, $1b, $fe  ; Ligne 5: "programmer" + newline (11 bytes)
+    db $16, $23, $22, $0a, $16, $0a, $16, $18, $1d  ; Ligne 6: nom programmeur (9 bytes)
 
 InfiniteLockup_CollideScore:
     jr InfiniteLockup_CollideScore

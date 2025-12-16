@@ -1943,6 +1943,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$154E",
+      "node_type": "data",
+      "description": "TextData_CreditsStaff - Table texte cr\u00e9dits (54 bytes)",
+      "source": "$1547",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2083,8 +2091,9 @@
     "$0adf",
     "$02A3",
     "$0394",
+    "$1547",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 138
+  "commits_since_push": 3,
+  "total_explored": 139
 }
