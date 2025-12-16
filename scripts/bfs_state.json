@@ -5663,6 +5663,46 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$59a8",
+      "node_type": "code",
+      "description": "SpriteAnimationDispatch_ByType - Boucle traitement slots",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$59e0",
+      "node_type": "code",
+      "description": "SpriteSlot1_AnimationCheck - Gestion compteur animation slot 1",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$59f3",
+      "node_type": "code",
+      "description": "SpriteSlot2_AnimationCheck - Gestion compteur animation slot 2",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5a05",
+      "node_type": "code",
+      "description": "SpriteSlot3_AnimationCheck - Gestion compteur animation slot 3",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5a15",
+      "node_type": "code",
+      "description": "SpriteAnimationMultiplexHandler - Traitement multiplex animation",
+      "source": "$59a2",
+      "bank": 2,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5896,6 +5936,7 @@
     "$3565",
     "$5838",
     "$1385",
+    "$59a2",
     "$21df",
     "$104C",
     "$247E",
@@ -6273,6 +6314,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 0,
-  "total_explored": 606
+  "commits_since_push": 1,
+  "total_explored": 607
 }
