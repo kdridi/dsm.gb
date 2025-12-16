@@ -1439,8 +1439,7 @@ DEF STATE_FINAL_COMPLETE       EQU $02   ; État final: transition complète
 DEF MOVEMENT_OFFSET_4          EQU $04   ; Offset mouvement (4 pixels)
 
 ; === Tables ROM Audio/Objets ===
-
-DEF ROM_OBJECT_SOUND_TABLE     EQU $317d ; Table sons objets (5 octets/entrée)
+; Note: ROM_OBJECT_SOUND_TABLE est défini comme label dans bank_000.asm ($317d)
 
 ; === Valeurs de retour spéciales ===
 

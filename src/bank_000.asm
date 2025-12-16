@@ -11674,132 +11674,50 @@ AnimFrameDataLookup:
     cpl
     xor [hl]
     ld l, $b0
-    ld l, $97
-    cpl
-    or d
-    ld l, $b6
-    cpl
-    cp a
-    cpl
-    call z, $ba2f
-    ld l, $01
-    ld de, $11ff
-    ld de, $0000
-    nop
-    nop
-    nop
-    nop
-    nop
-    rst $38
-    rst $38
-    rst $38
-    nop
-    nop
-    nop
-    nop
-    nop
-    dec b
-    ld [de], a
-    rst $38
-    ld [de], a
-    ld [de], a
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    rst $38
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    rst $38
-    ld c, a
-    ld c, a
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    rst $38
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+    dw $972e    ; Données mal désassemblées (était: ld l, $97 / cpl)
+    dw $b22f    ; Données mal désassemblées (était: or d / ld l,)
+    dw $b62e    ; Données mal désassemblées (était: $b6 / cpl)
+    dw $bf2f    ; Données mal désassemblées (était: cp a / cpl)
+    dw $cc2f    ; Données mal désassemblées (était: call z, partie 1)
+    dw $ba2f    ; Données mal désassemblées (était: call z, partie 2)
+    db $2e      ; Dernier byte avant ROM_OBJECT_SOUND_TABLE
 
-ErrorTrap_00:
-    nop
-    rrca
-    dec d
-    rst $38
-    dec d
-    dec d
-    nop
-    nop
-    nop
-    nop
-    nop
-    rst $38
-    nop
-    rst $38
-    nop
-    daa
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    inc d
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    inc e
-    add hl, de
-    rst $38
-    add hl, de
-    add hl, de
-    rst $38
-    rst $38
-    rst $38
-    rst $38
-    rst $38
+; ===========================================================================
+; ROM_OBJECT_SOUND_TABLE ($317D)
+; Table des sons objets - 24 entrées de 5 octets
+; Format: [byte0, byte1, byte2, byte3, byte4]
+; Utilisée par les fonctions audio pour déclencher les sons des objets
+; Référencée dans: LoadObjectAudioConfig, TriggerObjectSound, etc.
+; ===========================================================================
+ROM_OBJECT_SOUND_TABLE:
+    db $01, $11, $ff, $11, $11  ; Entrée 0
+    db $00, $00, $00, $00, $00  ; Entrée 1
+    db $00, $00, $ff, $ff, $ff  ; Entrée 2
+    db $00, $00, $00, $00, $00  ; Entrée 3
+    db $05, $12, $ff, $12, $12  ; Entrée 4
+    db $00, $00, $00, $00, $00  ; Entrée 5
+    db $00, $00, $ff, $00, $00  ; Entrée 6
+    db $00, $00, $00, $00, $00  ; Entrée 7
+    db $00, $00, $ff, $4f, $4f  ; Entrée 8
+    db $ff, $ff, $ff, $ff, $ff  ; Entrée 9
+    db $00, $00, $00, $00, $00  ; Entrée 10
+    db $00, $00, $00, $00, $00  ; Entrée 11
+    db $00, $00, $ff, $00, $00  ; Entrée 12
+    db $00, $00, $00, $00        ; Entrée 13 (bytes 0-3)
+ErrorTrap_00:                    ; Adresse $31c2 (au milieu de l'entrée 13, byte 4)
+    db $00                       ; Entrée 13 (byte 4)
+    db $0f, $15, $ff, $15, $15  ; Entrée 14
+    db $00, $00, $00, $00, $00  ; Entrée 15
+    db $ff, $00, $ff, $00, $27  ; Entrée 16
+    db $00, $00, $00, $00, $00  ; Entrée 17
+    db $00, $00, $00, $00, $00  ; Entrée 18
+    db $14, $00, $00, $00, $00  ; Entrée 19
+    db $00, $00, $00, $00, $00  ; Entrée 20
+    db $00, $00, $00, $00, $00  ; Entrée 21
+    db $1c, $19, $ff, $19, $19  ; Entrée 22
+    db $ff, $ff, $ff, $ff, $ff  ; Entrée 23
+
+DataBlock_AfterSoundTable:
     rst $38
     rst $38
     rst $38
