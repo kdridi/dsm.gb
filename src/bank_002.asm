@@ -7019,6 +7019,12 @@ SpriteAnimationCountdown:
     ld a, [de]
     ld c, a
 
+; SpriteAnimationDataAdvance
+; ---------------------------
+; Description: Ajuste la valeur d'animation en fonction du timer auxiliaire
+; In:  c = valeur de base depuis les données d'animation
+; Out: c = valeur ajustée (+$20 si hTimerAux == $02)
+; Modifie: a
 SpriteAnimationDataAdvance:
     ldh a, [hTimerAux]
     cp $02
