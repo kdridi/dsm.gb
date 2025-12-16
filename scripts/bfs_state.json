@@ -2439,6 +2439,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1E58",
+      "node_type": "code",
+      "description": "HandlePlayerMovement - Applique le mouvement horizontal avec gestion d'oscillation",
+      "source": "$1E37",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2598,6 +2606,7 @@
     "$0A07",
     "$1655",
     "$0FD8",
+    "$1E37",
     "$06C5",
     "$09d7",
     "$1752",
@@ -2639,6 +2648,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 196
+  "commits_since_push": 1,
+  "total_explored": 197
 }

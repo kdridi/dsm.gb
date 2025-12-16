@@ -7152,6 +7152,15 @@ CheckOscillationCollision_Skip:
     jp TriggerBlockCollisionSound_TimerCheck
 
 
+; HandleJoypadRight
+; ----------------
+; Description: Gère le mouvement du joueur vers la droite en réponse au joypad.
+;              Initialise les paramètres de mouvement ou délègue à HandlePlayerMovement.
+; In:  wPlayerUnk0D = timer d'accélération actuel
+;      hJoypadState = état du joypad
+; Out: wPlayerDir = direction mise à jour si initialisation
+;      wPlayerUnk0B, wPlayerUnk0C = compteurs d'oscillation mis à jour
+; Modifie: a, hl
 HandleJoypadRight:
     ld hl, wPlayerUnk0D
     ld a, [hl]
@@ -7176,6 +7185,16 @@ HandleJoypadRight_Setup:
     ret
 
 
+; HandlePlayerMovement
+; -------------------
+; Description: Applique le mouvement horizontal du joueur avec gestion d'oscillation.
+;              Vérifie les collisions latérales et applique l'offset d'oscillation.
+; In:  wPlayerState = état du joueur
+;      hJoypadState = état du joypad (bit 5 = mouvement latéral)
+; Out: wPlayerUnk05 = timer mouvement droite
+;      wPlayerState = état oscillation mis à jour
+;      wPlayerUnk0B = compteur Y oscillation décrémenté
+; Modifie: a, bc, de, hl
 HandlePlayerMovement:
     ld hl, wPlayerUnk05
     ld [hl], PLAYER_ACCEL_TIMER_RIGHT  ; Timer mouvement droite ($20)
