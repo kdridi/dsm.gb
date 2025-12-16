@@ -2529,6 +2529,254 @@
       "priority": 3
     },
     {
+      "address": "$2D00",
+      "node_type": "data",
+      "description": "Audio command sequence 0 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D02",
+      "node_type": "data",
+      "description": "Audio command sequence 1 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D05",
+      "node_type": "data",
+      "description": "Audio command sequence 2 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D07",
+      "node_type": "data",
+      "description": "Audio command sequence 3 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D0A",
+      "node_type": "data",
+      "description": "Audio command sequence 4 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D0F",
+      "node_type": "data",
+      "description": "Audio command sequence 5 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D1C",
+      "node_type": "data",
+      "description": "Audio command sequence 6 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D21",
+      "node_type": "data",
+      "description": "Audio command sequence 7 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D26",
+      "node_type": "data",
+      "description": "Audio command sequence 8 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D28",
+      "node_type": "data",
+      "description": "Audio command sequence 9 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D2D",
+      "node_type": "data",
+      "description": "Audio command sequence 10 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D34",
+      "node_type": "data",
+      "description": "Audio command sequence 11 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D47",
+      "node_type": "data",
+      "description": "Audio command sequence 12 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D50",
+      "node_type": "data",
+      "description": "Audio command sequence 13 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D55",
+      "node_type": "data",
+      "description": "Audio command sequence 14 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D57",
+      "node_type": "data",
+      "description": "Audio command sequence 15 (table 1)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D5B",
+      "node_type": "data",
+      "description": "Audio command sequence 0 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D5F",
+      "node_type": "data",
+      "description": "Audio command sequence 1/2 (table 1 alt, shared)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D65",
+      "node_type": "data",
+      "description": "Audio command sequence 3 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D69",
+      "node_type": "data",
+      "description": "Audio command sequence 4 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D72",
+      "node_type": "data",
+      "description": "Audio command sequence 5 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D7B",
+      "node_type": "data",
+      "description": "Audio command sequence 6 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D7D",
+      "node_type": "data",
+      "description": "Audio command sequence 7 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D7F",
+      "node_type": "data",
+      "description": "Audio command sequence 8 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D81",
+      "node_type": "data",
+      "description": "Audio command sequence 9 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D83",
+      "node_type": "data",
+      "description": "Audio command sequence 10 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D86",
+      "node_type": "data",
+      "description": "Audio command sequence 11 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D88",
+      "node_type": "data",
+      "description": "Audio command sequence 12 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D8B",
+      "node_type": "data",
+      "description": "Audio command sequence 13 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D8E",
+      "node_type": "data",
+      "description": "Audio command sequence 14 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D91",
+      "node_type": "data",
+      "description": "Audio command sequence 15 (table 1 alt)",
+      "source": "$2FD9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2FD9",
       "node_type": "table",
       "description": "ROM_AUDIO_CHANNEL_TABLE_1 - Table de pointeurs vers commandes audio (option 1)",
@@ -3303,254 +3551,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2D00",
-      "node_type": "data",
-      "description": "Audio command sequence 0 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D02",
-      "node_type": "data",
-      "description": "Audio command sequence 1 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D05",
-      "node_type": "data",
-      "description": "Audio command sequence 2 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D07",
-      "node_type": "data",
-      "description": "Audio command sequence 3 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D0A",
-      "node_type": "data",
-      "description": "Audio command sequence 4 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D0F",
-      "node_type": "data",
-      "description": "Audio command sequence 5 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D1C",
-      "node_type": "data",
-      "description": "Audio command sequence 6 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D21",
-      "node_type": "data",
-      "description": "Audio command sequence 7 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D26",
-      "node_type": "data",
-      "description": "Audio command sequence 8 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D28",
-      "node_type": "data",
-      "description": "Audio command sequence 9 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D2D",
-      "node_type": "data",
-      "description": "Audio command sequence 10 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D34",
-      "node_type": "data",
-      "description": "Audio command sequence 11 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D47",
-      "node_type": "data",
-      "description": "Audio command sequence 12 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D50",
-      "node_type": "data",
-      "description": "Audio command sequence 13 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D55",
-      "node_type": "data",
-      "description": "Audio command sequence 14 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D57",
-      "node_type": "data",
-      "description": "Audio command sequence 15 (table 1)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D5B",
-      "node_type": "data",
-      "description": "Audio command sequence 0 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D5F",
-      "node_type": "data",
-      "description": "Audio command sequence 1/2 (table 1 alt, shared)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D65",
-      "node_type": "data",
-      "description": "Audio command sequence 3 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D69",
-      "node_type": "data",
-      "description": "Audio command sequence 4 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D72",
-      "node_type": "data",
-      "description": "Audio command sequence 5 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D7B",
-      "node_type": "data",
-      "description": "Audio command sequence 6 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D7D",
-      "node_type": "data",
-      "description": "Audio command sequence 7 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D7F",
-      "node_type": "data",
-      "description": "Audio command sequence 8 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D81",
-      "node_type": "data",
-      "description": "Audio command sequence 9 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D83",
-      "node_type": "data",
-      "description": "Audio command sequence 10 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D86",
-      "node_type": "data",
-      "description": "Audio command sequence 11 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D88",
-      "node_type": "data",
-      "description": "Audio command sequence 12 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D8B",
-      "node_type": "data",
-      "description": "Audio command sequence 13 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D8E",
-      "node_type": "data",
-      "description": "Audio command sequence 14 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2D91",
-      "node_type": "data",
-      "description": "Audio command sequence 15 (table 1 alt)",
-      "source": "$2FD9",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3664,6 +3664,7 @@
     "$1B1A",
     "$1a94",
     "$0DCA",
+    "$2D00",
     "$286E",
     "$2784",
     "$0808",
@@ -3872,6 +3873,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 1,
-  "total_explored": 317
+  "commits_since_push": 2,
+  "total_explored": 318
 }

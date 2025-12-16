@@ -10820,29 +10820,35 @@ SaveSoundDataLoop:
 
     ret
 
+; ===========================================================================
+; Audio Command Sequences (Table 1)
+; Séquences de commandes audio référencées par AudioChannelCommandTable1
+; Format: suite d'octets de commandes, terminées par $FF
+; ===========================================================================
 
-    sub b
-    rst $38
-    db $10
-    sub b
-    rst $38
-    sub c
-    rst $38
-    jr nz, OffsetSpritesX.loop
+AudioCmdSeq_00:
+    db $90, $FF
 
-    rst $38
-    ld b, b
-    sub e
-    ld c, b
-    sub d
-    rst $38
-    ld b, b
-    sub l
-    ld c, b
+AudioCmdSeq_01:
+    db $10, $90, $FF
 
+AudioCmdSeq_02:
+    db $91, $FF
+
+AudioCmdSeq_03:
+    db $20, $90, $FF
+
+AudioCmdSeq_04:
+    db $40, $93, $48, $92, $FF
+
+AudioCmdSeq_05:
+    db $40, $95, $48
+
+; Note: AudioCmdSeq_05 se termine aux octets partagés avec AudioAnimData_00 ($94, $FF)
+; pour économiser de l'espace ROM. AudioAnimData_00 commence à $2D12.
 AudioAnimData_00:
-    sub h
-    rst $38
+    sub h       ; $94 - fin de AudioCmdSeq_05
+    rst $38     ; $FF - terminateur de séquence
     sub a
     ld [$ff96], sp
     sbc c
@@ -11346,22 +11352,22 @@ AudioAnimData_05:
 ; Référencée par la constante ROM_AUDIO_CHANNEL_TABLE_1
 ; ===========================================================================
 AudioChannelCommandTable1:
-    dw $2D00  ; Entry  0 - Audio sequence 0
-    dw $2D02  ; Entry  1 - Audio sequence 1
-    dw $2D05  ; Entry  2 - Audio sequence 2
-    dw $2D07  ; Entry  3 - Audio sequence 3
-    dw $2D0A  ; Entry  4 - Audio sequence 4
-    dw $2D0F  ; Entry  5 - Audio sequence 5
-    dw $2D1C  ; Entry  6 - Audio sequence 6
-    dw $2D21  ; Entry  7 - Audio sequence 7
-    dw $2D26  ; Entry  8 - Audio sequence 8
-    dw $2D28  ; Entry  9 - Audio sequence 9
-    dw $2D2D  ; Entry 10 - Audio sequence 10
-    dw $2D34  ; Entry 11 - Audio sequence 11
-    dw $2D47  ; Entry 12 - Audio sequence 12
-    dw $2D50  ; Entry 13 - Audio sequence 13
-    dw $2D55  ; Entry 14 - Audio sequence 14
-    dw $2D57  ; Entry 15 - Audio sequence 15
+    dw AudioCmdSeq_00  ; Entry  0 @ $2D00
+    dw AudioCmdSeq_01  ; Entry  1 @ $2D02
+    dw AudioCmdSeq_02  ; Entry  2 @ $2D05
+    dw AudioCmdSeq_03  ; Entry  3 @ $2D07
+    dw AudioCmdSeq_04  ; Entry  4 @ $2D0A
+    dw AudioCmdSeq_05  ; Entry  5 @ $2D0F
+    dw $2D1C           ; Entry  6 - Audio sequence 6 (TODO: reconstruire)
+    dw $2D21           ; Entry  7 - Audio sequence 7 (TODO: reconstruire)
+    dw $2D26           ; Entry  8 - Audio sequence 8 (TODO: reconstruire)
+    dw $2D28           ; Entry  9 - Audio sequence 9 (TODO: reconstruire)
+    dw $2D2D           ; Entry 10 - Audio sequence 10 (TODO: reconstruire)
+    dw $2D34           ; Entry 11 - Audio sequence 11 (TODO: reconstruire)
+    dw $2D47           ; Entry 12 - Audio sequence 12 (TODO: reconstruire)
+    dw $2D50           ; Entry 13 - Audio sequence 13 (TODO: reconstruire)
+    dw $2D55           ; Entry 14 - Audio sequence 14 (TODO: reconstruire)
+    dw $2D57           ; Entry 15 - Audio sequence 15 (TODO: reconstruire)
 
 ; ===========================================================================
 ; AudioChannelCommandTable1Alt ($2FF9)
