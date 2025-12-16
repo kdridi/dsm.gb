@@ -9465,6 +9465,19 @@ CheckAudioCommand_F2:
     jp AudioQueueProcessing
 
 
+; CheckAudioCommand_F3
+; --------------------
+; Description: Vérifie et traite la commande audio F3 (init sound with data pointer)
+;              Initialise un slot sonore et charge le pointeur vers les données audio
+; In:  a = commande audio à vérifier
+;      hl = sur la pile (adresse de retour)
+;      wAudioQueueId = ID du son à initialiser
+; Out: Si a = AUDIO_CMD_F3:
+;        - Si wAudioQueueId = SLOT_EMPTY, termine la commande (AudioCommand_CompleteExit)
+;        - Sinon, initialise le slot, récupère le pointeur dans ROM_AUDIO_POINTERS
+;          et continue le traitement (AudioQueueProcessing)
+;      Si a != AUDIO_CMD_F3, passe à CheckAudioCommand_F4
+; Modifie: a, bc, de, hl, hSoundId
 CheckAudioCommand_F3:
     cp AUDIO_CMD_F3
     jr nz, CheckAudioCommand_F4
@@ -9479,16 +9492,16 @@ CheckAudioCommand_F3:
     pop hl
     ld hl, ROM_AUDIO_POINTERS   ; Table pointeurs données audio
     ldh a, [hSoundId]
-    rlca
+    rlca                        ; a *= 2 (pointeurs de 2 octets)
     ld d, $00
     ld e, a
-    add hl, de
+    add hl, de                  ; hl = ROM_AUDIO_POINTERS + (hSoundId * 2)
     ld a, [hl+]
     ld e, a
     ld a, [hl]
-    ld d, a
+    ld d, a                     ; de = pointeur données audio
     ld h, d
-    ld l, e
+    ld l, e                     ; hl = pointeur données audio
     jp AudioQueueProcessing
 
 

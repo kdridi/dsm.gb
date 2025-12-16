@@ -2193,6 +2193,14 @@
       "priority": 3
     },
     {
+      "address": "$27A6",
+      "node_type": "code",
+      "description": "CheckAudioCommand_F3 - V\u00e9rifie et traite la commande audio F3",
+      "source": "$2799",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2870",
       "node_type": "code",
       "description": "ProcessSoundCollisionCheck - Traite la v\u00e9rification de collision sonore",
@@ -3001,10 +3009,26 @@
       "priority": 3
     },
     {
-      "address": "$27A6",
+      "address": "$27CE",
       "node_type": "code",
-      "description": "CheckAudioCommand_F3 - V\u00e9rifie et traite la commande audio F3",
-      "source": "$2799",
+      "description": "CheckAudioCommand_F4 - V\u00e9rifie et traite la commande audio F4",
+      "source": "$27A6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$286E",
+      "node_type": "code",
+      "description": "AudioCommand_CompleteExit - Termine le traitement d'une commande audio (pop hl + ret)",
+      "source": "$27A6",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2CB2",
+      "node_type": "code",
+      "description": "InitSoundSlot - Initialise un slot sonore avec config depuis ROM_AUDIO_CONFIG",
+      "source": "$27A6",
       "bank": 0,
       "priority": 3
     }
@@ -3234,6 +3258,7 @@
     "$00C3",
     "$145D",
     "$2488",
+    "$27A6",
     "$1B1A",
     "$1520",
     "$0530",
@@ -3285,6 +3310,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 274
+  "commits_since_push": 4,
+  "total_explored": 275
 }
