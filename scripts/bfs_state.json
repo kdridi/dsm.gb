@@ -2129,6 +2129,14 @@
       "priority": 3
     },
     {
+      "address": "$25B7",
+      "node_type": "code",
+      "description": "ProcessAudioChannelData - Traite les donn\u00e9es des canaux audio",
+      "source": "$255F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$263F",
       "node_type": "code",
       "description": "UpdateAllObjectSounds - Met \u00e0 jour les sons de tous les objets",
@@ -2189,6 +2197,22 @@
       "node_type": "code",
       "description": "OffsetSpritesX - Applique offset horizontal aux sprites",
       "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2CDC",
+      "node_type": "code",
+      "description": "LoadSoundDataFromSlot - Charge les donn\u00e9es audio depuis le slot",
+      "source": "$255F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2CEE",
+      "node_type": "code",
+      "description": "SaveSoundDataToSlot - Sauvegarde les donn\u00e9es audio dans le slot",
+      "source": "$255F",
       "bank": 0,
       "priority": 3
     },
@@ -2873,26 +2897,18 @@
       "priority": 3
     },
     {
-      "address": "$2CDC",
-      "node_type": "code",
-      "description": "LoadSoundDataFromSlot - Charge les donn\u00e9es audio depuis le slot",
-      "source": "$255F",
+      "address": "$2FD9",
+      "node_type": "table",
+      "description": "ROM_AUDIO_CHANNEL_TABLE_1 - Table de pointeurs vers commandes audio (option 1)",
+      "source": "$25B7",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$2CEE",
-      "node_type": "code",
-      "description": "SaveSoundDataToSlot - Sauvegarde les donn\u00e9es audio dans le slot",
-      "source": "$255F",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$25B7",
-      "node_type": "code",
-      "description": "ProcessAudioChannelData - Traite les donn\u00e9es des canaux audio",
-      "source": "$255F",
+      "address": "$30AB",
+      "node_type": "table",
+      "description": "ROM_AUDIO_CHANNEL_TABLE_2 - Table de pointeurs vers commandes audio (option 2)",
+      "source": "$25B7",
       "bank": 0,
       "priority": 3
     }
@@ -3031,6 +3047,7 @@
     "$0EB2",
     "$23F8",
     "$195d",
+    "$25B7",
     "$0D64",
     "$0C37",
     "$1C49",
@@ -3165,6 +3182,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 0,
-  "total_explored": 266
+  "commits_since_push": 1,
+  "total_explored": 267
 }
