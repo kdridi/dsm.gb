@@ -3131,7 +3131,7 @@ AnimFrame_4CD1:
 ; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4CD5:
     dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
-    dw $4DA7           ; → SpriteData_4DA7
+    dw $4DA7           ; [$4CD9] → SpriteData_4DA7 (données sprite OAM)
 AnimFrame_4CD9:
     dw $FBF9
     dw $4DAE
