@@ -8833,6 +8833,12 @@ LoadQueuedAudioConfig:
     ldh [hSoundCh4], a
     jr InitAudioChannels
 
+; InitSoundConditional
+; --------------------
+; Description: Initialise l'audio conditionnellement selon le niveau et les flags
+; In:  hl = pointeur vers ID son (bit 7 = flag skip si hLevelIndex=0)
+; Out: Canaux audio configurés, objets itérés
+; Modifie: af, bc, de, hl, hSoundId, hSoundCh*, hSoundVar*
 InitSoundConditional:
     ldh a, [hLevelIndex]
     and a

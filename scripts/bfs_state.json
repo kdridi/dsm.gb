@@ -2855,6 +2855,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2cee",
+      "node_type": "code",
+      "description": "SaveSoundDataToSlot - Sauvegarde donn\u00e9es audio dans un slot",
+      "source": "$24e6",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3099,6 +3107,7 @@
     "$242D",
     "$07B7",
     "$04C3",
+    "$24e6",
     "$0150",
     "$0D30",
     "$0F1D",
@@ -3122,6 +3131,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 263
+  "commits_since_push": 3,
+  "total_explored": 264
 }
