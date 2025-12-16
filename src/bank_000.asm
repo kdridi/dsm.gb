@@ -11165,10 +11165,13 @@ AudioCmdSeq_04Alt:
 AudioCmdSeq_05Alt:
     db $20, $9E, $31, $9E, $0A, $9E, $11, $9E, $FF
 
-; ===========================================================================
-; AudioCmdSeq_06Alt ($2D7B)
-; Séquence de commandes audio courte (2 bytes)
-; ===========================================================================
+; AudioCmdSeq_06Alt
+; ----------------
+; Description: Séquence de commandes audio #6 pour table alternative (canal 2)
+; Format: Commande simple $83 terminée par $FF
+; In:  Utilisée via AudioChannelCommandTable1Alt[6]
+; Bytes: $83 = Commande audio $83
+;        $FF = Terminateur de séquence
 AudioCmdSeq_06Alt:
     db $83, $FF
 
