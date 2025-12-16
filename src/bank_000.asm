@@ -10477,37 +10477,49 @@ CheckObjectTileRight:
     ret
 
 
-; -----------------------------------------------------------------------------
-; CheckObjectTileBottomLeft - Vérifie collision coin bas-gauche de l'objet
-; -----------------------------------------------------------------------------
+; CheckObjectTileBottomLeft
+; -------------------------
+; Description: Vérifie le type de tile au coin inférieur gauche d'un objet pour
+;              la détection de collision. Calcule la position du point de test en
+;              tenant compte du scroll et des dimensions de l'objet.
+; In:  hSoundParam2 = X de l'objet (relatif au scroll)
+;      hSoundParam1 = Y de l'objet
+;      hShadowSCX = Position scroll X
+;      hSoundCh2 = Flags de l'objet (bit 0 = utiliser largeur alternative)
+;      hSoundVar3 = Données d'animation (bits 4-6 = hauteur)
+; Out: carry clear = tile solide (< $5F)
+;      carry set = tile non-solide (>= $5F et < $F0) ou traversable (>= $F0)
+;      a = valeur du tile testé
+; Modifie: a, c, hSpriteX, hSpriteY
 CheckObjectTileBottomLeft:
-    ldh a, [hSoundParam2]
+    ldh a, [hSoundParam2]       ; Charge position X de l'objet
     ld c, a
-    ldh a, [hShadowSCX]
+    ldh a, [hShadowSCX]         ; Ajoute le scroll horizontal
     add c
-    add COLLISION_OFFSET_4
-    ldh [hSpriteX], a
-    ld c, a
-    ldh a, [hSoundCh2]
-    bit 0, a
-    jr .setY
+    add COLLISION_OFFSET_4      ; Décalage de 4 pixels (coin gauche)
+    ldh [hSpriteX], a           ; Stocke position X du point de test
+    ld c, a                     ; Sauvegarde X dans c
+    ldh a, [hSoundCh2]          ; Charge les flags de l'objet
+    bit 0, a                    ; Teste si utiliser largeur alternative
+    jr .setY                    ; Si bit 0 = 0, passe à setY
 
-    ldh a, [hSoundVar3]
-    and ANIM_HEIGHT_MASK
-    rrca
-    add c
-    ldh [hSpriteX], a
+    ; Si bit 0 = 1: ajuste X en fonction de la hauteur de l'animation
+    ldh a, [hSoundVar3]         ; Charge données animation
+    and ANIM_HEIGHT_MASK        ; Extrait hauteur (bits 4-6)
+    rrca                        ; Divise par 2
+    add c                       ; Ajoute à la position X
+    ldh [hSpriteX], a           ; Met à jour position X du test
 
 .setY:
-    ldh a, [hSoundParam1]
-    add COLLISION_OFFSET_8
-    ldh [hSpriteY], a
-    call ReadTileUnderSprite
-    cp TILEMAP_CMD_LOAD2        ; Tile < $5F = solide
-    ret c
+    ldh a, [hSoundParam1]       ; Charge position Y de l'objet
+    add COLLISION_OFFSET_8      ; Décalage de 8 pixels (bas de l'objet)
+    ldh [hSpriteY], a           ; Stocke position Y du point de test
+    call ReadTileUnderSprite    ; Lit le tile à la position (hSpriteX, hSpriteY)
+    cp TILEMAP_CMD_LOAD2        ; Compare avec $5F (seuil tile solide)
+    ret c                       ; Si < $5F: carry clear = solide, retourne
 
-    cp TILE_SPECIAL_THRESHOLD   ; Tile >= $F0 = vide/traversable
-    ccf
+    cp TILE_SPECIAL_THRESHOLD   ; Compare avec $F0 (seuil tile spécial)
+    ccf                         ; Complément carry (>= $F0 → carry set)
     ret
 
 
