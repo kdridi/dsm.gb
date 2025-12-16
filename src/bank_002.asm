@@ -6166,7 +6166,7 @@ AnimationDispatch_SelectHandler:
     ldh a, [hPtrLow]
     ld [hl+], a
     ld a, b
-    ld de, $5958
+    ld de, AnimationHandler_Type01
     cp $01
     jr z, AnimationDispatch_SetAndJump
 
