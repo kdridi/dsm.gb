@@ -7991,6 +7991,15 @@ InitScrollBuffer:
     ld l, a
     jr ProcessScrollEntry
 
+; InitFromRenderContext
+; ---------------------
+; Description: Initialise le buffer de scroll depuis le contexte de rendu.
+;              Charge un pointeur de données de niveau via hRenderContext,
+;              puis indexe par hTilemapScrollX pour trouver l'entrée de scroll.
+; In:  hRenderContext = index dans la table des contextes de rendu
+;      hTilemapScrollX = position X du scroll (index dans la table de niveaux)
+; Out: hl = pointeur vers données de scroll, ou flow vers UpdateCollisionFlag si slot vide
+; Modifie: a, de, hl
 InitFromRenderContext:
     ld hl, _ROMX                    ; Base des données niveau (bank switchable)
     ldh a, [hRenderContext]
