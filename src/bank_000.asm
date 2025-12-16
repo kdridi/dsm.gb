@@ -5732,6 +5732,12 @@ InitPlayerX:
     ret
 
 
+; CollisionHandler_Type5F_Entry
+; ------------------------------
+; Description: Handler de collision pour le tile type $5F (plateforme conditionnelle)
+; In:  hl = pointeur bloc collision
+; Out: Peut continuer vers CollisionHandler_Platform_Entry si valeur table non-nulle
+; Modifie: a, hl (temporairement via push/pop)
 CollisionHandler_Type5F_Entry:
     ldh a, [hBlockHitType]
     and a

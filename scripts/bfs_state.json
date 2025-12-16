@@ -1249,10 +1249,42 @@
       "priority": 3
     },
     {
+      "address": "$1872",
+      "node_type": "code",
+      "description": "CollisionHandler_Type5F_Entry - Handler collision tile $5F",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$187f",
+      "node_type": "code",
+      "description": "CollisionHandler_Platform_Entry - Handler plateforme",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$195d",
+      "node_type": "code",
+      "description": "HandlePlayerUpCollision - G\u00e8re collision vers le haut",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1983",
       "node_type": "code",
       "description": "CheckPlayerFeetCollision - Collisions pieds joueur",
       "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$19d8",
+      "node_type": "code",
+      "description": "HandlePlayerWaterCollision - G\u00e8re collision eau joueur",
+      "source": "$1983",
       "bank": 0,
       "priority": 3
     },
@@ -1365,6 +1397,22 @@
       "node_type": "code",
       "description": "ProcessAllObjectCollisions - Collisions tous objets",
       "source": "$0610",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1a4e",
+      "node_type": "code",
+      "description": "CollisionHandler_SpecialF4_Setup - Setup collision pipe/tuyau",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1a62",
+      "node_type": "code",
+      "description": "ClassifyTileType - Classifie type de tile pour collision",
+      "source": "$1983",
       "bank": 0,
       "priority": 3
     },
@@ -2049,50 +2097,18 @@
       "priority": 3
     },
     {
-      "address": "$1872",
+      "address": "$18b7",
       "node_type": "code",
-      "description": "CollisionHandler_Type5F_Entry - Handler collision tile $5F",
-      "source": "$1983",
+      "description": "HandleTileValueF0 - G\u00e8re tile valeur $F0 (seuil sp\u00e9cial)",
+      "source": "$1872",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$1a62",
+      "address": "$18be",
       "node_type": "code",
-      "description": "ClassifyTileType - Classifie type de tile pour collision",
-      "source": "$1983",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$19d8",
-      "node_type": "code",
-      "description": "HandlePlayerWaterCollision - G\u00e8re collision eau joueur",
-      "source": "$1983",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1a4e",
-      "node_type": "code",
-      "description": "CollisionHandler_SpecialF4_Setup - Setup collision pipe/tuyau",
-      "source": "$1983",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$195d",
-      "node_type": "code",
-      "description": "HandlePlayerUpCollision - G\u00e8re collision vers le haut",
-      "source": "$1983",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$187f",
-      "node_type": "code",
-      "description": "CollisionHandler_Platform_Entry - Handler plateforme",
-      "source": "$1983",
+      "description": "HandleNonC0TileValue - G\u00e8re tiles avec valeur != $C0",
+      "source": "$1872",
       "bank": 0,
       "priority": 3
     }
@@ -2140,6 +2156,7 @@
     "$0A20",
     "$07b7",
     "$13E7",
+    "$1872",
     "$17F8",
     "$00CD",
     "$1612",
@@ -2256,6 +2273,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 157
+  "commits_since_push": 2,
+  "total_explored": 158
 }
