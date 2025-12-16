@@ -2209,6 +2209,14 @@
       "priority": 3
     },
     {
+      "address": "$25b7",
+      "node_type": "code",
+      "description": "ProcessAudioChannelData - Fonction qui utilise la table pour charger les s\u00e9quences audio",
+      "source": "$2d1c",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$263F",
       "node_type": "code",
       "description": "UpdateAllObjectSounds - Met \u00e0 jour les sons de tous les objets",
@@ -3777,10 +3785,10 @@
       "priority": 3
     },
     {
-      "address": "$25b7",
-      "node_type": "code",
-      "description": "ProcessAudioChannelData - Fonction qui utilise la table pour charger les s\u00e9quences audio",
-      "source": "$2d1c",
+      "address": "$2ff9",
+      "node_type": "table",
+      "description": "AudioChannelCommandTable1Alt - Table alternative de pointeurs vers s\u00e9quences audio (canal alternatif)",
+      "source": "$25b7",
       "bank": 0,
       "priority": 3
     }
@@ -3821,6 +3829,7 @@
     "$2d05",
     "$2207",
     "$14D3",
+    "$25b7",
     "$1B3C",
     "$1bb4",
     "$1b1a",
@@ -4165,6 +4174,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 2,
-  "total_explored": 378
+  "commits_since_push": 3,
+  "total_explored": 379
 }
