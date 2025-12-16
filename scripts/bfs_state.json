@@ -2177,6 +2177,14 @@
       "priority": 3
     },
     {
+      "address": "$266d",
+      "node_type": "code",
+      "description": "ProcessSoundAnimationLoop - Continue la boucle d'animation sonore",
+      "source": "$26ac",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$26AC",
       "node_type": "code",
       "description": "ProcessAudioQueue_Loop - Boucle de traitement de la file audio",
@@ -3097,10 +3105,10 @@
       "priority": 3
     },
     {
-      "address": "$266d",
+      "address": "$2bb2",
       "node_type": "code",
-      "description": "ProcessSoundAnimationLoop - Continue la boucle d'animation sonore",
-      "source": "$26ac",
+      "description": "CheckObjectTileBottomLeft - V\u00e9rifie collision avec tile en bas \u00e0 gauche de l'objet",
+      "source": "$266d",
       "bank": 0,
       "priority": 3
     }
@@ -3179,6 +3187,7 @@
     "$1345",
     "$1C4D",
     "$2114",
+    "$266d",
     "$217F",
     "$2205",
     "$172D",
@@ -3388,6 +3397,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 0,
-  "total_explored": 281
+  "commits_since_push": 1,
+  "total_explored": 282
 }
