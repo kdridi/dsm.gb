@@ -5790,6 +5790,17 @@ TileC0Handler:
     ld a, SLOT_EMPTY
     ld [wLevelConfig], a
 
+; PlatformCollisionSetup
+; ----------------------
+; Description: Configure collision plateforme si pas déjà active. Si hBlockHitType est 0,
+;              initialise l'état collision pièce et les paramètres associés.
+; In:  hBlockHitType = type collision actuelle (0 = pas de collision)
+;      wPlayerX = position X joueur
+;      wLevelConfig = configuration niveau courante
+; Out: wStateBuffer = STATE_BUFFER_COIN si collision initialisée
+;      hPtrHigh = position X joueur - offset
+;      hPtrBank, hPendingCoin = BLOCK_HIT_TYPE_SPECIAL ($C0)
+; Modifie: a
 PlatformCollisionSetup:
     ldh a, [hBlockHitType]
     and a
