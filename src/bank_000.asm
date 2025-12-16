@@ -13751,6 +13751,12 @@ ErrorTrap_01:
     di
     ld e, e
 
+; InitLevelData
+; --------------
+; Description: Initialise les données du niveau et efface le buffer sprite temporaire
+; In:  Aucun
+; Out: Aucun
+; Modifie: a, b, hl, appelle DisplayLevelBCDScore
 InitLevelData:
     ld hl, wSpriteTemp
     ld b, $20
