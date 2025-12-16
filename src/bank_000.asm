@@ -7436,6 +7436,15 @@ UpdatePlayerInvulnBlink:
     ret
 
 
+; ProcessAllObjectCollisions
+; ---------------------------
+; Description: Point d'entrée pour traiter les collisions de tous les objets animés actifs
+;              avec l'environnement (tuiles, pièces). Itère sur les sprites actifs et gère
+;              leurs mouvements verticaux, collisions avec tuiles spéciales (pièces, eau, blocs).
+; In:  hObjParamBuf1 = buffer des paramètres objets actifs
+;      wOamAttrY = position Y des sprites dans la table OAM
+; Out: Sprites mis à jour, collisions traitées, états modifiés selon interactions
+; Modifie: a, bc, de, hl, hSpriteY, hSpriteX, wStateBuffer
 ProcessAllObjectCollisions:
     ld b, $01
     ld hl, hObjParamBuf1
