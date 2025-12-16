@@ -19,13 +19,13 @@ LevelJumpTable_Bank3:
     ; Niveau 3
     dw $503F, $5074, $509B
     ; Niveau 4 (4 pointeurs - structure différente)
-    dw $50C0, LevelGraphicsData_4E74, $4F1D, $4FD8
+    dw $50C0, LevelGraphicsData_4E74, LevelHandler_4_7_Part2, $4FD8
     ; Niveau 5
-    dw LevelGraphicsData_4E74, $4F1D, $4FD8
+    dw LevelGraphicsData_4E74, LevelHandler_4_7_Part2, $4FD8
     ; Niveau 6
-    dw LevelGraphicsData_4E74, $4F1D, $4FD8
+    dw LevelGraphicsData_4E74, LevelHandler_4_7_Part2, $4FD8
     ; Niveau 7
-    dw LevelGraphicsData_4E74, $4F1D, $4FD8
+    dw LevelGraphicsData_4E74, LevelHandler_4_7_Part2, $4FD8
     ; Fin de table / Padding
     dw $0000, $0000, $0000, $0000
     inc e
@@ -3649,6 +3649,9 @@ DispatchDataTable_4e8e:
     ld [hl], $e4
     dec b
     ld [hl], $ff
+
+; LevelHandler_4_7_Part2 - Handler niveaux 4-7 (partie 2)
+LevelHandler_4_7_Part2:
     inc c
     add l
     dec h
