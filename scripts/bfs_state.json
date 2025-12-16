@@ -1113,6 +1113,14 @@
       "priority": 3
     },
     {
+      "address": "$154E",
+      "node_type": "data",
+      "description": "TextData_CreditsStaff - Table texte cr\u00e9dits (54 bytes)",
+      "source": "$1547",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1612",
       "node_type": "code",
       "description": "State09_PipeEnterRight - Entr\u00e9e tuyau droite",
@@ -1943,14 +1951,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$154E",
-      "node_type": "data",
-      "description": "TextData_CreditsStaff - Table texte cr\u00e9dits (54 bytes)",
-      "source": "$1547",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2001,6 +2001,7 @@
     "$0EB2",
     "$1345",
     "$0226",
+    "$154E",
     "$0028",
     "$0DEA",
     "$1438",
@@ -2094,6 +2095,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 139
+  "commits_since_push": 4,
+  "total_explored": 140
 }
