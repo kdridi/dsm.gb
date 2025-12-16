@@ -6537,7 +6537,13 @@ ProcessBlockCollision_CommonExit:
     call CollectCoin
     ret
 
-
+; BlockCollision_CoinProcess
+; ---------------------------
+; Description: Traite la collision avec un bloc pièce (type $03) - marque le bloc
+;              comme vide et continue le traitement standard via CommonExit
+; In:  hl = pointeur vers l'état du bloc
+; Out: rien
+; Modifie: a (via jr vers ProcessBlockCollision_CommonExit)
 BlockCollision_CoinProcess:
     ld [hl], BLOCK_STATE_EMPTY
     jr ProcessBlockCollision_CommonExit
