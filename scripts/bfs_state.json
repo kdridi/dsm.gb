@@ -1761,6 +1761,22 @@
       "priority": 3
     },
     {
+      "address": "$1bee",
+      "node_type": "code",
+      "description": "BlockCollision_CoinProcess - Traite collision bloc pi\u00e8ce (type $02)",
+      "source": "$1b7d",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1bf2",
+      "node_type": "code",
+      "description": "ProcessBlockCollision_Special - G\u00e8re blocs sp\u00e9ciaux (type $C0)",
+      "source": "$1b7d",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1bf6",
       "node_type": "code",
       "description": "CollectCoin - Collecte pi\u00e8ce et efface tile",
@@ -2609,18 +2625,10 @@
       "priority": 3
     },
     {
-      "address": "$1bee",
+      "address": "$1bb4",
       "node_type": "code",
-      "description": "BlockCollision_CoinProcess - Traite collision bloc pi\u00e8ce (type $02)",
-      "source": "$1b7d",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1bf2",
-      "node_type": "code",
-      "description": "ProcessBlockCollision_Special - G\u00e8re blocs sp\u00e9ciaux (type $C0)",
-      "source": "$1b7d",
+      "description": "ProcessBlockCollision_CommonExit - Finalise collision bloc (efface tile, v\u00e9rifie tuyau sp\u00e9cial)",
+      "source": "$1bee",
       "bank": 0,
       "priority": 3
     }
@@ -2671,6 +2679,7 @@
     "$1CDF",
     "$03E4",
     "$1E9B",
+    "$1bee",
     "$115C",
     "$1B3C",
     "$0060",
@@ -2847,6 +2856,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 220
+  "commits_since_push": 0,
+  "total_explored": 221
 }
