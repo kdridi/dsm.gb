@@ -10800,6 +10800,12 @@ SaveSoundDataToSlot:
     ld hl, wObjectBuffer
     ld l, a
 
+; SaveSoundDataToHL
+; -----------------
+; Description: Sauvegarde les données audio depuis HRAM vers l'adresse pointée par HL
+; In:  hl = adresse de destination
+; Out: hl = pointe après les données copiées (HL + 13)
+; Modifie: a, bc, de, hl
 SaveSoundDataToHL:
     ld de, hSoundId
     ld b, AUDIO_SLOT_SIZE      ; 13 octets par slot
