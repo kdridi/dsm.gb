@@ -9887,6 +9887,12 @@ ClearSoundCh1AndVar1_Collision:
     ldh [hSoundVar1], a
 
 
+; UpdatePhysicsCollision
+; ----------------------
+; Description: Met à jour l'état physique après collision (position, vélocité)
+; In:  hSoundFlag (nibble haut) = vélocité collision, hSoundCh2.bit1 = direction
+; Out: hSoundParam1 ajusté, wPlayerX ajusté si hSoundVar4 actif
+; Modifie: a, b
 UpdatePhysicsCollision:
     ldh a, [hSoundFlag]
     and NIBBLE_HIGH_MASK         ; Vélocité collision (nibble haut)
