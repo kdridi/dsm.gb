@@ -5905,6 +5905,26 @@ ApplyAltSpriteAttributeIfConfigSet:
     ld a, STATE_BUFFER_DEFAULT
     ld [wStateBuffer], a
 
+; SetupSpriteProperties
+; ---------------------
+; Description: Configure propriétés sprite après collision tile.
+;              Sauvegarde adresse tile, configure état collision (chute),
+;              calcule position sprite depuis adresse tile, ajuste position
+;              selon joueur et scroll, et initialise variables de rendu.
+; In:  hl = adresse tile (dans tilemap)
+;      wPlayerX = position X joueur
+;      wOamVar2E = tile sprite déjà configuré par appelant
+;      hShadowSCX = scroll X actuel
+; Out: hBlockHitType = PLAYER_UNK07_FALLING ($02)
+;      hSpriteAttr, hSpriteTile = coordonnées tile (de/hl copié)
+;      hSpriteX = position X sprite calculée (via GetSpritePosFromTileAddr)
+;      wOamVar2C = position joueur ajustée (wPlayerX - $0b)
+;      wOamVar2D = position sprite relative au scroll
+;      wOamVar2F = $00
+;      hRenderX = position joueur ajustée
+;      hRenderY = position sprite Y
+;      hPtrLow = position relative scroll
+; Modifie: a, bc, de, hl
 SetupSpriteProperties:
     push hl
     pop de
