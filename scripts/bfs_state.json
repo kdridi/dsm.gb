@@ -4919,6 +4919,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$FFAE",
+      "node_type": "data",
+      "description": "HRAM - Position Y du joueur (hPlayerY)",
+      "source": "$509B",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFEE",
+      "node_type": "data",
+      "description": "HRAM - Buffer de contexte collision (3 bytes: flag + adresse)",
+      "source": "$509B",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$DFE0",
+      "node_type": "data",
+      "description": "WRAM - Variable de jeu (timer ou \u00e9tat collision)",
+      "source": "$509B",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5387,6 +5411,7 @@
     "$2D41",
     "$0BCD",
     "$2d86",
+    "$509B",
     "$2D00",
     "$2d88",
     "$2bf5",
@@ -5479,6 +5504,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 0,
-  "total_explored": 556
+  "commits_since_push": 1,
+  "total_explored": 557
 }
