@@ -10844,6 +10844,13 @@ AudioCmdSeq_02:
 AudioCmdSeq_03:
     db $20, $90, $FF
 
+; AudioCmdSeq_04 ($2D0A)
+; Séquence de 5 octets : 2 quadruplets audio suivis du terminateur
+;   $40: préparer wAudioData=%10000000 (aucune modification de param1/param2)
+;   $93: écrire quadruplet [param1, param2, $93, %10000000]
+;   $48: préparer wAudioData=%10000000, param1 -= 8 (bit 3)
+;   $92: écrire quadruplet [param1-8, param2, $92, %10000000]
+;   $FF: terminateur de séquence
 AudioCmdSeq_04:
     db $40, $93, $48, $92, $FF
 
