@@ -3307,6 +3307,16 @@ AnimFrame_4D4F:
 AnimFrame_4D51:
     dw $0D0C
     dw $44FF
+; AnimSpeedTable_4D56 - Point d'entrée dans table d'accélération/décélération
+; ----------------
+; Description: Table de valeurs word pour courbe d'animation (accélération puis décélération)
+; In:  Référencé par AnimFrame_4CA5 (ligne 3076) via pointeur dw $4D56
+; Out: Aucun (données pures)
+; Format: Séquence de words encodant une courbe: 1→2→4→8→128→8 (montée puis descente)
+; Note: Zone mal désassemblée - les dw suivants ne correspondent pas au format réel
+;       Vraies données à $4D56: dw $0002, $0002, $0002, $0004, $0004, $0008...
+;       Nécessite reconstruction complète lors de l'exploration des nœuds adjacents
+; Adresse ROM réelle: $4D56 (pointe au milieu de la structure désassemblée ci-dessous)
 AnimFrame_4D55:
     dw $004E
     dw $1C01
