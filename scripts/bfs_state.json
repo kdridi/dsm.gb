@@ -2633,6 +2633,14 @@
       "priority": 3
     },
     {
+      "address": "$317d",
+      "node_type": "data",
+      "description": "ROM_OBJECT_SOUND_TABLE - Table des sons objets (5 octets par entr\u00e9e)",
+      "source": "$29f8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$3495",
       "node_type": "data",
       "description": "ROM_AUDIO_POINTERS - Table des pointeurs vers donn\u00e9es audio (2 octets par entr\u00e9e)",
@@ -3279,14 +3287,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$317d",
-      "node_type": "data",
-      "description": "ROM_OBJECT_SOUND_TABLE - Table des sons objets (5 octets par entr\u00e9e)",
-      "source": "$29f8",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3495,6 +3495,7 @@
     "$1EAB",
     "$18be",
     "$255F",
+    "$2A1A",
     "$0EC4",
     "$0E28",
     "$1a9e",
@@ -3595,6 +3596,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 304
+  "commits_since_push": 4,
+  "total_explored": 305
 }
