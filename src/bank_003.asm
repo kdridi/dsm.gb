@@ -3013,7 +3013,7 @@ AnimFramePointerTable:
     dw $4CD1
     dw $4CD5
     dw $4CD9
-    dw $4CDD
+    dw AnimFrame_4CDD_Overlap
     dw $4CE1
     dw $4CE5
     dw $4CE9
@@ -3134,6 +3134,10 @@ AnimFrame_4CD5:
     dw $4DA7           ; [$4CD9] → SpriteData_4DA7 (données sprite OAM)
 AnimFrame_4CD9:
     dw $FBF9
+; AnimFrame_4CDD - Overlap intentionnel
+; Référencé par AnimFramePointerTable[22] - pointe vers le 2e word de AnimFrame_4CD9
+; Contenu à $4CDD: dw $4DAE, dw $FBF9 (ce word + 1er word de AnimFrame_4CDF)
+AnimFrame_4CDD_Overlap:
     dw $4DAE
 AnimFrame_4CDD:
     dw $FBF9
