@@ -6549,6 +6549,14 @@ SpriteAnimationCounterDecrement:
 
     inc l
 
+; SpriteAnimationStatePurge
+; --------------------------
+; Description: Purge l'état d'animation d'un slot sprite en réinitialisant
+;              les valeurs à zéro à deux emplacements mémoire consécutifs.
+; In:  hl = pointeur vers le premier emplacement à purger
+;      bc = offset vers le second emplacement ($0004 = wLevelParam0C)
+; Out: -
+; Modifie: a, hl
 SpriteAnimationStatePurge:
     xor a
     ld [hl], a
