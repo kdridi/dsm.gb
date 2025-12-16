@@ -3263,6 +3263,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$29bd",
+      "node_type": "code",
+      "description": "AddSoundFlagToParam1 - Ajoute v\u00e9locit\u00e9 collision \u00e0 param1 et wPlayerX",
+      "source": "$29b8",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3546,6 +3554,7 @@
     "$0050",
     "$0FD8",
     "$1AA4",
+    "$29b8",
     "$078C",
     "$2222",
     "$2439",
@@ -3565,6 +3574,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 298
+  "commits_since_push": 3,
+  "total_explored": 299
 }

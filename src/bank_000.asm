@@ -9968,10 +9968,26 @@ CollisionPhysics_SoundChannelControl:
     ldh [hSoundVar1], a
     jr CollisionEnd
 
+; CheckObjectTileBottomLeft_Path
+; -------------------------------
+; Description: Gère la collision pour le tile bas-gauche (chemin gauche), ajoute la vélocité si collision
+; In:  hSoundFlag (nibble haut) = vélocité collision
+;      hSoundParam1, hSoundVar4 = paramètres de collision
+; Out: hSoundParam1 ajusté, wPlayerX ajusté si hSoundVar4 actif
+; Modifie: a, b
 CheckObjectTileBottomLeft_Path:
     call CheckObjectTileBottomLeft
     jr nc, CheckObjectTileBottomLeft_Alternatives
 
+; AddSoundFlagToParam1
+; --------------------
+; Description: Ajoute le nibble haut de hSoundFlag à hSoundParam1 et optionnellement à wPlayerX
+;              Utilisé lors de collisions bas-gauche pour ajuster la vélocité/position selon hSoundVar4
+; In:  hSoundFlag (nibble haut) = vélocité à ajouter
+;      hSoundParam1 = valeur à ajuster
+;      hSoundVar4 = flag (0 = ajuste seulement param1, ≠0 = ajuste aussi wPlayerX)
+; Out: hSoundParam1 et possiblement wPlayerX ajustés
+; Modifie: a, b
 AddSoundFlagToParam1:
     ldh a, [hSoundFlag]
     and NIBBLE_HIGH_MASK         ; Vélocité collision (nibble haut)
