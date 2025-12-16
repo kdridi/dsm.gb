@@ -10220,78 +10220,91 @@ AnimationCounterZero:
     ret
 
 
+; HandleGameplayObjectSound
+; -------------------------
+; Description: Gère les effets sonores liés aux animations d'objets en gameplay.
+;              Décrémente le compteur d'animation et déclenche des sons selon
+;              des seuils spécifiques (26, 97, 96). Quand le compteur atteint 0,
+;              charge la config audio depuis ROM_OBJECT_SOUND_TABLE.
+; In:  hl = pointeur vers structure objet
+; Out: a = RETURN_ANIM_CONTINUE ou RETURN_COLLISION_FOUND
+; Modifie: a, de, hl
 HandleGameplayObjectSound:
     push hl
     ld a, l
-    add OBJ_FIELD_ANIM_COUNTER
+    add OBJ_FIELD_ANIM_COUNTER       ; Offset vers compteur animation
     ld l, a
     ld a, [hl]
-    and ANIM_COUNTER_MASK
-    jr z, GameplayCounterZero
+    and ANIM_COUNTER_MASK            ; Masquer bits hauts
+    jr z, .counterZero
 
+    ; Décrémenter compteur et tester seuils de déclenchement
     ld a, [hl]
     dec a
     ld [hl], a
     pop hl
     ld a, [hl]
     cp ANIM_COUNTER_TRIGGER_26
-    jr z, GameplayObjectTriggerSound
+    jr z, .triggerSound
 
     cp ANIM_COUNTER_TRIGGER_97
-    jr z, GameplayObjectTriggerSound
+    jr z, .triggerSound
 
     cp ANIM_COUNTER_TRIGGER_96
-    jr z, GameplayObject60TriggerSound
+    jr z, .trigger60Sound
 
-    jr GameplayObjectSoundDone
+    jr .soundDone
 
-GameplayObject60TriggerSound:
+.trigger60Sound:
     ld a, FLAG_TRUE
     ld [wStateFinal], a
-    jr GameplayObjectSoundDone
+    jr .soundDone
 
-GameplayObjectTriggerSound:
+.triggerSound:
     ld a, FLAG_TRUE
     ld [wStateVar10], a
 
-GameplayObjectSoundDone:
+.soundDone:
     ld a, RETURN_ANIM_CONTINUE
     ret
 
 
-GameplayCounterZero:
+.counterZero:
+    ; Compteur à zéro : charger config audio depuis table ROM
     pop hl
     push hl
     ld a, [hl]
     cp ANIM_COUNTER_TRIGGER_96
-    jr nz, GameplayObject60NotFound
+    jr nz, .loadAudioConfig
 
+    ; Cas spécial : objet 96
     ld [wAudioCondition], a
 
-GameplayObject60NotFound:
+.loadAudioConfig:
+    ; Calcul offset dans ROM_OBJECT_SOUND_TABLE : index * 5 + 4
     ld a, [hl]
     ld e, a
     ld d, $00
     ld l, a
     ld h, $00
-    sla e
+    sla e                            ; e = index * 2
     rl d
-    sla e
+    sla e                            ; e = index * 4
     rl d
-    add hl, de
+    add hl, de                       ; hl = index * 5
     ld de, ROM_OBJECT_SOUND_TABLE
     add hl, de
+    inc hl                           ; Avancer vers 5e octet
     inc hl
     inc hl
     inc hl
-    inc hl
-    ld a, [hl]
+    ld a, [hl]                       ; Charger config audio
     pop hl
     and a
-    ret z
+    ret z                            ; Pas de son si config = 0
 
     ld [hl], a
-    call InitSoundSlot
+    call InitSoundSlot               ; Initialiser slot audio
     ld a, RETURN_COLLISION_FOUND
     ret
 
