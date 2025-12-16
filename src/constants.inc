@@ -897,6 +897,7 @@ DEF TILEMAP_BUFFER_COLS     EQU $1b   ; Colonnes tilemap avec buffer (27)
 ; === Direction joueur étendu ===
 
 DEF PLAYER_DIR_RIGHT        EQU $10   ; Direction droite (complément de PLAYER_DIR_LEFT=$18)
+DEF PLAYER_DIR_RIGHT_SUBMODE EQU $05  ; Sous-mode direction droite (nibble bas)
 
 ; === Animation ===
 

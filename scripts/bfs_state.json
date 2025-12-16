@@ -1585,6 +1585,14 @@
       "priority": 3
     },
     {
+      "address": "$1E58",
+      "node_type": "code",
+      "description": "HandlePlayerMovement - Applique le mouvement horizontal avec gestion d'oscillation",
+      "source": "$1E37",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1E9B",
       "node_type": "code",
       "description": "OffsetSpritesY - Applique offset vertical aux sprites",
@@ -2439,14 +2447,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1E58",
-      "node_type": "code",
-      "description": "HandlePlayerMovement - Applique le mouvement horizontal avec gestion d'oscillation",
-      "source": "$1E37",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2528,6 +2528,7 @@
     "$0DEA",
     "$1B3C",
     "$1438",
+    "$1E3F",
     "$0610",
     "$10FE",
     "$115C",
@@ -2648,6 +2649,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 197
+  "commits_since_push": 2,
+  "total_explored": 198
 }

@@ -7167,6 +7167,17 @@ HandleJoypadRight:
     cp PLAYER_ACCEL_TIMER_LEFT   ; Vérifie timer mouvement ($10)
     jr nz, HandlePlayerMovement
 
+; HandleJoypadRight_Setup
+; -----------------------
+; Description: Configure l'état initial pour le mouvement vers la droite.
+;              Active les timers, configure la direction et les compteurs d'oscillation.
+; In:  hl = pointeur vers wPlayerUnk0D
+;      wPlayerUnk07 = flag de blocage mouvement
+; Out: wPlayerUnk0D = FLAG_TRUE (timer activé)
+;      wPlayerUnk0C = TILE_SIZE_PIXELS (offset mouvement)
+;      wPlayerDir = direction mise à jour avec sous-mode droite
+;      wPlayerUnk0B = FLAG_TRUE (oscillation activée)
+; Modifie: a, hl
 HandleJoypadRight_Setup:
     ld [hl], FLAG_TRUE
     dec l
@@ -7178,7 +7189,7 @@ HandleJoypadRight_Setup:
     ld hl, wPlayerDir
     ld a, [hl]
     and NIBBLE_HIGH_MASK
-    or $05
+    or PLAYER_DIR_RIGHT_SUBMODE
     ld [hl], a
     ld a, FLAG_TRUE
     ld [wPlayerUnk0B], a
