@@ -11099,8 +11099,12 @@ AudioAnimData_04:
 AudioCmdSeq_12:
     db $10, $9C, $11, $8D, $FF
 
-; AudioAnimData_05 ($2D4C)
-; Séquence de 4 octets pour animation audio
+; AudioAnimData_05
+; ----------------
+; Description: Séquence de commandes audio pour animation (4 octets)
+; In: Référencée par pointeur de table d'animation audio
+; Format: [cmd1, param, cmd2, terminator]
+; Commandes: $8D avec paramètre $01, $9C, terminée par $FF
 AudioAnimData_05:
     db $8D, $01, $9C, $FF
 
