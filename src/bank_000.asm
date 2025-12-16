@@ -14350,12 +14350,22 @@ DMA_WaitLoop:
 
 ; === Données fin de bank 0 ($3F87-$3FFF, 121 bytes) ===
 
-; Données texte/tilemap ($3F87-$3FAE, 40 bytes)
-    db $16, $0a, $1b, $12, $18, $2b, $2c, $2c  ; $3F87
-    db $2c, $2c, $20, $18, $1b, $15, $0d, $2c  ; $3F8F
-    db $1d, $12, $16, $0e, $2c, $2c, $2c, $2c  ; $3F97
-    db $2c, $2c, $2c, $2a, $2b, $2c, $2c, $2c  ; $3F9F
-    db $01, $29, $01, $2c, $2c, $00, $00, $00  ; $3FA7
+; ===========================================================================
+; ROM_HUD_TILEMAP - Données tilemap du HUD ($3F87-$3FAE, 40 bytes)
+; ---------------------------------------------------------------------------
+; Description: Données de tilemap pour les 2 lignes du HUD affichées en haut
+;              de l'écran. Contient les indices de tiles pour:
+;              Ligne 1: "MARIO    WORLD TIME"
+;              Ligne 2: "   x  *-     -"
+;              Les valeurs $2b et $2c correspondent à des tiles vides (espace)
+; Format: 20 tiles par ligne (TILEMAP_ROW_WIDTH) × 2 lignes (HUD_LINE_COUNT)
+; Utilisé par: CopyHudTilemap ($05F8)
+; ===========================================================================
+    db $16, $0a, $1b, $12, $18, $2b, $2c, $2c  ; Ligne 1: "MARIO   " ($3F87)
+    db $2c, $2c, $20, $18, $1b, $15, $0d, $2c  ; Ligne 1: "  WORLD " ($3F8F)
+    db $1d, $12, $16, $0e, $2c, $2c, $2c, $2c  ; Ligne 1: "TIME    " ($3F97)
+    db $2c, $2c, $2c, $2a, $2b, $2c, $2c, $2c  ; Ligne 2: "   *    " ($3F9F)
+    db $01, $29, $01, $2c, $2c, $00, $00, $00  ; Ligne 2: ".-. ..." ($3FA7)
 
 ; Table animation tiles ($3FAF, 80 bytes)
 AnimTilesFrames::
