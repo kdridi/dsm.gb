@@ -7893,6 +7893,21 @@ LevelInitData::
     db $01, $00, $00, $0f, $00, $20, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
     db $01, $00, $00, $0f, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
     db $01, $00, $00, $0f, $00, $20, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+
+; ROM_OBJECT_INIT_DATA ($2164)
+; ----------------------------
+; Description: Table de décompte/priorités pour initialisation des objets.
+;              Utilisée par ProcessObjectData ($490d) pour calculer les vitesses
+;              et priorités des objets animés (wObject1-wObject5).
+; Structure: 27 octets de valeurs décroissantes ($04→$00) avec terminateur $7f
+;            - Décompte rapide: $04,$04,$03,$03 (4 valeurs)
+;            - Décompte moyen:  $02×10 (10 valeurs)
+;            - Décompte lent:   $01×6 (6 valeurs)
+;            - Arrêt/attente:   $00,$01,$00,$01,$00,$00 (6 valeurs)
+;            - Terminateur:     $7f (1 valeur)
+; Utilisé par: State00_MainGameplay ($0610), State26_PrincessRising ($104C)
+; Note: Fait partie de LevelInitData mais référencé séparément à $2164
+ROM_OBJECT_INIT_DATA:
     db $04, $04, $03, $03, $02, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $01
     db $01, $01, $01, $01, $00, $01, $00, $01, $00, $00, $7f
 

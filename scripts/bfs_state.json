@@ -2631,6 +2631,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$490d",
+      "node_type": "code",
+      "description": "ProcessObjectData - Routine qui lit cette table pour calculer vitesses/priorit\u00e9s objets",
+      "source": "$2164",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2815,6 +2823,7 @@
     "$2001",
     "$0EDE",
     "$0DCA",
+    "$2164",
     "$0837",
     "$0166",
     "$1F24",
@@ -2863,6 +2872,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 228
+  "commits_since_push": 3,
+  "total_explored": 229
 }

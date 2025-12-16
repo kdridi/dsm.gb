@@ -507,7 +507,7 @@ DEF ROM_WORLD1_PALETTE  EQU $4402   ; Palette monde 1 (et 2)
 DEF ROM_WORLD3_PALETTE  EQU $4BC2   ; Palette monde 3
 
 ; --- Données objets ---
-DEF ROM_OBJECT_INIT_DATA EQU $2164  ; Table init objets (vitesses/priorités)
+; ROM_OBJECT_INIT_DATA défini comme label dans bank_000.asm ($2164)
 
 ; === Adresses VRAM ===
 ; --- Destinations copie tiles ---
