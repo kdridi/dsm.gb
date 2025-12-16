@@ -3393,7 +3393,7 @@ SharedTilesetData_024:
 ; Référencé par: LevelJumpTable niveaux 0, 1, 2 (lignes 12, 14, 16)
 ; ==============================================================================
 SharedMapData_012:
-    dw $56CD, TileGraphic_5ABB, $6048, MapTileData_5BA3, $5C22, $5CA6, $5D32, $5D8A
+    dw $56CD, TileGraphic_5ABB, $6048, MapTileData_5BA3, MapTileData_5C22, $5CA6, $5D32, $5D8A
     dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, $5CA6
     dw $5A5F
     db $FF  ; Terminateur
@@ -4446,8 +4446,18 @@ MapTileData_5BA3:  ; $5BA3
     db $5D, $FE, $12, $44, $48, $B5, $67, $69, $67, $69, $5D, $FE, $B5, $68, $6A, $68
     db $6A, $5D, $FE, $B2, $67, $69, $F1, $5D, $FE, $B2, $68, $6A, $F1, $5D, $FE
 
-; Suite: données mal désassemblées à $5C22+ (à reconstruire dans un futur nœud BFS)
-DataZone_5c0c:  ; Label incorrect (devrait être supprimé), à l'origine à $5C0C milieu de données
+; ==============================================================================
+; MapTileData_5C22 - Tile data map section (mal désassemblé) ($5C22-$5CA5)
+; ==============================================================================
+; Description: Données de tiles pour map, actuellement mal désassemblées comme du code
+;              Les octets générés par ces instructions forment des tile data compressées
+;              Format RLE avec pattern: [flag/count] [tile_ids]* $F1 $5D $FE (fin ligne)
+; Format: Instructions Z80 qui génèrent les bytes corrects pour tile data
+; Taille: 132 octets ($84)
+; Référencé par: SharedMapData_012 (ligne 3396, index 4)
+; Note: Ces instructions DOIVENT rester telles quelles car elles génèrent les bons bytes
+; ==============================================================================
+MapTileData_5C22:  ; ($5C22) Tile data (mal désassemblée - à reconstruire en db dans futur BFS)
     or d
     ld h, a
     ld l, c
