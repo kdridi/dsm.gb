@@ -11471,6 +11471,13 @@ AddressTable_00:
     cpl
     xor [hl]
     ld l, $b0
+; ===========================================================================
+; ROM_AUDIO_CHANNEL_TABLE_2 ($30AB)
+; Table de 16 pointeurs vers les séquences de commandes audio
+; Utilisée par ProcessAudioChannelData selon hSoundCh2 (bit 0 = 0)
+; Pointeurs: AudioCmdSeq_00 à AudioCmdSeq_15 (adresses $2D00,$2D02,$2D05,...$2D57)
+; Cette zone est mal désassemblée et devrait être reconstruite comme table de pointeurs
+; ===========================================================================
     ld l, $97
     cpl
     or d

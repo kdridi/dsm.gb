@@ -3919,6 +3919,46 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2D14",
+      "node_type": "data",
+      "description": "AudioCmdSeq_06 - S\u00e9quence audio 6",
+      "source": "$30AB",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D18",
+      "node_type": "data",
+      "description": "AudioCmdSeq_07 - S\u00e9quence audio 7",
+      "source": "$30AB",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D3B",
+      "node_type": "data",
+      "description": "AudioCmdSeq_10 - S\u00e9quence audio 10",
+      "source": "$30AB",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D41",
+      "node_type": "data",
+      "description": "AudioCmdSeq_11 - S\u00e9quence audio 11",
+      "source": "$30AB",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2D4C",
+      "node_type": "data",
+      "description": "AudioCmdSeq_12 - S\u00e9quence audio 12",
+      "source": "$30AB",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4147,6 +4187,7 @@
     "$0C37",
     "$07F0",
     "$266D",
+    "$30AB",
     "$0552",
     "$296c",
     "$2d8b",
@@ -4328,6 +4369,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 4,
-  "total_explored": 405
+  "commits_since_push": 0,
+  "total_explored": 406
 }
