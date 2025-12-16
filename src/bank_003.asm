@@ -2574,64 +2574,87 @@ HandleJoypadInputDelay:
     ret
 
 
-; Routine $4a94 - Vérifie l'état de verrouillage et gère le démo/input
+; CheckUnlockState
+; ----------------
+; Description: Gère la lecture d'inputs démo pré-enregistrés pendant le verrouillage.
+;              Utilisé pour les séquences attract mode (démonstrations automatiques).
+; In:  hUpdateLockFlag = flag de verrouillage (0 = déverrouillé)
+; Out: hJoypadState et hJoypadDelta = inputs simulés depuis séquence démo
+; Modifie: a, de, hl
 CheckUnlockState::
+    ; Early return si système déverrouillé (mode gameplay normal)
     ReturnIfUnlocked
 
+    ; Si a == $ff, ne rien faire (état spécial)
     cp $ff
     ret z
 
+    ; Vérifier si délai actif (wLevelVarD8 = compteur frames entre inputs)
     ld a, [wLevelVarD8]
     and a
-    jr z, PaddingZone_003_4aa7
+    jr z, .loadNextDemoInput
 
+    ; Décrémenter délai et sortir
     dec a
     ld [wLevelVarD8], a
-    jr JoypadStateUpdatePersist
+    jr .applyDemoInput
 
-PaddingZone_003_4aa7:
+.loadNextDemoInput:
+    ; Charger table de pointeurs vers séquences démo par bank
     ld a, [wCurrentROMBank]
-    sla a
+    sla a                               ; × 2 (pointeurs 16-bit)
     ld e, a
     ld d, $00
-    ld hl, $4ae4
+    ld hl, $4ae4                        ; Table pointeurs séquences démo
     add hl, de
+
+    ; Charger pointeur vers séquence démo de cette bank
     ld e, [hl]
     inc hl
     ld d, [hl]
     push de
     pop hl
+
+    ; Indexer dans la séquence selon wLevelVarD9 (offset courant)
     ld a, [wLevelVarD9]
     ld d, $00
     ld e, a
     add hl, de
-    ld a, [hl+]
-    cp $ff
-    jr z, JoypadStateClearRegister
 
-    ld [wLevelVarDA], a
+    ; Lire paire [input, délai]
+    ld a, [hl+]
+    cp $ff                              ; Marqueur fin de séquence ?
+    jr z, .clearDemoInput
+
+    ; Stocker input et délai
+    ld [wLevelVarDA], a                 ; Input joypad simulé
     ld a, [hl]
-    ld [wLevelVarD8], a
+    ld [wLevelVarD8], a                 ; Délai avant prochain input
+
+    ; Avancer offset de 2 octets (input + délai)
     inc e
     inc e
     ld a, e
     ld [wLevelVarD9], a
 
-JoypadStateUpdatePersist:
+.applyDemoInput:
+    ; Sauvegarder ancien état joypad et appliquer input démo
     ldh a, [hJoypadState]
-    ld [wLevelVarDB], a
-    ld a, [wLevelVarDA]
+    ld [wLevelVarDB], a                 ; Backup
+    ld a, [wLevelVarDA]                 ; Input simulé
     ldh [hJoypadState], a
     ldh [hJoypadDelta], a
     ret
 
-
-JoypadStateClearRegister:
+.clearDemoInput:
+    ; Fin de séquence : réinitialiser input à 0
     xor a
     ld [wLevelVarDA], a
-    jr JoypadStateUpdatePersist
+    jr .applyDemoInput
 
-; Données ou code orphelin (zone $4ae4-$4ae9)
+; Table de pointeurs vers séquences d'inputs démo (1 par bank ROM)
+; Note: Cette table est à $4ae4 et est référencée dans .loadNextDemoInput
+; Données graphiques ou données orphelines (zone $4ae4-$4ae9)
     ld d, b
     ld h, l
     ldh [$ff65], a
