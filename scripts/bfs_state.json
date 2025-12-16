@@ -3105,6 +3105,14 @@
       "priority": 3
     },
     {
+      "address": "$2ff9",
+      "node_type": "table",
+      "description": "AudioChannelCommandTable1Alt - Table alternative de pointeurs vers s\u00e9quences audio (canal alternatif)",
+      "source": "$25b7",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$30AB",
       "node_type": "table",
       "description": "ROM_AUDIO_CHANNEL_TABLE_2 - Table de pointeurs vers commandes audio (option 2)",
@@ -3783,14 +3791,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2ff9",
-      "node_type": "table",
-      "description": "AudioChannelCommandTable1Alt - Table alternative de pointeurs vers s\u00e9quences audio (canal alternatif)",
-      "source": "$25b7",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3958,6 +3958,7 @@
     "$17B3",
     "$110D",
     "$1aa0",
+    "$2d21",
     "$1C5E",
     "$09E8",
     "$2d0f",
@@ -4174,6 +4175,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 3,
-  "total_explored": 379
+  "commits_since_push": 4,
+  "total_explored": 380
 }

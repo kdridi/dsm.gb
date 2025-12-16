@@ -11013,7 +11013,13 @@ AudioCmdSeq_06:
 ; Séquence de commandes audio n°7 (entrée 7 de AudioChannelCommandTable1)
 ; Description: Commandes audio $99 et $98 avec paramètres $10 et $18
 ; In: via pointeur de AudioChannelCommandTable1[7]
-; Format: [paramètre, commande, paramètre, commande, $FF]
+; Format: [paramètre1, commande1, paramètre2, commande2, $FF]
+;         $10 = paramètre pour commande $99
+;         $99 = commande audio 1
+;         $18 = paramètre pour commande $98
+;         $98 = commande audio 2
+;         $FF = terminateur de séquence
+; Modifie: Variables audio selon les commandes exécutées
 AudioCmdSeq_07:
     db $10, $99, $18, $98, $FF
 
