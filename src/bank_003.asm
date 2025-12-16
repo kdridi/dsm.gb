@@ -3323,9 +3323,18 @@ AnimFrame_4D55:
 AnimFrame_4D59:
     dw $FF1D
     dw $4E44
-AnimFrame_4D5D:
-    dw $FF62
-    dw $4E44
+; AnimSpeedEntry_4D5D - Point d'entrée dans table d'accélération (MAL DÉSASSEMBLÉ)
+; ----------------
+; Description: Point d'entrée au milieu d'une table de vitesse d'animation
+;              Référencé par AnimFrame_4CA9 comme pointeur vers "SpriteData"
+;              ATTENTION: Toute la zone $4D55-$4DA1 est mal désassemblée!
+; In:  Pointeur utilisé par système d'animation
+; Out: Table de words pour courbe d'accélération/décélération
+; Format: Vraies données @ $4D5D: dw $0004, $0004, $0008, $0007, $0008...
+; Note: Reconstruction complète nécessaire - voir nœuds adjacents dans roadmap BFS
+AnimSpeedEntry_4D5D:      ; ← NŒUD ACTUEL $4D5D
+    dw $FF62              ; MAL DÉSASSEMBLÉ - vraie donnée: dw $0004
+    dw $4E44              ; MAL DÉSASSEMBLÉ - vraie donnée: dw $0004
 AnimFrame_4D61:
     dw $7170
     dw $7372
