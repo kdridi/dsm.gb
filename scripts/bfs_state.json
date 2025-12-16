@@ -3567,6 +3567,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2D95",
+      "node_type": "data",
+      "description": "AudioAnimData_10 - D\u00e9but de zone de donn\u00e9es d'animation audio non encore reconstruite",
+      "source": "$2D88",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -3820,6 +3828,7 @@
     "$24c4",
     "$0EA0",
     "$29bd",
+    "$2D88",
     "$0153",
     "$1C73",
     "$2759",
@@ -3916,6 +3925,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 4,
-  "total_explored": 345
+  "commits_since_push": 0,
+  "total_explored": 346
 }
