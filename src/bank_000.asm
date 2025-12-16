@@ -6792,25 +6792,24 @@ State39_ClearOAMBuffer:
     inc [hl]
     ret
 
-; TextData_GameOver
-; -----------------
-; Description: Tilemap pour affichage "GAME OVER" dans la window (13 bytes)
+; GameOverText
+; ------------
+; Description: Tilemap pour affichage "GAME OVER" dans la window (17 bytes)
 ; Format: Indices de tiles pour affichage dans la window layer
-; Contenu: "    GAME OVER" ($2C = espace, lettres en indices tiles)
-TextData_GameOver:
+; Contenu: "     GAME  OVER  " (5 espaces + GAME + 2 espaces + OVER + 2 espaces)
+;          $2C = tile espace, lettres mappées sur indices tiles
+GameOverText:
     db $2C, $2C, $2C, $2C, $2C  ; 5 espaces
-    db $10, $0A, $16, $0E       ; "GAME"
+    db $10, $0A, $16, $0E       ; "GAME" (G=0x10, A=0x0A, M=0x16, E=0x0E)
     db $2C, $2C                 ; 2 espaces
-    db $18, $1F                 ; "OV" (début de OVER)
+    db $18, $1F, $0E, $1B       ; "OVER" (O=0x18, V=0x1F, E=0x0E, R=0x1B)
+    db $2C, $2C                 ; 2 espaces finaux
 
 ; ===========================================================================
 ; État $3A - Mise à jour window ($1CDF)
 ; Vérifie variable player et appelle routine de mise à jour si != 0
 ; ===========================================================================
 State3A_WindowUpdate::
-    ld c, $1b
-    inc l
-    inc l
     ld a, [wPlayerVarAD]
     and a
     call nz, SetupCreditsState

@@ -1593,10 +1593,106 @@
       "priority": 3
     },
     {
+      "address": "$21C0",
+      "node_type": "code",
+      "description": "InitFromRenderContext - Initialise depuis le contexte de rendu",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$21DF",
+      "node_type": "code",
+      "description": "ProcessScrollEntry - Traite une entr\u00e9e de donn\u00e9es tilemap",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$21F5",
+      "node_type": "code",
+      "description": "TilemapDataNibbleNonZero - Gestion nombre de tiles depuis nibble bas",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$21F6",
+      "node_type": "code",
+      "description": "TilemapDataCopyStart - D\u00e9but copie donn\u00e9es tilemap",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$221C",
+      "node_type": "code",
+      "description": "ProcessColumnAnimation_End - Fin du traitement d'animation de colonne",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2222",
+      "node_type": "code",
+      "description": "UpdateCollisionFlag - Incr\u00e9mente le flag de collision",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2227",
+      "node_type": "code",
+      "description": "StoreTilemapScrollOffsets - Sauvegarde les offsets de scroll tilemap",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2239",
+      "node_type": "code",
+      "description": "UpdateTilemapScrollConfig - Met \u00e0 jour la config de scroll tilemap",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2245",
+      "node_type": "code",
+      "description": "TilemapDataCopyLoop - Boucle de copie des donn\u00e9es tilemap",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2246",
+      "node_type": "code",
+      "description": "CopyTileDataLoop - Boucle de copie des donn\u00e9es de tiles",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$224F",
       "node_type": "code",
       "description": "UpdateScrollColumn - Mise \u00e0 jour du scroll colonne",
       "source": "$0040",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$22A0",
+      "node_type": "code",
+      "description": "UpdateTilemapScrolling - Met \u00e0 jour le scrolling de la tilemap",
+      "source": "$21A8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2318",
+      "node_type": "code",
+      "description": "LoadLevelTilemap - Charge la tilemap du niveau",
+      "source": "$21A8",
       "bank": 0,
       "priority": 3
     },
@@ -2247,102 +2343,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$21C0",
-      "node_type": "code",
-      "description": "InitFromRenderContext - Initialise depuis le contexte de rendu",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$21DF",
-      "node_type": "code",
-      "description": "ProcessScrollEntry - Traite une entr\u00e9e de donn\u00e9es tilemap",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2222",
-      "node_type": "code",
-      "description": "UpdateCollisionFlag - Incr\u00e9mente le flag de collision",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2227",
-      "node_type": "code",
-      "description": "StoreTilemapScrollOffsets - Sauvegarde les offsets de scroll tilemap",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2239",
-      "node_type": "code",
-      "description": "UpdateTilemapScrollConfig - Met \u00e0 jour la config de scroll tilemap",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$21F5",
-      "node_type": "code",
-      "description": "TilemapDataNibbleNonZero - Gestion nombre de tiles depuis nibble bas",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$21F6",
-      "node_type": "code",
-      "description": "TilemapDataCopyStart - D\u00e9but copie donn\u00e9es tilemap",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$22A0",
-      "node_type": "code",
-      "description": "UpdateTilemapScrolling - Met \u00e0 jour le scrolling de la tilemap",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$221C",
-      "node_type": "code",
-      "description": "ProcessColumnAnimation_End - Fin du traitement d'animation de colonne",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2318",
-      "node_type": "code",
-      "description": "LoadLevelTilemap - Charge la tilemap du niveau",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2245",
-      "node_type": "code",
-      "description": "TilemapDataCopyLoop - Boucle de copie des donn\u00e9es tilemap",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2246",
-      "node_type": "code",
-      "description": "CopyTileDataLoop - Boucle de copie des donn\u00e9es de tiles",
-      "source": "$21A8",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2487,6 +2487,7 @@
     "$1C4D",
     "$4000:1",
     "$05BE",
+    "$1CCE",
     "$0E8D",
     "$1020",
     "$0A07",
@@ -2531,6 +2532,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 184
+  "commits_since_push": 4,
+  "total_explored": 185
 }
