@@ -7826,6 +7826,14 @@ UpdateScroll:
     ld hl, wPlayerVarAB
     inc [hl]
 
+; InitScrollBuffer
+; ----------------
+; Description: Remplit le buffer de scroll avec des tiles vides puis charge
+;              les données de tilemap depuis le contexte de rendu ou les offsets sauvegardés
+; In:  hTilemapScrollY = position Y du scroll (0 = init depuis RenderContext)
+;      hTilemapOffsetX/Y = offsets sauvegardés si hTilemapScrollY != 0
+; Out: wScrollBuffer rempli avec données de tilemap
+; Modifie: a, b, de, hl
 InitScrollBuffer:
     ld b, SCROLL_BUFFER_SIZE
     ld hl, wScrollBuffer
