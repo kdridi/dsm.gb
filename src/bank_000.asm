@@ -9133,6 +9133,14 @@ WriteAudioOutput:
     ld [wAudioState2], a
     jr ProcessAudioCommandLoop
 
+; UpdateAllObjectSounds
+; ---------------------
+; Description: Parcourt tous les objets du buffer et met à jour leurs sons associés.
+;              Pour chaque objet actif, charge les données audio, récupère les pointeurs
+;              depuis la table ROM_AUDIO_POINTERS, traite l'animation sonore, puis sauvegarde.
+; In:  Aucun
+; Out: Aucun
+; Modifie: af, bc, de, hl (via sous-routines)
 UpdateAllObjectSounds:
     ld hl, wObjectBuffer
 
