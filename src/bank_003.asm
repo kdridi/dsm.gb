@@ -3343,8 +3343,9 @@ AnimSpeedEntry_4D5D:      ; ← NŒUD ACTUEL $4D5D
 AnimFrame_4D61:
     dw $7170              ; MAL DÉSASSEMBLÉ - vraies données: db $75, $78
     dw $7372              ; MAL DÉSASSEMBLÉ - vraies données: db $7F, $66
-AnimFrame_4D65:
-    dw $44FF
+; MalData_4D65 - Données mal désassemblées (vraies valeurs: $0008, $0010)
+MalData_4D65:
+    dw $44FF              ; Mal désassemblé: devrait être dw $0008, $0010
     dw $704E
 AnimFrame_4D69:
     dw $7471
