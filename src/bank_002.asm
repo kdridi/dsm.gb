@@ -6986,7 +6986,7 @@ OnAnimationThresholdReached:
 SpriteAnimationState_ValidateAndLoad:
     ld hl, wSpriteTemp
     ld b, $04
-    ld de, $5c9d
+    ld de, SpriteAnimationType50Data
     ld a, [wLevelDifficulty]
     and a
     jr z, SpriteAnimationCountdown
@@ -6998,6 +6998,12 @@ CountdownPointerOffsetLoop:
     dec c
     jr nz, CountdownPointerOffsetLoop
 
+; SpriteAnimationCountdown
+; -------------------------
+; Description: Décompte et charge les données d'animation sprite depuis une table
+; In:  hl = pointeur wSpriteTemp, de = pointeur dans SpriteAnimationData, b = compteur (4 sprites)
+; Out: Données d'animation chargées dans wSpriteTemp
+; Modifie: a, bc, de, hl
 SpriteAnimationCountdown:
     dec [hl]
     inc l
@@ -7007,7 +7013,7 @@ SpriteAnimationCountdown:
     cp $ff
     jr nz, SpriteAnimationDataAdvance
 
-    ld de, $5c9d
+    ld de, SpriteAnimationType50Data
     xor a
     ld [wLevelDifficulty], a
     ld a, [de]
@@ -7055,63 +7061,28 @@ SetState17_AfterAnimation:
     ret
 
 
-    ld [bc], a
-    inc bc
-    ld [de], a
-    inc de
-    ld [bc], a
-    inc bc
-    ld [de], a
-    inc de
-    ld [bc], a
-    inc bc
-    ld [de], a
-    inc de
-    ld [bc], a
-    inc bc
-    ld [de], a
-    inc de
-    inc b
-    dec b
-    inc d
-    dec d
-    inc b
-    dec b
-    inc d
-    dec d
-    inc b
-    dec b
-    inc d
-    dec d
-    inc b
-    dec b
-    inc d
-    dec d
-    nop
-    ld bc, $1716
-    nop
-    ld bc, $1716
-    nop
-    ld bc, $1716
-    nop
-    ld bc, $1716
-    inc b
-    dec b
-    inc d
-    dec d
-    inc b
-    dec b
-    inc d
-    dec d
-    inc b
-    dec b
-    inc d
-    dec d
-    inc b
-    dec b
-    inc d
-    dec d
-    rst $38
+; SpriteAnimationType50Data
+; -------------------------
+; Table des tile IDs pour l'animation sprite type $50
+; Format: 4 groupes de 16 bytes (4 tiles par frame) + $FF (marqueur de fin)
+SpriteAnimationType50Data:
+    db $02, $03, $12, $13  ; Frame 1
+    db $02, $03, $12, $13  ; Frame 2
+    db $02, $03, $12, $13  ; Frame 3
+    db $02, $03, $12, $13  ; Frame 4
+    db $04, $05, $14, $15  ; Frame 5
+    db $04, $05, $14, $15  ; Frame 6
+    db $04, $05, $14, $15  ; Frame 7
+    db $04, $05, $14, $15  ; Frame 8
+    db $00, $01, $16, $17  ; Frame 9
+    db $00, $01, $16, $17  ; Frame 10
+    db $00, $01, $16, $17  ; Frame 11
+    db $00, $01, $16, $17  ; Frame 12
+    db $04, $05, $14, $15  ; Frame 13
+    db $04, $05, $14, $15  ; Frame 14
+    db $04, $05, $14, $15  ; Frame 15
+    db $04, $05, $14, $15  ; Frame 16
+    db $FF                 ; Fin de séquence
 
 SpriteAnimationState_LoadPalette:
     ld a, [wLevelBonus]
