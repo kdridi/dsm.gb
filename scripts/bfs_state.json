@@ -5743,6 +5743,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$5C9D",
+      "node_type": "data",
+      "description": "Table de donn\u00e9es r\u00e9f\u00e9renc\u00e9e dans les routines d'animation sprite",
+      "source": "$5B57",
+      "bank": 2,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5778,6 +5786,7 @@
     "$1EC5",
     "$5ABB",
     "$4D1D",
+    "$5B57",
     "$09D7",
     "$1D1D",
     "$5107",
@@ -6369,6 +6378,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 622
+  "commits_since_push": 2,
+  "total_explored": 623
 }

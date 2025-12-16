@@ -6770,6 +6770,19 @@ SpriteAnimationMergePoint:
     ret
 
 
+; [$5B57] AnimationTileGraphicsData_Type40
+; -----------------------------------------
+; Description: Données graphiques de tiles pour les animations de type $40
+;              Table référencée indirectement par AnimationDispatch_SelectHandler
+;              Contient des patterns de tiles 8x8 au format Game Boy (2bpp)
+;              ATTENTION: La zone $5B57-$5C9C est actuellement MAL DÉSASSEMBLÉE
+;              comme du code (SpriteAnimationState_ResetCounter, etc.) mais
+;              contient en réalité des DONNÉES graphiques
+; Format: Suite de bytes (patterns graphiques 2bpp Game Boy)
+; Utilisé par: AnimationDispatch_SelectHandler (type $40 → pointeur $5B57)
+; Note: Cette zone devra être reconstruite en tant que db dans une future itération BFS
+AnimationTileGraphicsData_Type40:
+
 SpriteAnimationState_ResetCounter:
     xor a
     ld [wLevelParam22], a
