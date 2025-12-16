@@ -14192,13 +14192,17 @@ GetTileAddrFromSprite:
     ret
 
 
-; -----------------------------------------------------------------------------
-; GetSpritePosFromTileAddr - Convertit adresse tilemap en coordonnées sprite
-; -----------------------------------------------------------------------------
-; Entrées : hSpriteAttr/hSpriteTile (adresse tilemap)
-; Sorties : hSpriteY, hSpriteX (coordonnées OAM en pixels)
-; Note    : Fonction inverse de GetTileAddrFromSprite
-; -----------------------------------------------------------------------------
+; GetSpritePosFromTileAddr
+; ------------------------
+; Description: Convertit une adresse de tilemap en coordonnées sprite OAM.
+;              Effectue un shift de 4 bits pour extraire les coordonnées tile,
+;              puis calcule les positions Y et X en pixels avec ajustements.
+;              Fonction inverse de GetTileAddrFromSprite.
+; In:  hSpriteAttr = octet haut de l'adresse tilemap (ligne)
+;      hSpriteTile = octet bas de l'adresse tilemap (colonne+offset)
+; Out: hSpriteY = coordonnée Y du sprite en pixels (avec offset OAM)
+;      hSpriteX = coordonnée X du sprite en pixels (avec offset OAM)
+; Modifie: a, b, de
 GetSpritePosFromTileAddr:
     ldh a, [hSpriteAttr]
     ld d, a
