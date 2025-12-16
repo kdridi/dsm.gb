@@ -6363,22 +6363,29 @@ NoCollisionFound:
     ret
 
 
+; HandlePlayerSpikeCollision
+; --------------------------
+; Description: Gère collision joueur avec tuyau/spike (tile $F4)
+;              Configure type collision spécial et buffer d'état
+; In:  hl = adresse mémoire à sauvegarder
+; Out: a = 0 (pas de collision détectée en retour)
+; Modifie: de, hl
 HandlePlayerSpikeCollision:
     push hl
-    pop de
+    pop de                          ; de = hl (sauvegarde adresse)
     ld hl, hBlockHitType
     ld a, [hl]
-    and a
-    ret nz
+    and a                           ; Vérifier si type déjà défini
+    ret nz                          ; Si oui, sortir sans rien faire
 
-    ld [hl], BLOCK_HIT_TYPE_SPECIAL
-    inc l
-    ld [hl], d
-    inc l
-    ld [hl], e
-    ld a, STATE_BUFFER_COIN
+    ld [hl], BLOCK_HIT_TYPE_SPECIAL ; Type spécial (annule animation objet)
+    inc l                           ; hBlockHitType+1
+    ld [hl], d                      ; Sauver hi byte adresse
+    inc l                           ; hBlockHitType+2
+    ld [hl], e                      ; Sauver lo byte adresse
+    ld a, STATE_BUFFER_COIN         ; État buffer $05
     ld [wStateBuffer], a
-    xor a
+    xor a                           ; a = 0
     ret
 
 
