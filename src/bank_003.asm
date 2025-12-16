@@ -3281,7 +3281,16 @@ SpriteData_Walk4_TileData:  ; @ $4D43 (ancien AnimFrame_4D41)
 AnimFrame_4D45:
     dw $44FF
     dw $0A4E
-; SpriteData_Walk5 - Séquence de commandes sprite pour animation marche frame 5
+; SpriteData_Walk5
+; ----------------
+; Description: Données sprite mal désassemblées pour animation marche frame 5
+;              Zone de données binaires avec points d'entrée multiples (optimisation mémoire)
+; In:  Référencé par AnimFrame_Walk5 ($4C9D)
+; Out: Aucun (données pures)
+; Format: Séquence de bytes encodant des commandes sprite OAM
+;         Les labels AnimFrame_4D** sont des points d'entrée alternatifs dans les données
+; Note: Zone mal désassemblée - les dw ne correspondent pas au format réel
+;       Nécessite reconstruction complète basée sur xxd pour comprendre le vrai format
 SpriteData_Walk5:
 AnimFrame_4D48:
 AnimFrame_4D49:
