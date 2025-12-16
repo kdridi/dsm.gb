@@ -4761,6 +4761,14 @@
       "priority": 3
     },
     {
+      "address": "$5909",
+      "node_type": "code",
+      "description": "AnimationDispatch_SelectHandler - Dispatch handler animation selon bank type",
+      "source": "$5892",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$596E",
       "node_type": "data",
       "description": "Tile graphique (8 bytes)",
@@ -5455,14 +5463,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$5909",
-      "node_type": "code",
-      "description": "AnimationDispatch_SelectHandler - Dispatch handler animation selon bank type",
-      "source": "$5892",
-      "bank": 2,
-      "priority": 3
     }
   ],
   "visited": [
@@ -5727,6 +5727,7 @@
     "$049C",
     "$3DCE",
     "$1815",
+    "$58FE",
     "$5179",
     "$3efe",
     "$2d65",
@@ -6061,6 +6062,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 3,
-  "total_explored": 594
+  "commits_since_push": 4,
+  "total_explored": 595
 }

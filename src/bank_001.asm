@@ -3379,8 +3379,8 @@ SharedTilesetData_578:
 ; ==============================================================================
 SharedTilesetData_024:
     dw $56CD, $5ABB, $6048, $56CD, $574A, $57EB, $5D32, $586F
-    dw $58FE, $58FE, $596E, $574A, $57EB, $57EB, $586F, $574A
-    dw $58FE, $59EE, $5A5F
+    dw TilesetBlock_58FE, TilesetBlock_58FE, $596E, $574A, $57EB, $57EB, $586F, $574A
+    dw TilesetBlock_58FE, $59EE, $5A5F
     db $FF  ; Terminateur
 
 ; ==============================================================================
@@ -3954,7 +3954,24 @@ TileGraphic_586F:  ; $586F (au milieu de l'instruction ci-dessous, byte 2)
     ld h, e
     ld sp, $3131
     ld sp, $5d31
-    cp $71
+
+; ==============================================================================
+; TilesetBlock_58FE - Bloc de tiles graphiques 2BPP ($58FE-$596D)
+; ==============================================================================
+; Description: Bloc de 14 tiles graphiques 8x8 pixels, format 2BPP Game Boy
+; Taille: 112 octets ($70) = 14 tiles × 8 bytes
+; Référencé par: SharedTilesetData_024 (lignes 3382-3383) - 3 occurrences
+; Format: Séquence de tiles 2BPP (2 bits par pixel, 8 bytes par tile)
+; Note: Zone mal désassemblée comme code - devrait être reconstruite en 'db'
+; TODO BFS: Reconstruire en format:
+;   TilesetBlock_58FE:
+;       db $71, $64, $F1, $5D, $FE, $71, $64, $F1  ; Tile 0
+;       db $5D, $FE, $71, $64, $F1, $5D, $FE, $51  ; Tile 1
+;       ... (12 tiles de plus)
+; ==============================================================================
+    db $FE  ; Premier byte de l'instruction 'cp $71' (opcode FE)
+TilesetBlock_58FE:  ; $58FE - pointe vers le paramètre $71
+    db $71  ; Deuxième byte de 'cp $71'
     ld h, h
     pop af
     ld e, l
