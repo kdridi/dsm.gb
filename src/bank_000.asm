@@ -10829,6 +10829,8 @@ SaveSoundDataLoop:
 AudioCmdSeq_00:
     db $90, $FF
 
+; AudioCmdSeq_01 ($2D02)
+; Séquence de 3 octets : $10 (paramètre), $90 (commande), $FF (terminateur)
 AudioCmdSeq_01:
     db $10, $90, $FF
 
