@@ -6499,6 +6499,18 @@ ProcessBlockCollision_HandleSoftBlock:
     ld b, [hl]
     ld [hl], $00
 
+; ProcessBlockCollision_CommonExit
+; ---------------------------------
+; Description: Point d'entrée commun pour terminer le traitement de collision bloc.
+;              Copie une tile vide dans la tilemap, vérifie si c'est un tuyau spécial
+;              et gère la collecte de pièce dans ce cas. Utilisé par HandleSoftBlock
+;              et CoinProcess pour partager la logique de fin.
+; In:  b = type de bloc (BLOCK_HIT_TYPE_SPECIAL ou autre)
+;      hl = pointeur vers hBlockHitType (état du bloc)
+;      [hl+1,hl+2] = pointeur DE vers la position tilemap à effacer
+; Out: Tilemap modifiée avec TILE_EMPTY
+;      Si tile tuyau ($F4) détectée: hSpriteAttr/Tile, hPtrLow/High/Bank configurés
+; Modifie: a, b, de, hl
 ProcessBlockCollision_CommonExit:
     inc l
     ld d, [hl]
@@ -6548,6 +6560,13 @@ BlockCollision_CoinProcess:
     ld [hl], BLOCK_STATE_EMPTY
     jr ProcessBlockCollision_CommonExit
 
+; ProcessBlockCollision_Special
+; ------------------------------
+; Description: Gère les blocs spéciaux (type BLOCK_HIT_TYPE_SPECIAL=$C0).
+;              Collecte une pièce sans autre traitement additionnel.
+; In:  rien (implicite: contexte de collision bloc spécial)
+; Out: rien
+; Modifie: a, bc, de, hl (via CollectCoin)
 ProcessBlockCollision_Special:
     call CollectCoin
     ret

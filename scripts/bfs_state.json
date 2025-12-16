@@ -1369,6 +1369,14 @@
       "priority": 3
     },
     {
+      "address": "$1BB4",
+      "node_type": "code",
+      "description": "ProcessBlockCollision_CommonExit - Traitement commun de fin de collision bloc (copie tile vide, traite sp\u00e9cial)",
+      "source": "$1BEE",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1BEE",
       "node_type": "code",
       "description": "BlockCollision_CoinProcess - Traite sp\u00e9cifiquement les blocs pi\u00e8ce (\u00e9tat $03)",
@@ -2193,10 +2201,10 @@
       "priority": 3
     },
     {
-      "address": "$1BB4",
+      "address": "$1BF2",
       "node_type": "code",
-      "description": "ProcessBlockCollision_CommonExit - Traitement commun de fin de collision bloc (copie tile vide, traite sp\u00e9cial)",
-      "source": "$1BEE",
+      "description": "ProcessBlockCollision_Special - G\u00e8re les blocs sp\u00e9ciaux (type $C0) en collectant une pi\u00e8ce",
+      "source": "$1BB4",
       "bank": 0,
       "priority": 3
     }
@@ -2204,6 +2212,7 @@
   "visited": [
     "$09D7",
     "$1663",
+    "$1BB4",
     "$147C",
     "$0F61",
     "$0E28",
@@ -2375,6 +2384,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 172
+  "commits_since_push": 2,
+  "total_explored": 173
 }
