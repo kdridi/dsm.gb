@@ -14367,13 +14367,23 @@ DMA_WaitLoop:
     db $2c, $2c, $2c, $2a, $2b, $2c, $2c, $2c  ; Ligne 2: "   *    " ($3F9F)
     db $01, $29, $01, $2c, $2c, $00, $00, $00  ; Ligne 2: ".-. ..." ($3FA7)
 
-; Table animation tiles ($3FAF, 80 bytes)
+; AnimTilesFrames
+; ----------------
+; Description: Table ROM des frames d'animation pour les tiles animés (eau, lave).
+;              Contient 10 frames de 8 octets chacune. Chaque frame définit les motifs
+;              de pixels pour animer un tile. Les frames 0-3 contiennent des motifs
+;              d'animation, les frames 4-9 sont du padding.
+; Format:      Chaque frame = 8 octets de données de pixels
+; Utilisation: Référencée par UpdateAnimTiles (via ROM_ANIM_TILES)
+;              Index de frame sélectionné via hAnimTileIndex (bits hauts)
+; Destination: Les données sont copiées vers VRAM_ANIM_DEST ($95D1) avec espacement
+; Taille:      80 octets (10 frames × 8 octets)
 AnimTilesFrames::
-    db $00, $00, $00, $10, $38, $38, $28, $10  ; Frame 0
-    db $00, $e0, $b1, $5b, $ff, $ff, $ff, $ff  ; Frame 1
-    db $7e, $3c, $18, $00, $00, $81, $42, $a5  ; Frame 2
-    db $00, $e1, $33, $de, $ff, $e7, $db, $ff  ; Frame 3
-    ds 48, $ff                                  ; Frames 4-9 (padding)
+    db $00, $00, $00, $10, $38, $38, $28, $10  ; Frame 0: motif animation 1
+    db $00, $e0, $b1, $5b, $ff, $ff, $ff, $ff  ; Frame 1: motif animation 2
+    db $7e, $3c, $18, $00, $00, $81, $42, $a5  ; Frame 2: motif animation 3
+    db $00, $e1, $33, $de, $ff, $e7, $db, $ff  ; Frame 3: motif animation 4
+    ds 48, $ff                                  ; Frames 4-9: padding (non utilisées)
 
 ; Padding fin de bank ($3FFF, 1 byte)
     db $ff
