@@ -11042,13 +11042,54 @@ AudioCmdSeq_05Alt:
     db $20, $9E, $31, $9E, $0A, $9E, $11, $9E, $FF
 
 ; ===========================================================================
-; Zone de données mal désassemblées ($2D7B-$2FD8)
+; AudioCmdSeq_06Alt ($2D7B)
+; Séquence de commandes audio courte (2 bytes)
+; ===========================================================================
+AudioCmdSeq_06Alt:
+    db $83, $FF
+
+; ===========================================================================
+; AudioCmdSeq_07Alt ($2D7D)
+; Séquence de commandes audio courte (2 bytes)
+; ===========================================================================
+AudioCmdSeq_07Alt:
+    db $84, $FF
+
+; ===========================================================================
+; AudioCmdSeq_08Alt ($2D7F)
+; Séquence de commandes audio courte (2 bytes)
+; ===========================================================================
+AudioCmdSeq_08Alt:
+    db $85, $FF
+
+; ===========================================================================
+; AudioCmdSeq_09Alt ($2D81)
+; Séquence de commandes audio courte (2 bytes)
+; ===========================================================================
+AudioCmdSeq_09Alt:
+    db $86, $FF
+
+; ===========================================================================
+; AudioCmdSeq_10Alt ($2D83)
+; Séquence de commandes audio courte (3 bytes)
+; ===========================================================================
+AudioCmdSeq_10Alt:
+    db $40, $E0, $FF
+
+; ===========================================================================
+; AudioCmdSeq_11Alt ($2D86)
+; Séquence de commandes audio courte (2 bytes)
+; ===========================================================================
+AudioCmdSeq_11Alt:
+    db $E5, $FF
+
+; ===========================================================================
+; Zone de données mal désassemblées ($2D88-$2FD8)
 ; TODO BFS: Reconstruire ces séquences audio référencées par AudioChannelCommandTable1Alt
-; et autres tables d'animation audio
+; (entries 12-15) et autres tables d'animation audio
 ; ===========================================================================
 AudioAnimData_10:
-    db $83, $FF, $84, $FF, $85, $FF, $86
-    db $FF, $40, $E0, $FF, $E5, $FF, $40, $F6, $FF, $40, $F7, $FF, $40, $F8, $FF, $FE
+    db $40, $F6, $FF, $40, $F7, $FF, $40, $F8, $FF, $FE
     db $FF, $DF, $FF, $40, $EE, $FF, $EF, $01, $EF, $FF, $B0, $01, $B1, $0A, $A0, $01
     db $A1, $FF, $10, $B1, $11, $B0, $1A, $A1, $11, $A0, $FF, $30, $C3, $31, $C2, $3A
     db $D3, $31, $D2, $FF, $B2, $01, $B3, $0A, $A2, $01, $A3, $FF, $10, $B3, $11, $B2
@@ -11124,12 +11165,12 @@ AudioChannelCommandTable1Alt:
     dw AudioAnimData_08          ; Entry  3 - Audio sequence 3
     dw AudioCmdSeq_04Alt         ; Entry  4 - Audio sequence 4
     dw AudioCmdSeq_05Alt         ; Entry  5 - Audio sequence 5
-    dw $2D7B  ; Entry  6 - Audio sequence 6
-    dw $2D7D  ; Entry  7 - Audio sequence 7
-    dw $2D7F  ; Entry  8 - Audio sequence 8
-    dw $2D81  ; Entry  9 - Audio sequence 9
-    dw $2D83  ; Entry 10 - Audio sequence 10
-    dw $2D86  ; Entry 11 - Audio sequence 11
+    dw AudioCmdSeq_06Alt         ; Entry  6 - Audio sequence 6
+    dw AudioCmdSeq_07Alt         ; Entry  7 - Audio sequence 7
+    dw AudioCmdSeq_08Alt         ; Entry  8 - Audio sequence 8
+    dw AudioCmdSeq_09Alt         ; Entry  9 - Audio sequence 9
+    dw AudioCmdSeq_10Alt         ; Entry 10 - Audio sequence 10
+    dw AudioCmdSeq_11Alt         ; Entry 11 - Audio sequence 11
     dw $2D88  ; Entry 12 - Audio sequence 12
     dw $2D8B  ; Entry 13 - Audio sequence 13
     dw $2D8E  ; Entry 14 - Audio sequence 14
