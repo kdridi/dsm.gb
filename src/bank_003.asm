@@ -3385,62 +3385,25 @@ SpriteData_4D99:
     db $44, $4E             ; Header sprite (config position/attributs)
     db $28, $29, $38, $39   ; Tiles indices (grille 2×2)
     db $FF                  ; Terminateur
-; SpriteData_4DA0 - Début de séquence sprite (overlapping avec PaddingZone_003_4da2)
-; Note: Suite de la séquence dans PaddingZone_003_4da2
+; Sprite data structures (7 bytes each: header, 4 tiles, terminator)
 SpriteData_4DA0:
-    db $44, $4E             ; Header sprite (suite: tiles $2A,$2B,$3A,$3B,$FF dans PaddingZone)
-
-
-PaddingZone_003_4da2:
-    ld a, [hl+]
-    dec hl
-    ld a, [hl-]
-    dec sp
-    rst $38
-    ld b, h
-    ld c, [hl]
-    inc l
-    dec l
-    inc a
-    dec a
-    rst $38
-    ld b, h
-    ld c, [hl]
-    ld l, $2f
-    ld a, $3f
-
-PaddingZone_003_4db4:
-    rst $38
-    ld b, h
-    ld c, [hl]
-    ld b, b
-    ld b, c
-    ld b, d
-    ld b, e
-    rst $38
-    ld b, h
-    ld c, [hl]
-    ld b, h
-    ld b, l
-    ld b, [hl]
-    ld b, a
-    rst $38
-    ld b, h
-    ld c, [hl]
-    ld [hl], l
-
+    db $44, $4E, $2A, $2B, $3A, $3B, $FF
+SpriteData_4DA7:
+    db $44, $4E, $2C, $2D, $3C, $3D, $FF
+SpriteData_4DAE:
+    db $44, $4E, $2E, $2F, $3E, $3F, $FF
+SpriteData_4DB5:
+    db $44, $4E, $40, $41, $42, $43, $FF
+SpriteData_4DBC:
+    db $44, $4E, $44, $45, $46, $47, $FF
+SpriteData_4DC3:
+    db $44, $4E, $75
 DispatchDataZone_4dc6:
-    halt
-    ld [hl], a
-    ld a, b
-    rst $38
-    ld b, h
-    ld c, [hl]
-    ld [hl], l
-    halt
-    ld a, c
-    ld a, b
-    rst $38
+    db $76, $77, $78, $FF
+SpriteData_4DCA:
+    db $44, $4E, $75, $76, $79, $78, $FF
+
+DispatchDataZone_4dd8:
     ld b, h
     ld c, [hl]
     ld l, b
@@ -3449,7 +3412,6 @@ DispatchDataZone_4dc6:
     ld l, e
     rst $38
 
-DispatchDataZone_4dd8:
     ld b, h
     ld c, [hl]
     ld l, b
