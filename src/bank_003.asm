@@ -2801,23 +2801,32 @@ HandleBlockCollisionResolve:
     ret
 
 
-; Routine $4b6f - Vérifie les limites de position du joueur
+; CheckPlayerBounds
+; -----------------
+; Description: Vérifie si le joueur est dans la zone critique de scroll et déclenche une transition d'état
+;              Si le joueur est entre PLAYER_X_SCROLL_MIN et PLAYER_X_SCROLL_MAX, réinitialise les états
+;              et timers pour déclencher une transition (probablement scrolling ou changement de zone)
+; In:  wPlayerX = position X du joueur
+; Out: hGameState = 1, wStateRender = 2, hTimer1 = TIMER_CHECKPOINT_LONG si dans zone critique
+;      hTimerAux et hSubState = 0
+; Modifie: a, hl
 CheckPlayerBounds::
     ld hl, wPlayerX
     ld a, [hl]
-    cp PLAYER_X_SCROLL_MIN      ; Seuil gauche zone scroll
-    ret c
+    cp PLAYER_X_SCROLL_MIN      ; Seuil gauche zone scroll (180 pixels)
+    ret c                       ; Si X < 180, retour sans action
 
-    cp PLAYER_X_SCROLL_MAX      ; Seuil droit zone scroll
-    ret nc
+    cp PLAYER_X_SCROLL_MAX      ; Seuil droit zone scroll (192 pixels)
+    ret nc                      ; Si X >= 192, retour sans action
 
+    ; Joueur dans zone critique [180-191] → déclencher transition
     xor a
-    ldh [hTimerAux], a
-    ldh [hSubState], a
+    ldh [hTimerAux], a          ; Réinitialiser timer auxiliaire
+    ldh [hSubState], a          ; Réinitialiser sous-état
     inc a
-    ldh [hGameState], a
+    ldh [hGameState], a         ; hGameState = 1
     inc a
-    ld [wStateRender], a
+    ld [wStateRender], a        ; wStateRender = 2
     ld a, TIMER_CHECKPOINT_LONG ; Timer checkpoint (144 frames)
     ldh [hTimer1], a
     ret
