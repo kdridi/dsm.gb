@@ -10587,7 +10587,16 @@ CheckObjectTileBottom:
 
 
 ; -----------------------------------------------------------------------------
-; CheckObjectTileBottomRight - Vérifie collision coin bas-droit de l'objet
+; CheckObjectTileBottomRight
+; --------------------------
+; Description: Vérifie collision au coin bas-droit de l'objet (ajusté selon hauteur)
+; In:  hSoundParam1 = Position Y objet
+;      hSoundParam2 = Position X objet (relative)
+;      hSoundVar3 = Flags animation (bits 4-6 = hauteur)
+;      hShadowSCX = Scroll X écran
+; Out: carry clear = collision (tile < $5F ou >= $F0)
+;      carry set = tile solide ($5F-$EF)
+; Modifie: a, c, hSpriteX, hSpriteY
 ; -----------------------------------------------------------------------------
 CheckObjectTileBottomRight:
     ldh a, [hSoundParam2]
