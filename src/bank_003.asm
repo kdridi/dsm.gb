@@ -3062,9 +3062,12 @@ AnimFrame_Walk5:
 AnimFrame_4C9D:
     dw $F8F9           ; Offset Y/X relatifs (signed bytes)
     dw $4D48           ; → SpriteData_Walk5 (séquence de commandes sprite)
+; AnimFrame_Walk6 - Frame d'animation de marche (frame 6)
+; Format: word offset_yx, word pointeur_vers_sprites
+AnimFrame_Walk6:
 AnimFrame_4CA1:
-    dw $F8F9
-    dw $4D4F
+    dw $F8F9           ; Offset Y/X relatifs (signed bytes)
+    dw $4D4F           ; → SpriteData_Walk6 (séquence de commandes sprite)
 AnimFrame_4CA5:
     dw $FBF9
     dw $4D56
