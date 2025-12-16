@@ -1753,6 +1753,14 @@
       "priority": 3
     },
     {
+      "address": "$1aa4",
+      "node_type": "code",
+      "description": "CheckPlayerSideCollision - V\u00e9rifie collision lat\u00e9rale du joueur",
+      "source": "$2870",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1b7d",
       "node_type": "code",
       "description": "ProcessBlockCollision - Traite collision selon hBlockHitType ($C0=special)",
@@ -2297,6 +2305,14 @@
       "priority": 3
     },
     {
+      "address": "$296c",
+      "node_type": "code",
+      "description": "UpdatePhysicsCollision - Met \u00e0 jour l'\u00e9tat physique apr\u00e8s collision",
+      "source": "$2870",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$29F8",
       "node_type": "code",
       "description": "GetAnimationDataPointer - R\u00e9cup\u00e8re pointeur vers donn\u00e9es animation objet",
@@ -2433,10 +2449,50 @@
       "priority": 3
     },
     {
+      "address": "$2b7b",
+      "node_type": "code",
+      "description": "CheckObjectTileBase - V\u00e9rifie collision tuile de base (gauche)",
+      "source": "$2870",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2b91",
+      "node_type": "code",
+      "description": "CheckObjectTileRight - V\u00e9rifie collision tuile \u00e0 droite",
+      "source": "$2870",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2bb2",
       "node_type": "code",
       "description": "CheckObjectTileBottomLeft - V\u00e9rifie collision avec tile en bas \u00e0 gauche de l'objet",
       "source": "$266d",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2bdb",
+      "node_type": "code",
+      "description": "CheckObjectTileBottom - V\u00e9rifie collision tuile en bas",
+      "source": "$2870",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2bf5",
+      "node_type": "code",
+      "description": "CheckObjectTileBottomRight - V\u00e9rifie collision tuile en bas \u00e0 droite",
+      "source": "$2870",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2c96",
+      "node_type": "code",
+      "description": "OffsetSpritesX - Applique un offset horizontal aux sprites",
+      "source": "$2870",
       "bank": 0,
       "priority": 3
     },
@@ -3113,58 +3169,42 @@
       "priority": 3
     },
     {
-      "address": "$296c",
+      "address": "$1b05",
       "node_type": "code",
-      "description": "UpdatePhysicsCollision - Met \u00e0 jour l'\u00e9tat physique apr\u00e8s collision",
-      "source": "$2870",
+      "description": "HandlePlayerSpikeCollision - G\u00e8re collision avec tuyau/spike ($F4)",
+      "source": "$1aa4",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$2b7b",
+      "address": "$1b1a",
       "node_type": "code",
-      "description": "CheckObjectTileBase - V\u00e9rifie collision tuile de base (gauche)",
-      "source": "$2870",
+      "description": "HandlePlayerSlideCollision - G\u00e8re collision avec glissade ($77)",
+      "source": "$1aa4",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$2bdb",
+      "address": "$1b3c",
       "node_type": "code",
-      "description": "CheckObjectTileBottom - V\u00e9rifie collision tuile en bas",
-      "source": "$2870",
+      "description": "TriggerBlockCollisionSound - D\u00e9clenche son collision bloc avec rebond ($F2)",
+      "source": "$1aa4",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$1aa4",
+      "address": "$1af2",
       "node_type": "code",
-      "description": "CheckPlayerSideCollision - V\u00e9rifie collision lat\u00e9rale du joueur",
-      "source": "$2870",
+      "description": "CollisionDefaultHandler - Handler collision par d\u00e9faut pour tiles normaux",
+      "source": "$1aa4",
       "bank": 0,
       "priority": 3
     },
     {
-      "address": "$2c96",
+      "address": "$1ecb",
       "node_type": "code",
-      "description": "OffsetSpritesX - Applique un offset horizontal aux sprites",
-      "source": "$2870",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2b91",
-      "node_type": "code",
-      "description": "CheckObjectTileRight - V\u00e9rifie collision tuile \u00e0 droite",
-      "source": "$2870",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2bf5",
-      "node_type": "code",
-      "description": "CheckObjectTileBottomRight - V\u00e9rifie collision tuile en bas \u00e0 droite",
-      "source": "$2870",
+      "description": "ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites",
+      "source": "$1aa4",
       "bank": 0,
       "priority": 3
     }
@@ -3236,6 +3276,7 @@
     "$0060",
     "$1020",
     "$04A2",
+    "$1aa4",
     "$19d8",
     "$1A62",
     "$046D",
@@ -3458,6 +3499,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 1,
-  "total_explored": 287
+  "commits_since_push": 2,
+  "total_explored": 288
 }
