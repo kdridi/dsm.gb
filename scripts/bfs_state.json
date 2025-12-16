@@ -5025,6 +5025,30 @@
       "priority": 3
     },
     {
+      "address": "$5C69",
+      "node_type": "code",
+      "description": "SpriteAnimationDataAdvance - avance dans la s\u00e9quence d'animation",
+      "source": "$5C57",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5C73",
+      "node_type": "code",
+      "description": "SpriteAnimationCompletionCheck - v\u00e9rifie la compl\u00e9tion d'un cycle",
+      "source": "$5C57",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5C93",
+      "node_type": "code",
+      "description": "SetState17_AfterAnimation - change le game state \u00e0 $17",
+      "source": "$5C57",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5C9D",
       "node_type": "data",
       "description": "Table de donn\u00e9es r\u00e9f\u00e9renc\u00e9e dans les routines d'animation sprite",
@@ -5767,30 +5791,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$5C69",
-      "node_type": "code",
-      "description": "SpriteAnimationDataAdvance - avance dans la s\u00e9quence d'animation",
-      "source": "$5C57",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5C73",
-      "node_type": "code",
-      "description": "SpriteAnimationCompletionCheck - v\u00e9rifie la compl\u00e9tion d'un cycle",
-      "source": "$5C57",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5C93",
-      "node_type": "code",
-      "description": "SetState17_AfterAnimation - change le game state \u00e0 $17",
-      "source": "$5C57",
-      "bank": 2,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6182,6 +6182,7 @@
     "$1547",
     "$4CDD",
     "$0028",
+    "$5C58",
     "$0095",
     "$0E28",
     "$2d18",
@@ -6422,6 +6423,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 627
+  "commits_since_push": 2,
+  "total_explored": 628
 }

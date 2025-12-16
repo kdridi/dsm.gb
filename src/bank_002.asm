@@ -7061,6 +7061,15 @@ SetState17_AfterAnimation:
     ret
 
 
+; [$5C58] AnimationHandlerType05Data
+; -----------------------------------
+; ATTENTION: Zone mal désassemblée - données interprétées comme code
+; Description: Table de séquences d'animation pour handler type $05
+; Format: Séquences commençant par $FE, se terminant par $F1 $5D ou $E2 $7F $5D
+; Taille: 69 bytes ($5C58-$5C9C)
+; TODO: Reconstruire avec db au lieu de code désassemblé
+; Utilisé par: AnimationDispatch_SelectHandler (type $05)
+
 ; SpriteAnimationType50Data
 ; -------------------------
 ; Table des tile IDs pour l'animation sprite type $50
