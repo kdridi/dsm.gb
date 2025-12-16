@@ -10151,6 +10151,15 @@ TriggerObjectSound:
     ret
 
 
+; DecrementObjectAnimationCounter
+; --------------------------------
+; Description: Décrémente le compteur d'animation d'un objet et déclenche des actions
+;              sonores selon des seuils prédéfinis. Si le compteur atteint zéro, charge
+;              les données sonores depuis la table ROM et initialise un slot audio.
+; In:  hl = pointeur vers la structure objet
+; Out: a = RETURN_ANIM_CONTINUE ($FE) si animation continue
+;          RETURN_COLLISION_FOUND ($FF) si compteur à zéro et son initialisé
+; Modifie: af, bc, de, hl (via appel InitSoundSlot si compteur = 0)
 DecrementObjectAnimationCounter:
     push hl
     ld a, l
