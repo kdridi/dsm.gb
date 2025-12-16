@@ -8596,28 +8596,17 @@ State0D_GameplayFull::
     ld [wPlayerDir], a
     ret
 
-; =============================================================================
-; UpdateAnimTiles - UpdateAnimTiles
-; =============================================================================
-; QUOI : Met à jour les tiles d'animation (eau, lave, etc.) périodiquement.
-;
-; CONDITIONS :
-;   - wAnimFlag ($D014) != 0 (animation active)
-;   - hGameState < $0D (en jeu)
-;   - hFrameCounter ($FFAC) & 7 == 0 (toutes les 8 frames)
-;
-; ALGORITHME :
-;   1. Selon bit 3 de hFrameCounter :
-;      - Si 1 : lit depuis wAnimBuffer ($C600)
-;      - Si 0 : lit depuis table ROM $3FAF (selon hAnimTileIndex)
-;   2. Copie 8 octets vers $95D1 (tiles VRAM)
-;
-; NOTE : Crée l'effet d'animation de l'eau/lave toutes les 8 frames
-;        en alternant entre deux frames d'animation.
-;
-; SORTIE : Tiles VRAM mis à jour
-; MODIFIE : A, B, DE, HL
-; =============================================================================
+; UpdateAnimTiles
+; ---------------
+; Description: Met à jour les tiles d'animation (eau, lave, etc.) toutes les 8 frames.
+;              Alterne entre deux frames d'animation pour créer l'effet visuel.
+;              Source des données : ROM (AnimTilesFrames) ou RAM (wAnimBuffer).
+; In:  wAnimFlag = flag d'activation (0 = désactivé)
+;      hGameState = état du jeu (doit être < $0D)
+;      hFrameCounter = compteur de frames (bit 3 contrôle la source)
+;      hAnimTileIndex = index du monde (bits hauts pour offset ROM)
+; Out: Tiles VRAM à $95D1 mis à jour (8 octets copiés avec espacement)
+; Modifie: a, b, de, hl
 UpdateAnimTiles:
     ld a, [wAnimFlag]
     and a
@@ -8671,14 +8660,15 @@ CopyAnimTileData:
 AnimFlagTable:
     db $00, $00, $01, $01, $01, $00, $00, $01, $01, $00, $01, $00
 
-; =============================================================================
-; InitAudioAndAnimContext - Initialise le contexte audio et animation
-; =============================================================================
-; QUOI : Configure wPlayerVarAB, cherche l'entrée audio, et définit wAnimFlag
-; ENTRÉE : hRenderContext = contexte de rendu courant
-; SORTIE : wPlayerVarAB = $0c, wAudioCondition = 0, wAnimFlag = flag selon contexte
-; MODIFIE : A, DE, HL
-; =============================================================================
+; InitAudioAndAnimContext
+; -----------------------
+; Description: Initialise le contexte audio et le flag d'animation selon le contexte de rendu.
+;              Recherche l'entrée audio correspondante dans la table ROM.
+; In:  hRenderContext = contexte de rendu courant (0-11)
+; Out: wPlayerVarAB = $0C (PLAYER_VAR_AB_INIT)
+;      wAudioCondition = 0
+;      wAnimFlag = flag d'animation selon AnimFlagTable[hRenderContext]
+; Modifie: a, de, hl
 InitAudioAndAnimContext:
     ld a, PLAYER_VAR_AB_INIT
     ld [wPlayerVarAB], a

@@ -2385,11 +2385,27 @@
       "priority": 3
     },
     {
+      "address": "$4FB2",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update level (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$4FD8",
       "node_type": "code",
       "description": "Level 4-7 handler 3",
       "source": "$4000:3",
       "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4FEC",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update objects (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
       "priority": 3
     },
     {
@@ -2422,6 +2438,22 @@
       "description": "Level 4 extra pointer (donn\u00e9es sp\u00e9cifiques?)",
       "source": "$4000:3",
       "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$5118",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update sprites (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$515E",
+      "node_type": "code",
+      "description": "Call Bank 1 - Final update (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
       "priority": 3
     },
     {
@@ -2745,35 +2777,27 @@
       "priority": 3
     },
     {
-      "address": "$4FB2",
-      "node_type": "code",
-      "description": "Call Bank 1 - Update level (non nomm\u00e9)",
-      "source": "$236D",
-      "bank": 1,
+      "address": "$3FAF",
+      "node_type": "data",
+      "description": "AnimTilesFrames - Table ROM des frames d'animation (eau/lave)",
+      "source": "$23F8",
+      "bank": 0,
       "priority": 3
     },
     {
-      "address": "$4FEC",
-      "node_type": "code",
-      "description": "Call Bank 1 - Update objects (non nomm\u00e9)",
-      "source": "$236D",
-      "bank": 1,
+      "address": "$C600",
+      "node_type": "data",
+      "description": "wAnimBuffer - Buffer RAM pour frames d'animation custom",
+      "source": "$23F8",
+      "bank": 0,
       "priority": 3
     },
     {
-      "address": "$5118",
-      "node_type": "code",
-      "description": "Call Bank 1 - Update sprites (non nomm\u00e9)",
-      "source": "$236D",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$515E",
-      "node_type": "code",
-      "description": "Call Bank 1 - Final update (non nomm\u00e9)",
-      "source": "$236D",
-      "bank": 1,
+      "address": "$242D",
+      "node_type": "data",
+      "description": "AnimFlagTable - Table des flags d'activation animation par contexte",
+      "source": "$23F8",
+      "bank": 0,
       "priority": 3
     }
   ],
@@ -2905,6 +2929,7 @@
     "$0A24",
     "$1BF6",
     "$0EB2",
+    "$23F8",
     "$195d",
     "$0D64",
     "$0C37",
@@ -3034,6 +3059,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 255
+  "commits_since_push": 0,
+  "total_explored": 256
 }
