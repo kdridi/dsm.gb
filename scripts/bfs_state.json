@@ -2143,6 +2143,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1892",
+      "node_type": "handler",
+      "description": "TileC0Handler - G\u00e8re blocs sp\u00e9ciaux (tile $C0) avec contenu",
+      "source": "$195d",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2240,6 +2248,7 @@
     "$0C07",
     "$0060",
     "$0150",
+    "$195d",
     "$13BB",
     "$1343",
     "$0FF4",
@@ -2310,6 +2319,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 163
+  "commits_since_push": 3,
+  "total_explored": 164
 }

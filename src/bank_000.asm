@@ -5956,7 +5956,17 @@ SetupSpriteProperties:
     ldh [hPtrLow], a
     ret
 
-
+; HandlePlayerUpCollision
+; -----------------------
+; Description: Gère collision vers le haut (joueur frappe un bloc).
+;              Vérifie s'il y a déjà une collision active, lit la valeur
+;              du bloc dans la zone haute mémoire (h + $30), et route vers
+;              TileC0Handler si bloc non-vide, sinon configure sprite coin.
+; In:  hl = adresse tile dans tilemap
+;      hBlockHitType = état collision (doit être 0 pour continuer)
+; Out: Si bloc vide: wStateBuffer = STATE_BUFFER_COIN, sprite configuré via SetupSpriteProperties
+;      Si bloc non-vide: délégué à TileC0Handler
+; Modifie: a, hl (temporairement), délégué aux handlers appelés
 HandlePlayerUpCollision:
     ldh a, [hBlockHitType]
     and a
