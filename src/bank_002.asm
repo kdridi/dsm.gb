@@ -6454,6 +6454,17 @@ SpriteSlot3_AnimationCheck:
     xor a
     ld [hl], a
 
+; SpriteAnimationMultiplexHandler
+; --------------------------------
+; Description: Gère le multiplexage de l'animation sprite avec mise à jour de compteurs
+;              et états d'animation. Modifie les valeurs aux offsets +0 et +4 du sprite,
+;              incrémente l'état d'animation stocké dans [de], gère les seuils (F9/F7),
+;              et décrémente le compteur global dans [bc]. Reset les états si compteur=0.
+; In:  hl = pointeur vers données sprite (déjà sur la pile)
+;      bc = pointeur vers compteur animation du slot
+;      de = pointeur vers état animation du slot
+; Out: États d'animation et compteurs mis à jour
+; Modifie: af, hl, stack
 SpriteAnimationMultiplexHandler:
     pop hl
     push hl
