@@ -11114,16 +11114,18 @@ AudioCmdSeq_12Alt:
 AudioCmdSeq_13Alt:
     db $40, AUDIO_CMD_F7, $FF
 
-; AudioCmdSeq_14Alt
+; AudioCmdSeq_14Alt ($2D8E)
 ; ----------------
-; Description: Séquence de commandes audio #14 pour table alternative
-; Format: Commande $40 $F8 terminée par $FF
+; Description: Séquence de commandes audio #14 pour table alternative (canal 2)
 ; In:  Utilisée via AudioChannelCommandTable1Alt[14]
-; Bytes: $40 = Paramètre commande
-;        $F8 = Commande audio $F8
+; Out: Aucun
+; Modifie: N/A (données)
+; Format: [paramètre, commande, terminateur]
+; Bytes: $40 = Paramètre de la commande
+;        AUDIO_CMD_F8 = Commande audio F8 (set channel 3)
 ;        $FF = Terminateur de séquence
 AudioCmdSeq_14Alt:
-    db $40, $F8, $FF
+    db $40, AUDIO_CMD_F8, $FF
 
 ; AudioCmdSeq_15Alt
 ; ----------------
