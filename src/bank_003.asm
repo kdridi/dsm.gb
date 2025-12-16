@@ -3120,9 +3120,12 @@ AnimFrame_4CC9:
 AnimFrame_4CCD:
     dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
     dw $4D99           ; → AnimFrame_4D99 (structure imbriquée)
+
+; AnimFrame_4CD1 - Structure d'animation #19
+; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4CD1:
-    dw $F8F9
-    dw $4DA0
+    dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
+    dw $4DA0           ; → SpriteData (mal désassemblé à reconstruire)
 AnimFrame_4CD5:
     dw $F8F9
     dw $4DA7
