@@ -1,5 +1,8 @@
 SECTION "ROM Bank $003", ROMX[$4000], BANK[$3]
 
+; Constante pointant vers data table (offset du jr à $4E73)
+DEF LevelGraphicsData_4E74 EQU $4E74
+
 ; LevelJumpTable Bank 3
 ; ----------------------
 ; Description: Table de pointeurs pour les niveaux supplémentaires (Bank 3)
@@ -16,13 +19,13 @@ LevelJumpTable_Bank3:
     ; Niveau 3
     dw $503F, $5074, $509B
     ; Niveau 4 (4 pointeurs - structure différente)
-    dw $50C0, $4E74, $4F1D, $4FD8
+    dw $50C0, LevelGraphicsData_4E74, $4F1D, $4FD8
     ; Niveau 5
-    dw $4E74, $4F1D, $4FD8
+    dw LevelGraphicsData_4E74, $4F1D, $4FD8
     ; Niveau 6
-    dw $4E74, $4F1D, $4FD8
+    dw LevelGraphicsData_4E74, $4F1D, $4FD8
     ; Niveau 7
-    dw $4E74, $4F1D, $4FD8
+    dw LevelGraphicsData_4E74, $4F1D, $4FD8
     ; Fin de table / Padding
     dw $0000, $0000, $0000, $0000
     inc e
@@ -3494,7 +3497,6 @@ PaddingZone_003_4e71:
 
 PaddingZone_003_4e73:
     jr z, DispatchDataTable_4e84
-
     rrca
     inc a
 
