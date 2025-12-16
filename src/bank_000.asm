@@ -7264,6 +7264,13 @@ ApplyOscillationNegOffset:
     add [hl]
     ld [hl], a
 
+; DecrementOscillationYCounter
+; ----------------------------
+; Description: Décrémente le compteur Y d'oscillation du joueur (utilisé pour
+;              le mouvement vertical oscillant lorsque l'état est bas)
+; In:  wPlayerUnk0B = compteur Y d'oscillation
+; Out: wPlayerUnk0B = décrémenté de 1
+; Modifie: hl
 DecrementOscillationYCounter:
     ld hl, wPlayerUnk0B
     dec [hl]
