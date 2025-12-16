@@ -4031,6 +4031,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$4A7F",
+      "node_type": "code",
+      "description": "HandleJoypadInputDelay - G\u00e8re d\u00e9lai input en mode gameplay",
+      "source": "$498B",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4A77",
+      "node_type": "code",
+      "description": "ResetMenuStateToIdle - R\u00e9initialise \u00e9tat menu (bit 7 joypad)",
+      "source": "$498B",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4A0C",
+      "node_type": "code",
+      "description": "InitializeSpriteTransferBuffer - Pr\u00e9pare buffer sprites OAM",
+      "source": "$498B",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4398,6 +4422,7 @@
     "$48FC",
     "$29b8",
     "$2ff9",
+    "$498B",
     "$2d00",
     "$0050",
     "$2D83",
@@ -4478,6 +4503,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 2,
-  "total_explored": 443
+  "commits_since_push": 3,
+  "total_explored": 444
 }

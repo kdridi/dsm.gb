@@ -2313,7 +2313,16 @@ FXDispatch_4:
     pop af
     jr JoypadInputBit0Check
 
-; Routine $498b - Traite les entrées en fonction de l'état du jeu
+; ProcessGameStateInput
+; ---------------------
+; Description: Traite les entrées joypad selon l'état du jeu (menu vs gameplay)
+;              Gère les actions du bouton A, les transitions d'état et
+;              la préparation du buffer sprites
+; In:  hGameState = état actuel du jeu
+;      hJoypadState = état des boutons
+;      hJoypadDelta = boutons nouvellement pressés
+; Out: Peut modifier wPlayerUnk0E, wStateBuffer, wPlayerUnk07
+; Modifie: a, bc, de, hl
 ProcessGameStateInput::
     ldh a, [hGameState]
     cp GAME_STATE_GAMEPLAY  ; État $0D (gameplay actif) ?
