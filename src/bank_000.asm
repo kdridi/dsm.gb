@@ -10446,12 +10446,15 @@ LoadSpriteCoordinates:
     ret
 
 
-; -----------------------------------------------------------------------------
-; CheckObjectTileBase - Vérifie collision au point de base de l'objet
-; -----------------------------------------------------------------------------
-; Entrées : hSoundParam1 = Y objet, hSoundParam2 = X objet
-; Sortie  : Carry set si tile solide (<$5F) ou spécial (>=$F0)
-; -----------------------------------------------------------------------------
+; CheckObjectTileBase
+; -------------------
+; Description: Vérifie la collision au point de base (gauche) de l'objet avec le tilemap
+;              en testant si le tile est solide ou spécial
+; In:  hSoundParam1 = coordonnée Y de l'objet
+;      hSoundParam2 = coordonnée X de l'objet
+; Out: Carry set si tile solide (< $5F) ou spécial (>= $F0)
+;      Carry clear si tile traversable ($5F-$EF)
+; Modifie: a, c, hSpriteX, hSpriteY
 CheckObjectTileBase:
     ldh a, [hSoundParam2]
     ld c, a
