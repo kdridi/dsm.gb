@@ -3505,6 +3505,14 @@
       "priority": 3
     },
     {
+      "address": "$44FF",
+      "node_type": "data",
+      "description": "Animation frame structure",
+      "source": "$4C37",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$47F2",
       "node_type": "code",
       "description": "JoypadReadHandler",
@@ -3662,494 +3670,6 @@
       "description": "Palette graphique monde 3 (bank 1)",
       "source": "$0DE4",
       "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$4E74",
-      "node_type": "code",
-      "description": "Level 4-7 handler 1",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4F1D",
-      "node_type": "code",
-      "description": "Level 4-7 handler 2",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4F41",
-      "node_type": "code",
-      "description": "Saut conditionnel vers PaddingZone_003_4f41",
-      "source": "$4F1D",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4FB2",
-      "node_type": "code",
-      "description": "Call Bank 1 - Update level (non nomm\u00e9)",
-      "source": "$236D",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$4FD8",
-      "node_type": "code",
-      "description": "Level 4-7 handler 3",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4FEC",
-      "node_type": "code",
-      "description": "Call Bank 1 - Update objects (non nomm\u00e9)",
-      "source": "$236D",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$4c37",
-      "node_type": "table",
-      "description": "AnimFramePointerTable - Table de pointeurs vers structures d'animation",
-      "source": "$4823",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$5022",
-      "node_type": "code",
-      "description": "CheckSpriteCollisionSimple - V\u00e9rification collision simple bouton A",
-      "source": "$4FEC",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5034",
-      "node_type": "code",
-      "description": "HandleJoypadButtonB_CheckCollision - Gestion collision bouton B",
-      "source": "$4FEC",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$503F",
-      "node_type": "code",
-      "description": "Level 0-3 handler 1 (probablement init)",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$5074",
-      "node_type": "code",
-      "description": "Level 0-3 handler 2 (probablement update)",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$509B",
-      "node_type": "code",
-      "description": "Level 0-3 handler 3 (probablement render)",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$50C0",
-      "node_type": "data",
-      "description": "Level 4 extra pointer (donn\u00e9es sp\u00e9cifiques?)",
-      "source": "$4000:3",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$50CC",
-      "node_type": "code",
-      "description": "Helper function appel\u00e9e avec param\u00e8tre c=$08",
-      "source": "$4FD8",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$5118",
-      "node_type": "code",
-      "description": "Call Bank 1 - Update sprites (non nomm\u00e9)",
-      "source": "$236D",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$515E",
-      "node_type": "code",
-      "description": "Call Bank 1 - Final update (non nomm\u00e9)",
-      "source": "$236D",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5179",
-      "node_type": "data",
-      "description": "Map data niveau 5",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5222",
-      "node_type": "data",
-      "description": "Entities data niveau 5",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$529B",
-      "node_type": "data",
-      "description": "Tileset data niveau 6",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5311",
-      "node_type": "data",
-      "description": "Map/Entities data partag\u00e9e niveaux 4,6,7",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5405",
-      "node_type": "data",
-      "description": "Entities data partag\u00e9e niveaux 4,6,7",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$54D5",
-      "node_type": "data",
-      "description": "Tileset data partag\u00e9e niveaux 5,7,8",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$55BB",
-      "node_type": "data",
-      "description": "Tileset data partag\u00e9e niveaux 0-2,4",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$55E2",
-      "node_type": "data",
-      "description": "Map data partag\u00e9e niveaux 0-2",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5605",
-      "node_type": "data",
-      "description": "Entities data partag\u00e9e niveaux 0-2",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5630",
-      "node_type": "data",
-      "description": "Tileset data niveau 3",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5665",
-      "node_type": "data",
-      "description": "Map data niveau 3",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5694",
-      "node_type": "data",
-      "description": "Entities data niveau 3",
-      "source": "$4000:1",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5832",
-      "node_type": "code",
-      "description": "State14_Handler - (Bank 1, zone donn\u00e9es)",
-      "source": "$02A5",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5835",
-      "node_type": "code",
-      "description": "State15_Handler - (Bank 1, zone donn\u00e9es)",
-      "source": "$02A5",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5838",
-      "node_type": "code",
-      "description": "State17_Handler - (Bank 1, zone donn\u00e9es)",
-      "source": "$02A5",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$583B",
-      "node_type": "code",
-      "description": "State18_Handler - (Bank 1, zone donn\u00e9es)",
-      "source": "$02A5",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$583E",
-      "node_type": "code",
-      "description": "State19_Handler - (Bank 1, zone donn\u00e9es)",
-      "source": "$02A5",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5841",
-      "node_type": "code",
-      "description": "State1A_Handler - (Bank 1, zone donn\u00e9es)",
-      "source": "$02A5",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5844",
-      "node_type": "code",
-      "description": "UpdateGameTimersAndAnimation - Timers et anim (bank 2)",
-      "source": "$0610",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$6190",
-      "node_type": "data",
-      "description": "Donn\u00e9es niveau (variante A)",
-      "source": "$4000:2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$6192",
-      "node_type": "data",
-      "description": "Donn\u00e9es niveau (variante B)",
-      "source": "$4000:2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$61B7",
-      "node_type": "data",
-      "description": "Donn\u00e9es niveau (variante C)",
-      "source": "$4000:2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$61DA",
-      "node_type": "data",
-      "description": "Donn\u00e9es niveau (variante D)",
-      "source": "$4000:2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$651C",
-      "node_type": "data",
-      "description": "ROM_TILEMAP_POINTERS_A - Table de pointeurs vers les tilemaps (bank 3)",
-      "source": "$22A0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$651c",
-      "node_type": "table",
-      "description": "ROM_TILEMAP_POINTERS_A - Table de pointeurs vers les donn\u00e9es de tilemap",
-      "source": "$22a0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6536",
-      "node_type": "table",
-      "description": "ROM_TILEMAP_POINTERS_B - Table de pointeurs vers tilemaps en bank 3",
-      "source": "$2318",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6550",
-      "node_type": "data",
-      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 0",
-      "source": "$4AE4",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$65E0",
-      "node_type": "data",
-      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 1",
-      "source": "$4AE4",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$6670",
-      "node_type": "data",
-      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 2",
-      "source": "$4AE4",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$7FF0",
-      "node_type": "code",
-      "description": "AudioEntryPoint - Routine audio principale en bank 3",
-      "source": "$0050",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7FF3",
-      "node_type": "code",
-      "description": "ROM_INIT_BANK3 - Routine d'initialisation en bank 3",
-      "source": "$0185",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$C0A5",
-      "node_type": "data",
-      "description": "wGameConfigA5 - mode handler (0=normal, !=0=retour)",
-      "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C0AD",
-      "node_type": "data",
-      "description": "wPlayerVarAD - flag animation termin\u00e9e (FLAG_ANIM_DONE)",
-      "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C0D2",
-      "node_type": "data",
-      "description": "wCollisionFlag - Flag collision r\u00e9initialis\u00e9 \u00e0 0",
-      "source": "$0E8D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C0DE",
-      "node_type": "data",
-      "description": "wAudioSaveDE - flag scroll Y actif",
-      "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C0DF",
-      "node_type": "data",
-      "description": "wLevelInitFlag - valeur scroll Y \u00e0 appliquer",
-      "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C207",
-      "node_type": "data",
-      "description": "wPlayerUnk07 - Variable joueur $07 r\u00e9initialis\u00e9e \u00e0 0",
-      "source": "$0E8D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$C600",
-      "node_type": "data",
-      "description": "wAnimBuffer - Buffer RAM pour frames d'animation custom",
-      "source": "$23F8",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFA4",
-      "node_type": "data",
-      "description": "hShadowSCX - shadow register pour effets raster",
-      "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFA6",
-      "node_type": "data",
-      "description": "hTimer1 - Timer principal v\u00e9rifi\u00e9 pour attendre fin",
-      "source": "$0E8D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFB3",
-      "node_type": "data",
-      "description": "hGameState - \u00e9tat du jeu (check GAME_STATE_WINDOW=$3A)",
-      "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFB6",
-      "node_type": "code",
-      "description": "hDmaRoutine - Routine DMA OAM copi\u00e9e en HRAM",
-      "source": "$0040",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFF9",
-      "node_type": "data",
-      "description": "hVBlankMode - Mode VBlank activ\u00e9 (mis \u00e0 1)",
-      "source": "$0E8D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFFB",
-      "node_type": "data",
-      "description": "hOAMIndex - index OAM pour animation",
-      "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$44FF",
-      "node_type": "data",
-      "description": "Animation frame structure",
-      "source": "$4C37",
-      "bank": 3,
       "priority": 3
     },
     {
@@ -4769,6 +4289,318 @@
       "priority": 3
     },
     {
+      "address": "$4E74",
+      "node_type": "code",
+      "description": "Level 4-7 handler 1",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4F1D",
+      "node_type": "code",
+      "description": "Level 4-7 handler 2",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4F41",
+      "node_type": "code",
+      "description": "Saut conditionnel vers PaddingZone_003_4f41",
+      "source": "$4F1D",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4FB2",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update level (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$4FD8",
+      "node_type": "code",
+      "description": "Level 4-7 handler 3",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4FEC",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update objects (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$4c37",
+      "node_type": "table",
+      "description": "AnimFramePointerTable - Table de pointeurs vers structures d'animation",
+      "source": "$4823",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$5022",
+      "node_type": "code",
+      "description": "CheckSpriteCollisionSimple - V\u00e9rification collision simple bouton A",
+      "source": "$4FEC",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5034",
+      "node_type": "code",
+      "description": "HandleJoypadButtonB_CheckCollision - Gestion collision bouton B",
+      "source": "$4FEC",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$503F",
+      "node_type": "code",
+      "description": "Level 0-3 handler 1 (probablement init)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$5074",
+      "node_type": "code",
+      "description": "Level 0-3 handler 2 (probablement update)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$509B",
+      "node_type": "code",
+      "description": "Level 0-3 handler 3 (probablement render)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$50C0",
+      "node_type": "data",
+      "description": "Level 4 extra pointer (donn\u00e9es sp\u00e9cifiques?)",
+      "source": "$4000:3",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$50CC",
+      "node_type": "code",
+      "description": "Helper function appel\u00e9e avec param\u00e8tre c=$08",
+      "source": "$4FD8",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$5118",
+      "node_type": "code",
+      "description": "Call Bank 1 - Update sprites (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$515E",
+      "node_type": "code",
+      "description": "Call Bank 1 - Final update (non nomm\u00e9)",
+      "source": "$236D",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5179",
+      "node_type": "data",
+      "description": "Map data niveau 5",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5222",
+      "node_type": "data",
+      "description": "Entities data niveau 5",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$529B",
+      "node_type": "data",
+      "description": "Tileset data niveau 6",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5311",
+      "node_type": "data",
+      "description": "Map/Entities data partag\u00e9e niveaux 4,6,7",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5405",
+      "node_type": "data",
+      "description": "Entities data partag\u00e9e niveaux 4,6,7",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$54D5",
+      "node_type": "data",
+      "description": "Tileset data partag\u00e9e niveaux 5,7,8",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$55BB",
+      "node_type": "data",
+      "description": "Tileset data partag\u00e9e niveaux 0-2,4",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$55E2",
+      "node_type": "data",
+      "description": "Map data partag\u00e9e niveaux 0-2",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5605",
+      "node_type": "data",
+      "description": "Entities data partag\u00e9e niveaux 0-2",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5630",
+      "node_type": "data",
+      "description": "Tileset data niveau 3",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5665",
+      "node_type": "data",
+      "description": "Map data niveau 3",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5694",
+      "node_type": "data",
+      "description": "Entities data niveau 3",
+      "source": "$4000:1",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5832",
+      "node_type": "code",
+      "description": "State14_Handler - (Bank 1, zone donn\u00e9es)",
+      "source": "$02A5",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5835",
+      "node_type": "code",
+      "description": "State15_Handler - (Bank 1, zone donn\u00e9es)",
+      "source": "$02A5",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5838",
+      "node_type": "code",
+      "description": "State17_Handler - (Bank 1, zone donn\u00e9es)",
+      "source": "$02A5",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$583B",
+      "node_type": "code",
+      "description": "State18_Handler - (Bank 1, zone donn\u00e9es)",
+      "source": "$02A5",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$583E",
+      "node_type": "code",
+      "description": "State19_Handler - (Bank 1, zone donn\u00e9es)",
+      "source": "$02A5",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5841",
+      "node_type": "code",
+      "description": "State1A_Handler - (Bank 1, zone donn\u00e9es)",
+      "source": "$02A5",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5844",
+      "node_type": "code",
+      "description": "UpdateGameTimersAndAnimation - Timers et anim (bank 2)",
+      "source": "$0610",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$6190",
+      "node_type": "data",
+      "description": "Donn\u00e9es niveau (variante A)",
+      "source": "$4000:2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$6192",
+      "node_type": "data",
+      "description": "Donn\u00e9es niveau (variante B)",
+      "source": "$4000:2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$61B7",
+      "node_type": "data",
+      "description": "Donn\u00e9es niveau (variante C)",
+      "source": "$4000:2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$61DA",
+      "node_type": "data",
+      "description": "Donn\u00e9es niveau (variante D)",
+      "source": "$4000:2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$634E",
       "node_type": "data",
       "description": "Animation frame structure",
@@ -4785,6 +4617,38 @@
       "priority": 3
     },
     {
+      "address": "$651C",
+      "node_type": "data",
+      "description": "ROM_TILEMAP_POINTERS_A - Table de pointeurs vers les tilemaps (bank 3)",
+      "source": "$22A0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$651c",
+      "node_type": "table",
+      "description": "ROM_TILEMAP_POINTERS_A - Table de pointeurs vers les donn\u00e9es de tilemap",
+      "source": "$22a0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6536",
+      "node_type": "table",
+      "description": "ROM_TILEMAP_POINTERS_B - Table de pointeurs vers tilemaps en bank 3",
+      "source": "$2318",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6550",
+      "node_type": "data",
+      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 0",
+      "source": "$4AE4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$6564",
       "node_type": "data",
       "description": "Animation frame structure",
@@ -4793,11 +4657,27 @@
       "priority": 3
     },
     {
+      "address": "$65E0",
+      "node_type": "data",
+      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 1",
+      "source": "$4AE4",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$6665",
       "node_type": "data",
       "description": "Animation frame structure",
       "source": "$4C37",
       "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6670",
+      "node_type": "data",
+      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 2",
+      "source": "$4AE4",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -4830,6 +4710,126 @@
       "description": "Animation frame structure",
       "source": "$4C37",
       "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7FF0",
+      "node_type": "code",
+      "description": "AudioEntryPoint - Routine audio principale en bank 3",
+      "source": "$0050",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7FF3",
+      "node_type": "code",
+      "description": "ROM_INIT_BANK3 - Routine d'initialisation en bank 3",
+      "source": "$0185",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$C0A5",
+      "node_type": "data",
+      "description": "wGameConfigA5 - mode handler (0=normal, !=0=retour)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0AD",
+      "node_type": "data",
+      "description": "wPlayerVarAD - flag animation termin\u00e9e (FLAG_ANIM_DONE)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0D2",
+      "node_type": "data",
+      "description": "wCollisionFlag - Flag collision r\u00e9initialis\u00e9 \u00e0 0",
+      "source": "$0E8D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0DE",
+      "node_type": "data",
+      "description": "wAudioSaveDE - flag scroll Y actif",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0DF",
+      "node_type": "data",
+      "description": "wLevelInitFlag - valeur scroll Y \u00e0 appliquer",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C207",
+      "node_type": "data",
+      "description": "wPlayerUnk07 - Variable joueur $07 r\u00e9initialis\u00e9e \u00e0 0",
+      "source": "$0E8D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C600",
+      "node_type": "data",
+      "description": "wAnimBuffer - Buffer RAM pour frames d'animation custom",
+      "source": "$23F8",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFA4",
+      "node_type": "data",
+      "description": "hShadowSCX - shadow register pour effets raster",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFA6",
+      "node_type": "data",
+      "description": "hTimer1 - Timer principal v\u00e9rifi\u00e9 pour attendre fin",
+      "source": "$0E8D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFB3",
+      "node_type": "data",
+      "description": "hGameState - \u00e9tat du jeu (check GAME_STATE_WINDOW=$3A)",
+      "source": "$0095",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFB6",
+      "node_type": "code",
+      "description": "hDmaRoutine - Routine DMA OAM copi\u00e9e en HRAM",
+      "source": "$0040",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFF9",
+      "node_type": "data",
+      "description": "hVBlankMode - Mode VBlank activ\u00e9 (mis \u00e0 1)",
+      "source": "$0E8D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFFB",
+      "node_type": "data",
+      "description": "hOAMIndex - index OAM pour animation",
+      "source": "$0095",
+      "bank": 0,
       "priority": 3
     }
   ],
@@ -4938,6 +4938,7 @@
     "$21f6",
     "$1983",
     "$2A5F",
+    "$44FF",
     "$1aa0",
     "$29F8",
     "$2AA4",
@@ -5300,6 +5301,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 4,
-  "total_explored": 465
+  "commits_since_push": 0,
+  "total_explored": 466
 }

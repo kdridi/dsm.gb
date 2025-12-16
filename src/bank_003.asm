@@ -1096,9 +1096,11 @@ PaddingZone_003_44a3:
     nop
     ld [$2000], sp
     nop
-    jr c, JoypadInputEntry_44c7
+    jr c, JoypadInputData_44c7
 
-JoypadInputEntry_44c7:
+; ZONE MAL DESASSEMBLEE: Table de données joypad (88 bytes, $44C7-$451E)
+; Note: $44FF pointe vers byte de donnée, pas du code
+JoypadInputData_44c7:
     ld e, $00
     rrca
     nop
