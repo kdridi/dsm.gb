@@ -6330,6 +6330,15 @@ ProcessSpriteAnimation:
 SpriteAnimationDispatchEntry:
     ld hl, wSpriteTemp
 
+; SpriteAnimationDispatch_ByType
+; ----------------
+; Description: Boucle de traitement des animations par slot sprite (slots 0-3).
+;              Pour chaque sprite actif, identifie son slot selon l'offset dans wSpriteTemp,
+;              puis traite son animation via compteurs frame individuels.
+;              Forme une boucle qui traite tous les slots jusqu'à SPRITE_BUFFER_LIMIT.
+; In:  hl = pointeur vers slot sprite courant dans wSpriteTemp ($C030+offset)
+; Out: Tous les sprites animés traités, boucle jusqu'à atteindre la limite buffer
+; Modifie: af, bc, de, hl, stack
 SpriteAnimationDispatch_ByType:
     push hl
     ld a, [hl]               ; Test si sprite actif
