@@ -3601,6 +3601,14 @@
       "priority": 3
     },
     {
+      "address": "$4AE4",
+      "node_type": "data",
+      "description": "Table de pointeurs vers s\u00e9quences d'inputs d\u00e9mo (1 pointeur 16-bit par bank ROM)",
+      "source": "$4A94",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$4AEA",
       "node_type": "code",
       "description": "InitRenderLoop - Init boucle rendu (bank 3)",
@@ -4073,11 +4081,27 @@
       "priority": 3
     },
     {
-      "address": "$4AE4",
+      "address": "$6550",
       "node_type": "data",
-      "description": "Table de pointeurs vers s\u00e9quences d'inputs d\u00e9mo (1 pointeur 16-bit par bank ROM)",
-      "source": "$4A94",
-      "bank": 3,
+      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 0",
+      "source": "$4AE4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$65E0",
+      "node_type": "data",
+      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 1",
+      "source": "$4AE4",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6670",
+      "node_type": "data",
+      "description": "S\u00e9quence d'inputs d\u00e9mo pour bank 2",
+      "source": "$4AE4",
+      "bank": 2,
       "priority": 3
     }
   ],
@@ -4303,6 +4327,7 @@
     "$049C",
     "$2afd",
     "$2CDC",
+    "$4AE4",
     "$0BEA",
     "$172D",
     "$2d0a",
@@ -4533,6 +4558,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 4,
-  "total_explored": 450
+  "commits_since_push": 0,
+  "total_explored": 451
 }

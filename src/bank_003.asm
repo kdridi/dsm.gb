@@ -2605,7 +2605,7 @@ CheckUnlockState::
     sla a                               ; × 2 (pointeurs 16-bit)
     ld e, a
     ld d, $00
-    ld hl, $4ae4                        ; Table pointeurs séquences démo
+    ld hl, DemoSequencePointersTable
     add hl, de
 
     ; Charger pointeur vers séquence démo de cette bank
@@ -2652,14 +2652,15 @@ CheckUnlockState::
     ld [wLevelVarDA], a
     jr .applyDemoInput
 
-; Table de pointeurs vers séquences d'inputs démo (1 par bank ROM)
-; Note: Cette table est à $4ae4 et est référencée dans .loadNextDemoInput
-; Données graphiques ou données orphelines (zone $4ae4-$4ae9)
-    ld d, b
-    ld h, l
-    ldh [$ff65], a
-    ld [hl], b
-    ld h, [hl]
+; DemoSequencePointersTable
+; -------------------------
+; Description: Table de pointeurs 16-bit vers les séquences d'inputs démo par bank ROM
+; Format: 3 pointeurs little-endian (bank 0, 1, 2)
+; Référencé par: Routine .loadNextDemoInput à $4AA7
+DemoSequencePointersTable:
+    dw $6550    ; Bank 0 - Pointeur vers séquence démo
+    dw $65E0    ; Bank 1 - Pointeur vers séquence démo
+    dw $6670    ; Bank 2 - Pointeur vers séquence démo
 
 ; Routine $4aea - Initialise et traite la boucle de rendu des objets
 InitRenderLoop::
