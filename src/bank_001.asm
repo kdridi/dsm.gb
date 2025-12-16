@@ -3216,6 +3216,9 @@ ConditionalProcessingRoutine_5436:
     add hl, bc
     inc b
     ld c, b
+
+; SharedEntitiesData_467 - Entities data partagée niveaux 4, 6, 7 ($5405-$5509)
+SharedEntitiesData_467:  ; $5405
     rrca
     nop
     ld c, e
