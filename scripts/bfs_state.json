@@ -2353,10 +2353,50 @@
       "priority": 3
     },
     {
+      "address": "$2998",
+      "node_type": "code",
+      "description": "CheckObjectTileTop_Alternatives - Teste alternatives collision tile haut (bits 6-7)",
+      "source": "$296c",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$29F8",
       "node_type": "code",
       "description": "GetAnimationDataPointer - R\u00e9cup\u00e8re pointeur vers donn\u00e9es animation objet",
       "source": "$0AE1",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$29ad",
+      "node_type": "code",
+      "description": "CollisionPhysics_SoundChannelControl - Contr\u00f4le canaux son collision (bits 6-7 = $C0)",
+      "source": "$296c",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$29b8",
+      "node_type": "code",
+      "description": "CheckObjectTileBottomLeft_Path - Chemin collision tile bas-gauche",
+      "source": "$296c",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$29d7",
+      "node_type": "code",
+      "description": "CheckObjectTileBottomLeft_Alternatives - Teste alternatives collision tile bas-gauche (bits 4-5)",
+      "source": "$296c",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$29f4",
+      "node_type": "code",
+      "description": "CollisionEnd - Termine traitement collision, reset hSoundVar4",
+      "source": "$296c",
       "bank": 0,
       "priority": 3
     },
@@ -2525,6 +2565,14 @@
       "node_type": "code",
       "description": "CheckObjectTileBottomRight - V\u00e9rifie collision tuile en bas \u00e0 droite",
       "source": "$2870",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2c18",
+      "node_type": "code",
+      "description": "CheckObjectTileTop - V\u00e9rifie collision avec tile en haut",
+      "source": "$296c",
       "bank": 0,
       "priority": 3
     },
@@ -3209,50 +3257,10 @@
       "priority": 3
     },
     {
-      "address": "$2998",
+      "address": "$297e",
       "node_type": "code",
-      "description": "CheckObjectTileTop_Alternatives - Teste alternatives collision tile haut (bits 6-7)",
-      "source": "$296c",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$29ad",
-      "node_type": "code",
-      "description": "CollisionPhysics_SoundChannelControl - Contr\u00f4le canaux son collision (bits 6-7 = $C0)",
-      "source": "$296c",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$29b8",
-      "node_type": "code",
-      "description": "CheckObjectTileBottomLeft_Path - Chemin collision tile bas-gauche",
-      "source": "$296c",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$29d7",
-      "node_type": "code",
-      "description": "CheckObjectTileBottomLeft_Alternatives - Teste alternatives collision tile bas-gauche (bits 4-5)",
-      "source": "$296c",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$29f4",
-      "node_type": "code",
-      "description": "CollisionEnd - Termine traitement collision, reset hSoundVar4",
-      "source": "$296c",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2c18",
-      "node_type": "code",
-      "description": "CheckObjectTileTop - V\u00e9rifie collision avec tile en haut",
-      "source": "$296c",
+      "description": "SubtractSoundFlagFromParam1 - Soustrait nibble haut de hSoundFlag de hSoundParam1",
+      "source": "$2998",
       "bank": 0,
       "priority": 3
     }
@@ -3350,6 +3358,7 @@
     "$1547",
     "$05B8",
     "$175C",
+    "$2998",
     "$09D7",
     "$0F81",
     "$4000:1",
@@ -3553,6 +3562,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 294
+  "commits_since_push": 4,
+  "total_explored": 295
 }

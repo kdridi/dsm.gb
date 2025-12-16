@@ -9922,9 +9922,16 @@ SubtractSoundFlagFromParam1:
     ld [wPlayerX], a
     jr CollisionEnd
 
+; CheckObjectTileTop_Alternatives
+; --------------------------------
+; Description: Gère les cas alternatifs après échec de CheckObjectTileTop
+;              Teste les bits 6-7 de hSoundCh4 pour déterminer la réaction
+; In:  hSoundCh4 = flags de collision (bits 6-7 utilisés)
+; Out: Branche vers différents chemins selon les bits testés
+; Modifie: a, [hSoundCh2] (si bit 6 seul)
 CheckObjectTileTop_Alternatives:
     ldh a, [hSoundCh4]
-    and BITS_6_7_MASK           ; Masque bits direction audio
+    and BITS_6_7_MASK           ; Masque bits 6-7 (direction audio)
     cp BLOCK_HIT_NONE           ; Test si aucun bit direction
     jr z, SubtractSoundFlagFromParam1
 
@@ -9932,7 +9939,7 @@ CheckObjectTileTop_Alternatives:
     jp nz, CollisionPhysics_SoundChannelControl
 
     ldh a, [hSoundCh2]
-    set 1, a
+    set 1, a                    ; Active flag spécial chemin bas-gauche
     ldh [hSoundCh2], a
     jr CollisionEnd
 
