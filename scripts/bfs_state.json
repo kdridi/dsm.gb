@@ -1959,6 +1959,54 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$0153",
+      "node_type": "code",
+      "description": "ReadTileUnderSprite - Lit tile sous sprite",
+      "source": "$17B3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$175C",
+      "node_type": "code",
+      "description": "CheckJoypadUp_GameplayLoop - Continue gameplay avec input haut",
+      "source": "$17B3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1752",
+      "node_type": "code",
+      "description": "TileE1CollisionHandler - Handler collision tile E1 (warp/transition)",
+      "source": "$17B3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1815",
+      "node_type": "code",
+      "description": "CheckBlockProperties_OnCollide - V\u00e9rifie propri\u00e9t\u00e9s bloc en collision",
+      "source": "$17B3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$17EC",
+      "node_type": "code",
+      "description": "CalcOffsetLoop_BlockHit - Label local: calcule offset collision hitbox",
+      "source": "$17B3",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$17F8",
+      "node_type": "code",
+      "description": "HandleBlockType_Collision - Label local: g\u00e8re collision avec bloc solide",
+      "source": "$17B3",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -1966,6 +2014,7 @@
     "$147C",
     "$0F61",
     "$0E28",
+    "$17B3",
     "$0D64",
     "$0095",
     "$0166",
@@ -2110,6 +2159,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 1,
-  "total_explored": 147
+  "commits_since_push": 2,
+  "total_explored": 148
 }

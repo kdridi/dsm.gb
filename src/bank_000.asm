@@ -5526,8 +5526,14 @@ SkipIfInvuln_OnTile:
 
 
 ; -----------------------------------------------------------------------------
-; CheckPlayerHeadCollision - Vérifie collision tête du joueur (vers le haut)
-; -----------------------------------------------------------------------------
+; CheckPlayerHeadCollision
+; ------------------------
+; Description: Vérifie collision de la tête du joueur avec les tiles au-dessus
+;              Calcule position tête (X avec scroll + ajustements, Y avec offset)
+;              et teste les tiles pour détecter collisions solides ou spéciales
+; In:  (aucun)
+; Out: (aucun) - Met à jour wPlayerX, wPlayerUnk07, wPlayerUnk0A, wPlayerUnk0E selon collision
+; Modifie: a, b, hl, hSpriteX, hSpriteY
 CheckPlayerHeadCollision:
     ld hl, wPlayerUnk07
     ld a, [hl]
