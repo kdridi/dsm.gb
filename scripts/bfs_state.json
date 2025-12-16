@@ -1377,6 +1377,14 @@
       "priority": 3
     },
     {
+      "address": "$1AF2",
+      "node_type": "code",
+      "description": "CollisionDefaultHandler - Handler de collision par d\u00e9faut",
+      "source": "$1B1A",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1B05",
       "node_type": "code",
       "description": "HandlePlayerSpikeCollision - G\u00e8re collision avec tuyau/spike",
@@ -2431,14 +2439,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1AF2",
-      "node_type": "code",
-      "description": "CollisionDefaultHandler - Handler de collision par d\u00e9faut",
-      "source": "$1B1A",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2536,6 +2536,7 @@
     "$0aa6",
     "$0BEA",
     "$07C3",
+    "$1AF2",
     "$189b",
     "$104C",
     "$07B7",
@@ -2638,6 +2639,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 195
+  "commits_since_push": 0,
+  "total_explored": 196
 }

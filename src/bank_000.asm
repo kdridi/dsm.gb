@@ -6344,6 +6344,13 @@ CollisionConfig_Offset2:
     cp TILEMAP_CMD_BOUNCE       ; Tile rebond $F2 ?
     jr z, TriggerBlockCollisionSound_TimerCheck
 
+; CollisionDefaultHandler
+; -----------------------
+; Description: Handler de collision par défaut pour tiles normaux
+;              Configure état de chute et incrémente compteur de collision
+; In:  -
+; Out: a = RETURN_COLLISION_FOUND ($FF)
+; Modifie: a, hl
 CollisionDefaultHandler:
     ld hl, wPlayerUnk0B
     inc [hl]
