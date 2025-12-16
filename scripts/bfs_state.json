@@ -2153,6 +2153,22 @@
       "priority": 3
     },
     {
+      "address": "$26AC",
+      "node_type": "code",
+      "description": "ProcessAudioQueue_Loop - Boucle de traitement de la file audio",
+      "source": "$266D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2870",
+      "node_type": "code",
+      "description": "ProcessSoundCollisionCheck - Traite la v\u00e9rification de collision sonore",
+      "source": "$266D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$29F8",
       "node_type": "code",
       "description": "GetAnimationDataPointer - R\u00e9cup\u00e8re pointeur vers donn\u00e9es animation objet",
@@ -2197,6 +2213,14 @@
       "node_type": "code",
       "description": "DestroyAllObjects - D\u00e9truit tous les objets actifs",
       "source": "$0C37",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2BB2",
+      "node_type": "code",
+      "description": "CheckObjectTileBottomLeft - V\u00e9rifie la tile en bas \u00e0 gauche d'un objet",
+      "source": "$266D",
       "bank": 0,
       "priority": 3
     },
@@ -2945,26 +2969,10 @@
       "priority": 3
     },
     {
-      "address": "$26AC",
+      "address": "$2784",
       "node_type": "code",
-      "description": "ProcessAudioQueue_Loop - Boucle de traitement de la file audio",
-      "source": "$266D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2BB2",
-      "node_type": "code",
-      "description": "CheckObjectTileBottomLeft - V\u00e9rifie la tile en bas \u00e0 gauche d'un objet",
-      "source": "$266D",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2870",
-      "node_type": "code",
-      "description": "ProcessSoundCollisionCheck - Traite la v\u00e9rification de collision sonore",
-      "source": "$266D",
+      "description": "CheckAudioCommand_F1 - V\u00e9rifie et traite la commande audio F1",
+      "source": "$26AC",
       "bank": 0,
       "priority": 3
     }
@@ -2994,6 +3002,7 @@
     "$12DD",
     "$24c4",
     "$247E",
+    "$26AC",
     "$0D82",
     "$0ab6",
     "$263F",
@@ -3240,6 +3249,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 269
+  "commits_since_push": 4,
+  "total_explored": 270
 }

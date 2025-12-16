@@ -9243,6 +9243,15 @@ SoundAnimResetVar2:
 
 
 AudioQueueProcessing:
+; ProcessAudioQueue_Loop
+; -----------------------
+; Description: Parcourt une file d'attente audio pointée par HL et traite chaque entrée.
+;              Utilise hSoundCh1 comme index dans la file. Gère différents types de commandes
+;              audio (F0, F8, F1, F2, F3...) et route vers les handlers appropriés.
+; In:  hl = pointeur vers la file audio
+;      hSoundCh1 = index courant dans la file
+; Out: (aucun retour spécifique, traite la file jusqu'à slot vide ou commande traitée)
+; Modifie: af, bc, de, hl (via sous-routines)
 ProcessAudioQueue_Loop:
     push hl
     ld d, $00
