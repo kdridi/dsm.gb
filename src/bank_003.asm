@@ -3242,6 +3242,11 @@ AnimFrame_4D2D:
     dw $FF13
 AnimFrame_4D31:
     dw $4E44
+; SpriteData_4D33 - Données sprite (commence au second word de AnimFrame_4D31)
+; Référencé par: AnimFrame_4C91
+; Format: Séquence de words (commandes sprite OAM)
+; Note: Optimisation de partage - $4D33 pointe au milieu de la structure AnimFrame_4D31
+SpriteData_4D33:
     dw $0504
 AnimFrame_4D35:
     dw $1514
