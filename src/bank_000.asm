@@ -10012,7 +10012,7 @@ AddSoundFlagToParam1:
 ; In:  hSoundCh4 contient l'état audio dans les bits 4-5
 ; Out: Aucun (void)
 ; Modifie: a, hSoundCh2 (si état 10), hSoundCh1 et hSoundVar1 (si état 30), hSoundVar4 (via CollisionEnd)
-; Notes: État 00 → AddSoundFlagToParam1, État 10 → efface bit 1 de Ch2, État 30 → reset Ch1 et Var1
+; Notes: État 00 → AddSoundFlagToParam1, État 10 → efface bit 1 de Ch2, État 30 → HandleAudioState30
 CheckObjectTileBottomLeft_Alternatives:
     ldh a, [hSoundCh4]
     and BITS_4_5_MASK           ; Masque bits 4-5 (état audio)
@@ -10020,14 +10020,20 @@ CheckObjectTileBottomLeft_Alternatives:
     jr z, AddSoundFlagToParam1
 
     cp AUDIO_STATE_10           ; État audio 1 ?
-    jr nz, ClearSoundCh1AndVar1_Collision2
+    jr nz, HandleAudioState30
 
     ldh a, [hSoundCh2]
     res 1, a
     ldh [hSoundCh2], a
     jr CollisionEnd
 
-ClearSoundCh1AndVar1_Collision2:
+; HandleAudioState30
+; ------------------
+; Description: Gère l'état audio 30 (bits 4-5 = 11) en effaçant les canaux Ch1 et Var1
+; In:  a = état audio (doit être AUDIO_STATE_30 pour exécuter)
+; Out: Aucun (void)
+; Modifie: a, hSoundCh1, hSoundVar1
+HandleAudioState30:
     cp AUDIO_STATE_30           ; État audio 3 ?
     jr nz, CollisionEnd
 
