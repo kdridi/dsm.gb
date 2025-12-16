@@ -2750,10 +2750,19 @@ RenderLoopSetFlag:
     ld [hl], $ff
     jr RenderLoopProcessActive
 
-; Routine $4b3c - Vérifie les collisions de blocs
+; CheckBlockCollision
+; -------------------
+; Description: Vérifie la collision entre le joueur et les blocs frappés (type $03)
+;              et ajuste la position/état selon la distance entre bloc et joueur
+; In:  hBlockHitType = type de bloc frappé
+;      hRenderX/Y = position du bloc rendu
+;      wPlayerX = position X du joueur
+;      wPlayerUnk0A = état spécial joueur (si !=0, efface collision)
+; Out: carry = non utilisé (ret simple)
+; Modifie: a, bc, hl
 CheckBlockCollision::
     ldh a, [hBlockHitType]
-    cp $03
+    cp $03                  ; Type $03 = bloc frappé (à documenter dans constants.inc)
     ret nz
 
     ld hl, wOamVar2D
@@ -2763,7 +2772,7 @@ CheckBlockCollision::
     sub b
     ld [hl-], a
     ld a, [wPlayerX]
-    sub $0b
+    sub PLAYER_X_SUB_OFFSET ; Offset X bloc frappé (11 pixels)
     ld [hl], a
     ld a, [wPlayerUnk0A]
     and a
@@ -2771,7 +2780,7 @@ CheckBlockCollision::
 
     ldh a, [hRenderX]
     ld b, a
-    sub $04
+    sub COLLISION_OFFSET_4  ; Distance minimale collision (4 pixels)
     cp [hl]
     jr nc, HandleBlockCollisionResolve
 
@@ -2781,13 +2790,13 @@ CheckBlockCollision::
 
 HandleBlockCollisionClear:
     ld [hl], $00
-    ld a, $04
+    ld a, BLOCK_HIT_ITEM    ; Passer en type "bloc item"
     ldh [hBlockHitType], a
     ret
 
 
 HandleBlockCollisionResolve:
-    ld a, $02
+    ld a, PLAYER_UNK07_FALLING  ; Marquer joueur en chute
     ld [wPlayerUnk07], a
     ret
 
