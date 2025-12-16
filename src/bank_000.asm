@@ -4775,6 +4775,14 @@ State34_WaitCreditsCounter::
 ; État $35 - Attente timer simple ($1451)
 ; Attend timer, puis état suivant
 ; ===========================================================================
+
+; State35_WaitTimer
+; ----------------
+; Description: Attend que hTimer1 atteigne zéro, puis passe à l'état suivant
+;              Anime les crédits pendant l'attente
+; In:  hTimer1 = compteur timer
+; Out: hGameState = incrémenté si timer = 0
+; Modifie: a, hl
 State35_WaitTimer::
     call AnimateCreditsFrame
     ldh a, [hTimer1]
