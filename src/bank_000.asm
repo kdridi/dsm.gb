@@ -10122,6 +10122,14 @@ CheckObjectBottomCollision:
     ret
 
 
+; TriggerObjectSound
+; ------------------
+; Description: Déclenche le son associé à un objet en lisant la table ROM_OBJECT_SOUND_TABLE.
+;              Calcule l'offset (ID * 5 + 2) pour récupérer le paramètre audio à l'index 2
+;              de l'entrée correspondante, puis initialise le slot audio si valide.
+; In:  hl = pointeur vers l'ID de l'objet
+; Out: a = 0 si son initialisé, valeur inchangée sinon
+; Modifie: af, de, hl (via InitSoundSlot)
 TriggerObjectSound:
     push hl
     ld a, [hl]
