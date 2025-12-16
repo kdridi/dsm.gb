@@ -3911,6 +3911,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2d95",
+      "node_type": "data",
+      "description": "AudioAnimDataBulk - Zone de donn\u00e9es brutes d'animation/graphiques (580 bytes)",
+      "source": "$2d91",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -4017,6 +4025,7 @@
     "$0C6A",
     "$2CDC",
     "$0DE4",
+    "$2d91",
     "$147C",
     "$2d50",
     "$2D91",
@@ -4318,6 +4327,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 2,
-  "total_explored": 403
+  "commits_since_push": 3,
+  "total_explored": 404
 }
