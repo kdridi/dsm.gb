@@ -5242,9 +5242,20 @@ ClearTilemapBuffer::
     ret
 
 ; ===========================================================================
-; État $0B - Descente dans tuyau vertical
-; Déplace le joueur vers le BAS jusqu'à position cible
-; puis charge le niveau de destination et transite vers état $0C
+; State0B_PipeEnterDown
+; ---------------------
+; Description: Gère la descente du joueur dans un tuyau vertical
+;              Déplace le joueur pixel par pixel vers le bas jusqu'à la position
+;              cible, puis charge le niveau de destination et transite vers
+;              l'état $0C (sortie de tuyau)
+; In:  hFrameCounter = compteur de frames
+;      hVBlankSelector = position Y cible (point d'arrivée)
+;      hRenderMode = mode de rendu (sauvegardé dans hTilemapScrollX)
+;      hDestX/hDestY = coordonnées de destination dans le nouveau niveau
+; Out: hGameState = GAME_STATE_PIPE_EXIT ($0C) une fois arrivé
+;      wPlayerX/wPlayerY = position du joueur dans le nouveau niveau
+;      hVBlankSelector = nouvelle cible X pour la sortie du tuyau
+; Modifie: a, bc, de, hl
 ; ===========================================================================
 State0B_PipeEnterDown::
     ldh a, [hFrameCounter]
