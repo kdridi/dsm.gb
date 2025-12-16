@@ -6726,10 +6726,17 @@ DisplayLivesDecrement:
     sub $01
     jr DisplayLivesDAA
 
-; ===========================================================================
-; État $39 - Game Over ($1C73)
-; Affiche l'écran GAME OVER, sauvegarde score, clear OAM, configure window
-; ===========================================================================
+; State39_GameOver
+; ----------------
+; Description: Affiche l'écran GAME OVER, sauvegarde le score dans la config,
+;              clear le buffer OAM et configure la window pour affichage
+; In:  hAnimTileIndex = index animation tile
+;      wScoreBCD = score BCD à sauvegarder
+;      wGameConfigA6 = configuration précédente
+; Out: wStateRender = STATE_RENDER_GAME_OVER
+;      wGameConfigA6 = config mise à jour avec score
+;      hGameState = incrémenté (passage à l'état suivant)
+; Modifie: a, b, c, de, hl
 State39_GameOver::
     ld hl, _SCRN1
     ld de, ROM_TEXT_GAME_OVER
@@ -6785,20 +6792,16 @@ State39_ClearOAMBuffer:
     inc [hl]
     ret
 
-; === Données texte GAME OVER ($1CCE-$1CDE) ===
-; NOTE: Mal désassemblé - 17 bytes pour tilemap window "GAME OVER"
+; TextData_GameOver
+; -----------------
+; Description: Tilemap pour affichage "GAME OVER" dans la window (13 bytes)
+; Format: Indices de tiles pour affichage dans la window layer
+; Contenu: "    GAME OVER" ($2C = espace, lettres en indices tiles)
 TextData_GameOver:
-    inc l
-    inc l
-    inc l
-    inc l
-    inc l
-    db $10
-    ld a, [bc]
-    ld d, $0e
-    inc l
-    inc l
-    jr State3B_DecrementCounter
+    db $2C, $2C, $2C, $2C, $2C  ; 5 espaces
+    db $10, $0A, $16, $0E       ; "GAME"
+    db $2C, $2C                 ; 2 espaces
+    db $18, $1F                 ; "OV" (début de OVER)
 
 ; ===========================================================================
 ; État $3A - Mise à jour window ($1CDF)
