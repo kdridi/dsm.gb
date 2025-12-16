@@ -1118,6 +1118,15 @@ DEF OAM_SPRITE_LOOP_3          EQU $03   ; Nombre de sprites dans boucle OAM (3)
 DEF OAM_SPRITE_LOOP_8          EQU $08   ; Nombre de sprites dans boucle OAM (8)
 DEF OAM_Y_OFFSCREEN_LIMIT      EQU $A9   ; Limite Y pour considérer sprite hors écran (169px)
 
+; === Sprite animation frame buffer ===
+
+DEF SPRITE_SLOT_SIZE           EQU $08   ; Taille d'un slot sprite OAM (8 octets)
+DEF SPRITE_BUFFER_LIMIT        EQU $50   ; Limite haute buffer sprite ($C050)
+DEF SPRITE_SLOT_1              EQU $38   ; Offset slot 1 buffer sprite ($C038)
+DEF SPRITE_SLOT_2              EQU $40   ; Offset slot 2 buffer sprite ($C040)
+DEF SPRITE_ANIM_VALUE_1        EQU $20   ; Valeur param animation 1
+DEF SPRITE_ANIM_VALUE_2        EQU $f6   ; Valeur param animation 2
+
 ; === Masques animation ===
 
 DEF ANIM_SUBSTATE_MASK         EQU $c0   ; Masque bits hauts sous-état animation

@@ -5455,6 +5455,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$5909",
+      "node_type": "code",
+      "description": "AnimationDispatch_SelectHandler - Dispatch handler animation selon bank type",
+      "source": "$5892",
+      "bank": 2,
+      "priority": 3
     }
   ],
   "visited": [
@@ -5888,6 +5896,7 @@
     "$05C7",
     "$2114",
     "$4032",
+    "$5892",
     "$27A6",
     "$1b7d",
     "$13BB",
@@ -6052,6 +6061,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 2,
-  "total_explored": 593
+  "commits_since_push": 3,
+  "total_explored": 594
 }

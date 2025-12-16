@@ -6053,82 +6053,99 @@ SetTimerForAlternateCase:
     ret
 
 
+; UpdateSpriteAnimationFrame
+; ----------------
+; Description: Met à jour l'index de frame d'animation sprite en mémoire buffer
+;              Parcourt 4 slots de sprites (offsets $30,$38,$40,$48) avec incrément +8
+;              Configure les paramètres Level selon l'offset courant
+; In:  hPtrBank = type/bank animation, hPtrHigh:hPtrLow = pointeur données
+;      wLevelParam0B = offset courant dans buffer sprite ($30-$48)
+; Out: Appelle AnimationDispatch_SelectHandler ou ProcessSpriteAnimation
+; Modifie: a, b, c, d, e, hl
 UpdateSpriteAnimationFrame:
     ldh a, [hPtrBank]
     ld b, a
     and a
     jp z, ProcessSpriteAnimation
 
+    ; Calcule prochain offset sprite: wLevelParam0B += 8
     ld a, [wLevelParam0B]
     ld l, a
-    ld h, $c0
-    ld de, $0008
+    ld h, DMA_SOURCE_HIGH        ; $C0 = base buffer sprite
+    ld de, SPRITE_SLOT_SIZE      ; $08 = taille d'un slot sprite OAM
     push hl
     add hl, de
     ld a, l
     ld [wLevelParam0B], a
-    cp $50
-    jr nz, PaddingZone_002_58b1
+    cp SPRITE_BUFFER_LIMIT       ; $50 = fin du buffer
+    jr nz, .storePointerData
 
-    ld a, $30
+    ; Wrap-around: reset à $30
+    ld a, LOW(wSpriteTemp)       ; $30 = début buffer sprite
     ld [wLevelParam0B], a
 
-PaddingZone_002_58b1:
+.storePointerData:
     pop hl
-    ld c, $20
-    ld d, $f6
-    ld a, l
-    cp $30
-    jr nz, PaddingZone_002_58cd
+    ld c, SPRITE_ANIM_VALUE_1    ; $20 = valeur param sprite 1
+    ld d, SPRITE_ANIM_VALUE_2    ; $F6 = valeur param sprite 2
 
+    ; Dispatch selon offset courant
+    ld a, l
+    cp LOW(wSpriteTemp)          ; $30 = slot 0
+    jr nz, .checkSlot1
+
+    ; Slot 0 ($30)
     ld a, c
     ld [wLevelParam03], a
     ld a, d
     ld [wLevelParam07], a
     ld a, b
-    cp $c0
+    cp DMA_SOURCE_HIGH
     jr nz, AnimationDispatch_SelectHandler
 
     ld [wLevelParam0C], a
     jr AnimationDispatch_SelectHandler
 
-PaddingZone_002_58cd:
-    cp $38
-    jr nz, PaddingZone_002_58e3
+.checkSlot1:
+    cp SPRITE_SLOT_1             ; $38 = slot 1
+    jr nz, .checkSlot2
 
+    ; Slot 1 ($38)
     ld a, c
     ld [wLevelParam04], a
     ld a, d
     ld [wLevelParam08], a
     ld a, b
-    cp $c0
+    cp DMA_SOURCE_HIGH
     jr nz, AnimationDispatch_SelectHandler
 
     ld [wLevelParam0D], a
     jr AnimationDispatch_SelectHandler
 
-PaddingZone_002_58e3:
-    cp $40
-    jr nz, PaddingZone_002_58f9
+.checkSlot2:
+    cp SPRITE_SLOT_2             ; $40 = slot 2
+    jr nz, .slot3
 
+    ; Slot 2 ($40)
     ld a, c
     ld [wLevelParam05], a
     ld a, d
     ld [wLevelParam09], a
     ld a, b
-    cp $c0
+    cp DMA_SOURCE_HIGH
     jr nz, AnimationDispatch_SelectHandler
 
     ld [wLevelParam0E], a
     jr AnimationDispatch_SelectHandler
 
-PaddingZone_002_58f9:
+.slot3:
+    ; Slot 3 ($48)
     ld a, c
     ld [wLevelParam06], a
     ld a, d
     ld [wLevelParam0A], a
     ld a, b
-    cp $c0
+    cp DMA_SOURCE_HIGH
     jr nz, AnimationDispatch_SelectHandler
 
     ld [wLevelParam0F], a
