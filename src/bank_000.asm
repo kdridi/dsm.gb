@@ -6819,12 +6819,20 @@ State3A_WindowUpdate::
 ; État $3B - Setup window finale ($1CE7)
 ; Copie 9 bytes vers $9C00 (window), active window, configure timer
 ; ===========================================================================
+; State3B_WindowSetup
+; -------------------
+; Description: Configure la fenêtre Game Boy (window layer) en copiant
+;              les données texte vers VRAM $9C00, active le bit window
+;              dans LCDC, et initialise le timer
+; In:  Rien
+; Out: Rien
+; Modifie: a, bc, de, hl
 State3B_WindowSetup::
     ld hl, _SCRN1
     ld de, ROM_TEXT_WINDOW_DATA
     ld c, TEXT_WINDOW_DATA_SIZE
 
-State3B_CopyWindowData:
+.copyLoop:
     ld a, [de]
     ld b, a
 
@@ -6833,12 +6841,11 @@ State3B_CopyWindowData:
     inc l
     inc de
 
-State3B_DecrementCounter:
     dec c
-    jr nz, State3B_CopyWindowData
+    jr nz, .copyLoop
 
     ld hl, rLCDC
-    set 5, [hl]
+    set 5, [hl]                    ; Active window layer (bit 5 LCDC)
     ld a, TIMER_WINDOW_SETUP
     ldh [hTimer1], a
     ld hl, hGameState

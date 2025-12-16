@@ -2343,6 +2343,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1D0B",
+      "node_type": "data",
+      "description": "ROM_TEXT_WINDOW_DATA - 9 octets de donn\u00e9es texte pour la window",
+      "source": "$1CDB",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2351,6 +2359,7 @@
     "$1BB4",
     "$147C",
     "$0F61",
+    "$1CDB",
     "$0E28",
     "$17B3",
     "$0D64",
@@ -2532,6 +2541,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 185
+  "commits_since_push": 0,
+  "total_explored": 186
 }
