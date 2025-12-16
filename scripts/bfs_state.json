@@ -2047,6 +2047,54 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1872",
+      "node_type": "code",
+      "description": "CollisionHandler_Type5F_Entry - Handler collision tile $5F",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1a62",
+      "node_type": "code",
+      "description": "ClassifyTileType - Classifie type de tile pour collision",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$19d8",
+      "node_type": "code",
+      "description": "HandlePlayerWaterCollision - G\u00e8re collision eau joueur",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1a4e",
+      "node_type": "code",
+      "description": "CollisionHandler_SpecialF4_Setup - Setup collision pipe/tuyau",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$195d",
+      "node_type": "code",
+      "description": "HandlePlayerUpCollision - G\u00e8re collision vers le haut",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$187f",
+      "node_type": "code",
+      "description": "CollisionHandler_Platform_Entry - Handler plateforme",
+      "source": "$1983",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2200,6 +2248,7 @@
     "$0EC4",
     "$0558",
     "$0519",
+    "$1983",
     "$0E0C",
     "$0adf",
     "$02A3",
@@ -2207,6 +2256,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 156
+  "commits_since_push": 1,
+  "total_explored": 157
 }

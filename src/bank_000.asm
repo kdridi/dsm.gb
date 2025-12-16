@@ -5928,9 +5928,15 @@ HandlePlayerUpCollision:
     ldh [hPtrBank], a
     jr SetupSpriteProperties
 
-; -----------------------------------------------------------------------------
-; CheckPlayerFeetCollision - Vérifie collision pieds du joueur (vers le bas)
-; -----------------------------------------------------------------------------
+; CheckPlayerFeetCollision
+; ------------------------
+; Description: Vérifie collision des pieds du joueur avec les tiles du niveau.
+;              Teste deux points (gauche et droite des pieds) pour détecter sol,
+;              eau, plateformes et tiles spéciales. Gère transitions d'état.
+; In:  wPlayerUnk07 = état vertical joueur (doit être GROUNDED)
+;      wPlayerX = position X/Y du joueur, hShadowSCX = scroll camera
+; Out: (varie selon collision détectée - handlers appelés modifient états)
+; Modifie: a, bc, hl, hSpriteX, hSpriteY
 CheckPlayerFeetCollision:
     ld a, [wPlayerUnk07]
     cp PLAYER_UNK07_GROUNDED
