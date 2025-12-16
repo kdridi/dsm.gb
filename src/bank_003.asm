@@ -3045,9 +3045,11 @@ AnimFrame_4C8D:
 AnimFrame_4C91:
     dw $F8F9
     dw $4D33
+; AnimFrame_Walk3 - Frame d'animation de marche (frame 3)
+; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4C95:
-    dw $F8F9
-    dw $4D3A
+    dw $F8F9           ; Offset Y/X relatifs (signed bytes)
+    dw $4D3A           ; → SpriteData_Walk3 (séquence de commandes sprite)
 AnimFrame_4C99:
     dw $F8F9
     dw $4D41

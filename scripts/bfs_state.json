@@ -4785,6 +4785,14 @@
       "priority": 3
     },
     {
+      "address": "$F8F9",
+      "node_type": "data",
+      "description": "Pointeur structure frame (second word)",
+      "source": "$4C91",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$FFA4",
       "node_type": "data",
       "description": "hShadowSCX - shadow register pour effets raster",
@@ -4830,14 +4838,6 @@
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
       "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$F8F9",
-      "node_type": "data",
-      "description": "Pointeur structure frame (second word)",
-      "source": "$4C91",
-      "bank": 3,
       "priority": 3
     }
   ],
@@ -5009,6 +5009,7 @@
     "$147F",
     "$1D1D",
     "$0C37",
+    "$4C95",
     "$18b7",
     "$2d86",
     "$0DF0",
@@ -5311,6 +5312,6 @@
     "$236D",
     "$24e6"
   ],
-  "commits_since_push": 2,
-  "total_explored": 468
+  "commits_since_push": 3,
+  "total_explored": 469
 }
