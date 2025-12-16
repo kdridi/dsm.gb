@@ -7934,6 +7934,15 @@ ResetScrollPhase:
     ret
 
 
+; UpdateScroll ($218F)
+; ----------------
+; Description: Gère le défilement horizontal de l'écran. Déclenche la mise à jour
+;              du buffer de scroll tous les 8 pixels de défilement (bit 3 toggle)
+; In:  hScrollPhase = état du scroll (0 = normal, autre = reset)
+;      hShadowSCX = position X de scroll actuelle
+;      hTemp3 = valeur toggle bit 3 précédente
+; Out: wScrollBuffer rempli avec les données de tilemap si update nécessaire
+; Modifie: a, b, de, hl
 UpdateScroll:
     ldh a, [hScrollPhase]
     and a

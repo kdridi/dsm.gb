@@ -2217,6 +2217,14 @@
       "priority": 3
     },
     {
+      "address": "$490d",
+      "node_type": "code",
+      "description": "ProcessObjectData - Routine qui lit cette table pour calculer vitesses/priorit\u00e9s objets",
+      "source": "$2164",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$498B",
       "node_type": "code",
       "description": "ProcessGameStateInput - G\u00e8re input gameplay (bank 3)",
@@ -2633,11 +2641,27 @@
       "priority": 3
     },
     {
-      "address": "$490d",
+      "address": "$217F",
       "node_type": "code",
-      "description": "ProcessObjectData - Routine qui lit cette table pour calculer vitesses/priorit\u00e9s objets",
-      "source": "$2164",
-      "bank": 3,
+      "description": "ResetScrollPhase - Reset la phase de scroll",
+      "source": "$218F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$22F4",
+      "node_type": "code",
+      "description": "ProcessRenderQueue - Traite queue de rendu",
+      "source": "$218F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$235A",
+      "node_type": "code",
+      "description": "ApplyLevelConfig - Applique config niveau",
+      "source": "$218F",
+      "bank": 0,
       "priority": 3
     }
   ],
@@ -2705,6 +2729,7 @@
     "$172D",
     "$192e",
     "$00C7",
+    "$218F",
     "$0B84",
     "$1547",
     "$05B8",
@@ -2872,6 +2897,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 229
+  "commits_since_push": 4,
+  "total_explored": 230
 }
