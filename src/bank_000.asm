@@ -6572,6 +6572,12 @@ ProcessBlockCollision_Special:
     ret
 
 
+; CollectCoin
+; -----------
+; Description: Collecte une pièce - ajoute les points et incrémente le compteur
+; In:  rien
+; Out: rien
+; Modifie: a, bc, de, hl (via AddScore)
 CollectCoin:
     ReturnIfLocked
 
@@ -6591,6 +6597,12 @@ CollectCoin:
     inc a
     ld [wUpdateCounter], a
 
+; UpdateCoinDisplay
+; -----------------
+; Description: Met à jour l'affichage du compteur de pièces en VRAM
+; In:  rien (lit hCoinCount)
+; Out: rien
+; Modifie: a, b
 UpdateCoinDisplay:
     ldh a, [hCoinCount]
     ld b, a

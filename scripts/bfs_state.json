@@ -1385,6 +1385,14 @@
       "priority": 3
     },
     {
+      "address": "$1BF2",
+      "node_type": "code",
+      "description": "ProcessBlockCollision_Special - G\u00e8re les blocs sp\u00e9ciaux (type $C0) en collectant une pi\u00e8ce",
+      "source": "$1BB4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1BF6",
       "node_type": "code",
       "description": "CollectCoin - Collecte une pi\u00e8ce et met \u00e0 jour le score/compteur",
@@ -2199,14 +2207,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1BF2",
-      "node_type": "code",
-      "description": "ProcessBlockCollision_Special - G\u00e8re les blocs sp\u00e9ciaux (type $C0) en collectant une pi\u00e8ce",
-      "source": "$1BB4",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2376,6 +2376,7 @@
     "$0EC4",
     "$0558",
     "$0519",
+    "$1BF2",
     "$1983",
     "$0E0C",
     "$0adf",
@@ -2384,6 +2385,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 2,
-  "total_explored": 173
+  "commits_since_push": 3,
+  "total_explored": 174
 }
