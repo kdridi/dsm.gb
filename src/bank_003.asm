@@ -3347,8 +3347,11 @@ AnimFrame_4D61:
 MalData_4D65:
     dw $44FF              ; Mal désassemblé: devrait être dw $0008, $0010
     dw $704E
-AnimFrame_4D69:
-    dw $7471
+; AccelSpeedData_4D69 - Données mal désassemblées (vraies valeurs: $0010, $0020)
+; Description: Suite de la table d'accélération (niveau 5)
+; Note: Partie de la zone mal désassemblée $4D55-$4DA1
+AccelSpeedData_4D69:
+    dw $7471              ; Mal désassemblé: devrait être dw $0010, $0020
     dw $FF73
 AnimFrame_4D6D:
     dw $4E44
