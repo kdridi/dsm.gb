@@ -14073,11 +14073,12 @@ FillTextLineRow4:
     dec h
     ld a, TILE_TEXT_CORNER
     ld [hl+], a
+BonusSelectionTable::  ; Table inline: bytes utilisés comme données pour sélection bonus aléatoire
     nop
     ld bc, $e502
     inc bc
     ld bc, $e502
-    ld de, $3e72
+    ld de, BonusSelectionTable
     ldh a, [rDIV]
     and FRAME_MASK_4
     inc a
