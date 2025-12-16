@@ -3157,8 +3157,8 @@ AnimFrame_4CE5:
     dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
     dw $4DC3           ; → SpriteData_4DC3 (données sprite OAM)
 AnimFrame_4CE9:
-    dw $F8F9
-    dw $4DCA
+    dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
+    dw $4DCA           ; → SpriteData_4DCA (données sprite OAM)
 AnimFrame_4CED:
     dw $F8F9
     dw $4DD1
