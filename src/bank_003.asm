@@ -2876,18 +2876,25 @@ TimerInitializeAux:
     ret
 
 
-; Routine $4bb5 - Vérifie l'état du timer auxiliaire (cas 2)
+; CheckTimerAux2
+; ----------------
+; Description: Gère le timer auxiliaire en état 2 (phase de dégâts/récupération)
+;              Alterne l'animation joueur pendant dégâts, puis passe en mode terminé
+; In:  hTimerAux = état timer aux ($03=dégâts max, $04=terminé)
+;      hTimer1 = timer principal pour timing animations
+; Out: hTimerAux, hTimer1, wPlayerDir, wPlayerY modifiés selon état
+; Modifie: a
 CheckTimerAux2::
     ldh a, [hTimerAux]
     cp TIMER_AUX_COMPLETE       ; Timer terminé?
-    jr z, PaddingZone_003_4be0
+    jr z, .HandleCompleteState
 
     cp TIMER_AUX_DAMAGE_MAX     ; Seuil dégâts atteint?
     ret nz
 
     ldh a, [hTimer1]
     and a
-    jr z, TimerResetState
+    jr z, .TransitionToComplete
 
     and FRAME_MASK_4
     ret nz
@@ -2898,7 +2905,7 @@ CheckTimerAux2::
     ret
 
 
-TimerResetState:
+.TransitionToComplete:
     ld a, TIMER_AUX_COMPLETE    ; Marquer timer comme terminé
     ldh [hTimerAux], a
     ld a, TIMER_CHECKPOINT_SHORT ; Timer checkpoint court (64 frames)
@@ -2909,26 +2916,26 @@ TimerResetState:
     ret
 
 
-PaddingZone_003_4be0:
+.HandleCompleteState:
     ldh a, [hTimer1]
     and a
-    jr z, ResetTimerState
+    jr z, .FullReset
 
     and FRAME_MASK_4
     ret nz
 
     ld a, [wPlayerY]
-    xor $80
+    xor $80                     ; Toggle bit 7 de Y (effet visuel fin damage)
     ld [wPlayerY], a
     ret
 
 
-ResetTimerState:
-    xor a
-    ldh [hTimerAux], a
-    ld [wPlayerY], a
+.FullReset:
+    xor a                       ; a = 0
+    ldh [hTimerAux], a          ; Reset timer aux
+    ld [wPlayerY], a            ; Reset position Y
     ld a, [wPlayerDir]
-    and $0f
+    and NIBBLE_LOW_MASK         ; Garder seulement nibble bas direction
     ld [wPlayerDir], a
     ret
 
