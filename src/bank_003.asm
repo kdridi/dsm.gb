@@ -3073,7 +3073,10 @@ AnimFrame_4CA1:
 ; Adresse ROM réelle de ce label: $4CA7 (pas $4CA5)
 AnimFrame_4CA5:
     dw $FBF9
-    dw $4D56
+    dw $4D56           ; → SpriteData séquence de commandes sprite
+; NOTE: L'adresse $4CA9 (référencée dans AnimFramePointerTable) pointe ici,
+;       au milieu de la structure précédente ($4CA7-$4CAA).
+;       Lecture depuis $4CA9: dw $4D56, $FBF9 (optimisation d'espace mémoire)
 AnimFrame_4CA9:
     dw $FBF9
     dw $4D5D
