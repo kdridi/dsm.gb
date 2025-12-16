@@ -5220,9 +5220,13 @@ State0A_LoadSubLevel::
     ret
 
 
-; ---------------------------------------------------------------------------
-; Routine utilitaire : Clear buffer tilemap ($c800-$ca3f, 576 bytes)
-; ---------------------------------------------------------------------------
+; ClearTilemapBuffer
+; ------------------
+; Description: Efface le buffer tilemap en mettant tous les octets à zéro.
+;              Procède par décrémentation depuis la fin du buffer.
+; In:  (aucun)
+; Out: (aucun)
+; Modifie: hl, bc, a
 ClearTilemapBuffer::
     ld hl, wTilemapBufferEnd
     ld bc, TILEMAP_BUFFER_SIZE
