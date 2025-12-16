@@ -5638,6 +5638,14 @@ HandleBlockType_Collision:
     ret
 
 
+; CheckBlockProperties_OnCollide
+; -------------------------------
+; Description: Vérifie les propriétés du bloc en collision avec le joueur
+;              Gère les tiles dangereuses ($ED) et les tuyaux ($F4) selon l'état du joueur
+; In:  a = ID du tile en collision (tile >= $60)
+;      de = coordonnées du tile
+; Out: Aucun (peut sauter vers d'autres handlers ou initialiser le joueur)
+; Modifie: a, de, hl
 BlockCollisionPropertyHandler:
 CheckBlockProperties_OnCollide:
     cp TILEMAP_CMD_DANGER        ; Tile danger $ED ?
