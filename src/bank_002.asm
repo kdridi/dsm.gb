@@ -6214,6 +6214,17 @@ AnimationDispatch_SelectHandler:
 
     ld de, $f6fe
 
+; AnimationDispatch_SetAndJump
+; ----------------
+; Description: Écrit les pointeurs d'animation calculés dans le buffer,
+;              puis réinitialise hPtrBank/hPtrHigh/hPtrLow
+;              Continue vers AnimationDispatch_SelectPalette
+; In:  de = adresse handler (calculée par AnimationDispatch_SelectHandler)
+;      hl = pointeur buffer destination
+;      b = bank type ($01,$02,$04,$05,$08,$10,$20,$40,$50,$80,$ff)
+;      hPtrHigh:hPtrLow = pointeur données animation
+; Out: Continue vers AnimationDispatch_SelectPalette
+; Modifie: a, de, hl
 AnimationDispatch_SetAndJump:
     ld a, d
     ld [hl+], a
@@ -6221,7 +6232,7 @@ AnimationDispatch_SetAndJump:
     ldh a, [hPtrHigh]
     ld [hl+], a
     ldh a, [hPtrLow]
-    add $08
+    add $08                 ; Offset vers données animation suivantes
     ld [hl+], a
     ld a, e
     ld [hl], a

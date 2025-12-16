@@ -4769,11 +4769,51 @@
       "priority": 3
     },
     {
+      "address": "$5950",
+      "node_type": "code",
+      "description": "AnimationDispatch_SetAndJump - Configure handler animation avec adresse calcul\u00e9e",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5957",
+      "node_type": "data",
+      "description": "Table handlers animation type $10",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5958",
+      "node_type": "data",
+      "description": "Table handlers animation type $01",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$596E",
       "node_type": "data",
       "description": "Tile graphique (8 bytes)",
       "source": "$55BB",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$59A2",
+      "node_type": "code",
+      "description": "AnimationDispatch_SelectPalette - Appelle AddScore puis traite animation sprite",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$59A5",
+      "node_type": "code",
+      "description": "SpriteAnimationDispatchEntry - Point d'entr\u00e9e dispatch animation sprite",
+      "source": "$5909",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -4789,6 +4829,22 @@
       "node_type": "code",
       "description": "ProcessSpriteAnimation - Traite animation sprite (appel\u00e9 par UpdateSpriteAnimationFrame)",
       "source": "$5844",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5A57",
+      "node_type": "data",
+      "description": "Table handlers animation type $20",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5A58",
+      "node_type": "data",
+      "description": "Table handlers animation type $02",
+      "source": "$5909",
       "bank": 2,
       "priority": 3
     },
@@ -4809,6 +4865,22 @@
       "priority": 3
     },
     {
+      "address": "$5B57",
+      "node_type": "data",
+      "description": "Table handlers animation type $40",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5B58",
+      "node_type": "data",
+      "description": "Table handlers animation type $04",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5BA3",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
@@ -4825,6 +4897,22 @@
       "priority": 3
     },
     {
+      "address": "$5C57",
+      "node_type": "data",
+      "description": "SpriteAnimationCountdown - Table handlers animation type $50",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5C58",
+      "node_type": "data",
+      "description": "Table handlers animation type $05",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5CA6",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
@@ -4838,6 +4926,30 @@
       "description": "Tile graphique (8 bytes)",
       "source": "$55BB",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5D57",
+      "node_type": "data",
+      "description": "Table handlers animation type $80",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5D58",
+      "node_type": "data",
+      "description": "Table handlers animation type $08",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5D5F",
+      "node_type": "data",
+      "description": "Table handlers animation type $FF",
+      "source": "$5909",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -5393,6 +5505,14 @@
       "priority": 3
     },
     {
+      "address": "$F6FE",
+      "node_type": "data",
+      "description": "Table handlers animation - valeur par d\u00e9faut",
+      "source": "$5909",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$F8F9",
       "node_type": "data",
       "description": "Pointeur structure frame (second word)",
@@ -5465,122 +5585,18 @@
       "priority": 3
     },
     {
-      "address": "$5950",
+      "address": "$59a2",
       "node_type": "code",
-      "description": "AnimationDispatch_SetAndJump - Configure handler animation avec adresse calcul\u00e9e",
-      "source": "$5909",
+      "description": "AnimationDispatch_SelectPalette - S\u00e9lection palette animation",
+      "source": "$5950",
       "bank": 2,
       "priority": 3
     },
     {
-      "address": "$59A2",
+      "address": "$5a66",
       "node_type": "code",
-      "description": "AnimationDispatch_SelectPalette - Appelle AddScore puis traite animation sprite",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$59A5",
-      "node_type": "code",
-      "description": "SpriteAnimationDispatchEntry - Point d'entr\u00e9e dispatch animation sprite",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5958",
-      "node_type": "data",
-      "description": "Table handlers animation type $01",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5A58",
-      "node_type": "data",
-      "description": "Table handlers animation type $02",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5B58",
-      "node_type": "data",
-      "description": "Table handlers animation type $04",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5C58",
-      "node_type": "data",
-      "description": "Table handlers animation type $05",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5D58",
-      "node_type": "data",
-      "description": "Table handlers animation type $08",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5957",
-      "node_type": "data",
-      "description": "Table handlers animation type $10",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5A57",
-      "node_type": "data",
-      "description": "Table handlers animation type $20",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5B57",
-      "node_type": "data",
-      "description": "Table handlers animation type $40",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5C57",
-      "node_type": "data",
-      "description": "SpriteAnimationCountdown - Table handlers animation type $50",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5D57",
-      "node_type": "data",
-      "description": "Table handlers animation type $80",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5D5F",
-      "node_type": "data",
-      "description": "Table handlers animation type $FF",
-      "source": "$5909",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$F6FE",
-      "node_type": "data",
-      "description": "Table handlers animation - valeur par d\u00e9faut",
-      "source": "$5909",
+      "description": "ExitSpriteHandler - Sortie du handler sprite",
+      "source": "$5950",
       "bank": 2,
       "priority": 3
     }
@@ -6011,6 +6027,7 @@
     "$3F24",
     "$21DF",
     "$11B6",
+    "$5950",
     "$49BA",
     "$2D12",
     "$2D18",
@@ -6183,6 +6200,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 0,
-  "total_explored": 596
+  "commits_since_push": 1,
+  "total_explored": 597
 }
