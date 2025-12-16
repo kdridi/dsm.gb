@@ -2465,6 +2465,14 @@
       "priority": 3
     },
     {
+      "address": "$2B4D",
+      "node_type": "code",
+      "description": "StoreAudioChannel4 - Stocke 0 dans hSoundCh4 et 1 dans wStateFinal",
+      "source": "$2B21",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2BB2",
       "node_type": "code",
       "description": "CheckObjectTileBottomLeft - V\u00e9rifie la tile en bas \u00e0 gauche d'un objet",
@@ -3287,14 +3295,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2B4D",
-      "node_type": "code",
-      "description": "StoreAudioChannel4 - Stocke 0 dans hSoundCh4 et 1 dans wStateFinal",
-      "source": "$2B21",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3539,6 +3539,7 @@
     "$242D",
     "$04C3",
     "$235A",
+    "$2B4D",
     "$208E",
     "$053D",
     "$1916",
@@ -3607,6 +3608,6 @@
     "$1305",
     "$29f8"
   ],
-  "commits_since_push": 2,
-  "total_explored": 308
+  "commits_since_push": 3,
+  "total_explored": 309
 }
