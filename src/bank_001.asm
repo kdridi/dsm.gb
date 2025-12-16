@@ -3393,7 +3393,7 @@ SharedTilesetData_024:
 ; Référencé par: LevelJumpTable niveaux 0, 1, 2 (lignes 12, 14, 16)
 ; ==============================================================================
 SharedMapData_012:
-    dw $56CD, TileGraphic_5ABB, $6048, $5BA3, $5C22, $5CA6, $5D32, $5D8A
+    dw $56CD, TileGraphic_5ABB, $6048, MapTileData_5BA3, $5C22, $5CA6, $5D32, $5D8A
     dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, $5CA6
     dw $5A5F
     db $FF  ; Terminateur
@@ -4425,114 +4425,30 @@ ProcessLevelData_5b49:
     ld a, a
     ld a, a
     ld a, a
-    cp $f1
-    ld e, l
-    cp $f1
-    ld e, l
-    cp $e2
-    ld h, l
-    ld e, l
-    cp $42
-    add hl, sp
-    dec a
-    ldh [c], a
-    ld h, [hl]
-    ld e, l
-    cp $24
-    inc sp
-    ld [hl], $3a
-    ld a, $e2
-    ld h, l
-    ld e, l
-    cp $2e
-    inc [hl]
-    scf
-    ld b, c
-    ld e, b
-    ld e, c
-    ld e, c
-    ld e, c
-    ld e, c
-    ld e, c
-    ld e, c
-    ld e, c
-    ld e, c
-    ld h, [hl]
-    ld e, l
-    cp $24
-    dec [hl]
-    jr c, DataZone_5c0c
+    db $FE  ; Dernier byte de ProcessLevelData_5b49 ($5BA2)
 
-    ccf
-    ldh [c], a
-    ld h, l
-    ld e, l
-    cp $42
-    inc a
-    ld b, b
-    ldh [c], a
-    ld h, [hl]
-    ld e, l
-    cp $e2
-    ld h, l
-    ld e, l
-    cp $e2
-    ld h, [hl]
-    ld e, l
-    cp $e2
-    ld h, l
-    ld e, l
-    cp $e2
-    ld h, [hl]
-    ld e, l
-    cp $e2
-    ld h, l
-    ld e, l
-    cp $21
-    ld b, l
-    ldh [c], a
-    ld h, [hl]
-    ld e, l
-    cp $12
-    ld b, d
-    ld b, [hl]
-    ldh [c], a
-    ld h, l
-    ld e, l
-    cp $12
-    ld b, e
-    ld b, a
-    ldh [c], a
-    ld h, [hl]
-    ld e, l
-    cp $12
-    ld b, h
-    ld c, b
-    or l
-    ld h, a
-    ld l, c
-    ld h, a
+; ==============================================================================
+; MapTileData_5BA3 - Données de map encodées ($5BA3-$5C21)
+; ==============================================================================
+; Description: Données de tiles/map encodées, utilisées pour construire le layout
+; Format: Séquence de bytes encodés (opcodes de compression/repeat + paramètres)
+;         Pattern: $FE = commande, $F1/$E2/$5D = fin/séparateur, autres = données
+; Taille: 127 octets ($7F)
+; Référencé par: SharedMapData_012 (ligne 3396) - niveaux 0, 1, 2
+; ==============================================================================
+MapTileData_5BA3:  ; $5BA3
+    db $F1, $5D, $FE, $F1, $5D, $FE, $E2, $65, $5D, $FE, $42, $39, $3D, $E2, $66, $5D
+    db $FE, $24, $33, $36, $3A, $3E, $E2, $65, $5D, $FE, $2E, $34, $37, $41, $58, $59
+    db $59, $59, $59, $59, $59, $59, $59, $66, $5D, $FE, $24, $35, $38, $3B, $3F, $E2
+    db $65, $5D, $FE, $42, $3C, $40, $E2, $66, $5D, $FE, $E2, $65, $5D, $FE, $E2, $66
+    db $5D, $FE, $E2, $65, $5D, $FE, $E2, $66, $5D, $FE, $E2, $65, $5D, $FE, $21, $45
+    db $E2, $66, $5D, $FE, $12, $42, $46, $E2, $65, $5D, $FE, $12, $43, $47, $E2, $66
+    db $5D, $FE, $12, $44, $48, $B5, $67, $69, $67, $69, $5D, $FE, $B5, $68, $6A, $68
+    db $6A, $5D, $FE, $B2, $67, $69, $F1, $5D, $FE, $B2, $68, $6A, $F1, $5D, $FE
 
-DataZone_5c0c:
-    ld l, c
-    ld e, l
-    cp $b5
-    ld l, b
-    ld l, d
-    ld l, b
-    ld l, d
-    ld e, l
-    cp $b2
-    ld h, a
-    ld l, c
-    pop af
-    ld e, l
-    cp $b2
-    ld l, b
-    ld l, d
-    pop af
-    ld e, l
-    cp $b2
+; Suite: données mal désassemblées à $5C22+ (à reconstruire dans un futur nœud BFS)
+DataZone_5c0c:  ; Label incorrect (devrait être supprimé), à l'origine à $5C0C milieu de données
+    or d
     ld h, a
     ld l, c
     pop af

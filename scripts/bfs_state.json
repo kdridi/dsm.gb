@@ -5665,10 +5665,26 @@
       "priority": 3
     },
     {
+      "address": "$DA1C",
+      "node_type": "data",
+      "description": "Flag d'\u00e9tat animation sprite",
+      "source": "$5B58",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$DFE0",
       "node_type": "data",
       "description": "WRAM - Variable de jeu (timer ou \u00e9tat collision)",
       "source": "$509B",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$DFE8",
+      "node_type": "data",
+      "description": "Valeur d'initialisation animation",
+      "source": "$5B58",
       "bank": 0,
       "priority": 3
     },
@@ -5749,22 +5765,6 @@
       "node_type": "data",
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$DA1C",
-      "node_type": "data",
-      "description": "Flag d'\u00e9tat animation sprite",
-      "source": "$5B58",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$DFE8",
-      "node_type": "data",
-      "description": "Valeur d'initialisation animation",
-      "source": "$5B58",
       "bank": 0,
       "priority": 3
     }
@@ -5853,6 +5853,7 @@
     "$2D41",
     "$2d1c",
     "$1a8a",
+    "$5BA3",
     "$4D56",
     "$0E0C",
     "$1C49",
@@ -6395,6 +6396,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 624
+  "commits_since_push": 4,
+  "total_explored": 625
 }
