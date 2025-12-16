@@ -21,7 +21,7 @@ LevelJumpTable:
     ; Niveau 5
     dw $54D5, Level5MapData, Level5EntitiesData
     ; Niveau 6
-    dw $529B, $5311, $5405
+    dw Level6TilesetData, $5311, $5405
     ; Niveau 7
     dw $54D5, $5311, $5405
     ; Niveau 8 (incomplet)
@@ -2909,115 +2909,28 @@ DataZone_5278:
     adc l
     ld [hl], $ff
 
-DataZone_529b:
-    rrca
-    dec b
-    xor a
-    add hl, de
-    ld c, $2f
-    dec de
-    ld d, e
-    db $10
-    inc hl
-    ld c, $9d
-    dec h
-    dec bc
-    dec e
-    daa
-    ld [$299d], sp
-    dec b
-    dec e
-    dec l
-    ld [$2f2f], sp
-    ld d, e
-    db $10
-    add hl, sp
-    ld d, e
-    db $10
-    dec sp
-    dec b
-    dec e
-    ld a, $05
-    sbc l
-    ld b, b
-    dec c
-    dec e
-    ld b, e
-    dec c
-    sbc l
-    ld b, e
-    inc de
-    db $10
-    ld c, c
-    rlca
-    dec e
-    ld c, l
-    inc de
-    db $10
-    ld c, [hl]
-    rlca
-    cpl
-    ld d, h
-    ld [$5720], sp
-    ld [$5f1d], sp
-    add hl, bc
-    jr nz, PaddingZone_5344
-
-    rlca
-    jr nz, PaddingZone_5347
-
-    dec c
-    jr nz, PaddingZone_5354
-
-    rlca
-    cpl
-    ld [hl], l
-    inc de
-    inc h
-    ld a, b
-    inc c
-    dec e
-    ld a, a
-    inc de
-    inc h
-    add l
-    ld a, [bc]
-    jr nz, DataZone_5278
-
-    inc c
-    cpl
-    adc c
-    inc de
-    and h
-    adc [hl]
-    rrca
-    dec e
-    sub d
-    rrca
-    sbc l
-    sbc e
-    dec c
-    jr nz, DataZone_529b
-
-    rrca
-    sbc l
-    and l
-    rlca
-    and b
-    xor b
-    rrca
-    dec e
-    xor [hl]
-    dec bc
-    ld c, b
-    xor a
-    ld a, [bc]
-    ret z
-
-    or b
-    inc c
-    ld a, [de]
-    rst $38
+; Level6TilesetData
+; ----------------
+; Description: Tileset pour le niveau 6 (format RLE compressé)
+; Format: Paires d'octets (count, tile_id), terminé par $1A $FF
+; Taille: 118 octets ($76)
+; Référencé par: LevelJumpTable niveau 6
+Level6TilesetData:
+    db $0F, $05, $AF, $19, $0E, $2F, $1B, $53
+    db $10, $23, $0E, $9D, $25, $0B, $1D, $27
+    db $08, $9D, $29, $05, $1D, $2D, $08, $2F
+    db $2F, $53, $10, $39, $53, $10, $3B, $05
+    db $1D, $3E, $05, $9D, $40, $0D, $1D, $43
+    db $0D, $9D, $43, $13, $10, $49, $07, $1D
+    db $4D, $13, $10, $4E, $07, $2F, $54, $08
+    db $20, $57, $08, $1D, $5F, $09, $20, $69
+    db $07, $20, $69, $0D, $20, $73, $07, $2F
+    db $75, $13, $24, $78, $0C, $1D, $7F, $13
+    db $24, $85, $0A, $20, $88, $0C, $2F, $89
+    db $13, $A4, $8E, $0F, $1D, $92, $0F, $9D
+    db $9B, $0D, $20, $9C, $0F, $9D, $A5, $07
+    db $A0, $A8, $0F, $1D, $AE, $0B, $48, $AF
+    db $0A, $C8, $B0, $0C, $1A, $FF
     rrca
     call z, $1155
     pop de
