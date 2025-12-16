@@ -3085,19 +3085,12 @@ AnimFrame_4CA9:
 AnimFrame_4CAD:
     dw $FCFC           ; Offset Y/X relatifs (signed bytes: -4, -4)
     dw $4D61           ; → SpriteData (séquence de commandes sprite - MAL DÉSASSEMBLÉ)
-; WARNING: Zone mal désassemblée! Données réelles @ $4CB1: 08 00 10 00 10 00 10 00...
-; Les valeurs ci-dessous ne correspondent PAS au binaire ROM
-; Vraies données: tableau de valeurs 16-bit ($0008, $0010, $0010, $0010...)
-; Probablement: durées/intervalles de frames d'animation
 AnimFrame_4CB1:
     dw $F8F9
     dw $4D68
-; AnimFrame_Seq2_Frame1 - Frame d'animation séquence 2, frame 1
-; Format: word offset_yx, word pointeur_vers_données
-AnimFrame_Seq2_Frame1:
 AnimFrame_4CB5:
-    dw $F8F9           ; Offset Y/X relatifs (Y=-8, X=-7)
-    dw $4D6F           ; → SpriteData (zone mal désassemblée - table de 7 bytes)
+    dw $F8F9
+    dw $4D6F
 AnimFrame_4CB9:
     dw $F8F9
     dw $4D76
