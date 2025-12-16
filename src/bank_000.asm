@@ -10932,8 +10932,13 @@ AudioCmdSeq_01:
 AudioCmdSeq_02:
     db $91, $FF
 
-; AudioCmdSeq_03 ($2D07)
-; Séquence de 3 octets : $20 (paramètre), $90 (commande), $FF (terminateur)
+; AudioCmdSeq_03
+; ----------------
+; Description: Séquence de commandes audio n°3 - Configure un paramètre puis exécute commande $90
+; In:  Aucun (table de données)
+; Out: Séquence de 3 octets lue par le moteur audio
+; Format: db $20 (paramètre), $90 (commande), $FF (terminateur)
+; Note: Référencée par AudioChannelCommandTable1 (entrée 3)
 AudioCmdSeq_03:
     db $20, $90, $FF
 
