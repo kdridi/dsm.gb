@@ -786,6 +786,7 @@ DEF TILEMAP_CMD_LOAD1   EQU $80 ; Charge tilemap niveau (type 1)
 DEF TILEMAP_CMD_LOAD2   EQU $5F ; Charge tilemap niveau (type 2)
 DEF TILEMAP_CMD_LOAD3   EQU $81 ; Charge tilemap niveau (type 3)
 DEF TILEMAP_CMD_WATER   EQU $82 ; Tile eau (collision spéciale)
+DEF TILEMAP_CMD_BLOCK   EQU $83 ; Tile bloc collision (son + détection)
 DEF TILEMAP_CMD_PIPE    EQU $F4 ; Tile tuyau/pipe (entrée zone spéciale)
 DEF TILEMAP_CMD_E1      EQU $E1 ; Tile collision spéciale E1 (transition/warp)
 DEF TILEMAP_CMD_DANGER  EQU $ED ; Tile danger (collision fatale si vulnérable)
@@ -799,8 +800,10 @@ DEF TILEMAP_CMD_THRESHOLD EQU $60 ; Seuil: >= $60 = tile spécial/commande
 ; === Offsets collision joueur ===
 ; Utilisés pour les calculs de collision tête du joueur
 
+DEF SPRITE_COLLISION_OFFSET_Y EQU $0A ; Offset Y collision sprite (10 pixels vers haut)
 DEF HEAD_COLLISION_OFFSET_Y  EQU $0B ; Offset Y tête joueur (11 pixels vers haut)
 DEF HEAD_COLLISION_ADJUST_X  EQU $FE ; Ajustement X hitbox (-2 en complément à 2)
+DEF SPRITE_COLLISION_WIDTH   EQU $04 ; Largeur hitbox sprite (4 pixels)
 
 ; === Seuils de groupes de niveaux ===
 ; Utilisés pour sélectionner la table de style selon le numéro de niveau

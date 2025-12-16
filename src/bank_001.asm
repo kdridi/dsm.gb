@@ -2570,10 +2570,18 @@ CheckPlayerCollisionWithTile:
     ret
 
 
+; CheckSpriteCollision
+; --------------------
+; Description: Détecte les collisions du sprite joueur avec les tiles de la tilemap
+;              Vérifie 2 points de collision (gauche et droite de la hitbox)
+; In:  c = offset X relatif
+; Out: a = résultat collision ($FF si aucune, valeur tile si collision)
+;      zero flag set si collision spéciale détectée
+; Modifie: a, bc, de, hl, hSpriteX, hSpriteY
 CheckSpriteCollision:
     ld hl, wPlayerX
     ld a, [hl+]
-    add $0a
+    add SPRITE_COLLISION_OFFSET_Y
     ldh [hSpriteY], a
     ldh a, [hShadowSCX]
     ld b, a
@@ -2582,17 +2590,17 @@ CheckSpriteCollision:
     add HEAD_COLLISION_ADJUST_X  ; Ajustement hitbox X (-2)
     ldh [hSpriteX], a
     call ReadTileUnderSprite
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD
     jr nc, CheckForSpecialCollisionTile
 
     ldh a, [hSpriteX]
-    add $04
+    add SPRITE_COLLISION_WIDTH
     ldh [hSpriteX], a
     call ReadTileUnderSprite
     cp TILEMAP_CMD_E1            ; Tile collision spéciale E1 ?
     jp z, TriggerBlockCollisionSound_TimerDispatch
 
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD
     jr nc, CheckForSpecialCollisionTile
 
     ret
@@ -2643,7 +2651,7 @@ CollisionCheckOffsetLoop:
     push de
     call ReadTileUnderSprite
     pop de
-    cp $60
+    cp TILEMAP_CMD_THRESHOLD
     jr c, DecrementOffsetAndRetryCollision
 
     cp TILEMAP_CMD_PIPE         ; Tile tuyau $F4 ?
@@ -2652,7 +2660,7 @@ CollisionCheckOffsetLoop:
     cp TILEMAP_CMD_E1            ; Tile collision spéciale E1 ?
     jp z, TriggerBlockCollisionSound_TimerDispatch
 
-    cp $83
+    cp TILEMAP_CMD_BLOCK         ; Tile bloc collision ?
     jp z, TriggerBlockCollisionSound_TimerDispatch
 
     pop hl
