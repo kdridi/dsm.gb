@@ -2157,36 +2157,54 @@ CheckObjectState::
     ret
 
 
-; Routine $490d - Traite les données d'un objet via BC
+; ProcessObjectData
+; ------------------
+; Description: Traite et met à jour les données d'un objet en fonction de son état
+;              et de la table ROM_OBJECT_INIT_DATA. Gère deux modes (type 1 et 2):
+;              - Type 1: décrémente la valeur objet de la valeur table
+;              - Type 2: incrémente la valeur objet de la valeur table (marche arrière)
+; In:  bc = pointeur structure objet (wObject1-5) + offset $07 (champ index)
+;      hl = pointeur table ROM_OBJECT_INIT_DATA
+; Out: Objet mis à jour avec nouvel index et état si boundary atteinte
+; Modifie: a, bc, de, hl
 ProcessObjectData::
-    ld a, [bc]
+    ; Charger index courant dans DE
+    ld a, [bc]              ; a = objet.index (+$07)
     ld e, a
-    ld d, $00
+    ld d, $00               ; de = index
+
+    ; Pointer vers objet.state (bc - 7 = offset $00)
     dec c
-    ld a, [bc]
-    dec c
-    dec c
-    dec c
-    dec c
+    ld a, [bc]              ; a = objet.state (+$06)
     dec c
     dec c
+    dec c
+    dec c
+    dec c
+    dec c                   ; bc pointe maintenant sur objet.value (+$00)
+
+    ; Si state = 0, rien à faire
     and a
     ret z
 
-    cp $02
+    ; Dispatch selon type de state
+    cp ANIM_TRANSITION_DEFAULT  ; $02
     jr z, StateType2Branch
 
-    add hl, de
+    ; --- TYPE 1: Décrémentation (marche avant) ---
+    add hl, de              ; hl = &ROM_OBJECT_INIT_DATA[index]
     ld a, [hl]
-    cp $7f
+    cp ANIM_TRANSITION_END_MARKER  ; $7f = boundary marker
     jr z, StateBoundaryMax
 
+    ; Décrémenter valeur objet
     ld a, [bc]
-    sub [hl]
+    sub [hl]                ; value -= table[index]
     ld [bc], a
-    inc e
+    inc e                   ; index++
 
 StateStoreValue:
+    ; Sauvegarder nouvel index à objet+$07
     ld a, e
     inc c
     inc c
@@ -2194,63 +2212,70 @@ StateStoreValue:
     inc c
     inc c
     inc c
-    inc c
+    inc c                   ; bc = objet + $07
     ld [bc], a
     ret
 
 
 StateType2Branch:
+    ; --- TYPE 2: Incrémentation (marche arrière) ---
     ld a, e
-    cp $ff
+    cp SLOT_EMPTY           ; $ff = index invalide
     jr z, StateType2End
 
-    add hl, de
+    add hl, de              ; hl = &ROM_OBJECT_INIT_DATA[index]
     ld a, [hl]
-    cp $7f
+    cp ANIM_TRANSITION_END_MARKER  ; $7f = boundary marker
     jr z, StateBoundaryCheck
 
 StateProcessValue:
+    ; Incrémenter valeur objet
     ld a, [bc]
-    add [hl]
+    add [hl]                ; value += table[index]
     ld [bc], a
-    dec e
+    dec e                   ; index-- (marche arrière)
     jr StateStoreValue
 
 StateBoundaryCheck:
+    ; Boundary rencontrée en type 2, reculer index
     dec hl
     dec e
     jr StateProcessValue
 
 StateBoundaryMax:
-    dec de
+    ; Boundary rencontrée en type 1, basculer vers type 2
+    dec de                  ; index--
     dec hl
-    ld a, $02
+
+    ; Changer state vers type 2
+    ld a, ANIM_TRANSITION_DEFAULT  ; $02
     inc c
     inc c
     inc c
     inc c
     inc c
-    inc c
+    inc c                   ; bc = objet + $06 (state)
     ld [bc], a
     dec c
     dec c
     dec c
     dec c
     dec c
-    dec c
+    dec c                   ; bc = objet + $00 (value)
     jr StateProcessValue
 
 StateType2End:
+    ; Index invalide en type 2, réinitialiser
     xor a
     inc c
     inc c
     inc c
     inc c
     inc c
-    inc c
-    ld [bc], a
-    inc c
-    ld [bc], a
+    inc c                   ; bc = objet + $06 (state)
+    ld [bc], a              ; state = 0
+    inc c                   ; bc = objet + $07 (index)
+    ld [bc], a              ; index = 0
     ret
 
 
