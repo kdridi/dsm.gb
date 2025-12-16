@@ -3708,12 +3708,28 @@ TileGraphic_574A:  ; $574A
     cp $f1
     ld e, l
     cp $f1
+
+; ==============================================================================
+; TileGraphic_57EB - Tile graphique 8x8 pixels (8 bytes)
+; ==============================================================================
+; Description: Données de tile graphique (format pattern compressé)
+; Format: 8 bytes de données graphiques mal désassemblées comme code
+;         Pattern binaire: $5D $FE $C4 $60 $5A $5A $5D $FE
+;         Interprété comme: ld e,l / cp $c4 / ld h,b / ld e,d / ld e,d / ld e,l / (cp partiel)
+; In: Aucun (données, pas du code exécutable)
+; Out: Aucun
+; Modifie: Aucun
+; Taille: 8 octets ($57EB-$57F2)
+; Référencé par: SharedTilesetData_024 (lignes 3381-3382) - 3 occurrences
+; ==============================================================================
+TileGraphic_57EB:  ; $57EB
     ld e, l
     cp $c4
     ld h, b
     ld e, d
     ld e, d
     ld e, l
+    ; Note: Le byte $FE qui suit fait partie du tile, mais est aussi l'opcode de 'cp $c1'
     cp $c1
     ld h, c
     pop af
