@@ -3250,13 +3250,22 @@ SpriteData_4D33:
     dw $0504
 AnimFrame_4D35:
     dw $1514
-    dw $44FF
-AnimFrame_4D39:
-    dw $004E
-    dw $1601
-AnimFrame_4D3D:
-    dw $FF17
-    dw $4E44
+    db $FF             ; Terminateur de SpriteData_4D33 ($4D37)
+; SpriteData_Walk3
+; ----------------
+; Description: Séquence de commandes sprite pour l'animation de marche (frame 3)
+; In:  Pointeur référencé par AnimFrame_4C95 ($4C95)
+; Out: Aucun (données pures)
+; Format: Séquence de words [sprite_data]*, terminée par $FF
+;         Chaque sprite est défini par des words (tile_id, attrs, ou Y/X selon contexte)
+; Note: Optimisation mémoire - débute au milieu de la structure précédente
+;       Le label pointe à $4D3A, partageant des bytes avec les données adjacentes
+SpriteData_Walk3:      ; @ $4D3A
+    dw $4E44           ; Sprite 1: tile=$44, attrs=$4E
+    dw $0100           ; Sprite 2: Y_offset=$00, X_offset=$01
+    dw $1716           ; Sprite 3: Y_offset=$16, X_offset=$17
+    db $FF             ; Terminateur de séquence
+    dw $4E44           ; Premier sprite de SpriteData_Walk4
 ; SpriteData_Walk4 - Séquence de commandes sprite pour animation marche frame 4
 SpriteData_Walk4:
 AnimFrame_4D41:
