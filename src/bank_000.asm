@@ -8815,6 +8815,12 @@ StoreAudioState:
     ld [wAudioState1], a
     jr UpdateAudioState
 
+; LoadQueuedAudioConfig
+; ---------------------
+; Description: Charge la configuration audio depuis la queue et initialise les canaux
+; In:  wAudioQueueId = ID de configuration audio à charger (SLOT_EMPTY si vide)
+; Out: Canaux audio initialisés avec config depuis ROM_AUDIO_CONFIG
+; Modifie: af, de, hl
 LoadQueuedAudioConfig:
     ld a, [wAudioQueueId]
     ldh [hSoundId], a

@@ -2097,6 +2097,14 @@
       "priority": 3
     },
     {
+      "address": "$24CD",
+      "node_type": "code",
+      "description": "LoadQueuedAudioConfig - Charge la configuration audio en file d'attente",
+      "source": "$2784",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$24c4",
       "node_type": "code",
       "description": "StoreAudioState - Point d'entr\u00e9e alternatif qui sauvegarde le pointeur et reboucle vers UpdateAudioState",
@@ -2165,6 +2173,14 @@
       "node_type": "code",
       "description": "CheckAudioCommand_F1 - V\u00e9rifie et traite la commande audio F1",
       "source": "$26AC",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2799",
+      "node_type": "code",
+      "description": "CheckAudioCommand_F2 - V\u00e9rifie et traite la commande audio F2",
+      "source": "$2784",
       "bank": 0,
       "priority": 3
     },
@@ -2977,18 +2993,10 @@
       "priority": 3
     },
     {
-      "address": "$2799",
+      "address": "$2502",
       "node_type": "code",
-      "description": "CheckAudioCommand_F2 - V\u00e9rifie et traite la commande audio F2",
-      "source": "$2784",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$24CD",
-      "node_type": "code",
-      "description": "LoadQueuedAudioConfig - Charge la configuration audio en file d'attente",
-      "source": "$2784",
+      "description": "InitAudioChannels - Initialise les canaux audio avec la config charg\u00e9e",
+      "source": "$24CD",
       "bank": 0,
       "priority": 3
     }
@@ -3196,6 +3204,7 @@
     "$1298",
     "$1655",
     "$1bf6",
+    "$24CD",
     "$1C12",
     "$2318",
     "$13E7",
@@ -3266,6 +3275,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 0,
-  "total_explored": 271
+  "commits_since_push": 1,
+  "total_explored": 272
 }
