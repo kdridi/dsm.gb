@@ -5419,13 +5419,14 @@ State0C_CheckOddFrame:
 
     jr State0C_IncrementPlayerDir
 
-;; ==========================================================================
-;; CallBank3_4823 - Appelle la routine $4823 en bank 3
-;; ==========================================================================
-;; Appelé par : GameLoop (CheckSpecialState, après InitGameState)
-;; Pattern    : Save bank → Switch bank 3 → Call → Restore bank
-;; Variables  : $FF8E=$0C, $FF8D=$C0, $FF8F=$05, HL=$C200
-;; ==========================================================================
+; SwitchBankAndCallBank3Handler
+; ----------------
+; Description: Configure les paramètres d'animation puis switch vers bank 3
+;              pour appeler AnimationHandler, puis restaure la bank précédente
+; In:  Aucun
+; Out: hParam1 = PLAYER_POS_THRESHOLD ($C0), hParam2 = PLAYER_VAR_AB_INIT ($0C),
+;      hParam3 = RENDER_CONTEXT_GAMEPLAY ($05), hl = wPlayerY
+; Modifie: a, hl (via AnimationHandler en bank 3)
 SwitchBankAndCallBank3Handler:
     ; --- SetupParameters ---
     ld a, PLAYER_VAR_AB_INIT
