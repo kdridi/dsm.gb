@@ -2353,6 +2353,14 @@
       "priority": 3
     },
     {
+      "address": "$286a",
+      "node_type": "code",
+      "description": "AudioCommand_Default - Traitement par d\u00e9faut des commandes audio",
+      "source": "$285e",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2870",
       "node_type": "code",
       "description": "ProcessSoundCollisionCheck - Traite la v\u00e9rification de collision sonore",
@@ -3623,14 +3631,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$286a",
-      "node_type": "code",
-      "description": "AudioCommand_Default - Traitement par d\u00e9faut des commandes audio",
-      "source": "$285e",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3720,6 +3720,7 @@
     "$27E2",
     "$09D7",
     "$0530",
+    "$286a",
     "$21A8",
     "$189b",
     "$2488",
@@ -4002,6 +4003,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 1,
-  "total_explored": 367
+  "commits_since_push": 2,
+  "total_explored": 368
 }

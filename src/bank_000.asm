@@ -9702,6 +9702,13 @@ CheckAudioCommand_FD:
     ret
 
 
+; AudioCommand_Default
+; --------------------
+; Description: Traitement par défaut des commandes audio non reconnues.
+;              Restaure hl depuis la pile et continue vers AudioQueueProcessing
+; In:  Pile = adresse hl sauvegardée
+; Out: Continue vers AudioQueueProcessing
+; Modifie: hl (via pop)
 AudioCommand_Default:
     pop hl
     jp AudioQueueProcessing
