@@ -1114,6 +1114,7 @@ DEF OAM_ADDR_INIT              EQU $05   ; Adresse OAM initiale colonne
 DEF OAM_COPY_SIZE              EQU $10   ; Taille copie données OAM (16 octets)
 DEF OAM_SPRITE_LOOP_3          EQU $03   ; Nombre de sprites dans boucle OAM (3)
 DEF OAM_SPRITE_LOOP_8          EQU $08   ; Nombre de sprites dans boucle OAM (8)
+DEF OAM_Y_OFFSCREEN_LIMIT      EQU $A9   ; Limite Y pour considérer sprite hors écran (169px)
 
 ; === Masques animation ===
 

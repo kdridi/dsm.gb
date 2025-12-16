@@ -2713,8 +2713,20 @@ TriggerSpecialCollisionEvent:
     ret
 
 
-    ld b, $03
-    ld hl, $ffa9
+; UpdateActiveSpriteAnimations
+; ----------------------------
+; Description: Met à jour les animations des 3 sprites actifs (slots $FFA9-$FFAB).
+;              Pour chaque sprite actif, incrémente sa position Y OAM de +2 pixels/frame.
+;              Nettoie les sprites qui atteignent Y >= $A9 (hors écran).
+;              Vérifie les collisions pièces et appelle ProcessObjectCollisions.
+; In:  hObjParamBuf1 = flags activité sprites (0=inactif, !=0=actif)
+;      wOamAttrY = buffer OAM (position Y sprites)
+; Out: Sprites mis à jour dans OAM, flags nettoyés si hors écran
+; Modifie: a, bc, de, hl
+; Calls: CheckTileForCoin, ProcessObjectCollisions
+UpdateActiveSpriteAnimations:
+    ld b, OAM_SPRITE_LOOP_3
+    ld hl, hObjParamBuf1
     ld de, wOamAttrY
 
 OamSpriteActivityCheckLoop:
@@ -2744,7 +2756,7 @@ ProcessActiveSpriteOffset:
     ld [de], a
     ldh [hTemp1], a
     ldh [hSoundParam2], a
-    cp $a9
+    cp OAM_Y_OFFSCREEN_LIMIT
     jr c, CheckCoinCollisionLogic
 
 ClearOamAndMemory:
