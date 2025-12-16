@@ -8736,7 +8736,7 @@ FindAudioTableEntry_Found:
     ld de, OBJECT_STRUCT_SIZE
 
 ClearObjectBuffer_Loop:
-    ld [hl], $ff
+    ld [hl], SLOT_EMPTY
     add hl, de
     ld a, l
     cp OBJECT_BUFFER_END_LOW     ; Fin buffer objets ($D1A0)

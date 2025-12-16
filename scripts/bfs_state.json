@@ -2073,6 +2073,14 @@
       "priority": 3
     },
     {
+      "address": "$247E",
+      "node_type": "code",
+      "description": "ClearObjectBuffer_Loop - Boucle interne qui r\u00e9initialise wObjectBuffer avec $FF",
+      "source": "$2453",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2488",
       "node_type": "code",
       "description": "UpdateAudio - Met \u00e0 jour audio/musique",
@@ -2807,14 +2815,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$247E",
-      "node_type": "code",
-      "description": "ClearObjectBuffer_Loop - Boucle interne qui r\u00e9initialise wObjectBuffer avec $FF",
-      "source": "$2453",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2840,6 +2840,7 @@
     "$0E1F",
     "$22F4",
     "$12DD",
+    "$247E",
     "$0D82",
     "$0ab6",
     "$4000:3",
@@ -3078,6 +3079,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 3,
-  "total_explored": 259
+  "commits_since_push": 4,
+  "total_explored": 260
 }
