@@ -3141,10 +3141,16 @@ AnimFrame_4CDD_Overlap:
     dw $4DAE
 AnimFrame_4CDD:
     dw $FBF9
+; AnimFrame_4CE1 - Overlap intentionnel (table pointe vers $4CE1)
+; Référencé par AnimFramePointerTable[24] - pointe vers le 2e word de AnimFrame_4CDD
+; Contenu à $4CE1: dw $4DB5, dw $F8F9 (ce word + 1er word de AnimFrame_4CE3)
+AnimFrame_4CE1_Overlap:
     dw $4DB5
+; AnimFrame_4CE1 - Structure d'animation #24 (label historique, adresse réelle $4CE3)
+; Format: word offset_yx, word pointeur_vers_sprites
 AnimFrame_4CE1:
-    dw $F8F9
-    dw $4DBC
+    dw $F8F9           ; Offset Y/X relatifs (signed bytes: -8, -7)
+    dw $4DBC           ; → SpriteData_4DBC (données sprite OAM)
 AnimFrame_4CE5:
     dw $F8F9
     dw $4DC3
