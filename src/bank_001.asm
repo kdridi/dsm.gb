@@ -3379,7 +3379,7 @@ SharedTilesetData_578:
 ; ==============================================================================
 SharedTilesetData_024:
     dw $56CD, $5ABB, $6048, $56CD, $574A, $57EB, $5D32, $586F
-    dw TilesetBlock_58FE, TilesetBlock_58FE, $596E, $574A, $57EB, $57EB, $586F, $574A
+    dw TilesetBlock_58FE, TilesetBlock_58FE, TilesetBlock_596E, $574A, $57EB, $57EB, $586F, $574A
     dw TilesetBlock_58FE, $59EE, $5A5F
     db $FF  ; Terminateur
 
@@ -4061,15 +4061,19 @@ TilesetBlock_58FE:  ; $58FE - pointe vers le paramètre $71
     ld e, l
     cp $31
     db $f4
-    pop af
-    ld e, l
-    cp $f1
-    ld e, l
-    cp $79
-    ld h, b
-    ld e, d
-    ld e, d
-    ld e, d
+    db $F1, $5D  ; Derniers 2 bytes de TilesetBlock_58FE ($596B-$596C)
+    db $FE       ; Dernier byte de TilesetBlock_58FE ($596D)
+
+; ==============================================================================
+; TilesetBlock_596E - Tile graphique 2BPP ($596E-$5975)
+; ==============================================================================
+; Description: Tile graphique 8x8 pixels, format 2BPP Game Boy
+; Taille: 8 octets (1 tile × 8 bytes)
+; Référencé par: SharedTilesetData_024 (ligne 3382)
+; Format: Tile 2BPP (2 bits par pixel, 8 bytes par tile)
+; ==============================================================================
+TilesetBlock_596E:
+    db $F1, $5D, $FE, $79, $60, $5A, $5A, $5A
     ld e, d
     ld e, d
     ld e, d
