@@ -5908,8 +5908,17 @@ PlaySoundExit:
     call PlaySound
     ret
 
-
-
+; ApplyAltSpriteAttributeIfConfigSet
+; ----------------------------------
+; Description: Applique un attribut sprite alternatif (tile $82) si aucune
+;              collision bloc n'est active. Initialise le buffer d'état si
+;              nécessaire, puis continue vers SetupSpriteProperties.
+; In:  hBlockHitType = type collision active (0=aucune)
+;      wStateBuffer = buffer état
+;      hl = adresse tile (passée à SetupSpriteProperties)
+; Out: wOamVar2E = OAM_SPRITE_TILE_82 ($82) si pas de collision
+;      wStateBuffer = STATE_BUFFER_DEFAULT ($07) si était zéro
+; Modifie: a, puis appelle SetupSpriteProperties
 ApplyAltSpriteAttributeIfConfigSet:
     ldh a, [hBlockHitType]
     and a
