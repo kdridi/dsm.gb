@@ -4255,6 +4255,39 @@ TilesetBlock_596E:
     ld e, l
     cp $f1
 
+; ==============================================================================
+; ClearMemoryRangeWRAM - Efface une plage de WRAM ($5A55-$5A62)
+; ==============================================================================
+; Description: Routine de remplissage mémoire (clear memory loop)
+;              Initialise $0240 bytes à zéro en WRAM à partir de $CA3F
+; Adresse: $5A55-$5A62 (14 bytes dont $5A5F fait partie)
+; In:  hl = $CA3F (adresse de fin+1), bc = $0240 (taille)
+; Out: Mémoire [$C800-$CA3F] = $00
+; Modifie: a, bc, hl
+; Note: $5A5F contient l'instruction "or c" utilisée pour tester bc==0
+;       Cette zone est actuellement mal désassemblée (lignes 4249-4256)
+; Reconstruction attendue:
+;   ClearMemoryRangeWRAM:  ; $5A55
+;       ld hl, $CA3F       ; Adresse de fin (WRAM haute)
+;       ld bc, $0240       ; Taille à effacer (576 bytes)
+;   .loop:                 ; $5A5B
+;       xor a              ; a = 0
+;       ldd [hl], a        ; Écrire 0 et décrémenter hl
+;       dec bc             ; Décrémenter compteur
+;       ld a, b            ; Charger b dans a
+;       or c               ; $5A5F - Test si bc == 0
+;       jr nz, .loop       ; Continuer si bc != 0
+;       ret                ; $5A62
+; ==============================================================================
+; IMPORTANT: Les lignes 4249-4256 ci-dessus sont mal désassemblées
+; Elles contiennent en réalité la routine ClearMemoryRangeWRAM ($5A55-$5A62)
+; $5A5F pointe vers le byte "or c" ($B1) au milieu de cette routine
+; La reconstruction complète nécessite de remplacer ces lignes par:
+;   - Routine1 ($5A48-$5A54): Init HRAM registers
+;   - ClearMemoryRangeWRAM ($5A55-$5A62): la routine clear memory documentée ci-dessus
+;   - Routine3 ($5A63-$5A67): Check HRAM flags
+; ==============================================================================
+
 PatternData_5a60:
     adc [hl]
     cp $f1

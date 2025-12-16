@@ -5719,6 +5719,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$CA3F",
+      "node_type": "data",
+      "description": "Adresse cible WRAM pour le clear memory (fin de la zone \u00e0 effacer)",
+      "source": "$5A5F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$5A5B",
+      "node_type": "code",
+      "description": "Cible de la boucle (jr nz) dans ClearMemoryRangeWRAM",
+      "source": "$5A5F",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5A60",
+      "node_type": "data",
+      "description": "PatternData_5a60 - Donn\u00e9es de pattern qui suivent la routine",
+      "source": "$5A5F",
+      "bank": 1,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6259,6 +6283,7 @@
     "$0a07",
     "$26ac",
     "$58FE",
+    "$5A5F",
     "$09e8",
     "$529B",
     "$1916",
@@ -6339,6 +6364,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 616
+  "commits_since_push": 1,
+  "total_explored": 617
 }
