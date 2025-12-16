@@ -6389,6 +6389,18 @@ HandlePlayerSpikeCollision:
     ret
 
 
+; HandlePlayerSlideCollision
+; --------------------------
+; Description: Gère collision du joueur avec une tile glissante/tuyau descendant
+;              Si VBlank mode actif, déclenche transition vers mode pipe descendant
+;              Sinon, délègue au handler de collision par défaut
+; In:  hVBlankMode = mode VBlank (0 = inactif)
+;      wPlayerState = position Y du joueur (pointée par HL après décrément)
+; Out: hGameState = GAME_STATE_PIPE_DOWN (si VBlank actif)
+;      wPlayerFlag = PLAYER_FLAG_PIPE_MODE (si VBlank actif)
+;      hVBlankSelector = position Y calculée pour pipe
+;      a = RETURN_COLLISION_FOUND (si transition pipe effectuée)
+; Modifie: a, hl
 HandlePlayerSlideCollision:
     ldh a, [hVBlankMode]
     and a

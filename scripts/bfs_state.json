@@ -2431,6 +2431,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$1AF2",
+      "node_type": "code",
+      "description": "CollisionDefaultHandler - Handler de collision par d\u00e9faut",
+      "source": "$1B1A",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2443,6 +2451,7 @@
     "$0E28",
     "$17B3",
     "$0D64",
+    "$1B1A",
     "$0095",
     "$175C",
     "$0166",
@@ -2629,6 +2638,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 3,
-  "total_explored": 194
+  "commits_since_push": 4,
+  "total_explored": 195
 }
