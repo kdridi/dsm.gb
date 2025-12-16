@@ -11077,7 +11077,16 @@ AudioAnimData_03:
     db $88, $01, $89, $0A, $87, $FF
 
 ; AudioAnimData_04 ($2D41)
-; Séquence de 6 octets pour animation audio
+; ----------------
+; Description: Séquence de commandes audio pour animation/effets sonores (entrée 11)
+; In:  Référencée par ROM_AUDIO_CHANNEL_TABLE_2[11] à $30BB (offset $10 dans table à $30AB)
+; Format: [cmd1, param1, cmd2, param2, cmd3, $FF]
+;         $8B = commande audio 1 avec paramètre $01
+;         $8C = commande audio 2 avec paramètre $0A
+;         $8A = commande audio 3 (sans paramètre)
+;         $FF = terminateur de séquence
+; Out: Exécution des commandes audio $8B, $8C, $8A
+; Modifie: Variables audio selon les commandes exécutées
 AudioAnimData_04:
     db $8B, $01, $8C, $0A, $8A, $FF
 
