@@ -7861,6 +7861,16 @@ ProcessAnimObjectExit:
     ret
 
 
+; LoadDemoInput
+; ----------------
+; Description: Charge l'input de démonstration/replay dans l'état joypad.
+;              Cette fonction ne s'exécute que lorsque les updates sont verrouillées
+;              (hUpdateLockFlag != 0), pour garantir que l'input démo est chargé
+;              au bon moment du cycle de jeu.
+; In:  hUpdateLockFlag = doit être != 0 pour exécuter
+;      wLevelVarDB = input démo à charger
+; Out: hJoypadState = état joypad mis à jour avec input démo
+; Modifie: a
 LoadDemoInput:
     ReturnIfUnlocked
 
