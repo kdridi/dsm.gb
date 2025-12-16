@@ -6196,11 +6196,14 @@ CollisionHandler_SpecialF4_Setup:
 
 
 ; -----------------------------------------------------------------------------
-; ClassifyTileType - Vérifie si un tile est dans la liste des tiles spéciaux
-; -----------------------------------------------------------------------------
-; Entrée  : A = numéro du tile à classifier
-; Sortie  : A = type si trouvé, sinon A inchangé
-; -----------------------------------------------------------------------------
+; ClassifyTileType
+; ----------------
+; Description: Vérifie si un tile appartient à la table des tiles spéciaux du monde actuel
+;              Utilise ROM_WORLD_TILE_TABLE pour trouver la table du monde via hAnimTileIndex
+; In:  a = numéro du tile à classifier
+;      hAnimTileIndex = index monde/niveau (nibble haut = monde 1-4)
+; Out: a = 0 si tile trouvé dans la table, a inchangé sinon
+; Modifie: bc, de (de pointe sur l'entrée trouvée ou TABLE_END_MARKER)
 ClassifyTileType:
     push hl
     push af

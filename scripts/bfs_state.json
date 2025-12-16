@@ -1353,10 +1353,34 @@
       "priority": 3
     },
     {
+      "address": "$1A62",
+      "node_type": "code",
+      "description": "ClassifyTileType - Classifie type de tile",
+      "source": "$1AA4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1AA4",
       "node_type": "code",
       "description": "CheckPlayerSideCollision - V\u00e9rifie collision lat\u00e9rale du joueur",
       "source": "$1D1D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1B05",
+      "node_type": "code",
+      "description": "HandlePlayerSpikeCollision - G\u00e8re collision avec tuyau/spike",
+      "source": "$1AA4",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1B1A",
+      "node_type": "code",
+      "description": "HandlePlayerSlideCollision - G\u00e8re collision avec glissade",
+      "source": "$1AA4",
       "bank": 0,
       "priority": 3
     },
@@ -2401,26 +2425,10 @@
       "priority": 3
     },
     {
-      "address": "$1A62",
-      "node_type": "code",
-      "description": "ClassifyTileType - Classifie type de tile",
-      "source": "$1AA4",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1B05",
-      "node_type": "code",
-      "description": "HandlePlayerSpikeCollision - G\u00e8re collision avec tuyau/spike",
-      "source": "$1AA4",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1B1A",
-      "node_type": "code",
-      "description": "HandlePlayerSlideCollision - G\u00e8re collision avec glissade",
-      "source": "$1AA4",
+      "address": "$1A8A",
+      "node_type": "table",
+      "description": "ROM_WORLD_TILE_TABLE - Table de pointeurs vers tiles sp\u00e9ciaux par monde",
+      "source": "$1A62",
       "bank": 0,
       "priority": 3
     }
@@ -2586,6 +2594,7 @@
     "$02A5",
     "$0048",
     "$1212",
+    "$1A62",
     "$05B7",
     "$05F8",
     "$078C",
@@ -2618,6 +2627,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 0,
-  "total_explored": 191
+  "commits_since_push": 1,
+  "total_explored": 192
 }
