@@ -9700,6 +9700,20 @@ AudioCommand_CompleteExit:
     ret
 
 
+; ProcessSoundCollisionCheck
+; --------------------------
+; Description: Traite les collisions sonores en fonction du type (hSoundFlag nibble bas).
+;              Gère les collisions gauche/droite selon hSoundCh2, vérifie les tuiles,
+;              met à jour les paramètres sonores (hSoundParam2) et l'état joueur.
+;              Peut déclencher le scroll horizontal si nécessaire.
+; In:  hSoundFlag = type collision (nibble bas) + vélocité (nibble haut)
+;      hSoundCh2 = bit 0 indique direction (0=gauche, 1=droite)
+;      hSoundCh4 = flags de collision verticale (bits 0, 2-3)
+;      hSoundParam2 = paramètre sonore à ajuster
+;      hSoundVar4 = flag activation mise à jour état joueur
+; Out: hSoundParam2 modifié, wPlayerState potentiellement modifié
+;      hShadowSCX mis à jour si scroll déclenché
+; Modifie: a, bc, affecte plusieurs registres HRAM et WRAM
 ProcessSoundCollisionCheck:
     ldh a, [hSoundFlag]
     and NIBBLE_LOW_MASK          ; Type collision (nibble bas)
