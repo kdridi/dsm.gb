@@ -10988,7 +10988,14 @@ AudioAnimData_01:
     db $97, $08, $96, $FF
 
 ; AudioAnimData_02 ($2D18)
-; Séquence de 4 octets pour animation audio
+; ----------------
+; Description: Séquence d'animation audio avec commandes $99 et $98
+; In:  Accès potentiel via calcul d'offset ou référence directe non identifiée
+; Format: [commande1, paramètre, commande2, terminateur]
+;         $99 = commande audio 1, $08 = paramètre
+;         $98 = commande audio 2, $FF = terminateur de séquence
+; Note: Structure similaire à AudioCmdSeq_07 mais sans paramètres initiaux
+; Modifie: Variables audio selon les commandes exécutées
 AudioAnimData_02:
     db $99, $08, $98, $FF
 
