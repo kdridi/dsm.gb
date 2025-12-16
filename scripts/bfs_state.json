@@ -1705,6 +1705,54 @@
       "priority": 3
     },
     {
+      "address": "$1a8a",
+      "node_type": "table",
+      "description": "ROM_WORLD_TILE_TABLE - Table de pointeurs vers listes de tiles sp\u00e9ciaux",
+      "source": "$1a62",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1a94",
+      "node_type": "data",
+      "description": "World1_SpecialTiles - Tiles sp\u00e9ciaux monde 1 ($68,$69,$6A,$7C,$FD)",
+      "source": "$1a62",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1a99",
+      "node_type": "data",
+      "description": "World2_SpecialTiles - Tiles sp\u00e9ciaux monde 2 ($60,$61,$63,$7C,$FD)",
+      "source": "$1a62",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1a9e",
+      "node_type": "data",
+      "description": "World3_SpecialTiles - Tiles sp\u00e9ciaux monde 3 ($7C,$FD)",
+      "source": "$1a62",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1aa0",
+      "node_type": "data",
+      "description": "World4_SpecialTiles - Tiles sp\u00e9ciaux monde 4 ($7C,$FD)",
+      "source": "$1a62",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$1aa2",
+      "node_type": "data",
+      "description": "World5_SpecialTiles - Tiles sp\u00e9ciaux monde 5 ($7C,$FD)",
+      "source": "$1a62",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1b7d",
       "node_type": "code",
       "description": "ProcessBlockCollision - Traite collision selon hBlockHitType ($C0=special)",
@@ -2559,54 +2607,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1a8a",
-      "node_type": "table",
-      "description": "ROM_WORLD_TILE_TABLE - Table de pointeurs vers listes de tiles sp\u00e9ciaux",
-      "source": "$1a62",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1a94",
-      "node_type": "data",
-      "description": "World1_SpecialTiles - Tiles sp\u00e9ciaux monde 1 ($68,$69,$6A,$7C,$FD)",
-      "source": "$1a62",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1a99",
-      "node_type": "data",
-      "description": "World2_SpecialTiles - Tiles sp\u00e9ciaux monde 2 ($60,$61,$63,$7C,$FD)",
-      "source": "$1a62",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1a9e",
-      "node_type": "data",
-      "description": "World3_SpecialTiles - Tiles sp\u00e9ciaux monde 3 ($7C,$FD)",
-      "source": "$1a62",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1aa0",
-      "node_type": "data",
-      "description": "World4_SpecialTiles - Tiles sp\u00e9ciaux monde 4 ($7C,$FD)",
-      "source": "$1a62",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$1aa2",
-      "node_type": "data",
-      "description": "World5_SpecialTiles - Tiles sp\u00e9ciaux monde 5 ($7C,$FD)",
-      "source": "$1a62",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2800,6 +2800,7 @@
     "$118B",
     "$0185",
     "$0EA0",
+    "$1a8a",
     "$1815",
     "$0BEA",
     "$0558",
@@ -2824,6 +2825,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 2,
-  "total_explored": 213
+  "commits_since_push": 3,
+  "total_explored": 214
 }
