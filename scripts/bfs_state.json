@@ -4817,11 +4817,35 @@
       "priority": 3
     },
     {
+      "address": "$59A8",
+      "node_type": "code",
+      "description": "SpriteAnimationDispatch_ByType - Boucle de traitement par slot sprite",
+      "source": "$59A2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$59E0",
+      "node_type": "code",
+      "description": "SpriteSlot1_AnimationCheck - Gestion animation slot 1 (wSpriteTemp+$38)",
+      "source": "$59A2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$59EE",
       "node_type": "data",
       "description": "Tile graphique (8 bytes)",
       "source": "$55BB",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$59F3",
+      "node_type": "code",
+      "description": "SpriteSlot2_AnimationCheck - Gestion animation slot 2 (wSpriteTemp+$40)",
+      "source": "$59A2",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -4837,6 +4861,30 @@
       "node_type": "code",
       "description": "ProcessSpriteAnimation - Traite animation sprite (appel\u00e9 par UpdateSpriteAnimationFrame)",
       "source": "$5844",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5A05",
+      "node_type": "code",
+      "description": "SpriteSlot3_AnimationCheck - Gestion animation slot 3 (wSpriteTemp+$48)",
+      "source": "$59A2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5A15",
+      "node_type": "code",
+      "description": "SpriteAnimationMultiplexHandler - Multiplex animation avec compteurs et \u00e9tats",
+      "source": "$59A2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5A37",
+      "node_type": "code",
+      "description": "SpriteAnimationCounterDecrement - D\u00e9cr\u00e9mente compteur animation et r\u00e9initialise",
+      "source": "$59A2",
       "bank": 2,
       "priority": 3
     },
@@ -4862,6 +4910,22 @@
       "description": "Tile graphique (8 bytes)",
       "source": "$55BB",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5A62",
+      "node_type": "code",
+      "description": "SpriteAnimationStatePurge - Purge \u00e9tat animation d'un slot",
+      "source": "$59A2",
+      "bank": 2,
+      "priority": 3
+    },
+    {
+      "address": "$5A66",
+      "node_type": "code",
+      "description": "ExitSpriteHandler/SpriteAnimationLoopExit - Sort du handler ou it\u00e8re au slot suivant",
+      "source": "$59A2",
+      "bank": 2,
       "priority": 3
     },
     {
@@ -5599,70 +5663,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$59A8",
-      "node_type": "code",
-      "description": "SpriteAnimationDispatch_ByType - Boucle de traitement par slot sprite",
-      "source": "$59A2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$59E0",
-      "node_type": "code",
-      "description": "SpriteSlot1_AnimationCheck - Gestion animation slot 1 (wSpriteTemp+$38)",
-      "source": "$59A2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$59F3",
-      "node_type": "code",
-      "description": "SpriteSlot2_AnimationCheck - Gestion animation slot 2 (wSpriteTemp+$40)",
-      "source": "$59A2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5A05",
-      "node_type": "code",
-      "description": "SpriteSlot3_AnimationCheck - Gestion animation slot 3 (wSpriteTemp+$48)",
-      "source": "$59A2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5A15",
-      "node_type": "code",
-      "description": "SpriteAnimationMultiplexHandler - Multiplex animation avec compteurs et \u00e9tats",
-      "source": "$59A2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5A37",
-      "node_type": "code",
-      "description": "SpriteAnimationCounterDecrement - D\u00e9cr\u00e9mente compteur animation et r\u00e9initialise",
-      "source": "$59A2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5A62",
-      "node_type": "code",
-      "description": "SpriteAnimationStatePurge - Purge \u00e9tat animation d'un slot",
-      "source": "$59A2",
-      "bank": 2,
-      "priority": 3
-    },
-    {
-      "address": "$5A66",
-      "node_type": "code",
-      "description": "ExitSpriteHandler/SpriteAnimationLoopExit - Sort du handler ou it\u00e8re au slot suivant",
-      "source": "$59A2",
-      "bank": 2,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6168,6 +6168,7 @@
     "$509B",
     "$2D00",
     "$2d88",
+    "$59A5",
     "$2bf5",
     "$1983",
     "$4CB9",
@@ -6268,6 +6269,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 0,
-  "total_explored": 601
+  "commits_since_push": 1,
+  "total_explored": 602
 }

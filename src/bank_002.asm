@@ -6317,6 +6317,15 @@ AnimationHandler_Type01:            ; $5958 - Point d'entrée types $01,$02,$04,
 AnimationDispatch_SelectPalette:
     call AddScore
 
+; ProcessSpriteAnimation / SpriteAnimationDispatchEntry
+; -------------------------------------------------------
+; Description: Point d'entrée du système d'animation sprites, traite les 4 slots
+;              d'animation (slots 0-3) avec gestion de compteurs frame individuels
+;              selon leur paramètre niveau respectif (wLevelParam0C/0D/0E/0F).
+; In:  hl = pointeur vers wSpriteTemp (buffer sprite $C030)
+;      wLevelParam0C-0F = flags contrôle animation par slot ($c0 = désactivé)
+; Out: Animations sprites mises à jour, compteurs décrémentés
+; Modifie: af, bc, de, hl
 ProcessSpriteAnimation:
 SpriteAnimationDispatchEntry:
     ld hl, wSpriteTemp
@@ -6333,19 +6342,19 @@ SpriteAnimationDispatch_ByType:
     ld bc, $da06             ; Pointeur compteur animation slot 0
     ld de, $da0a             ; Pointeur état animation slot 0
     ld hl, $da13             ; Pointeur compteur frame slot 0
-    cp $48
+    cp SPRITE_SLOT_3
     jr z, SpriteSlot3_AnimationCheck
 
     dec c
     dec e
     dec l
-    cp $40
+    cp SPRITE_SLOT_2
     jr z, SpriteSlot2_AnimationCheck
 
     dec c
     dec e
     dec l
-    cp $38
+    cp SPRITE_SLOT_1
     jr z, SpriteSlot1_AnimationCheck
 
     ; Slot 0 (wSpriteTemp+$30)
@@ -6353,13 +6362,13 @@ SpriteAnimationDispatch_ByType:
     dec e
     dec l
     ld a, [wLevelParam0C]
-    cp $c0
+    cp SPRITE_ANIM_DISABLE
     jr z, SpriteAnimationMultiplexHandler
 
     ld a, [hl]
     inc a
     ld [hl], a
-    cp $02
+    cp SPRITE_FRAME_COUNTER_MAX
     jp nz, ExitSpriteHandler
 
     xor a
@@ -6368,13 +6377,13 @@ SpriteAnimationDispatch_ByType:
 
 SpriteSlot1_AnimationCheck:
     ld a, [wLevelParam0D]
-    cp $c0
+    cp SPRITE_ANIM_DISABLE
     jr z, SpriteAnimationMultiplexHandler
 
     ld a, [hl]
     inc a
     ld [hl], a
-    cp $02
+    cp SPRITE_FRAME_COUNTER_MAX
     jp nz, ExitSpriteHandler
 
     xor a
@@ -6383,13 +6392,13 @@ SpriteSlot1_AnimationCheck:
 
 SpriteSlot2_AnimationCheck:
     ld a, [wLevelParam0E]
-    cp $c0
+    cp SPRITE_ANIM_DISABLE
     jr z, SpriteAnimationMultiplexHandler
 
     ld a, [hl]
     inc a
     ld [hl], a
-    cp $02
+    cp SPRITE_FRAME_COUNTER_MAX
     jr nz, SpriteAnimationLoopExit
 
     xor a
@@ -6398,13 +6407,13 @@ SpriteSlot2_AnimationCheck:
 
 SpriteSlot3_AnimationCheck:
     ld a, [wLevelParam0F]
-    cp $c0
+    cp SPRITE_ANIM_DISABLE
     jr z, SpriteAnimationMultiplexHandler
 
     ld a, [hl]
     inc a
     ld [hl], a
-    cp $02
+    cp SPRITE_FRAME_COUNTER_MAX
     jr nz, SpriteAnimationLoopExit
 
     xor a
@@ -6422,20 +6431,20 @@ SpriteAnimationMultiplexHandler:
     dec l
     dec l
     ld a, [hl]
-    cp $f6
+    cp SPRITE_ANIM_VALUE_2
     jr c, SpriteAnimationCounterDecrement
 
     ld a, [de]
     inc a
     ld [de], a
     ld [hl], a
-    cp $f9
+    cp SPRITE_ANIM_THRESHOLD_F9
     jr c, SpriteAnimationCounterDecrement
 
     dec a
     dec a
     ld [hl], a
-    cp $f7
+    cp SPRITE_ANIM_THRESHOLD_F7
     jr z, SpriteAnimationCounterDecrement
 
     dec a
@@ -6449,9 +6458,9 @@ SpriteAnimationCounterDecrement:
     ld [bc], a
     jr nz, SpriteAnimationLoopExit
 
-    ld a, $20
+    ld a, SPRITE_ANIM_VALUE_1
     ld [bc], a
-    ld a, $f6
+    ld a, SPRITE_ANIM_VALUE_2
     ld [de], a
     xor a
     ld [hl-], a
@@ -6488,10 +6497,10 @@ SpriteAnimationStatePurge:
 ExitSpriteHandler:
 SpriteAnimationLoopExit:
     pop hl
-    ld de, $0008
+    ld de, SPRITE_SLOT_SIZE
     add hl, de
     ld a, l
-    cp $50
+    cp SPRITE_BUFFER_LIMIT
     jp nz, SpriteAnimationDispatch_ByType
 
     ret
