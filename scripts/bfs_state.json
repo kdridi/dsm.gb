@@ -2905,6 +2905,22 @@
       "priority": 3
     },
     {
+      "address": "$2cf4",
+      "node_type": "code",
+      "description": "SaveSoundDataToHL - Fall-through direct, copie les donn\u00e9es audio vers HL",
+      "source": "$2cee",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$2d00",
+      "node_type": "data",
+      "description": "AudioCmdSeq_00 - D\u00e9but des s\u00e9quences de commandes audio (table 1)",
+      "source": "$2cee",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$30AB",
       "node_type": "table",
       "description": "ROM_AUDIO_CHANNEL_TABLE_2 - Table de pointeurs vers commandes audio (option 2)",
@@ -3583,22 +3599,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$2cf4",
-      "node_type": "code",
-      "description": "SaveSoundDataToHL - Fall-through direct, copie les donn\u00e9es audio vers HL",
-      "source": "$2cee",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$2d00",
-      "node_type": "data",
-      "description": "AudioCmdSeq_00 - D\u00e9but des s\u00e9quences de commandes audio (table 1)",
-      "source": "$2cee",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3675,6 +3675,7 @@
     "$2502",
     "$0CC2",
     "$1E96",
+    "$2cf4",
     "$2318",
     "$2FD9",
     "$2a1a",
@@ -3966,6 +3967,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 2,
-  "total_explored": 363
+  "commits_since_push": 3,
+  "total_explored": 364
 }
