@@ -6695,12 +6695,24 @@ ClearUpdateCounter:
     ret
 
 
+; DisplayLivesGameOver
+; --------------------
+; Description: Déclenche le Game Over (état $39) et réinitialise le compteur
+; In:  Aucun
+; Out: hGameState = GAME_STATE_GAME_OVER, wUpdateCounter = 0
+; Modifie: a
 DisplayLivesGameOver:
     ld a, GAME_STATE_GAME_OVER
     ldh [hGameState], a
     ld [wROMBankInit], a
     jr ClearUpdateCounter
 
+; DisplayLivesDecrement
+; ---------------------
+; Description: Décrémente le compteur de vies de 1 (en BCD), Game Over si 0
+; In:  a = nombre de vies actuel (BCD)
+; Out: wLivesCounter mis à jour, ou Game Over déclenché si vies=0
+; Modifie: a
 DisplayLivesDecrement:
     and a
     jr z, DisplayLivesGameOver
