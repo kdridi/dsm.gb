@@ -2421,39 +2421,49 @@ UpdateObjectsAndInput:
     jr nz, CheckSpriteCollisionSimple
     ; Fall through vers HandleJoypadAndCollision
 
+; HandleJoypadAndCollision
+; ------------------------
+; Description: Gère le D-Pad (gauche/droite) et applique collisions directionnelles.
+;              Gauche (bit 5): offset -6, décrément wPlayerState si >= $10 et pas de collision.
+;              Droite (bit 4): offset +8, incrément wPlayerState si < $A0.
+; In:  hJoypadState = État boutons (bit 4=droite, bit 5=gauche)
+;      wPlayerState = Position état joueur actuelle
+;      wCollisionFlag = Flag collision pour tests supplémentaires
+; Out: wPlayerState modifié selon direction et collision
+; Modifie: a, bc, hl (via appels)
 HandleJoypadAndCollision:
     ldh a, [hJoypadState]
-    bit 4, a
+    bit 4, a                         ; Test PADF_RIGHT (bit 4)
     jr nz, CheckCollisionWithPositiveOffset
 
-    bit 5, a
+    bit 5, a                         ; Test PADF_LEFT (bit 5)
     ret z
 
-    ld c, $fa
+    ld c, COLLISION_SIDE_X_NEG       ; Offset -6 pour collision gauche
     call CheckSpriteCollisionWithOffset
     ld hl, wPlayerState
     ld a, [hl]
-    cp $10
+    cp PLAYER_STATE_MIN              ; Si état < 16, bloqué
     ret c
 
-    dec [hl]
+    dec [hl]                         ; Décrément état joueur
     ld a, [wCollisionFlag]
-    cp COLLISION_THRESHOLD
+    cp COLLISION_THRESHOLD           ; Collision forte ?
     ret nc
 
-    dec [hl]
+    dec [hl]                         ; Double décrément si collision faible
     ret
 
 
 CheckCollisionWithPositiveOffset:
-    ld c, $08
+    ld c, COLLISION_OFFSET_8         ; Offset +8 pour collision droite
     call CheckSpriteCollisionWithOffset
     ld hl, wPlayerState
     ld a, [hl]
-    cp $a0
+    cp PLAYER_STATE_MAX              ; Si état >= 160, bloqué
     ret nc
 
-    inc [hl]
+    inc [hl]                         ; Incrément état joueur
     ret
 
 

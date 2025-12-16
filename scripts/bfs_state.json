@@ -4377,6 +4377,14 @@
       "priority": 3
     },
     {
+      "address": "$4FF6",
+      "node_type": "code",
+      "description": "HandleJoypadAndCollision - Gestion joypad et collisions directionnelles",
+      "source": "$5022",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$4c37",
       "node_type": "table",
       "description": "AnimFramePointerTable - Table de pointeurs vers structures d'animation",
@@ -4414,6 +4422,14 @@
       "description": "Level 0-3 handler 2 (probablement update)",
       "source": "$4000:3",
       "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$5089",
+      "node_type": "code",
+      "description": "CheckSpriteCollision - D\u00e9tection collision sprite",
+      "source": "$5022",
+      "bank": 1,
       "priority": 3
     },
     {
@@ -4881,18 +4897,18 @@
       "priority": 3
     },
     {
-      "address": "$5089",
+      "address": "$5014",
       "node_type": "code",
-      "description": "CheckSpriteCollision - D\u00e9tection collision sprite",
-      "source": "$5022",
+      "description": "CheckCollisionWithPositiveOffset - Gestion collision mouvement droite avec offset +8",
+      "source": "$4FF6",
       "bank": 1,
       "priority": 3
     },
     {
-      "address": "$4FF6",
+      "address": "$5107",
       "node_type": "code",
-      "description": "HandleJoypadAndCollision - Gestion joypad et collisions directionnelles",
-      "source": "$5022",
+      "description": "TriggerSpecialCollisionEvent - \u00c9v\u00e9nement collision sp\u00e9ciale (tuyau/pipe)",
+      "source": "$4FF6",
       "bank": 1,
       "priority": 3
     }
@@ -5230,6 +5246,7 @@
     "$1872",
     "$2D34",
     "$2d5f",
+    "$4FF6",
     "$29bd",
     "$2D3B",
     "$4CF1",
@@ -5448,6 +5465,6 @@
     "$4CD9",
     "$07B7"
   ],
-  "commits_since_push": 3,
-  "total_explored": 549
+  "commits_since_push": 4,
+  "total_explored": 550
 }
