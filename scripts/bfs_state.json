@@ -2353,6 +2353,14 @@
       "priority": 3
     },
     {
+      "address": "$297e",
+      "node_type": "code",
+      "description": "SubtractSoundFlagFromParam1 - Soustrait nibble haut de hSoundFlag de hSoundParam1",
+      "source": "$2998",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$2998",
       "node_type": "code",
       "description": "CheckObjectTileTop_Alternatives - Teste alternatives collision tile haut (bits 6-7)",
@@ -3255,14 +3263,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$297e",
-      "node_type": "code",
-      "description": "SubtractSoundFlagFromParam1 - Soustrait nibble haut de hSoundFlag de hSoundParam1",
-      "source": "$2998",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3451,6 +3451,7 @@
     "$21f5",
     "$1E96",
     "$1451",
+    "$297e",
     "$0D40",
     "$1C63",
     "$1212",
@@ -3562,6 +3563,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 295
+  "commits_since_push": 0,
+  "total_explored": 296
 }

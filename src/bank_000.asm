@@ -9905,6 +9905,15 @@ UpdatePhysicsCollision:
     call CheckObjectTileTop
     jr nc, CheckObjectTileTop_Alternatives
 
+; SubtractSoundFlagFromParam1
+; ----------------------------
+; Description: Soustrait le nibble haut de hSoundFlag de hSoundParam1 et optionnellement de wPlayerX
+;              Appelé lors d'une collision pour ajuster la vélocité/position selon hSoundVar4
+; In:  hSoundFlag = valeur avec vélocité dans nibble haut
+;      hSoundParam1 = valeur à ajuster
+;      hSoundVar4 = flag (0 = ajuste seulement param1, ≠0 = ajuste aussi wPlayerX)
+; Out: hSoundParam1 et possiblement wPlayerX ajustés
+; Modifie: a, b
 SubtractSoundFlagFromParam1:
     ldh a, [hSoundFlag]
     and NIBBLE_HIGH_MASK         ; Vélocité collision (nibble haut)
