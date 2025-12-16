@@ -1265,6 +1265,14 @@
       "priority": 3
     },
     {
+      "address": "$1D1D",
+      "node_type": "code",
+      "description": "ProcessAnimationState - Traite l'\u00e9tat d'animation du joueur",
+      "source": "$16D1",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1ECB",
       "node_type": "code",
       "description": "ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites",
@@ -1951,14 +1959,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$1D1D",
-      "node_type": "code",
-      "description": "ProcessAnimationState - Traite l'\u00e9tat d'animation du joueur",
-      "source": "$16D1",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -2003,6 +2003,7 @@
     "$00CD",
     "$1612",
     "$16D1",
+    "$16EC",
     "$0C0D",
     "$1090",
     "$0C6A",
@@ -2108,6 +2109,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 145
+  "commits_since_push": 0,
+  "total_explored": 146
 }
