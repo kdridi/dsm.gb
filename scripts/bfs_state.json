@@ -1465,6 +1465,14 @@
       "priority": 3
     },
     {
+      "address": "$1CCE",
+      "node_type": "data",
+      "description": "ROM_TEXT_GAME_OVER - Texte 'GAME OVER' (17 octets)",
+      "source": "$1C63",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$1CDB",
       "node_type": "code",
       "description": "State3B_WindowSetup - Setup window",
@@ -2233,10 +2241,10 @@
       "priority": 3
     },
     {
-      "address": "$1CCE",
-      "node_type": "data",
-      "description": "ROM_TEXT_GAME_OVER - Texte 'GAME OVER' (17 octets)",
-      "source": "$1C63",
+      "address": "$1C49",
+      "node_type": "code",
+      "description": "DisplayLivesDAA - Applique DAA pour corriger le r\u00e9sultat BCD",
+      "source": "$1C6C",
       "bank": 0,
       "priority": 3
     }
@@ -2360,6 +2368,7 @@
     "$136D",
     "$4000:3",
     "$04A2",
+    "$1C6C",
     "$14D3",
     "$192e",
     "$11C7",
@@ -2423,6 +2432,6 @@
     "$1547",
     "$04CE"
   ],
-  "commits_since_push": 4,
-  "total_explored": 180
+  "commits_since_push": 0,
+  "total_explored": 181
 }

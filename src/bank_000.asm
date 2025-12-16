@@ -6663,6 +6663,12 @@ UpdateLivesDisplay:
     pop af
     add $01
 
+; DisplayLivesDAA
+; ---------------
+; Description: Applique DAA pour ajuster le résultat BCD et sauvegarde dans wLivesCounter
+; In:  a = valeur BCD brute après add/sub
+; Out: wLivesCounter = valeur BCD corrigée
+; Modifie: a
 DisplayLivesDAA:
     daa
     ld [wLivesCounter], a
