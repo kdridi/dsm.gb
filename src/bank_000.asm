@@ -8027,6 +8027,13 @@ InitFromRenderContext:
     pop hl
 
 
+; ProcessScrollEntry
+; ----------------
+; Description: Traite une entrée de données tilemap (commande + tiles)
+;              Parse le format nibble (offset/count) et copie les tiles dans wScrollBuffer
+; In:  hl = pointeur vers données tilemap compressées
+; Out: hl = pointeur après données traitées
+; Modifie: a, bc, de
 ProcessScrollEntry:
     ld a, [hl+]
     cp TILEMAP_CMD_END              ; Fin de section tilemap ?
