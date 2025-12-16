@@ -10757,11 +10757,23 @@ InitSoundSlot.config_ready:
     ret
 
 
+; LoadSoundDataFromSlot
+; ---------------------
+; Description: Charge les données audio d'un slot depuis wObjectBuffer vers HRAM (hSoundId+)
+; In:  a = numéro de slot audio (0-15), sera multiplié par 16 via swap
+; Out: Données copiées dans hSoundId (13 octets)
+; Modifie: a, bc, de, hl
 LoadSoundDataFromSlot:
     swap a
     ld hl, wObjectBuffer
     ld l, a
 
+; LoadSoundDataFromHL
+; -------------------
+; Description: Point d'entrée alternatif avec HL déjà configuré
+; In:  hl = adresse source des données audio
+; Out: Données copiées dans hSoundId (13 octets)
+; Modifie: a, bc, de, hl
 LoadSoundDataFromHL:
     ld de, hSoundId
     ld b, AUDIO_SLOT_SIZE      ; 13 octets par slot

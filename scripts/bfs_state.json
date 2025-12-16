@@ -2649,6 +2649,14 @@
       "priority": 3
     },
     {
+      "address": "$336C",
+      "node_type": "data",
+      "description": "AudioConfigTable - Table de configuration audio (3 bytes/son)",
+      "source": "$2CB2",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$3495",
       "node_type": "data",
       "description": "ROM_AUDIO_POINTERS - Table des pointeurs vers donn\u00e9es audio (2 octets par entr\u00e9e)",
@@ -3295,14 +3303,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$336C",
-      "node_type": "data",
-      "description": "AudioConfigTable - Table de configuration audio (3 bytes/son)",
-      "source": "$2CB2",
-      "bank": 0,
-      "priority": 3
     }
   ],
   "visited": [
@@ -3387,6 +3387,7 @@
     "$0EC4",
     "$1C2A",
     "$0C6A",
+    "$2CDC",
     "$0DE4",
     "$147C",
     "$0322",
@@ -3619,6 +3620,6 @@
     "$14BB",
     "$2222"
   ],
-  "commits_since_push": 1,
-  "total_explored": 312
+  "commits_since_push": 2,
+  "total_explored": 313
 }
