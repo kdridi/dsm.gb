@@ -6150,6 +6150,16 @@ UpdateSpriteAnimationFrame:
 
     ld [wLevelParam0F], a
 
+; AnimationDispatch_SelectHandler
+; ----------------
+; Description: Dispatch handler animation selon le bank type (valeur de b)
+;              Écrit les pointeurs animation en mémoire buffer (hl)
+;              Sélectionne l'adresse du handler via mapping type→adresse
+; In:  b = bank type ($01,$02,$04,$05,$08,$10,$20,$40,$50,$80,$ff)
+;      hl = pointeur destination buffer
+;      hPtrHigh:hPtrLow = pointeur données animation
+; Out: Saute vers AnimationDispatch_SetAndJump ou AnimationDispatch_SelectPalette
+; Modifie: a, de, hl
 AnimationDispatch_SelectHandler:
     ldh a, [hPtrHigh]
     ld [hl+], a
