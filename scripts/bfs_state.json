@@ -2663,6 +2663,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$2205",
+      "node_type": "code",
+      "description": "TilemapDataNotScrollUpdate - Traite tiles non-scroll",
+      "source": "$21F6",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -2812,6 +2820,7 @@
     "$11C7",
     "$1FC9",
     "$1EC5",
+    "$21F6",
     "$07F0",
     "$1983",
     "$1E96",
@@ -2902,6 +2911,6 @@
     "$1BEE",
     "$17EC"
   ],
-  "commits_since_push": 4,
-  "total_explored": 235
+  "commits_since_push": 0,
+  "total_explored": 236
 }

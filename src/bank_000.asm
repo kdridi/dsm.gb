@@ -8061,6 +8061,15 @@ ProcessScrollEntry:
 TilemapDataNibbleNonZero:
     ld b, a
 
+; TilemapDataCopyStart
+; --------------------
+; Description: Boucle de copie des tiles depuis les données compressées vers wScrollBuffer.
+;              Traite les commandes spéciales (SKIP, SCROLL, LOAD1-3) et les tiles normaux.
+; In:  hl = pointeur vers données source (tiles compressés)
+;      de = pointeur vers wScrollBuffer (destination)
+;      b = nombre de tiles à copier
+; Out: hl = pointeur avancé, de = avancé, b = décrémenté
+; Modifie: a, bc, de, hl
 TilemapDataCopyStart:
     ld a, [hl+]
     cp TILEMAP_CMD_SKIP
