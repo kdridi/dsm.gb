@@ -8530,6 +8530,11 @@ Tilemap_50CA:
     ld d, d
     add hl, de
     ld d, d
+; Tilemap_50E4 @ $50E4: Tilemap pour contexte rendu 3 (13 bytes)
+; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
+; db $A4, $80, $E0, $AE, $D5, $CD    ; Entrée 0: X=$A4(164), Y=$80(128), tiles=[E0,AE,D5,CD]
+; db $53, $01, $D1, $FE, $60, $38    ; Entrée 1: X=$53(83),  Y=$01(1),   tiles=[D1,FE,60,38]
+; db $10                             ; Terminateur non-standard
     dec hl
     ld d, d
     nop
