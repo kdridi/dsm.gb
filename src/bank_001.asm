@@ -6686,16 +6686,24 @@ TileGraphic_65D3:  ; $65D3
     ld [hl], e
     ld h, e
     ld h, h
-    cp $04
-    ld sp, $7f7f
-    ld a, a
-    ld d, d
-    inc [hl]
-    dec [hl]
-    ldh [c], a
-    ld h, l
-    ld h, [hl]
-    cp $00
+    db $FE  ; Séparateur de bloc précédent ($66A0)
+
+; ==============================================================================
+; TileData_66A1 - Tile data bloc #20 ($66A1-$66AD)
+; ==============================================================================
+; Description: Données de tile graphique référencées par Level3TilesetData
+; Format: [size] [tile_bytes...] E2 [addr_lo] [addr_hi] FE [padding]
+;   - Size: $04 (marqueur de type/taille)
+;   - Tile bytes: $31 $7F $7F $7F $52 $34 $35 (7 bytes de données pixel)
+;   - E2: Marqueur de référence interne
+;   - Adresse: $6665 (little-endian: $65 $66, pointe vers TileGraphic_65D3+$92)
+;   - FE $00: Terminateur + padding
+; Taille: 13 bytes
+; Référencé par: Level3TilesetData (ligne 3347×3, 3348×2, 3349×1) - 6 occurrences
+; ==============================================================================
+TileData_66A1:  ; $66A1
+    db $04, $31, $7F, $7F, $7F, $52, $34, $35, $E2, $65, $66, $FE, $00
+
     ld [hl-], a
     ld a, a
     ld a, a
