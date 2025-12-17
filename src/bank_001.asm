@@ -7238,332 +7238,47 @@ CheckPlayerAction_6afd:
     adc a
     adc a
     ld hl, $8f51
-    cp $00
-    db $fd
-    ld a, a
-    cp $00
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld [hl], h
-    ld [hl], a
-    ld a, a
-    cp $00
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld [hl], l
-    ld a, b
-    ld a, a
-    cp $00
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    halt
-    ld a, c
-    ld a, a
+
+; ==============================================================================
+; TileData_6C81 - Tile data graphiques niveau 3
+; ==============================================================================
+; Description: Données de tiles 2bpp pour le niveau 3
+; Adresse: $6C80-$6DD9
+; Taille: 346 bytes ($15A)
+; Référencé par:
+;   - Level3TilesetData:3347 (3 pointeurs vers $6C81)
+;   - Level3MapData:3366 (2 pointeurs vers $6C81)
+;   - Level3EntitiesData:3381 (2 pointeurs vers $6C81)
+; Format: Tile data 2bpp - tiles 8x8 standard Game Boy
+; In: Aucun (données pures)
+; Out: Aucun (données pures)
+; Note: Le premier byte ($FE à $6C80) termine aussi TileData_6C1B
+;       TileData_6C81 proprement dit commence à $6C81
+; ==============================================================================
+TileData_6C81:  ; $6C80 (label à $6C80 pour alignement, données de $6C81-$6DD9)
+    db $FE  ; $6C80 - Aussi dernier byte de TileData_6C1B (fin du pattern précédent)
+    db $00, $FD, $7F, $FE, $00, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $7F, $FE, $00, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE, $00, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE, $00, $7F, $F4, $F4
+    db $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE, $00, $7F
+    db $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE
+    db $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE, $00, $7F, $F4, $F4
+    db $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE, $00, $7F
+    db $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $7F, $FE
+    db $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $74, $77, $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
+    db $F4, $F4, $F4, $F4, $75, $78, $7F, $FE, $00, $72, $72, $72, $72, $72, $72, $72
+    db $72, $72, $72, $72, $72, $72, $76, $79, $7F
     cp $00
     db $fd
     ld a, a
