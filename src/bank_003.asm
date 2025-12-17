@@ -4255,25 +4255,19 @@ AudioDataRaw_003_5155:  ; Ancien nom conservé pour compatibilité - c'est de la
 ; Tilemap_515C
 ; ------------
 ; Description: Tilemap pour contexte de rendu 2 (données tilemap suivantes)
-; Note: Zone précédemment mal désassemblée comme code
+; Note: Zone précédemment mal désassemblée comme code - reconstituée
 Tilemap_515C:
     db $01, $0E, $2A, $02, $08         ; Entrée tilemap
-    db $28, $02, $0F, $C0, $03
+    db $28, $02, $0F, $C0, $03         ; Suite données tilemap
+    db $02, $07, $0A, $0A, $07         ; Suite données tilemap
+    db $0C, $0D, $C0, $0D, $06         ; Suite données tilemap
+    db $28, $0E, $0B, $28, $FF         ; Fin avec terminateur
 
-DispatchDataZone_5166:
-    ld [bc], a
-    rlca
-    ld a, [bc]
-    ld a, [bc]
-    rlca
-    inc c
-    dec c
-    ret nz
-
-    dec c
-    ld b, $28
-    ld c, $0b
-    jr z, @+$01
+; Tilemap_5175
+; ------------
+; Description: Tilemap pour contexte de rendu 3
+; Note: Zone potentiellement mal désassemblée - à analyser
+Tilemap_5175:
 
     ld bc, $2801
     ld bc, $2809
