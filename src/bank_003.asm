@@ -8473,27 +8473,30 @@ UnreachableCodeData_003_06:
     rst $38
     rst $38
     rst $38
-    jp z, $d650
 
-    ld d, b
-    rst $10
-    ld d, b
-    db $e4
-    ld d, b
-    pop af
-    ld d, b
-    db $fd
-    ld d, b
-    cp $50
-    dec bc
-    ld d, c
-    jr AudioTable_Block2
-
-    dec h
-    ld d, c
-    ld [hl-], a
-    ld d, c
-    ld a, $51
+; TilemapPointerTable ($651C = ROM_TILEMAP_POINTERS_A)
+; -------------------------------------------------------
+; Description: Table de 12 pointeurs 16-bit vers les données de tilemap par contexte de rendu.
+;              Chaque pointeur pointe vers une structure tilemap contenant des coordonnées
+;              et des tiles pour le rendu dynamique de la map.
+; Format: 12 words (24 bytes) - un pointeur par contexte (0-11)
+; In:  Index = hRenderContext * 2 (pour indexer dans la table)
+; Out: Pointeur 16-bit vers la tilemap correspondante
+; Référencé par: bank_000.asm:8325 (SearchTilemapEntry_A), constants.inc:467 (ROM_TILEMAP_POINTERS_A)
+; Modifie: Utilisé pour charger hl puis naviguer dans la tilemap
+TilemapPointerTable:
+    dw $50CA    ; Contexte 0 - Tilemap_50CA
+    dw $50D6    ; Contexte 1 - Tilemap_50D6
+    dw $50D7    ; Contexte 2 - Tilemap_50D7
+    dw $50E4    ; Contexte 3 - Tilemap_50E4
+    dw $50F1    ; Contexte 4 - Tilemap_50F1
+    dw $50FD    ; Contexte 5 - Tilemap_50FD
+    dw $50FE    ; Contexte 6 - Tilemap_50FE
+    dw $510B    ; Contexte 7 - Tilemap_510B
+    dw $5118    ; Contexte 8 - Tilemap_5118
+    dw $5125    ; Contexte 9 - Tilemap_5125
+    dw $5132    ; Contexte 10 - Tilemap_5132
+    dw $513E    ; Contexte 11 - Tilemap_513E
     ld a, $51
     ccf
     ld d, c

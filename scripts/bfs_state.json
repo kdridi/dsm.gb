@@ -5657,6 +5657,14 @@
       "priority": 3
     },
     {
+      "address": "$C0",
+      "node_type": "data",
+      "description": "HRAM - hCurrentGameMode (variable de mode de jeu)",
+      "source": "$650D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$C0A5",
       "node_type": "data",
       "description": "wGameConfigA5 - mode handler (0=normal, !=0=retour)",
@@ -5713,10 +5721,34 @@
       "priority": 3
     },
     {
+      "address": "$CA",
+      "node_type": "data",
+      "description": "HRAM - hVar_CA (param\u00e8tre d'entit\u00e9 1)",
+      "source": "$650D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$CA3F",
       "node_type": "data",
       "description": "Adresse cible WRAM pour le clear memory (fin de la zone \u00e0 effacer)",
       "source": "$5A5F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$CC",
+      "node_type": "data",
+      "description": "HRAM - hVar_CC (param\u00e8tre d'entit\u00e9 2)",
+      "source": "$650D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$D100",
+      "node_type": "data",
+      "description": "Table WRAM - Recherche de slot libre (stride $10, jusqu'\u00e0 offset $90)",
+      "source": "$650D",
       "bank": 0,
       "priority": 3
     },
@@ -5825,35 +5857,91 @@
       "priority": 3
     },
     {
-      "address": "$D100",
+      "address": "$50CA",
       "node_type": "data",
-      "description": "Table WRAM - Recherche de slot libre (stride $10, jusqu'\u00e0 offset $90)",
-      "source": "$650D",
-      "bank": 0,
+      "description": "Tilemap pour contexte rendu 0",
+      "source": "$651C",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$C0",
+      "address": "$50D6",
       "node_type": "data",
-      "description": "HRAM - hCurrentGameMode (variable de mode de jeu)",
-      "source": "$650D",
-      "bank": 0,
+      "description": "Tilemap pour contexte rendu 1",
+      "source": "$651C",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$CA",
+      "address": "$50D7",
       "node_type": "data",
-      "description": "HRAM - hVar_CA (param\u00e8tre d'entit\u00e9 1)",
-      "source": "$650D",
-      "bank": 0,
+      "description": "Tilemap pour contexte rendu 2",
+      "source": "$651C",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$CC",
+      "address": "$50E4",
       "node_type": "data",
-      "description": "HRAM - hVar_CC (param\u00e8tre d'entit\u00e9 2)",
-      "source": "$650D",
-      "bank": 0,
+      "description": "Tilemap pour contexte rendu 3",
+      "source": "$651C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$50F1",
+      "node_type": "data",
+      "description": "Tilemap pour contexte rendu 4",
+      "source": "$651C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$50FD",
+      "node_type": "data",
+      "description": "Tilemap pour contexte rendu 5",
+      "source": "$651C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$50FE",
+      "node_type": "data",
+      "description": "Tilemap pour contexte rendu 6",
+      "source": "$651C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$510B",
+      "node_type": "data",
+      "description": "Tilemap pour contexte rendu 7",
+      "source": "$651C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$5125",
+      "node_type": "data",
+      "description": "Tilemap pour contexte rendu 9",
+      "source": "$651C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$5132",
+      "node_type": "data",
+      "description": "Tilemap pour contexte rendu 10",
+      "source": "$651C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$513E",
+      "node_type": "data",
+      "description": "Tilemap pour contexte rendu 11",
+      "source": "$651C",
+      "bank": 3,
       "priority": 3
     }
   ],
@@ -6476,6 +6564,7 @@
     "$5014",
     "$221C",
     "$1a62",
+    "$651C",
     "$2544",
     "$4BA4",
     "$4D71",
@@ -6522,6 +6611,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 663
+  "commits_since_push": 3,
+  "total_explored": 664
 }
