@@ -8350,6 +8350,12 @@ SearchTilemapEntry_CheckX:
 
     inc hl                           ; Sinon, passer à l'entrée suivante
 
+; SearchTilemapEntry_NextEntry
+; ----------------------------
+; Description: Avance le pointeur vers l'entrée suivante dans la table tilemap (5 bytes)
+; In:  hl = pointeur courant (déjà avancé de 1 byte depuis le X non correspondant)
+; Out: hl = pointeur sur le X de l'entrée suivante
+; Modifie: hl
 SearchTilemapEntry_NextEntry:
     ; Avancer de 5 bytes pour atteindre le X de l'entrée suivante
     ; (déjà avancé de 1, reste 5: Y + 4 bytes data)
