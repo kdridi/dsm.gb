@@ -1862,110 +1862,28 @@ DataPadding_4a4f:
     nop
     nop
 
-UpdateLevelState_4a56:
-    inc a
-    inc a
-    ld a, [hl]
-    ld a, [hl]
-    ld c, [hl]
-    ld c, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld c, a
-    ld c, e
-    cp a
-    or c
-    nop
-    nop
-    ld [hl], b
-    ld [hl], b
-    ld e, b
-    ld a, b
-    add sp, -$28
-    add sp, -$68
-    add sp, -$68
-    ret z
+; Sprite/Graphics data section
+; Referenced by entity definitions
+SpriteGraphicsData_4a56:
+    db $3C, $3C, $7E, $7E, $4E, $4E, $6E  ; $4A56-$4A5C (7 bytes)
 
-    jr c, DataPadding_4a4f
-
-    ld a, $00
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    rra
-    nop
-    rst $08
-    ccf
-    ldh a, [hCurrentTile]
-    nop
-    nop
-    ld a, [bc]
-    ld b, $0a
-    ld b, $12
-    ld c, $74
-    inc c
-    call nz, DecAnimObjCount
-    ld hl, sp-$10
-    ldh a, [rP1]
-    nop
-    nop
-    nop
-    rlca
-    rlca
-    rra
-    jr DataMarker_4ad1
-
-    jr nz, DataZone_4acb
-
-    jr nz, DataEntry_4afd
-
-    ld b, b
-    ld h, b
-    ld b, b
-    ld h, b
-    ld b, b
-    nop
-    nop
-    nop
-    nop
-    rlca
-    rlca
-    add hl, bc
-    add hl, bc
-    dec d
-    inc de
-    dec l
-    inc hl
-    ld e, l
-    ld b, e
-    cp l
-    add e
-    db $f4
-    sub h
-    rst $38
-    sub h
-    rst $30
-    sbc a
-    sub l
-    db $fd
-    sbc c
-    ld sp, hl
-    sub b
-    ldh a, [hVramPtrLow]
-    ldh [rP1], a
-    nop
-    ld a, [hl]
-    ld c, l
-    cp $79
-    sbc h
-    add e
-    sbc e
-    rlca
-    or e
+; EntitySpriteData_4A5D
+; ----------------------
+; Description: Données sprite/comportement pour entité de type $03
+; In:  Référencé par EntityDef_6272 comme Ptr1
+; Out: N/A - données statiques
+; Modifie: N/A
+;
+; Format apparent: données graphics 2bpp (tiles 8x8)
+; Utilisé pour le rendu et comportement des entités
+EntitySpriteData_4A5D:
+    db $6E, $4F, $4B, $BF, $B1, $00, $00, $70, $70, $58, $78, $E8, $D8, $E8, $98, $E8  ; $4A5D
+    db $98, $C8, $38, $DE, $3E, $00, $00, $00, $00, $00, $00, $00, $00, $1F, $00, $CF  ; $4A6D
+    db $3F, $F0, $F0, $00, $00, $0A, $06, $0A, $06, $12, $0E, $74, $0C, $C4, $3C, $08  ; $4A7D
+    db $F8, $F0, $F0, $00, $00, $00, $00, $07, $07, $1F, $18, $38, $20, $30, $20, $60  ; $4A8D
+    db $40, $60, $40, $60, $40, $00, $00, $00, $00, $07, $07, $09, $09, $15, $13, $2D  ; $4A9D
+    db $23, $5D, $43, $BD, $83, $F4, $94, $FF, $94, $F7, $9F, $95, $FD, $99, $F9, $90  ; $4AAD
+    db $F0, $E0, $E0, $00, $00, $7E, $4D, $FE, $79, $9C, $83, $9B, $07, $B3  ; $4ABD
 
 DataZone_4acb:
     ld c, $e7

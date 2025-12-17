@@ -3585,6 +3585,14 @@
       "priority": 3
     },
     {
+      "address": "$4A5D",
+      "node_type": "data",
+      "description": "Pointeur 1 - possiblement comportement/sprite entit\u00e9",
+      "source": "$6272",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$4A77",
       "node_type": "code",
       "description": "ResetMenuStateToIdle - R\u00e9initialise \u00e9tat menu (bit 7 joypad)",
@@ -5129,6 +5137,14 @@
       "priority": 3
     },
     {
+      "address": "$5EC4",
+      "node_type": "data",
+      "description": "Pointeur 2 - donn\u00e9es additionnelles entit\u00e9",
+      "source": "$6272",
+      "bank": 1,
+      "priority": 3
+    },
+    {
       "address": "$5F44",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
@@ -5807,22 +5823,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$4A5D",
-      "node_type": "data",
-      "description": "Pointeur 1 - possiblement comportement/sprite entit\u00e9",
-      "source": "$6272",
-      "bank": 1,
-      "priority": 3
-    },
-    {
-      "address": "$5EC4",
-      "node_type": "data",
-      "description": "Pointeur 2 - donn\u00e9es additionnelles entit\u00e9",
-      "source": "$6272",
-      "bank": 1,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6323,6 +6323,7 @@
     "$49BA",
     "$0394",
     "$2439",
+    "$4A5D",
     "$104C",
     "$4F41",
     "$1AF2",
@@ -6483,6 +6484,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 656
+  "commits_since_push": 1,
+  "total_explored": 657
 }
