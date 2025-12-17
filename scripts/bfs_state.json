@@ -4601,6 +4601,14 @@
       "priority": 3
     },
     {
+      "address": "$513D",
+      "node_type": "code",
+      "description": "Point de rebouclage interne apr\u00e8s .loadAndLoop (res 0,e; \u00e9crit 0)",
+      "source": "$5154",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$513E",
       "node_type": "data",
       "description": "Tilemap pour contexte rendu 11",
@@ -5953,11 +5961,11 @@
       "priority": 3
     },
     {
-      "address": "$513D",
+      "address": "$22C2",
       "node_type": "code",
-      "description": "Point de rebouclage interne apr\u00e8s .loadAndLoop (res 0,e; \u00e9crit 0)",
-      "source": "$5154",
-      "bank": 3,
+      "description": "SearchTilemapEntry_CheckX - recherche une entr\u00e9e dans un tilemap",
+      "source": "$513D",
+      "bank": 0,
       "priority": 3
     }
   ],
@@ -6442,6 +6450,7 @@
     "$21F5",
     "$2d02",
     "$2453",
+    "$513D",
     "$130F",
     "$1E82",
     "$2D95",
@@ -6639,6 +6648,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 676
+  "commits_since_push": 1,
+  "total_explored": 677
 }
