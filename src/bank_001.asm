@@ -6252,56 +6252,40 @@ EntityData_640D:  ; $640D (pointe vers le $03 du 'cp' ci-dessus)
     ld h, c
     db $f4
     call nz, $504c
-    ld l, h
-    ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    ld b, c
-    db $f4
-    ld h, d
-    db $fd
-    db $f4
-    or l
-    ld d, h
-    ld c, l
-    ld d, c
-    ld l, l
-    ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    ld d, d
-    db $fd
-    db $f4
-    add d
-    db $fd
-    db $f4
-    or l
-    ld d, l
-    ld c, [hl]
-    ld d, d
-    ld l, h
-    ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    db $C4, $4F, $53  ; call nz, $534f (data within SharedMapData_467, not code)
-    ld l, l
-    ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    ld b, [hl]
-    db $fd
-    db $f4
-    ldh [c], a
-    ld l, h
-    ld l, [hl]
+; AnimationFrameData_6463
+; ------------------------
+; Description: Structure de frames d'animation pour entités
+; Format: Chaque frame commence par $FE suivi du nombre de sprites
+;   $FE <count> <sprite0> <sprite1> ... <spriteN>
+; Chaque sprite: 6 bytes ($5D $4A $5E <attr> <tile_y> <tile_x>)
+; In:  Pointeur vers cette table depuis animation handler
+; Out: Données de frame d'animation
+; Référencé par: Animation frame structure ($4C37 context)
+AnimationFrameData_6463:
+    db $6C, $6E  ; Fin du sprite précédent (tile coordinates)
+
+    ; Frame: 3 sprites
+    db $FE, $03
+    db $5D, $4A, $5E, $41, $F4, $62  ; Sprite 0
+    db $FD, $F4, $B5, $54, $4D, $51  ; Sprite 1 (continuation)
+    db $6D, $6E  ; Sprite 2 (tile coords)
+
+    ; Frame: 3 sprites
+    db $FE, $03
+    db $5D, $4A, $5E, $52  ; Sprite 0 (partial)
+    db $FD, $F4, $82, $FD, $F4, $B5  ; Sprite 0 continuation
+    db $55, $4E, $52, $6C, $6E  ; Sprite 1 + tile coords
+
+    ; Frame: 3 sprites
+    db $FE, $03
+    db $5D, $4A, $5E, $C4, $4F, $53  ; Sprite 0
+    db $6D, $6E  ; Sprite 1 (tile coords)
+
+    ; Frame: 3 sprites
+    db $FE, $03
+    db $5D, $4A, $5E, $46  ; Sprite 0 (partial)
+    db $FD, $F4, $E2  ; Sprite 0 continuation
+    db $6C, $6E  ; Tile coords
     cp $03
     ld e, l
     ld c, d
