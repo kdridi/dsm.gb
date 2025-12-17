@@ -8851,50 +8851,33 @@ AudioTable_Block5:
     rst $38
     rst $38
     rst $38
-    nop
-    ld h, $10
-    inc bc
-    ld de, $100d
-    add hl, bc
-    nop
-    ld [$0c10], sp
-    ld de, $100d
-    ld a, [bc]
-    nop
-    jr AudioTable_Block6
 
-    inc b
-    ld de, $100b
-    inc b
-    nop
-    ld [hl+], a
-    db $10
-    ld bc, $1111
-    db $10
-    ld [bc], a
-    nop
-    dec a
-    db $10
-
-AudioTable_Block6:
-    ld [$0c11], sp
-    db $10
-    dec c
-    nop
-    ld [hl], b
-    ld bc, $1105
-    rlca
-    db $10
-    inc b
-    nop
-    jr nz, UnreachableCodeData_003_07
-
-    dec c
-    ld de, $101c
-    ld a, [de]
-    nop
-    dec h
-    ld bc, $1110
+; AnimationFrameData_6665
+; ------------------------
+; Description: Structure de frames d'animation pour sprites
+; Format: Triplets de bytes (command/count, param1, param2)
+;   $00 = fin de séquence/padding
+;   Autres = paramètres d'animation (positions, tiles)
+; In:  Référencé par animation handlers (notamment depuis $4C37 bank 2)
+; Out: Données de frames lues séquentiellement par l'engine d'animation
+; Modifie: N/A - données statiques
+AnimationFrameData_6665:
+    db $00                      ; $6665: Padding/fin
+    db $26, $10, $03, $11       ; Frame params: tile/pos data
+    db $0D, $10, $09, $00       ; Frame params: tile/pos data
+    db $08, $10, $0C, $11       ; Frame params: tile/pos data
+    db $0D, $10, $0A, $00       ; Frame params: tile/pos data
+    db $18, $10, $04, $11       ; Frame params: tile/pos data
+    db $0B, $10, $04, $00       ; Frame params: tile/pos data
+    db $22, $10, $01, $11       ; Frame params: tile/pos data
+    db $11, $10, $02, $00       ; Frame params: tile/pos data
+    db $3D, $10, $08, $11       ; Frame params: tile/pos data
+    db $0C, $10, $0D, $00       ; Frame params: tile/pos data
+    db $70, $01, $05, $11       ; Frame params: tile/pos data
+    db $07, $10, $04, $00       ; Frame params: tile/pos data
+    db $20, $10, $0D, $11       ; Frame params: tile/pos data
+    db $1C, $10, $1A, $00       ; Frame params: tile/pos data
+    db $25, $01, $10, $11       ; Frame params: tile/pos data
     dec b
     db $10
     ld b, $00
