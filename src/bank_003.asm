@@ -4187,17 +4187,8 @@ PaddingZone_003_50af:
     jr nz, PaddingZone_003_50ac
 
     rst $38
-    inc bc
-    ld [bc], a
-    ld [bc], a
-    inc bc
-    jr nz, Return_IfNotZero_003_50ab
-
-    ld d, $07
-    ld [bc], a
-    ld d, $48
-    sbc b
-    rst $38
+TilemapData_5125:  ; Tilemap pour contexte rendu 10
+    db $03, $02, $02, $03, $20, $80, $16, $07, $02, $16, $48, $98, $FF
     ld b, $02
     ld bc, $2006
     sub b
