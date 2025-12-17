@@ -4235,33 +4235,30 @@ Tilemap_513E:
 Tilemap_513F:
     db $04, $02, $28, $07, $03         ; Début entrée 0: X=4, Y=2, tiles (partiel)
     db $2A, $07, $0F, $28, $0B, $0E    ; Fin entrée 0 + début entrée 1: X=7, Y=15
-    db $2C, $0F, $13, $C0, $FF, $04    ; Fin entrée 1 + début Tilemap_514F
-    db $01, $28, $07, $0F              ; Suite Tilemap_514F (contexte 1)
+    db $2C, $0F, $13, $C0, $FF         ; Fin entrée 1, terminateur tilemap
 
-; LoadAndIncrement_5154
-; -----------------------
-; ATTENTION: Cette zone est potentiellement mal désassemblée (données interprétées comme code)
-; Description: Charge un octet depuis [HL] et incrémente HL
-; In:  hl = pointeur source
-; Out: a = octet chargé, hl = hl+1
-; Modifie: a, hl
-LoadAndIncrement_5154:  ; Ancien nom: LoadPointerFromMemory
-    ld a, [hl+]             ; Charge et avance
+; Tilemap_514F
+; ------------
+; Description: Tilemap pour contexte de rendu 1
+; In: Pointeur vers ce tilemap (depuis ROM_TILEMAP_POINTERS_B contexte 1)
+; Out: Entrées tilemap rendues selon le contexte
+; Modifie: Utilisé par SearchTilemapEntry/LoadLevelTilemap
+; Format: Séquence d'entrées tilemap (X, Y, tiles...) terminée par $FF
+Tilemap_514F:
+    db $04, $01, $28, $07, $0F         ; Entrée 0: X=4, Y=1, tiles
+LoadAndIncrement_5154:  ; Ancien nom conservé pour compatibilité - c'est de la DATA pas du code
+    db $2A                             ; Suite des données tilemap
+AudioDataRaw_003_5155:  ; Ancien nom conservé pour compatibilité - c'est de la DATA pas du code
+    db $0B, $13, $28, $0D, $0E, $2A    ; Suite des données tilemap
+    db $FF                             ; Terminateur tilemap
 
-AudioDataRaw_003_5155:
-    dec bc
-    inc de
-    jr z, DispatchDataZone_5166
-
-    ld c, $2a
-    rst $38
-    ld bc, $2a0e
-    ld [bc], a
-    ld [$0228], sp
-    rrca
-    ret nz
-
-    inc bc
+; Tilemap_515C
+; ------------
+; Description: Tilemap pour contexte de rendu 2 (données tilemap suivantes)
+; Note: Zone précédemment mal désassemblée comme code
+Tilemap_515C:
+    db $01, $0E, $2A, $02, $08         ; Entrée tilemap
+    db $28, $02, $0F, $C0, $03
 
 DispatchDataZone_5166:
     ld [bc], a
