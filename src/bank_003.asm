@@ -8570,10 +8570,15 @@ Tilemap_50CA:
 ; db $3C, $12, $E0, $A1, $E0, $C3    ; Entrée 0: X=$3C(60), Y=$12(18), tiles=[$E0,$A1,$E0,$C3]
 ; db $FE, $A9, $38, $07, $AF, $CB    ; Entrée 1: X=$FE(254), Y=$A9(169), tiles=[$38,$07,$AF,$CB]
 ; Note: Pas de terminateur - les données continuent directement avec Tilemap_513E
-; Tilemap_513E @ $513E: Tilemap pour contexte rendu 11 (suite du code après Tilemap_5132)
-; Description: Tilemap débutant immédiatement après Tilemap_5132
-; Format: Séquence d'entrées (X, Y, tiles[4]) + terminateur
-; NOTE: La suite du code désassemblé contient cette tilemap
+; Tilemap_513E @ $513E: Tilemap pour contexte rendu 11 (22 bytes)
+; Description: Tilemap vide - le premier byte $FF (SLOT_EMPTY) indique immédiatement la fin
+; Format: Byte $FF (terminateur) + 21 bytes non utilisés par le moteur tilemap
+; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
+; db $FF, $04, $02, $28, $07, $03    ; Byte 0: X=$FF (SLOT_EMPTY, détecté comme terminateur par SearchTilemapEntry)
+; db $2A, $07, $0F, $28, $0B, $0E    ; Bytes 6-11: Non lus (car terminateur à byte 0)
+; db $2C, $0F, $13, $C0, $FF, $04    ; Bytes 12-17: Non lus
+; db $01, $28, $07, $0F              ; Bytes 18-21: Non lus (fin de Tilemap_513E)
+; Note: Comme Tilemap_50D6 et Tilemap_50FD, ce tilemap est vide (contexte 11 sans rendu spécial)
 Tilemap_510B:
     dec hl
     ld d, d

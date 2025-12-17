@@ -5943,6 +5943,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$5154",
+      "node_type": "code",
+      "description": "LoadPointerFromMemory - routine suivant imm\u00e9diatement Tilemap_513E",
+      "source": "$513E",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6011,6 +6019,7 @@
     "$0060",
     "$04CE",
     "$59f3",
+    "$513E",
     "$286a",
     "$4DDF",
     "$21C0",
@@ -6621,6 +6630,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 674
+  "commits_since_push": 4,
+  "total_explored": 675
 }
