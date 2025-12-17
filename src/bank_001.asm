@@ -6519,11 +6519,18 @@ AnimationFrameData_6463:
     ld a, a
     ld a, a
     ld l, [hl]
-    cp $02
-    ld sp, $e280
-    ld h, l
-    ld h, [hl]
-    cp $02
+    db $FE  ; Byte isolé à $65D2 (partie de la zone de données mal désassemblée)
+
+; ==============================================================================
+; TileGraphic_65D3 - Tile graphique 2BPP ($65D3-$65DA)
+; ==============================================================================
+; Description: Tile graphique 8x8 pixels, format 2BPP Game Boy
+; Taille: 8 octets (1 tile × 8 bytes)
+; Référencé par: Level3TilesetData (ligne 3347, 3348) - utilisé 2 fois
+; Format: Tile 2BPP (2 bits par pixel, 8 bytes par tile)
+; ==============================================================================
+TileGraphic_65D3:  ; $65D3
+    db $02, $31, $80, $E2, $65, $66, $FE, $02
     ld [hl-], a
     add d
     ldh [c], a
