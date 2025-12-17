@@ -8410,6 +8410,14 @@ SearchTilemapEntry_Exit:
     ldh [hCurrentBank], a
     ld [rROMB0], a
 
+; SearchTilemapExit
+; -----------------
+; Description: Point de sortie commun pour la recherche dans le tilemap
+;              Dépile les registres sauvegardés et retourne à l'appelant
+;              Utilisé directement quand hVBlankMode != 0 (skip de la recherche)
+; In:  Stack contient hl, de, bc sauvegardés (dans cet ordre)
+; Out: Registres restaurés
+; Modifie: bc, de, hl
 SearchTilemapExit:
     pop bc
     pop de
