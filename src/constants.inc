@@ -1522,6 +1522,7 @@ DEF CONFIG_VALUE_CLAMP         EQU $09   ; Valeur clamped configuration (9)
 
 ; === Tilemap ===
 
+DEF TILEMAP_ENTRY_SIZE         EQU $06   ; Taille d'une entrée tilemap (6 octets: X, Y, 4 bytes data)
 DEF TILEMAP_DEFAULT_COUNT      EQU $10   ; Nombre tiles par défaut (16)
 
 ; === Scroll position ===

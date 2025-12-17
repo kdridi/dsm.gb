@@ -8330,18 +8330,29 @@ UpdateTilemapScrolling:
     push de
     pop hl
 
+; SearchTilemapEntry_CheckX
+; -------------------------
+; Description: Boucle de recherche dans une table tilemap - compare la coordonnée X
+;              Format d'une entrée: 6 bytes (X, Y, 4 bytes de données de rendu)
+; In:  hl = pointeur sur entrée courante de la table tilemap
+;      hTilemapScrollX = coordonnée X recherchée
+;      hTilemapScrollY = coordonnée Y recherchée
+; Out: hRenderCounter+0..+3 = 4 bytes de données copiées si trouvé
+; Modifie: a, de, hl
 SearchTilemapEntry_CheckX:
     ldh a, [hTilemapScrollX]
-    cp [hl]
-    jr z, SearchTilemapEntry_CheckY
+    cp [hl]                          ; Compare X avec l'entrée courante
+    jr z, SearchTilemapEntry_CheckY  ; Si X correspond, vérifier Y
 
     ld a, [hl]
-    cp SLOT_EMPTY
-    jr z, SearchTilemapEntry_Exit
+    cp SLOT_EMPTY                    ; Terminateur de table détecté ?
+    jr z, SearchTilemapEntry_Exit    ; Si oui, sortir (pas trouvé)
 
-    inc hl
+    inc hl                           ; Sinon, passer à l'entrée suivante
 
 SearchTilemapEntry_NextEntry:
+    ; Avancer de 5 bytes pour atteindre le X de l'entrée suivante
+    ; (déjà avancé de 1, reste 5: Y + 4 bytes data)
     inc hl
     inc hl
     inc hl
@@ -8351,25 +8362,27 @@ SearchTilemapEntry_NextEntry:
 
 SearchTilemapEntry_CheckY:
     ldh a, [hTilemapScrollY]
-    inc hl
-    cp [hl]
-    jr nz, SearchTilemapEntry_NextEntry
+    inc hl                           ; Pointer sur Y de l'entrée
+    cp [hl]                          ; Compare Y avec l'entrée courante
+    jr nz, SearchTilemapEntry_NextEntry ; Si Y ne correspond pas, continuer la recherche
 
+    ; Entrée trouvée (X et Y correspondent) - copier les 4 bytes de données
     inc hl
     ld de, hRenderCounter
-    ld a, [hl+]
+    ld a, [hl+]                      ; Copie byte 0
     ld [de], a
     inc e
-    ld a, [hl+]
+    ld a, [hl+]                      ; Copie byte 1
     ld [de], a
     inc e
-    ld a, [hl+]
+    ld a, [hl+]                      ; Copie byte 2
     ld [de], a
     inc e
-    ld a, [hl]
+    ld a, [hl]                       ; Copie byte 3
     ld [de], a
 
 SearchTilemapEntry_Exit:
+    ; Restaure la bank précédente
     ldh a, [hSavedBank]
     ldh [hCurrentBank], a
     ld [rROMB0], a

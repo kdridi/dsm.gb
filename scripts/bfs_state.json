@@ -2049,6 +2049,14 @@
       "priority": 3
     },
     {
+      "address": "$22C2",
+      "node_type": "code",
+      "description": "SearchTilemapEntry_CheckX - recherche une entr\u00e9e dans un tilemap",
+      "source": "$513D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$22F4",
       "node_type": "code",
       "description": "ProcessRenderQueue - Traite queue de rendu",
@@ -5961,10 +5969,34 @@
       "priority": 3
     },
     {
-      "address": "$22C2",
+      "address": "$22CD",
       "node_type": "code",
-      "description": "SearchTilemapEntry_CheckX - recherche une entr\u00e9e dans un tilemap",
-      "source": "$513D",
+      "description": "SearchTilemapEntry_NextEntry - avance de 5 bytes pour passer \u00e0 l'entr\u00e9e suivante",
+      "source": "$22C2",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$22D4",
+      "node_type": "code",
+      "description": "SearchTilemapEntry_CheckY - v\u00e9rifie la coordonn\u00e9e Y si X correspond",
+      "source": "$22C2",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$22E9",
+      "node_type": "code",
+      "description": "SearchTilemapEntry_Exit - restaure la bank et sort (pas trouv\u00e9 ou trouv\u00e9)",
+      "source": "$22C2",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$22F0",
+      "node_type": "code",
+      "description": "SearchTilemapExit - sortie de la routine parente UpdateTilemapScrolling",
+      "source": "$22C2",
       "bank": 0,
       "priority": 3
     }
@@ -6448,6 +6480,7 @@
     "$2CB2",
     "$3495",
     "$21F5",
+    "$22C2",
     "$2d02",
     "$2453",
     "$513D",
@@ -6648,6 +6681,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 677
+  "commits_since_push": 2,
+  "total_explored": 678
 }
