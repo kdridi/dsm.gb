@@ -4965,16 +4965,34 @@ MapTileData_5D8A:  ; $5D8A - pointe vers le byte $F1
     ld h, a
     ld l, c
     ld b, c
-    add d
+; EntityAnimationData_5EC4
+; ------------------------
+; Description: Table de séquences d'animation pour entités (mal désassemblée comme code)
+; In:  Référencé par EntityDef_6272 comme Ptr2 (données additionnelles entité)
+; Out: N/A - données statiques
+; Modifie: N/A
+;
+; Format: Séquences de longueur variable terminées par $7F (END) ou $FE (SEP)
+;   - Séquences courtes (2-3 bytes): transitions/marqueurs
+;   - Séquences longues: Type + Params + Terminateur
+;     Type $02: Commande anim sprite - tiles, positions, flags
+;     Type $00: Commande anim répétition - patterns de données
+; Structure exemple à $5EC4:
+;   $7F                        = transition END
+;   $5D $FE                    = séparateur
+;   $02 $68 $6A ... $7F        = séquence anim type $02
+; Note: Table s'étend sur ~3000 bytes jusqu'à $6AFD
+    add d       ; Bytes précédents (partie table - adresses < $5EC4)
     add c
-    add d
-    ldh [c], a
-    ld a, a
-    ld e, l
-    cp $02
-    ld l, b
-    ld l, d
-    ld b, c
+EntityAnimationData_5EC4:  ; $5EC4
+    add d       ; $5EC4: $82 \  Début zone pointée (données table anim)
+    ldh [c], a  ; $5EC5: $E2  |
+    ld a, a     ; $5EC6: $7F /  Transition END
+    ld e, l     ; $5EC7: $5D \  Séparateur
+    cp $02      ; $5EC8-$5EC9: $FE $02 /
+    ld l, b     ; $5ECA: $68 - Début nouvelle séquence anim type $02
+    ld l, d     ; $5ECB: $6A
+    ld b, c     ; $5ECC: $41
     add d
     add c
     add d
