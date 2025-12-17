@@ -6816,141 +6816,35 @@ TileData_69E2:  ; $69E2
     db $02, $32, $49, $FE
     db $02, $31, $49, $92, $3F, $42, $E2, $70, $72, $FE
     db $02, $32, $49, $72, $46, $3D, $E2, $71, $73
+ValidatePlayerState_69fd:  ; $69FD - Terminateur de la ligne précédente (référencé par code mal désassemblé)
+    db $FE
+    db $02, $31, $49, $74, $47, $3E, $40, $43, $E2, $70, $72, $FE
+    db $02, $32, $49, $71, $48, $92, $41, $44, $E2, $71, $73, $FE
+    db $02, $31, $49, $82, $3F, $42, $E2, $70, $72, $FE
+    db $02, $32, $49, $71, $3D, $E2, $71, $73, $FE
+    db $02, $31, $49, $64, $46, $3E, $45, $43, $C4, $70, $72, $72, $72, $FE
+    db $02, $32, $49, $61, $47, $C4, $71, $73, $73, $73, $FE
+    db $02, $31, $49, $61, $48, $FE
+    db $02, $32, $49, $A6, $70, $72, $72, $72, $72, $72, $FE
+    db $02, $31, $49, $A6, $71, $73, $73, $73, $73, $73, $FE
+    db $02, $32, $49, $A6, $70, $72, $72, $72, $72, $72, $FE
+    db $02, $31, $49, $A6, $71, $73, $73, $73, $73, $73, $FE
+    db $02, $32, $49, $88, $70, $72, $72, $72, $72, $72, $72, $72, $FE
+    db $02, $31, $49, $88, $71, $73, $73, $73, $73, $73, $73, $73, $FE
+    db $02, $32, $49, $FE
+    db $02, $31, $49, $E2, $70, $72, $FE
+    db $02, $32, $49, $E2, $71, $73, $FE
 
-ValidatePlayerState_69fd:
-    cp $02
-
-CheckStateValue_69ff:
-    ld sp, $7449
-    ld b, a
-    ld a, $40
-    ld b, e
-    ldh [c], a
-    ld [hl], b
-    ld [hl], d
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld [hl], c
-    ld c, b
-    sub d
-    ld b, c
-    ld b, h
-    ldh [c], a
-    ld [hl], c
-    ld [hl], e
-    cp $02
-    ld sp, $8249
-    ccf
-    ld b, d
-    ldh [c], a
-    ld [hl], b
-    ld [hl], d
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld [hl], c
-    dec a
-    ldh [c], a
-    ld [hl], c
-    ld [hl], e
-    cp $02
-    ld sp, $6449
-    ld b, [hl]
-    ld a, $45
-    ld b, e
-    call nz, $7270
-    ld [hl], d
-    ld [hl], d
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld h, c
-    ld b, a
-    call nz, ProcessValidation_7371
-    ld [hl], e
-    ld [hl], e
-    cp $02
-    ld sp, $6149
-    ld c, b
-    cp $02
-    ld [hl-], a
-    ld c, c
-    and [hl]
-    ld [hl], b
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    cp $02
-    ld sp, $a649
-    ld [hl], c
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    cp $02
-    ld [hl-], a
-    ld c, c
-    and [hl]
-    ld [hl], b
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    cp $02
-    ld sp, $a649
-    ld [hl], c
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    cp $02
-    ld [hl-], a
-    ld c, c
-    adc b
-    ld [hl], b
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    ld [hl], d
-    cp $02
-    ld sp, $8849
-    ld [hl], c
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    ld [hl], e
-    cp $02
-    ld [hl-], a
-    ld c, c
-    cp $02
-    ld sp, $e249
-    ld [hl], b
-    ld [hl], d
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ldh [c], a
-    ld [hl], c
-    ld [hl], e
-    cp $02
-    ld sp, $fe49
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    cp $02
-    ld sp, $fe49
+; ==============================================================================
+; TileData_6AA0 - Tile data graphiques ($6AA0)
+; ==============================================================================
+; Description: Autre ensemble de données de tiles (référencée séparément dans DataZone_5652)
+; Format: Similaire à TileData_69E2
+; ==============================================================================
+TileData_6AA0:  ; $6AA0
+    db $02, $31, $49, $FE
+    db $02, $32, $49, $FE
+    db $02, $31, $49, $FE
 
 ; EntityDefinitionTable ($6100-$6AFD, 2557 bytes)
 ; -------------------------------------------------
