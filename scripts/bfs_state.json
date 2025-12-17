@@ -5073,6 +5073,14 @@
       "priority": 3
     },
     {
+      "address": "$5D3C",
+      "node_type": "code",
+      "description": "TileTypeCommonExit - Finalise le dispatch en \u00e9crivant $0D \u00e0 $DFE8",
+      "source": "$5D62",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5D57",
       "node_type": "data",
       "description": "Table handlers animation type $80",
@@ -5799,14 +5807,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$5D3C",
-      "node_type": "code",
-      "description": "TileTypeCommonExit - Finalise le dispatch en \u00e9crivant $0D \u00e0 $DFE8",
-      "source": "$5D62",
-      "bank": 2,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6364,6 +6364,7 @@
     "$0A24",
     "$2bf5",
     "$0CC2",
+    "$5D3C",
     "$0a07",
     "$26ac",
     "$58FE",
@@ -6449,6 +6450,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 638
+  "commits_since_push": 3,
+  "total_explored": 639
 }

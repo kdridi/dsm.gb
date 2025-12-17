@@ -1032,6 +1032,8 @@ DEF PLAYER_INVULN_TIMER        EQU $f8   ; Timer invulnérabilité (-8, compte v
 
 DEF STATE_RENDER_ACTIVE        EQU $01   ; Mode rendu actif (1)
 DEF STATE_RENDER_DAMAGE        EQU $0c   ; Mode rendu après collision ennemi (12)
+DEF STATE_RENDER_TILE_EXIT     EQU $0d   ; Mode rendu après dispatch tile (13)
+DEF STATE_RENDER_TILE_ANIM     EQU $0e   ; Mode rendu animation tile type $08 (14)
 DEF STATE_RENDER_INIT          EQU $02   ; Mode rendu initialisation
 DEF STATE_RENDER_SPECIAL       EQU $04   ; Mode rendu spécial (fin de niveau)
 DEF STATE_RENDER_CUTSCENE      EQU $0f   ; Mode rendu cutscene fin niveau

@@ -7192,9 +7192,16 @@ SpriteAnimationNextPhase:
     ld a, $02
     ld [wLevelBonus], a
 
+; TileTypeCommonExit
+; ------------------
+; Description: Point de sortie commun pour le dispatch de type de tile.
+;              Écrit STATE_RENDER_TILE_EXIT dans wStateRender pour signaler la fin du traitement.
+; In:  Rien
+; Out: [wStateRender] = STATE_RENDER_TILE_EXIT ($0D)
+; Modifie: a, hl
 TileTypeCommonExit:
-    ld hl, $dfe8
-    ld a, $0d
+    ld hl, wStateRender
+    ld a, STATE_RENDER_TILE_EXIT
     ld [hl], a
     ret
 
@@ -7241,9 +7248,9 @@ TileTypeDispatchCase_E5:              ; $5D51 - Début zone données animation
 ; ═══ AnimationDataTable_Type08 = $5D58 ═══
 ; Point d'entrée handler animation type $08 (7 bytes après $5D51)
 ; Les bytes générés ici constituent une table: dw pointeur, db flags (85 entrées)
-    ld hl, $dfe8                ; $5D56 - ATTENTION: $5D57 (byte E8) référencé par anim type $80
+    ld hl, wStateRender         ; $5D56 - ATTENTION: $5D57 (byte E8) référencé par anim type $80
                                  ;         et $5D58 (byte DF) = début table Type08
-    ld a, $0e
+    ld a, STATE_RENDER_TILE_ANIM
     ld [hl], a
     ld a, FLAG_TRUE
     ld [wLevelBonus], a
@@ -7259,7 +7266,7 @@ TileTypeDispatchCase_E5:              ; $5D51 - Début zone données animation
 TileTypeE5_InitPaletteWrite:
     ld a, $10                       ; Valeur seuil pour mode palette cleanup
     ld [wLevelBonus], a
-    jr TileTypeCommonExit           ; → $5D3C (fin commune: écrit $0D à $DFE8)
+    jr TileTypeCommonExit           ; → $5D3C (fin commune: écrit STATE_RENDER_TILE_EXIT à wStateRender)
 
 SpriteAnimationState_WritePalette:
     ld a, [wLevelBonus]
