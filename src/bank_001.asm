@@ -7153,6 +7153,13 @@ CheckPlayerAction_6afd:
     cp $02
     ld [hl-], a
     ld c, c
+
+; TileData_6C1B - Tile data graphiques niveau 3 ($6C1B-$6DC4)
+; Note: Le byte $6C1B ($F1) est la 2ème moitié de l'instruction "cp $f1" mal désassemblée
+; Taille: 426 bytes  |  Format: Commandes graphiques ($FE,$F1,$8E,$8F) + données ($00,$7F,$F4)
+; Référencé par: DataZone_5652:3352, Level3MapData:3368
+; TODO: Reconstruire en format db pour clarifier la structure
+
     cp $f1
     adc [hl]
     cp $f1
