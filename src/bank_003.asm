@@ -4306,9 +4306,10 @@ Tilemap_5175:
 
     rrca
 
-; Tilemap_5191 (contexte 4) - Commence à $5191 selon ROM_TILEMAP_POINTERS_B
-; Le label PaddingZone_003_519f ci-dessous est à $519F, PAS à $5191 !
-; Il s'agit d'un faux label généré par le désassembleur à cause du jr z ci-dessus
+; Tilemap_5191 - Tilemap contexte 4 (22 bytes de DATA mal désassemblée)
+; Format: 3 entrées (X,Y,4 tiles) = $21,$09,$0B,$25,$06,$0B | $2A,$0F,$84,$2D,$0C,$84 | $2E,$13,$00,$2F,$05,$84 | $34,$13,$10,$37
+; Les instructions ci-dessous sont des DONNÉES, pas du code exécutable
+DEF Tilemap_5191 EQU $5191  ; Adresse calculée: $5191
 PaddingZone_003_519f:
     inc l
     add hl, bc
