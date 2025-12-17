@@ -8551,6 +8551,14 @@ Tilemap_50CA:
 ; db $1B, $E1, $C9, $16, $FD, $1D    ; Entrée 0: X=$1B(27),  Y=$E1(225), tiles=[$C9,$16,$FD,$1D]
 ; db $20, $D2, $C9, $E5, $D1, $21    ; Entrée 1: X=$20(32),  Y=$D2(210), tiles=[$C9,$E5,$D1,$21]
 ; db $EE                              ; Terminateur
+; Tilemap_510B @ $510B: Tilemap pour contexte rendu 7 (13 bytes)
+; Description: Tilemap avec 2 entrées pour le rendu du contexte 7
+; Format: Séquence d'entrées (X, Y, tiles[4]) + terminateur
+; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
+; db $FF, $36, $C0, $2C, $72, $2C    ; Entrée 0: X=$FF(255), Y=$36(54), tiles=[$C0,$2C,$72,$2C]
+; db $73, $3E, $05, $EA, $E0, $DF    ; Entrée 1: X=$73(115), Y=$3E(62), tiles=[$05,$EA,$E0,$DF]
+; db $C9                              ; Terminateur
+Tilemap_510B:
     dec hl
     ld d, d
     nop
