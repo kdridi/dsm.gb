@@ -8535,11 +8535,17 @@ Tilemap_50CA:
 ; db $07, $02, $01, $07, $20, $80    ; Entrée 0: X=$07(7),   Y=$02(2), tiles=[01,07,20,80]
 ; db $0E, $02, $02, $0E, $20, $80    ; Entrée 1: X=$0E(14),  Y=$02(2), tiles=[02,0E,20,80]
 ; db $FF                              ; Terminateur SLOT_EMPTY
-; Tilemap_50F1 @ $50F1: Tilemap pour contexte rendu 4 (12 bytes)
+; Tilemap_50F1 @ $50F1: Tilemap pour contexte rendu 4 (13 bytes incluant terminateur)
 ; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
 ; db $05, $05, $01, $05, $38, $58    ; Entrée 0: X=$05(5),   Y=$05(5), tiles=[01,05,38,58]
 ; db $0F, $05, $02, $0F, $38, $58    ; Entrée 1: X=$0F(15),  Y=$05(5), tiles=[02,0F,38,58]
-;                                     ; Pas de terminateur (enchaîne avec Tilemap_50FD)
+; db $FF                              ; Terminateur (byte partagé avec Tilemap_50FD)
+;
+; Tilemap_50FD @ $50FD: Tilemap pour contexte rendu 5 (1 byte partagé)
+; Description: Tilemap vide - le byte $FF à $50FD sert à la fois de:
+;              - Terminateur pour Tilemap_50F1 (contexte 4)
+;              - Contenu de Tilemap_50FD (contexte 5 vide, comme contexte 1)
+; Optimisation: Ce byte est référencé par deux pointeurs dans TilemapPointerTable
     dec hl
     ld d, d
     nop
