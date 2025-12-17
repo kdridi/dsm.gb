@@ -8502,7 +8502,10 @@ TilemapPointerTable:
 ; Format: Séquence d'entrées (X, Y, data[4]) + $FF (SLOT_EMPTY)
 ; Tilemap_50CA @ $50CA: 12 bytes (2 entrées, pas de FF final car suit $50D6)
 ; Tilemap_50D6 @ $50D6: 1 byte = $FF (tilemap vide - contexte rendu 1)
-; Tilemap_50D7 @ $50D7: 13 bytes (2 entrées + $FF)
+; Tilemap_50D7 @ $50D7: 13 bytes (2 entrées + terminateur)
+;   Entrée 0: X=5,   Y=33  [$05, $21, $01, $C2, $2A, $82]
+;   Entrée 1: X=224, Y=173 [$E0, $AD, $46, $79, $80, $47]
+;   Terminateur: $F0 (TILE_SPECIAL_THRESHOLD)
 ; Les 9 autres tilemaps suivent jusqu'à Tilemap_513E @ $513E (1 byte = $FF)
 ; ATTENTION: Code désassemblé ci-dessous = données binaires, ne pas modifier
 Tilemap_50CA:
