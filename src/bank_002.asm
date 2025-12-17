@@ -7209,24 +7209,40 @@ TileTypeDispatchCase_03:
     ld [wLevelBonus], a
     jr TileTypeCommonExit
 
-; TileTypeDispatchCase_E5
-; -------------------------
-; Description: Gère le cas de collision avec tile type $E5, avec point d'entrée virtuel
-; In:  hSubState = sous-état (0 = init, autre = actif)
-; Out: wLevelBonus modifié selon l'état
-; Modifie: a, hl
+; ============================================================================
+; ZONE DE DONNÉES D'ANIMATION MAL DÉSASSEMBLÉE
+; ============================================================================
+; ATTENTION: La zone de $5D51 à $5E57 (et au-delà) contient une TABLE DE DONNÉES
+; d'animation, PAS du code exécutable. Le "code" ASM ci-dessous est une représentation
+; qui génère les bytes corrects lors de l'assemblage, mais ne reflète pas la vraie nature.
 ;
-; NOTE TECHNIQUE: L'adresse $5D57 (au milieu de l'instruction "ld hl, $dfe8" à $5D56)
-; est calculée par AnimationDispatch_SelectHandler comme pointeur pour le type d'animation $80.
-; Cette adresse n'est jamais exécutée comme code - c'est une VALEUR écrite dans le buffer sprite
-; et utilisée comme métadonnée d'animation. Le byte $E8 à $5D57 fait partie de l'instruction
-; "ld hl, $dfe8" (21 E8 DF) mais sert aussi de donnée pour le système d'animation.
-TileTypeDispatchCase_E5:
+; AnimationDataTable_Type08 (point d'entrée: $5D58)
+; ---------------------------------------------------
+; Description: Table de données d'animation pour le type $08
+; Structure: Séquence de triplets (dw pointeur, db flags) - 3 bytes par entrée
+;            85 entrées au total, de $5D58 à $5E57
+; Utilisation: Référencée par AnimationDispatch_SelectHandler quand b=$08
+;              Le registre de=$5D58 pointe vers cette table
+; Pointeurs trouvés: 46 adresses uniques incluant:
+;   - $5DF1, $5D62, $5D73, $5D7F (auto-références dans bank 02)
+;   - $62E2, $65E2, $67-$69xx (autres données animation bank 02)
+;   - $00FE, $02FE, $FE5D (valeurs spéciales/flags)
+;
+; NOTE HISTORIQUE: L'adresse $5D57 est référencée par anim type $80 (nœud BFS précédent)
+; et $5D58 est le point d'entrée pour anim type $08 (nœud BFS actuel).
+; Ces adresses ne sont jamais exécutées comme code - ce sont des POINTEURS DE DONNÉES.
+;
+; Labels conservés pour compatibilité avec jumps existants (système de génération de bytes):
+TileTypeDispatchCase_E5:              ; $5D51 - Début zone données animation
     ldh a, [hSubState]
     and a
     jr z, TileTypeE5_InitPaletteWrite
 
+; ═══ AnimationDataTable_Type08 = $5D58 ═══
+; Point d'entrée handler animation type $08 (7 bytes après $5D51)
+; Les bytes générés ici constituent une table: dw pointeur, db flags (85 entrées)
     ld hl, $dfe8                ; $5D56 - ATTENTION: $5D57 (byte E8) référencé par anim type $80
+                                 ;         et $5D58 (byte DF) = début table Type08
     ld a, $0e
     ld [hl], a
     ld a, FLAG_TRUE

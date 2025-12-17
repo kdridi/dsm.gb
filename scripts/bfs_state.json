@@ -5097,6 +5097,14 @@
       "priority": 3
     },
     {
+      "address": "$5D62",
+      "node_type": "code",
+      "description": "TileTypeE5_InitPaletteWrite - Initialise palette write pour tile E5",
+      "source": "$5D57",
+      "bank": 2,
+      "priority": 3
+    },
+    {
       "address": "$5D8A",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par map",
@@ -5791,14 +5799,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$5D62",
-      "node_type": "code",
-      "description": "TileTypeE5_InitPaletteWrite - Initialise palette write pour tile E5",
-      "source": "$5D57",
-      "bank": 2,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6171,6 +6171,7 @@
     "$05B7",
     "$5034",
     "$5118",
+    "$5D58",
     "$4BC2",
     "$1A8A",
     "$4CED",
@@ -6438,6 +6439,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 635
+  "commits_since_push": 0,
+  "total_explored": 636
 }
