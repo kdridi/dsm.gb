@@ -5799,6 +5799,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$5D3C",
+      "node_type": "code",
+      "description": "TileTypeCommonExit - Finalise le dispatch en \u00e9crivant $0D \u00e0 $DFE8",
+      "source": "$5D62",
+      "bank": 2,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6016,6 +6024,7 @@
     "$1E58",
     "$1a9e",
     "$5958",
+    "$5D62",
     "$5605",
     "$3D8E",
     "$0F1D",
@@ -6440,6 +6449,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 637
+  "commits_since_push": 2,
+  "total_explored": 638
 }

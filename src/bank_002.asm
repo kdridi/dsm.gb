@@ -7250,10 +7250,16 @@ TileTypeDispatchCase_E5:              ; $5D51 - Début zone données animation
     ret
 
 
+; TileTypeE5_InitPaletteWrite - $5D62
+; ----------------
+; Description: Initialise le compteur d'état palette pour tile type E5
+; In:  (aucun)
+; Out: (aucun)
+; Modifie: a
 TileTypeE5_InitPaletteWrite:
-    ld a, $10
+    ld a, $10                       ; Valeur seuil pour mode palette cleanup
     ld [wLevelBonus], a
-    jr TileTypeCommonExit
+    jr TileTypeCommonExit           ; → $5D3C (fin commune: écrit $0D à $DFE8)
 
 SpriteAnimationState_WritePalette:
     ld a, [wLevelBonus]
