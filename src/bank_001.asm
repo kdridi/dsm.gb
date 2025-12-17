@@ -7589,6 +7589,14 @@ CheckStateValue_69ff:
     ld c, c
     cp $02
     ld sp, $fe49
+
+; EntityDefinitionTable ($6100-$6AFD, 2557 bytes)
+; -------------------------------------------------
+; Description: Table de définitions d'entités (format variable)
+; Structure: Entrées délimitées par $03 (début) et $FE (fin), taille variable
+; Note: Cette zone de données est mal désassemblée comme du code
+; TODO: Reconstruire progressivement cette zone comme db $XX,...
+EntityDefinitionTable:
     inc bc
     ld [hl-], a
     ld c, c
