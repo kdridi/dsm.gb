@@ -8852,16 +8852,18 @@ AudioTable_Block5:
     rst $38
     rst $38
 
-; AnimationFrameData_6665
+; DemoInputSequence_Bank2
 ; ------------------------
-; Description: Structure de frames d'animation pour sprites
-; Format: Triplets de bytes (command/count, param1, param2)
-;   $00 = fin de séquence/padding
-;   Autres = paramètres d'animation (positions, tiles)
-; In:  Référencé par animation handlers (notamment depuis $4C37 bank 2)
-; Out: Données de frames lues séquentiellement par l'engine d'animation
+; Description: Séquence d'inputs joypad pour mode démo (bank 2)
+; Format: Paires [input, délai] lues par .loadNextDemoInput ($4AA7)
+;   - Input: masque de bits joypad (A=$01, B=$02, SELECT=$04, START=$08, RIGHT=$10, LEFT=$20, UP=$40, DOWN=$80)
+;   - Délai: nombre de frames avant prochain input
+;   - Séquence se termine par input $FF ou fin de zone
+; In:  Référencé par DemoSequencePointersTable à $4AE4 (pointeur $6670)
+; Out: Données lues séquentiellement par moteur de démo
 ; Modifie: N/A - données statiques
-AnimationFrameData_6665:
+; Note: Les bytes sont actuellement mal interprétés ci-dessous mais l'assembleur génère le bon binaire
+DemoInputSequence_Bank2:
     db $00                      ; $6665: Padding/fin
     db $26, $10, $03, $11       ; Frame params: tile/pos data
     db $0D, $10, $09, $00       ; Frame params: tile/pos data
