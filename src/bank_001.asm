@@ -7279,186 +7279,39 @@ TileData_6C81:  ; $6C80 (label à $6C80 pour alignement, données de $6C81-$6DD9
     db $F4, $F4, $74, $77, $7F, $FE, $00, $7F, $F4, $F4, $F4, $F4, $F4, $F4, $F4, $F4
     db $F4, $F4, $F4, $F4, $75, $78, $7F, $FE, $00, $72, $72, $72, $72, $72, $72, $72
     db $72, $72, $72, $72, $72, $72, $76, $79, $7F
-    cp $00
-    db $fd
-    ld a, a
-    cp $f1
-    ld a, a
-    cp $f1
-    ld a, a
-    cp $01
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    add l
-    db $fd
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    add l
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    add l
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    add l
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    add l
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    add l
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    add l
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    add l
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $0d
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    halt
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    halt
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    ld sp, $767f
-    ld a, a
-    db $f4
-    db $f4
-    db $f4
-    db $f4
-    ld a, a
-    pop af
-    ld a, a
-    cp $01
-    ld a, a
-    ld sp, $767f
-    db $fd
-    ld a, a
-    pop af
-    ld a, a
-    cp $04
-    ld a, a
-    ld [hl], h
-    ld [hl], a
-    ld a, a
-    ld [hl], c
-    ld a, a
-    pop af
-    ld a, a
-    cp $04
-    ld a, a
-    ld [hl], l
-    ld a, b
-    ld a, a
-    or c
-    ld a, a
-    pop af
-    ld a, a
-    cp $00
-    ld [hl], d
-    halt
-    ld a, c
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    cp $02
+    db $FE  ; $6DDA - Padding/terminateur de TileData_6C81
+
+; ==============================================================================
+; TileData_6DDB - Tile data graphiques niveau 3
+; ==============================================================================
+; Description: Données de tiles 2bpp pour le niveau 3, partagées entre
+;              les tables Tileset, Map et Entities
+; Adresse: $6DDB-$6EA5
+; Taille: 203 bytes ($CB)
+; Référencé par:
+;   - Level3TilesetData:3347 (pointeur vers $6DDB)
+;   - Level3MapData:3366 (pointeur vers $6DDB)
+;   - Level3EntitiesData:3381 (pointeur vers $6DDB)
+; Format: Tile data 2bpp - tiles 8x8 standard Game Boy
+; In: Aucun (données pures)
+; Out: Aucun (données pures)
+; ==============================================================================
+TileData_6DDB:  ; $6DDB
+    db $00, $FD, $7F, $FE, $F1, $7F, $FE, $F1, $7F, $FE, $01, $7F, $F1, $7F, $FE, $01
+    db $7F, $85, $FD, $7F, $F1, $7F, $FE, $01, $7F, $85, $F4, $F4, $F4, $F4, $7F, $F1
+    db $7F, $FE, $01, $7F, $85, $F4, $F4, $F4, $F4, $7F, $F1, $7F, $FE, $01, $7F, $85
+    db $F4, $F4, $F4, $F4, $7F, $F1, $7F, $FE, $01, $7F, $85, $F4, $F4, $F4, $F4, $7F
+    db $F1, $7F, $FE, $01, $7F, $85, $F4, $F4, $F4, $F4, $7F, $F1, $7F, $FE, $01, $7F
+    db $85, $F4, $F4, $F4, $F4, $7F, $F1, $7F, $FE, $01, $7F, $85, $F4, $F4, $F4, $F4
+    db $7F, $F1, $7F, $FE, $0D, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $F4, $F4, $F4
+    db $F4, $7F, $F1, $7F, $FE, $01, $7F, $76, $7F, $F4, $F4, $F4, $F4, $7F, $F1, $7F
+    db $FE, $01, $7F, $76, $7F, $F4, $F4, $F4, $F4, $7F, $F1, $7F, $FE, $01, $7F, $31
+    db $7F, $76, $7F, $F4, $F4, $F4, $F4, $7F, $F1, $7F, $FE, $01, $7F, $31, $7F, $76
+    db $FD, $7F, $F1, $7F, $FE, $04, $7F, $74, $77, $7F, $71, $7F, $F1, $7F, $FE, $04
+    db $7F, $75, $78, $7F, $B1, $7F, $F1, $7F, $FE, $00, $72, $76, $79, $7F, $7F, $7F
+    db $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $FE  ; $6EA5 - Dernier byte
+
+    db $02  ; $6EA6 - Début zone suivante (mal désassemblée)
     ld sp, $c249
     ccf
     ld b, d
