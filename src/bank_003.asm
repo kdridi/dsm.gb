@@ -8497,7 +8497,15 @@ TilemapPointerTable:
     dw $5125    ; Contexte 9 - Tilemap_5125
     dw $5132    ; Contexte 10 - Tilemap_5132
     dw $513E    ; Contexte 11 - Tilemap_513E
-Tilemap_50CA: ; Tilemap data contexte 0 (12 bytes: FF C9 11 02 05 F0 99 FE 02 28 03 11) - TODO BFS: reconstruire en db
+; Tilemap_50CA - Tilemap_513E: Zone de données tilemap mal désassemblée (117 bytes, $50CA-$513E)
+; Les vraies données: 12 tilemaps référencés par TilemapPointerTable ($651C)
+; Format: Séquence d'entrées (X, Y, data[4]) + $FF (SLOT_EMPTY)
+; Tilemap_50CA @ $50CA: 12 bytes (2 entrées, pas de FF final car suit $50D6)
+; Tilemap_50D6 @ $50D6: 1 byte = $FF (tilemap vide - contexte rendu 1)
+; Tilemap_50D7 @ $50D7: 13 bytes (2 entrées + $FF)
+; Les 9 autres tilemaps suivent jusqu'à Tilemap_513E @ $513E (1 byte = $FF)
+; ATTENTION: Code désassemblé ci-dessous = données binaires, ne pas modifier
+Tilemap_50CA:
     ld a, $51
     ccf
     ld d, c
