@@ -7595,6 +7595,8 @@ CheckStateValue_69ff:
 ; Description: Table de définitions d'entités (format variable)
 ; Structure: Entrées délimitées par $03 (début) et $FE (fin), taille variable
 ; Note: Cette zone de données est mal désassemblée comme du code
+; Références notables:
+;   - $61B8: Référencée par SharedEntitiesData_012 (src/bank_001.asm:3414-3415)
 ; TODO: Reconstruire progressivement cette zone comme db $XX,...
 EntityDefinitionTable:
     inc bc
