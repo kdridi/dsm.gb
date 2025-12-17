@@ -8505,40 +8505,29 @@ TilemapPointerTable:
     dw $5125    ; Contexte 9 - Tilemap_5125
     dw $5132    ; Contexte 10 - Tilemap_5132
     dw $513E    ; Contexte 11 - Tilemap_513E
-; Tilemap_50CA - Tilemap_513E: Zone de données tilemap mal désassemblée (117 bytes, $50CA-$513E)
-; Les vraies données: 12 tilemaps référencés par TilemapPointerTable ($651C)
-; Format: Séquence d'entrées (X, Y, data[4]) + $FF (SLOT_EMPTY)
-; Tilemap_50CA @ $50CA: 12 bytes (2 entrées, pas de FF final car suit $50D6)
-; Tilemap_50D6 @ $50D6: 1 byte = $FF (tilemap vide - contexte rendu 1)
-; Tilemap_50D7 @ $50D7: 13 bytes (2 entrées + terminateur)
-;   Entrée 0: X=5,   Y=33  [$05, $21, $01, $C2, $2A, $82]
-;   Entrée 1: X=224, Y=173 [$E0, $AD, $46, $79, $80, $47]
-;   Terminateur: $F0 (TILE_SPECIAL_THRESHOLD)
-; Les 9 autres tilemaps suivent jusqu'à Tilemap_513E @ $513E (1 byte = $FF)
-; ATTENTION: Code désassemblé ci-dessous = données binaires, ne pas modifier
+
+; ROM_TILEMAP_POINTERS_B @ $6536 (défini dans constants.inc:468)
+; Description: Table de pointeurs vers données tilemap (set B) en bank 3
+; Référencé par: bank_000.asm:8491 (LoadLevelTilemap)
+; Format: Table de 13 pointeurs 16-bit vers structures tilemap
+; Index: hRenderContext × 2 (car pointeurs = 2 bytes)
+; Note: Table parallèle à ROM_TILEMAP_POINTERS_A ($651C), pointe vers tilemaps alternatifs
+; Note: Le premier pointeur ($513E) est partagé/dupliqué avec TilemapPointerTable
 Tilemap_50CA:
-    ld a, $51
-    ccf
-    ld d, c
-    ld c, a
-    ld d, c
-    ld e, h
-    ld d, c
-    ld [hl], l
-    ld d, c
-    sub c
-    ld d, c
-    and a
-    ld d, c
-    or a
-    ld d, c
-    call nz, $d751
-    ld d, c
-    ld [$0651], a
-    ld d, d
-    add hl, de
-    ld d, d
-; Tilemap_50E4 @ $50E4: Tilemap pour contexte rendu 3 (13 bytes)
+    dw $513E    ; Pointeur 0 (partagé avec TilemapPointerTable)
+    dw $513F    ; Contexte 0 - Tilemap_513F
+    dw $514F    ; Contexte 1 - Tilemap_514F
+    dw $515C    ; Contexte 2 - Tilemap_515C
+    dw $5175    ; Contexte 3 - Tilemap_5175
+    dw $5191    ; Contexte 4 - Tilemap_5191
+    dw $51A7    ; Contexte 5 - Tilemap_51A7
+    dw $51B7    ; Contexte 6 - Tilemap_51B7
+    dw $51C4    ; Contexte 7 - Tilemap_51C4
+    dw $51D7    ; Contexte 8 - Tilemap_51D7
+    dw $51EA    ; Contexte 9 - Tilemap_51EA
+    dw $5206    ; Contexte 10 - Tilemap_5206
+    dw $5219    ; Contexte 11 - Tilemap_5219
+; Zone de données tilemap mal désassemblée suivant (AudioTable_Block)
 ; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
 ; db $07, $02, $01, $07, $20, $80    ; Entrée 0: X=$07(7),   Y=$02(2), tiles=[01,07,20,80]
 ; db $0E, $02, $02, $0E, $20, $80    ; Entrée 1: X=$0E(14),  Y=$02(2), tiles=[02,0E,20,80]
