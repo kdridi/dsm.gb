@@ -7209,12 +7209,24 @@ TileTypeDispatchCase_03:
     ld [wLevelBonus], a
     jr TileTypeCommonExit
 
+; TileTypeDispatchCase_E5
+; -------------------------
+; Description: Gère le cas de collision avec tile type $E5, avec point d'entrée virtuel
+; In:  hSubState = sous-état (0 = init, autre = actif)
+; Out: wLevelBonus modifié selon l'état
+; Modifie: a, hl
+;
+; NOTE TECHNIQUE: L'adresse $5D57 (au milieu de l'instruction "ld hl, $dfe8" à $5D56)
+; est calculée par AnimationDispatch_SelectHandler comme pointeur pour le type d'animation $80.
+; Cette adresse n'est jamais exécutée comme code - c'est une VALEUR écrite dans le buffer sprite
+; et utilisée comme métadonnée d'animation. Le byte $E8 à $5D57 fait partie de l'instruction
+; "ld hl, $dfe8" (21 E8 DF) mais sert aussi de donnée pour le système d'animation.
 TileTypeDispatchCase_E5:
     ldh a, [hSubState]
     and a
     jr z, TileTypeE5_InitPaletteWrite
 
-    ld hl, $dfe8
+    ld hl, $dfe8                ; $5D56 - ATTENTION: $5D57 (byte E8) référencé par anim type $80
     ld a, $0e
     ld [hl], a
     ld a, FLAG_TRUE

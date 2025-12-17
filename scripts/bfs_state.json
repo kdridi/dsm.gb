@@ -5791,6 +5791,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$5D62",
+      "node_type": "code",
+      "description": "TileTypeE5_InitPaletteWrite - Initialise palette write pour tile E5",
+      "source": "$5D57",
+      "bank": 2,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6059,6 +6067,7 @@
     "$4DFB",
     "$16EC",
     "$189b",
+    "$5D57",
     "$1a94",
     "$2ff9",
     "$1C4D",
@@ -6429,6 +6438,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 634
+  "commits_since_push": 4,
+  "total_explored": 635
 }
