@@ -4265,33 +4265,37 @@ Tilemap_515C:
 
 ; Tilemap_5175
 ; ------------
-; Description: Tilemap pour contexte de rendu 3
-; Note: Zone potentiellement mal désassemblée - à analyser
+; Description: Tilemap pour contexte de rendu 3 (28 bytes de données mal désassemblées)
+; Format: Données de tilemap encodées, désassemblées à tort comme du code
+; In: Pointeur vers ce tilemap (depuis ROM_TILEMAP_POINTERS_B à $6536, contexte 3)
+; Out: Utilisé par le moteur de rendu tilemap
+; Modifie: Données lues par SearchTilemapEntry/LoadLevelTilemap
+; Note: Les instructions ci-dessous sont des DONNÉES, pas du code exécutable
+; Note: Bytes réels: 01 01 28 01 09 28 02 12 F0 04 0E 28 07 09 28 0B 04 2C 0E 09 C0 0F 04 28 11 08 2A FF
 Tilemap_5175:
+    ld bc, $2801        ; [DATA] 01 01 28
+    ld bc, $2809        ; [DATA] 01 09 28
+    ld [bc], a          ; [DATA] 02
+    ld [de], a          ; [DATA] 12
+    ldh a, [rDIV]       ; [DATA] F0 04
+    ld c, $28           ; [DATA] 0E 28
+    rlca                ; [DATA] 07
+    add hl, bc          ; [DATA] 09
+    jr z, @+$0d         ; [DATA] 28 0B
 
-    ld bc, $2801
-    ld bc, $2809
-    ld [bc], a
-    ld [de], a
-    ldh a, [rDIV]
-    ld c, $28
-    rlca
-    add hl, bc
-    jr z, @+$0d
+    inc b               ; [DATA] 04
+    inc l               ; [DATA] 2C
+    ld c, $09           ; [DATA] 0E 09
+    ret nz              ; [DATA] C0
 
-    inc b
-    inc l
-    ld c, $09
-    ret nz
+    rrca                ; [DATA] 0F
+    inc b               ; [DATA] 04
+    jr z, PaddingZone_003_519f  ; [DATA] 28 XX - Saut vers faux label (les bytes font partie des données!)
 
-    rrca
-    inc b
-    jr z, PaddingZone_003_519f
-
-    ld [$ff2a], sp
-    ld bc, wOamVar09
-    ld [bc], a
-    inc b
+    ld [$ff2a], sp      ; [DATA] 08 2A
+    ld bc, wOamVar09    ; [DATA] Fin du tilemap (génère les bytes corrects par coïncidence)
+    ld [bc], a          ; Ces instructions ne sont jamais exécutées
+    inc b               ; Ce sont des DONNÉES
     ldh a, [rSC]
     db $10
     ret nz
@@ -4302,6 +4306,9 @@ Tilemap_5175:
 
     rrca
 
+; Tilemap_5191 (contexte 4) - Commence à $5191 selon ROM_TILEMAP_POINTERS_B
+; Le label PaddingZone_003_519f ci-dessous est à $519F, PAS à $5191 !
+; Il s'agit d'un faux label généré par le désassembleur à cause du jr z ci-dessus
 PaddingZone_003_519f:
     inc l
     add hl, bc
