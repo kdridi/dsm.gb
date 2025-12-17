@@ -4765,6 +4765,10 @@ MapTileData_5CA6:  ; ($5CA6)
     ld e, l
     cp $f1
     ld e, l
+; MapTileData_5D8A ($5D8A-$5E31) - Map tile data encoded (168 bytes)
+; Référencé par SharedMapData_012 (ligne 3396)
+;  Note: Le label pointe vers le 2e byte de l'instruction 'cp $f1' ci-dessous
+MapTileData_5D8A:  ; $5D8A - pointe vers le byte $F1
     cp $f1
     ld e, l
     cp $f1
