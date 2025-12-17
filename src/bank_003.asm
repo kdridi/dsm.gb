@@ -4319,6 +4319,16 @@ PaddingZone_003_519f:
     dec bc
     jr z, @+$01
 
+; Tilemap_51A7
+; ------------
+; Description: Tilemap pour contexte de rendu 5 (16 bytes de données mal désassemblées)
+; Format: Données de tilemap encodées, désassemblées à tort comme du code
+; In: Pointeur vers ce tilemap (depuis ROM_TILEMAP_POINTERS_B à $6536, contexte 5)
+; Out: Utilisé par le moteur de rendu tilemap
+; Modifie: Données lues par SearchTilemapEntry/LoadLevelTilemap
+; Note: Bytes réels: 13 10 3A 13 10 3D 13 10 40 13 10 41 08 04 43 13
+; Note: Les instructions suivantes (inc b ... ld de, $ff28) sont des DONNÉES, pas du code exécutable
+DEF Tilemap_51A7 EQU $51A7  ; Adresse calculée: $51A7
     inc b
     rrca
     jr z, PaddingZone_003_51b1
