@@ -3387,14 +3387,17 @@ SharedTilesetData_024:
 ; SharedMapData_012 - Map data partagée niveaux 0, 1, 2 ($55E2-$5604)
 ; ==============================================================================
 ; Description: Données de map (layout de tiles) partagées par les niveaux 0, 1 et 2
-; Format: Séquence de words (16-bit tile IDs ou pointeurs), terminée par $FF
+; Format: Séquence of words (16-bit tile IDs ou pointeurs), terminée par $FF
 ;         - Chaque word représente un tile dans le layout de la map
 ; Taille: 35 octets ($23) - 17 words + terminateur
 ; Référencé par: LevelJumpTable niveaux 0, 1, 2 (lignes 12, 14, 16)
+; Note: $5E32, $5F44, $5FAD sont des pointeurs vers tile data non labellisés
+;       Ces données font partie d'une grande zone mal désassemblée ($5D8A-$60xx)
+;       TODO BFS: Créer labels MapTileData_5E32, MapTileData_5F44, MapTileData_5FAD
 ; ==============================================================================
 SharedMapData_012:
     dw $56CD, TileGraphic_5ABB, $6048, MapTileData_5BA3, MapTileData_5C22, MapTileData_5CA6, $5D32, $5D8A
-    dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, MapTileData_5CA6
+    dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, MapTileData_5CA6  ; $5E32/$5F44/$5FAD: Tile data non labellisés
     dw $5A5F
     db $FF  ; Terminateur
 
@@ -4766,8 +4769,13 @@ MapTileData_5CA6:  ; ($5CA6)
     cp $f1
     ld e, l
 ; MapTileData_5D8A ($5D8A-$5E31) - Map tile data encoded (168 bytes)
-; Référencé par SharedMapData_012 (ligne 3396)
-;  Note: Le label pointe vers le 2e byte de l'instruction 'cp $f1' ci-dessous
+; Référencé par SharedMapData_012 (ligne 3400)
+; Note: Le label pointe vers le 2e byte de l'instruction 'cp $f1' ci-dessous
+; TODO BFS: Zone mal désassemblée $5D8A-$60xx contient aussi:
+;           - MapTileData_5E32 @ $5E32 (168 bytes, pattern similaire)
+;           - MapTileData_5F44 @ $5F44 (105 bytes, format RLE: $E1 $XX $FE ...)
+;           - MapTileData_5FAD @ $5FAD (jusqu'à ~$60xx)
+;           Reconstruire ces zones en db avec labels appropriés
 MapTileData_5D8A:  ; $5D8A - pointe vers le byte $F1
     cp $f1
     ld e, l
