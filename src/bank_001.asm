@@ -3393,8 +3393,8 @@ SharedTilesetData_024:
 ; Référencé par: LevelJumpTable niveaux 0, 1, 2 (lignes 12, 14, 16)
 ; ==============================================================================
 SharedMapData_012:
-    dw $56CD, TileGraphic_5ABB, $6048, MapTileData_5BA3, MapTileData_5C22, $5CA6, $5D32, $5D8A
-    dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, $5CA6
+    dw $56CD, TileGraphic_5ABB, $6048, MapTileData_5BA3, MapTileData_5C22, MapTileData_5CA6, $5D32, $5D8A
+    dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, MapTileData_5CA6
     dw $5A5F
     db $FF  ; Terminateur
 
@@ -4572,7 +4572,12 @@ CheckResult_5c5b:
     ld e, l
     cp $f1
     ld e, l
-    cp $84
+    db $FE  ; cp (opcode, fait partie de MapTileData_5C22)
+; MapTileData_5CA6 ($5CA6-$5D31) - Tile data RLE (140 bytes, mal désassemblé)
+; Données de tiles pour map référencées par SharedMapData_012 (index 5, 15)
+; Format: bytes RLE [flag][tiles]*[$F1 $5D $FE] - À reconstruire en db dans futur BFS
+MapTileData_5CA6:  ; ($5CA6)
+    db $84  ; Opérande de l'instruction cp précédente, début MapTileData_5CA6
     ld h, a
     ld l, c
     ld h, a
