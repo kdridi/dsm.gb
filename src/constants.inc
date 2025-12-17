@@ -490,6 +490,7 @@ DEF ROM_TILES_AUX       EQU $7E1A   ; Tiles auxiliaires ($0170 octets)
 DEF ROM_TILES_LEVEL_1   EQU $4862   ; Tiles niveau type 1 ($0010 octets)
 DEF ROM_TILES_LEVEL_2   EQU $4E72   ; Tiles niveau type 2 ($0010 octets)
 DEF ROM_TILES_OBJECTS   EQU $5032   ; Tiles objets ($02C0 octets)
+DEF TileGraphic_6048    EQU $6048   ; Tile graphique 8 bytes (niveaux 0,1,2,4)
 
 ; --- Tailles de copies mémoire ---
 DEF SIZE_TILES_MAIN     EQU $0500   ; 1280 octets

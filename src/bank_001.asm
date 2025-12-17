@@ -3378,7 +3378,7 @@ SharedTilesetData_578:
 ; Référencé par: LevelJumpTable niveaux 0, 1, 2, 4 (lignes 12, 14, 16, 20)
 ; ==============================================================================
 SharedTilesetData_024:
-    dw $56CD, TileGraphic_5ABB, $6048, $56CD, $574A, $57EB, $5D32, $586F
+    dw $56CD, TileGraphic_5ABB, TileGraphic_6048, $56CD, $574A, $57EB, $5D32, $586F
     dw TilesetBlock_58FE, TilesetBlock_58FE, TilesetBlock_596E, $574A, $57EB, $57EB, $586F, $574A
     dw TilesetBlock_58FE, $59EE, $5A5F
     db $FF  ; Terminateur
@@ -3396,7 +3396,7 @@ SharedTilesetData_024:
 ;       TODO BFS: Créer labels MapTileData_5E32, MapTileData_5F44, MapTileData_5FAD
 ; ==============================================================================
 SharedMapData_012:
-    dw $56CD, TileGraphic_5ABB, $6048, MapTileData_5BA3, MapTileData_5C22, MapTileData_5CA6, $5D32, $5D8A
+    dw $56CD, TileGraphic_5ABB, TileGraphic_6048, MapTileData_5BA3, MapTileData_5C22, MapTileData_5CA6, $5D32, $5D8A
     dw $5E32, $5E32, $5E32, $5F44, $5F44, $5D32, $5FAD, MapTileData_5CA6  ; $5E32/$5F44/$5FAD: Tile data non labellisés
     dw $5A5F
     db $FF  ; Terminateur
