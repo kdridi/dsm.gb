@@ -4215,18 +4215,28 @@ Tilemap_5132:
 
 ; Tilemap_513E
 ; ------------
-; Description: Tilemap pour contexte rendu 11 (commence par terminateur $FF)
-; Format: Tilemap vide - terminateur immédiat + données non utilisées
-; In: Pointeur vers ce tilemap (depuis TilemapPointerTable)
-; Out: SearchTilemapEntry détecte immédiatement $FF et retourne
+; Description: Tilemap vide (pointeur 0 partagé - contexte non utilisé)
+; Format: Un seul byte $FF (terminateur immédiat)
+; In: Pointeur vers ce tilemap (depuis TilemapPointerTable entrée 0)
+; Out: SearchTilemapEntry détecte immédiatement $FF et retourne sans rendu
 ; Modifie: Aucun (tilemap vide)
-; Note: Les 21 bytes suivants ne sont jamais lus par le moteur tilemap
+; Note: Le byte $FF sert aussi de terminateur pour le contexte 11
 Tilemap_513E:
-    db $FF                             ; Terminateur SLOT_EMPTY (détecté en premier)
-    db $04, $02, $28, $07, $03         ; Bytes non lus (car terminateur détecté)
-    db $2A, $07, $0F, $28, $0B, $0E    ; Bytes non lus
-    db $2C, $0F, $13, $C0, $FF, $04    ; Bytes non lus
-    db $01, $28, $07, $0F              ; Derniers bytes non lus
+    db $FF                             ; Terminateur SLOT_EMPTY
+
+; Tilemap_513F
+; ------------
+; Description: Tilemap pour contexte de rendu 0 (données chevauchées)
+; Format: Partage des bytes avec Tilemap_514F - 2 entrées + bytes partagés
+; In: Pointeur vers ce tilemap (depuis ROM_TILEMAP_POINTERS_B contexte 0)
+; Out: 2 entrées tilemap rendues (X=4,Y=2 et X=7,Y=15)
+; Modifie: Utilisé par SearchTilemapEntry/LoadLevelTilemap
+; Note: Données chevauchées avec Tilemap_514F pour optimisation d'espace
+Tilemap_513F:
+    db $04, $02, $28, $07, $03         ; Début entrée 0: X=4, Y=2, tiles (partiel)
+    db $2A, $07, $0F, $28, $0B, $0E    ; Fin entrée 0 + début entrée 1: X=7, Y=15
+    db $2C, $0F, $13, $C0, $FF, $04    ; Fin entrée 1 + début Tilemap_514F
+    db $01, $28, $07, $0F              ; Suite Tilemap_514F (contexte 1)
 
 ; LoadAndIncrement_5154
 ; -----------------------
