@@ -4206,7 +4206,7 @@ TilemapData_5125:  ; Tilemap pour contexte rendu 10
     ld a, [hl+]
     rlca
     rrca
-    jr z, LoadPointerFromMemory
+    jr z, LoadAndIncrement_5154
 
     ld c, $2c
     rrca
@@ -4218,8 +4218,15 @@ TilemapData_5125:  ; Tilemap pour contexte rendu 10
     ld bc, $0728
     rrca
 
-LoadPointerFromMemory:
-    ld a, [hl+]
+; LoadAndIncrement_5154
+; -----------------------
+; ATTENTION: Cette zone est potentiellement mal désassemblée (données interprétées comme code)
+; Description: Charge un octet depuis [HL] et incrémente HL
+; In:  hl = pointeur source
+; Out: a = octet chargé, hl = hl+1
+; Modifie: a, hl
+LoadAndIncrement_5154:  ; Ancien nom: LoadPointerFromMemory
+    ld a, [hl+]             ; Charge et avance
 
 AudioDataRaw_003_5155:
     dec bc

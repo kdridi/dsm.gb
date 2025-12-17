@@ -4609,6 +4609,14 @@
       "priority": 3
     },
     {
+      "address": "$5154",
+      "node_type": "code",
+      "description": "LoadPointerFromMemory - routine suivant imm\u00e9diatement Tilemap_513E",
+      "source": "$513E",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$515E",
       "node_type": "code",
       "description": "Call Bank 1 - Final update (non nomm\u00e9)",
@@ -5945,10 +5953,10 @@
       "priority": 3
     },
     {
-      "address": "$5154",
+      "address": "$513D",
       "node_type": "code",
-      "description": "LoadPointerFromMemory - routine suivant imm\u00e9diatement Tilemap_513E",
-      "source": "$513E",
+      "description": "Point de rebouclage interne apr\u00e8s .loadAndLoop (res 0,e; \u00e9crit 0)",
+      "source": "$5154",
       "bank": 3,
       "priority": 3
     }
@@ -6549,6 +6557,7 @@
     "$5A05",
     "$0F81",
     "$2d7b",
+    "$5154",
     "$05F8",
     "$5C9D",
     "$1b1a",
@@ -6630,6 +6639,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 675
+  "commits_since_push": 0,
+  "total_explored": 676
 }
