@@ -4452,25 +4452,22 @@ AudioParam_Set_2:
 
 AudioParam_Set_3:
     rst $38
-    inc bc
-    ld c, $28
-    add hl, bc
 
-AudioDataRaw_003_521d:
-    ld a, [bc]
-    jr z, AudioDataRaw_003_522a
+; Tilemap_5219 @ $5219: Tilemap pour contexte rendu 11 (19 bytes)
+; Description: Tilemap avec 3 entrées de rendu sur la même ligne Y=$0E
+; Format: Séquence d'entrées (X, Y, tiles[4]) + terminateur
+; NOTE: Tous les éléments sont placés à la ligne 14 (Y=$0E) de l'écran
+Tilemap_5219:
+    db $03, $0E, $28, $09        ; Entrée 0: X=$03(3), Y=$0E(14), tiles début=[$28,$09...]
+AudioDataRaw_003_521d:  ; Artefact: label du code mal désassemblé (pointe au milieu du tilemap)
+    db $0A, $28                  ; tiles fin=[...$0A,$28]
+    db $0A, $0E, $2A, $0C, $0E, $2C  ; Entrée 1: X=$0A(10), Y=$0E(14), tiles=[$2A,$0C,$0E,$2C]
+    db $0F, $0E, $28, $18, $07   ; Entrée 2: X=$0F(15), Y=$0E(14), tiles début=[$28,$18,$07...]
+AudioDataRaw_003_522a:  ; Artefact: label du code mal désassemblé (pointe 1 byte avant terminateur)
+    db $28                       ; tiles fin=[...$28]
+    db $FF                       ; Terminateur
 
-    ld c, $2a
-    inc c
-    ld c, $2c
-    rrca
-    ld c, $28
-    jr AudioParam_Set_4
-
-AudioDataRaw_003_522a:
-    jr z, @+$01
-
-    ld [bc], a
+    db $02                       ; Début des données audio
     adc [hl]
     adc a
     db $d3
