@@ -8532,9 +8532,14 @@ Tilemap_50CA:
     ld d, d
 ; Tilemap_50E4 @ $50E4: Tilemap pour contexte rendu 3 (13 bytes)
 ; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
-; db $A4, $80, $E0, $AE, $D5, $CD    ; Entrée 0: X=$A4(164), Y=$80(128), tiles=[E0,AE,D5,CD]
-; db $53, $01, $D1, $FE, $60, $38    ; Entrée 1: X=$53(83),  Y=$01(1),   tiles=[D1,FE,60,38]
-; db $10                             ; Terminateur non-standard
+; db $07, $02, $01, $07, $20, $80    ; Entrée 0: X=$07(7),   Y=$02(2), tiles=[01,07,20,80]
+; db $0E, $02, $02, $0E, $20, $80    ; Entrée 1: X=$0E(14),  Y=$02(2), tiles=[02,0E,20,80]
+; db $FF                              ; Terminateur SLOT_EMPTY
+; Tilemap_50F1 @ $50F1: Tilemap pour contexte rendu 4 (12 bytes)
+; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
+; db $05, $05, $01, $05, $38, $58    ; Entrée 0: X=$05(5),   Y=$05(5), tiles=[01,05,38,58]
+; db $0F, $05, $02, $0F, $38, $58    ; Entrée 1: X=$0F(15),  Y=$05(5), tiles=[02,0F,38,58]
+;                                     ; Pas de terminateur (enchaîne avec Tilemap_50FD)
     dec hl
     ld d, d
     nop
