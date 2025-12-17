@@ -5807,6 +5807,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$4A5D",
+      "node_type": "data",
+      "description": "Pointeur 1 - possiblement comportement/sprite entit\u00e9",
+      "source": "$6272",
+      "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$5EC4",
+      "node_type": "data",
+      "description": "Pointeur 2 - donn\u00e9es additionnelles entit\u00e9",
+      "source": "$6272",
+      "bank": 1,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6162,6 +6178,7 @@
     "$12E8",
     "$4D6F",
     "$5a05",
+    "$6272",
     "$57EB",
     "$509B",
     "$5C57",
@@ -6466,6 +6483,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 655
+  "commits_since_push": 0,
+  "total_explored": 656
 }

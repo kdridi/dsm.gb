@@ -7831,6 +7831,7 @@ CheckPlayerAction_6afd:
     ld c, c
     add c
     ld c, b
+; EntityDef_6272: Entrée entité #40 (mal désassemblée) - Type:$03 Ptrs:$4A5D,$5EC4 Payload:$4C,$50,$6C,$6E
     call nz, $7270
     ld [hl], d
     ld [hl], d
