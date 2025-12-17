@@ -8396,6 +8396,14 @@ SearchTilemapEntry_CheckY:
     ld a, [hl]                       ; Copie byte 3
     ld [de], a
 
+; SearchTilemapEntry_Exit
+; -----------------------
+; Description: Point de sortie pour restaurer la bank ROM après recherche dans le tilemap
+;              Utilisé quand la recherche est terminée (trouvé ou pas trouvé)
+; In:  hSavedBank = bank ROM à restaurer
+; Out: Bank ROM restaurée
+; Modifie: a
+; Note: Utilise le label SearchTilemapExit pour dépiler et retourner
 SearchTilemapEntry_Exit:
     ; Restaure la bank précédente
     ldh a, [hSavedBank]
