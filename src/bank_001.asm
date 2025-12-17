@@ -6156,58 +6156,39 @@ EntityAnimationData_5EC4:  ; $5EC4
     ldh [c], a
     ld l, l
     ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    ld h, c
-    db $f4
-    call nz, $504c
-    ld l, h
-    ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    ld d, c
-    db $f4
-    or l
-    ld d, h
-    ld c, l
-    ld d, c
-    ld l, l
-    ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    ld b, [hl]
-    db $fd
-    db $f4
-    or l
-    ld d, l
-    ld c, [hl]
-    ld d, d
-    ld l, h
-    ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    db $C4, $4F, $53  ; call nz, $534f (data within SharedMapData_467, not code)
-    ld l, l
-    ld l, [hl]
-    cp $03
-    ld e, l
-    ld c, d
-    ld e, [hl]
-    ld d, l
-    db $fd
-    db $f4
-    ldh [c], a
-    ld l, h
-    ld l, [hl]
-    cp $03
+
+; ==============================================================================
+; EntityData_640D - Définitions d'entités (5 entrées, 60 bytes)
+; ==============================================================================
+; Description: Bloc de 5 définitions d'entité avec structure variable
+; Format: Chaque entrée commence par $03 et se termine par $FE
+;   Byte 0: $03 (type/count)
+;   Bytes 1-2: $5D $4A (coordonnées/identifiant)
+;   Bytes 3-4: $5E + paramètre variable
+;   Bytes 5-N: Données variables selon l'entrée
+;   Byte final: $FE (terminateur)
+; Référencé par: SharedEntitiesData_012 (ligne 3334)
+; Note: Le 'cp $03' suivant génère FE puis 03. Le FE termine l'entrée précédente,
+;       le 03 commence EntityData_640D. Le label pointe vers le 03.
+; ==============================================================================
+    cp $03  ; FE 03: le FE termine l'entrée précédente
+EntityData_640D:  ; $640D (pointe vers le $03 du 'cp' ci-dessus)
+    ; Entrée 0 (12 bytes): $03 déjà généré par 'cp $03' ci-dessus
+    db $5D, $4A, $5E, $61, $F4, $C4, $4C, $50, $6C, $6E, $FE
+
+    ; Entrée 1 (13 bytes)
+    db $03, $5D, $4A, $5E, $51, $F4, $B5, $54, $4D, $51, $6D, $6E, $FE
+
+    ; Entrée 2 (14 bytes)
+    db $03, $5D, $4A, $5E, $46, $FD, $F4, $B5, $55, $4E, $52, $6C, $6E, $FE
+
+    ; Entrée 3 (10 bytes)
+    db $03, $5D, $4A, $5E, $C4, $4F, $53, $6D, $6E, $FE
+
+    ; Entrée 4 (11 bytes): se termine avec le FE du 'cp $03' suivant
+    db $03, $5D, $4A, $5E, $55, $FD, $F4, $E2, $6C, $6E
+
+    cp $03  ; FE 03: le FE termine entrée 4, le 03 commence l'entrée suivante
     ld e, l
     ld c, d
     ld e, [hl]
