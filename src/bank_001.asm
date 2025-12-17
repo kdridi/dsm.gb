@@ -6846,15 +6846,22 @@ TileData_6AA0:  ; $6AA0
     db $02, $32, $49, $FE
     db $02, $31, $49, $FE
 
-; EntityDefinitionTable ($6100-$6AFD, 2557 bytes)
-; -------------------------------------------------
-; Description: Table de définitions d'entités (format variable)
-; Structure: Entrées délimitées par $03 (début) et $FE (fin), taille variable
-; Note: Cette zone de données est mal désassemblée comme du code
+; EntityDefinitionTable ($6100-$6AFD, 2557 bytes) + TileData ($6AA0-$6C1A+)
+; --------------------------------------------------------------------------
+; Description: Grande zone de données mal désassemblée comme du code
+; Contenu réel:
+;   - $6100-$6AFD: Table de définitions d'entités (format variable)
+;   - $6AA0-$6B50: TileData_6AA0 - Tile data graphiques niveau 3
+;   - $6B51-$6C1A: TileData_6B51 - Tile data graphiques niveau 3 (202 bytes)
+;   - $6C1B+: TileData_6C1B et autres données
+; Format tiles: Commandes graphiques ($02/$03/$04/$06=opcodes, $31/$32=params, $FE=terminateur)
 ; Références notables:
-;   - $61B8: Référencée par SharedEntitiesData_012 (src/bank_001.asm:3414-3415)
-; TODO: Reconstruire progressivement cette zone comme db $XX,...
-EntityDefinitionTable:
+;   - $61B8: Référencée par SharedEntitiesData_012
+;   - $6AA0 (TileData_6AA0): Référencée par DataZone_5652 (ligne 3351)
+;   - $6B51 (TileData_6B51): Référencée par DataZone_5652 (lignes 3351, 3352) - 2x
+;   - $6C1B (TileData_6C1B): Référencée par DataZone_5652, Level3MapData
+; TODO BFS: Reconstruire progressivement avec labels TileData_6AA0, TileData_6B51, TileData_6C1B
+EntityDefinitionTable:  ; $6100 (includes tile data at $6AA0, $6B51, $6C1B)
     inc bc
     ld [hl-], a
     ld c, c
