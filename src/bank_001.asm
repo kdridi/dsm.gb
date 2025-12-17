@@ -6689,687 +6689,133 @@ TileGraphic_65D3:  ; $65D3
     db $FE  ; Séparateur de bloc précédent ($66A0)
 
 ; ==============================================================================
-; TileData_66A1 - Tile data bloc #20 ($66A1-$66AD)
+; TileData_66A1 - Tile data graphiques ($66A1)
 ; ==============================================================================
-; Description: Données de tile graphique référencées par Level3TilesetData
-; Format: [size] [tile_bytes...] E2 [addr_lo] [addr_hi] FE [padding]
-;   - Size: $04 (marqueur de type/taille)
-;   - Tile bytes: $31 $7F $7F $7F $52 $34 $35 (7 bytes de données pixel)
-;   - E2: Marqueur de référence interne
-;   - Adresse: $6665 (little-endian: $65 $66, pointe vers TileGraphic_65D3+$92)
-;   - FE $00: Terminateur + padding
-; Taille: 13 bytes
-; Référencé par: Level3TilesetData (ligne 3347×3, 3348×2, 3349×1) - 6 occurrences
+; Description: Données de tiles compressées pour le rendu graphique
+; Format: [count] [tile_data...] [$E2/$C4 metadata] $FE
+; Référencé par: Level3TilesetData/MapData
 ; ==============================================================================
 TileData_66A1:  ; $66A1
-    db $04, $31, $7F, $7F, $7F, $52, $34, $35, $E2, $65, $66, $FE, $00
+    db $04, $31, $7F, $7F, $7F, $52, $34, $35, $E2, $65, $66, $FE
+    db $00, $32, $7F, $7F, $7F, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $61, $E8, $FE
+    db $04, $31, $7F, $7F, $7F, $51, $37, $E2, $63, $64, $FE
+    db $04, $32, $7F, $7F, $7F, $C4, $70, $72, $72, $72, $FE
+    db $04, $31, $7F, $7F, $7F, $C4, $71, $73, $73, $73, $FE
+    db $04, $32, $7F, $7F, $7F, $E2, $65, $66, $FE
+    db $08, $31, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $E2, $61, $E8, $FE
+    db $0C, $32, $7F, $7F, $7F, $7F, $7F, $7F, $6D, $6D, $6D, $6D, $6B, $E2, $61, $E8, $FE
+    db $0C, $31, $7F, $7F, $7F, $7F, $7F, $7F, $6E, $6E, $6E, $6E, $6C, $E2, $60, $E8, $FE
+    db $08, $32, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $E2, $60, $E8, $FE
+    db $08, $31, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $E2, $61, $E8, $FE
+    db $0C, $32, $7F, $7F, $7F, $7F, $7F, $7F, $6D, $6D, $6D, $6D, $6B, $E2, $61, $E8, $FE
+    db $0C, $31, $7F, $7F, $7F, $7F, $7F, $7F, $6E, $6E, $6E, $6E, $6C, $E2, $61, $E8, $FE
+    db $0B, $32, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $82, $E2, $61, $E8, $FE
+    db $0B, $31, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $82, $E2, $63, $64, $FE
+    db $0B, $32, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $82, $E2, $70, $72, $FE
+    db $0B, $31, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $82, $E2, $71, $73, $FE
+    db $04, $32, $7F, $7F, $7F, $51, $35, $A1, $80, $E2, $65, $66, $FE
+    db $00, $31, $7F, $7F, $7F, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $61, $E8, $FE
+    db $04, $32, $7F, $7F, $7F, $52, $36, $37, $E2, $63, $64, $FE
 
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    ld h, c
-    add sp, -$02
-    inc b
-    ld sp, $7f7f
-    ld a, a
-    ld d, c
-    scf
-    ldh [c], a
-    ld h, e
-    ld h, h
-    cp $04
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    call nz, $7270
-    ld [hl], d
-    ld [hl], d
-    cp $04
-    ld sp, $7f7f
-    ld a, a
-    call nz, ProcessValidation_7371
-    ld [hl], e
-    ld [hl], e
-    cp $04
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    ldh [c], a
-    ld h, l
-    ld h, [hl]
-    cp $08
-    ld sp, $7f7f
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    inc c
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld l, l
-    ld l, l
-    ld l, l
-    ld l, l
-    ld l, e
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    inc c
-    ld sp, $7f7f
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld l, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld l, h
-    ldh [c], a
-    ld h, b
-    add sp, -$02
-    ld [$7f32], sp
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ldh [c], a
-    ld h, b
-    add sp, -$02
-    ld [$7f31], sp
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    inc c
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld l, l
-    ld l, l
-    ld l, l
-    ld l, l
-    ld l, e
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    inc c
-    ld sp, $7f7f
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld l, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld l, h
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    dec bc
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    add d
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    dec bc
-    ld sp, $7f7f
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    add d
-    ldh [c], a
-    ld h, e
-    ld h, h
-    cp $0b
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    add d
-    ldh [c], a
-    ld [hl], b
-    ld [hl], d
-    cp $0b
-    ld sp, $7f7f
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld a, a
-    add d
-    ldh [c], a
-    ld [hl], c
-    ld [hl], e
-    cp $04
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld d, c
-    dec [hl]
-    and c
-    add b
-    ldh [c], a
-    ld h, l
-    ld h, [hl]
-    cp $00
-    ld sp, $7f7f
-    ld a, a
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    ld h, c
-    add sp, -$02
-    inc b
-    ld [hl-], a
-    ld a, a
-    ld a, a
-    ld a, a
-    ld d, d
-    ld [hl], $37
-    ldh [c], a
-    ld h, e
-    ld h, h
-    cp $02
-    ld sp, $fe49
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    cp $02
-    ld sp, $e249
-    ld h, l
-    ld h, [hl]
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld sp, $7235
-    inc [hl]
-    dec [hl]
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    nop
-    ld sp, $3349
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    ld d, c
-    scf
-    call nz, $3938
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $a149
-    add c
-    ldh [c], a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    and c
-    add c
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, wStackWRAM
-    dec [hl]
-    ldh [c], a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    dec a
-    ld a, [hl-]
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    ld h, e
-    ld h, h
-    cp $02
-    ld sp, $6249
-    ld [hl], $37
-    ldh [c], a
-    ld [hl], b
-    ld [hl], d
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ldh [c], a
-    ld [hl], c
-    ld [hl], e
-    cp $02
-    ld sp, $e249
-    ld h, l
-    ld h, [hl]
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $a149
-    add c
-    ldh [c], a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    and c
-    add c
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $4149
-    dec [hl]
-    call nz, $3938
-    ld h, b
-    add sp, -$02
-    nop
-    ld [hl-], a
-    ld c, c
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    ld h, b
-    add sp, -$02
-    inc b
-    ld sp, $3649
-    scf
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    ldh [c], a
-    ld h, e
-    ld h, h
-    cp $02
-    ld sp, $fe49
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    ld sp, $b246
-    inc [hl]
-    dec [hl]
-    cp $02
-    ld sp, $3149
-    ld b, a
-    or l
-    ld a, [hl-]
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld sp, $e148
-    scf
-    cp $02
-    ld sp, $fe49
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    cp $02
-    ld sp, $4149
-    dec [hl]
-    add d
-    inc [hl]
-    dec [hl]
-    cp $00
-    ld [hl-], a
-    ld c, c
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    cp $02
-    ld sp, $6149
-    scf
-    sub d
-    ld [hl], $37
-    cp $02
-    ld [hl-], a
-    ld c, c
-    and d
-    ccf
-    ld b, d
-    cp $02
-    ld sp, $9149
-    dec a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    sub e
-    ld a, $40
-    ld b, e
-    cp $02
-    ld sp, $9349
-    ld b, [hl]
-    ld b, c
-    ld b, h
-    cp $02
-    ld [hl-], a
-    ld c, c
-    sub c
-    ld b, a
-    cp $02
-    ld sp, $9149
-    ld c, b
-    cp $02
-    ld [hl-], a
-    ld c, c
-    cp $02
-    ld sp, $fe49
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    or d
-    inc [hl]
-    dec [hl]
-    cp $02
-    ld sp, $6a49
-    ld a, [hl-]
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    cp $02
-    ld [hl-], a
-    ld c, c
-    add c
-    scf
-    cp $02
-    ld sp, $fe49
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    cp $02
-    ld sp, $e249
-    ld h, l
-    ld h, [hl]
-    cp $02
-    ld [hl-], a
-    ld c, c
-    call nz, $3938
-    ld h, c
-    add sp, -$02
-    inc b
-    ld sp, $3449
-    dec [hl]
-    ld h, c
-    dec [hl]
-    ldh [c], a
-    ld h, b
-    add sp, -$02
-    nop
-    ld [hl-], a
-    ld c, c
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $3149
-    scf
-    ldh [c], a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    ldh [c], a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $9149
-    add d
-    db $d3
-    ld a, a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    ld d, c
-    add c
-    sub c
-    add d
-    db $d3
-    ld a, a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $9149
-    add d
-    db $d3
-    ld a, a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    db $d3
-    ld a, a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $7949
-    ld a, [hl-]
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    ld a, a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    add d
-    ld [hl], $37
-    db $d3
-    ld a, a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $5149
-    dec [hl]
-    db $d3
-    ld a, a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    dec a
-    ld a, [hl-]
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    inc sp
-    ld a, a
-    ld h, c
-    add sp, -$02
-    ld [bc], a
-    ld sp, $4149
-    scf
-    or l
-    jr c, CheckStateValue_69ff
+; ==============================================================================
+; TileData_67BF - Tile data graphiques ($67BF)
+; ==============================================================================
+; Description: Données de tiles compressées pour le rendu graphique
+; Format: [count] [tile_data...] [$E2/$C4 metadata] $FE
+; Référencé par: Level3TilesetData/MapData
+; ==============================================================================
+TileData_67BF:  ; $67BF
+    db $02, $31, $49, $FE
+    db $02, $32, $49, $FE
+    db $02, $31, $49, $E2, $65, $66, $FE
+    db $02, $32, $49, $31, $35, $72, $34, $35, $E2, $61, $E8, $FE
+    db $00, $31, $49, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $60, $E8, $FE
+    db $02, $32, $49, $51, $37, $C4, $38, $39, $61, $E8, $FE
+    db $02, $31, $49, $A1, $81, $E2, $60, $E8, $FE
+    db $02, $32, $49, $A1, $81, $E2, $61, $E8, $FE
+    db $02, $31, $49, $C1, $35, $E2, $60, $E8, $FE
+    db $02, $32, $49, $3D, $3A, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $63, $64, $FE
+    db $02, $31, $49, $62, $36, $37, $E2, $70, $72, $FE
+    db $02, $32, $49, $E2, $71, $73, $FE
+    db $02, $31, $49, $E2, $65, $66, $FE
+    db $02, $32, $49, $E2, $61, $E8, $FE
+    db $02, $31, $49, $A1, $81, $E2, $60, $E8, $FE
+    db $02, $32, $49, $A1, $81, $E2, $61, $E8, $FE
+    db $02, $31, $49, $41, $35, $C4, $38, $39, $60, $E8, $FE
+    db $00, $32, $49, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $60, $E8, $FE
+    db $04, $31, $49, $36, $37, $E2, $61, $E8, $FE
+    db $02, $32, $49, $E2, $63, $64, $FE
 
-    ld a, a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    db $d3
-    ld a, a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld sp, $d349
-    ld a, a
-    ld h, b
-    add sp, -$02
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    db $d3
-    ld a, a
-    ld h, e
-    ld h, h
-    cp $02
-    ld sp, $fe49
-    ld [bc], a
-    ld [hl-], a
-    ld c, c
-    cp $02
-    ld sp, $9249
-    ccf
-    ld b, d
-    ldh [c], a
-    ld [hl], b
-    ld [hl], d
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld [hl], d
-    ld b, [hl]
-    dec a
-    ldh [c], a
-    ld [hl], c
-    ld [hl], e
+; ==============================================================================
+; TileData_6882 - Tile data graphiques ($6882)
+; ==============================================================================
+; Description: Données de tiles compressées pour le rendu graphique
+; Format: [count] [tile_data...] [$E2/$C4 metadata] $FE
+; Référencé par: Level3TilesetData/MapData
+; ==============================================================================
+TileData_6882:  ; $6882
+    db $02, $31, $49, $FE
+    db $02, $32, $49, $31, $46, $B2, $34, $35, $FE
+    db $02, $31, $49, $31, $47, $B5, $3A, $33, $33, $33, $33, $FE
+    db $02, $32, $49, $31, $48, $E1, $37, $FE
+    db $02, $31, $49, $FE
+    db $02, $32, $49, $FE
+    db $02, $31, $49, $41, $35, $82, $34, $35, $FE
+    db $00, $32, $49, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $FE
+    db $02, $31, $49, $61, $37, $92, $36, $37, $FE
+    db $02, $32, $49, $A2, $3F, $42, $FE
+    db $02, $31, $49, $91, $3D, $FE
+    db $02, $32, $49, $93, $3E, $40, $43, $FE
+    db $02, $31, $49, $93, $46, $41, $44, $FE
+    db $02, $32, $49, $91, $47, $FE
+    db $02, $31, $49, $91, $48, $FE
+    db $02, $32, $49, $FE
+    db $02, $31, $49, $FE
+    db $02, $32, $49, $B2, $34, $35, $FE
+    db $02, $31, $49, $6A, $3A, $33, $33, $33, $33, $33, $33, $33, $33, $33, $FE
+    db $02, $32, $49, $81, $37, $FE
+
+; ==============================================================================
+; TileData_691C - Tile data graphiques ($691C)
+; ==============================================================================
+; Description: Données de tiles compressées pour le rendu graphique
+; Format: [count] [tile_data...] [$E2/$C4 metadata] $FE
+; Référencé par: Level3TilesetData/MapData
+; ==============================================================================
+TileData_691C:  ; $691C
+    db $02, $31, $49, $FE
+    db $02, $32, $49, $FE
+    db $02, $31, $49, $E2, $65, $66, $FE
+    db $02, $32, $49, $C4, $38, $39, $61, $E8, $FE
+    db $04, $31, $49, $34, $35, $61, $35, $E2, $60, $E8, $FE
+    db $00, $32, $49, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $33, $61, $E8, $FE
+    db $02, $31, $49, $31, $37, $E2, $60, $E8, $FE
+    db $02, $32, $49, $E2, $61, $E8, $FE
+    db $02, $31, $49, $91, $82, $D3, $7F, $60, $E8, $FE
+    db $02, $32, $49, $51, $81, $91, $82, $D3, $7F, $61, $E8, $FE
+    db $02, $31, $49, $91, $82, $D3, $7F, $60, $E8, $FE
+    db $02, $32, $49, $D3, $7F, $61, $E8, $FE
+    db $02, $31, $49, $79, $3A, $33, $33, $33, $33, $33, $7F, $60, $E8, $FE
+    db $02, $32, $49, $82, $36, $37, $D3, $7F, $61, $E8, $FE
+    db $02, $31, $49, $51, $35, $D3, $7F, $60, $E8, $FE
+    db $02, $32, $49, $3D, $3A, $33, $33, $33, $33, $33, $33, $33, $33, $33, $7F, $61, $E8, $FE
+    db $02, $31, $49, $41, $37, $B5, $38, $39, $7F, $60, $E8, $FE
+    db $02, $32, $49, $D3, $7F, $60, $E8, $FE
+    db $02, $31, $49, $D3, $7F, $60, $E8, $FE
+    db $02, $32, $49, $D3, $7F, $63, $64, $FE
+
+; ==============================================================================
+; TileData_69E2 - Tile data graphiques ($69E2)
+; ==============================================================================
+; Description: Données de tiles compressées pour le rendu graphique
+; Format: [count] [tile_data...] [$E2/$C4 metadata] $FE
+; Référencé par: Level3TilesetData/MapData
+; ==============================================================================
+TileData_69E2:  ; $69E2
+    db $02, $31, $49, $FE
+    db $02, $32, $49, $FE
+    db $02, $31, $49, $92, $3F, $42, $E2, $70, $72, $FE
+    db $02, $32, $49, $72, $46, $3D, $E2, $71, $73
 
 ValidatePlayerState_69fd:
     cp $02
