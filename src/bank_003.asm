@@ -8497,6 +8497,7 @@ TilemapPointerTable:
     dw $5125    ; Contexte 9 - Tilemap_5125
     dw $5132    ; Contexte 10 - Tilemap_5132
     dw $513E    ; Contexte 11 - Tilemap_513E
+Tilemap_50CA: ; Tilemap data contexte 0 (12 bytes: FF C9 11 02 05 F0 99 FE 02 28 03 11) - TODO BFS: reconstruire en db
     ld a, $51
     ccf
     ld d, c
