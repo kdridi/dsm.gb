@@ -5823,6 +5823,38 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$D100",
+      "node_type": "data",
+      "description": "Table WRAM - Recherche de slot libre (stride $10, jusqu'\u00e0 offset $90)",
+      "source": "$650D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C0",
+      "node_type": "data",
+      "description": "HRAM - hCurrentGameMode (variable de mode de jeu)",
+      "source": "$650D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$CA",
+      "node_type": "data",
+      "description": "HRAM - hVar_CA (param\u00e8tre d'entit\u00e9 1)",
+      "source": "$650D",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$CC",
+      "node_type": "data",
+      "description": "HRAM - hVar_CC (param\u00e8tre d'entit\u00e9 2)",
+      "source": "$650D",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6031,6 +6063,7 @@
     "$1EAB",
     "$4D68",
     "$2245",
+    "$650D",
     "$242D",
     "$4D01",
     "$5D32",
@@ -6489,6 +6522,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 662
+  "commits_since_push": 2,
+  "total_explored": 663
 }
