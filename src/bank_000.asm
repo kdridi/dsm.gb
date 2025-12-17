@@ -8366,6 +8366,15 @@ SearchTilemapEntry_NextEntry:
     inc hl
     jr SearchTilemapEntry_CheckX
 
+; SearchTilemapEntry_CheckY
+; -------------------------
+; Description: Vérifie si la coordonnée Y de l'entrée tilemap correspond au scroll Y
+;              Suite de SearchTilemapEntry_CheckX après match de X
+; In:  hl = pointeur sur X de l'entrée courante (sera incrémenté vers Y)
+;      hTilemapScrollY = coordonnée Y recherchée
+; Out: Si match complet (X+Y), copie 4 bytes de données vers hRenderCounter
+;      Sinon, continue la recherche
+; Modifie: a, de, hl
 SearchTilemapEntry_CheckY:
     ldh a, [hTilemapScrollY]
     inc hl                           ; Pointer sur Y de l'entrée
