@@ -8546,6 +8546,11 @@ Tilemap_50CA:
 ;              - Terminateur pour Tilemap_50F1 (contexte 4)
 ;              - Contenu de Tilemap_50FD (contexte 5 vide, comme contexte 1)
 ; Optimisation: Ce byte est référencé par deux pointeurs dans TilemapPointerTable
+; Tilemap_50FE @ $50FE: Tilemap pour contexte rendu 6 (13 bytes)
+; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
+; db $1B, $E1, $C9, $16, $FD, $1D    ; Entrée 0: X=$1B(27),  Y=$E1(225), tiles=[$C9,$16,$FD,$1D]
+; db $20, $D2, $C9, $E5, $D1, $21    ; Entrée 1: X=$20(32),  Y=$D2(210), tiles=[$C9,$E5,$D1,$21]
+; db $EE                              ; Terminateur
     dec hl
     ld d, d
     nop
