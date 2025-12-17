@@ -8034,126 +8034,33 @@ DispatchDataZone_6198:
     ld h, b
     cp $a6
 
+; SpriteCommandData_62C2
+; ----------------------
+; Description: Séquences de commandes sprite OAM (données binaires mal désassemblées)
+; In:  Aucun (données pures)
+; Out: Aucun
+; Format: Séquences de bytes avec marqueurs $FE (début), $FD (commande étendue)
+;         Structure: $FE [params...] répété
 DataPadding_62c2:
-    ld h, h
-    ld h, h
-    ld h, h
-    ld h, h
-    ld h, c
-    ld h, c
-    cp $e2
-    db $ed
-    ld h, b
-    cp $e2
-    db $ed
-    ld h, c
-    cp $e2
-    db $ed
-    ld h, b
-    cp $21
-    inc [hl]
-    ldh [c], a
-    db $ed
-    ld h, c
-    cp $12
-    ld sp, $e235
-    db $ed
-    ld h, b
-    cp $12
-    ld [hl-], a
-    ld [hl], $e2
-    db $ed
-    ld h, c
-    cp $12
-    ld sp, $e235
-    db $ed
-    ld h, b
-    cp $12
-    ld [hl-], a
-    ld [hl], $b5
-    ld a, [hl-]
-    dec a
-    ld b, b
-    db $ed
-    ld h, c
-    cp $12
-    inc sp
-    scf
-    and [hl]
-    jr c, @+$3d
-
-    ld a, $41
-    db $ed
-    ld h, b
-    cp $a6
-    add hl, sp
-    inc a
-    ccf
-    ld b, d
-    db $ed
-    ld h, c
-    cp $e2
-    db $ed
-    ld h, b
-    cp $a6
-    ld a, [hl-]
-    dec a
-    ld b, b
-    ld b, e
-    db $ed
-    ld h, c
-    cp $97
-    jr c, UnreachableCodeData_003_06
-
-    ld a, $41
-    ld b, h
-    db $ed
-    ld h, b
-    cp $97
-    add hl, sp
-    inc a
-    ccf
-    ld b, d
-    ld b, l
-    db $ed
-    ld h, c
-    cp $e2
-    db $ed
-    ld h, b
-    cp $e2
-    db $ed
-    ld h, c
-    cp $e2
-    db $ed
-    ld h, b
-    cp $e2
-    db $ed
-    ld h, c
-    cp $e2
-    db $ed
-    ld h, b
-    cp $e2
-    db $ed
-    ld h, c
-    cp $43
-    db $fd
-    db $f4
-    add d
-    db $fd
-    ld h, e
-    db $d3
-    ld h, e
-    ld h, b
-    ld h, b
-    cp $43
-    db $fd
-    db $f4
-    add d
-    db $fd
-    ld h, h
-    db $d3
-    ld h, h
-    ld h, c
+    db $64, $64, $64, $64, $61, $61, $fe, $e2, $ed, $60, $fe, $e2
+    db $ed, $61, $fe, $e2, $ed, $60, $fe, $21, $34, $e2, $ed, $61
+    db $fe, $12, $31, $35, $e2, $ed, $60, $fe, $12, $32, $36, $e2
+    db $ed, $61, $fe, $12, $31, $35, $e2, $ed, $60, $fe, $12, $32
+    db $36, $b5, $3a, $3d, $40, $ed, $61, $fe, $12, $33, $37, $a6
+    db $38, $3b, $3e, $41, $ed, $60, $fe, $a6, $39, $3c, $3f, $42
+    db $ed, $61, $fe, $e2, $ed, $60, $fe, $a6, $3a, $3d, $40, $43
+    db $ed, $61, $fe, $97, $38, $3b, $3e, $41, $44, $ed, $60, $fe
+    db $97, $39, $3c, $3f, $42, $45, $ed, $61, $fe, $e2, $ed, $60
+    db $fe, $e2, $ed, $61, $fe, $e2, $ed, $60, $fe, $e2, $ed, $61
+    db $fe, $e2, $ed, $60, $fe, $e2, $ed, $61
+; SpriteCommandData_634E
+; ----------------------
+; Description: Séquence de commandes sprite (commande $43 avec paramètres étendus)
+; Format: $FE (début), $43 (code commande), $FD $F4 $82 $FD $63 (params), $D3 $63 $60 $60, $FE (fin)
+SpriteCommandData_634E:
+    db $fe, $43, $fd, $f4
+    db $82, $fd, $63, $d3, $63, $60, $60, $fe, $43, $fd, $f4, $82
+    db $fd, $64, $d3, $64, $61
 
 UnreachableCodeData_003_06:
     ld h, c
