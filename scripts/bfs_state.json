@@ -3657,6 +3657,22 @@
       "priority": 3
     },
     {
+      "address": "$4AA7",
+      "node_type": "code",
+      "description": "Routine .loadNextDemoInput qui lit cette s\u00e9quence",
+      "source": "$6550",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$4AB3",
+      "node_type": "table",
+      "description": "DemoSequencePointersTable contenant le pointeur vers $6550",
+      "source": "$6550",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$4AE4",
       "node_type": "data",
       "description": "Table de pointeurs vers s\u00e9quences d'inputs d\u00e9mo (1 pointeur 16-bit par bank ROM)",
@@ -6095,22 +6111,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$4AA7",
-      "node_type": "code",
-      "description": "Routine .loadNextDemoInput qui lit cette s\u00e9quence",
-      "source": "$6550",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$4AB3",
-      "node_type": "table",
-      "description": "DemoSequencePointersTable contenant le pointeur vers $6550",
-      "source": "$6550",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6536,6 +6536,7 @@
     "$0AE1",
     "$12DD",
     "$4CB1",
+    "$4AA7",
     "$0DE4",
     "$4D21",
     "$1547",
@@ -6812,6 +6813,6 @@
     "$24e6",
     "$2D7F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 697
+  "commits_since_push": 2,
+  "total_explored": 698
 }

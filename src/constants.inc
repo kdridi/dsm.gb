@@ -280,10 +280,10 @@ DEF wLevelConfig    EQU $C0CE   ; Configuration niveau
 DEF wCollisionFlag  EQU $C0D2   ; Flag collision
 DEF wPlayerInvuln   EQU $C0D3   ; Flag invulnérabilité joueur
 DEF wAttractModeTimer   EQU $C0D7   ; Timer pour l'Attract Mode (démo auto)
-DEF wLevelVarD8     EQU $C0D8   ; Variable niveau
-DEF wLevelVarD9     EQU $C0D9   ; Variable niveau D9
-DEF wLevelVarDA     EQU $C0DA   ; Variable niveau
-DEF wLevelVarDB     EQU $C0DB   ; Variable niveau DB
+DEF wDemoInputDelay      EQU $C0D8   ; Délai (frames) avant prochain input démo
+DEF wDemoSequenceOffset  EQU $C0D9   ; Offset courant dans séquence démo
+DEF wDemoCurrentInput    EQU $C0DA   ; Input joypad démo actuel
+DEF wDemoBackupJoypad    EQU $C0DB   ; Backup état joypad avant input démo
 DEF wCurrentROMBank EQU $C0DC   ; Bank ROM courante ($02 initial)
 DEF wLevelVarDD     EQU $C0DD   ; Variable niveau DD
 DEF wAudioSaveDE    EQU $C0DE   ; Sauvegarde audio

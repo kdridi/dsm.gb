@@ -757,7 +757,7 @@ ClearOamLoop:
     ldh [hTimerAux], a
     ld [wGameConfigA5], a
     ld [wPlayerVarAD], a
-    ld hl, wLevelVarD8
+    ld hl, wDemoInputDelay
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
@@ -7868,13 +7868,13 @@ ProcessAnimObjectExit:
 ;              (hUpdateLockFlag != 0), pour garantir que l'input démo est chargé
 ;              au bon moment du cycle de jeu.
 ; In:  hUpdateLockFlag = doit être != 0 pour exécuter
-;      wLevelVarDB = input démo à charger
+;      wDemoBackupJoypad = input démo à charger
 ; Out: hJoypadState = état joypad mis à jour avec input démo
 ; Modifie: a
 LoadDemoInput:
     ReturnIfUnlocked
 
-    ld a, [wLevelVarDB]
+    ld a, [wDemoBackupJoypad]
     ldh [hJoypadState], a
     ret
 

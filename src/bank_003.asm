@@ -2599,16 +2599,25 @@ CheckUnlockState::
     cp $ff
     ret z
 
-    ; Vérifier si délai actif (wLevelVarD8 = compteur frames entre inputs)
-    ld a, [wLevelVarD8]
+    ; Vérifier si délai actif (wDemoInputDelay = compteur frames entre inputs)
+    ld a, [wDemoInputDelay]
     and a
     jr z, .loadNextDemoInput
 
     ; Décrémenter délai et sortir
     dec a
-    ld [wLevelVarD8], a
+    ld [wDemoInputDelay], a
     jr .applyDemoInput
 
+; .loadNextDemoInput
+; ------------------
+; Description: Lit la prochaine paire [input, délai] depuis la séquence démo de la bank courante
+; In:  wCurrentROMBank = bank ROM courante (0-2)
+;      wDemoSequenceOffset = offset courant dans séquence
+; Out: wDemoCurrentInput = input joypad lu
+;      wDemoInputDelay = délai avant prochain input
+;      wDemoSequenceOffset = incrémenté de 2
+; Modifie: a, de, hl
 .loadNextDemoInput:
     ; Charger table de pointeurs vers séquences démo par bank
     ld a, [wCurrentROMBank]
@@ -2625,8 +2634,8 @@ CheckUnlockState::
     push de
     pop hl
 
-    ; Indexer dans la séquence selon wLevelVarD9 (offset courant)
-    ld a, [wLevelVarD9]
+    ; Indexer dans la séquence selon wDemoSequenceOffset (offset courant)
+    ld a, [wDemoSequenceOffset]
     ld d, $00
     ld e, a
     add hl, de
@@ -2637,21 +2646,21 @@ CheckUnlockState::
     jr z, .clearDemoInput
 
     ; Stocker input et délai
-    ld [wLevelVarDA], a                 ; Input joypad simulé
+    ld [wDemoCurrentInput], a           ; Input joypad simulé
     ld a, [hl]
-    ld [wLevelVarD8], a                 ; Délai avant prochain input
+    ld [wDemoInputDelay], a             ; Délai avant prochain input
 
     ; Avancer offset de 2 octets (input + délai)
     inc e
     inc e
     ld a, e
-    ld [wLevelVarD9], a
+    ld [wDemoSequenceOffset], a
 
 .applyDemoInput:
     ; Sauvegarder ancien état joypad et appliquer input démo
     ldh a, [hJoypadState]
-    ld [wLevelVarDB], a                 ; Backup
-    ld a, [wLevelVarDA]                 ; Input simulé
+    ld [wDemoBackupJoypad], a           ; Backup
+    ld a, [wDemoCurrentInput]           ; Input simulé
     ldh [hJoypadState], a
     ldh [hJoypadDelta], a
     ret
@@ -2659,7 +2668,7 @@ CheckUnlockState::
 .clearDemoInput:
     ; Fin de séquence : réinitialiser input à 0
     xor a
-    ld [wLevelVarDA], a
+    ld [wDemoCurrentInput], a
     jr .applyDemoInput
 
 ; DemoSequencePointersTable
@@ -2956,34 +2965,34 @@ CheckTimerAux2::
 
     ldh a, [hJoypadState]
     ld b, a
-    ld a, [wLevelVarDA]
+    ld a, [wDemoCurrentInput]
     cp b
     jr z, IncrementInputCounter
 
     ld hl, wDemoRecordBuffer
-    ld a, [wLevelVarD9]
+    ld a, [wDemoSequenceOffset]
     ld e, a
     ld d, $00
     add hl, de
-    ld a, [wLevelVarDA]
+    ld a, [wDemoCurrentInput]
     ld [hl+], a
-    ld a, [wLevelVarD8]
+    ld a, [wDemoInputDelay]
     ld [hl], a
     inc e
     inc e
     ld a, e
-    ld [wLevelVarD9], a
+    ld [wDemoSequenceOffset], a
     ld a, b
-    ld [wLevelVarDA], a
+    ld [wDemoCurrentInput], a
     xor a
-    ld [wLevelVarD8], a
+    ld [wDemoInputDelay], a
     ret
 
 
 IncrementInputCounter:
-    ld a, [wLevelVarD8]
+    ld a, [wDemoInputDelay]
     inc a
-    ld [wLevelVarD8], a
+    ld [wDemoInputDelay], a
     ret
 
 
