@@ -1133,6 +1133,10 @@ DEF SPRITE_SLOT_0              EQU $30   ; Offset slot 0 buffer sprite ($C030)
 DEF SPRITE_SLOT_1              EQU $38   ; Offset slot 1 buffer sprite ($C038)
 DEF SPRITE_SLOT_2              EQU $40   ; Offset slot 2 buffer sprite ($C040)
 DEF SPRITE_SLOT_3              EQU $48   ; Offset slot 3 buffer sprite ($C048)
+DEF SPRITE_SLOT_0_CHECK        EQU $36   ; Offset détection slot 0 (SPRITE_SLOT_0 + 6)
+DEF SPRITE_SLOT_1_CHECK        EQU $3e   ; Offset détection slot 1 (SPRITE_SLOT_1 + 6)
+DEF SPRITE_SLOT_2_CHECK        EQU $46   ; Offset détection slot 2 (SPRITE_SLOT_2 + 6)
+DEF LEVEL_PARAM_OFFSET         EQU $04   ; Offset entre paramètres niveau consécutifs
 DEF SPRITE_ANIM_VALUE_1        EQU $20   ; Valeur param animation 1
 DEF SPRITE_ANIM_VALUE_2        EQU $f6   ; Valeur param animation 2
 DEF SPRITE_ANIM_DISABLE        EQU $c0   ; Valeur désactivant animation sprite

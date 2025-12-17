@@ -6530,8 +6530,8 @@ SpriteAnimationCounterDecrement:
     ld [hl], a
     ld a, l
     ld hl, wLevelParam0C
-    ld bc, $0004
-    cp $36
+    ld bc, LEVEL_PARAM_OFFSET
+    cp SPRITE_SLOT_0_CHECK
     jr z, SpriteAnimationStatePurge
 
 ; AnimationHandler_Type02_Entry
@@ -6540,11 +6540,11 @@ SpriteAnimationCounterDecrement:
 ; Calculé dynamiquement par AnimationDispatch_SelectHandler via inc d
 ; (AnimationHandler_Type01 + $0100 = $5958 + $0100 = $5A58)
     inc l
-    cp $3e
+    cp SPRITE_SLOT_1_CHECK
     jr z, SpriteAnimationStatePurge
 
     inc l
-    cp $46
+    cp SPRITE_SLOT_2_CHECK
     jr z, SpriteAnimationStatePurge
 
     inc l
