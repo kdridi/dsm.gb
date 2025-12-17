@@ -8549,6 +8549,31 @@ Tilemap_50CA:
 ; db $FF, $36, $C0, $2C, $72, $2C    ; Entrée 0: X=$FF(255), Y=$36(54), tiles=[$C0,$2C,$72,$2C]
 ; db $73, $3E, $05, $EA, $E0, $DF    ; Entrée 1: X=$73(115), Y=$3E(62), tiles=[$05,$EA,$E0,$DF]
 ; db $C9                              ; Terminateur
+; Tilemap_5118 @ $5118: Tilemap pour contexte rendu 8 (13 bytes)
+; Description: Tilemap avec 2 entrées pour le rendu du contexte 8
+; Format: Séquence d'entrées (X, Y, tiles[4]) + terminateur
+; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
+; db $06, $03, $21, $A9, $FF, $11    ; Entrée 0: X=$06(6), Y=$03(3), tiles=[$21,$A9,$FF,$11]
+; db $01, $C0, $2A, $A7, $20, $08    ; Entrée 1: X=$01(1), Y=$C0(192), tiles=[$2A,$A7,$20,$08]
+; db $1C                              ; Terminateur
+; Tilemap_5125 @ $5125: Tilemap pour contexte rendu 9 (13 bytes)
+; Description: Tilemap avec 2 entrées pour le rendu du contexte 9
+; Format: Séquence d'entrées (X, Y, tiles[4]) + terminateur
+; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
+; db $1C, $1C, $1C, $05, $20, $F5    ; Entrée 0: X=$1C(28), Y=$1C(28), tiles=[$1C,$05,$20,$F5]
+; db $C9, $E5, $D5, $C5, $2D, $1A    ; Entrée 1: X=$C9(201), Y=$E5(229), tiles=[$D5,$C5,$2D,$1A]
+; db $3C                              ; Terminateur
+; Tilemap_5132 @ $5132: Tilemap pour contexte rendu 10 (12 bytes)
+; Description: Tilemap avec 2 entrées pour le rendu du contexte 10 (pas de terminateur, suivi par Tilemap_513E)
+; Format: Séquence d'entrées (X, Y, tiles[4]) sans terminateur
+; NOTE: Code ci-dessous mal désassemblé - les vrais bytes sont:
+; db $3C, $12, $E0, $A1, $E0, $C3    ; Entrée 0: X=$3C(60), Y=$12(18), tiles=[$E0,$A1,$E0,$C3]
+; db $FE, $A9, $38, $07, $AF, $CB    ; Entrée 1: X=$FE(254), Y=$A9(169), tiles=[$38,$07,$AF,$CB]
+; Note: Pas de terminateur - les données continuent directement avec Tilemap_513E
+; Tilemap_513E @ $513E: Tilemap pour contexte rendu 11 (suite du code après Tilemap_5132)
+; Description: Tilemap débutant immédiatement après Tilemap_5132
+; Format: Séquence d'entrées (X, Y, tiles[4]) + terminateur
+; NOTE: La suite du code désassemblé contient cette tilemap
 Tilemap_510B:
     dec hl
     ld d, d
