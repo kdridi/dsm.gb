@@ -4373,39 +4373,33 @@ DEF Tilemap_51B7 EQU $51B7  ; Adresse calculée: $51B7
 AudioTableRaw_003_51c2:
     jr z, @+$01
 
-    ld bc, $2812
-    ld [bc], a
-    ld a, [bc]
-    ret nz
+; Tilemap_51C4
+; ------------
+; Description: Tilemap pour contexte de rendu 7 (19 bytes)
+; Format: 3 entrées de tilemap (6 bytes chacune) + terminateur $FF
+; In: Pointeur depuis ROM_TILEMAP_POINTERS_B (Tilemap_50CA, contexte 7)
+; Out: Données lues par SearchTilemapEntry/LoadLevelTilemap
+; Modifie: Aucun (données pures)
+; Structure: Chaque entrée = [X, Y, tile1, tile2, tile3, tile4]
+Tilemap_51C4:
+    db $01, $12, $28, $02, $0A, $C0    ; Entrée 0: X=1,  Y=18, tiles=[$28,$02,$0A,$C0]
+    db $04, $0F, $F0, $06, $0D, $28    ; Entrée 1: X=4,  Y=15, tiles=[$F0,$06,$0D,$28]
+    db $08, $0C, $07, $0A, $13, $28    ; Entrée 2: X=8,  Y=12, tiles=[$07,$0A,$13,$28]
+    db $FF                              ; Terminateur
 
-    inc b
-    rrca
-    ldh a, [rTMA]
-    dec c
-    jr z, @+$0a
-
-    inc c
-    rlca
-    ld a, [bc]
-    inc de
-    jr z, @+$01
-
-    ld bc, $2812
-    ld [bc], a
-    add hl, bc
-    ret nz
-
-    rlca
-    dec bc
-    jr z, @+$0a
-
-    add hl, bc
-    ld a, [hl+]
-    dec bc
-    inc b
-    ldh a, [rIF]
-    inc bc
-    jr z, @+$01
+; Tilemap_51D7
+; ------------
+; Description: Tilemap pour contexte de rendu 8 (19 bytes)
+; Format: 3 entrées de tilemap (6 bytes chacune) + terminateur $FF
+; In: Pointeur depuis ROM_TILEMAP_POINTERS_B (Tilemap_50CA, contexte 8)
+; Out: Données lues par SearchTilemapEntry/LoadLevelTilemap
+; Modifie: Aucun (données pures)
+; Structure: Chaque entrée = [X, Y, tile1, tile2, tile3, tile4]
+Tilemap_51D7:
+    db $01, $12, $28, $02, $09, $C0    ; Entrée 0: X=1,  Y=18, tiles=[$28,$02,$09,$C0]
+    db $07, $0B, $28, $08, $09, $2A    ; Entrée 1: X=7,  Y=11, tiles=[$28,$08,$09,$2A]
+    db $0B, $04, $F0, $0F, $03, $28    ; Entrée 2: X=11, Y=4,  tiles=[$F0,$0F,$03,$28]
+    db $FF                              ; Terminateur
 
     inc bc
     db $10
