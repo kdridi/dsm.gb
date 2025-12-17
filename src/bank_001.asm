@@ -4774,7 +4774,7 @@ MapTileData_5CA6:  ; ($5CA6)
 ; TODO BFS: Zone mal désassemblée $5D8A-$60xx contient aussi:
 ;           - MapTileData_5E32 @ $5E32 (168 bytes, pattern similaire)
 ;           - MapTileData_5F44 @ $5F44 (105 bytes, format RLE: $E1 $XX $FE ...)
-;           - MapTileData_5FAD @ $5FAD (jusqu'à ~$60xx)
+;           - MapTileData_5FAD @ $5FAD (339 bytes, $5FAD-$60FF, RLE, ligne 5235)
 ;           Reconstruire ces zones en db avec labels appropriés
 MapTileData_5D8A:  ; $5D8A - pointe vers le byte $F1
     cp $f1
