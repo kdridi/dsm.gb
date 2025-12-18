@@ -9721,7 +9721,15 @@ AudioWaveformPattern_69F1:
 ; Note: Double usage - fait partie de AudioWaveformPattern_69F1 et pointeur autonome
 ChannelConfigData_Type1:
     db $00, $30, $F0, $B1, $C7  ; Séquence 2: note $B1 / Config Type1
-    db $00, $30, $F0, $BA, $C7  ; Séquence 3: note $BA
+
+; ChannelConfigData_Type2
+; -----------------------
+; Description: Configuration audio pour canal pulse wave type 2 (5 octets)
+; Format: Séquence 3 du pattern waveform ($00 $30 $F0 $BA $C7)
+; Usage: Pointeur chargé par ChannelType_02_PulseWave avant InitSquareChannel1
+; Note: Fait partie de AudioWaveformPattern_69F1, note $BA (si bémol / la dièse)
+ChannelConfigData_Type2:
+    db $00, $30, $F0, $BA, $C7  ; Séquence 3: note $BA / Config Type2
     db $00, $30, $F0, $C4, $C7  ; Séquence 4: note $C4
     db $00, $30, $F0, $D4, $C7  ; Séquence 5: note $D4
     db $00, $30, $F0, $CB, $C7  ; Séquence 6: note $CB
@@ -9756,7 +9764,7 @@ ChannelType_01_PulseWave:
     jr ChannelInitDispatcher
 
 ChannelType_02_PulseWave:
-    ld hl, $69fb
+    ld hl, ChannelConfigData_Type2
     jr ChannelInitDispatcher
 
 ChannelType_03_WaveMemory:
@@ -9780,7 +9788,7 @@ ChannelInitDispatcher:
 ; se chevauchent avec du code exécutable. Les adresses suivantes sont référencées:
 ;
 ; - $69F6: ChannelConfigData_Type1 ✓ FAIT (utilisé par ChannelType_01_PulseWave)
-; - $69FB: ChannelConfigData_Type2 TODO (utilisé par ChannelType_02_PulseWave)
+; - $69FB: ChannelConfigData_Type2 ✓ FAIT (utilisé par ChannelType_02_PulseWave)
 ; - $6A00: ChannelConfigData_Type3 TODO (utilisé par ChannelType_03_WaveMemory)
 ; - $6A05: ChannelConfigData_Type4 TODO (utilisé par ChannelType_04_Noise)
 ; - $6A0A: ChannelConfigData_Type5 TODO (utilisé par ChannelType_05_Master)
