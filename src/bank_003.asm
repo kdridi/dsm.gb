@@ -8968,6 +8968,14 @@ AudioChannel4StatusTable:
     dw $6A50, $6A9C, $6A69, $6A90
 AudioChannel4PointerTable:
     dw $6AA8, $6AA8, $6A75, $6AA8
+
+; AudioDataPointerTable
+; ---------------------
+; Description: Table de 19 pointeurs vers données audio/musique brutes
+; In:  Indexée par ProcessAudioRequest via IndexAudioTable (index maské avec AUDIO_POSITION_MASK)
+; Out: Pointeur HL vers les données audio/musique
+; Utilisation: Les pointeurs référencent des séquences musicales, effets sonores et patterns audio
+; Note: Fait partie du bloc de tables chevauchantes AudioChannel4StatusTable ($672C-$6761)
 AudioDataPointerTable:
     dw $7094, $709F, $70AA, $70B5, $70C0
     dw $70CB, $70D6, $70E1, $79C1, $79CC
