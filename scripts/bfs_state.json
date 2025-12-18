@@ -5641,6 +5641,30 @@
       "priority": 3
     },
     {
+      "address": "$6716",
+      "node_type": "table",
+      "description": "Table de pointeurs pour canal audio 1 (utilis\u00e9e par CheckAudioChannel1)",
+      "source": "$6AFD",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6734",
+      "node_type": "table",
+      "description": "Table de pointeurs pour canal audio 4 (utilis\u00e9e par CheckAudioChannel4)",
+      "source": "$6AFD",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$673C",
+      "node_type": "table",
+      "description": "Table de pointeurs pour ProcessAudioRequest",
+      "source": "$6AFD",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6762",
       "node_type": "code",
       "description": "ProcessAudioSnapshot - Traite le snapshot audio courant",
@@ -6321,26 +6345,58 @@
       "priority": 3
     },
     {
-      "address": "$6716",
-      "node_type": "table",
-      "description": "Table de pointeurs pour canal audio 1 (utilis\u00e9e par CheckAudioChannel1)",
-      "source": "$6AFD",
+      "address": "$68C3",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
       "bank": 3,
       "priority": 3
     },
     {
-      "address": "$6734",
-      "node_type": "table",
-      "description": "Table de pointeurs pour canal audio 4 (utilis\u00e9e par CheckAudioChannel4)",
-      "source": "$6AFD",
+      "address": "$68EF",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
       "bank": 3,
       "priority": 3
     },
     {
-      "address": "$673C",
-      "node_type": "table",
-      "description": "Table de pointeurs pour ProcessAudioRequest",
-      "source": "$6AFD",
+      "address": "$6916",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6942",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6980",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$69CB",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A0F",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
       "bank": 3,
       "priority": 3
     }
@@ -6432,6 +6488,7 @@
     "$498B",
     "$27CE",
     "$5074",
+    "$6716",
     "$3E9E",
     "$1343",
     "$67BF",
@@ -7101,6 +7158,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 3,
-  "total_explored": 754
+  "commits_since_push": 4,
+  "total_explored": 755
 }

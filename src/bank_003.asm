@@ -8941,98 +8941,38 @@ UnreachableCodeData_003_07:
     rst $38
     rst $38
     rst $38
-    xor [hl]
-    ld l, b
-    db $e3
-    ld l, b
-    ld [hl], $69
-    ld [hl], e
-    ld l, c
-    inc c
-    ld l, c
-    cp l
-    ld l, c
-    sbc [hl]
-    ld l, c
-    jp hl
 
+; AudioChannel1StatusTable
+; ------------------------
+; Description: Table de pointeurs de statut pour le canal audio 1
+; In:  Index via IndexAudioTable
+; Out: Pointeur vers routine de statut
+AudioChannel1StatusTable:
+    dw $68AE, $68E3, $6936, $6973, $690C
+    dw $69BD, $699E, $69E9, $687A, $686D, $6961
 
-    ld l, c
-    ld a, d
-    ld l, b
-    ld l, l
-    ld l, b
-    ld h, c
-    ld l, c
-    jp $ef68
+; AudioChannel1PointerTable
+; -------------------------
+; Description: Table de pointeurs pour le canal audio 1
+; In:  Index via IndexAudioTable
+; Out: Pointeur vers routine audio
+AudioChannel1PointerTable:
+    dw $68C3, $68EF, $6942, $6980, $6916
+    dw $69CB, $68EF, $6A0F, $68EF, $68EF, $6980
 
-
-    ld l, b
-    ld b, d
-    ld l, c
-    add b
-    ld l, c
-    ld d, $69
-    bit 5, c
-    rst $28
-    ld l, b
-    rrca
-    ld l, d
-    rst $28
-    ld l, b
-    rst $28
-    ld l, b
-    add b
-    ld l, c
-    ld d, b
-    ld l, d
-    sbc h
-    ld l, d
-    ld l, c
-    ld l, d
-    sub b
-    ld l, d
-    xor b
-    ld l, d
-    xor b
-    ld l, d
-    ld [hl], l
-    ld l, d
-    xor b
-    ld l, d
-    sub h
-    ld [hl], b
-    sbc a
-    ld [hl], b
-    xor d
-    ld [hl], b
-    or l
-    ld [hl], b
-    ret nz
-
-    ld [hl], b
-    bit 6, b
-    sub $70
-    pop hl
-    ld [hl], b
-    pop bc
-    ld a, c
-    call z, $d779
-    ld a, c
-    ldh [c], a
-    ld a, c
-    db $ed
-    ld a, c
-    ld hl, sp+$79
-    inc bc
-    ld a, d
-    ld c, $7a
-    ld c, a
-    ld a, [hl]
-    add hl, de
-    ld a, d
-    inc h
-    ld a, d
+; AudioChannel4StatusTable
+; ------------------------
+; Description: Table combinée canal 4 + données audio (accès via offsets $672C, $6734, $673C)
+; Contient 3 tables qui se chevauchent pour économiser l'espace
+AudioChannel4StatusTable:
+    dw $6A50, $6A9C, $6A69, $6A90
+AudioChannel4PointerTable:
+    dw $6AA8, $6AA8, $6A75, $6AA8
+AudioDataPointerTable:
+    dw $7094, $709F, $70AA, $70B5, $70C0
+    dw $70CB, $70D6, $70E1, $79C1, $79CC
+    dw $79D7, $79E2, $79ED, $79F8, $7A03
+    dw $7A0E, $7E4F, $7A19, $7A24
 
 ; ProcessAudioSnapshot
 ; --------------------
@@ -9968,7 +9908,7 @@ CheckAudioChannel1:
 
     ld hl, $df1f
     set 7, [hl]
-    ld hl, $6700
+    ld hl, AudioChannel1StatusTable
     call SetAudioStatus
     jp hl
 
@@ -9979,7 +9919,7 @@ CheckAudioChannel1:
     and a
     jr z, .audioChannelEnd
 
-    ld hl, $6716
+    ld hl, AudioChannel1PointerTable
     call IndexAudioTable
     jp hl
 
@@ -9996,7 +9936,7 @@ CheckAudioChannel4:
 
     ld hl, $df4f
     set 7, [hl]
-    ld hl, $672c
+    ld hl, AudioChannel4StatusTable
     call SetAudioStatus
     jp hl
 
@@ -10007,7 +9947,7 @@ CheckAudioChannel4:
     and a
     jr z, .audioChannel4End
 
-    ld hl, $6734
+    ld hl, AudioChannel4PointerTable
     call IndexAudioTable
     jp hl
 
@@ -10032,7 +9972,7 @@ ProcessAudioRequest:
     jr z, AudioClearChannels_Entry
 
     ld b, a
-    ld hl, $673c
+    ld hl, AudioDataPointerTable
     ld a, b
     and AUDIO_POSITION_MASK
     call IndexAudioTable
