@@ -7311,146 +7311,32 @@ TileData_6DDB:  ; $6DDB
     db $7F, $75, $78, $7F, $B1, $7F, $F1, $7F, $FE, $00, $72, $76, $79, $7F, $7F, $7F
     db $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $7F, $FE  ; $6EA5 - Dernier byte
 
-    db $02  ; $6EA6 - Début zone suivante (mal désassemblée)
-    ld sp, $c249
-    ccf
-    ld b, d
-    pop af
-    ld e, l
-    cp $02
-    ld [hl-], a
-    ld c, c
-    add c
-    ld b, [hl]
-    or c
-    dec a
-    pop af
-    ld e, l
-    cp $02
-    ld sp, $8149
-    ld b, a
-    or l
-    ld a, $40
-    ld [hl], b
-    ld [hl], d
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    add e
-    ld c, b
-    ccf
-    ld b, d
-    call nz, $7141
-    ld [hl], e
-    ld h, a
-    cp $02
-    ld sp, $8149
-    dec a
-    pop bc
-    ld c, d
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    add d
-    ld a, $45
-    or c
-    dec a
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld sp, $b249
-    ld a, $45
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld sp, $f149
-    ld e, l
-    cp $02
-    ld [hl-], a
-    ld c, c
-    pop af
-    ld e, l
-    cp $02
-    ld sp, wStackWRAM
-    ld l, b
-    pop af
-    ld e, l
-    cp $02
-    ld [hl-], a
-    ld c, c
-    pop bc
-    ld l, b
-    pop af
-    ld e, l
-    cp $02
-    ld sp, $c449
-    ld l, b
-    ld c, d
-    ld b, d
-    ld e, l
-    cp $02
-    ld [hl-], a
-    ld c, c
-    or d
-    ccf
-    ld b, d
-    pop af
-    ld e, l
-    cp $02
-    ld sp, $a149
-    dec a
-    pop af
-    ld e, l
-    cp $02
-    ld [hl-], a
-    ld c, c
-    and h
-    ld a, $45
-    ld b, e
-    ld c, d
-    pop af
-    ld e, l
-    cp $02
-    ld sp, $a149
-    ld l, b
-    pop bc
-    dec a
-    pop af
-    ld e, l
-    cp $02
-    ld [hl-], a
-    ld c, c
-    and c
-    ld l, b
-    jp nz, DataPadding_453e
+; ==============================================================================
+; Level3TileData4 - Tile pattern data zone 4 niveau 3 ($6EA6-$6F5F)
+; ==============================================================================
+; Description: Données de tiles pour la zone 4 du niveau 3
+; Format: Séquence de commandes tile : 02 XX YY ... FE
+;         - 02 : Marqueur de début de commande
+;         - XX YY ... : Données de pattern tile
+;         - FE : Terminateur de commande
+; Taille: $BA octets (186 bytes)
+; Référencé par: Level3MapData entrée #3 et #6-7 (ligne 3366)
+; ==============================================================================
+Level3TileData4:  ; $6EA6
+    db $02, $31, $49, $C2, $3F, $42, $F1, $5D, $FE, $02, $32, $49, $81, $46, $B1, $3D
+    db $F1, $5D, $FE, $02, $31, $49, $81, $47, $B5, $3E, $40, $70, $72, $67, $FE, $02
+    db $32, $49, $83, $48, $3F, $42, $C4, $41, $71, $73, $67, $FE, $02, $31, $49, $81
+    db $3D, $C1, $4A, $E2, $FD, $67, $FE, $02, $32, $49, $82, $3E, $45, $B1, $3D, $E2
+    db $FD, $67, $FE, $02, $31, $49, $B2, $3E, $45, $E2, $FD, $67, $FE, $02, $32, $49
+    db $E2, $FD, $67, $FE, $02, $31, $49, $F1, $5D, $FE, $02, $32, $49, $F1, $5D, $FE
+    db $02, $31, $49, $C1, $68, $F1, $5D, $FE, $02, $32, $49, $C1, $68, $F1, $5D, $FE
+    db $02, $31, $49, $C4, $68, $4A, $42, $5D, $FE, $02, $32, $49, $B2, $3F, $42, $F1
+    db $5D, $FE, $02, $31, $49, $A1, $3D, $F1, $5D, $FE, $02, $32, $49, $A4, $3E, $45
+    db $43, $4A, $F1, $5D, $FE, $02, $31, $49, $A1, $68, $C1, $3D, $F1, $5D, $FE, $02
+    db $32, $49, $A1, $68, $C2, $3E, $45, $F1, $5D, $FE, $02, $31, $49, $A1, $68, $F1
+    db $5D, $FE, $02, $32, $49, $A1, $68, $F1, $5D, $FE  ; $6F5F - Fin Level3TileData4
 
-    pop af
-    ld e, l
-    cp $02
-    ld sp, $a149
-    ld l, b
-    pop af
-    ld e, l
-    cp $02
-    ld [hl-], a
-    ld c, c
-    and c
-    ld l, b
-    pop af
-    ld e, l
-    cp $02
+    db $02  ; $6F60 - Début zone suivante (mal désassemblée)
     ld sp, $e249
     db $fd
     ld h, a
