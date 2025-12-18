@@ -10580,6 +10580,12 @@ CopyAudioDataWord:
     ret
 
 
+; CopyAudioDataPair
+; ------------------
+; Description: Copie une paire d'octets depuis [hl] vers [de], incrémente pointeurs
+; In:  hl = pointeur source, de = pointeur destination
+; Out: hl += 2, e += 2
+; Modifie: a
 CopyAudioDataPair:
     ld a, [hl+]
     ld [de], a
@@ -10589,6 +10595,13 @@ CopyAudioDataPair:
     ret
 
 
+; InitializeAudioChannelState
+; ----------------------------
+; Description: Initialise l'état des canaux audio avec données depuis [hl]
+;              Copie paramètres vers zones $DF00-$DF40, initialise contrôles
+; In:  hl = pointeur vers données d'initialisation (11 octets)
+; Out: hl pointe après les données lues
+; Modifie: a, b, de, hl, appelle ResetAudioChannelEnvelopes, CopyAudioDataPair, CopyAudioDataWord
 InitializeAudioChannelState:
     call ResetAudioChannelEnvelopes
     xor a
