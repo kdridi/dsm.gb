@@ -10164,78 +10164,24 @@ ConfigData_7555:
     ld d, l
     ld e, c
     cp $fe
-    cp $12
-    ld d, d
-    ld d, [hl]
-    cp $12
-    ld d, h
-    ld d, a
-    add d
-    add b
-    add d
-    pop af
-    ld d, d
-    cp $03
-    ld d, d
-    ld d, l
-    ld e, c
-    ld b, c
-    db $f4
-    pop af
-    ld d, h
-    cp $02
-    ld d, e
-    ld d, a
-    pop af
-    ld d, l
-    cp $02
-    ld d, h
-    ld e, b
-    ld b, c
-    db $f4
-    jp nz, DataZone_5652
-
-    cp $02
-    ld d, l
-    ld e, c
-    call nz, $5955
-    ld d, d
-    ld d, [hl]
-    cp $e2
-    ld d, e
-    ld d, a
-    cp $12
-    ld d, d
-    ld d, [hl]
-    ldh [c], a
-    ld d, h
-    ld e, b
-    cp $12
-    ld d, l
-    ld e, c
-    or c
-    db $f4
-    ldh [c], a
-    ld d, l
-    ld e, c
-    cp $32
-    add d
-    add b
-    cp $b1
-    db $f4
-    ldh [c], a
-    ld d, d
-    ld d, [hl]
-    cp $02
-    ld d, d
-    ld d, [hl]
-    ldh [c], a
-    ld d, e
-    ld d, a
-    cp $02
-    ld d, e
-    ld d, a
-    ldh [c], a
+; Level3EntityData05
+; -------------------
+; Description: Données d'entités pour le niveau 3 (type 05)
+; Taille: 88 bytes
+; Référencé par: Level3EntitiesData (7 occurrences)
+; Format: Séquence de commandes d'entités avec positions X/Y et flags
+Level3EntityData05:  ; $76D2
+    db $FE, $12, $52, $56, $FE, $12, $54, $57
+    db $82, $80, $82, $F1, $52, $FE, $03, $52
+    db $55, $59, $41, $F4, $F1, $54, $FE, $02
+    db $53, $57, $F1, $55, $FE, $02, $54, $58
+    db $41, $F4, $C2, $52, $56, $FE, $02, $55
+    db $59, $C4, $55, $59, $52, $56, $FE, $E2
+    db $53, $57, $FE, $12, $52, $56, $E2, $54
+    db $58, $FE, $12, $55, $59, $B1, $F4, $E2
+    db $55, $59, $FE, $32, $82, $80, $FE, $B1
+    db $F4, $E2, $52, $56, $FE, $02, $52, $56
+    db $E2, $53, $57, $FE, $02, $53, $57, $E2
     ld d, l
     ld d, d
     cp $03
