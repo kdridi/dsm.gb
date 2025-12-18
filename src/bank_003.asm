@@ -12090,11 +12090,17 @@ PaddingZone_003_7383:  ; Référencé par jr c (data)
     and e        ; $a3
     ld b, $a2    ; $06, $a2
     ld b, $06    ; $06, $06
-    and e        ; $a3
-    dec bc       ; $0b
-    and d        ; $a2
-    ld b, $06    ; $06, $06
-    nop          ; $00 (terminateur)
+; AudioPattern_739D
+; -----------------
+; Description: Pattern audio (séquence de commandes pour moteur audio)
+; In:  Référencé par AudioPattern_7294[$7294]
+; Out: Pointeur vers AnimationFrameData_73be à $73BE
+AudioPattern_739D:
+    and e        ; $739D: $A3 (commande audio)
+    dec bc       ; $739E: $0B (paramètre)
+    and d        ; $739F: $A2 (commande)
+    ld b, $06    ; $73A0-73A1: $06 $06 (paramètres)
+    nop          ; $73A2: $00 (terminateur)
 
     cp [hl]      ; [$73a3] $be = pointeur table (little-endian)
     ld [hl], e   ; $73 → dw $73be (AnimationFrameData_73be)
