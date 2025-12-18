@@ -9815,7 +9815,7 @@ ChannelType_02_PulseWave:
 
 ; ChannelType_03_WaveMemory
 ; --------------------------
-; Description: Configure canal audio type 3 (Wave Memory) - Séquence 3 note $D4
+; Description: Configure canal audio type 3 (Wave Memory) - Séquence 4 note $C4
 ; In:  Aucun
 ; Out: Saute vers InitSquareChannel1 avec hl = ChannelConfigData_Type3
 ; Modifie: hl
