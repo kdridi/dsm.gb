@@ -5849,6 +5849,14 @@
       "priority": 3
     },
     {
+      "address": "$69AF",
+      "node_type": "data",
+      "description": "Table de s\u00e9quence audio (bytes) pour configuration NR12",
+      "source": "$69CB",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$69CB",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -6671,14 +6679,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$69AF",
-      "node_type": "data",
-      "description": "Table de s\u00e9quence audio (bytes) pour configuration NR12",
-      "source": "$69CB",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6944,6 +6944,7 @@
     "$2D7B",
     "$35A1",
     "$2492",
+    "$69AF",
     "$1612",
     "$05F8",
     "$5F44",
@@ -7453,6 +7454,6 @@
     "$6942",
     "$1CDB"
   ],
-  "commits_since_push": 4,
-  "total_explored": 770
+  "commits_since_push": 0,
+  "total_explored": 771
 }
