@@ -11460,10 +11460,10 @@ PaddingZone_003_709b:  ; Label fantôme au milieu du dernier pointeur (pour comp
 ; In:  Accédée via AudioDataPointerTable[1] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (4 patterns audio)
 ; Utilisation: Séquence de 4 patterns audio pour musique/effets sonores
-; Références sortantes: AudioSequencePattern_7077, $73A3, $73A7, $73A9
+; Références sortantes: AudioSequencePattern_7077, AudioSequencePattern_73A3, $73A7, $73A9
 AudioMusicSequence_709F:
     db $00                     ; Index de séquence
-    dw AudioSequencePattern_7077, $73A3, $73A7, $73A9
+    dw AudioSequencePattern_7077, AudioSequencePattern_73A3, $73A7, $73A9
     dw $0000                   ; Terminateur
 
 ; AudioMusicSequence_70AA
@@ -12102,10 +12102,16 @@ AudioPattern_739D:
     ld b, $06    ; $73A0-73A1: $06 $06 (paramètres)
     nop          ; $73A2: $00 (terminateur)
 
-    cp [hl]      ; [$73a3] $be = pointeur table (little-endian)
-    ld [hl], e   ; $73 → dw $73be (AnimationFrameData_73be)
-    nop          ; $00
-    nop          ; $00 → dw $0000 (NULL, fin table)
+; AudioSequencePattern_73A3
+; --------------------------
+; Description: Pattern audio #2 - Table de pointeurs (2 entrées) pour séquence musicale index 1
+; Format: [dw ptr1] [dw terminateur]
+; In:  Référencé par AudioMusicSequence_709F[1] via pointeur $73A3
+; Out: Pointeur vers AnimationFrameData_73be ($73BE) suivi de terminateur NULL
+; Modifie: Utilisé par le moteur audio pour accéder aux données de pattern
+AudioSequencePattern_73A3:
+    dw $73BE                     ; $73A3-73A4: Pointeur vers AnimationFrameData_73be à $73BE
+    dw $0000                     ; $73A5-73A6: Terminateur NULL
 ; AnimationFrameData_73ab
 ; -----------------------
 ; Description: Données d'animation (séquences de tile IDs + drapeaux de contrôle)
