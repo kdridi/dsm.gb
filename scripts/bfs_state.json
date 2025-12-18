@@ -6615,6 +6615,46 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$6925",
+      "node_type": "code",
+      "description": "SetupAudioConfiguration - Configure audio si compteur = $04",
+      "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6AD8",
+      "node_type": "code",
+      "description": "ConfigureAudioSe - Configure effets sonores (via SetupAudioConfiguration)",
+      "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6AB9",
+      "node_type": "code",
+      "description": "DispatchAudioCommand - Dispatche commandes audio (via AudioChannel1Routine_690C)",
+      "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6890",
+      "node_type": "code",
+      "description": "SkipIfGameState04 - Test conditionnel GameState (via AudioChannel1Routine_690C)",
+      "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6902",
+      "node_type": "data",
+      "description": "AudioData_003_6902 - Table de donn\u00e9es audio (10 octets)",
+      "source": "$6916",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7187,6 +7227,7 @@
     "$07C3",
     "$4CE5",
     "$50D6",
+    "$6916",
     "$2a1a",
     "$4E02",
     "$2d7b",
@@ -7380,6 +7421,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 0,
-  "total_explored": 761
+  "commits_since_push": 1,
+  "total_explored": 762
 }

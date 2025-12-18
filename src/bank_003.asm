@@ -9384,23 +9384,25 @@ ClearPulseRegisters:
     res 7, [hl]             ; Reset bit 7 du flag d'état audio
     ret
 
+; Données audio - Séquence audio pour canal 1 (utilisée par routines $690C et $6925)
+AudioData_003_6902:
+    db $00, $80, $e2, $06, $87, $00, $80, $e2, $83, $87
 
-    nop
-    add b
-    ldh [c], a
-    ld b, $87
-    nop
-    add b
-    ldh [c], a
-    add e
-    add a
+; Routine auxiliaire - déclenche commande audio $6902 si GameState != 4
+AudioChannel1Routine_690C:
     call SkipIfGameState04
     ret z
 
-    ld hl, $6902
+    ld hl, AudioData_003_6902
     jp DispatchAudioCommand
 
-
+; AudioChannel1Routine_6916
+; --------------------------
+; Description: Routine audio canal 1 - Incrémente compteur graphique et déclenche actions selon seuils
+; In:  wStateGraphics = compteur d'état graphique
+; Out: (none - side effects: peut appeler SetupAudioConfiguration ou ResetPulseChannel)
+; Modifie: af, hl
+AudioChannel1Routine_6916:
     ld hl, wStateGraphics
     inc [hl]
     ld a, [hl]
@@ -9412,9 +9414,8 @@ ClearPulseRegisters:
 
     ret
 
-
 SetupAudioConfiguration:
-    ld hl, $6907
+    ld hl, AudioData_003_6902 + 5  ; Offset +5 dans les données audio
     call ConfigureAudioSe
     ret
 
