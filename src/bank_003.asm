@@ -9803,11 +9803,18 @@ ConfigureAudioBgm:
     ld b, $04                   ; 4 octets à transférer
     jr AudioRegisterTransferLoop
 
+; ConfigureAudioWave
+; ------------------
+; Description: Configure le canal audio 3 (wave) pour la musique
+;              Transfère 5 octets depuis HL vers les registres NR30-NR34
+; In:  hl = pointeur vers données audio (5 octets: enable, length, volume, freq low, freq high)
+; Out: Registres audio NR30-NR34 ($FF1A-$FF1E) configurés
+; Modifie: a, bc, hl
 ConfigureAudioWave:
 ConfigureAudioWave_Entry:
     push bc
-    ld c, $1a
-    ld b, $05
+    ld c, LOW(rNR30)            ; c = NR30 ($FF1A) - Canal 3 Enable
+    ld b, $05                   ; 5 octets à transférer
     jr AudioRegisterTransferLoop
 
 AudioData_003_6aed:
