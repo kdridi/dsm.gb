@@ -12713,137 +12713,58 @@ PaddingZone_003_766e:
     ld [hl], $30
     inc l
     and l
-    jr nc, MusicSequence_Marker_4
+    db $30, $01                  ; Données audio (pas un vrai jump)
 
 MusicSequence_Marker_3:
     nop
 
-MusicSequence_Marker_4:
-    sbc l
-    ld [hl], b
-    nop
-    add c
-    xor b
-    ld c, [hl]
-    and e
-    ld d, d
-    and h
-    ld e, b
-    ld d, d
-    and h
-    ld c, [hl]
-    and e
-    ld d, d
-    ld c, [hl]
-    and h
-    ld c, b
-    and e
-    ld b, h
-    ld b, b
-    xor b
-    ld c, [hl]
-    and e
-
-MusicSequenceData_768f:
-    ld d, d
-    and h
-    ld e, b
-    and e
-    ld d, d
-    ld c, [hl]
-    and l
-    ld d, d
-
-MusicSequence_Marker_5:
-    ld bc, $4ea8
-    and e
-    ld d, d
-    and h
-    ld e, b
-    ld d, d
-    and h
-    ld c, [hl]
-    and e
-    ld d, d
-    ld c, [hl]
-    and h
-    ld c, b
-    and e
-    ld b, h
-    ld b, b
-    xor b
-    ld b, h
-    and e
-    ld c, b
-    ld b, h
-    ld b, b
-    ld a, [hl-]
-    ld [hl], $a5
-    ld a, [hl-]
-    ld bc, $a300
-    jr z, MusicSequenceData_765a
-
-    ld b, b
-    ld [hl], $a3
-    jr z, MusicSequenceData_76fd
-
-    and e
-    jr z, MusicSequence_Marker_2
-
-    ld b, b
-    ld [hl], $a3
-    jr z, MusicSequenceData_7705
-
-    and e
-    ld a, [de]
-    and d
-    ld [hl-], a
-    jr z, PaddingZone_003_766e
-
-    ld a, [de]
-    ld [hl-], a
-    and e
-    ld a, [de]
-    and d
-    ld [hl-], a
-    jr z, MusicSequence_Marker_3
-
-    ld a, [de]
-    ld [hl-], a
-    nop
-    and e
-    ld e, $a2
-    ld [hl], $2c
-    and e
-    ld e, $36
-    and e
-    ld e, $a2
-    ld [hl], $2c
-    and e
-    ld e, $36
-    and e
-    ld [hl+], a
-    and d
-    ld a, [hl-]
-    jr nc, MusicSequenceData_768f
-
-    ld [hl+], a
-    ld a, [hl-]
-    and e
-    ld [hl+], a
-    and d
-    ld a, [hl-]
-    jr nc, MusicSequence_Marker_5
-
-    ld [hl+], a
-    ld a, [hl-]
-    nop
-    xor b
-    ld e, h
-    and e
-    ld h, b
-    and h
-    ld h, [hl]
+; AudioSubPattern_7677
+; --------------------
+; Description: Sous-pattern audio (table groupe #1, référencé 2× par AudioSequencePattern_75CA)
+; Format: Commandes audio $9D/$A8/$A3/$A4/$A5 avec notes variées + terminateur $00
+; In:  Référencé 2× par AudioSequencePattern_75CA[2-3] via pointeur $7677
+; Out: Consommé par le moteur audio pour séquencer les notes
+; Modifie: Registres audio via commandes du moteur
+; Note: Contient deux sous-points d'entrée alternatifs à $768F et $7697
+AudioSubPattern_7677:       ; [$7677]
+    db $9d, $70, $00, $81        ; Commande $9D + params $70/$00/$81
+    db $a8, $4e, $a3, $52        ; Commande $A8 + notes N/R
+    db $a4, $58, $52, $a4        ; Notes X/R + commande $A4
+    db $4e, $a3, $52, $4e        ; Séquence N/R/N
+    db $a4, $48, $a3, $44        ; Commandes + notes H/D
+    db $40, $a8, $4e, $a3        ; Params + commande $A8
+AudioSubPattern_768F:       ; [$768F] - Point d'entrée alternatif (offset +24)
+    db $52, $a4, $58, $a3        ; Notes R/X
+    db $52, $4e, $a5, $52        ; Séquence R/N
+AudioSubPattern_7697:       ; [$7697] - Point d'entrée alternatif (offset +32)
+    db $01, $a8, $4e, $a3        ; Param + séquence
+    db $52, $a4, $58, $52        ; Notes R/X/R
+    db $a4, $4e, $a3, $52        ; Commandes + notes
+    db $4e, $a4, $48, $a3        ; Séquence N/H
+    db $44, $40, $a8, $44        ; Notes D/@ + commande
+    db $a3, $48, $44, $40        ; Séquence finale
+    db $3a, $36, $a5, $3a        ; Notes :/6/:
+    db $01, $00                  ; Terminateur
+; Données audio mal désassemblées - patterns $76B5-$76FC
+; NOTE: Ces zones seront correctement labellisées dans de futures itérations BFS
+    db $a3, $28, $a2, $40
+    db $36, $a3, $28, $40
+    db $a3, $28, $a2, $40
+    db $36, $a3, $28, $40
+    db $a3, $1a, $a2, $32
+    db $28, $a3, $1a, $32
+    db $a3, $1a, $a2, $32
+    db $28, $a3, $1a, $32
+    db $00, $a3, $1e, $a2        ; [$76D5] Pattern suivant
+    db $36, $2c, $a3, $1e
+    db $36, $a3, $1e, $a2
+    db $36, $2c, $a3, $1e
+    db $36, $a3, $22, $a2
+    db $3a, $30, $a3, $22
+    db $3a, $a3, $22, $a2
+    db $3a, $30, $a3, $22
+    db $3a, $00, $a8, $5c        ; [$76F5] Pattern suivant
+    db $a3, $60, $a4, $66
 
 MusicSequenceData_76fd:
     and e
