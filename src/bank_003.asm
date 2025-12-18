@@ -12187,11 +12187,11 @@ AudioSequencePattern_73E5:       ; [$73E5]
 ; Out: Séquence commençant par $FF $73, suivi de commandes audio
 ; Modifie: Consommé par le moteur audio
 ; Note: AudioSequencePattern_73EB pointe 2 bytes après (label partagé mid-pattern)
-; Références sortantes: $7411
+; Références sortantes: AudioSequencePattern_7411
 AudioSequencePattern_73E9:       ; [$73E9]
     db $ff, $73                  ; 2 bytes initiaux (marqueur? ou dw $73FF inversé)
 AudioSequencePattern_73EB:       ; [$73EB] Label partagé (mid-pattern, comme PaddingZone)
-    dw $7411                     ; Pointeur little-endian vers $7411
+    dw AudioSequencePattern_7411 ; Pointeur vers pattern audio complexe
 AudioSequencePattern_73ED:       ; [$73ED] Sous-pattern pointé par _73E5
     db $9d, $60, $00, $80        ; Commande $9D $60 (tempo/volume)
     db $a8, $52, $a2, $52        ; Commandes $A8, $A2 + note R
@@ -12202,6 +12202,17 @@ AudioSequencePattern_73ED:       ; [$73ED] Sous-pattern pointé par _73E5
     db $a2, $4a, $01, $4a        ; Commande $A2 + répétitions J
     db $01, $4a, $01, $a8        ; Répétitions + commande $A8
     db $4e, $50, $52, $00        ; Notes N,P,R + terminateur
+
+; AudioSequencePattern_7411
+; -------------------------
+; Description: Pattern audio complexe avec commandes et table de pointeurs
+; Format: Commandes audio ($9D, $A8, $A2...) suivies d'une table de pointeurs
+; In:  Référencé par AudioSequencePattern_73EB comme pointeur target
+; Out: Séquence de commandes audio et table de pointeurs vers sous-patterns
+; Modifie: Consommé par le moteur audio
+; Note: Contient table de pointeurs vers $745F, $7491, $7518, etc.
+; Références sortantes: $745F, $7491, $7518, $7425, $744F, $74B9, $7548, $7431, $746F, $74EF, $7578, $743D, $7485, $75A3, $7449
+AudioSequencePattern_7411:       ; [$7411]
     db $9d, $17, $70, $21        ; Commande $9D $17 + params
     db $a8, $70, $a2, $70        ; Commande $A8 + note P, $A2 + P
     db $01, $70, $01, $70        ; Répétitions P
