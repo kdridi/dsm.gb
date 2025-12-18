@@ -12223,7 +12223,7 @@ AudioSubPattern_DualTempo:       ; [$73ED] Sous-pattern pointé par _73E5
 ; In:  Référencé par AudioSequencePattern_73EB (dw $7411)
 ; Out: Exécuté par le moteur audio, branches vers 15 sous-patterns
 ; Modifie: Registres audio via commandes du moteur
-; Références sortantes: AudioSubPattern_745F, _7491, _7518, AudioSubPattern_7425, _744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
+; Références sortantes: AudioSubPattern_745F, _7491, _7518, AudioSubPattern_7425, AudioSubPattern_744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
 AudioSequencePattern_7411:       ; [$7411]
     ; Prélude: Séquence d'initialisation avec commandes et notes
     db $9d, $17, $70, $21        ; Commande $9D $17: tempo/volume + params $70 $21
@@ -12288,7 +12288,14 @@ AudioSubPattern_7447:
 ; Note: Point d'entrée alternatif dans AudioSubPattern_7447 (+2 bytes)
 AudioSubPattern_7449:
     db $69, $7f, $69, $7f        ; Suite séquence alternée i/DEL
-    db $69, $7f, $69, $e2        ; Fin séquence i/DEL + commande $E2
+    db $69, $7f                  ; Continuation séquence i/DEL
+; AudioSubPattern_744F
+; --------------------
+; Description: Sous-pattern audio (groupe #2) - point d'entrée alternatif avec terminateur
+; In:  Référencé par AudioSequencePattern_7411 (pointeur dans table des 15 sous-patterns)
+; Note: Point d'entrée alternatif dans AudioSubPattern_7449 (+6 bytes), démarre à la fin de séquence i/DEL
+AudioSubPattern_744F:
+    db $69, $e2                  ; Fin séquence i/DEL + commande $E2
     db $fd, $69, $fe, $0b        ; $FD $69 puis $FE $0B: changement mode
     db $32, $69, $6a, $69        ; Param $32 + séquence i-j-i
     db $6a, $69, $6a, $69        ; Suite séquence alternée i/j (x4)
