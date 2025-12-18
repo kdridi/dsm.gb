@@ -10566,6 +10566,14 @@ AudioEnvelopeTable:
     db $01, $18, $ed, $e7    ; Entrée 18
     db $01, $00, $de, $00    ; Entrée 19
 
+; CopyAudioDataWord
+; ------------------
+; Description: Copie un mot (2 octets) via indirection de pointeur
+;              Lit un pointeur à [hl], puis copie 2 octets depuis ce pointeur vers [de]
+; In:  hl = adresse d'un pointeur (2 octets) vers source
+;      de = pointeur destination
+; Out: e += 2 (destination avancée de 2)
+; Modifie: a, bc (pointeur source temporaire)
 CopyAudioDataWord:
     ld a, [hl+]
     ld c, a
