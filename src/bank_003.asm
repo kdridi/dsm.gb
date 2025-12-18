@@ -12187,7 +12187,7 @@ AudioSequencePattern_73E5:       ; [$73E5]
 ; Out: Séquence commençant par $FF $73, suivi de commandes audio
 ; Modifie: Consommé par le moteur audio
 ; Note: AudioSequencePattern_73EB pointe 2 bytes après (label partagé mid-pattern)
-; Références sortantes: $7311, $73ED
+; Références sortantes: $7411
 AudioSequencePattern_73E9:       ; [$73E9]
     db $ff, $73                  ; 2 bytes initiaux (marqueur? ou dw $73FF inversé)
 AudioSequencePattern_73EB:       ; [$73EB] Label partagé (mid-pattern, comme PaddingZone)

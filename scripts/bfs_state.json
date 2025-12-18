@@ -6865,6 +6865,14 @@
       "priority": 3
     },
     {
+      "address": "$73ED",
+      "node_type": "data",
+      "description": "Sous-pattern audio point\u00e9 par _73E5 (commandes $9D, $A8, $A2)",
+      "source": "$73E5",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$73ab",
       "node_type": "data",
       "description": "Animation frame data",
@@ -7759,14 +7767,6 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
-    },
-    {
-      "address": "$73ED",
-      "node_type": "data",
-      "description": "Sous-pattern audio point\u00e9 par _73E5 (commandes $9D, $A8, $A2)",
-      "source": "$73E5",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -8544,6 +8544,7 @@
     "$2BB2",
     "$6868",
     "$76D2",
+    "$73E9",
     "$242D",
     "$6DDB",
     "$6A46",
@@ -8644,6 +8645,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 873
+  "commits_since_push": 3,
+  "total_explored": 874
 }
