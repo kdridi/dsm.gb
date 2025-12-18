@@ -11474,17 +11474,19 @@ AudioMusicSequence_709F:
 ; Note: Format atypique - pas de pointeurs ni de terminateur $0000
 AudioMusicSequence_70AA:
     db $00, $62, $70, $E9, $72, $F5, $72, $01, $73, $15, $73
-    nop
-    ld [hl], a
-    ld [hl], b
-    add d
-    ld [hl], d
-    adc b
-    ld [hl], d
-    nop
-    nop
-    adc [hl]
-    ld [hl], d
+
+; AudioMusicSequence_70B5
+; ------------------------
+; Description: Séquence musicale #3 - Liste de pointeurs vers patterns/notes audio
+; Format: [index_byte] [dw ptr1, dw ptr2, dw ptr3, terminateur, dw ptr4]
+; In:  Accédée via AudioDataPointerTable[3] par ProcessAudioRequest
+; Out: Pointeurs vers données audio
+; Utilisation: Séquence de patterns audio pour musique/effets sonores
+; Note: Format particulier avec terminateur $0000 avant le dernier pointeur
+; Références sortantes: $7077 (AudioSequencePattern_7077), $7282, $7288, $728E
+AudioMusicSequence_70B5:
+    db $00                     ; Index de séquence
+    dw $7077, $7282, $7288, $0000, $728E
     nop
     ld d, a
     ld [hl], b
