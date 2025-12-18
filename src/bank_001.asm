@@ -3466,15 +3466,20 @@ Level3EntitiesData:  ; $5694
     db $FF  ; Terminateur
 
 ; ==============================================================================
-; ZONE MAL DÉSASSEMBLÉE: $56CB-$5A5F (Données compressées + pointeurs états)
+; ZONE MAL DÉSASSEMBLÉE: $56CB-$7FFF (Données compressées, tiles, entités)
 ; ==============================================================================
-; ATTENTION: Les instructions ci-dessous sont en réalité des DONNÉES compressées
+; ATTENTION: Les instructions ci-dessous sont en réalité des DONNÉES
 ; mal interprétées comme du code par le désassembleur.
 ;
 ; Structure réelle:
 ;   $56CB-$56CC: Padding (2 bytes: $00 $00)
 ;   $56CD-$5749: CompressedTilesetData (125 bytes de données compressées)
 ;   $574A-$5A5F: Continuation données compressées/tiles
+;   ...
+;   $764F-$76D1: Level3EntityData04 (131 bytes, données d'entités) ← ANALYSÉ
+;   $76D2-$775F: Level3EntityData05 (88 bytes, données d'entités)
+;   $775A-$77BC: Level3EntityData06 (99 bytes, données d'entités)
+;   ...
 ;
 ; Pointeurs d'états dans cette zone (bank_000.asm StateJumpTable):
 ;   Ces adresses sont utilisées comme pointeurs dans StateJumpTable mais pointent
@@ -3489,10 +3494,23 @@ Level3EntitiesData:  ; $5694
 ;   $583E: État $19 - State19_CompressedDataPtr (offset +371 depuis $56CB)
 ;   $5841: État $1A - State1A_CompressedDataPtr (offset +374 depuis $56CB)
 ;
+; Pointeurs d'entités Level3 (Level3EntitiesData ligne 3462-3465):
+;   $764F: Level3EntityData04 (131 bytes) - 10 occurrences ← ANALYSÉ
+;   $76D2: Level3EntityData05 (88 bytes) - 7 occurrences
+;   $775A: Level3EntityData06 (99 bytes) - 2 occurrences
+;   $77BD: Level3EntityData07 - 1 occurrence
+;   $79E9: Level3EntityData08 - 2 occurrences
+;   $791A: Level3EntityData09 - 2 occurrences
+;   $7AB2: Level3EntityData10 - 1 occurrence
+;   $7B5F: Level3EntityData11 - 1 occurrence
+;   $7C0E: Level3EntityData12 - 1 occurrence
+;   $7D01: Level3EntityData13 - 1 occurrence
+;
 ; Référencé par:
 ;   - SharedTilesetData_024 (ligne 3381) - niveaux 0, 1, 2
 ;   - SharedMapData_012 (ligne 3396) - niveaux 0, 1, 2
 ;   - SharedEntitiesData_012 (ligne 3411) - niveaux 0, 1, 2
+;   - Level3EntitiesData (ligne 3461) - entités niveau 3
 ;   - StateJumpTable (bank_000.asm:688-694) - états $14-$15, $17-$1A
 ;
 ; Format compression: Stream de commandes + données
@@ -3500,8 +3518,15 @@ Level3EntitiesData:  ; $5694
 ;   - $E2 XX: Commande avec argument
 ;   - Autres: Données brutes ou arguments
 ;
+; Format entités Level3 ($764F+):
+;   Pattern: [count/type] [X] [Y] [flags] [X] [test_value] ...
+;   - Valeurs X/Y: $52-$59 (positions 82-89)
+;   - Flags: $F1 (pop af), $D2-$D3, $E2 (ldh [c],a), $C2 (jp nz), etc.
+;   - Tests: $FE (cp), $31 (ld sp)
+;   - Fin: $FE $FE (double cp, marqueur de fin)
+;
 ; TODO BFS: Reconstruire cette zone avec des 'db' statements corrects pour pouvoir
-;           placer les labels State14-State1A aux adresses exactes
+;           placer les labels aux adresses exactes
 ; ==============================================================================
 TilesetData_Padding:  ; $56CB
     nop
