@@ -11742,6 +11742,15 @@ AnimationFrameData_73be:  ; [$73be] Animation sequence (226 bytes of tile comman
     ld [hl], b
     and b
     and d
+
+; AnimationFrameData_7471
+; -----------------------
+; Description: Fragment de données d'animation (commandes tiles + attributs) - nœud BFS
+; Format: Séquence de bytes $9D (marqueur), $A0-$A9 (commandes), tile IDs, paramètres
+; In: Pointé depuis table d'animation en bank 1 ($4C37)
+; Out: Consommé par le moteur de rendu sprite
+; Note: Partie de la grande structure AnimationFrameData_73be ($73BE-$74A0, 226 bytes)
+AnimationFrameData_7471:  ; [$7471] Frame animation command sequence
     ld d, d
     ld d, h
     ld bc, $0158
