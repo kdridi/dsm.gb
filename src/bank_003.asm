@@ -12638,17 +12638,17 @@ AudioPatternData_7624:       ; [$7624]
 
 ; AudioPatternData_7628
 ; --------------------
-; Description: Sous-pattern audio (séquence avec commandes $9D/$A8/$A3/$A4 et notes D/H/N)
-; Format: Commandes audio $9D/$A8/$A3/$A4 avec notes musicales
+; Description: Sous-pattern audio (séquence avec commandes $FE et notes musicales répétées)
+; Format: Commande $7F + séquences $FE avec paramètres + notes répétées $69
 ; In:  Référencé par AudioSequencePattern_75BC[1] et 75BE[0] via pointeur $7628
 ; Out: Consommé par le moteur audio
 ; Modifie: Registres audio via commandes du moteur
 ; Références sortantes: (aucune - données pures)
 AudioPatternData_7628:       ; [$7628]
-    db $9d, $82, $00, $00        ; Commande $9D + params $82/$00/$00
-    db $a8, $44, $a3, $48        ; Commande $A8 + note D + commande $A3 + note H
-    db $a4, $4e, $48, $a4        ; Commande $A4 + notes N/H + commande $A4
-    db $44, $a3, $48, $44        ; Notes D + commande $A3 + notes H/D
+    db $7f, $fe, $02, $31        ; Commande $7F + commande $FE + params $02/$31
+    db $6a, $fe, $0b, $32        ; Note J + commande $FE $0B + param $32
+    db $69, $69, $69, $69        ; Notes I répétées (4×)
+    db $69, $69, $69, $69        ; Notes I répétées (4×)
 
 MusicSequence_Marker_1:
     and h
