@@ -11400,9 +11400,17 @@ HandleAudioConditionalLogic:  ; Alias pour compatibilité
     add l
     ld b, d
     db $11, $00  ; Partie de "ld de, $0100" (2 premiers octets)
-WaveAudioPattern:  ; $7047 - Pattern wave RAM (16 octets) chargé dans $FF30-$FF3F
-    db $01, $23, $45, $67, $89, $ab, $cc, $cd  ; Première moitié du waveform
-    db $00, $0c, $b0, $bb, $00, $fb, $bb, $bb  ; Seconde moitié du waveform
+; WaveAudioPattern
+; ----------------
+; Description: Pattern de waveform personnalisé chargé dans la Wave RAM ($FF30-$FF3F)
+;              pour le canal audio 3. Définit la forme d'onde custom en 16 octets.
+;              Chaque octet encode 2 samples 4-bit (high nibble = sample 1, low nibble = sample 2)
+; Utilisé par: LoadAudioRegisterRange (ligne 9180)
+; In:  -
+; Out: -
+WaveAudioPattern:  ; $7047
+    db $01, $23, $45, $67, $89, $ab, $cc, $cd  ; Samples 0-15 du waveform
+    db $00, $0c, $b0, $bb, $00, $fb, $bb, $bb  ; Samples 16-31 du waveform
     ; Fin du pattern wave à $7057 - reprise du code mal désassemblé
     nop
     inc bc
