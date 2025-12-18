@@ -5785,10 +5785,26 @@
       "priority": 3
     },
     {
+      "address": "$6886",
+      "node_type": "data",
+      "description": "AudioConfigData_6886 - S\u00e9quence de patterns waveform audio",
+      "source": "$68AE",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6890",
       "node_type": "code",
       "description": "SkipIfGameState04 - Test conditionnel GameState (via AudioChannel1Routine_690C)",
       "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6895",
+      "node_type": "code",
+      "description": "SkipIfGameState03 - V\u00e9rifie si game state = $03",
+      "source": "$68AE",
       "bank": 3,
       "priority": 3
     },
@@ -6761,6 +6777,14 @@
       "priority": 3
     },
     {
+      "address": "$DFE4",
+      "node_type": "data",
+      "description": "wStateGraphics - Variable WRAM pour \u00e9tat graphique",
+      "source": "$68AE",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$DFE8",
       "node_type": "data",
       "description": "Valeur d'initialisation animation",
@@ -6909,30 +6933,6 @@
       "node_type": "data",
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$6895",
-      "node_type": "code",
-      "description": "SkipIfGameState03 - V\u00e9rifie si game state = $03",
-      "source": "$68AE",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6886",
-      "node_type": "data",
-      "description": "AudioConfigData_6886 - S\u00e9quence de patterns waveform audio",
-      "source": "$68AE",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$DFE4",
-      "node_type": "data",
-      "description": "wStateGraphics - Variable WRAM pour \u00e9tat graphique",
-      "source": "$68AE",
       "bank": 0,
       "priority": 3
     }
@@ -7423,6 +7423,7 @@
     "$217F",
     "$6564",
     "$04A2",
+    "$6886",
     "$3F24",
     "$0EB2",
     "$4AE4",
@@ -7730,6 +7731,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 791
+  "commits_since_push": 1,
+  "total_explored": 792
 }
