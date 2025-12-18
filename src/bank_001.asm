@@ -7361,8 +7361,34 @@ Level3TileData5:  ; $6F60
     db $FD, $67, $FE, $02, $32, $49, $81, $67, $C4, $3E, $40, $67, $67, $FE, $02, $31
     db $49, $51, $46, $81, $67, $B5, $3F, $42, $41, $67, $67, $FE, $02, $32, $49, $51
     db $47, $A1, $3D, $E2, $FD, $67, $FE, $02, $31, $49, $51, $48, $A2, $3E, $45, $F1
-    db $5D, $FE, $02, $32, $49, $F1, $5D, $FE, $02, $31, $67, $A6, $FD, $67, $FE  ; $703D - Fin Level3TileData5
+    db $5D, $FE, $02, $32, $49, $F1, $5D, $FE  ; Continuation Level3TileData5
 
+; ==============================================================================
+; Level3TileData8 - Point d'entrée alternatif dans Level3TileData5 ($7038-$703D)
+; ==============================================================================
+; Description: Point d'entrée à l'offset 0xD8 (216 octets) dans Level3TileData5
+; Format: Commandes tile compressées (identique au format Level3TileData5)
+; Taille: 6 octets (fait partie de Level3TileData5)
+; Référencé par: Level3MapData entrées #8, #9 (ligne 3367)
+; Note: Permet de réutiliser une portion des données Level3TileData5
+; ==============================================================================
+Level3TileData8:  ; $7038 - Point d'entrée alternatif dans Level3TileData5
+    db $02, $31, $67, $A6, $FD, $67, $FE  ; $703D - Fin Level3TileData5
+
+; ==============================================================================
+; ZONE MAL DÉSASSEMBLÉE: $703E-$7122 (229 octets de tile data compressées)
+; ==============================================================================
+; ATTENTION: Les instructions ci-dessous sont en réalité des DONNÉES tile
+; compressées mal interprétées comme du code.
+; TODO BFS: Reconstruire avec des 'db' statements
+; Prochains points d'entrée référencés par Level3MapData:
+;   $7123 (Level3TileData11) - entrées #11, #12, #18
+;   $71FC (Level3TileData14) - entrées #13, #15
+;   $72BC (Level3TileData16) - entrées #14, #16
+;   $7379 (Level3TileData17) - entrées #17, #19
+;   $7442 (Level3TileData20) - entrée #20
+;   $757C (Level3TileData27) - entrée #21
+; ==============================================================================
     db $08
     ld [hl-], a
     ld h, a
