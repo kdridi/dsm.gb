@@ -3477,8 +3477,8 @@ Level3EntitiesData:  ; $5694
 ;   $574A-$5A5F: Continuation données compressées/tiles
 ;   ...
 ;   $764F-$76D1: Level3EntityData04 (131 bytes, données d'entités) ← ANALYSÉ
-;   $76D2-$775F: Level3EntityData05 (88 bytes, données d'entités)
-;   $775A-$77BC: Level3EntityData06 (99 bytes, données d'entités)
+;   $76D2-$7759: Level3EntityData05 (136 bytes, données d'entités) ← ANALYSÉ
+;   $775A-$77BB: Level3EntityData06 (98 bytes, données d'entités) ← ANALYSÉ
 ;   ...
 ;
 ; Pointeurs d'états dans cette zone (bank_000.asm StateJumpTable):
@@ -3496,8 +3496,8 @@ Level3EntitiesData:  ; $5694
 ;
 ; Pointeurs d'entités Level3 (Level3EntitiesData ligne 3462-3465):
 ;   $764F: Level3EntityData04 (131 bytes) - 10 occurrences ← ANALYSÉ
-;   $76D2: Level3EntityData05 (88 bytes) - 7 occurrences
-;   $775A: Level3EntityData06 (99 bytes) - 2 occurrences
+;   $76D2: Level3EntityData05 (136 bytes) - 7 occurrences ← ANALYSÉ
+;   $775A: Level3EntityData06 (98 bytes) - 2 occurrences ← ANALYSÉ
 ;   $77BD: Level3EntityData07 - 1 occurrence
 ;   $79E9: Level3EntityData08 - 2 occurrences
 ;   $791A: Level3EntityData09 - 2 occurrences
@@ -10167,7 +10167,7 @@ ConfigData_7555:
 ; Level3EntityData05
 ; -------------------
 ; Description: Données d'entités pour le niveau 3 (type 05)
-; Taille: 88 bytes
+; Taille: 136 bytes
 ; Référencé par: Level3EntitiesData (7 occurrences)
 ; Format: Séquence de commandes d'entités avec positions X/Y et flags
 Level3EntityData05:  ; $76D2
@@ -10182,128 +10182,37 @@ Level3EntityData05:  ; $76D2
     db $55, $59, $FE, $32, $82, $80, $FE, $B1
     db $F4, $E2, $52, $56, $FE, $02, $52, $56
     db $E2, $53, $57, $FE, $02, $53, $57, $E2
-    ld d, l
-    ld d, d
-    cp $03
-    ld d, l
-    ld d, d
-    ld d, [hl]
-    pop af
-    ld d, e
-    cp $12
-    ld d, e
-    ld d, a
-    or d
-    db $fd
-    add d
-    pop af
-    ld d, h
-    cp $12
-    ld d, h
-    ld e, b
-    ld b, d
-    ld d, d
-    ld d, [hl]
-    pop af
-    ld d, l
-    cp $12
-    ld d, l
-    ld e, c
-    ld b, d
-    ld d, l
-    ld e, c
-    ldh [c], a
-    ld d, d
-    ld d, [hl]
-    cp $81
-    db $f4
-    ldh [c], a
-    ld d, h
-    ld d, a
-    cp $e2
-    ld d, l
-    ld e, c
-    cp $05
-    db $fd
-    ld l, a
-    or l
-    db $fd
-    ld l, a
-    cp $b1
-    ld l, a
-    cp $02
-    ld d, d
-    ld d, [hl]
-    or c
-    ld l, a
-    cp $02
-    ld d, e
-    ld d, a
-    or c
-    ld l, a
-    pop af
-    ld d, d
-    cp $03
-    ld d, h
-    ld e, b
-    ld d, [hl]
-    or c
-    ld l, a
-    pop af
-    ld d, e
-    cp $03
-    ld d, l
-    ld e, c
-    ld d, a
-    or c
-    ld l, a
-    pop af
-    ld d, h
-    cp $12
-    ld d, l
-    ld e, c
-    ld h, [hl]
-    db $fd
-    ld l, a
-    pop af
-    ld d, l
-    cp $fe
-    cp $fe
-    ldh [c], a
-    ld d, d
-    ld d, [hl]
-    cp $02
-    ld d, d
-    ld d, [hl]
-    ldh [c], a
-    ld d, l
-    ld e, c
-    cp $02
-    ld d, e
-    ld d, a
-    cp $08
-    db $fd
-    ld l, a
-    cp $02
-    ld d, l
-    ld e, c
-    cp $e2
-    ld d, d
-    ld d, [hl]
-    cp $d3
-    ld d, d
-    ld d, e
-    ld d, a
-    cp $d3
-    ld d, e
-    ld d, l
-    ld e, c
-    cp $d2
-    ld d, h
-    ld e, b
-    cp $d2
-    ld d, l
-    ld e, c
+    db $55, $52, $FE, $03, $55, $52, $56, $F1
+    db $53, $FE, $12, $53, $57, $B2, $FD, $82
+    db $F1, $54, $FE, $12, $54, $58, $42, $52
+    db $56, $F1, $55, $FE, $12, $55, $59, $42
+    db $55, $59, $E2, $52, $56, $FE, $81, $F4
+    db $E2, $54, $57, $FE, $E2, $55, $59, $FE
+
+; Level3EntityData06
+; -------------------
+; Description: Données d'entités pour le niveau 3 (type 06)
+; Taille: 98 bytes
+; Référencé par: Level3EntitiesData (2 occurrences)
+; Format: Séquence de commandes d'entités avec positions X/Y et flags
+Level3EntityData06:  ; $775A
+    db $05, $FD, $6F, $B5, $FD, $6F, $FE, $B1
+    db $6F, $FE, $02, $52, $56, $B1, $6F, $FE
+    db $02, $53, $57, $B1, $6F, $F1, $52, $FE
+    db $03, $54, $58, $56, $B1, $6F, $F1, $53
+    db $FE, $03, $55, $59, $57, $B1, $6F, $F1
+    db $54, $FE, $12, $55, $59, $66, $FD, $6F
+    db $F1, $55, $FE, $FE, $FE, $FE, $E2, $52
+    db $56, $FE, $02, $52, $56, $E2, $55, $59
+    db $FE, $02, $53, $57, $FE, $08, $FD, $6F
+    db $FE, $02, $55, $59, $FE, $E2, $52, $56
+    db $FE, $D3, $52, $53, $57, $FE, $D3, $53
+    db $55, $59, $FE, $D2, $54, $58, $FE, $D2
+    db $55, $59
+
+; Level3EntityData07 - Entity data pour Level 3
+; À ANALYSER dans un prochain nœud BFS
+Level3EntityData07:  ; $77BD
     cp $07
     db $fd
     ld l, a
