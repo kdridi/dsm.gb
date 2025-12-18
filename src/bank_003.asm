@@ -9441,21 +9441,15 @@ AudioChannel1Routine_6916:
 
     ret
 
+; Configure canal audio 1 (séquence +5) quand wStateGraphics=$04
 SetupAudioConfiguration:
-    ld hl, AudioSequenceData_Channel1 + 5  ; Offset +5 dans les données audio
+    ld hl, AudioSequenceData_Channel1 + 5
     call ConfigureAudioSe
     ret
 
-
-    ld d, a
-    sub [hl]
-    adc h
-    jr nc, ClearPulseRegisters
-
-    ld d, a
-    sub [hl]
-    adc h
-    dec [hl]
+; Données audio (9 octets)
+AudioData_Unknown_692C:
+    db $57, $96, $8C, $30, $C7, $57, $96, $8C, $35
 
 ProcessAudioFrame:
     rst $00
