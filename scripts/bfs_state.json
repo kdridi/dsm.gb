@@ -5745,6 +5745,14 @@
       "priority": 3
     },
     {
+      "address": "$6868",
+      "node_type": "data",
+      "description": "Donn\u00e9es audio canal 1 - pattern waveform",
+      "source": "$686D",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$686D",
       "node_type": "code",
       "description": "AudioChannel1Routine_686D - Dispatch $03 vers $6868",
@@ -6887,14 +6895,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$6868",
-      "node_type": "data",
-      "description": "Donn\u00e9es audio canal 1 - pattern waveform",
-      "source": "$686D",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7311,6 +7311,7 @@
     "$0E8D",
     "$5B58",
     "$0558",
+    "$6868",
     "$4000:2",
     "$59E0",
     "$79E9",
@@ -7685,6 +7686,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 786
+  "commits_since_push": 1,
+  "total_explored": 787
 }

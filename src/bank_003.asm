@@ -8958,7 +8958,7 @@ UnreachableCodeData_003_07:
 ;  6 -> AudioChannel1Routine_699E (dispatch $08 vers $6999 si game state ok)
 ;  7 -> DispatchAudioWave_Setup (dispatch $06 vers $69F1)
 ;  8 -> AudioChannel1Routine_687A (dispatch $0E vers $6875 si game state ok)
-;  9 -> AudioChannel1Routine_686D (dispatch $03 vers $6868)
+;  9 -> AudioChannel1Routine_686D (dispatch $03 vers AudioConfigData_6868)
 ; 10 -> AudioChannel1Routine_6961 (init wave command avec $60)
 AudioChannel1StatusTable:
     dw $68AE, $68E3, $6936, $6973, $690C
@@ -9235,21 +9235,23 @@ InitializeWaveAudio_ResetWave:
     ret
 
 
-    nop
-    or b
-    ld d, e
-    add b
-    rst $00
+; AudioConfigData_6868
+; --------------------
+; Description: Configuration audio canal 1 - Pattern waveform custom
+; Format: [NR10 sweep, NR11 pattern, NR12 envelope, NR13 freq_low, NR14 freq_high]
+; Référencée par: AudioChannel1Routine_686D (dispatch $03)
+AudioConfigData_6868:
+    db $00, $B0, $53, $80, $C7  ; sweep=$00, pattern=$B0, envelope=$53, freq=$C780
 
 ; AudioChannel1Routine_686D
 ; --------------------------
-; Description: Routine audio canal 1 - Dispatch commande audio $03 vers $6868
+; Description: Routine audio canal 1 - Dispatch commande audio $03 avec pattern custom
 ; In:  (none)
 ; Out: (none)
 ; Modifie: af, hl
 AudioChannel1Routine_686D:
     ld a, $03
-    ld hl, $6868
+    ld hl, AudioConfigData_6868
     jp DispatchAudioCommand
 
 
