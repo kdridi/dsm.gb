@@ -5721,6 +5721,14 @@
       "priority": 3
     },
     {
+      "address": "$6AF2",
+      "node_type": "code",
+      "description": "AudioRegisterTransferLoop - Boucle de transfert vers registres hardware",
+      "source": "$67EC",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6B26",
       "node_type": "code",
       "description": "ResetAllAudioChannels - Reset tous les canaux audio",
@@ -6225,10 +6233,10 @@
       "priority": 3
     },
     {
-      "address": "$6AF2",
+      "address": "$67CA",
       "node_type": "code",
-      "description": "AudioRegisterTransferLoop - Boucle de transfert vers registres hardware",
-      "source": "$67EC",
+      "description": "ProcessAudioSnapshot_SetupSeData charge cette table dans HL",
+      "source": "$67F0",
       "bank": 3,
       "priority": 3
     }
@@ -6864,6 +6872,7 @@
     "$0552",
     "$21A8",
     "$0D40",
+    "$67F0",
     "$4E44",
     "$5C57",
     "$67EC",
@@ -6978,6 +6987,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 2,
-  "total_explored": 743
+  "commits_since_push": 3,
+  "total_explored": 744
 }
