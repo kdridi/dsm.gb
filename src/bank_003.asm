@@ -9408,13 +9408,20 @@ AudioSequenceData_Channel1:
     ; Configuration 2 (offset 5): sweep=$00, pattern=$80, envelope=$E2, freq=$8387
     db $00, $80, $e2, $83, $87
 
-; Routine auxiliaire - déclenche commande audio $6902 si GameState != 4
+; AudioChannel1Routine_690C
+; ------------------------
+; Description: Routine audio canal 1 - Déclenche un son conditionnel selon l'état du jeu
+;              Charge la première configuration de AudioSequenceData_Channel1 (offset 0)
+;              et l'envoie au moteur audio si le GameState n'est pas ANIMATION
+; In:  wStateDisplay = État du jeu actuel
+; Out: (none - side effects: peut déclencher une commande audio via DispatchAudioCommand)
+; Modifie: af, hl, de (via appels)
 AudioChannel1Routine_690C:
-    call SkipIfGameState04
-    ret z
+    call SkipIfGameState04       ; Teste si wStateDisplay = ANIMATION (4), POST_LEVEL (6), CENTER (8) ou PIPE_DOWN ($0B)
+    ret z                         ; Retour si z=1 (état correspond à l'un de ces états)
 
-    ld hl, AudioSequenceData_Channel1
-    jp DispatchAudioCommand
+    ld hl, AudioSequenceData_Channel1  ; Pointe vers la 1ère config (offset 0): sweep=$00, pattern=$80, envelope=$E2, freq=$0687
+    jp DispatchAudioCommand       ; Envoie la commande audio au moteur
 
 ; AudioChannel1Routine_6916
 ; --------------------------

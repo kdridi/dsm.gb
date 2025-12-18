@@ -5801,6 +5801,14 @@
       "priority": 3
     },
     {
+      "address": "$690C",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_690C - Routine qui charge cette table (offset 0) et appelle DispatchAudioCommand",
+      "source": "$6902",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6916",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -6663,14 +6671,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$690C",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_690C - Routine qui charge cette table (offset 0) et appelle DispatchAudioCommand",
-      "source": "$6902",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6981,6 +6981,7 @@
     "$10FE",
     "$65E0",
     "$189b",
+    "$690C",
     "$11B6",
     "$4DA0",
     "$221C",
@@ -7440,6 +7441,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 4,
-  "total_explored": 765
+  "commits_since_push": 0,
+  "total_explored": 766
 }
