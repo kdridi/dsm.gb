@@ -10209,520 +10209,83 @@ Level3EntityData06:  ; $775A
     db $FE, $D3, $52, $53, $57, $FE, $D3, $53
     db $55, $59, $FE, $D2, $54, $58, $FE, $D2
     db $55, $59
-
-; Level3EntityData07 - Entity data pour Level 3
-; À ANALYSER dans un prochain nœud BFS
-Level3EntityData07:  ; $77BD
-    cp $07
-    db $fd
-    ld l, a
-    and [hl]
-    db $fd
-    ld l, a
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld l, a
-    ld b, c
-    db $f4
-    ld h, c
-    db $f4
-    add c
-    db $f4
-    and c
-    db $f4
-    pop bc
-    db $f4
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $04
-    dec sp
-    ld e, e
-    ld l, a
-    db $f4
-    ld d, c
-    db $f4
-    ld [hl], c
-    db $f4
-    sub c
-    db $f4
-    or c
-    db $f4
-    db $d3
-    db $f4
-    ld l, a
-    dec sp
-    cp $00
-    dec sp
-    ld e, e
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    add d
-    add d
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld d, [hl]
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld d, a
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $03
-    dec sp
-    ld e, e
-    ld e, c
-    ld b, c
-    ld e, d
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    dec sp
-    ld e, e
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    dec sp
-    ld e, e
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    dec sp
-    ld e, e
-    sub c
-    ld e, d
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    dec sp
-    ld e, e
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $09
-    db $fd
-    ld l, a
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    add c
-    ld l, a
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    add h
-    db $fd
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    inc sp
-    db $fd
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    ld sp, $516f
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    ld sp, $5b6f
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    ld sp, $e26f
-    ld e, h
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    dec a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    ld l, a
-    ld e, e
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $0c
-    db $fd
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    dec sp
-    ld e, e
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
-    cp $02
-    dec sp
-    ld e, e
-    add c
-    ld e, d
-    or c
-    ld l, a
-    ldh [c], a
-    ld l, a
-    dec sp
+; Level3EntityData07
+; -------------------
+; Description: Données d'entités pour le niveau 3 (type 07)
+; Taille: 556 bytes ($22C)
+; Référencé par: Level3EntitiesData (1 occurrence)
+; Format: Séquence de commandes d'entités avec positions, flags et animations
+Level3EntityData07:  ; $77BC
+    db $FE, $07, $FD, $6F, $A6, $FD, $6F, $FE
+    db $03, $3B, $5B, $6F, $41, $F4, $61, $F4
+    db $81, $F4, $A1, $F4, $C1, $F4, $E2, $6F
+    db $3B, $FE, $04, $3B, $5B, $6F, $F4, $51
+    db $F4, $71, $F4, $91, $F4, $B1, $F4, $D3
+    db $F4, $6F, $3B, $FE, $03, $3B, $5B, $6F
+    db $41, $F4, $61, $F4, $81, $F4, $A1, $F4
+    db $C1, $F4, $E2, $6F, $3B, $FE, $04, $3B
+    db $5B, $6F, $F4, $51, $F4, $71, $F4, $91
+    db $F4, $B1, $F4, $D3, $F4, $6F, $3B, $FE
+    db $03, $3B, $5B, $6F, $41, $F4, $61, $F4
+    db $81, $F4, $A1, $F4, $C1, $F4, $E2, $6F
+    db $3B, $FE, $04, $3B, $5B, $6F, $F4, $51
+    db $F4, $71, $F4, $91, $F4, $B1, $F4, $D3
+    db $F4, $6F, $3B, $FE, $03, $3B, $5B, $6F
+    db $41, $F4, $61, $F4, $81, $F4, $A1, $F4
+    db $C1, $F4, $E2, $6F, $3B, $FE, $04, $3B
+    db $5B, $6F, $F4, $51, $F4, $71, $F4, $91
+    db $F4, $B1, $F4, $D3, $F4, $6F, $3B, $FE
+    db $03, $3B, $5B, $6F, $41, $F4, $61, $F4
+    db $81, $F4, $A1, $F4, $C1, $F4, $E2, $6F
+    db $3B, $FE, $04, $3B, $5B, $6F, $F4, $51
+    db $F4, $71, $F4, $91, $F4, $B1, $F4, $D3
+    db $F4, $6F, $3B, $FE, $03, $3B, $5B, $6F
+    db $41, $F4, $61, $F4, $81, $F4, $A1, $F4
+    db $C1, $F4, $E2, $6F, $3B, $FE, $04, $3B
+    db $5B, $6F, $F4, $51, $F4, $71, $F4, $91
+    db $F4, $B1, $F4, $D3, $F4, $6F, $3B, $FE
+    db $03, $3B, $5B, $6F, $41, $F4, $61, $F4
+    db $81, $F4, $A1, $F4, $C1, $F4, $E2, $6F
+    db $3B, $FE, $04, $3B, $5B, $6F, $F4, $51
+    db $F4, $71, $F4, $91, $F4, $B1, $F4, $D3
+    db $F4, $6F, $3B, $FE, $03, $3B, $5B, $6F
+    db $41, $F4, $61, $F4, $81, $F4, $A1, $F4
+    db $C1, $F4, $E2, $6F, $3B, $FE, $04, $3B
+    db $5B, $6F, $F4, $51, $F4, $71, $F4, $91
+    db $F4, $B1, $F4, $D3, $F4, $6F, $3B, $FE
+    db $03, $3B, $5B, $6F, $41, $F4, $61, $F4
+    db $81, $F4, $A1, $F4, $C1, $F4, $E2, $6F
+    db $3B, $FE, $04, $3B, $5B, $6F, $F4, $51
+    db $F4, $71, $F4, $91, $F4, $B1, $F4, $D3
+    db $F4, $6F, $3B, $FE, $00, $3B, $5B, $6F
+    db $6F, $6F, $6F, $6F, $6F, $6F, $6F, $6F
+    db $6F, $82, $82, $6F, $3B, $FE, $03, $3B
+    db $5B, $56, $B1, $6F, $E2, $6F, $3B, $FE
+    db $03, $3B, $5B, $57, $B1, $6F, $E2, $6F
+    db $3B, $FE, $03, $3B, $5B, $59, $41, $5A
+    db $B1, $6F, $E2, $6F, $3B, $FE, $02, $3B
+    db $5B, $B1, $6F, $E2, $6F, $3B, $FE, $02
+    db $3B, $5B, $B1, $6F, $E2, $6F, $3B, $FE
+    db $02, $3B, $5B, $91, $5A, $B1, $6F, $E2
+    db $6F, $3B, $FE, $02, $3B, $5B, $B1, $6F
+    db $E2, $6F, $3B, $FE, $09, $FD, $6F, $B1
+    db $6F, $E2, $6F, $3B, $FE, $02, $6F, $5B
+    db $81, $6F, $B1, $6F, $E2, $6F, $3B, $FE
+    db $02, $6F, $5B, $84, $FD, $6F, $E2, $6F
+    db $3B, $FE, $02, $6F, $5B, $33, $FD, $6F
+    db $E2, $6F, $3B, $FE, $02, $6F, $5B, $31
+    db $6F, $51, $6F, $E2, $6F, $3B, $FE, $02
+    db $6F, $5B, $31, $6F, $5B, $6F, $6F, $6F
+    db $6F, $6F, $6F, $6F, $6F, $6F, $6F, $3B
+    db $FE, $02, $6F, $5B, $31, $6F, $E2, $5C
+    db $3B, $FE, $02, $6F, $5B, $3D, $6F, $6F
+    db $6F, $6F, $6F, $6F, $6F, $6F, $6F, $6F
+    db $6F, $6F, $3B, $FE, $02, $6F, $5B, $E2
+    db $6F, $3B, $FE, $02, $6F, $5B, $E2, $6F
+    db $3B, $FE, $0C, $FD, $6F, $E2, $6F, $3B
+    db $FE, $02, $3B, $5B, $B1, $6F, $E2, $6F
+    db $3B, $FE, $02, $3B, $5B, $81, $5A, $B1
+    db $6F, $E2, $6F, $3B
     cp $02
     dec sp
     ld e, e
