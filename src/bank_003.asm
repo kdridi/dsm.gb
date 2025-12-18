@@ -10363,6 +10363,13 @@ CheckAudioChannel4:
     ret
 
 
+; AudioClearChannels_Entry
+; ------------------------
+; Description: Point d'entrée pour effacer tous les canaux audio (wrapper avec ret)
+; In:  Aucun
+; Out: Tous les canaux audio réinitialisés (voir ClearAudioChannels)
+; Modifie: a (via ClearAudioChannels)
+; Notes: Appelé depuis ProcessAudioRequest quand wStateRender = $FF
 AudioClearChannels_Entry:
     call ClearAudioChannels
     ret
