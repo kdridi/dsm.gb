@@ -9078,6 +9078,12 @@ ProcessAudioSnapshot_ProcessChannels:
     call ProcessAudioQueue
     call UpdateAudioEnvelopeAndPan
 
+; ProcessAudioSnapshot_ClearStateAndReturn
+; ----------------------------------------
+; Description: Nettoie tous les états WRAM audio/jeu et termine l'interruption
+; In:  Aucun (appelé depuis diverses branches de ProcessAudioSnapshot)
+; Out: Retour d'interruption (reti) avec registres restaurés
+; Modifie: a (mis à zéro), restaure af/bc/de/hl depuis pile
 ProcessAudioSnapshot_ClearStateAndReturn:
     xor a
     ld [wStateBuffer], a
