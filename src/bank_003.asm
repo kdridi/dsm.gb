@@ -12300,6 +12300,17 @@ AudioSubPattern_744F:
     db $32, $69, $6a, $69        ; Param $32 + séquence i-j-i
     db $6a, $69, $6a, $69        ; Suite séquence alternée i/j (x4)
     db $6a, $69, $6a, $e2        ; Fin séquence i/j + commande $E2
+
+; AudioSubPattern_745F
+; --------------------
+; Description: Sous-pattern audio (table groupe #1) - variante avec param $31 au lieu de $32
+; Format: Commande $FD/$FE + param $31 + séquence alternée j/i avec terminateur $E2
+; In:  Référencé par AudioSequencePattern_7411 (via table des 15 sous-patterns)
+; Out: Séquence audio jouée par le moteur - miroir de pattern précédent avec param différent
+; Modifie: Registres audio via commandes du moteur
+; Note: Quasi-identique au pattern précédent mais commence avec $31 au lieu de $32 (ligne 12300)
+; Références sortantes: (aucune - données pures)
+AudioSubPattern_745F:       ; [$745F]
     db $fd, $6a, $fe, $0b        ; $FD $6A puis $FE $0B: changement mode
     db $31, $6a, $69, $6a        ; Param $31 + séquence j-i-j
     db $69, $6a, $69, $6a        ; Suite séquence alternée j/i (x4)
