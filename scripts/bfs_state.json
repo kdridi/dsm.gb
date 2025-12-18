@@ -5745,6 +5745,14 @@
       "priority": 3
     },
     {
+      "address": "$6890",
+      "node_type": "code",
+      "description": "SkipIfGameState04 - Test conditionnel GameState (via AudioChannel1Routine_690C)",
+      "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$68C3",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -5777,6 +5785,14 @@
       "priority": 3
     },
     {
+      "address": "$6902",
+      "node_type": "data",
+      "description": "AudioData_003_6902 - Table de donn\u00e9es audio (10 octets)",
+      "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6916",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -5790,6 +5806,14 @@
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6925",
+      "node_type": "code",
+      "description": "SetupAudioConfiguration - Configure audio si compteur = $04",
+      "source": "$6916",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -5853,6 +5877,22 @@
       "node_type": "code",
       "description": "Routine audio commen\u00e7ant par call UpdateAudioFrameCounter (r\u00e9f\u00e9renc\u00e9e 3x)",
       "source": "$6734",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6AB9",
+      "node_type": "code",
+      "description": "DispatchAudioCommand - Dispatche commandes audio (via AudioChannel1Routine_690C)",
+      "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6AD8",
+      "node_type": "code",
+      "description": "ConfigureAudioSe - Configure effets sonores (via SetupAudioConfiguration)",
+      "source": "$6916",
       "bank": 3,
       "priority": 3
     },
@@ -6617,42 +6657,10 @@
       "priority": 3
     },
     {
-      "address": "$6925",
+      "address": "$68A1",
       "node_type": "code",
-      "description": "SetupAudioConfiguration - Configure audio si compteur = $04",
-      "source": "$6916",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6AD8",
-      "node_type": "code",
-      "description": "ConfigureAudioSe - Configure effets sonores (via SetupAudioConfiguration)",
-      "source": "$6916",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6AB9",
-      "node_type": "code",
-      "description": "DispatchAudioCommand - Dispatche commandes audio (via AudioChannel1Routine_690C)",
-      "source": "$6916",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6890",
-      "node_type": "code",
-      "description": "SkipIfGameState04 - Test conditionnel GameState (via AudioChannel1Routine_690C)",
-      "source": "$6916",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6902",
-      "node_type": "data",
-      "description": "AudioData_003_6902 - Table de donn\u00e9es audio (10 octets)",
-      "source": "$6916",
+      "description": "AudioChannelDispatchCase_05 - Routine de dispatch qui teste si wStateDisplay vaut 4, 6, 8 ou $0B",
+      "source": "$6890",
       "bank": 3,
       "priority": 3
     }
@@ -6856,6 +6864,7 @@
     "$4000:2",
     "$44FF",
     "$2D50",
+    "$6890",
     "$5909",
     "$6AFD",
     "$0D30",
@@ -7421,6 +7430,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 1,
-  "total_explored": 762
+  "commits_since_push": 2,
+  "total_explored": 763
 }

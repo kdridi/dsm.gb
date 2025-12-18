@@ -9255,6 +9255,12 @@ InitializeWaveAudio_ResetWave:
     add hl, bc
     add a
 
+; SkipIfGameState04
+; -----------------
+; Description: Charge wStateDisplay et saute vers la routine de dispatch qui teste plusieurs états
+; In:  (none)
+; Out: z flag = 1 si GameState est 4, 6, 8 ou $0B (via AudioChannelDispatchCase_05)
+; Modifie: a
 SkipIfGameState04:
     ld a, [wStateDisplay]
     jr AudioChannelDispatchCase_05
@@ -9269,6 +9275,12 @@ SkipIfGameState05:
     cp $05
     ret z
 
+; AudioChannelDispatchCase_05
+; ---------------------------
+; Description: Teste si wStateDisplay vaut 4, 6, 8 ou $0B et retourne avec z=1 si match
+; In:  a = valeur de wStateDisplay
+; Out: z flag = 1 si a vaut $04, $06, $08 ou $0B, sinon z=0
+; Modifie: (none sauf flags)
 AudioChannelDispatchCase_05:
     cp $04
     ret z
