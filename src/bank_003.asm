@@ -10630,30 +10630,40 @@ InitializeAudioChannelState:
     ld de, $df40
     call CopyAudioDataPair
 
-AudioData_003_6cb5:
-    ld hl, $df10
-    ld de, $df14
+; InitializeAudioPointers (continuation)
+; ----------------
+; Description: Copie les pointeurs indirects pour chaque canal et initialise contrôles
+; In:  Aucun (continuation de InitializeAudioChannelState)
+; Out: Aucun
+; Modifie: a, bc, de, hl
+InitializeAudioPointers:            ; @ $6CB5
+    ; Copie pointeurs indirects vers offsets +$14 de chaque canal
+    ld hl, $df10                    ; Canal 1: source
+    ld de, $df14                    ; Canal 1: destination
     call CopyAudioDataWord
-    ld hl, $df20
-    ld de, $df24
+    ld hl, $df20                    ; Canal 2: source
+    ld de, $df24                    ; Canal 2: destination
     call CopyAudioDataWord
-    ld hl, $df30
-    ld de, $df34
+    ld hl, $df30                    ; Canal 3: source
+    ld de, $df34                    ; Canal 3: destination
     call CopyAudioDataWord
-    ld hl, $df40
-    ld de, $df44
+    ld hl, $df40                    ; Canal 4: source
+    ld de, $df44                    ; Canal 4: destination
     call CopyAudioDataWord
-    ld bc, $0410
-    ld hl, $df12
 
-AudioControlInitLoop:
-    ld [hl], $01
-    ld a, c
-    add l
+    ; Initialise contrôles audio: 4 canaux, espacement $10
+    ld bc, $0410                    ; b = 4 canaux, c = $10 (espacement)
+    ld hl, $df12                    ; Première position contrôle
+
+.initControlLoop:
+    ld [hl], $01                    ; Initialise contrôle à $01
+    ld a, c                         ; a = espacement ($10)
+    add l                           ; Avance au prochain canal
     ld l, a
-    dec b
-    jr nz, AudioControlInitLoop
+    dec b                           ; Décremente compteur canaux
+    jr nz, .initControlLoop
 
+    ; Reset états complexes canaux 1-3
     xor a
     ld [wComplexState1E], a
     ld [wComplexState2E], a
