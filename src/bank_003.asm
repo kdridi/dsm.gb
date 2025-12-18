@@ -9793,25 +9793,61 @@ AudioChannel1Routine_6A0F:
     jp ResetPulseChannel
 
 
+; ChannelType_01_PulseWave
+; -------------------------
+; Description: Configure canal audio type 1 (Pulse Wave) - Séquence 1 note $BA
+; In:  Aucun
+; Out: Saute vers InitSquareChannel1 avec hl = ChannelConfigData_Type1
+; Modifie: hl
 ChannelType_01_PulseWave:
     ld hl, ChannelConfigData_Type1
     jr ChannelInitDispatcher
 
+; ChannelType_02_PulseWave
+; -------------------------
+; Description: Configure canal audio type 2 (Pulse Wave) - Séquence 2 note $C4
+; In:  Aucun
+; Out: Saute vers InitSquareChannel1 avec hl = ChannelConfigData_Type2
+; Modifie: hl
 ChannelType_02_PulseWave:
     ld hl, ChannelConfigData_Type2
     jr ChannelInitDispatcher
 
+; ChannelType_03_WaveMemory
+; --------------------------
+; Description: Configure canal audio type 3 (Wave Memory) - Séquence 3 note $D4
+; In:  Aucun
+; Out: Saute vers InitSquareChannel1 avec hl = ChannelConfigData_Type3
+; Modifie: hl
 ChannelType_03_WaveMemory:
     ld hl, ChannelConfigData_Type3
     jr ChannelInitDispatcher
 
+; ChannelType_04_Noise
+; ---------------------
+; Description: Configure canal audio type 4 (Noise) - Séquence 4 note $D4
+; In:  Aucun
+; Out: Saute vers InitSquareChannel1 avec hl = ChannelConfigData_Type4
+; Modifie: hl
 ChannelType_04_Noise:
     ld hl, ChannelConfigData_Type4
     jr ChannelInitDispatcher
 
+; ChannelType_05_Master
+; ----------------------
+; Description: Configure canal audio type 5 (Master) - Séquence 5 note $CB
+; In:  Aucun
+; Out: Saute vers InitSquareChannel1 avec hl = ChannelConfigData_Type5
+; Modifie: hl
 ChannelType_05_Master:
     ld hl, ChannelConfigData_Type5
 
+; ChannelInitDispatcher
+; ----------------------
+; Description: Point d'entrée commun pour initialiser canal square 1 avec config dans hl
+; In:  hl = Pointeur vers données de configuration canal (5 bytes)
+; Out: Saute vers InitSquareChannel1
+; Modifie: Dépend de InitSquareChannel1
 ChannelInitDispatcher:
     jp InitSquareChannel1
 

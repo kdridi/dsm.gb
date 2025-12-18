@@ -6113,6 +6113,54 @@
       "priority": 3
     },
     {
+      "address": "$6A32",
+      "node_type": "code",
+      "description": "ChannelType_01_PulseWave - Configure canal pulse type 1",
+      "source": "$6A0F",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A37",
+      "node_type": "code",
+      "description": "ChannelType_02_PulseWave - Configure canal pulse type 2",
+      "source": "$6A0F",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A3C",
+      "node_type": "code",
+      "description": "ChannelType_03_WaveMemory - Configure canal wave memory type 3",
+      "source": "$6A0F",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A41",
+      "node_type": "code",
+      "description": "ChannelType_04_Noise - Configure canal noise type 4",
+      "source": "$6A0F",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A46",
+      "node_type": "code",
+      "description": "ChannelType_05_Master - Configure canal master type 5",
+      "source": "$6A0F",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A49",
+      "node_type": "code",
+      "description": "ChannelInitDispatcher - Dispatcher vers InitSquareChannel1 (appel\u00e9 par ChannelType_XX)",
+      "source": "$6A0F",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6A63",
       "node_type": "data",
       "description": "Table de s\u00e9quence audio pour canal 4 (noise) - bytes de configuration NR43",
@@ -7049,50 +7097,10 @@
       "priority": 3
     },
     {
-      "address": "$6A32",
+      "address": "$6A38",
       "node_type": "code",
-      "description": "ChannelType_01_PulseWave - Configure canal pulse type 1",
-      "source": "$6A0F",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A37",
-      "node_type": "code",
-      "description": "ChannelType_02_PulseWave - Configure canal pulse type 2",
-      "source": "$6A0F",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A3C",
-      "node_type": "code",
-      "description": "ChannelType_03_WaveMemory - Configure canal wave memory type 3",
-      "source": "$6A0F",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A41",
-      "node_type": "code",
-      "description": "ChannelType_04_Noise - Configure canal noise type 4",
-      "source": "$6A0F",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A46",
-      "node_type": "code",
-      "description": "ChannelType_05_Master - Configure canal master type 5",
-      "source": "$6A0F",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A49",
-      "node_type": "code",
-      "description": "ChannelInitDispatcher - Dispatcher vers InitSquareChannel1 (appel\u00e9 par ChannelType_XX)",
-      "source": "$6A0F",
+      "description": "ChannelInitDispatcher - Point d'entr\u00e9e commun pour init canal",
+      "source": "$6A32",
       "bank": 3,
       "priority": 3
     }
@@ -7763,6 +7771,7 @@
     "$704E",
     "$5A62",
     "$513F",
+    "$6A32",
     "$50CC",
     "$5D62",
     "$16EC",
@@ -7912,6 +7921,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 813
+  "commits_since_push": 3,
+  "total_explored": 814
 }
