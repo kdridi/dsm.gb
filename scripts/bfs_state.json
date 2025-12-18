@@ -6569,6 +6569,14 @@
       "priority": 3
     },
     {
+      "address": "$7057",
+      "node_type": "data",
+      "description": "WaveAudioPattern - Pattern waveform custom 16 octets",
+      "source": "$7094",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$7094",
       "node_type": "data",
       "description": "Audio/music sequence data (index 0)",
@@ -6678,6 +6686,30 @@
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$73E5",
+      "node_type": "data",
+      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
+      "source": "$7094",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$73E9",
+      "node_type": "data",
+      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
+      "source": "$7094",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$73EB",
+      "node_type": "data",
+      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
+      "source": "$7094",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -7335,38 +7367,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$7057",
-      "node_type": "data",
-      "description": "WaveAudioPattern - Pattern waveform custom 16 octets",
-      "source": "$7094",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$73E5",
-      "node_type": "data",
-      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
-      "source": "$7094",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$73E9",
-      "node_type": "data",
-      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
-      "source": "$7094",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$73EB",
-      "node_type": "data",
-      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
-      "source": "$7094",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7963,6 +7963,7 @@
     "$4DB5",
     "$0C37",
     "$5125",
+    "$7057",
     "$3ED1",
     "$3D75",
     "$587b",
@@ -8216,6 +8217,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 845
+  "commits_since_push": 0,
+  "total_explored": 846
 }

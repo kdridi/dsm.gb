@@ -11411,66 +11411,32 @@ HandleAudioConditionalLogic:  ; Alias pour compatibilité
 WaveAudioPattern:  ; $7047
     db $01, $23, $45, $67, $89, $ab, $cc, $cd  ; Samples 0-15 du waveform
     db $00, $0c, $b0, $bb, $00, $fb, $bb, $bb  ; Samples 16-31 du waveform
-    ; Fin du pattern wave à $7057 - reprise du code mal désassemblé
-    nop
-    inc bc
-    ld b, $0c
-    jr @+$32
 
-    add hl, bc
-    ld [de], a
-    inc h
-    inc b
-    ld [$0402], sp
-    ld [$2010], sp
-    ld b, b
-    inc c
-    jr PaddingZone_003_709b
-
-    dec b
-    ld a, [bc]
-    ld bc, $0500
-    ld a, [bc]
-    inc d
-    jr z, PaddingZone_003_70c4
-
-    rrca
-    ld e, $3c
-    inc bc
-    ld b, $0c
-    jr AudioDataRaw_003_70ac
-
-    ld h, b
-    ld [de], a
-    inc h
-    ld c, b
-    ld [$0010], sp
-    rlca
-    ld c, $1c
-    jr c, AudioDataRaw_003_70f8
-
-    dec d
-    ld a, [hl+]
-    ld d, h
-    inc b
-    ld [$2010], sp
-    ld b, b
-    add b
-    jr PaddingZone_003_70c3
-
-    ld h, b
+; AudioSequencePattern_7057
+; -------------------------
+; Description: Pattern de séquence audio #1 - données de notes/timing/envelope
+;              Utilisé comme premier élément dans AudioMusicSequence_7094
+;              Format probable: séquence de commandes audio (notes, durées, enveloppes)
+; In:  Accédé via pointeur dans AudioMusicSequence_7094
+; Out: 61 octets de données audio séquentielles
+; Modifie: Interprété par le moteur audio
+AudioSequencePattern_7057:  ; $7057
+    db $00, $03, $06, $0c, $18, $30, $09, $12, $24, $04, $08, $02, $04, $08, $10, $20
+    db $40, $0c, $18, $30, $05, $0a, $01, $00, $05, $0a, $14, $28, $50, $0f, $1e, $3c
+    db $03, $06, $0c, $18, $30, $60, $12, $24, $48, $08, $10, $00, $07, $0e, $1c, $38
+    db $70, $15, $2a, $54, $04, $08, $10, $20, $40, $80, $18, $30, $60
 
 ; AudioMusicSequence_7094
 ; ------------------------
 ; Description: Séquence musicale #0 - Liste de pointeurs vers patterns/notes audio
 ; Format: [index_byte] [dw ptr1, dw ptr2, ...] [terminateur 00 00]
 ; In:  Accédée via AudioDataPointerTable[0] par ProcessAudioRequest
-; Out: Pointeurs vers données audio (WaveAudioPattern, patterns dans $73xx)
+; Out: Pointeurs vers données audio (4 patterns audio)
 ; Utilisation: Séquence de 4 patterns audio pour musique/effets sonores
-; Références sortantes: $7057 (WaveAudioPattern), $73E5, $73E9, $73EB
+; Références sortantes: $7057 (AudioSequencePattern_7057), $73E5, $73E9, $73EB
 AudioMusicSequence_7094:
     db $00                     ; Index de séquence
-    dw $7057, $73E5, $73E9
+    dw AudioSequencePattern_7057, $73E5, $73E9
 PaddingZone_003_709b:  ; Label fantôme au milieu du dernier pointeur (pour compatibilité jr)
     dw $73EB                   ; Dernier pointeur
     dw $0000                   ; Terminateur
