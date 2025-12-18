@@ -7151,6 +7151,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$A649",
+      "node_type": "data",
+      "description": "Valeur pour ld sp (possiblement stack pointer ou WRAM)",
+      "source": "$6A50",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7630,6 +7638,7 @@
     "$6882",
     "$5D32",
     "$72BC",
+    "$6A50",
     "$513D",
     "$4DD8",
     "$6A46",
@@ -7978,6 +7987,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 823
+  "commits_since_push": 3,
+  "total_explored": 824
 }
