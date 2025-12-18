@@ -6567,6 +6567,46 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$DFE1",
+      "node_type": "data",
+      "description": "wStateDisplay - Mode affichage \u00e9tat (WRAM)",
+      "source": "$68EF",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF10",
+      "node_type": "data",
+      "description": "rNR10 - Registre sweep canal audio 1 (hardware)",
+      "source": "$68EF",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF12",
+      "node_type": "data",
+      "description": "rNR12 - Registre envelope canal audio 1 (hardware)",
+      "source": "$68EF",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$DF1F",
+      "node_type": "data",
+      "description": "Flag audio (bit 7) - \u00c9tat canal audio",
+      "source": "$68EF",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$68F4",
+      "node_type": "code",
+      "description": "ResetPulseChannel - Reset registres canal pulse (fallthrough)",
+      "source": "$68EF",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6722,6 +6762,7 @@
     "$5C58",
     "$175C",
     "$6ADF",
+    "$68EF",
     "$650D",
     "$4823",
     "$2D57",
@@ -7329,6 +7370,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 2,
-  "total_explored": 758
+  "commits_since_push": 3,
+  "total_explored": 759
 }

@@ -9284,7 +9284,13 @@ AudioChannelDispatchCase_05:
 
     ret
 
-
+; AudioChannel1Routine_68AE
+; --------------------------
+; Description: Routine audio canal 1 - Dispatch commande $10 et initialise graphics state
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_68AE:
     call SkipIfGameState03
     ret z
 
@@ -9297,7 +9303,13 @@ AudioChannelDispatchCase_05:
     ld [hl], $86
     ret
 
-
+; AudioChannel1Routine_68C3
+; --------------------------
+; Description: Routine audio canal 1 - Met à jour compteur frame et traite graphics state
+; In:  (none)
+; Out: (none)
+; Modifie: af, bc, de, hl
+AudioChannel1Routine_68C3:
     call UpdateAudioFrameCounter
     and a
     jp z, ResetPulseChannel
@@ -9322,7 +9334,13 @@ AudioChannelDispatchCase_05:
     ld [hl], b
     ret
 
-
+; AudioChannel1Routine_68E3
+; --------------------------
+; Description: Routine audio canal 1 - Dispatch commande audio $03 si game state valide
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_68E3:
     call SkipIfGameState03
     ret z
 
@@ -9330,14 +9348,28 @@ AudioChannelDispatchCase_05:
     ld hl, $688b
     jp DispatchAudioCommand
 
-
+; AudioChannel1Routine_68EF
+; --------------------------
+; Description: Routine audio canal 1 - Reset canal pulse si frame counter = 0
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_68EF:
     call UpdateAudioFrameCounter
     and a
     ret nz
+    ; Fallthrough si compteur = 0
 
+; ResetPulseChannel
+; -----------------
+; Description: Reset le canal audio pulse (canal 1) en effaçant registres et flags
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
 ResetPulseChannel:
     xor a
     ld [wStateDisplay], a
+    ; Fallthrough vers AudioData_003_68f8
 
 AudioData_003_68f8:
     ldh [rNR10], a
