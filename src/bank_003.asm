@@ -11577,23 +11577,24 @@ PaddingZone_003_7383:  ; Référencé par jr c (data)
     ld [hl], e   ; $73 → dw $73be (AnimationFrameData_73be)
     nop          ; $00
     nop          ; $00 → dw $0000 (NULL, fin table)
-    xor e        ; $ab
-    ld [hl], e   ; $73 → dw $73ab (AnimationFrameData_73ab)
-    call nc, $9d73  ; $d4, $73, $9d → dw $73d4 + db $9d
-    and c        ; $a1 (data frame)
-    nop          ; $00
-    add b        ; $80
-    and b        ; $a0
-    ld bc, $58a1 ; $01, $a1, $58 → frame data (finit avec $58='X')
-    ld d, h      ; [$73b3] $54 = 'T' (début séquence "TRNJ" après "X")
-    ld d, d      ; $52 = 'R'
-    ld c, [hl]   ; $4e = 'N'
-    ld c, d      ; $4a = 'J' → ASCII "XTRNJ" complet
-    and [hl]     ; [$73b5] $a6
-    ld bc, $40a2 ; $01, $a2, $40
-    ld bc, $0132 ; $01, $32, $01
-    sbc l        ; $9d
-    jr nc, PaddingZone_003_73c1  ; $30, $00 (saut relatif)
+; AnimationFrameData_73ab
+; -----------------------
+; Description: Données d'animation (séquences de tile IDs + drapeaux de contrôle)
+; Format: [count] [tile_id]* [flags] [terminator] répété
+; In:  Pointeur depuis table d'animation référençante
+; Out: Données consommées par le moteur de rendu de sprites
+; Modifie: Aucun (zone DATA pure)
+AnimationFrameData_73ab:  ; Annotation originale [$73ab], adresse logique désassembleur
+    db $ab, $73  ; Pointeur vers AnimationFrameData (little-endian)
+    db $d4, $73  ; Pointeur vers autre frame data
+    db $9d, $a1  ; Bytes de contrôle/flags
+    db $00       ; Terminateur ou padding
+    db $80       ; Flag/contrôle
+    db $a0, $01, $a1, $58  ; Données frame (IDs tiles)
+    db $54, $52, $4e, $4a  ; "TRNJ" (tile IDs ou marqueur ASCII)
+    db $a6, $01, $a2, $40  ; Suite données
+    db $01, $32, $01  ; IDs tiles
+    db $9d, $30, $00  ; Terminateur + padding (26 bytes total)
 
 PaddingZone_003_73c1:  ; [$73be] AnimationFrameData_73be
     add b        ; $80
