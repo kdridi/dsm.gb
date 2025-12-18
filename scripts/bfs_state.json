@@ -5761,6 +5761,14 @@
       "priority": 3
     },
     {
+      "address": "$6875",
+      "node_type": "data",
+      "description": "Donn\u00e9e/routine cible du dispatch $0E (\u00e0 explorer)",
+      "source": "$687A",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$687A",
       "node_type": "code",
       "description": "AudioChannel1Routine_687A - Dispatch $0E vers $6875",
@@ -5781,6 +5789,14 @@
       "node_type": "code",
       "description": "SkipIfGameState04 - Test conditionnel GameState (via AudioChannel1Routine_690C)",
       "source": "$6916",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$689B",
+      "node_type": "code",
+      "description": "SkipIfGameState05 - V\u00e9rifie si game state = 05",
+      "source": "$687A",
       "bank": 3,
       "priority": 3
     },
@@ -6895,22 +6911,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$689B",
-      "node_type": "code",
-      "description": "SkipIfGameState05 - V\u00e9rifie si game state = 05",
-      "source": "$687A",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6875",
-      "node_type": "data",
-      "description": "Donn\u00e9e/routine cible du dispatch $0E (\u00e0 explorer)",
-      "source": "$687A",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6926,6 +6926,7 @@
     "$30AB",
     "$27DB",
     "$1B05",
+    "$6875",
     "$5107",
     "$0a20",
     "$5046",
@@ -7703,6 +7704,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 788
+  "commits_since_push": 3,
+  "total_explored": 789
 }

@@ -9254,7 +9254,13 @@ AudioChannel1Routine_686D:
     ld hl, AudioConfigData_6868
     jp DispatchAudioCommand
 
-
+; AudioConfigData_6875
+; --------------------
+; Description: Configuration audio canal 1 - Pattern waveform pour commande $0E
+; Format: [NR10 sweep, NR11 pattern, NR12 envelope, NR13 freq_low, NR14 freq_high]
+; Référencée par: AudioChannel1Routine_687A (dispatch $0E)
+; NOTE: Les bytes réels sont $36,$37,$E2,$61,$E8 mais désassemblés comme code
+AudioConfigData_6875:
     inc a
     add b
     and b
@@ -9263,7 +9269,7 @@ AudioChannel1Routine_686D:
 
 ; AudioChannel1Routine_687A
 ; --------------------------
-; Description: Routine audio canal 1 - Dispatch commande audio $0E vers $6875 si game state valide
+; Description: Routine audio canal 1 - Dispatch commande audio $0E si game state valide ($05)
 ; In:  (none)
 ; Out: (none)
 ; Modifie: af, hl
@@ -9272,7 +9278,7 @@ AudioChannel1Routine_687A:
     ret z
 
     ld a, $0e
-    ld hl, $6875
+    ld hl, AudioConfigData_6875
     jp DispatchAudioCommand
 
 
