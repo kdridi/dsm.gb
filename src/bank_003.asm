@@ -9985,18 +9985,29 @@ IndexAudioTable:
     ret
 
 
+; UpdateAudioFrameCounter
+; -----------------------
+; Description: Incrémente un compteur de frames audio et le reset quand il atteint sa limite
+;              Utilisé pour temporiser les effets audio et les séquences sonores
+; In:  de = pointeur vers structure de compteur [counter_current, counter_limit]
+;           counter_current (byte) = compteur courant (incrémenté)
+;           counter_limit (byte) = limite du compteur (comparé)
+; Out: a = valeur du compteur après incrément (0 si limite atteinte, sinon valeur incrémentée)
+;      z flag = 1 si limite atteinte et compteur resetté, 0 sinon
+; Modifie: af, hl (temporaire, restauré via de)
+; Note: Préserve DE via push/pop
 UpdateAudioFrameCounter:
     push de
     ld l, e
     ld h, d
-    inc [hl]
-    ld a, [hl+]
-    cp [hl]
+    inc [hl]             ; Incrémente counter_current
+    ld a, [hl+]          ; a = counter_current, hl pointe sur counter_limit
+    cp [hl]              ; Compare avec counter_limit
     jr nz, AudioFrameCounter_Exit
 
-    dec l
+    dec l                ; Revient sur counter_current
     xor a
-    ld [hl], a
+    ld [hl], a           ; Reset counter_current = 0
 
 AudioFrameCounter_Exit:
     pop de
