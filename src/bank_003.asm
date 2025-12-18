@@ -9900,6 +9900,15 @@ CheckAudioActive:
 ;   - Bits 2-0: Dividing ratio
 AudioNoiseSequenceData:
     db $1F, $2D, $2F, $3D, $3F, $00
+
+; AudioChannel4Routine_6A69
+; --------------------------
+; Description: Routine audio canal 4 index 2 (référencée depuis AudioChannel4StatusTable[2])
+;              Dispatch commande audio $06 vers handler $6A5F si audio actif
+; In:  Appelé via jp hl depuis CheckAudioChannel4 (.audioChannel4Path)
+; Out: Dispatch vers DispatchAudioCommand avec a=$06, hl=$6A5F
+; Modifie: a, hl, (et tout ce que DispatchAudioCommand modifie)
+AudioChannel4Routine_6A69:
     call CheckAudioActive
     ret z
 

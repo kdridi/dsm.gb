@@ -6801,6 +6801,14 @@
       "priority": 3
     },
     {
+      "address": "$A649",
+      "node_type": "data",
+      "description": "Valeur pour ld sp (possiblement stack pointer ou WRAM)",
+      "source": "$6A50",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$C0",
       "node_type": "data",
       "description": "HRAM - hCurrentGameMode (variable de mode de jeu)",
@@ -7153,11 +7161,19 @@
       "priority": 3
     },
     {
-      "address": "$A649",
+      "address": "$6A58",
+      "node_type": "code",
+      "description": "CheckAudioActive - V\u00e9rifie si audio est actif via wStateEnd",
+      "source": "$6A69",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A5F",
       "node_type": "data",
-      "description": "Valeur pour ld sp (possiblement stack pointer ou WRAM)",
-      "source": "$6A50",
-      "bank": 0,
+      "description": "Handler audio non \u00e9tiquet\u00e9 (param\u00e8tre pass\u00e9 \u00e0 DispatchAudioCommand)",
+      "source": "$6A69",
+      "bank": 3,
       "priority": 3
     }
   ],
@@ -7253,6 +7269,7 @@
     "$1AA4",
     "$02A5",
     "$69AA",
+    "$6A69",
     "$0837",
     "$7471",
     "$0394",
@@ -7987,6 +8004,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 824
+  "commits_since_push": 4,
+  "total_explored": 825
 }
