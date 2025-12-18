@@ -12436,105 +12436,74 @@ AudioSubPattern_7518:       ; [$7518]
     db $48, $4a, $a7, $48        ; Notes H/J + commande $A7 + note H
     db $40, $a3, $01, $a7        ; Param $40 + commande $A3 + param $01 + commande $A7
     db $44, $40, $a3, $3c        ; Note D + param $40 + commande $A3 + note <
-    db $a2                       ; Commande $A2
-    ld bc, $013c
-    ld bc, $40a4
-    nop
-    xor d
-    ld d, h
-    ld d, h
-    ld d, h
-    ld d, h
-    ld d, d
-    ld c, [hl]
-    and a
-    ld d, d
-    ld c, d
-    and e
-    ld bc, $48a2
-    ld bc, $4801
-    ld c, b
-    ld c, d
-    ld bc, $a54e
-    ld d, d
-    xor d
-    ld d, h
-    ld bc, $5454
-    ld e, b
-    ld e, h
-    and a
-    ld e, b
-    ld d, d
-    and e
-    ld bc, $54a7
-    ld d, d
-    and e
-    ld c, [hl]
-    and d
-    ld bc, HeaderNewLicenseeCode
-    ld bc, $48a4
-    nop
-    and a
-    inc a
-    ld b, h
-    and e
-    ld c, d
-    and a
-    ld [hl-], a
-    ld a, [hl-]
-    and e
-    ld b, b
-    and a
-    ld b, b
-    ld c, b
-    and e
-    ld [hl], $a7
-    ld [hl-], a
-    ld a, [hl-]
-    and e
-    ld b, b
-    and a
-    inc a
-    ld b, h
-    and e
-    ld c, d
-    and a
-    ld a, [hl-]
-    ld b, b
-    and e
-    ld c, b
-    and a
-    inc a
-    ld b, h
-    and e
-    ld c, d
-    and d
-    ld bc, $0140
-    ld bc, $40a4
-    nop
-    and e
-    ld b, $a9
-    ld b, $01
-    ld b, $a3
-    dec bc
-    xor c
-    ld b, $01
-    ld b, $a3
-    ld b, $a9
-    ld b, $01
-    ld b, $a3
-    dec bc
-    xor c
-    ld b, $01
-    ld b, $00
-    ld [$2876], sp
-    halt
-    jr z, MusicSequence_Marker_1
+    db $a2, $01, $3c, $01        ; Commande $A2 + params $01/$3C/$01
+    db $01, $a4, $40, $00        ; Param $01 + commande $A4 + param $40 + terminateur
 
-    rst $30
-    halt
-    rst $38
-    rst $38
+; AudioSubPattern_7548
+; --------------------
+; Description: Sous-pattern audio (table groupe #3) - séquence avec notes T/R/N/H/J répétées
+; Format: Commandes audio $AA/$A2/$A3/$A5/$A7 avec notes T/R/N/H/J/X/\ + terminateur $00
+; In:  Référencé par AudioSequencePattern_7411 (table des 15 sous-patterns, index 7)
+; Out: Consommé par le moteur audio
+; Modifie: Registres audio via commandes du moteur
+; Références sortantes: (aucune - données pures)
+AudioSubPattern_7548:       ; [$7548]
+    db $aa, $54, $54, $54        ; Commande $AA + notes T répétées (3×)
+    db $54, $52, $4e, $a7        ; Note T + notes R/N + commande $A7
+    db $52, $4a, $a3, $01        ; Notes R/J + commande $A3 + param $01
+    db $a2, $48, $01, $01        ; Commande $A2 + note H + params $01/$01
+    db $48, $48, $4a, $01        ; Notes H/H/J + param $01
+    db $4e, $a5, $52, $aa        ; Notes N + commande $A5 + note R + commande $AA
+    db $54, $01, $54, $54        ; Notes T/$01/T/T
+    db $58, $5c, $a7, $58        ; Notes X/\ + commande $A7 + note X
+    db $52, $a3, $01, $a7        ; Notes R + commande $A3 + param $01 + commande $A7
+    db $54, $52, $a3, $4e        ; Notes T/R + commande $A3 + note N
+    db $a2, $01, $44, $01        ; Commande $A2 + params $01/$44/$01
+    db $01, $a4, $48, $00        ; Param $01 + commande $A4 + note H + terminateur
+
+; AudioSubPattern_7578
+; --------------------
+; Description: Sous-pattern audio (table groupe #3) - séquence avec notes </D/J/H/2/: répétées
+; Format: Commandes audio $A2/$A3/$A7 avec notes aiguës et graves alternées + terminateur $00
+; In:  Référencé par AudioSequencePattern_7411 (table des 15 sous-patterns, index 11)
+; Out: Consommé par le moteur audio
+; Modifie: Registres audio via commandes du moteur
+; Note: Pattern symétrique avec deux séquences similaires de 20 bytes
+; Références sortantes: (aucune - données pures)
+AudioSubPattern_7578:       ; [$7578]
+    db $a7, $3c, $44, $a3        ; Commande $A7 + notes </D + commande $A3
+    db $4a, $a7, $32, $3a        ; Note J + commande $A7 + notes 2/:
+    db $a3, $40, $a7, $40        ; Commande $A3 + param $40 + commande $A7 + param $40
+    db $48, $a3, $36, $a7        ; Note H + commande $A3 + note 6 + commande $A7
+    db $32, $3a, $a3, $40        ; Notes 2/: + commande $A3 + param $40
+    db $a7, $3c, $44, $a3        ; Commande $A7 + notes </D + commande $A3
+    db $4a, $a7, $3a, $40        ; Note J + commande $A7 + notes :/@
+    db $a3, $48, $a7, $3c        ; Commande $A3 + note H + commande $A7 + note <
+    db $44, $a3, $4a, $a2        ; Notes D + commande $A3 + note J + commande $A2
+    db $01, $40, $01, $01        ; Params $01/$40/$01/$01
+    db $a4, $40, $00             ; Commande $A4 + param $40 + terminateur
+
+; AudioSubPattern_75A3
+; --------------------
+; Description: Sous-pattern audio (table groupe #3) - séquence courte avec commandes $A3/$A9
+; Format: Alternance commandes $A3/$A9 avec param $06/$0B répétés + terminateur $00
+; In:  Référencé par AudioSequencePattern_7411 (table des 15 sous-patterns, index 14)
+; Out: Consommé par le moteur audio
+; Modifie: Registres audio via commandes du moteur
+; Note: Pattern très compact et répétitif (2 séquences identiques de 10 bytes)
+; Références sortantes: (aucune - données pures)
+AudioSubPattern_75A3:       ; [$75A3]
+    db $a3, $06, $a9, $06        ; Commande $A3 + param $06 + commande $A9 + param $06
+    db $01, $06, $a3, $0b        ; Params $01/$06 + commande $A3 + param $0B
+    db $a9, $06, $01, $06        ; Commande $A9 + param $06 + params $01/$06
+    db $a3, $06, $a9, $06        ; Commande $A3 + param $06 + commande $A9 + param $06
+    db $01, $06, $a3, $0b        ; Params $01/$06 + commande $A3 + param $0B
+    db $a9, $06, $01, $06        ; Commande $A9 + param $06 + params $01/$06
+    db $00                       ; Terminateur
+
+    db $08, $76, $28, $76        ; Données de transition (possibles pointeurs ou padding)
+    db $28, $76, $f7, $76        ; Continuation transition pattern
+    db $ff, $ff                  ; Marqueur de fin
 
 PaddingZone_003_75c6:
     cp [hl]
