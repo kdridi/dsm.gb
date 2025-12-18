@@ -6679,6 +6679,70 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$C201",
+      "node_type": "data",
+      "description": "Variable WRAM - param\u00e8tre audio utilis\u00e9 avec offset $F3",
+      "source": "$6A0F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C202",
+      "node_type": "data",
+      "description": "Variable WRAM - param\u00e8tre audio utilis\u00e9 avec offset $02",
+      "source": "$6A0F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C222",
+      "node_type": "data",
+      "description": "Variable WRAM - d\u00e9cr\u00e9ment\u00e9e de $04",
+      "source": "$6A0F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C238",
+      "node_type": "data",
+      "description": "Variable WRAM - configur\u00e9e \u00e0 $0B",
+      "source": "$6A0F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C242",
+      "node_type": "data",
+      "description": "Variable WRAM - d\u00e9cr\u00e9ment\u00e9e de $04",
+      "source": "$6A0F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$C248",
+      "node_type": "data",
+      "description": "Variable WRAM - configur\u00e9e \u00e0 $0B",
+      "source": "$6A0F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$DFF8",
+      "node_type": "data",
+      "description": "Variable d'\u00e9tat - configur\u00e9e \u00e0 $02",
+      "source": "$6A0F",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFF3",
+      "node_type": "data",
+      "description": "Registre HRAM - re\u00e7oit valeur de $FFA4",
+      "source": "$6A0F",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7039,6 +7103,7 @@
     "$4D1D",
     "$5179",
     "$2d02",
+    "$6A0F",
     "$147C",
     "$115C",
     "$51EA",
@@ -7454,6 +7519,6 @@
     "$6942",
     "$1CDB"
   ],
-  "commits_since_push": 0,
-  "total_explored": 771
+  "commits_since_push": 1,
+  "total_explored": 772
 }

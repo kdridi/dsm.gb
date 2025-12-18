@@ -9695,6 +9695,29 @@ ChannelInitDispatcher:
     jp InitSquareChannel1
 
 
+; NOTE CRITIQUE: Zone de code/data mal désassemblée $69F6-$6AAC
+; ==============================================================
+; Cette section contient des données de configuration audio (5 bytes chacune) qui
+; se chevauchent avec du code exécutable. Les adresses suivantes sont référencées:
+;
+; - $69F6: ChannelConfigData_Type1 (utilisé par ChannelType_01_PulseWave)
+; - $69FB: ChannelConfigData_Type2 (utilisé par ChannelType_02_PulseWave)
+; - $6A00: ChannelConfigData_Type3 (utilisé par ChannelType_03_WaveMemory)
+; - $6A05: ChannelConfigData_Type4 (utilisé par ChannelType_04_Noise)
+; - $6A0A: ChannelConfigData_Type5 (utilisé par ChannelType_05_Master)
+; - $6A0F: AudioChannel1Routine_6A0F (référencé dans AudioChannel1PointerTable[7])
+;          WARNING: Cette adresse pointe AU MILIEU de l'instruction "ld a,[$c202]"!
+;          C'est soit un bug du jeu original, soit une entrée jamais utilisée.
+;
+; TODO: Cette zone nécessite une reconstruction propre avec labels appropriés
+;       tout en préservant le hash SHA256/MD5 identique.
+;
+; Références sortantes identifiées depuis $6A0F:
+; - $0166: AddScore (appel direct)
+; - $c201, $c202, $c222, $c242, $c238, $c248: Variables WRAM
+; - $c207, $dff8: Variables d'état
+; - $ffa4, $fff3: Registres HRAM
+
     nop
     db $f4
     ld d, a
