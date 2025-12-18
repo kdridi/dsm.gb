@@ -12281,6 +12281,12 @@ AudioSubPattern_743D:
 ; Note: Pointe au milieu d'AudioSequencePattern_7423 (offset +36)
 AudioSubPattern_7447:
     db $69, $7f                  ; Notes i ($69) + DEL ($7F)
+; AudioSubPattern_7449
+; --------------------
+; Description: Sous-pattern audio (groupe #5 - variante) - séquence i/DEL alternée (offset +2)
+; In:  Référencé par AudioSequencePattern_7411 (pointeur dans table des 15 sous-patterns)
+; Note: Point d'entrée alternatif dans AudioSubPattern_7447 (+2 bytes)
+AudioSubPattern_7449:
     db $69, $7f, $69, $7f        ; Suite séquence alternée i/DEL
     db $69, $7f, $69, $e2        ; Fin séquence i/DEL + commande $E2
     db $fd, $69, $fe, $0b        ; $FD $69 puis $FE $0B: changement mode
