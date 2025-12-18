@@ -8082,6 +8082,27 @@ ProcessValidation_7371:
     pop af
     ld e, l
     cp $05
+
+; ==============================================================================
+; Level3TileData17 - Compressed tile data ($7379-$7441)
+; ==============================================================================
+; Description: Compressed tile pattern data for Level 3, entries #17 and #19
+; Format: RLE compressed - byte count prefix, tile data, $FE terminator per sequence
+;         - 201 bytes total ($C9) containing compressed tile sequences
+;         - Each sequence: COUNT (1 byte) + TILE_DATA (variable) + $FE (terminator)
+; Referenced by: Level3MapData entries #17, #19 (ligne 3368)
+; Structure example: $05 $31 $7F $69... $FE (5-count sequence)
+; Note: Code below is DISASSEMBLED DATA - should be reconstructed as db statements
+; TODO BFS: Reconstruire avec db statements lors d'une passe de nettoyage globale
+;
+; ATTENTION: Label désaligné de 1 byte dû au désassemblage erroné
+;   - Adresse réelle data: $7379
+;   - Adresse label actuel: $737A (assemblé à partir de "ld sp, $697F")
+;   - Le byte $05 précédent (partie de "cp $05" ligne 8084) est en fait
+;     le premier byte de Level3TileData17, mais ne peut être séparé dans le
+;     désassemblage actuel sans reconstruire toute la zone avec db statements
+; ==============================================================================
+Level3TileData17:  ; $737A (devrait être $7379) - Tile data (mal désassemblée)
     ld sp, $697f
     ld a, a
     ld l, c
