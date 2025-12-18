@@ -12509,11 +12509,11 @@ AudioSubPattern_75A3:       ; [$75A3]
 ; Out: Consommé par le moteur audio pour séquencer les patterns
 ; Modifie: Utilisé par le moteur audio pour accéder aux patterns
 ; Note: AudioSequencePattern_75BE partage les 8 derniers bytes (optimisation mémoire)
-; Références sortantes: $7608, $7628, $76F7
+; Références sortantes: AudioPatternData_7608, AudioPatternData_7628, $76F7
 AudioSequencePattern_75BC:       ; [$75BC]
-    dw $7608                     ; Pointeur vers sous-pattern audio
+    dw AudioPatternData_7608     ; Pointeur vers sous-pattern audio
 AudioSequencePattern_75BE:       ; [$75BE] - Sous-pattern partagé (référencé par AudioSequencePattern_75C6[0])
-    dw $7628, $7628, $76F7       ; Pointeurs vers sous-patterns (partagés avec 75BC)
+    dw AudioPatternData_7628, AudioPatternData_7628, $76F7       ; Pointeurs vers sous-patterns (partagés avec 75BC)
     db $ff, $ff                  ; Terminateur
 
 ; AudioSequencePattern_75C6
@@ -12541,11 +12541,11 @@ AudioSequencePattern_75CA:       ; [$75CA] - Point d'entrée alternatif (référ
 ; Out: Consommé par le moteur audio pour séquencer les patterns
 ; Modifie: Utilisé par le moteur audio pour accéder aux patterns
 ; Note: Pattern long avec $76B5 répété 6× (boucle audio)
-; Références sortantes: AudioSequencePattern_75CA, $761C, $76B5, $76D6, $7773
+; Références sortantes: AudioSequencePattern_75CA, AudioPatternData_761C, $76B5, $76D6, $7773
 AudioSequencePattern_75D2:       ; [$75D2]
     dw AudioSequencePattern_75CA ; Pointeur vers sous-pattern partagé $75CA
 AudioSequencePattern_75D4:       ; [$75D4] - Point d'entrée alternatif (référencé par AudioMusicSequence_70CB[4])
-    dw $761C                     ; Pointeur vers sous-pattern
+    dw AudioPatternData_761C     ; Pointeur vers sous-pattern
 AudioSequencePattern_75D6:       ; [$75D6] - Point d'entrée alternatif (référencé par AudioSequencePattern_75EA[0])
     dw $76B5, $76B5, $76B5       ; Pointeur $76B5 répété 3× (boucle)
     dw $76D6                     ; Pointeur vers autre sous-pattern
@@ -12584,44 +12584,43 @@ AudioPatternData_75F4:       ; [$75F4]
     db $01, $66, $01, $66        ; Params $01 + note f alternés (2×)
     db $01, $a4, $6a, $00        ; Param $01 + commande $A4 + note j + terminateur
 
-; AudioPatternData_760E
+; AudioPatternData_7608
 ; --------------------
 ; Description: Sous-pattern audio (séquence similaire à 75F4 avec notes f/`/\)
 ; Format: Commandes audio $9D/$A2/$A4 avec notes f/`/\ + terminateur $00
-; In:  Possiblement référencé comme sous-pattern audio
+; In:  Référencé par AudioSequencePattern_75BC[0] via pointeur $7608
 ; Out: Consommé par le moteur audio
 ; Modifie: Registres audio via commandes du moteur
 ; Références sortantes: (aucune - données pures)
-AudioPatternData_760E:       ; [$760E]
+AudioPatternData_7608:       ; [$7608]
     db $9d, $74, $00, $00        ; Commande $9D + params $74/$00/$00
     db $a2, $66, $66, $66        ; Commande $A2 + note f répétée (3×)
     db $01, $60, $01, $60        ; Params $01 + note ` alternés (2×)
     db $01, $5c, $01, $5c        ; Params $01 + note \ alternés (2×)
     db $01, $a4, $60, $00        ; Param $01 + commande $A4 + note ` + terminateur
 
+; AudioPatternData_761C
+; --------------------
+; Description: Sous-pattern audio (commandes $9D/$A5 répétées)
+; Format: Commandes audio $9D/$A5 + terminateurs $00
+; In:  Référencé par AudioSequencePattern_75D4[1] via pointeur $761C
+; Out: Consommé par le moteur audio
+; Modifie: Registres audio via commandes du moteur
+; Références sortantes: (aucune - données pures)
+AudioPatternData_761C:       ; [$761C]
+    db $9d, $37, $70, $20        ; Commande $9D + params $37/$70/$20
+    db $a5, $01, $01, $00        ; Commande $A5 + params $01/$01 + terminateur
+    db $a5, $01, $01, $00        ; Commande $A5 + params $01/$01 + terminateur (répété)
+
 ; AudioPatternData_7628
 ; --------------------
-; Description: Sous-pattern audio (séquence courte avec commandes $9D/$A5)
-; Format: Commandes audio $9D/$A5 répétées + terminateur $00
+; Description: Sous-pattern audio (séquence avec commandes $9D/$A8/$A3/$A4 et notes D/H/N)
+; Format: Commandes audio $9D/$A8/$A3/$A4 avec notes musicales
 ; In:  Référencé par AudioSequencePattern_75BC[1] et 75BE[0] via pointeur $7628
 ; Out: Consommé par le moteur audio
 ; Modifie: Registres audio via commandes du moteur
 ; Références sortantes: (aucune - données pures)
 AudioPatternData_7628:       ; [$7628]
-    db $9d, $37, $70, $20        ; Commande $9D + params $37/$70/$20
-    db $a5, $01, $01, $00        ; Commande $A5 + params $01/$01 + terminateur
-    db $a5, $01, $01, $00        ; Commande $A5 + params $01/$01 + terminateur (répété)
-
-; AudioPatternData_7634
-; --------------------
-; Description: Sous-pattern audio (début d'une séquence avec commandes $9D/$A8/$A3/$A4)
-; Format: Commandes audio $9D/$A8/$A3/$A4 avec notes D/H/N + (données continuent)
-; In:  Possiblement référencé comme sous-pattern audio
-; Out: Consommé par le moteur audio (continue jusqu'à MusicSequence_Marker_1)
-; Modifie: Registres audio via commandes du moteur
-; Note: Données continuent sans terminateur visible (probablement jusqu'à $7638)
-; Références sortantes: (aucune - données pures)
-AudioPatternData_7634:       ; [$7634]
     db $9d, $82, $00, $00        ; Commande $9D + params $82/$00/$00
     db $a8, $44, $a3, $48        ; Commande $A8 + note D + commande $A3 + note H
     db $a4, $4e, $48, $a4        ; Commande $A4 + notes N/H + commande $A4
