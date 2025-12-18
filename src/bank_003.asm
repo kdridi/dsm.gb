@@ -9606,9 +9606,7 @@ AudioChannel1Routine_6973:
     ret
 
 
-; AudioData_003_6980 (données audio mal désassemblées - à reconstruire proprement)
-; Zone de données audio référencée dans AudioChannel1PointerTable
-; Format: Séquence de commandes audio avec paramètres
+; AudioData_003_6980: Données audio (mal désassemblées) - Point d'entrée alternatif +$19 ($6999) utilisé par AudioChannel1Routine_699E
 AudioData_003_6980:
     inc l
     add b
