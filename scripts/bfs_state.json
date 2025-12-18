@@ -5745,6 +5745,30 @@
       "priority": 3
     },
     {
+      "address": "$68C3",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$68EF",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6916",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$691C",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
@@ -5753,11 +5777,43 @@
       "priority": 3
     },
     {
+      "address": "$6942",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6980",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$69CB",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$69E2",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6A0F",
+      "node_type": "code",
+      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
+      "source": "$6716",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -6345,58 +6401,18 @@
       "priority": 3
     },
     {
-      "address": "$68C3",
+      "address": "$6AA8",
       "node_type": "code",
-      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
-      "source": "$6716",
+      "description": "Routine audio commen\u00e7ant par call UpdateAudioFrameCounter (r\u00e9f\u00e9renc\u00e9e 3x)",
+      "source": "$6734",
       "bank": 3,
       "priority": 3
     },
     {
-      "address": "$68EF",
+      "address": "$6A75",
       "node_type": "code",
-      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
-      "source": "$6716",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6916",
-      "node_type": "code",
-      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
-      "source": "$6716",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6942",
-      "node_type": "code",
-      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
-      "source": "$6716",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6980",
-      "node_type": "code",
-      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
-      "source": "$6716",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$69CB",
-      "node_type": "code",
-      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
-      "source": "$6716",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A0F",
-      "node_type": "code",
-      "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
-      "source": "$6716",
+      "description": "Routine audio de traitement canal 4",
+      "source": "$6734",
       "bank": 3,
       "priority": 3
     }
@@ -6475,6 +6491,7 @@
     "$2239",
     "$5EC4",
     "$0A24",
+    "$6734",
     "$1EC5",
     "$6670",
     "$513D",
@@ -7158,6 +7175,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 4,
-  "total_explored": 755
+  "commits_since_push": 0,
+  "total_explored": 756
 }
