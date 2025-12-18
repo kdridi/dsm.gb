@@ -3445,8 +3445,6 @@ Level3MapData:  ; $5665
     dw $6C81, $6C81, $6DDB, $6EA6, $6F60, $6F60, $6EA6, $6EA6
     dw $7038, $7038, $6F60, $7123, $7123, $71FC, $72BC, $71FC
     dw $72BC, $7379, $7123, $7379, $7442, $757C, $6C1B
-    ; Note: $757C = Level3TileData27 (1750 bytes de tile data RLE, actuellement mal désassemblé)
-    ;       TODO BFS: Reconstruire comme "db" statements (voir $7442 Level3TileData20 pour exemple)
     db $FF  ; Terminateur
 
 ; ==============================================================================
