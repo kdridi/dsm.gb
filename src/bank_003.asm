@@ -9106,6 +9106,12 @@ ProcessAudioSnapshot_ResetEnvelopes:
 ProcessAudioSnapshot_SetupBgmData:
     ld hl, AudioConfigBgmData
 
+; ProcessAudioSnapshot_ConfigureBgm
+; ---------------------------------
+; Description: Configure les registres audio BGM via les données pointées par HL
+; In:  HL = pointeur vers données de configuration audio (4 octets)
+; Out: Saute vers ProcessAudioSnapshot_ClearStateAndReturn après configuration
+; Modifie: BC via ConfigureAudioBgm
 ProcessAudioSnapshot_ConfigureBgm:
     call ConfigureAudioBgm
     jr ProcessAudioSnapshot_ClearStateAndReturn

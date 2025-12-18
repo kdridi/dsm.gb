@@ -5657,6 +5657,14 @@
       "priority": 3
     },
     {
+      "address": "$67C5",
+      "node_type": "code",
+      "description": "ProcessAudioSnapshot_ConfigureBgm - Point d'entr\u00e9e configuration audio",
+      "source": "$67CA",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$67CA",
       "node_type": "code",
       "description": "ProcessAudioSnapshot_SetupSeData charge cette table dans HL",
@@ -6241,10 +6249,10 @@
       "priority": 3
     },
     {
-      "address": "$67C5",
+      "address": "$6799",
       "node_type": "code",
-      "description": "ProcessAudioSnapshot_ConfigureBgm - Point d'entr\u00e9e configuration audio",
-      "source": "$67CA",
+      "description": "ProcessAudioSnapshot_ClearStateAndReturn - Nettoie \u00e9tat WRAM et restaure interruptions",
+      "source": "$67C5",
       "bank": 3,
       "priority": 3
     }
@@ -6811,6 +6819,7 @@
     "$2c18",
     "$2D12",
     "$5694",
+    "$67C5",
     "$5A58",
     "$5125",
     "$4E6D",
@@ -6996,6 +7005,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 4,
-  "total_explored": 745
+  "commits_since_push": 0,
+  "total_explored": 746
 }
