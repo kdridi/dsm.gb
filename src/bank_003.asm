@@ -11459,21 +11459,21 @@ WaveAudioPattern:  ; $7047
     jr PaddingZone_003_70c3
 
     ld h, b
-    nop
-    ld d, a
-    ld [hl], b
-    push hl
-    ld [hl], e
-    jp hl
 
-
-    ld [hl], e
-
-PaddingZone_003_709b:
-    db $eb
-    ld [hl], e
-    nop
-    nop
+; AudioMusicSequence_7094
+; ------------------------
+; Description: Séquence musicale #0 - Liste de pointeurs vers patterns/notes audio
+; Format: [index_byte] [dw ptr1, dw ptr2, ...] [terminateur 00 00]
+; In:  Accédée via AudioDataPointerTable[0] par ProcessAudioRequest
+; Out: Pointeurs vers données audio (WaveAudioPattern, patterns dans $73xx)
+; Utilisation: Séquence de 4 patterns audio pour musique/effets sonores
+; Références sortantes: $7057 (WaveAudioPattern), $73E5, $73E9, $73EB
+AudioMusicSequence_7094:
+    db $00                     ; Index de séquence
+    dw $7057, $73E5, $73E9
+PaddingZone_003_709b:  ; Label fantôme au milieu du dernier pointeur (pour compatibilité jr)
+    dw $73EB                   ; Dernier pointeur
+    dw $0000                   ; Terminateur
     nop
     ld [hl], a
     ld [hl], b

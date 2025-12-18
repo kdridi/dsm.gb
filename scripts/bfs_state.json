@@ -7335,6 +7335,38 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$7057",
+      "node_type": "data",
+      "description": "WaveAudioPattern - Pattern waveform custom 16 octets",
+      "source": "$7094",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$73E5",
+      "node_type": "data",
+      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
+      "source": "$7094",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$73E9",
+      "node_type": "data",
+      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
+      "source": "$7094",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$73EB",
+      "node_type": "data",
+      "description": "Pattern audio/musique r\u00e9f\u00e9renc\u00e9 par s\u00e9quence",
+      "source": "$7094",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7450,6 +7482,7 @@
     "$4CC9",
     "$0E54",
     "$5886",
+    "$7094",
     "$2D7B",
     "$2d86",
     "$22F0",
@@ -8183,6 +8216,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 844
+  "commits_since_push": 4,
+  "total_explored": 845
 }
