@@ -7169,6 +7169,14 @@
       "priority": 3
     },
     {
+      "address": "$939D",
+      "node_type": "data",
+      "description": "Pointeur vers donn\u00e9es audio (VRAM ou bank switchable)",
+      "source": "$72B5",
+      "bank": null,
+      "priority": 3
+    },
+    {
       "address": "$A649",
       "node_type": "data",
       "description": "Valeur pour ld sp (possiblement stack pointer ou WRAM)",
@@ -7599,14 +7607,6 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
-    },
-    {
-      "address": "$939D",
-      "node_type": "data",
-      "description": "Pointeur vers donn\u00e9es audio (VRAM ou bank switchable)",
-      "source": "$72B5",
-      "bank": null,
-      "priority": 3
     }
   ],
   "visited": [
@@ -8007,6 +8007,7 @@
     "$6AD8",
     "$4D2C",
     "$6AA0",
+    "$72D1",
     "$1EC5",
     "$6BEF",
     "$4BA4",
@@ -8475,6 +8476,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 864
+  "commits_since_push": 4,
+  "total_explored": 865
 }
