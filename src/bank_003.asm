@@ -9396,16 +9396,24 @@ ClearPulseRegisters:
     res 7, [hl]             ; Reset bit 7 du flag d'état audio
     ret
 
-; Données audio - Séquence audio pour canal 1 (utilisée par routines $690C et $6925)
-AudioData_003_6902:
-    db $00, $80, $e2, $06, $87, $00, $80, $e2, $83, $87
+; AudioSequenceData_Channel1
+; --------------------------
+; Description: Table de configurations audio pour canal 1 (Sound Effect)
+;              Contient 2 configurations de 5 octets chacune (registres NR10-NR14)
+; Format: [NR10 sweep, NR11 pattern, NR12 envelope, NR13 freq_low, NR14 freq_high] x2
+; Utilisée par: AudioChannel1Routine_690C (offset 0), SetupAudioConfiguration (offset +5)
+AudioSequenceData_Channel1:
+    ; Configuration 1 (offset 0): sweep=$00, pattern=$80, envelope=$E2, freq=$0687
+    db $00, $80, $e2, $06, $87
+    ; Configuration 2 (offset 5): sweep=$00, pattern=$80, envelope=$E2, freq=$8387
+    db $00, $80, $e2, $83, $87
 
 ; Routine auxiliaire - déclenche commande audio $6902 si GameState != 4
 AudioChannel1Routine_690C:
     call SkipIfGameState04
     ret z
 
-    ld hl, AudioData_003_6902
+    ld hl, AudioSequenceData_Channel1
     jp DispatchAudioCommand
 
 ; AudioChannel1Routine_6916
@@ -9427,7 +9435,7 @@ AudioChannel1Routine_6916:
     ret
 
 SetupAudioConfiguration:
-    ld hl, AudioData_003_6902 + 5  ; Offset +5 dans les données audio
+    ld hl, AudioSequenceData_Channel1 + 5  ; Offset +5 dans les données audio
     call ConfigureAudioSe
     ret
 

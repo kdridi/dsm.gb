@@ -6663,6 +6663,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$690C",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_690C - Routine qui charge cette table (offset 0) et appelle DispatchAudioCommand",
+      "source": "$6902",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6916,6 +6924,7 @@
     "$1305",
     "$583B",
     "$5a37",
+    "$6902",
     "$1E9B",
     "$2D47",
     "$266D",
@@ -7431,6 +7440,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 3,
-  "total_explored": 764
+  "commits_since_push": 4,
+  "total_explored": 765
 }
