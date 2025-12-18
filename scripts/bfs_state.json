@@ -6767,6 +6767,38 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$FF17",
+      "node_type": "data",
+      "description": "rNR22 - Registre enveloppe canal 2 (via ResetAudioChannelEnvelopes)",
+      "source": "$6B26",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF21",
+      "node_type": "data",
+      "description": "rNR42 - Registre enveloppe canal 4 (via ResetAudioChannelEnvelopes)",
+      "source": "$6B26",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF1A",
+      "node_type": "data",
+      "description": "rNR30 - Registre wave enable canal 3 (via ResetAudioChannelEnvelopes)",
+      "source": "$6B26",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF25",
+      "node_type": "data",
+      "description": "rNR51 - Registre mixer terminal (routing canaux L/R)",
+      "source": "$6B26",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7235,6 +7267,7 @@
     "$5C57",
     "$4D5D",
     "$6C1B",
+    "$6B26",
     "$2C96",
     "$5A37",
     "$2c96",
@@ -7552,6 +7585,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 781
+  "commits_since_push": 1,
+  "total_explored": 782
 }

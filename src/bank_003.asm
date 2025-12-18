@@ -10037,32 +10037,54 @@ LoadAudioRegisterRange:
     ret
 
 
-ClearAudioChannels:
-ResetAllAudioChannels:
-    xor a
-    ld [wStateDisplay], a
-    ld [wStateVar9], a
-    ld [wStateVar11], a
-    ld [wStateEnd], a
-    ld [wComplexState1F], a
-    ld [wComplexState2F], a
-    ld [wComplexState3F], a
-    ld [wComplexState4F], a
-    ldh [hSavedAudio], a
-    ldh [hAudioMixerSnapshot], a
-    ld a, $ff
-    ldh [rNR51], a
-    ld a, $03
-    ldh [hAudioEnvCounter], a
+; ClearAudioChannels / ResetAllAudioChannels
+; ----------------
+; Description: Reset complet du système audio - réinitialise tous les canaux,
+;              états WRAM/HRAM audio, active tous les mixeurs ($FF → NR51)
+; In:  Aucun
+; Out: Aucun
+; Modifie: a
+; Notes: - Met à zéro 10 variables d'état audio (WRAM + HRAM)
+;        - Configure NR51=$FF (tous canaux L+R activés)
+;        - Configure compteur enveloppe à 3
+;        - Appelle ResetAudioChannelEnvelopes ensuite (fall-through)
+ClearAudioChannels:             ; Alias pour compatibilité
+ResetAllAudioChannels:          ; @ $6B26
+    xor a                           ; a = 0
+    ld [wStateDisplay], a           ; Reset état display
+    ld [wStateVar9], a              ; Reset variable état 9
+    ld [wStateVar11], a             ; Reset variable état 11
+    ld [wStateEnd], a               ; Reset marqueur fin état
+    ld [wComplexState1F], a         ; Reset état complexe canal 1
+    ld [wComplexState2F], a         ; Reset état complexe canal 2
+    ld [wComplexState3F], a         ; Reset état complexe canal 3
+    ld [wComplexState4F], a         ; Reset état complexe canal 4
+    ldh [hSavedAudio], a            ; Reset état audio sauvegardé
+    ldh [hAudioMixerSnapshot], a    ; Reset snapshot mixer
+    ld a, $ff                       ; Tous bits à 1
+    ldh [rNR51], a                  ; Active tous canaux L+R (mixer terminal)
+    ld a, $03                       ; Valeur initiale compteur
+    ldh [hAudioEnvCounter], a       ; Configure compteur enveloppe
+                                    ; Fall-through vers ResetAudioChannelEnvelopes
 
-ResetAudioChannelEnvelopes:
-    ld a, $01
-    ldh [rNR12], a
-    ldh [rNR22], a
-    ldh [rNR42], a
-    xor a
-    ldh [rNR10], a
-    ldh [rNR30], a
+; ResetAudioChannelEnvelopes
+; ----------------
+; Description: Reset les registres d'enveloppe de tous les canaux audio
+;              et désactive sweep (canal 1) + wave enable (canal 3)
+; In:  Aucun
+; Out: Aucun
+; Modifie: a
+; Notes: - NR12/NR22/NR42 = $01 (enveloppe minimale, pas de sweep)
+;        - NR10 = $00 (sweep canal 1 désactivé)
+;        - NR30 = $00 (canal 3 wave désactivé)
+ResetAudioChannelEnvelopes:     ; @ $6B4B
+    ld a, $01                       ; Enveloppe minimale
+    ldh [rNR12], a                  ; Canal 1: volume initial 0, direction down
+    ldh [rNR22], a                  ; Canal 2: volume initial 0, direction down
+    ldh [rNR42], a                  ; Canal 4: volume initial 0, direction down
+    xor a                           ; a = 0
+    ldh [rNR10], a                  ; Canal 1: désactive sweep
+    ldh [rNR30], a                  ; Canal 3: désactive sortie wave
     ret
 
 
