@@ -5745,6 +5745,22 @@
       "priority": 3
     },
     {
+      "address": "$686D",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_686D - Dispatch $03 vers $6868",
+      "source": "$6700",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$687A",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_687A - Dispatch $0E vers $6875",
+      "source": "$6700",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6882",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
@@ -5769,10 +5785,26 @@
       "priority": 3
     },
     {
+      "address": "$68AE",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_68AE - Dispatch $10 + init graphics",
+      "source": "$6700",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$68C3",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
       "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$68E3",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_68E3 - Dispatch $03 si game state ok",
+      "source": "$6700",
       "bank": 3,
       "priority": 3
     },
@@ -5841,10 +5873,34 @@
       "priority": 3
     },
     {
+      "address": "$6936",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_6936 - Dispatch $08 si game state ok",
+      "source": "$6700",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6942",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
       "source": "$6716",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6961",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_6961 - Init wave command $60",
+      "source": "$6700",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6973",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_6973 - Init wave command $10",
+      "source": "$6700",
       "bank": 3,
       "priority": 3
     },
@@ -5857,10 +5913,26 @@
       "priority": 3
     },
     {
+      "address": "$699E",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_699E - Dispatch $08 vers $6999",
+      "source": "$6700",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$69AF",
       "node_type": "data",
       "description": "Table de s\u00e9quence audio (bytes) pour configuration NR12",
       "source": "$69CB",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$69BD",
+      "node_type": "code",
+      "description": "AudioChannel1Routine_69BD - Dispatch $06 si pas CENTER",
+      "source": "$6700",
       "bank": 3,
       "priority": 3
     },
@@ -5878,6 +5950,14 @@
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$69E9",
+      "node_type": "code",
+      "description": "DispatchAudioWave_Setup - Dispatch $06 vers $69F1",
+      "source": "$6700",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -6809,82 +6889,10 @@
       "priority": 3
     },
     {
-      "address": "$68AE",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_68AE - Dispatch $10 + init graphics",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$68E3",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_68E3 - Dispatch $03 si game state ok",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6936",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_6936 - Dispatch $08 si game state ok",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6973",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_6973 - Init wave command $10",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$69BD",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_69BD - Dispatch $06 si pas CENTER",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$699E",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_699E - Dispatch $08 vers $6999",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$69E9",
-      "node_type": "code",
-      "description": "DispatchAudioWave_Setup - Dispatch $06 vers $69F1",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$687A",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_687A - Dispatch $0E vers $6875",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$686D",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_686D - Dispatch $03 vers $6868",
-      "source": "$6700",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6961",
-      "node_type": "code",
-      "description": "AudioChannel1Routine_6961 - Init wave command $60",
-      "source": "$6700",
+      "address": "$6868",
+      "node_type": "data",
+      "description": "Donn\u00e9es audio canal 1 - pattern waveform",
+      "source": "$686D",
       "bank": 3,
       "priority": 3
     }
@@ -7344,6 +7352,7 @@
     "$2d7d",
     "$1bf2",
     "$053D",
+    "$686D",
     "$2D34",
     "$0C07",
     "$6882",
@@ -7676,6 +7685,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 785
+  "commits_since_push": 0,
+  "total_explored": 786
 }
