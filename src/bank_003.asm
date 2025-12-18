@@ -12176,28 +12176,15 @@ AnimationFrameData_73be:  ; [$73be] Animation sequence (226 bytes of tile comman
 ; Modifie: Aucun (zone DATA pure)
 ; Note: Partie de la grande structure AnimationFrameData_73be ($73BE-$74A0, 226 bytes)
 AnimationFrameData_73d4:  ; [$73d4] Frame animation command sequence
-    sbc l
-    scf
-    ld [hl], b
-    jr nz, PaddingZone_003_737a
-
-    ld e, b
-    ld d, h
-    ld d, d
-    ld c, [hl]
-    ld c, d
-    and [hl]
-    ld bc, $60a2
-    ld bc, $0162
-    db $ed
-    ld [hl], e
-    nop
-    nop
-    rst $38
-    ld [hl], e
-    ld de, $9d74
-    ld h, b
-    nop
+    db $9d, $37, $70, $20        ; Commandes contrôle
+    db $a1, $58, $54, $52        ; Tile IDs "XTRNJ"
+    db $4e, $4a                  ; Suite "NJ"
+    db $a6, $01, $a2, $60        ; Contrôle + données
+    db $01, $62, $01, $ed        ; Tile IDs
+    db $73, $00, $00             ; Terminateur + padding
+    db $ff, $73                  ; Marqueur fin
+    db $11, $74, $9d, $60        ; Adresses/pointeurs
+    db $00
     add b
     xor b
     ld d, d
