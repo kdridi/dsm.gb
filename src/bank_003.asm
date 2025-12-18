@@ -9195,7 +9195,15 @@ InitializeWaveAudio:
 
     ret
 
-    ; Données de config wave NR30-NR34 (5 octets)
+; WaveAudioConfigData
+; --------------------
+; Table de configuration pour le canal Wave (canal 3)
+; Format: 5 octets correspondant aux registres NR30-NR34
+; - NR30 ($80): Canal activé (bit 7=1)
+; - NR31 ($3A): Longueur du son (256-(64*length))
+; - NR32 ($20): Niveau de volume (0%, 100%, 50%, 25%)
+; - NR33 ($B0): Octet bas de la fréquence
+; - NR34 ($C6): Octet haut fréquence + trigger (bit 7=1, bit 6=counter)
 WaveAudioConfigData:
     db $80, $3a, $20, $b0, $c6
 
