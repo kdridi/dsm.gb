@@ -11421,7 +11421,9 @@ WaveAudioPattern:  ; $7047
 ; Out: 32 octets de données audio séquentielles (partie 1)
 ; Modifie: Interprété par le moteur audio
 AudioSequencePattern_7057:  ; $7057
-    db $00, $03, $06, $0c, $18, $30, $09, $12, $24, $04, $08, $02, $04, $08, $10, $20
+    db $00, $03, $06, $0c, $18, $30, $09, $12, $24, $04, $08
+AudioPatternData_7062:  ; $7062 - Sous-pattern partagé (offset +11 depuis $7057)
+    db $02, $04, $08, $10, $20
     db $40, $0c, $18, $30, $05, $0a, $01, $00, $05, $0a, $14, $28, $50, $0f, $1e, $3c
 
 ; AudioSequencePattern_7077
@@ -11466,14 +11468,15 @@ AudioMusicSequence_709F:
 
 ; AudioMusicSequence_70AA
 ; ------------------------
-; Description: Séquence musicale #2 - Données audio brutes (format différent des index 0/1)
-; Format: 11 octets de données brutes au lieu de pointeurs
+; Description: Séquence musicale #2 - Liste de pointeurs vers patterns/notes audio
+; Format: [index_byte] [dw ptr1, dw ptr2, dw ptr3, dw ptr4, dw ptr5]
 ; In:  Accédée via AudioDataPointerTable[2] par ProcessAudioRequest
-; Out: Données audio directes (pas de pointeurs vers patterns)
-; Utilisation: Séquence courte pour effets sonores ou patterns simples
-; Note: Format atypique - pas de pointeurs ni de terminateur $0000
+; Out: Pointeurs vers données audio (5 patterns audio)
+; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
+; Références sortantes: AudioPatternData_7062, $72E9, $72F5, $7301, $7315
 AudioMusicSequence_70AA:
-    db $00, $62, $70, $E9, $72, $F5, $72, $01, $73, $15, $73
+    db $00
+    dw AudioPatternData_7062, $72E9, $72F5, $7301, $7315
 
 ; AudioMusicSequence_70B5
 ; ------------------------
@@ -11507,10 +11510,10 @@ AudioMusicSequence_70C0:
 ; In:  Accédée via AudioDataPointerTable[5] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (5 patterns audio)
 ; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
-; Références sortantes: $7062, $75BC, $75C8, $75D4, $75EC
+; Références sortantes: AudioPatternData_7062, $75BC, $75C8, $75D4, $75EC
 AudioMusicSequence_70CB:
     db $00
-    dw $7062, $75BC, $75C8, $75D4, $75EC
+    dw AudioPatternData_7062, $75BC, $75C8, $75D4, $75EC
 
 ; AudioMusicSequence_70D6
 ; ------------------------
@@ -11519,10 +11522,10 @@ AudioMusicSequence_70CB:
 ; In:  Accédée via AudioDataPointerTable[6] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (5 patterns audio)
 ; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
-; Références sortantes: $7062, $77D2, $77DC, $77E6, $77F2
+; Références sortantes: AudioPatternData_7062, $77D2, $77DC, $77E6, $77F2
 AudioMusicSequence_70D6:
     db $00
-    dw $7062, $77D2, $77DC, $77E6, $77F2
+    dw AudioPatternData_7062, $77D2, $77DC, $77E6, $77F2
     nop
     ld [hl], a
     ld [hl], b

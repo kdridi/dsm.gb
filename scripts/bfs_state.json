@@ -6577,6 +6577,14 @@
       "priority": 3
     },
     {
+      "address": "$7062",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quences #5 et #6",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$7077",
       "node_type": "data",
       "description": "Pattern audio #1 pour s\u00e9quence musicale index 1",
@@ -6793,11 +6801,43 @@
       "priority": 3
     },
     {
+      "address": "$7423",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #4",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$742F",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #4",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$743B",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #4",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$7442",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7447",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #4",
+      "source": "$70C0",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -6814,6 +6854,38 @@
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$75BC",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$75C8",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$75D4",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$75EC",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
+      "source": "$70C0",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -6846,6 +6918,38 @@
       "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$77D2",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #6",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$77DC",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #6",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$77E6",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #6",
+      "source": "$70C0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$77F2",
+      "node_type": "data",
+      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #6",
+      "source": "$70C0",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -7422,110 +7526,6 @@
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
       "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$7423",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #4",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$742F",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #4",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$743B",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #4",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7447",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #4",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7062",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quences #5 et #6",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$75BC",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$75C8",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$75D4",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$75EC",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$77D2",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #6",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$77DC",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #6",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$77E6",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #6",
-      "source": "$70C0",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$77F2",
-      "node_type": "data",
-      "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #6",
-      "source": "$70C0",
-      "bank": 3,
       "priority": 3
     }
   ],
@@ -8135,6 +8135,7 @@
     "$6A90",
     "$4CA9",
     "$4F1D",
+    "$7062",
     "$5C22",
     "$47F2",
     "$1CCE",
@@ -8382,6 +8383,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 851
+  "commits_since_push": 1,
+  "total_explored": 852
 }
