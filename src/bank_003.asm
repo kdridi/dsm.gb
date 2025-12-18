@@ -9563,6 +9563,14 @@ AudioData_003_6980:
     inc hl
     inc de
     nop
+
+; AudioChannel1Routine_699E
+; --------------------------
+; Description: Routine audio canal 1 - Dispatch commande audio $06 si game state n'est pas CENTER ($08)
+; In:  wStateDisplay = État du jeu actuel
+; Out: (none - side effects: peut déclencher commande audio via DispatchAudioCommand)
+; Modifie: af, hl (via appels)
+AudioChannel1Routine_699E:
     ld a, [wStateDisplay]
     cp $08
     ret z
@@ -9572,6 +9580,15 @@ AudioData_003_6980:
     jp DispatchAudioCommand
 
 
+; AudioChannel1Routine_69CB
+; --------------------------
+; Description: Routine audio canal 1 - Gère séquence audio basée sur compteur graphique
+;              Lit une table à $69AF en utilisant wStateGraphics comme index,
+;              puis configure les registres audio NR12 (envelope) et NR14 (frequency high)
+; In:  wStateGraphics = Compteur/index dans la table de séquence
+; Out: (none - side effects: modifie wStateGraphics, configure registres audio NR12/NR14)
+; Modifie: af, bc, hl
+AudioChannel1Routine_69CB:
     call UpdateAudioFrameCounter
     and a
     ret nz

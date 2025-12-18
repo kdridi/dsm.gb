@@ -6671,6 +6671,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$69AF",
+      "node_type": "data",
+      "description": "Table de s\u00e9quence audio (bytes) pour configuration NR12",
+      "source": "$69CB",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7100,6 +7108,7 @@
     "$145D",
     "$17B3",
     "$2d8e",
+    "$69CB",
     "$2D3B",
     "$49BA",
     "$1b1a",
@@ -7444,6 +7453,6 @@
     "$6942",
     "$1CDB"
   ],
-  "commits_since_push": 3,
-  "total_explored": 769
+  "commits_since_push": 4,
+  "total_explored": 770
 }
