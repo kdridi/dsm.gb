@@ -9752,21 +9752,29 @@ CheckAudioActive:
     jp DispatchAudioCommand
 
 
+; AudioChannel4Routine_6A75
+; --------------------------
+; Description: Routine audio canal 4 index 2 (référencée depuis AudioChannel4PointerTable[2])
+; Lecture séquentielle de données audio depuis table $6A63 (AudioNoiseSequenceData)
+; In:  Appelé via jp hl depuis CheckAudioChannel4 (.audioChannel4Path)
+; Out: Écrit dans rNR43 (canal 4 polynomial counter)
+; Modifie: a, bc, hl
+AudioChannel4Routine_6A75:
     call UpdateAudioFrameCounter
     and a
     ret nz
 
-    ld hl, $dffc
+    ld hl, $dffc        ; Pointeur vers compteur de frame audio ($DFFC)
     ld c, [hl]
-    inc [hl]
+    inc [hl]            ; Incrémente le compteur
     ld b, $00
-    ld hl, $6a63
-    add hl, bc
+    ld hl, $6a63        ; AudioNoiseSequenceData - table de séquence audio canal 4
+    add hl, bc          ; Indexe dans la table de séquence
     ld a, [hl]
-    and a
+    and a               ; Test si fin de séquence (0)
     jr z, AudioData_003_6aad
 
-    ldh [rNR43], a
+    ldh [rNR43], a      ; Écrit la valeur dans registre NR43 (noise polynomial)
     ret
 
 
