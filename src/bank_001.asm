@@ -3500,9 +3500,9 @@ Level3EntitiesData:  ; $5694
 ;   $775A: Level3EntityData06 (98 bytes) - 2 occurrences ← ANALYSÉ
 ;   $77BD: Level3EntityData07 - 1 occurrence
 ;   $79E9: Level3EntityData08 (49 bytes) - 2 occurrences ← ANALYSÉ
-;   $791A: Level3EntityData09 - 2 occurrences
-;   $7AB2: Level3EntityData10 - 1 occurrence
-;   $7B5F: Level3EntityData11 - 1 occurrence
+;   $791A: Level3EntityData09 (408 bytes) - 2 occurrences
+;   $7AB2: Level3EntityData10 (173 bytes) - 1 occurrence ← ANALYSÉ
+;   $7B5F: Level3EntityData11 (243 bytes) - 1 occurrence
 ;   $7C0E: Level3EntityData12 - 1 occurrence
 ;   $7D01: Level3EntityData13 - 1 occurrence
 ;
