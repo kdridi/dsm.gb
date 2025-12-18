@@ -11445,12 +11445,12 @@ AudioSequencePattern_7077:  ; $7077
 ; In:  Accédée via AudioDataPointerTable[0] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (4 patterns audio)
 ; Utilisation: Séquence de 4 patterns audio pour musique/effets sonores
-; Références sortantes: $7057 (AudioSequencePattern_7057), $73E5, $73E9, $73EB
+; Références sortantes: AudioSequencePattern_7057, AudioSequencePattern_73E5, AudioSequencePattern_73E9, AudioSequencePattern_73EB
 AudioMusicSequence_7094:
     db $00                     ; Index de séquence
-    dw AudioSequencePattern_7057, $73E5, $73E9
+    dw AudioSequencePattern_7057, AudioSequencePattern_73E5, AudioSequencePattern_73E9
 PaddingZone_003_709b:  ; Label fantôme au milieu du dernier pointeur (pour compatibilité jr)
-    dw $73EB                   ; Dernier pointeur
+    dw AudioSequencePattern_73EB  ; Dernier pointeur (label partagé)
     dw $0000                   ; Terminateur
 
 ; AudioMusicSequence_709F
@@ -12167,10 +12167,33 @@ AudioPatternData_73D4:  ; [$73D4] Audio pattern principal + sous-patterns
     db $a1, $58, $54, $52        ; Commande $A1 + notes (X,T,R)
     db $4e, $4a                  ; Notes (N,J)
     db $a6, $01, $a2, $60        ; Commandes $A6, $A2 + param $60
-    db $01, $62, $01, $ed        ; Paramètres + note $ED
-    db $73, $00, $00             ; Terminateur + padding
-    db $ff, $73, $11, $74        ; Marqueur $FF + pointeur $7411 (little-endian)
-    db $9d, $60, $00, $80        ; Sous-pattern inline: commande $9D $60
+    db $01, $62, $01             ; Paramètres avant sous-pattern
+
+; AudioSequencePattern_73E5
+; -------------------------
+; Description: Pattern audio #2 pour séquence musicale #0 (index $7094[2])
+; Format: Séquence de bytes bruts (probablement pointeur little-endian + terminateur)
+; In:  Référencé par AudioMusicSequence_7094 comme 2e pattern de la séquence
+; Out: 4 bytes de données ($ED $73 $00 $00) - possiblement pointeur vers $73ED
+; Modifie: Consommé par le moteur audio
+AudioSequencePattern_73E5:       ; [$73E5]
+    db $ed, $73, $00, $00        ; Pattern court: dw $73ED, dw $0000 (pointeur + terminateur?)
+
+; AudioSequencePattern_73E9
+; -------------------------
+; Description: Pattern audio #3 pour séquence musicale #0 (index $7094[3])
+; Format: Données brutes (possiblement pointeurs + commandes audio)
+; In:  Référencé par AudioMusicSequence_7094 comme 3e pattern
+; Out: Séquence commençant par $FF $73, suivi de commandes audio
+; Modifie: Consommé par le moteur audio
+; Note: AudioSequencePattern_73EB pointe 2 bytes après (label partagé mid-pattern)
+; Références sortantes: $7311, $73ED
+AudioSequencePattern_73E9:       ; [$73E9]
+    db $ff, $73                  ; 2 bytes initiaux (marqueur? ou dw $73FF inversé)
+AudioSequencePattern_73EB:       ; [$73EB] Label partagé (mid-pattern, comme PaddingZone)
+    dw $7411                     ; Pointeur little-endian vers $7411
+AudioSequencePattern_73ED:       ; [$73ED] Sous-pattern pointé par _73E5
+    db $9d, $60, $00, $80        ; Commande $9D $60 (tempo/volume)
     db $a8, $52, $a2, $52        ; Commandes $A8, $A2 + note R
     db $01, $52, $01, $52        ; Répétitions note R
     db $01, $a8, $56, $58        ; Commande $A8 + notes V,X
