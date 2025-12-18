@@ -7231,6 +7231,62 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$DFE9",
+      "node_type": "data",
+      "description": "wStateVar9 - index enveloppe (lecture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD8",
+      "node_type": "data",
+      "description": "hAudioEnvCounter - HRAM config enveloppe (\u00e9criture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD6",
+      "node_type": "data",
+      "description": "hAudioEnvDiv - HRAM config enveloppe (\u00e9criture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD9",
+      "node_type": "data",
+      "description": "hAudioEnvParam1 - HRAM config enveloppe (\u00e9criture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFDA",
+      "node_type": "data",
+      "description": "hAudioEnvParam2 - HRAM config enveloppe (\u00e9criture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD5",
+      "node_type": "data",
+      "description": "hAudioEnvPos - HRAM position enveloppe (\u00e9criture, reset \u00e0 0)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD7",
+      "node_type": "data",
+      "description": "hAudioEnvRate - HRAM taux enveloppe (\u00e9criture, reset \u00e0 0)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7915,6 +7971,7 @@
     "$4AEA",
     "$704E",
     "$5A62",
+    "$6BB9",
     "$513F",
     "$6A32",
     "$50CC",
@@ -8068,6 +8125,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 833
+  "commits_since_push": 3,
+  "total_explored": 834
 }
