@@ -11440,17 +11440,21 @@ AudioMusicSequence_7094:
 PaddingZone_003_709b:  ; Label fantôme au milieu du dernier pointeur (pour compatibilité jr)
     dw $73EB                   ; Dernier pointeur
     dw $0000                   ; Terminateur
-    nop
-    ld [hl], a
-    ld [hl], b
-    and e
-    ld [hl], e
-    and a
-    ld [hl], e
-    xor c
-    ld [hl], e
-    nop
-    nop
+
+; AudioMusicSequence_709F
+; ------------------------
+; Description: Séquence musicale #1 - Liste de pointeurs vers patterns/notes audio
+; Format: [index_byte] [dw ptr1, dw ptr2, ...] [terminateur 00 00]
+; In:  Accédée via AudioDataPointerTable[1] par ProcessAudioRequest
+; Out: Pointeurs vers données audio (4 patterns audio)
+; Utilisation: Séquence de 4 patterns audio pour musique/effets sonores
+; Références sortantes: $7077, $73A3, $73A7, $73A9
+AudioMusicSequence_709F:
+    db $00                     ; Index de séquence
+    dw $7077, $73A3, $73A7, $73A9
+    dw $0000                   ; Terminateur
+
+; AudioMusicSequence_70AA (index 2) - zone mal désassemblée suivante
     nop
     ld h, d
 
