@@ -12397,9 +12397,9 @@ AudioSubPattern_74B9:       ; [$74B9]
 
 ; AudioSubPattern_74EF
 ; --------------------
-; Description: Sous-pattern audio (groupe #2, variante 2) - séquence répétitive avec pattern $A7/$A3
+; Description: Sous-pattern audio (groupe #3, référencé 2×) - séquence répétitive avec pattern $A7/$A3
 ; Format: Alternance commandes $A7/$A3 avec notes 2/:/</@/D/H/J + terminateur $00
-; In:  Référencé par table de patterns audio (groupe #2)
+; In:  Référencé 2× par table de patterns audio (via $73D4)
 ; Out: Consommé par le moteur audio
 ; Modifie: Registres audio via commandes du moteur
 ; Note: Pattern très répétitif - 2 séquences identiques de 14 bytes
