@@ -11498,10 +11498,10 @@ AudioMusicSequence_70B5:
 ; In:  Accédée via AudioDataPointerTable[4] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (5 patterns audio)
 ; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
-; Références sortantes: AudioSequencePattern_7057 ($7057), AudioSequencePattern_7423 ($7423), $742F, $743B, $7447
+; Références sortantes: AudioSequencePattern_7057 ($7057), AudioSequencePattern_7423 ($7423), AudioSubPattern_742F ($742F), AudioSubPattern_743B ($743B), AudioSubPattern_7447 ($7447)
 AudioMusicSequence_70C0:
     db $00
-    dw AudioSequencePattern_7057, AudioSequencePattern_7423, $742F, $743B, $7447
+    dw AudioSequencePattern_7057, AudioSequencePattern_7423, AudioSubPattern_742F, AudioSubPattern_743B, AudioSubPattern_7447
 
 ; AudioMusicSequence_70CB
 ; ------------------------
@@ -12254,16 +12254,43 @@ AudioSubPattern_7425:
     db $91, $74, $91, $74        ; Pointeurs 2-3 → $7491, $7491 (pattern répété)
     db $18, $75                  ; Pointeur 4 → $7518
     db $ff, $ff                  ; Séparateur groupe 1
-    db $25, $74, $4f, $74        ; Pointeurs 5-6 → $7425, $744F
-    db $b9, $74, $b9, $74        ; Pointeurs 7-8 → $74B9, $74B9 (pattern répété)
+    db $25, $74                  ; Pointeur 5 → $7425 (AudioSubPattern_7425)
+; AudioSubPattern_742F
+; --------------------
+; Description: Sous-pattern audio utilisant la queue de la table comme données (overlap)
+; Format: Séquence de pointeurs word réutilisés comme notes/commandes audio
+; In:  Référencé par AudioMusicSequence_70C0[2]
+; Out: Bytes interprétés comme données audio par le moteur sonore
+; Note: Optimisation mémoire - pointe au milieu de AudioSubPattern_7425 pour réutiliser ses bytes
+AudioSubPattern_742F:
+    db $4f, $74                  ; Pointeur 6 → $744F (réutilisé comme notes audio)
+    db $b9, $74, $b9, $74        ; Pointeurs 7-8 → $74B9, $74B9 (réutilisés comme notes audio)
     db $48, $75                  ; Pointeur 9 → $7548
     db $ff, $ff                  ; Séparateur groupe 2
-    db $31, $74, $6f, $74        ; Pointeurs 10-11 → $7431, $746F
-    db $ef, $74, $ef, $74        ; Pointeurs 12-13 → $74EF, $74EF (pattern répété)
+    db $31, $74                  ; Pointeur 10 → $7431 (AudioSubPattern_7431)
+; AudioSubPattern_743B
+; --------------------
+; Description: Sous-pattern audio utilisant la queue de la table comme données (overlap)
+; Format: Séquence de pointeurs word réutilisés comme notes/commandes audio
+; In:  Référencé par AudioMusicSequence_70C0[3]
+; Out: Bytes interprétés comme données audio par le moteur sonore
+; Note: Optimisation mémoire - pointe au milieu de AudioSubPattern_7425 pour réutiliser ses bytes
+AudioSubPattern_743B:
+    db $6f, $74                  ; Pointeur 11 → $746F (réutilisé comme notes audio)
+    db $ef, $74, $ef, $74        ; Pointeurs 12-13 → $74EF, $74EF (réutilisés comme notes audio)
     db $78, $75                  ; Pointeur 14 → $7578
     db $ff, $ff                  ; Séparateur groupe 3
-    db $3d, $74, $85, $74        ; Pointeurs 15-16 → $743D, $7485
-    db $a3, $75                  ; Pointeur 17 → $75A3
+    db $3d, $74                  ; Pointeur 15 → $743D (AudioSubPattern_743D)
+; AudioSubPattern_7447
+; --------------------
+; Description: Sous-pattern audio utilisant la queue de la table comme données (overlap)
+; Format: Séquence de pointeurs word réutilisés comme notes/commandes audio
+; In:  Référencé par AudioMusicSequence_70C0[4]
+; Out: Bytes interprétés comme données audio par le moteur sonore
+; Note: Optimisation mémoire - pointe au milieu de AudioSubPattern_7425 pour réutiliser ses bytes
+AudioSubPattern_7447:
+    db $85, $74                  ; Pointeur 16 → $7485 (réutilisé comme notes audio)
+    db $a3, $75                  ; Pointeur 17 → $75A3 (réutilisé comme notes audio)
     db $ff, $ff                  ; Séparateur groupe 4
     db $49, $74                  ; Pointeur 18 → $7449
     ; Séquence 1: Notes avec commandes $9D/$A2/$A5
