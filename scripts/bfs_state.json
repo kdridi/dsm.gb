@@ -6697,6 +6697,38 @@
       "priority": 3
     },
     {
+      "address": "$FF17",
+      "node_type": "data",
+      "description": "rNR22 - Registre enveloppe canal 2 (via ResetAudioChannelEnvelopes)",
+      "source": "$6B26",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF1A",
+      "node_type": "data",
+      "description": "rNR30 - Registre wave enable canal 3 (via ResetAudioChannelEnvelopes)",
+      "source": "$6B26",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF21",
+      "node_type": "data",
+      "description": "rNR42 - Registre enveloppe canal 4 (via ResetAudioChannelEnvelopes)",
+      "source": "$6B26",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF25",
+      "node_type": "data",
+      "description": "rNR51 - Registre mixer terminal (routing canaux L/R)",
+      "source": "$6B26",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$FFA4",
       "node_type": "data",
       "description": "hShadowSCX - shadow register pour effets raster",
@@ -6765,38 +6797,6 @@
       "node_type": "data",
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FF17",
-      "node_type": "data",
-      "description": "rNR22 - Registre enveloppe canal 2 (via ResetAudioChannelEnvelopes)",
-      "source": "$6B26",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FF21",
-      "node_type": "data",
-      "description": "rNR42 - Registre enveloppe canal 4 (via ResetAudioChannelEnvelopes)",
-      "source": "$6B26",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FF1A",
-      "node_type": "data",
-      "description": "rNR30 - Registre wave enable canal 3 (via ResetAudioChannelEnvelopes)",
-      "source": "$6B26",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FF25",
-      "node_type": "data",
-      "description": "rNR51 - Registre mixer terminal (routing canaux L/R)",
-      "source": "$6B26",
       "bank": 0,
       "priority": 3
     }
@@ -6929,6 +6929,7 @@
     "$2D47",
     "$4FF6",
     "$1E8E",
+    "$6B4B",
     "$1aa0",
     "$1BF6",
     "$2D95",
@@ -7585,6 +7586,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 782
+  "commits_since_push": 2,
+  "total_explored": 783
 }
