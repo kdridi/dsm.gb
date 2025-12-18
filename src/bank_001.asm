@@ -7580,6 +7580,20 @@ Level3TileData8:  ; $7038 - Point d'entrée alternatif dans Level3TileData5
     ldh [c], a
     db $fd
     ld h, a
+
+; ==============================================================================
+; Level3TileData14 - Compressed tile data ($71FC-$72BB)
+; ==============================================================================
+; Description: Compressed tile pattern data for Level 3, entries #13 and #15
+; Format: RLE compressed - byte count prefix, tile data, $FE terminator per sequence
+;         - 192 bytes total ($C0) containing 20 compressed tile sequences
+;         - Each sequence: COUNT (1 byte) + TILE_DATA (variable) + $FE (terminator)
+; Referenced by: Level3MapData entries #13, #15 (ligne 3367)
+; Structure example: $05 $31 $7F $69... $FE (5-count sequence)
+; Note: Code below is DISASSEMBLED DATA - should be reconstructed as db statements
+; TODO BFS: Reconstruire avec db statements lors d'une passe de nettoyage globale
+; ==============================================================================
+Level3TileData14:  ; $71FC - Tile data (mal désassemblée)
     cp $05
     ld sp, $697f
     ld a, a
