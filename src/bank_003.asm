@@ -9034,33 +9034,40 @@ UnreachableCodeData_003_07:
     inc h
     ld a, d
 
+; ProcessAudioSnapshot
+; --------------------
+; Description: Traite le snapshot audio courant - routine principale du système audio.
+;              Gère la pause/reprise audio et orchestre les mises à jour des canaux.
+; In:  (none - appelé par VBlank ou timer interrupt)
+; Out: (none)
+; Modifie: af, bc, de, hl (sauvegardés/restaurés)
 ProcessAudioSnapshot:
     push af
     push bc
     push de
     push hl
-    ld a, $03
+    ld a, IE_VBLANK_STAT           ; $03 - Active uniquement VBlank + LCD STAT
     ldh [rIE], a
     ei
     ldh a, [hSavedAudio]
-    cp $01
+    cp PAUSE_ENTER                 ; $01 - Entrée en pause ?
     jr z, ProcessAudioSnapshot_ResetEnvelopes
 
-    cp $02
+    cp PAUSE_EXIT                  ; $02 - Sortie de pause ?
     jr z, ProcessAudioSnapshot_ClearMixerSnapshot
 
     ldh a, [hAudioMixerSnapshot]
     and a
     jr nz, ProcessAudioSnapshot_CheckMixerState
 
-    ld c, $d3
+    ld c, LOW(hAudioCh2Param)      ; $D3 - Canal audio 2
     ldh a, [c]
     and a
     jr z, ProcessAudioSnapshot_ProcessChannels
 
     xor a
     ldh [c], a
-    ld a, $08
+    ld a, AUDIO_STATE_BUFFER_RESET ; $08
     ld [wStateBuffer], a
 
 ProcessAudioSnapshot_ProcessChannels:
@@ -9078,7 +9085,7 @@ ProcessAudioSnapshot_ClearStateAndReturn:
     ld [wStateVar10], a
     ld [wStateFinal], a
     ldh [hSavedAudio], a
-    ld a, $07
+    ld a, IE_VBLANK_STAT_TIMER     ; $07 - Restaure VBlank + STAT + Timer
     ldh [rIE], a
     pop hl
     pop de
@@ -9093,18 +9100,18 @@ ProcessAudioSnapshot_ResetEnvelopes:
     ld [wStateDisplay], a
     ld [wStateVar11], a
     ld [wStateEnd], a
-    ld a, $30
+    ld a, MIXER_STATE_INIT         ; $30 - Initialise compteur mixer
     ldh [hAudioMixerSnapshot], a
 
 ProcessAudioSnapshot_SetupBgmData:
-    ld hl, $67ec
+    ld hl, AudioConfigBgmData
 
 ProcessAudioSnapshot_ConfigureBgm:
     call ConfigureAudioBgm
     jr ProcessAudioSnapshot_ClearStateAndReturn
 
 ProcessAudioSnapshot_SetupSeData:
-    ld hl, $67f0
+    ld hl, AudioConfigSeData
     jr ProcessAudioSnapshot_ConfigureBgm
 
 ProcessAudioSnapshot_ClearMixerSnapshot:
@@ -9116,29 +9123,27 @@ ProcessAudioSnapshot_CheckMixerState:
     ld hl, hAudioMixerSnapshot
     dec [hl]
     ld a, [hl]
-    cp $28
+    cp MIXER_STATE_SE_HIGH         ; $28
     jr z, ProcessAudioSnapshot_SetupSeData
 
-    cp $20
+    cp MIXER_STATE_BGM_HIGH        ; $20
     jr z, ProcessAudioSnapshot_SetupBgmData
 
-    cp $18
+    cp MIXER_STATE_SE_MID          ; $18
     jr z, ProcessAudioSnapshot_SetupSeData
 
-    cp $10
+    cp MIXER_STATE_BGM_LOW         ; $10
     jr nz, ProcessAudioSnapshot_ClearStateAndReturn
 
-    inc [hl]
+    inc [hl]                       ; Maintient à $10 (ne descend pas en dessous)
     jr ProcessAudioSnapshot_ClearStateAndReturn
 
-    or d
-    db $e3
-    add e
-    rst $00
-    or d
-    db $e3
-    pop bc
-    rst $00
+; Données de configuration audio BGM/SE
+AudioConfigBgmData:
+    db $b2, $e3, $83, $c7          ; Configuration BGM (4 octets)
+
+AudioConfigSeData:
+    db $b2, $e3, $c1, $c7          ; Configuration SE (4 octets)
 
 InitializeWaveAudio:
     ld a, [wStateVar10]

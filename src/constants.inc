@@ -1045,6 +1045,18 @@ DEF STATE_RENDER_STATE_BUFFER  EQU $0b   ; Mode rendu via wStateBuffer
 DEF PAUSE_ENTER                EQU $01   ; Entrée en pause (audio → mute)
 DEF PAUSE_EXIT                 EQU $02   ; Sortie de pause (audio → restore)
 
+; === Seuils mixer audio (hAudioMixerSnapshot) ===
+
+DEF MIXER_STATE_INIT           EQU $30   ; État initial mixer (48 frames)
+DEF MIXER_STATE_SE_HIGH        EQU $28   ; Seuil trigger SE haut (40 frames)
+DEF MIXER_STATE_BGM_HIGH       EQU $20   ; Seuil trigger BGM haut (32 frames)
+DEF MIXER_STATE_SE_MID         EQU $18   ; Seuil trigger SE moyen (24 frames)
+DEF MIXER_STATE_BGM_LOW        EQU $10   ; Seuil trigger BGM bas (16 frames)
+
+; === Valeurs état audio ===
+
+DEF AUDIO_STATE_BUFFER_RESET   EQU $08   ; Valeur reset buffer audio (wStateBuffer)
+
 ; === Timers gameplay ===
 
 DEF TIMER_STATE07_WAIT         EQU $40   ; Timer attente état $07 (64 frames)

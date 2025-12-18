@@ -5641,6 +5641,14 @@
       "priority": 3
     },
     {
+      "address": "$6762",
+      "node_type": "code",
+      "description": "ProcessAudioSnapshot - Traite le snapshot audio courant",
+      "source": "$7FF0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$67BF",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData/MapData",
@@ -5678,6 +5686,14 @@
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3TilesetData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$6B26",
+      "node_type": "code",
+      "description": "ResetAllAudioChannels - Reset tous les canaux audio",
+      "source": "$7FF0",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -6137,18 +6153,74 @@
       "priority": 3
     },
     {
-      "address": "$6762",
+      "address": "$6B59",
       "node_type": "code",
-      "description": "ProcessAudioSnapshot - Traite le snapshot audio courant",
-      "source": "$7FF0",
+      "description": "CheckAudioChannel1 - V\u00e9rifie \u00e9tat canal audio 1",
+      "source": "$6762",
       "bank": 3,
       "priority": 3
     },
     {
-      "address": "$6B26",
+      "address": "$6B79",
       "node_type": "code",
-      "description": "ResetAllAudioChannels - Reset tous les canaux audio",
-      "source": "$7FF0",
+      "description": "CheckAudioChannel4 - V\u00e9rifie \u00e9tat canal audio 4",
+      "source": "$6762",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$67F4",
+      "node_type": "code",
+      "description": "InitializeWaveAudio - Initialise canal wave (canal 3)",
+      "source": "$6762",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6B9D",
+      "node_type": "code",
+      "description": "ProcessAudioRequest - Traite requ\u00eate audio en cours",
+      "source": "$6762",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6BEF",
+      "node_type": "code",
+      "description": "UpdateAudioEnvelopeAndPan - Met \u00e0 jour enveloppe et panoramique",
+      "source": "$6762",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6B4B",
+      "node_type": "code",
+      "description": "ResetAudioChannelEnvelopes - Reset enveloppes tous canaux",
+      "source": "$6762",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6ADF",
+      "node_type": "code",
+      "description": "ConfigureAudioBgm - Configure BGM/SE depuis donn\u00e9es",
+      "source": "$6762",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$67EC",
+      "node_type": "data",
+      "description": "AudioConfigBgmData - Donn\u00e9es config BGM (4 octets)",
+      "source": "$6762",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$67F0",
+      "node_type": "data",
+      "description": "AudioConfigSeData - Donn\u00e9es config SE (4 octets)",
+      "source": "$6762",
       "bank": 3,
       "priority": 3
     }
@@ -6482,6 +6554,7 @@
     "$0226",
     "$5844",
     "$0E1F",
+    "$6762",
     "$136D",
     "$02A5",
     "$7AB2",
@@ -6896,6 +6969,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 0,
-  "total_explored": 741
+  "commits_since_push": 1,
+  "total_explored": 742
 }
