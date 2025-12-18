@@ -6967,6 +6967,22 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$696E",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_696E - Pattern waveform (sweep=$49, pattern=$91, env=$82, freq=$D37F)",
+      "source": "$6973",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$DFE6",
+      "node_type": "data",
+      "description": "wStateVar6 - Variable \u00e9tat 6 (WRAM)",
+      "source": "$6973",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7724,6 +7740,7 @@
     "$286E",
     "$2d0f",
     "$09e8",
+    "$6973",
     "$6100",
     "$4D05",
     "$17B3",
@@ -7770,6 +7787,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 799
+  "commits_since_push": 4,
+  "total_explored": 800
 }
