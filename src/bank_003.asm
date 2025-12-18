@@ -14278,12 +14278,18 @@ PaddingZone_003_7feb:
 PaddingZone_003_7fef:
     rst $38
 
-; Routine $7ff0 - Point d'entrée audio (trampoline vers ProcessAudioSnapshot)
+; AudioEntryPoint
+; ----------------
+; Description: Point d'entrée principal du système audio, exposé pour les calls externes.
+;              Redirige vers ProcessAudioSnapshot (traitement audio) ou ResetAllAudioChannels.
+; In:  (varie selon la fonction appelée)
+; Out: (varie selon la fonction appelée)
+; Modifie: (varie selon la fonction appelée)
 AudioEntryPoint::
-    jp ProcessAudioSnapshot
+    jp ProcessAudioSnapshot  ; $6762 - Traite le snapshot audio courant
 
 
-    jp ResetAllAudioChannels
+    jp ResetAllAudioChannels ; $6B26 - Reset tous les canaux audio
 
 
     rst $38
