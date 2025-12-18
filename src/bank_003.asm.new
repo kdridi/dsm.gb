@@ -9727,7 +9727,7 @@ DispatchAudioCommand:
     jr z, ConfigureAudioWave_Entry
 
     cp $fd
-    jr z, AudioData_003_6aed
+    jr z, ConfigureAudioNoise
 
     ret
 
@@ -9753,10 +9753,17 @@ ConfigureAudioWave_Entry:
     ld b, $05
     jr AudioRegisterTransferLoop
 
-AudioData_003_6aed:
+; ConfigureAudioNoise
+; -------------------
+; Description: Configure le canal audio 4 (noise) pour les effets sonores
+;              Transfère 4 octets depuis HL vers les registres NR41-NR44
+; In:  hl = pointeur vers données audio (4 octets: length, envelope, poly, control)
+; Out: Registres audio NR41-NR44 ($FF20-$FF23) configurés
+; Modifie: a, bc, hl
+ConfigureAudioNoise:
     push bc
-    ld c, $20
-    ld b, $04
+    ld c, LOW(rNR41)            ; c = NR41 ($FF20) - Canal 4 Length
+    ld b, $04                   ; 4 octets à transférer
 
 AudioRegisterTransferLoop:
     ld a, [hl+]
