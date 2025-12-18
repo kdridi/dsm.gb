@@ -9730,9 +9730,33 @@ ChannelConfigData_Type1:
 ; Note: Fait partie de AudioWaveformPattern_69F1, note $BA (si bémol / la dièse)
 ChannelConfigData_Type2:
     db $00, $30, $F0, $BA, $C7  ; Séquence 3: note $BA / Config Type2
-    db $00, $30, $F0, $C4, $C7  ; Séquence 4: note $C4
-    db $00, $30, $F0, $D4, $C7  ; Séquence 5: note $D4
-    db $00, $30, $F0, $CB, $C7  ; Séquence 6: note $CB
+
+; ChannelConfigData_Type3
+; -----------------------
+; Description: Configuration audio pour canal wave memory type 3 (5 octets)
+; Format: Séquence 4 du pattern waveform ($00 $30 $F0 $C4 $C7)
+; Usage: Pointeur chargé par ChannelType_03_WaveMemory avant InitSquareChannel1
+; Note: Fait partie de AudioWaveformPattern_69F1, note $C4 (do)
+ChannelConfigData_Type3:
+    db $00, $30, $F0, $C4, $C7  ; Séquence 4: note $C4 / Config Type3
+
+; ChannelConfigData_Type4
+; -----------------------
+; Description: Configuration audio pour canal noise type 4 (5 octets)
+; Format: Séquence 5 du pattern waveform ($00 $30 $F0 $D4 $C7)
+; Usage: Pointeur chargé par ChannelType_04_Noise avant InitSquareChannel1
+; Note: Fait partie de AudioWaveformPattern_69F1, note $D4 (ré)
+ChannelConfigData_Type4:
+    db $00, $30, $F0, $D4, $C7  ; Séquence 5: note $D4 / Config Type4
+
+; ChannelConfigData_Type5
+; -----------------------
+; Description: Configuration audio pour canal master type 5 (5 octets)
+; Format: Séquence 6 du pattern waveform ($00 $30 $F0 $CB $C7)
+; Usage: Pointeur chargé par ChannelType_05_Master avant InitSquareChannel1
+; Note: Fait partie de AudioWaveformPattern_69F1, note $CB (si), dernière séquence
+ChannelConfigData_Type5:
+    db $00, $30, $F0, $CB, $C7  ; Séquence 6: note $CB / Config Type5
 
     call UpdateAudioFrameCounter
     and a
@@ -9768,15 +9792,15 @@ ChannelType_02_PulseWave:
     jr ChannelInitDispatcher
 
 ChannelType_03_WaveMemory:
-    ld hl, $6a00
+    ld hl, ChannelConfigData_Type3
     jr ChannelInitDispatcher
 
 ChannelType_04_Noise:
-    ld hl, $6a05
+    ld hl, ChannelConfigData_Type4
     jr ChannelInitDispatcher
 
 ChannelType_05_Master:
-    ld hl, $6a0a
+    ld hl, ChannelConfigData_Type5
 
 ChannelInitDispatcher:
     jp InitSquareChannel1
@@ -9789,9 +9813,9 @@ ChannelInitDispatcher:
 ;
 ; - $69F6: ChannelConfigData_Type1 ✓ FAIT (utilisé par ChannelType_01_PulseWave)
 ; - $69FB: ChannelConfigData_Type2 ✓ FAIT (utilisé par ChannelType_02_PulseWave)
-; - $6A00: ChannelConfigData_Type3 TODO (utilisé par ChannelType_03_WaveMemory)
-; - $6A05: ChannelConfigData_Type4 TODO (utilisé par ChannelType_04_Noise)
-; - $6A0A: ChannelConfigData_Type5 TODO (utilisé par ChannelType_05_Master)
+; - $6A00: ChannelConfigData_Type3 ✓ FAIT (utilisé par ChannelType_03_WaveMemory)
+; - $6A05: ChannelConfigData_Type4 ✓ FAIT (utilisé par ChannelType_04_Noise)
+; - $6A0A: ChannelConfigData_Type5 ✓ FAIT (utilisé par ChannelType_05_Master)
 ; - $6A0F: AudioChannel1Routine_6A0F TODO (référencé dans AudioChannel1PointerTable[7])
 ;          WARNING: Cette adresse pointe AU MILIEU de l'instruction "ld a,[$c202]"!
 ;          C'est soit un bug du jeu original, soit une entrée jamais utilisée.
