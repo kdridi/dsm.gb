@@ -9138,12 +9138,26 @@ ProcessAudioSnapshot_CheckMixerState:
     inc [hl]                       ; Maintient à $10 (ne descend pas en dessous)
     jr ProcessAudioSnapshot_ClearStateAndReturn
 
-; Données de configuration audio BGM/SE
+; AudioConfigBgmData
+; ------------------
+; Description: Table de configuration audio pour le mixage BGM (Background Music)
+; Structure: 4 octets écrits séquentiellement vers registres NR22-NR25 ($FF16-$FF19)
+;   Octet 0 ($b2) -> NR22 ($FF16): Envelope Channel 2 (Vol=11, Increase, Period=2)
+;   Octet 1 ($e3) -> NR23 ($FF17): Frequency Low (partie basse fréquence)
+;   Octet 2 ($83) -> NR24 ($FF18): Frequency High + Trigger (bit 7=1, freq high=$03)
+;   Octet 3 ($c7) -> NR25 ($FF19): Pan/Volume control (L/R mix + volume)
+; In:  HL = pointeur vers ces données
+; Utilisation: Chargé via ConfigureAudioBgm lors transitions d'états mixer (snapshot audio)
 AudioConfigBgmData:
-    db $b2, $e3, $83, $c7          ; Configuration BGM (4 octets)
+    db $b2, $e3, $83, $c7          ; Config BGM: Envelope=$b2, Freq=$03e3, Control=$c7
 
+; AudioConfigSeData
+; -----------------
+; Description: Table de configuration audio pour le mixage SE (Sound Effects)
+; Structure: Même format que AudioConfigBgmData, seuls les octets 2-3 diffèrent
+;   Différence clé: Octet 2=$c1 (vs $83) change la fréquence et le contrôle
 AudioConfigSeData:
-    db $b2, $e3, $c1, $c7          ; Configuration SE (4 octets)
+    db $b2, $e3, $c1, $c7          ; Config SE: Envelope=$b2, Freq=$03e3, Control=$c7 (variant)
 
 InitializeWaveAudio:
     ld a, [wStateVar10]
