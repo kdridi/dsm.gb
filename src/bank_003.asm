@@ -9826,6 +9826,20 @@ AudioChannel4Routine_6AA8:
     ret
 
 
+; DispatchAudioCommand
+; --------------------
+; Description: Dispatche commandes audio vers les handlers de configuration de canaux
+;              Initialise le buffer audio [de] avec hAudioStatus et la commande, puis route
+;              vers ConfigureAudioSe (ch1, e=$e5), ConfigureAudioWave (ch3, e=$f5),
+;              ou ConfigureAudioNoise (ch4, e=$fd) selon la valeur de e
+; In:  a = commande audio à dispatcher
+;      de = pointeur vers buffer audio (e détermine le canal cible)
+;      hl = pointeur vers données de configuration audio
+;      hAudioStatus = statut audio courant
+; Out: Saute vers handler de canal approprié ou retourne si canal non géré
+;      Buffer [de-1..de+3] initialisé: [hAudioStatus, 0, commande, 0, 0]
+; Modifie: af, e (décrémenté puis restauré+3)
+; Note: Appelée par routines audio canal 1 (AudioChannel1Routine_690C et autres)
 DispatchAudioCommand:
     push af
     dec e
