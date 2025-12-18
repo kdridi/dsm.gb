@@ -7137,6 +7137,14 @@
       "priority": 3
     },
     {
+      "address": "$7628",
+      "node_type": "data",
+      "description": "Pointeur vers pattern audio (r\u00e9f\u00e9renc\u00e9 2\u00d7)",
+      "source": "$75BC",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$764F",
       "node_type": "data",
       "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
@@ -7158,6 +7166,14 @@
       "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$76F7",
+      "node_type": "data",
+      "description": "Pointeur vers pattern audio (non labellis\u00e9)",
+      "source": "$75BC",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -7799,22 +7815,6 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
-    },
-    {
-      "address": "$7628",
-      "node_type": "data",
-      "description": "Pointeur vers pattern audio (r\u00e9f\u00e9renc\u00e9 2\u00d7)",
-      "source": "$75BC",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$76F7",
-      "node_type": "data",
-      "description": "Pointeur vers pattern audio (non labellis\u00e9)",
-      "source": "$75BC",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -8378,6 +8378,7 @@
     "$1C73",
     "$1612",
     "$12B9",
+    "$75BE",
     "$51EA",
     "$73ab",
     "$6762",
@@ -8716,6 +8717,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 897
+  "commits_since_push": 2,
+  "total_explored": 898
 }
