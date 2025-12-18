@@ -12234,89 +12234,64 @@ AudioSequencePattern_7411:       ; [$7411]
 
 ; AudioSequencePattern_7423
 ; -------------------------
-; Description: Table de pointeurs vers sous-patterns audio (18 entrées avec séparateurs)
-; Format: Séquence de pointeurs word (dw) vers sous-patterns, séparés par $FF $FF tous les 4-5 pointeurs
-; In:  Référencée par AudioMusicSequence_70C0[2] ET utilisée comme table interne de AudioSequencePattern_7411
-; Out: Pointeurs vers 18 sous-patterns audio distincts (certains répétés)
-; Modifie: Consommée par le moteur audio pour accéder aux sous-patterns
-; Note: Adresse partagée - utilisée dans deux contextes (pattern séquence #4 ET table interne pattern #7411)
-; Références sortantes: AudioSubPattern_745F, _7491, _7518, AudioSubPattern_7425, _744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
+; Description: Séquence audio complexe avec 5 sous-patterns imbriqués et commandes audio
+; Format: Séquence de commandes audio $FD/$FE alternées avec notes et paramètres
+; In:  Référencée par AudioMusicSequence_70C0 via table de patterns
+; Out: Exécutée par le moteur audio, produit des variations musicales
+; Modifie: Registres audio via commandes du moteur
+; Note: Structure optimisée avec overlaps - plusieurs labels pointent au milieu de cette séquence
+; Références sortantes: (aucune - données pures)
 AudioSequencePattern_7423:
-    db $5f, $74                  ; Pointeur 1 → $745F (AudioSubPattern_745F)
-; AudioSubPattern_7425
-; --------------------
-; Description: Sous-pattern audio réutilisant les pointeurs 2-4 de la table parente
-; Format: Suite de bytes interprétés comme commandes/notes audio (en réalité: pointeurs word de la table)
-; In:  Référencé par AudioSequencePattern_7423 comme pointeur #5
-; Out: Bytes $91 $74 $91 $74 $18 $75... consommés comme données audio
-; Note: Optimisation - réutilise la structure de la table comme données de pattern
-AudioSubPattern_7425:
-    db $91, $74, $91, $74        ; Pointeurs 2-3 → $7491, $7491 (pattern répété)
-    db $18, $75                  ; Pointeur 4 → $7518
-    db $ff, $ff                  ; Séparateur groupe 1
-    db $25, $74                  ; Pointeur 5 → $7425 (AudioSubPattern_7425)
+    db $6a, $fe, $05, $32        ; Commande $FE $05: volume/canal + param $32
+    db $69, $6a, $69, $6a        ; Séquence notes i-j répétée (variation 1)
+    db $97, $fd, $69, $fe        ; Commande $FD $69 puis $FE
 ; AudioSubPattern_742F
 ; --------------------
-; Description: Sous-pattern audio utilisant la queue de la table comme données (overlap)
-; Format: Séquence de pointeurs word réutilisés comme notes/commandes audio
+; Description: Sous-pattern audio (groupe #2) - overlap milieu de table
 ; In:  Référencé par AudioMusicSequence_70C0[2]
-; Out: Bytes interprétés comme données audio par le moteur sonore
-; Note: Optimisation mémoire - pointe au milieu de AudioSubPattern_7425 pour réutiliser ses bytes
+; Note: Pointe au milieu d'AudioSequencePattern_7423 (offset +12)
 AudioSubPattern_742F:
-    db $4f, $74                  ; Pointeur 6 → $744F (réutilisé comme notes audio)
-
-; AudioSubPattern_7431
-; --------------------
-; Description: Sous-pattern audio groupe #3 (overlap milieu de table)
-; Format: Séquence de pointeurs word réutilisés comme notes/commandes audio
-; In:  Référencé depuis table parente, pointe au milieu d'AudioSubPattern_742F
-; Out: Bytes $B9 $74 $B9 $74... interprétés comme données audio
-; Note: Optimisation mémoire - commence au pointeur 7 de la table parente
-; Références sortantes: $74B9 (pointeur 7-8), $7548 (pointeur 9)
-AudioSubPattern_7431:
-    db $b9, $74, $b9, $74        ; Pointeurs 7-8 → $74B9, $74B9 (réutilisés comme notes audio)
-    db $48, $75                  ; Pointeur 9 → $7548
-    db $ff, $ff                  ; Séparateur groupe 2
-    db $31, $74                  ; Pointeur 10 → $7431 (pointeur auto-référentiel)
+    db $05, $31, $6a, $69        ; Param $05 $31 + notes j-i
+    db $6a, $69, $97, $fd        ; Notes j-i + commande $FD
+    db $6a, $fe, $05, $32        ; Commande $FE $05 + param $32
 ; AudioSubPattern_743B
 ; --------------------
-; Description: Sous-pattern audio utilisant la queue de la table comme données (overlap)
-; Format: Séquence de pointeurs word réutilisés comme notes/commandes audio
+; Description: Sous-pattern audio (groupe #3) - overlap avec notes aiguës
 ; In:  Référencé par AudioMusicSequence_70C0[3]
-; Out: Bytes interprétés comme données audio par le moteur sonore
-; Note: Optimisation mémoire - pointe au milieu de AudioSubPattern_7425 pour réutiliser ses bytes
+; Note: Pointe au milieu d'AudioSequencePattern_7423 (offset +24)
 AudioSubPattern_743B:
-    db $6f, $74                  ; Pointeur 11 → $746F (réutilisé comme notes audio)
-    db $ef, $74, $ef, $74        ; Pointeurs 12-13 → $74EF, $74EF (réutilisés comme notes audio)
-    db $78, $75                  ; Pointeur 14 → $7578
-    db $ff, $ff                  ; Séparateur groupe 3
-    db $3d, $74                  ; Pointeur 15 → $743D (AudioSubPattern_743D)
+    db $7f, $6a                  ; Notes DEL ($7F) + j ($6A)
+; AudioSubPattern_743D
+; --------------------
+; Description: Sous-pattern audio (groupe #4) - variation avec notes aiguës
+; Format: Commandes $FE/$FD alternées avec notes hautes (DEL = $7F) et séquence répétée
+; In:  Référencé par AudioSequencePattern_7423 (pointeur 15 dans table parente)
+; Out: Séquence audio avec notes $7F (DEL) + $6A (j) et commandes tempo
+; Modifie: Consommé par le moteur audio
+; Note: Pointe au milieu d'AudioSequencePattern_7423 (offset +26)
+; Références sortantes: (aucune - données pures)
+AudioSubPattern_743D:
+    db $7f, $6a                  ; Notes DEL ($7F) + j ($6A) répétées
+    db $f1, $5d, $fe, $0b        ; Commandes $F1 $5D puis $FE $0B: changement canal/mode
+    db $31, $7f                  ; Param $31 + note DEL
 ; AudioSubPattern_7447
 ; --------------------
-; Description: Sous-pattern audio utilisant la queue de la table comme données (overlap)
-; Format: Séquence de pointeurs word réutilisés comme notes/commandes audio
+; Description: Sous-pattern audio (groupe #5) - séquence i/DEL alternée
 ; In:  Référencé par AudioMusicSequence_70C0[4]
-; Out: Bytes interprétés comme données audio par le moteur sonore
-; Note: Optimisation mémoire - pointe au milieu de AudioSubPattern_7425 pour réutiliser ses bytes
+; Note: Pointe au milieu d'AudioSequencePattern_7423 (offset +36)
 AudioSubPattern_7447:
-    db $85, $74                  ; Pointeur 16 → $7485 (réutilisé comme notes audio)
-    db $a3, $75                  ; Pointeur 17 → $75A3 (réutilisé comme notes audio)
-    db $ff, $ff                  ; Séparateur groupe 4
-    db $49, $74                  ; Pointeur 18 → $7449
-    ; Séquence 1: Notes avec commandes $9D/$A2/$A5
-    db $9d, $a2                  ; Commande $9D $A2: changement tempo/mode
-    db $00, $80, $a2, $40        ; Params $00 $80 + $A2: répétition + note @ ($40)
-    db $44, $01, $48, $01        ; Note D ($44) + rép $01, note H ($48) + rép $01
-    db $44, $01, $40, $a5        ; Note D + rép, note @ + $A5: commande spéciale
-    db $3c, $00                  ; Param $3C + terminateur $00
-    ; Séquence 2: Série de notes J
-    db $9d, $82                  ; Commande $9D $82: changement tempo/mode
-    db $00, $80, $a2, $4a        ; Params $00 $80 + $A2: répétition + note J ($4A)
-    db $4a, $01, $4a, $01        ; Répétitions note J (4x total)
-    db $4a, $01, $4a, $a5        ; Répétitions J + $A5: commande spéciale
-    db $44, $00                  ; Note D ($44) + terminateur $00
-    ; Séquence 3: Finale
-    db $9d, $37                  ; Commande $9D $37: tempo/mode final (fin pattern)
+    db $69, $7f                  ; Notes i ($69) + DEL ($7F)
+    db $69, $7f, $69, $7f        ; Suite séquence alternée i/DEL
+    db $69, $7f, $69, $e2        ; Fin séquence i/DEL + commande $E2
+    db $fd, $69, $fe, $0b        ; $FD $69 puis $FE $0B: changement mode
+    db $32, $69, $6a, $69        ; Param $32 + séquence i-j-i
+    db $6a, $69, $6a, $69        ; Suite séquence alternée i/j (x4)
+    db $6a, $69, $6a, $e2        ; Fin séquence i/j + commande $E2
+    db $fd, $6a, $fe, $0b        ; $FD $6A puis $FE $0B: changement mode
+    db $31, $6a, $69, $6a        ; Param $31 + séquence j-i-j
+    db $69, $6a, $69, $6a        ; Suite séquence alternée j/i (x4)
+    db $69, $6a, $69, $e2        ; Fin séquence j/i + commande $E2
+    db $fd, $69                  ; $FD $69: transition finale
 
 ; AnimationFrameData_7471
 ; -----------------------
