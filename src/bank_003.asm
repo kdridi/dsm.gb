@@ -11534,10 +11534,10 @@ AudioMusicSequence_70D6:
 ; In:  Accédée via AudioDataPointerTable[7] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (5 patterns audio)
 ; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
-; Références sortantes: AudioSequencePattern_7077 ($7077), $70EC, $70F8, $7104, $7110
+; Références sortantes: AudioSequencePattern_7077 ($7077), $70EC, AudioSequencePattern_70F8, $7104, $7110
 AudioMusicSequence_70E1:
     db $00
-    dw AudioSequencePattern_7077, $70EC, $70F8, $7104, $7110
+    dw AudioSequencePattern_7077, $70EC, AudioSequencePattern_70F8, $7104, $7110
     jr @+$73
 
     ld b, b
@@ -11550,18 +11550,15 @@ AudioMusicSequence_70E1:
     rst $38
     xor $70
 
-AudioDataRaw_003_70f8:
-    jr nz, @+$73
-
-    sub b
-    ld [hl], c
-    sub b
-    ld [hl], c
-    xor l
-    ld [hl], c
-    rst $38
-    rst $38
-    ld a, [$3070]
+; AudioSequencePattern_70F8
+; -------------------------
+; Description: Pattern audio #3 pour séquence musicale #7
+; Format: 12 bytes de données audio brutes (notes, durées, canaux)
+; In:  Référencé par AudioMusicSequence_70E1[3]
+; Utilisation: Données audio lues par le moteur sonore via ProcessAudioRequest
+AudioSequencePattern_70F8:
+    db $20, $71, $90, $71, $90, $71, $AD, $71, $FF, $FF, $FA, $70
+    db $30
     ld [hl], c
     ldh [c], a
     ld [hl], c
