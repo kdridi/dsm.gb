@@ -11498,10 +11498,10 @@ AudioMusicSequence_70B5:
 ; In:  Accédée via AudioDataPointerTable[4] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (5 patterns audio)
 ; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
-; Références sortantes: AudioSequencePattern_7057 ($7057), $7423, $742F, $743B, $7447
+; Références sortantes: AudioSequencePattern_7057 ($7057), AudioSequencePattern_7423 ($7423), $742F, $743B, $7447
 AudioMusicSequence_70C0:
     db $00
-    dw AudioSequencePattern_7057, $7423, $742F, $743B, $7447
+    dw AudioSequencePattern_7057, AudioSequencePattern_7423, $742F, $743B, $7447
 
 ; AudioMusicSequence_70CB
 ; ------------------------
@@ -12231,7 +12231,17 @@ AudioSequencePattern_7411:       ; [$7411]
     db $01, $70, $01, $70        ; Répétitions note P (4x total)
     db $01, $a8, $74, $76        ; Répétition + $A8: commande + params $74 $76
     db $78, $00                  ; Param $78 + terminateur $00
-    ; Table de pointeurs vers sous-patterns (18 entrées, séparateurs $FF $FF tous les 4-5)
+
+; AudioSequencePattern_7423
+; -------------------------
+; Description: Table de pointeurs vers sous-patterns audio (18 entrées avec séparateurs)
+; Format: Séquence de pointeurs word (dw) vers sous-patterns, séparés par $FF $FF tous les 4-5 pointeurs
+; In:  Référencée par AudioMusicSequence_70C0[2] ET utilisée comme table interne de AudioSequencePattern_7411
+; Out: Pointeurs vers 18 sous-patterns audio distincts (certains répétés)
+; Modifie: Consommée par le moteur audio pour accéder aux sous-patterns
+; Note: Adresse partagée - utilisée dans deux contextes (pattern séquence #4 ET table interne pattern #7411)
+; Références sortantes: AudioSubPattern_745F, _7491, _7518, _7425, _744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
+AudioSequencePattern_7423:
     db $5f, $74                  ; Pointeur 1 → $745F (AudioSubPattern_745F)
     db $91, $74, $91, $74        ; Pointeurs 2-3 → $7491, $7491 (pattern répété)
     db $18, $75                  ; Pointeur 4 → $7518
