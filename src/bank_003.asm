@@ -11414,15 +11414,25 @@ WaveAudioPattern:  ; $7047
 
 ; AudioSequencePattern_7057
 ; -------------------------
-; Description: Pattern de séquence audio #1 - données de notes/timing/envelope
+; Description: Pattern de séquence audio #0 - données de notes/timing/envelope
 ;              Utilisé comme premier élément dans AudioMusicSequence_7094
 ;              Format probable: séquence de commandes audio (notes, durées, enveloppes)
 ; In:  Accédé via pointeur dans AudioMusicSequence_7094
-; Out: 61 octets de données audio séquentielles
+; Out: 32 octets de données audio séquentielles (partie 1)
 ; Modifie: Interprété par le moteur audio
 AudioSequencePattern_7057:  ; $7057
     db $00, $03, $06, $0c, $18, $30, $09, $12, $24, $04, $08, $02, $04, $08, $10, $20
     db $40, $0c, $18, $30, $05, $0a, $01, $00, $05, $0a, $14, $28, $50, $0f, $1e, $3c
+
+; AudioSequencePattern_7077
+; -------------------------
+; Description: Pattern de séquence audio #1 - continuation des données audio
+;              Utilisé comme premier élément dans AudioMusicSequence_709F
+;              Sous-pattern qui partage les mêmes données que la fin de AudioSequencePattern_7057
+; In:  Accédé via pointeur dans AudioMusicSequence_709F
+; Out: 29 octets de données audio séquentielles (partie 2)
+; Modifie: Interprété par le moteur audio
+AudioSequencePattern_7077:  ; $7077
     db $03, $06, $0c, $18, $30, $60, $12, $24, $48, $08, $10, $00, $07, $0e, $1c, $38
     db $70, $15, $2a, $54, $04, $08, $10, $20, $40, $80, $18, $30, $60
 
@@ -11448,10 +11458,10 @@ PaddingZone_003_709b:  ; Label fantôme au milieu du dernier pointeur (pour comp
 ; In:  Accédée via AudioDataPointerTable[1] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (4 patterns audio)
 ; Utilisation: Séquence de 4 patterns audio pour musique/effets sonores
-; Références sortantes: $7077, $73A3, $73A7, $73A9
+; Références sortantes: AudioSequencePattern_7077, $73A3, $73A7, $73A9
 AudioMusicSequence_709F:
     db $00                     ; Index de séquence
-    dw $7077, $73A3, $73A7, $73A9
+    dw AudioSequencePattern_7077, $73A3, $73A7, $73A9
     dw $0000                   ; Terminateur
 
 ; AudioMusicSequence_70AA (index 2) - zone mal désassemblée suivante
