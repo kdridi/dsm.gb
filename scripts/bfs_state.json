@@ -5961,6 +5961,14 @@
       "priority": 3
     },
     {
+      "address": "$696E",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_696E - Pattern waveform (sweep=$49, pattern=$91, env=$82, freq=$D37F)",
+      "source": "$6973",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6973",
       "node_type": "code",
       "description": "AudioChannel1Routine_6973 - Init wave command $10",
@@ -6817,6 +6825,14 @@
       "priority": 3
     },
     {
+      "address": "$DFE6",
+      "node_type": "data",
+      "description": "wStateVar6 - Variable \u00e9tat 6 (WRAM)",
+      "source": "$6973",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$DFE8",
       "node_type": "data",
       "description": "Valeur d'initialisation animation",
@@ -6965,22 +6981,6 @@
       "node_type": "data",
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$696E",
-      "node_type": "data",
-      "description": "AudioWaveformPattern_696E - Pattern waveform (sweep=$49, pattern=$91, env=$82, freq=$D37F)",
-      "source": "$6973",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$DFE6",
-      "node_type": "data",
-      "description": "wStateVar6 - Variable \u00e9tat 6 (WRAM)",
-      "source": "$6973",
       "bank": 0,
       "priority": 3
     }
@@ -7190,6 +7190,7 @@
     "$6190",
     "$2D26",
     "$4CF1",
+    "$696E",
     "$4CC1",
     "$1BEE",
     "$4DE6",
@@ -7787,6 +7788,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 800
+  "commits_since_push": 0,
+  "total_explored": 801
 }
