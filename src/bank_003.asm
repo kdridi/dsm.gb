@@ -9877,6 +9877,12 @@ ChannelInitDispatcher:
     jp DispatchAudioCommand
 
 
+; CheckAudioActive
+; ----------------
+; Description: Vérifie si l'audio est actif en testant le flag wStateEnd
+; In:  [wStateEnd] = marqueur fin état (1 = audio terminé/inactif)
+; Out: z flag = set si wStateEnd == 1 (audio inactif), reset sinon (audio actif)
+; Modifie: a
 CheckAudioActive:
     ld a, [wStateEnd]
     cp $01
