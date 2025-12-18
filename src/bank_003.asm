@@ -10458,6 +10458,12 @@ UpdateAudioPan:
     ret
 
 
+; UpdateAudioEnvelopeAndPan
+; -------------------------
+; Description: Met à jour l'enveloppe audio et le panoramique, puis applique le volume master
+; In:  wStateVar9 = index enveloppe (0 = skip), hGameState, hAudioEnvCounter
+; Out: Volume master écrit sur NR50 ($FF25), hAudioEnvPos potentiellement incrémenté
+; Modifie: a, c, hl
 UpdateAudioEnvelopeAndPan:
     ld a, [wStateVar9]
     and a
@@ -10492,6 +10498,12 @@ UpdateAudioEnvelopeAndPan:
 
     ldh a, [hAudioEnvParam2]
 
+; WriteAudioRegisterNr24 / SetAudioMasterVolume / SetAudioMasterVolumeImpl
+; -------------------------------------------------------------------------
+; Description: Écrit le volume master sur le registre NR50 ($FF25)
+; In:  a = valeur à écrire sur NR50
+; Out: NR50 mis à jour
+; Modifie: c
 WriteAudioRegisterNr24:
 SetAudioMasterVolume:
 SetAudioMasterVolumeImpl:
@@ -10500,10 +10512,22 @@ SetAudioMasterVolumeImpl:
     ret
 
 
+; SetMasterVolumeToFull
+; ---------------------
+; Description: Règle le volume master au maximum ($FF)
+; In:  Aucun
+; Out: NR50 = $FF
+; Modifie: a, c
 SetMasterVolumeToFull:
     ld a, $ff
     jr SetAudioMasterVolumeImpl
 
+; SetMasterVolumeFromParam
+; ------------------------
+; Description: Règle le volume master selon hAudioEnvParam1
+; In:  hAudioEnvParam1 = valeur du volume
+; Out: NR50 = hAudioEnvParam1
+; Modifie: a, c
 SetMasterVolumeFromParam:
     ldh a, [hAudioEnvParam1]
     jr SetAudioMasterVolumeImpl

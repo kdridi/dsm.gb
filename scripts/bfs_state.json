@@ -7081,6 +7081,14 @@
       "priority": 3
     },
     {
+      "address": "$DFE9",
+      "node_type": "data",
+      "description": "wStateVar9 - index enveloppe (lecture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$DFF8",
       "node_type": "data",
       "description": "Variable d'\u00e9tat - configur\u00e9e \u00e0 $02",
@@ -7201,6 +7209,54 @@
       "priority": 3
     },
     {
+      "address": "$FFD5",
+      "node_type": "data",
+      "description": "hAudioEnvPos - HRAM position enveloppe (\u00e9criture, reset \u00e0 0)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD6",
+      "node_type": "data",
+      "description": "hAudioEnvDiv - HRAM config enveloppe (\u00e9criture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD7",
+      "node_type": "data",
+      "description": "hAudioEnvRate - HRAM taux enveloppe (\u00e9criture, reset \u00e0 0)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD8",
+      "node_type": "data",
+      "description": "hAudioEnvCounter - HRAM config enveloppe (\u00e9criture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFD9",
+      "node_type": "data",
+      "description": "hAudioEnvParam1 - HRAM config enveloppe (\u00e9criture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FFDA",
+      "node_type": "data",
+      "description": "hAudioEnvParam2 - HRAM config enveloppe (\u00e9criture)",
+      "source": "$6BB9",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$FFEE",
       "node_type": "data",
       "description": "HRAM - Buffer de contexte collision (3 bytes: flag + adresse)",
@@ -7233,59 +7289,35 @@
       "priority": 3
     },
     {
-      "address": "$DFE9",
-      "node_type": "data",
-      "description": "wStateVar9 - index enveloppe (lecture)",
-      "source": "$6BB9",
-      "bank": 0,
+      "address": "$6BDC",
+      "node_type": "code",
+      "description": "UpdateAudioPan - Met \u00e0 jour le panoramique audio",
+      "source": "$6BEF",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$FFD8",
-      "node_type": "data",
-      "description": "hAudioEnvCounter - HRAM config enveloppe (\u00e9criture)",
-      "source": "$6BB9",
-      "bank": 0,
+      "address": "$6C23",
+      "node_type": "code",
+      "description": "SetMasterVolumeToFull - R\u00e8gle volume master \u00e0 $FF",
+      "source": "$6BEF",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$FFD6",
-      "node_type": "data",
-      "description": "hAudioEnvDiv - HRAM config enveloppe (\u00e9criture)",
-      "source": "$6BB9",
-      "bank": 0,
+      "address": "$6C27",
+      "node_type": "code",
+      "description": "SetMasterVolumeFromParam - R\u00e8gle volume depuis hAudioEnvParam1",
+      "source": "$6BEF",
+      "bank": 3,
       "priority": 3
     },
     {
-      "address": "$FFD9",
-      "node_type": "data",
-      "description": "hAudioEnvParam1 - HRAM config enveloppe (\u00e9criture)",
-      "source": "$6BB9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFDA",
-      "node_type": "data",
-      "description": "hAudioEnvParam2 - HRAM config enveloppe (\u00e9criture)",
-      "source": "$6BB9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFD5",
-      "node_type": "data",
-      "description": "hAudioEnvPos - HRAM position enveloppe (\u00e9criture, reset \u00e0 0)",
-      "source": "$6BB9",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FFD7",
-      "node_type": "data",
-      "description": "hAudioEnvRate - HRAM taux enveloppe (\u00e9criture, reset \u00e0 0)",
-      "source": "$6BB9",
-      "bank": 0,
+      "address": "$6C1F",
+      "node_type": "code",
+      "description": "SetAudioMasterVolume - \u00c9crit volume sur NR50",
+      "source": "$6BEF",
+      "bank": 3,
       "priority": 3
     }
   ],
@@ -7675,6 +7707,7 @@
     "$4D2C",
     "$6AA0",
     "$1EC5",
+    "$6BEF",
     "$4BA4",
     "$4B6F",
     "$10FE",
@@ -8125,6 +8158,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 834
+  "commits_since_push": 4,
+  "total_explored": 835
 }
