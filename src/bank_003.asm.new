@@ -10878,91 +10878,34 @@ PaddingZone_003_6f30:
     ld a, b
     sbc c
 
-; AnimationFrameData_703C (mal désassemblée) - TODO: reconstruire avec db
-; Description: Structure de données d'animation pour sprites
-; Format: Marqueurs FD/FE + données sprite (tiles, coords, attributs)
-; Note: $704E (offset +0x12) = milieu de cette structure
-; Référencée par: Animation handler bank 1 ($4C37)
+; AnimationFrameData_703C / HandleAudioConditionalLogic (ancien label)
+; ----------------------------------------------------------------------
+; Description: Structure de données d'animation avec sprites et coordonnées
+; Format:
+;   - FD XX = Marqueur spécial/flags
+;   - FE XX = Marqueur de frame (XX = nombre d'éléments)
+;   - Données sprite: séquences de bytes (tile ID, coords Y/X, attribut)
+; In:  Référencé par animation handler à $4C37
+; Out: Données de frames d'animation pour le moteur de sprites
+; Modifie: Utilisé par le renderer de sprites
+; Note: $704E (+0x12 depuis début) fait partie de cette structure
+;       Zone précédemment mal désassemblée comme du code
 AnimationFrameData_703C:
-HandleAudioConditionalLogic:  ; Alias pour compatibilité
-    sbc b          ; ATTENTION: Ceci est de la DATA mal désassemblée!
-    halt           ; Bytes réels: FD 67 FE 08 32 67 67 67 82 82...
-    ld h, a
-    sbc d
-    rst $18
-    cp $c9
-    add l
-    ld b, d
-    ld de, $0100
-    inc hl
-    ld b, l
-    ld h, a
-    adc c
-    xor e
-    call z, LCDStat_PopAndReti
-    inc c
-    or b
-    cp e
-    nop
-    ei
-    cp e
-    cp e
-    nop
-    inc bc
-    ld b, $0c
-    jr @+$32
-
-    add hl, bc
-    ld [de], a
-    inc h
-    inc b
-    ld [$0402], sp
-    ld [$2010], sp
-    ld b, b
-    inc c
-    jr PaddingZone_003_709b
-
-    dec b
-    ld a, [bc]
-    ld bc, $0500
-    ld a, [bc]
-    inc d
-    jr z, PaddingZone_003_70c4
-
-    rrca
-    ld e, $3c
-    inc bc
-    ld b, $0c
-    jr AudioDataRaw_003_70ac
-
-    ld h, b
-    ld [de], a
-    inc h
-    ld c, b
-    ld [$0010], sp
-    rlca
-    ld c, $1c
-    jr c, AudioDataRaw_003_70f8
-
-    dec d
-    ld a, [hl+]
-    ld d, h
-    inc b
-    ld [$2010], sp
-    ld b, b
-    add b
-    jr PaddingZone_003_70c3
-
-    ld h, b
-    nop
-    ld d, a
-    ld [hl], b
-    push hl
-    ld [hl], e
-    jp hl
-
-
-    ld [hl], e
+HandleAudioConditionalLogic:  ; Alias (zone de données, pas code exécutable)
+    db $FD, $67, $FE, $08, $32, $67, $67, $67  ; $703C: Début frame + flags
+    db $82, $82, $82, $82, $A6, $FD, $67, $FE  ; $7044: Sprite data
+    db $02, $31                                 ; $704C: Frame marker
+AnimationFrameData_704E:  ; Point d'entrée spécifique référencé par $4C37
+    db $67, $71, $67, $F1, $67, $FE  ; $704E: Sprite coords/tile
+    db $02, $32, $67, $71, $67, $F1, $67, $FE  ; $7054: Suite frame
+    db $02, $31, $67, $72, $FD, $67, $F1, $67  ; $705C: Sprite data + flags
+    db $FE, $02, $32, $67, $41, $82, $76, $F4  ; $7064: Frame + sprite coords
+    db $67, $6D, $6D, $6D, $6B, $F1, $67, $FE  ; $706C: Sprite data
+    db $02, $31, $67, $41, $81, $85, $67, $6E  ; $7074: Frame marker + coords
+    db $6E, $6E, $6C, $F1, $67, $FE, $02, $32  ; $707C: Sprite data + frame
+    db $67, $41, $80, $72, $F4, $67, $F1, $67  ; $7084: Coords + sprite data
+    db $FE, $02, $31, $67, $41, $81, $81, $67  ; $708C: Frame + coords
+    db $D3, $70, $72, $67, $FE, $02, $32        ; $7094: Data + frame marker
 
 PaddingZone_003_709b:
     db $eb
