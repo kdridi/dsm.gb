@@ -7767,6 +7767,38 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
+    },
+    {
+      "address": "$7608",
+      "node_type": "data",
+      "description": "Sous-pattern audio (table groupe #1, r\u00e9f\u00e9renc\u00e9 par AudioSubPattern_7518)",
+      "source": "$7518",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$75BE",
+      "node_type": "data",
+      "description": "Sous-pattern audio (table groupe #1, r\u00e9f\u00e9renc\u00e9 par AudioSubPattern_7518)",
+      "source": "$7518",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$75F4",
+      "node_type": "data",
+      "description": "Sous-pattern audio (table groupe #1, r\u00e9f\u00e9renc\u00e9 par AudioSubPattern_7518)",
+      "source": "$7518",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7677",
+      "node_type": "data",
+      "description": "Sous-pattern audio (table groupe #1, r\u00e9f\u00e9renc\u00e9 2\u00d7 par AudioSubPattern_7518)",
+      "source": "$7518",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -8021,6 +8053,7 @@
     "$4DED",
     "$6C2B",
     "$743B",
+    "$7518",
     "$6C23",
     "$2d12",
     "$50D6",
@@ -8663,6 +8696,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 892
+  "commits_since_push": 2,
+  "total_explored": 893
 }
