@@ -6017,6 +6017,70 @@
       "priority": 3
     },
     {
+      "address": "$7094",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 0)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$709F",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 1)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$70AA",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 2)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$70B5",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 3)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$70C0",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 4)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$70CB",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 5)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$70D6",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 6)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$70E1",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 7)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$7123",
       "node_type": "data",
       "description": "Tile data r\u00e9f\u00e9renc\u00e9e par Level3MapData",
@@ -6153,11 +6217,91 @@
       "priority": 3
     },
     {
+      "address": "$79C1",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 8)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$79CC",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 9)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$79D7",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 10)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$79E2",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 11)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$79E9",
       "node_type": "data",
       "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$79ED",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 12)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$79F8",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 13)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7A03",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 14)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7A0E",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 15)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7A19",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 17)",
+      "source": "$673C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7A24",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 18)",
+      "source": "$673C",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -6190,6 +6334,14 @@
       "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
       "source": "$5630",
       "bank": 1,
+      "priority": 3
+    },
+    {
+      "address": "$7E4F",
+      "node_type": "data",
+      "description": "Audio/music sequence data (index 16)",
+      "source": "$673C",
+      "bank": 3,
       "priority": 3
     },
     {
@@ -6414,158 +6566,6 @@
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
       "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$7094",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 0)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$709F",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 1)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$70AA",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 2)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$70B5",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 3)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$70C0",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 4)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$70CB",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 5)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$70D6",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 6)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$70E1",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 7)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$79C1",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 8)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$79CC",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 9)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$79D7",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 10)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$79E2",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 11)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$79ED",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 12)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$79F8",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 13)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7A03",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 14)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7A0E",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 15)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7E4F",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 16)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7A19",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 17)",
-      "source": "$673C",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7A24",
-      "node_type": "data",
-      "description": "Audio/music sequence data (index 18)",
-      "source": "$673C",
-      "bank": 3,
       "priority": 3
     }
   ],
@@ -6961,6 +6961,7 @@
     "$4CA9",
     "$24CD",
     "$58FE",
+    "$68C3",
     "$1BB4",
     "$3ED1",
     "$4BC2",
@@ -7328,6 +7329,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 1,
-  "total_explored": 757
+  "commits_since_push": 2,
+  "total_explored": 758
 }
