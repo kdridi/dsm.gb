@@ -9790,10 +9790,17 @@ ConfigureAudioSe_Entry:
     ld b, $05
     jr AudioRegisterTransferLoop
 
+; ConfigureAudioBgm
+; ----------------
+; Description: Configure le canal audio 2 (pulse wave) pour la musique (BGM)
+;              Transfère 4 octets depuis HL vers les registres NR22-NR25
+; In:  hl = pointeur vers données audio (4 octets: envelope, freq low, freq high, control)
+; Out: Registres audio NR22-NR25 ($FF16-$FF19) configurés
+; Modifie: a, bc, hl
 ConfigureAudioBgm:
     push bc
-    ld c, $16
-    ld b, $04
+    ld c, $16                   ; c = NR22 ($FF16) - Canal 2 Envelope
+    ld b, $04                   ; 4 octets à transférer
     jr AudioRegisterTransferLoop
 
 ConfigureAudioWave:
