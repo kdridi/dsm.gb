@@ -9543,10 +9543,12 @@ SquareChannel1_Setup:
     jp InitSquareChannel1
 
 
-    ld d, h
-    nop
-    sbc d
-    jr nz, @-$77
+; AudioWaveformPattern_695C
+; -------------------------
+; Description: Pattern waveform audio pour commande wave $60
+; Format: [NR10 sweep, NR11 pattern, NR12 envelope, NR13 freq_low, NR14 freq_high]
+AudioWaveformPattern_695C:
+    db $49, $E2, $61, $E8, $FE
 
 ; AudioChannel1Routine_6961
 ; --------------------------
@@ -9560,15 +9562,16 @@ AudioChannel1Routine_6961:
 DispatchAudioWaveCommand:
     ld [wStateVar6], a
     ld a, $05
-    ld hl, $695c
+    ld hl, AudioWaveformPattern_695C
     jp DispatchAudioCommand
 
 
-    daa
-    add b
-    adc d
-    db $10
-    add [hl]
+; AudioWaveformPattern_696E
+; -------------------------
+; Description: Pattern waveform audio pour commande wave $10
+; Format: [NR10 sweep, NR11 pattern, NR12 envelope, NR13 freq_low, NR14 freq_high]
+AudioWaveformPattern_696E:
+    db $49, $91, $82, $D3, $7F
 
 ; AudioChannel1Routine_6973
 ; --------------------------
@@ -9580,7 +9583,7 @@ AudioChannel1Routine_6973:
     ld a, $10
     ld [wStateVar6], a
     ld a, $05
-    ld hl, $696e
+    ld hl, AudioWaveformPattern_696E
     jp DispatchAudioCommand
 
 
