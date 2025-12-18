@@ -6911,6 +6911,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$6895",
+      "node_type": "code",
+      "description": "SkipIfGameState03 - V\u00e9rifie si game state = $03",
+      "source": "$68AE",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6886",
+      "node_type": "data",
+      "description": "AudioConfigData_6886 - S\u00e9quence de patterns waveform audio",
+      "source": "$68AE",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$DFE4",
+      "node_type": "data",
+      "description": "wStateGraphics - Variable WRAM pour \u00e9tat graphique",
+      "source": "$68AE",
+      "bank": 0,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7574,6 +7598,7 @@
     "$1547",
     "$4D19",
     "$172D",
+    "$68AE",
     "$1AF2",
     "$4AA7",
     "$09E8",
@@ -7705,6 +7730,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 790
+  "commits_since_push": 0,
+  "total_explored": 791
 }

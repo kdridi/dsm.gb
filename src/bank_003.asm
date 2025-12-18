@@ -9281,16 +9281,14 @@ AudioChannel1Routine_687A:
     ld hl, AudioConfigData_6875
     jp DispatchAudioCommand
 
-
-    nop
-    add b
-    jp nc, $860a
-
-    dec a
-    add b
-    and e
-    add hl, bc
-    add a
+; AudioConfigData_6886
+; --------------------
+; Description: Configuration audio canal 1 - Séquence de patterns waveform
+; Format: Séries de 5 bytes [NR10 sweep, NR11 pattern, NR12 envelope, NR13 freq_low, NR14 freq_high]
+; Référencée par: AudioChannel1Routine_68AE
+AudioConfigData_6886:
+    db $00, $80, $D2, $0A, $86  ; sweep=$00, pattern=$80, envelope=$D2, freq=$860A
+    db $3D, $80, $A3, $09, $87  ; sweep=$3D, pattern=$80, envelope=$A3, freq=$8709
 
 ; SkipIfGameState04
 ; ------------------
@@ -9356,7 +9354,7 @@ AudioChannel1Routine_68AE:
     ret z
 
     ld a, $10
-    ld hl, $6886
+    ld hl, AudioConfigData_6886
     call DispatchAudioCommand
     ld hl, wStateGraphics
     ld [hl], $0a
