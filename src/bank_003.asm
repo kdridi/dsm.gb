@@ -12094,7 +12094,7 @@ PaddingZone_003_7383:  ; Référencé par jr c (data)
 ; -----------------
 ; Description: Pattern audio (séquence de commandes pour moteur audio)
 ; In:  Référencé par AudioPattern_7294[$7294]
-; Out: Pointeur vers AnimationFrameData_73be à $73BE
+; Out: Pointeur vers AudioPatternData_73BE à $73BE
 AudioPattern_739D:
     and e        ; $739D: $A3 (commande audio)
     dec bc       ; $739E: $0B (paramètre)
@@ -12107,10 +12107,10 @@ AudioPattern_739D:
 ; Description: Pattern audio #2 pour séquence musicale index 1
 ; Format: [dw ptr1, dw terminateur]
 ; In:  Référencé par AudioMusicSequence_709F[1] via pointeur $73A3
-; Out: Pointeur vers AnimationFrameData_73be ($73BE) suivi de terminateur NULL
+; Out: Pointeur vers AudioPatternData_73BE ($73BE) suivi de terminateur NULL
 ; Modifie: Utilisé par le moteur audio pour accéder aux données de pattern
 AudioSequencePattern_73A3:
-    dw $73BE                     ; Pointeur vers AnimationFrameData_73be à $73BE
+    dw AudioPatternData_73BE     ; Pointeur vers pattern audio à $73BE
     dw $0000                     ; Terminateur NULL
 
 ; AudioSequencePattern_73A7
@@ -12138,33 +12138,29 @@ AudioPatternData_73AB:
     db $54, $52, $4e, $4a        ; Notes (valeurs MIDI-like)
     db $a6, $01, $a2, $40        ; Commandes + paramètres
     db $01, $32, $01             ; Notes supplémentaires
-    db $9d, $30, $00             ; Terminateur pattern
 
-AnimationFrameData_73be:  ; [$73be] Animation sequence (226 bytes of tile commands)
-    add b        ; $80
-    and c        ; $a1
-    ld e, b      ; $58 = 'X'
-    ld d, h      ; $54 = 'T'
-    ld d, d      ; $52 = 'R'
-    ld c, [hl]   ; $4e = 'N'
-    ld c, d      ; $4a = 'J' → "XTRNJ"
-    and [hl]     ; $a6
-    ld bc, $a19d ; $01, $9d, $a1
-    nop          ; $00
-    add b        ; $80
-    and d        ; $a2
-    ld c, [hl]   ; $4e
-    ld bc, $0152 ; $01, $52, $01
-    nop
+; AudioPatternData_73BE
+; ---------------------
+; Description: Pattern audio référencé par AudioSequencePattern_73A3 ($73A3)
+; Format: Séquence de commandes audio ($9D marker, paramètres, notes, terminateur)
+; In:  Référencé par AudioSequencePattern_73A3 via pointeur $73BE
+; Out: Données consommées par le moteur audio
+; Modifie: Aucun (zone DATA pure)
+AudioPatternData_73BE:
+    db $9d, $30, $00             ; Commande $9D (marker) + paramètres
+    db $80, $a1, $58, $54, $52   ; Notes/durées (XTRNJ en ASCII)
+    db $4e, $4a                  ; Suite notes (NJ)
+    db $a6, $01, $9d, $a1        ; Commandes audio
+    db $00, $80, $a2, $4e        ; Notes + commandes
+    db $01, $52, $01, $00        ; Paramètres + terminateur
 
 ; AnimationFrameData_73d4
 ; -----------------------
-; Description: Données d'animation (sous-section de AnimationFrameData_73be)
+; Description: Données d'animation (pattern audio/visuel hybride)
 ; Format: Séquence de commandes d'animation et tile IDs
 ; In:  Référencé par AudioSequencePattern_73A9 via pointeur $73D4
 ; Out: Données consommées par le moteur de rendu de sprites
 ; Modifie: Aucun (zone DATA pure)
-; Note: Partie de la grande structure AnimationFrameData_73be ($73BE-$74A0, 226 bytes)
 AnimationFrameData_73d4:  ; [$73d4] Frame animation command sequence
     db $9d, $37, $70, $20        ; Commandes contrôle
     db $a1, $58, $54, $52        ; Tile IDs "XTRNJ"
@@ -12290,7 +12286,7 @@ AnimationFrameData_73d4:  ; [$73d4] Frame animation command sequence
 ; Format: Séquence de bytes $9D (marqueur), $A0-$A9 (commandes), tile IDs, paramètres
 ; In: Pointé depuis table d'animation en bank 1 ($4C37)
 ; Out: Consommé par le moteur de rendu sprite
-; Note: Partie de la grande structure AnimationFrameData_73be ($73BE-$74A0, 226 bytes)
+; Note: Zone de données d'animation séparée (après AudioPatternData_73BE)
 AnimationFrameData_7471:  ; [$7471] Frame animation command sequence
     ld d, d
     ld d, h
