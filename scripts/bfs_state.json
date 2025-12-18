@@ -6249,6 +6249,14 @@
       "priority": 3
     },
     {
+      "address": "$6A98",
+      "node_type": "data",
+      "description": "AudioNoiseConfigData_Type8 - Configuration noise type 8 (4 bytes)",
+      "source": "$6A9C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6A9C",
       "node_type": "code",
       "description": "Routine status canal 4 index 1 (non encore nomm\u00e9e)",
@@ -7191,14 +7199,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$6A98",
-      "node_type": "data",
-      "description": "AudioNoiseConfigData_Type8 - Configuration noise type 8 (4 bytes)",
-      "source": "$6A9C",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7752,6 +7752,7 @@
     "$4E35",
     "$22E9",
     "$07F0",
+    "$6A98",
     "$6700",
     "$0AE1",
     "$757C",
@@ -8033,6 +8034,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 830
+  "commits_since_push": 0,
+  "total_explored": 831
 }

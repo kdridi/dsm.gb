@@ -9980,7 +9980,11 @@ AudioChannel4Routine_6A90:
 ; AudioNoiseConfigData_Type8
 ; ---------------------------
 ; Description: Configuration audio noise type 8 pour canal 4
-; Format: 4 bytes (NR41, NR42, NR43, NR44 ou paramètres similaires)
+; Format: 4 bytes mappés aux registres NR41-NR44 du canal noise
+;   Byte 0 ($00) -> NR41 ($FF20): Sound length = 0 (durée max 64 steps)
+;   Byte 1 ($F2) -> NR42 ($FF21): Volume envelope (initial vol=$F, direction=decrease, sweep=2)
+;   Byte 2 ($55) -> NR43 ($FF22): Polynomial counter (shift=5, width=7-bit, ratio=5)
+;   Byte 3 ($80) -> NR44 ($FF23): Trigger + no length enable
 AudioNoiseConfigData_Type8:
     db $00, $F2, $55, $80
 
