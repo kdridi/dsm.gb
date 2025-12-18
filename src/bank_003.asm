@@ -12115,40 +12115,30 @@ AudioSequencePattern_73A3:
 
 ; AudioSequencePattern_73A7
 ; -------------------------
-; Description: Pattern audio #3 pour séquence musicale index 1 (pointeur simple)
-; Format: [dw ptr]
+; Description: Table de pointeurs vers patterns audio (2 entrées) pour séquence musicale index 1
+; Format: [dw ptr1] [dw ptr2]
 ; In:  Référencé par AudioMusicSequence_709F[2] via pointeur $73A7
-; Out: Pointeur vers AnimationFrameData_73ab
+; Out: Pointeurs vers AudioPatternData_73AB et AnimationFrameData_73d4
 ; Modifie: Utilisé par le moteur audio pour accéder aux données de pattern
 AudioSequencePattern_73A7:
-    dw AnimationFrameData_73ab   ; Pointeur vers AnimationFrameData_73ab
+    dw AudioPatternData_73AB     ; [$73A7] Pointeur vers pattern audio #1
+AudioSequencePattern_73A9:       ; [$73A9] Entrée +2 de la table (référencé séparément par AudioMusicSequence_709F[3])
+    dw AnimationFrameData_73d4   ; Pointeur vers pattern audio #2 (TODO: renommer en AudioPatternData_73D4)
 
-; AudioSequencePattern_73A9
-; -------------------------
-; Description: Pattern audio #4 pour séquence musicale index 1 (pointeur simple)
-; Format: [dw ptr]
-; In:  Référencé par AudioMusicSequence_709F[3] via pointeur $73A9
-; Out: Pointeur vers AnimationFrameData_73d4
-; Modifie: Utilisé par le moteur audio pour accéder aux données de pattern
-AudioSequencePattern_73A9:
-    dw AnimationFrameData_73d4   ; Pointeur vers AnimationFrameData_73d4
-
-; AnimationFrameData_73ab
-; -----------------------
-; Description: Données d'animation (séquences de tile IDs + drapeaux de contrôle)
-; Format: [count] [tile_id]* [flags] [terminator] répété
-; In:  Référencé par AudioSequencePattern_73A7 via pointeur $73AB
-; Out: Données consommées par le moteur de rendu de sprites
+; AudioPatternData_73AB
+; ---------------------
+; Description: Données de pattern audio (commandes + paramètres pour le moteur sonore)
+; Format: Séquence de bytes (commandes audio + notes + durées)
+; In:  Référencé par AudioSequencePattern_73A7[0] via pointeur $73AB
+; Out: Données consommées par le moteur audio
 ; Modifie: Aucun (zone DATA pure)
-AnimationFrameData_73ab:
-    db $9d, $a1                  ; Bytes de contrôle/flags
-    db $00                       ; Terminateur ou padding
-    db $80                       ; Flag/contrôle
-    db $a0, $01, $a1, $58        ; Données frame (IDs tiles)
-    db $54, $52, $4e, $4a        ; "TRNJ" (tile IDs ou marqueur ASCII)
-    db $a6, $01, $a2, $40        ; Suite données
-    db $01, $32, $01             ; IDs tiles
-    db $9d, $30, $00             ; Terminateur + padding
+AudioPatternData_73AB:
+    db $9d, $a1, $00, $80        ; Commandes audio
+    db $a0, $01, $a1, $58        ; Notes/durées
+    db $54, $52, $4e, $4a        ; Notes (valeurs MIDI-like)
+    db $a6, $01, $a2, $40        ; Commandes + paramètres
+    db $01, $32, $01             ; Notes supplémentaires
+    db $9d, $30, $00             ; Terminateur pattern
 
 AnimationFrameData_73be:  ; [$73be] Animation sequence (226 bytes of tile commands)
     add b        ; $80
