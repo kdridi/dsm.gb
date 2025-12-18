@@ -12223,7 +12223,7 @@ AudioSubPattern_DualTempo:       ; [$73ED] Sous-pattern pointé par _73E5
 ; In:  Référencé par AudioSequencePattern_73EB (dw $7411)
 ; Out: Exécuté par le moteur audio, branches vers 15 sous-patterns
 ; Modifie: Registres audio via commandes du moteur
-; Références sortantes: AudioSubPattern_745F, _7491, _7518, _7425, _744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
+; Références sortantes: AudioSubPattern_745F, _7491, _7518, AudioSubPattern_7425, _744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
 AudioSequencePattern_7411:       ; [$7411]
     ; Prélude: Séquence d'initialisation avec commandes et notes
     db $9d, $17, $70, $21        ; Commande $9D $17: tempo/volume + params $70 $21
@@ -12240,9 +12240,17 @@ AudioSequencePattern_7411:       ; [$7411]
 ; Out: Pointeurs vers 18 sous-patterns audio distincts (certains répétés)
 ; Modifie: Consommée par le moteur audio pour accéder aux sous-patterns
 ; Note: Adresse partagée - utilisée dans deux contextes (pattern séquence #4 ET table interne pattern #7411)
-; Références sortantes: AudioSubPattern_745F, _7491, _7518, _7425, _744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
+; Références sortantes: AudioSubPattern_745F, _7491, _7518, AudioSubPattern_7425, _744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
 AudioSequencePattern_7423:
     db $5f, $74                  ; Pointeur 1 → $745F (AudioSubPattern_745F)
+; AudioSubPattern_7425
+; --------------------
+; Description: Sous-pattern audio réutilisant les pointeurs 2-4 de la table parente
+; Format: Suite de bytes interprétés comme commandes/notes audio (en réalité: pointeurs word de la table)
+; In:  Référencé par AudioSequencePattern_7423 comme pointeur #5
+; Out: Bytes $91 $74 $91 $74 $18 $75... consommés comme données audio
+; Note: Optimisation - réutilise la structure de la table comme données de pattern
+AudioSubPattern_7425:
     db $91, $74, $91, $74        ; Pointeurs 2-3 → $7491, $7491 (pattern répété)
     db $18, $75                  ; Pointeur 4 → $7518
     db $ff, $ff                  ; Séparateur groupe 1
