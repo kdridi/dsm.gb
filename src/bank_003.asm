@@ -9865,15 +9865,29 @@ ChannelInitDispatcher:
 ; - $6A0F: AudioChannel1Routine_6A0F ✓ FAIT (référencé dans AudioChannel1PointerTable[2])
 ;          Routine de dispatch basée sur wStateGraphics, route vers ChannelType_XX
 ;
-; TODO: Les zones non-marquées nécessitent reconstruction avec labels appropriés
-;       tout en préservant le hash SHA256/MD5 identique.
+; AudioNoiseConfigData_Type3
+; --------------------------
+; Description: Configuration canal 4 (noise) pour commande audio $30
+;              4 bytes de configuration matérielle transférés vers registres NR4x
+; Référencé par: AudioChannel4Routine_6A50 (via DispatchAudioCommand avec a=$30, hl=$6A4C)
+; Format:
+;   Byte 0 ($00) -> Registre NR41/NR51 selon contexte
+;   Byte 1 ($F4) -> Configuration volume/envelope
+;   Byte 2 ($57) -> Configuration polynomial/fréquence
+;   Byte 3 ($80) -> Trigger/control
+AudioNoiseConfigData_Type3:
+    db $00, $F4, $57, $80
 
-    nop
-    db $f4
-    ld d, a
-    add b
+; AudioChannel4Routine_6A50
+; --------------------------
+; Description: Routine audio canal 4 index 0 (référencée depuis AudioChannel4StatusTable[0])
+;              Dispatch commande audio $30 vers configuration noise type 3
+; In:  Appelé via jp hl depuis CheckAudioChannel4 via table de pointeurs
+; Out: Dispatch vers DispatchAudioCommand avec a=$30, hl=AudioNoiseConfigData_Type3
+; Modifie: a, hl, et tout ce que DispatchAudioCommand modifie
+AudioChannel4Routine_6A50:
     ld a, $30
-    ld hl, $6a4c
+    ld hl, AudioNoiseConfigData_Type3
     jp DispatchAudioCommand
 
 

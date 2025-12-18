@@ -6185,6 +6185,14 @@
       "priority": 3
     },
     {
+      "address": "$6A4C",
+      "node_type": "data",
+      "description": "Pointeur vers sous-donn\u00e9es audio",
+      "source": "$761C",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6A50",
       "node_type": "code",
       "description": "Routine status canal 4 index 0 (non encore nomm\u00e9e)",
@@ -7871,14 +7879,6 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
-    },
-    {
-      "address": "$6A4C",
-      "node_type": "data",
-      "description": "Pointeur vers sous-donn\u00e9es audio",
-      "source": "$761C",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -8371,6 +8371,7 @@
     "$0050",
     "$6100",
     "$6734",
+    "$6A4C",
     "$0808",
     "$2D5B",
     "$35AB",
@@ -8788,6 +8789,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 905
+  "commits_since_push": 0,
+  "total_explored": 906
 }
