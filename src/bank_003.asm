@@ -9527,6 +9527,10 @@ DispatchAudioWaveCommand:
     ret
 
 
+; AudioData_003_6980 (données audio mal désassemblées - à reconstruire proprement)
+; Zone de données audio référencée dans AudioChannel1PointerTable
+; Format: Séquence de commandes audio avec paramètres
+AudioData_003_6980:
     inc l
     add b
     db $d3
