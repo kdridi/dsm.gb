@@ -12264,10 +12264,20 @@ AudioSubPattern_7425:
 ; Note: Optimisation mémoire - pointe au milieu de AudioSubPattern_7425 pour réutiliser ses bytes
 AudioSubPattern_742F:
     db $4f, $74                  ; Pointeur 6 → $744F (réutilisé comme notes audio)
+
+; AudioSubPattern_7431
+; --------------------
+; Description: Sous-pattern audio groupe #3 (overlap milieu de table)
+; Format: Séquence de pointeurs word réutilisés comme notes/commandes audio
+; In:  Référencé depuis table parente, pointe au milieu d'AudioSubPattern_742F
+; Out: Bytes $B9 $74 $B9 $74... interprétés comme données audio
+; Note: Optimisation mémoire - commence au pointeur 7 de la table parente
+; Références sortantes: $74B9 (pointeur 7-8), $7548 (pointeur 9)
+AudioSubPattern_7431:
     db $b9, $74, $b9, $74        ; Pointeurs 7-8 → $74B9, $74B9 (réutilisés comme notes audio)
     db $48, $75                  ; Pointeur 9 → $7548
     db $ff, $ff                  ; Séparateur groupe 2
-    db $31, $74                  ; Pointeur 10 → $7431 (AudioSubPattern_7431)
+    db $31, $74                  ; Pointeur 10 → $7431 (pointeur auto-référentiel)
 ; AudioSubPattern_743B
 ; --------------------
 ; Description: Sous-pattern audio utilisant la queue de la table comme données (overlap)
