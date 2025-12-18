@@ -5769,6 +5769,14 @@
       "priority": 3
     },
     {
+      "address": "$68F8",
+      "node_type": "code",
+      "description": "ClearPulseRegisters - Fallthrough qui efface rNR10, rNR12 et reset bit 7 de wComplexState1F",
+      "source": "$68F4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6916",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -6607,14 +6615,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$68F8",
-      "node_type": "code",
-      "description": "ClearPulseRegisters - Fallthrough qui efface rNR10, rNR12 et reset bit 7 de wComplexState1F",
-      "source": "$68F4",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -6694,6 +6694,7 @@
     "$6734",
     "$1EC5",
     "$6670",
+    "$68F8",
     "$513D",
     "$26AC",
     "$0C6A",
@@ -7379,6 +7380,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 4,
-  "total_explored": 760
+  "commits_since_push": 0,
+  "total_explored": 761
 }
