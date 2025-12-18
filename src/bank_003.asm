@@ -11526,16 +11526,18 @@ AudioMusicSequence_70CB:
 AudioMusicSequence_70D6:
     db $00
     dw AudioPatternData_7062, $77D2, $77DC, $77E6, $77F2
-    nop
-    ld [hl], a
-    ld [hl], b
-    db $ec
-    ld [hl], b
-    ld hl, sp+$70
-    inc b
-    ld [hl], c
-    db $10
-    ld [hl], c
+
+; AudioMusicSequence_70E1
+; ------------------------
+; Description: Séquence musicale #7 - Liste de pointeurs vers patterns/notes audio
+; Format: [index_byte] [dw ptr1, dw ptr2, dw ptr3, dw ptr4, dw ptr5]
+; In:  Accédée via AudioDataPointerTable[7] par ProcessAudioRequest
+; Out: Pointeurs vers données audio (5 patterns audio)
+; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
+; Références sortantes: AudioSequencePattern_7077 ($7077), $70EC, $70F8, $7104, $7110
+AudioMusicSequence_70E1:
+    db $00
+    dw AudioSequencePattern_7077, $70EC, $70F8, $7104, $7110
     jr @+$73
 
     ld b, b
