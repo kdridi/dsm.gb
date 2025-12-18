@@ -5761,6 +5761,14 @@
       "priority": 3
     },
     {
+      "address": "$68F4",
+      "node_type": "code",
+      "description": "ResetPulseChannel - Reset registres canal pulse (fallthrough)",
+      "source": "$68EF",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6916",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -6465,6 +6473,14 @@
       "priority": 3
     },
     {
+      "address": "$DF1F",
+      "node_type": "data",
+      "description": "Flag audio (bit 7) - \u00c9tat canal audio",
+      "source": "$68EF",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$DF3F",
       "node_type": "data",
       "description": "Flag/\u00e9tat audio (bit 7 = canal wave actif)",
@@ -6477,6 +6493,14 @@
       "node_type": "data",
       "description": "WRAM - Variable de jeu (timer ou \u00e9tat collision)",
       "source": "$509B",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$DFE1",
+      "node_type": "data",
+      "description": "wStateDisplay - Mode affichage \u00e9tat (WRAM)",
+      "source": "$68EF",
       "bank": 0,
       "priority": 3
     },
@@ -6502,6 +6526,22 @@
       "description": "Pointeur structure frame (second word)",
       "source": "$4C91",
       "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$FF10",
+      "node_type": "data",
+      "description": "rNR10 - Registre sweep canal audio 1 (hardware)",
+      "source": "$68EF",
+      "bank": 0,
+      "priority": 3
+    },
+    {
+      "address": "$FF12",
+      "node_type": "data",
+      "description": "rNR12 - Registre envelope canal audio 1 (hardware)",
+      "source": "$68EF",
+      "bank": 0,
       "priority": 3
     },
     {
@@ -6569,42 +6609,10 @@
       "priority": 3
     },
     {
-      "address": "$DFE1",
-      "node_type": "data",
-      "description": "wStateDisplay - Mode affichage \u00e9tat (WRAM)",
-      "source": "$68EF",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FF10",
-      "node_type": "data",
-      "description": "rNR10 - Registre sweep canal audio 1 (hardware)",
-      "source": "$68EF",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$FF12",
-      "node_type": "data",
-      "description": "rNR12 - Registre envelope canal audio 1 (hardware)",
-      "source": "$68EF",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$DF1F",
-      "node_type": "data",
-      "description": "Flag audio (bit 7) - \u00c9tat canal audio",
-      "source": "$68EF",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$68F4",
+      "address": "$68F8",
       "node_type": "code",
-      "description": "ResetPulseChannel - Reset registres canal pulse (fallthrough)",
-      "source": "$68EF",
+      "description": "ClearPulseRegisters - Fallthrough qui efface rNR10, rNR12 et reset bit 7 de wComplexState1F",
+      "source": "$68F4",
       "bank": 3,
       "priority": 3
     }
@@ -7039,6 +7047,7 @@
     "$22D4",
     "$791A",
     "$16D1",
+    "$68F4",
     "$65D3",
     "$5118",
     "$59F3",
@@ -7370,6 +7379,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 3,
-  "total_explored": 759
+  "commits_since_push": 4,
+  "total_explored": 760
 }

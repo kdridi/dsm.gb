@@ -9363,19 +9363,25 @@ AudioChannel1Routine_68EF:
 ; ResetPulseChannel
 ; -----------------
 ; Description: Reset le canal audio pulse (canal 1) en effaçant registres et flags
-; In:  (none)
+; In:  a = 0 (vient d'être mis à zéro par xor a)
 ; Out: (none)
 ; Modifie: af, hl
 ResetPulseChannel:
     xor a
     ld [wStateDisplay], a
-    ; Fallthrough vers AudioData_003_68f8
+    ; Fallthrough vers ClearPulseRegisters
 
-AudioData_003_68f8:
-    ldh [rNR10], a
-    ldh [rNR12], a
-    ld hl, $df1f
-    res 7, [hl]
+; ClearPulseRegisters
+; -------------------
+; Description: Efface les registres hardware du canal pulse et reset bit 7 de wComplexState1F
+; In:  a = 0
+; Out: (none)
+; Modifie: af, hl
+ClearPulseRegisters:
+    ldh [rNR10], a          ; Reset sweep register (fréquence sweep)
+    ldh [rNR12], a          ; Reset envelope register (volume envelope)
+    ld hl, wComplexState1F
+    res 7, [hl]             ; Reset bit 7 du flag d'état audio
     ret
 
 
@@ -9416,7 +9422,7 @@ SetupAudioConfiguration:
     ld d, a
     sub [hl]
     adc h
-    jr nc, AudioData_003_68f8
+    jr nc, ClearPulseRegisters
 
     ld d, a
     sub [hl]
