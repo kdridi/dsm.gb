@@ -7336,176 +7336,34 @@ Level3TileData4:  ; $6EA6
     db $32, $49, $A1, $68, $C2, $3E, $45, $F1, $5D, $FE, $02, $31, $49, $A1, $68, $F1
     db $5D, $FE, $02, $32, $49, $A1, $68, $F1, $5D, $FE  ; $6F5F - Fin Level3TileData4
 
-    db $02  ; $6F60 - Début zone suivante (mal désassemblée)
-    ld sp, $e249
-    db $fd
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld sp, $8146
-    ld h, a
-    call nz, ValidateOrTransformValue
-    ld h, a
-    ld h, a
-    cp $02
-    ld sp, $3149
-    ld b, a
-    add c
-    ld h, a
-    or c
-    dec a
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld sp, $8148
-    ld h, a
-    or l
-    ld a, $40
-    ld b, d
-    ld h, a
-    ld h, a
-    cp $02
-    ld sp, $8149
-    ld h, a
-    or l
-    ld b, [hl]
-    ld b, c
-    ld b, e
-    ld h, a
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    add c
-    ld h, a
-    or c
-    ld b, a
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld sp, $b149
-    ld c, b
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    db $d3
-    ld c, l
-    ld h, a
-    ld h, a
-    cp $02
-    ld sp, $b549
-    ld h, a
-    ld c, e
-    ld c, [hl]
-    ld h, a
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld [hl], c
-    add c
-    or l
-    ld h, a
-    ld c, h
-    ld c, a
-    ld h, a
-    ld h, a
-    cp $02
-    ld sp, $7149
-    add c
-    or c
-    ld h, a
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    or c
-    ld h, a
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld sp, $a249
-    ccf
-    ld b, d
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    add d
-    ld h, a
-    dec a
-    db $d3
-    ccf
-    ld h, a
-    ld h, a
-    cp $02
-    ld sp, $8549
-    ld h, a
-    ld a, $45
-    ld b, e
-    dec a
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    add c
-    ld h, a
-    call nz, HandlePaletteLookup
-    ld h, a
-    ld h, a
-    cp $02
-    ld sp, $5149
-    ld b, [hl]
-    add c
-    ld h, a
-    or l
-    ccf
-    ld b, d
-    ld b, c
-    ld h, a
-    ld h, a
-    cp $02
-    ld [hl-], a
-    ld c, c
-    ld d, c
-    ld b, a
-    and c
-    dec a
-    ldh [c], a
-    db $fd
-    ld h, a
-    cp $02
-    ld sp, $5149
-    ld c, b
-    and d
-    ld a, $45
-    pop af
-    ld e, l
-    cp $02
-    ld [hl-], a
-    ld c, c
-    pop af
-    ld e, l
-    cp $02
-    ld sp, $a667
-    db $fd
-    ld h, a
-    cp $08
+; ==============================================================================
+; Level3TileData5 - Tile pattern data zone 5 niveau 3 ($6F60-$703D)
+; ==============================================================================
+; Description: Données de tiles pour la zone 5 du niveau 3
+; Format: Séquence de commandes tile : 02 XX YY ... FE
+;         - 02 : Marqueur de début de commande
+;         - XX YY ... : Données de pattern tile
+;         - FE : Terminateur de commande
+; Taille: $DE octets (222 bytes)
+; Référencé par: Level3MapData entrées #4, #5 et #10 (ligne 3366-3367)
+; ==============================================================================
+Level3TileData5:  ; $6F60
+    db $02, $31, $49, $E2, $FD, $67, $FE, $02, $32, $49, $31, $46, $81, $67, $C4, $3F
+    db $42, $67, $67, $FE, $02, $31, $49, $31, $47, $81, $67, $B1, $3D, $E2, $FD, $67
+    db $FE, $02, $32, $49, $31, $48, $81, $67, $B5, $3E, $40, $42, $67, $67, $FE, $02
+    db $31, $49, $81, $67, $B5, $46, $41, $43, $67, $67, $FE, $02, $32, $49, $81, $67
+    db $B1, $47, $E2, $FD, $67, $FE, $02, $31, $49, $B1, $48, $E2, $FD, $67, $FE, $02
+    db $32, $49, $D3, $4D, $67, $67, $FE, $02, $31, $49, $B5, $67, $4B, $4E, $67, $67
+    db $FE, $02, $32, $49, $71, $81, $B5, $67, $4C, $4F, $67, $67, $FE, $02, $31, $49
+    db $71, $81, $B1, $67, $E2, $FD, $67, $FE, $02, $32, $49, $B1, $67, $E2, $FD, $67
+    db $FE, $02, $31, $49, $A2, $3F, $42, $E2, $FD, $67, $FE, $02, $32, $49, $82, $67
+    db $3D, $D3, $3F, $67, $67, $FE, $02, $31, $49, $85, $67, $3E, $45, $43, $3D, $E2
+    db $FD, $67, $FE, $02, $32, $49, $81, $67, $C4, $3E, $40, $67, $67, $FE, $02, $31
+    db $49, $51, $46, $81, $67, $B5, $3F, $42, $41, $67, $67, $FE, $02, $32, $49, $51
+    db $47, $A1, $3D, $E2, $FD, $67, $FE, $02, $31, $49, $51, $48, $A2, $3E, $45, $F1
+    db $5D, $FE, $02, $32, $49, $F1, $5D, $FE, $02, $31, $67, $A6, $FD, $67, $FE  ; $703D - Fin Level3TileData5
+
+    db $08
     ld [hl-], a
     ld h, a
     ld h, a
