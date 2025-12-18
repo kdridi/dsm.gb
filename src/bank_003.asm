@@ -10088,28 +10088,38 @@ ResetAudioChannelEnvelopes:     ; @ $6B4B
     ret
 
 
+; CheckAudioChannel1
+; ------------------
+; Description: Vérifie l'état du canal audio 1 et route vers le handler approprié
+;              selon les valeurs de wStateBuffer et wStateDisplay.
+; In:  [wStateBuffer] = état principal audio (0 = mode normal)
+;      [wStateDisplay] = état secondaire (si wStateBuffer = 0)
+; Out: Exécute la routine audio appropriée via jump indirect (jp hl)
+; Modifie: a, de, hl (modifié par SetAudioStatus, IndexAudioTable et routines appelées)
 CheckAudioChannel1:
     ld de, wStateBuffer
     ld a, [de]
     and a
     jr z, .audioChannel1Path
 
-    ld hl, $df1f
-    set 7, [hl]
+    ; wStateBuffer != 0: mode status
+    ld hl, wComplexState1F
+    set 7, [hl]                     ; Active bit 7 de l'état complexe 1F
     ld hl, AudioChannel1StatusTable
-    call SetAudioStatus
-    jp hl
+    call SetAudioStatus             ; Indexe la table et charge pointeur dans hl
+    jp hl                           ; Jump vers routine de statut
 
 
 .audioChannel1Path:
-    inc e
+    ; wStateBuffer = 0: mode normal, utilise wStateDisplay
+    inc e                           ; de = wStateDisplay
     ld a, [de]
     and a
-    jr z, .audioChannelEnd
+    jr z, .audioChannelEnd          ; Si wStateDisplay = 0, rien à faire
 
     ld hl, AudioChannel1PointerTable
-    call IndexAudioTable
-    jp hl
+    call IndexAudioTable            ; Indexe la table et charge pointeur dans hl
+    jp hl                           ; Jump vers routine audio
 
 
 .audioChannelEnd:

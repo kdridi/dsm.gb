@@ -6799,6 +6799,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$6700",
+      "node_type": "table",
+      "description": "AudioChannel1StatusTable - Table de 11 pointeurs vers routines de statut canal 1",
+      "source": "$6B59",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6894,6 +6902,7 @@
     "$7471",
     "$0394",
     "$2B21",
+    "$6B59",
     "$513E",
     "$02A3",
     "$650D",
@@ -7586,6 +7595,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 783
+  "commits_since_push": 3,
+  "total_explored": 784
 }
