@@ -11515,93 +11515,101 @@ AudioDataRaw_003_7360:
     scf
     ld [hl], b
 
-ProcessInputState_Bank3_Part2:
-    and b
-    nop
-    and e
-    ld b, b
-    ld b, d
-    ld b, b
+; AnimationFrameData_7371
+; ----------------
+; Description: Table de frames d'animation (data mal désassemblée comme code)
+; Format: Bytes de contrôle + tile IDs, terminés par $00
+; In:  Pointeurs depuis table d'animation
+; Out: Données lues séquentiellement par moteur de sprites
+; Note: Les "instructions" ci-dessous sont en réalité des DONNÉES
+ProcessInputState_Bank3_Part2:  ; [$7371] DATA, pas code!
+    and b        ; [$7371] = $a0 (byte de contrôle)
+    nop          ; [$7372] = $00 (TERMINATEUR) <-- ADRESSE EXPLORÉE
+    and e        ; [$7373] = $a3
+    ld b, b      ; [$7374] = $40
+    ld b, d      ; [$7375] = $42
+    ld b, b      ; [$7376] = $40
 
-PaddingZone_003_7377:
-    ld b, d
-    ld b, b
-    ld b, d
+PaddingZone_003_7377:  ; Référencé par jr z (data)
+    ld b, d      ; $42
+    ld b, b      ; $40
+    ld b, d      ; $42
 
-PaddingZone_003_737a:
-    ld b, b
-    ld c, [hl]
-    ld b, b
-    ld b, d
-    ld b, b
-    ld b, d
-    ld b, b
-    ld b, d
-    ld b, b
+PaddingZone_003_737a:  ; Référencé par jr nz (data)
+    ld b, b      ; $40
+    ld c, [hl]   ; $4e
+    ld b, b      ; $40
+    ld b, d      ; $42
+    ld b, b      ; $40
+    ld b, d      ; $42
+    ld b, b      ; $40
+    ld b, d      ; $42
+    ld b, b      ; $40
 
-PaddingZone_003_7383:
-    inc a
-    nop
-    ld b, d
-    ld d, b
-    ld b, d
-    ld d, b
-    ld b, d
-    ld d, b
-    ld b, d
-    ld d, b
-    nop
-    and e
-    ld b, $a2
-    ld b, $06
-    and e
-    ld b, $a2
-    ld b, $06
-    and e
-    ld b, $a2
-    ld b, $06
-    and e
-    dec bc
-    and d
-    ld b, $06
-    nop
-    cp [hl]
-    ld [hl], e
-    nop
-    nop
-    xor e
-    ld [hl], e
-    call nc, $9d73
-    and c
-    nop
-    add b
-    and b
-    ld bc, $58a1
-    ld d, h
-    ld d, d
-    ld c, [hl]
-    ld c, d
-    and [hl]
-    ld bc, $40a2
-    ld bc, $0132
-    sbc l
-    jr nc, PaddingZone_003_73c1
+PaddingZone_003_7383:  ; Référencé par jr c (data)
+    inc a        ; $3c
+    nop          ; $00 (terminateur possible)
+    ld b, d      ; $42
+    ld d, b      ; $50
+    ld b, d      ; $42
+    ld d, b      ; $50
+    ld b, d      ; $42
+    ld d, b      ; $50
+    ld b, d      ; $42
+    ld d, b      ; $50
+    nop          ; $00 (terminateur)
+    and e        ; $a3
+    ld b, $a2    ; $06, $a2
+    ld b, $06    ; $06, $06
+    and e        ; $a3
+    ld b, $a2    ; $06, $a2
+    ld b, $06    ; $06, $06
+    and e        ; $a3
+    ld b, $a2    ; $06, $a2
+    ld b, $06    ; $06, $06
+    and e        ; $a3
+    dec bc       ; $0b
+    and d        ; $a2
+    ld b, $06    ; $06, $06
+    nop          ; $00 (terminateur)
 
-PaddingZone_003_73c1:
-    add b
-    and c
-    ld e, b
-    ld d, h
-    ld d, d
-    ld c, [hl]
-    ld c, d
-    and [hl]
-    ld bc, $a19d
-    nop
-    add b
-    and d
-    ld c, [hl]
-    ld bc, $0152
+    cp [hl]      ; [$73a3] $be = pointeur table (little-endian)
+    ld [hl], e   ; $73 → dw $73be (AnimationFrameData_73be)
+    nop          ; $00
+    nop          ; $00 → dw $0000 (NULL, fin table)
+    xor e        ; $ab
+    ld [hl], e   ; $73 → dw $73ab (AnimationFrameData_73ab)
+    call nc, $9d73  ; $d4, $73, $9d → dw $73d4 + db $9d
+    and c        ; $a1 (data frame)
+    nop          ; $00
+    add b        ; $80
+    and b        ; $a0
+    ld bc, $58a1 ; $01, $a1, $58 → frame data (finit avec $58='X')
+    ld d, h      ; [$73b3] $54 = 'T' (début séquence "TRNJ" après "X")
+    ld d, d      ; $52 = 'R'
+    ld c, [hl]   ; $4e = 'N'
+    ld c, d      ; $4a = 'J' → ASCII "XTRNJ" complet
+    and [hl]     ; [$73b5] $a6
+    ld bc, $40a2 ; $01, $a2, $40
+    ld bc, $0132 ; $01, $32, $01
+    sbc l        ; $9d
+    jr nc, PaddingZone_003_73c1  ; $30, $00 (saut relatif)
+
+PaddingZone_003_73c1:  ; [$73be] AnimationFrameData_73be
+    add b        ; $80
+    and c        ; $a1
+    ld e, b      ; $58 = 'X'
+    ld d, h      ; $54 = 'T'
+    ld d, d      ; $52 = 'R'
+    ld c, [hl]   ; $4e = 'N'
+    ld c, d      ; $4a = 'J' → "XTRNJ"
+    and [hl]     ; $a6
+    ld bc, $a19d ; $01, $9d, $a1
+    nop          ; $00
+    add b        ; $80
+    and d        ; $a2
+    ld c, [hl]   ; $4e
+    ld bc, $0152 ; $01, $52, $01
     nop
     sbc l
     scf

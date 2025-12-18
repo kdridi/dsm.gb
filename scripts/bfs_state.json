@@ -6111,6 +6111,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$73be",
+      "node_type": "data",
+      "description": "Animation frame data (s\u00e9quence XTRNJ)",
+      "source": "$7372",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$73ab",
+      "node_type": "data",
+      "description": "Animation frame data",
+      "source": "$7372",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$73d4",
+      "node_type": "data",
+      "description": "Animation frame data (pointeur table)",
+      "source": "$7372",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6772,6 +6796,7 @@
     "$6327",
     "$2d65",
     "$4CB9",
+    "$7372",
     "$0610",
     "$2870",
     "$0530",
@@ -6837,6 +6862,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 1,
-  "total_explored": 722
+  "commits_since_push": 2,
+  "total_explored": 723
 }
