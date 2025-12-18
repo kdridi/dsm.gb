@@ -11803,103 +11803,53 @@ AnimationFrameData_7177:
     dec bc
     dec bc
 
-ProcessInputState_Bank3_Part1:
-    dec bc
-    dec bc
-    dec bc
-    nop
-    xor c
-    ld b, $01
-    ld bc, $0110
-    ld b, $01
-    ld b, $01
-    db $10
-    ld bc, $0006
+; AudioSequencePattern_7270 / ProcessInputState_Bank3_Part1
+; ----------------------------------------------------------
+; Description: Pattern audio pour séquence musicale #3
+; Format: 18 bytes de données audio brutes
+; In:  Référencé indirectement par AudioMusicSequence_70B5
+; Utilisation: Données audio lues par le moteur sonore
+; NOTE: Le label ProcessInputState_Bank3_Part1 est un ALIAS HISTORIQUE (données mal
+;       désassemblées comme code). Les "call nz, ProcessInputState_Bank3_Part1" dans
+;       le code sont en réalité des DONNÉES (db $C4, $70, $72) mal désassemblées.
+ProcessInputState_Bank3_Part1:  ; ALIAS - Ce ne sont PAS des instructions!
+AudioSequencePattern_7270:
+    db $6A, $69, $6A, $E2, $69, $6A, $FE, $04, $32, $69, $6A, $69, $B1, $6F, $E2, $6A, $69, $FE
 
 ; AudioSequencePattern_7282
 ; -------------------------
-; Description: Pattern audio pour séquence musicale #3
-; Format: Données audio mal désassemblées comme du code (118 bytes)
+; Description: Pattern audio #2 pour séquence musicale #3
+; Format: 6 bytes de données audio brutes
 ; In:  Référencé par AudioMusicSequence_70B5[2]
-; Utilisation: Données audio lues par le moteur sonore via ProcessAudioRequest
-; WARNING: Les instructions ci-dessous ne sont PAS du code exécutable mais des
-;          DONNÉES AUDIO mal désassemblées. Les opcodes générés correspondent
-;          aux bytes audio attendus pour préserver le hash du binaire.
+; Utilisation: Données audio lues par le moteur sonore
 AudioSequencePattern_7282:
-    sub h                      ; $7282: $94
-    ld [hl], d                 ; $7283: $72
-    rst $38
-    rst $38
-    add d
-    ld [hl], d
-    or l
-    ld [hl], d
-    rst $38
-    rst $38
-    adc b
-    ld [hl], d
-    pop de
-    ld [hl], d
-    rst $38
-    rst $38
-    adc [hl]
-    ld [hl], d
-    sbc l
-    ld [hl], e
-    nop
-    add b
-    xor c
-    ld bc, $1aa2
-    ld bc, $1022
-    inc d
-    jr @+$1c
+    db $04, $31, $6A, $69, $6A, $E2
 
-    ld bc, $2228
-    ld bc, $1a01
-    ld bc, $1022
-    inc d
-    jr @+$1c
+; AudioSequencePattern_7288
+; -------------------------
+; Description: Pattern audio #3 pour séquence musicale #3
+; Format: 6 bytes de données audio brutes
+; In:  Référencé par AudioMusicSequence_70B5[3]
+; Utilisation: Données audio lues par le moteur sonore
+AudioSequencePattern_7288:
+    db $69, $6A, $FE, $04, $32, $69
 
-    ld bc, $01a3
-    xor c
-    ld bc, $0001
-    sbc l
-    sub e
-    nop
-    add b
-    and d
-    ld a, [de]
-    ld bc, $1022
-    inc d
-    jr @+$1c
-
-    ld bc, $2228
-    ld bc, $1a01
-    ld bc, $1022
-    inc d
-    jr @+$1c
-
-    ld bc, $01a4
-    nop
-    and d
-    ld b, $01
-    ld bc, $0106
-    ld b, $06
-    ld bc, $0606
-    ld bc, $0601
-    ld bc, $0601
-    ld bc, $0606
-    ld bc, $01a4
-    nop
-    jr nz, @+$75
-
-    daa
-    ld [hl], e
-    daa
-    ld [hl], e
-    ld e, d
-    ld [hl], e
-    rst $38
+; AudioSequencePattern_728E
+; -------------------------
+; Description: Pattern audio #4 pour séquence musicale #3
+; Format: Données audio brutes (taille variable)
+; In:  Référencé par AudioMusicSequence_70B5[5]
+; Utilisation: Données audio lues par le moteur sonore
+AudioSequencePattern_728E:
+    db $6A, $69, $E2, $6A, $69, $FE, $05, $31, $6A, $69, $6A, $69
+    db $E2, $69, $6A, $FE, $05, $32, $69, $6A, $69, $6A, $E2, $6A
+    db $69, $FE, $05, $31, $6A, $69, $6A, $69, $E2, $69, $6A, $FE
+    db $05, $32, $7F, $6A, $7F, $6A, $E2, $6A, $7F, $FE, $05, $31
+    db $7F, $69, $7F, $69, $D1, $7F, $F1, $5D, $FE, $05, $32, $69
+    db $6A, $69, $6A, $D1, $7F, $F1, $5D, $FE, $05, $31, $6A, $69
+    db $6A, $69, $D1, $6F, $F1, $5D, $FE, $05, $32, $69, $6A, $69
+    db $6A, $D1, $7F, $F1, $5D, $FE, $05, $31, $6A, $69, $6A, $69
+    db $F1, $5D, $FE, $05
 
 PaddingZone_003_72f2:
     rst $38

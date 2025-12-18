@@ -7559,6 +7559,46 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$7294",
+      "node_type": "data",
+      "description": "Pattern audio \u00e0 explorer",
+      "source": "$7282",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$72B5",
+      "node_type": "data",
+      "description": "Pattern audio \u00e0 explorer",
+      "source": "$7282",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$72D1",
+      "node_type": "data",
+      "description": "Pattern audio \u00e0 explorer",
+      "source": "$7282",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$739D",
+      "node_type": "data",
+      "description": "Pattern audio \u00e0 explorer",
+      "source": "$7282",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$FFFF",
+      "node_type": "data",
+      "description": "Terminateur audio (marqueur de fin de s\u00e9quence)",
+      "source": "$7282",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7714,6 +7754,7 @@
     "$191a",
     "$5D3C",
     "$54D5",
+    "$7282",
     "$4D71",
     "$115C",
     "$2CDC",
@@ -8422,6 +8463,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 859
+  "commits_since_push": 4,
+  "total_explored": 860
 }
