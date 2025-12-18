@@ -5881,6 +5881,14 @@
       "priority": 3
     },
     {
+      "address": "$6A63",
+      "node_type": "data",
+      "description": "Table de s\u00e9quence audio pour canal 4 (noise) - bytes de configuration NR43",
+      "source": "$6A75",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6A75",
       "node_type": "code",
       "description": "Routine audio de traitement canal 4",
@@ -5901,6 +5909,14 @@
       "node_type": "code",
       "description": "Routine audio commen\u00e7ant par call UpdateAudioFrameCounter (r\u00e9f\u00e9renc\u00e9e 3x)",
       "source": "$6734",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6AAD",
+      "node_type": "data",
+      "description": "AudioData_003_6aad - Donn\u00e9es audio ou handler de fin de s\u00e9quence canal 4",
+      "source": "$6A75",
       "bank": 3,
       "priority": 3
     },
@@ -6743,22 +6759,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$6AAD",
-      "node_type": "data",
-      "description": "AudioData_003_6aad - Donn\u00e9es audio ou handler de fin de s\u00e9quence canal 4",
-      "source": "$6A75",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A63",
-      "node_type": "data",
-      "description": "Table de s\u00e9quence audio pour canal 4 (noise) - bytes de configuration NR43",
-      "source": "$6A75",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7511,6 +7511,7 @@
     "$0C0D",
     "$4C91",
     "$51B7",
+    "$6A63",
     "$4DBC",
     "$0C22",
     "$4E1F",
@@ -7536,6 +7537,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 773
+  "commits_since_push": 3,
+  "total_explored": 774
 }

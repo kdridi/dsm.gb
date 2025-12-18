@@ -9738,12 +9738,18 @@ CheckAudioActive:
     nop
     inc l
     ld e, $80
-    rra
-    dec l
-    cpl
-    dec a
-    ccf
-    nop
+
+; AudioNoiseSequenceData
+; ----------------------
+; Description: Table de séquence audio NR43 pour canal 4 (noise)
+; Format: Série de bytes de configuration NR43 (polynomial counter), terminée par $00
+; Utilisé par: AudioChannel4Routine_6A75 (lecture séquentielle avec compteur DFFC)
+; Valeurs NR43:
+;   - Bits 7-4: Shift clock frequency
+;   - Bit 3: Counter step (0=15-bit, 1=7-bit)
+;   - Bits 2-0: Dividing ratio
+AudioNoiseSequenceData:
+    db $1F, $2D, $2F, $3D, $3F, $00
     call CheckAudioActive
     ret z
 
@@ -9755,7 +9761,7 @@ CheckAudioActive:
 ; AudioChannel4Routine_6A75
 ; --------------------------
 ; Description: Routine audio canal 4 index 2 (référencée depuis AudioChannel4PointerTable[2])
-; Lecture séquentielle de données audio depuis table $6A63 (AudioNoiseSequenceData)
+; Lecture séquentielle de données audio depuis AudioNoiseSequenceData
 ; In:  Appelé via jp hl depuis CheckAudioChannel4 (.audioChannel4Path)
 ; Out: Écrit dans rNR43 (canal 4 polynomial counter)
 ; Modifie: a, bc, hl
@@ -9768,7 +9774,7 @@ AudioChannel4Routine_6A75:
     ld c, [hl]
     inc [hl]            ; Incrémente le compteur
     ld b, $00
-    ld hl, $6a63        ; AudioNoiseSequenceData - table de séquence audio canal 4
+    ld hl, AudioNoiseSequenceData
     add hl, bc          ; Indexe dans la table de séquence
     ld a, [hl]
     and a               ; Test si fin de séquence (0)
