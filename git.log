@@ -1,0 +1,1324 @@
+20694b9 [BFS-7677] Sous-pattern audio (table groupe #1, référencé 2× par AudioSubPattern_7518)
+c05c435 [BFS-7628] Pointeur vers pattern audio (référencé 2×)
+2d7a9d5 [BFS-7624] Sous-pattern audio (données musicales brutes)
+bf067ce [BFS-6A4C] Pointeur vers sous-données audio
+be39f3e [BFS-761C] Sous-pattern audio manquant (12 bytes: $9D $37 $70 $20 $A5...) - NON LABELLISÉ
+022a374 [BFS-7608] Sous-pattern audio (table groupe #1, référencé par AudioSubPattern_7518)
+6132667 [BFS-75F4] Sous-pattern audio (table groupe #1, référencé par AudioSubPattern_7518)
+f5e82a1 [BFS-75D6] Sous-pattern audio (données musicales brutes)
+326beb5 [BFS-75EC] Audio pattern data référencé par séquence #5
+1c69f47 [BFS-75D4] Audio pattern data référencé par séquence #5
+344ef5a [BFS-75C8] Audio pattern data référencé par séquence #5
+6c93336 [BFS-75BE] Sous-pattern audio (table groupe #1, référencé par AudioSubPattern_7518)
+ccdc1e5 [BFS-75BC] Audio pattern data référencé par séquence #5
+66edf3a [BFS-75A3] Sous-pattern audio (table groupe #4)
+6e2c31e [BFS-7578] Sous-pattern audio (table groupe #3)
+0b5200b [BFS-7548] Sous-pattern audio (table groupe #2)
+d1b58ad [BFS-7518] Sous-pattern audio (table groupe #1)
+14e10f6 [BFS-74EF] Sous-pattern audio (table groupe #3, référencé 2×)
+dd12be0 [BFS-74B9] Sous-pattern audio (table groupe #2, référencé 2×)
+03a4b64 [BFS-7491] Sous-pattern audio (table groupe #1, référencé 2×)
+23fca3b [BFS-7485] Sous-pattern audio (table groupe #4)
+d8cfe80 [BFS-746F] Sous-pattern audio (table groupe #3)
+b12af1e [BFS-745F] Sous-pattern audio (table groupe #1)
+a4b8784 [BFS-744F] Sous-pattern audio (table groupe #2)
+7feb2b7 [BFS-7449] Sous-pattern audio (table groupe #5)
+6d2ba90 [BFS-7447] Audio pattern data référencé par séquence #4
+878f291 [BFS-743D] Sous-pattern audio (table groupe #4)
+62ec129 [BFS-743B] Audio pattern data référencé par séquence #4
+5d7b7b5 [BFS-7431] Sous-pattern audio (table groupe #3)
+39a078a [BFS-742F] Audio pattern data référencé par séquence #4
+1f1a141 [BFS-7425] Sous-pattern audio (table groupe #2)
+aae9d36 [BFS-7423] Audio pattern data référencé par séquence #4
+fcc424e [BFS-7411] Sous-pattern audio référencé par pointeur
+57e10d1 [BFS-73ED] Sous-pattern audio pointé par _73E5 (commandes $9D, $A8, $A2)
+7d9f175 [BFS-73EB] Pattern audio/musique référencé par séquence
+89ded64 [BFS-73E9] Pattern audio/musique référencé par séquence
+74de4fe [BFS-73E5] Pattern audio/musique référencé par séquence
+f2c1852 [BFS-73D4] AnimationFrameData_73d4 - Données d'animation (sous-section de AnimationFrameData_73be)
+87c4ec1 [BFS-73BE] AnimationFrameData_73be - Séquence d'animation référencée par pattern audio
+12523d6 [BFS-73AB] AnimationFrameData_73ab - Données d'animation (tiles IDs + flags)
+be3113f [BFS-73A9] Pattern audio #4 pour séquence musicale index 1
+1260517 [BFS-73A7] Pattern audio #3 pour séquence musicale index 1
+342f732 [BFS-73A3] Pattern audio #2 pour séquence musicale index 1
+6dd7419 [BFS-739D] Pattern audio à explorer
+b11a47e [BFS-72D1] Pattern audio à explorer
+e5386c3 [BFS-72B5] Pattern audio à explorer
+2eb39f7 [BFS-7294] Pattern audio à explorer
+1815b6b [BFS-728E] Pattern audio - Séquence de bytes audio non encore explorée
+4f34120 [BFS-7288] Pattern audio - Séquence de bytes audio non encore explorée
+067554e [BFS-7282] Pattern audio - Séquence de bytes audio non encore explorée
+fc959ca [BFS-7110] Données audio non labellisées - Pattern audio pour séquence #7
+472eba3 [BFS-7104] Données audio non labellisées - Pattern audio pour séquence #7
+8aa6f86 [BFS-70F8] AudioDataRaw_003_70f8 - Pattern audio pour séquence #7
+767873a [BFS-70EC] Données audio non labellisées - Pattern audio pour séquence #7
+2fec3b6 [BFS-70E1] Audio/music sequence data (index 7)
+e107e72 [BFS-70D6] Audio/music sequence data (index 6)
+c988e2c [BFS-70CB] Audio/music sequence data (index 5)
+8dde6a9 [BFS-7062] Audio pattern data référencé par séquences #5 et #6
+b8499c2 [BFS-70C0] Audio/music sequence data (index 4)
+85e2b6f [BFS-70B5] Audio/music sequence data (index 3)
+ee45d4a [BFS-70AA] Audio/music sequence data (index 2)
+8fb3c09 [BFS-7077] Pattern audio #1 pour séquence musicale index 1
+460fb82 [BFS-709F] Audio/music sequence data (index 1)
+63b90ee [BFS-7057] WaveAudioPattern - Pattern waveform custom 16 octets
+5ddb41d [BFS-7094] Audio/music sequence data (index 0)
+377ce1b [BFS-7047] WaveAudioPattern - Waveform pattern (16 octets)
+38c0237 [BFS-6C82] CopyAudioDataPair - Copie paire d'octets avec incrémentation
+938f2f8 [BFS-6C77] CopyAudioDataWord - Copie mot (2 octets) entre pointeurs
+2e996e9 [BFS-6C88] InitializeAudioChannelState - Configure état des canaux audio avec données
+085fcc4 [BFS-6C2B] AudioEnvelopeTable - Table de 19 configurations d'enveloppe audio (4 bytes chacune)
+60c3b1b [BFS-6C27] SetMasterVolumeFromParam - Règle volume depuis hAudioEnvParam1
+3db797b [BFS-6C23] SetMasterVolumeToFull - Règle volume master à $FF
+9db389d [BFS-6C1F] SetAudioMasterVolume - Écrit volume sur NR50
+db6842e [BFS-6BDC] UpdateAudioPan - Met à jour le panoramique audio
+677d147 [BFS-6BEF] UpdateAudioEnvelopeAndPan - Met à jour enveloppe et panoramique
+474233f [BFS-6BB9] LookupAudioEnvelope - Charge configuration d'enveloppe depuis AudioEnvelopeTable
+19343a3 [BFS-6B99] AudioClearChannels_Entry - Efface tous les canaux audio si requête = $FF
+f3c2933 [BFS-6B9D] ProcessAudioRequest - Traite requête audio en cours
+bc20f28 [BFS-6A98] AudioNoiseConfigData_Type8 - Configuration noise type 8 (4 bytes)
+08cb5da [BFS-6A9C] Routine status canal 4 index 1 (non encore nommée)
+f2abe75 [BFS-6A8C] AudioNoiseConfigData_Type7 - Configuration noise (4 bytes)
+6aebb6e [BFS-6A90] Routine status canal 4 index 3 (non encore nommée)
+7728b89 [BFS-6A5F] Handler audio non étiqueté (paramètre passé à DispatchAudioCommand)
+9bf4c70 [BFS-6A58] CheckAudioActive - Vérifie si audio est actif via wStateEnd
+73e589f [BFS-6A69] Routine status canal 4 index 2 (non encore nommée)
+bb9dac2 [BFS-6A50] Routine status canal 4 index 0 (non encore nommée)
+d1328d1 [BFS-672C] AudioChannel4StatusTable - Table status canal 4 (4 pointeurs)
+ded67e3 [BFS-6B79] CheckAudioChannel4 - Vérifie état canal audio 4
+b9c1ab4 [BFS-6A4B] ChannelInitDispatcher - Point d'entrée commun pour init canal (fall-through)
+c2d5ddb [BFS-6A49] ChannelInitDispatcher - Dispatcher vers InitSquareChannel1 (appelé par ChannelType_XX)
+54ede9c [BFS-6A46] ChannelType_05_Master - Configure canal master type 5
+1214baa [BFS-6A41] ChannelType_04_Noise - Configure canal noise type 4
+7f07563 [BFS-6A3C] ChannelType_03_WaveMemory - Configure canal wave memory type 3
+4308bbc [BFS-6A38] ChannelInitDispatcher - Point d'entrée commun pour init canal
+fb840f1 [BFS-6A37] ChannelType_02_PulseWave - Configure canal pulse type 2
+de836df [BFS-6A32] ChannelType_01_PulseWave - Configure canal pulse type 1
+78dae2d [BFS-6A10] DispatchAudioCommand - Routine de dispatch commande audio
+7b23812 [BFS-6A0A] AudioWaveformPattern_69F1 + 25 - Sous-pattern séquence 6 (note $CB)
+fe99e74 [BFS-6A05] AudioWaveformPattern_69F1 + 20 - Sous-pattern séquence 5 (note $D4)
+ad543cd [BFS-6A00] AudioWaveformPattern_69F1 + 15 - Sous-pattern séquence 4 (note $C4)
+d4d72e7 [BFS-69FB] AudioWaveformPattern_69F1 + 10 - Sous-pattern séquence 3 (note $BA)
+08517ae [BFS-69F6] AudioWaveformPattern_69F1 + 5 - Sous-pattern séquence 2 (note $B1)
+59899cf [BFS-69F1] AudioWaveformPattern_69F1 - Pattern audio 30 octets pour waveform
+f32b95b [BFS-69E9] DispatchAudioWave_Setup - Dispatch $06 vers $69F1
+031e0ee [BFS-69AA] AudioData_003_69AA - Pattern audio (5 bytes) + table envelope (14 bytes)
+62aa0be [BFS-69BD] AudioChannel1Routine_69BD - Dispatch $06 si pas CENTER
+8da1af0 [BFS-6999] AudioData_003_6980 + $19 - Pattern de données audio (partie de AudioData_003_6980)
+1f2ab37 [BFS-699E] AudioChannel1Routine_699E - Dispatch $08 vers $6999
+285e2ba [BFS-696E] AudioWaveformPattern_696E - Pattern waveform (sweep=$49, pattern=$91, env=$82, freq=$D37F)
+ddd7aa8 [BFS-6973] AudioChannel1Routine_6973 - Init wave command $10
+8820ef3 [BFS-695C] AudioWaveformPattern_695C - Pattern waveform (sweep=$49, pattern=$E2, env=$61, freq=$E8FE)
+8e9a301 [BFS-6961] AudioChannel1Routine_6961 - Init wave command $60
+75d59f5 [BFS-692C] AudioWaveformPattern_692C - Pattern waveform audio (9 octets)
+1c0d843 [BFS-6936] AudioChannel1Routine_6936 - Dispatch $08 si game state ok
+ebee608 [BFS-688B] AudioConfigData_688B - Second pattern waveform (sweep=$3D, env=$A3)
+526cad9 [BFS-68E3] AudioChannel1Routine_68E3 - Dispatch $03 si game state ok
+2a80571 [BFS-6895] SkipIfGameState03 - Vérifie si game state = $03
+2691750 [BFS-6886] AudioConfigData_6886 - Séquence de patterns waveform audio
+0338fc0 [BFS-68AE] AudioChannel1Routine_68AE - Dispatch $10 + init graphics
+1b9d2e6 [BFS-689B] SkipIfGameState05 - Vérifie si game state = 05
+3eeb7ba [BFS-6875] Donnée/routine cible du dispatch $0E (à explorer)
+1c2406c [BFS-687A] AudioChannel1Routine_687A - Dispatch $0E vers $6875
+c53078b [BFS-6868] Données audio canal 1 - pattern waveform
+49e1d38 [BFS-686D] AudioChannel1Routine_686D - Dispatch $03 vers $6868
+b9a33c8 [BFS-6700] AudioChannel1StatusTable - Table de 11 pointeurs vers routines de statut canal 1
+5d90a7e [BFS-6B59] CheckAudioChannel1 - Vérifie état canal audio 1
+6d701f3 [BFS-6B4B] ResetAudioChannelEnvelopes - Reset enveloppes tous canaux
+e4f377a [BFS-6B26] ResetAllAudioChannels - Reset tous les canaux audio
+547da29 [BFS-6B19] LoadAudioRegisterRange - Copie 16 octets waveform vers $FF30-$FF3F
+27b0bab [BFS-6B0C] UpdateAudioFrameCounter - Met à jour compteur de frames audio
+b472e09 [BFS-6AED] ConfigureAudioNoise - Configure canal 4 (noise) pour SE
+15f29b7 [BFS-6AD8] ConfigureAudioSe - Configure effets sonores (via SetupAudioConfiguration)
+861194a [BFS-6AB9] DispatchAudioCommand - Dispatche commandes audio (via AudioChannel1Routine_690C)
+cadcc16 [BFS-6AAD] AudioData_003_6aad - Données audio ou handler de fin de séquence canal 4
+e61cd46 [BFS-6AA8] Routine audio commençant par call UpdateAudioFrameCounter (référencée 3x)
+1ffbd16 [BFS-6A63] Table de séquence audio pour canal 4 (noise) - bytes de configuration NR43
+5b6ad0f [BFS-6A75] Routine audio de traitement canal 4
+770d2ce [BFS-6A0F] Routine audio canal 1 référencée depuis AudioChannel1PointerTable
+628eaef [BFS-69AF] Table de séquence audio (bytes) pour configuration NR12
+152984e [BFS-69CB] Routine audio canal 1 référencée depuis AudioChannel1PointerTable
+e766127 [BFS-6980] Routine audio canal 1 référencée depuis AudioChannel1PointerTable
+17d9331 [BFS-6942] Routine audio canal 1 référencée depuis AudioChannel1PointerTable
+b5a75b6 [BFS-6925] SetupAudioConfiguration - Configure audio si compteur = $04
+f08baa1 [BFS-690C] AudioChannel1Routine_690C - Routine qui charge cette table (offset 0) et appelle DispatchAudioCommand
+dbb1504 [BFS-6902] AudioData_003_6902 - Table de données audio (10 octets)
+434cdca [BFS-68A1] AudioChannelDispatchCase_05 - Routine de dispatch qui teste si wStateDisplay vaut 4, 6, 8 ou $0B
+f5568ee [BFS-6890] SkipIfGameState04 - Test conditionnel GameState (via AudioChannel1Routine_690C)
+2695f25 [BFS-6916] Routine audio canal 1 référencée depuis AudioChannel1PointerTable
+2f0084b [BFS-68F8] ClearPulseRegisters - Fallthrough qui efface rNR10, rNR12 et reset bit 7 de wComplexState1F
+75a1d3c [BFS-68F4] ResetPulseChannel - Reset registres canal pulse (fallthrough)
+0f567fc [BFS-68EF] Routine audio canal 1 référencée depuis AudioChannel1PointerTable
+4565ae2 [BFS-68C3] Routine audio canal 1 référencée depuis AudioChannel1PointerTable
+ebcc27d [BFS-673C] Table de pointeurs pour ProcessAudioRequest
+e1433f1 [BFS-6734] Table de pointeurs pour canal audio 4 (utilisée par CheckAudioChannel4)
+1fd2887 [BFS-6716] Table de pointeurs pour canal audio 1 (utilisée par CheckAudioChannel1)
+e40bfc1 [BFS-6AFD] IndexAudioTable - Indexe table de pointeurs audio
+b08244d [BFS-6AFA] SetAudioStatus - Définit le statut audio global
+78ae9cc [BFS-6AF2] AudioRegisterTransferLoop - Boucle de transfert vers registres hardware
+051f095 [BFS-6AE6] ConfigureAudioWave - Copie 5 octets config vers NR30-NR34
+2891d11 [BFS-6ADF] ConfigureAudioBgm - Configure BGM/SE depuis données
+9e41d2d [BFS-6803] WaveAudioConfigData - Config NR30-NR34 (5 octets)
+99784d9 [BFS-67F4] InitializeWaveAudio - Initialise canal wave (canal 3)
+930b35f [BFS-6799] ProcessAudioSnapshot_ClearStateAndReturn - Nettoie état WRAM et restaure interruptions
+4a2317a [BFS-67C5] ProcessAudioSnapshot_ConfigureBgm - Point d'entrée configuration audio
+2eabe90 [BFS-67CA] ProcessAudioSnapshot_SetupSeData charge cette table dans HL
+0f0ff2f [BFS-67F0] AudioConfigSeData - Données config SE (4 octets)
+b025b75 [BFS-67EC] AudioConfigBgmData - Données config BGM (4 octets)
+077733b [BFS-6762] ProcessAudioSnapshot - Traite le snapshot audio courant
+36939e6 [BFS-7FF0] AudioEntryPoint - Routine audio principale en bank 3
+73e05c2 [BFS-7D01] Entity data référencée par Level3EntitiesData
+d41fa9b [BFS-7C0E] Entity data référencée par Level3EntitiesData
+f6d2a98 [BFS-7B5F] Entity data référencée par Level3EntitiesData
+5575fde [BFS-7AB2] Entity data référencée par Level3EntitiesData
+3fb69fb [BFS-79E9] Entity data référencée par Level3EntitiesData
+befe817 [BFS-791A] Entity data référencée par Level3EntitiesData
+8f8c1bb [BFS-77BD] Entity data référencée par Level3EntitiesData
+2425b11 [BFS-775A] Entity data référencée par Level3EntitiesData
+7a68093 [BFS-76D2] Entity data référencée par Level3EntitiesData
+96552a8 [BFS-764F] Entity data référencée par Level3EntitiesData
+26ca578 [BFS-757C] Tile data référencée par Level3MapData
+5b4b734 [BFS-7471] Animation frame structure
+f4b85db [BFS-7442] Tile data référencée par Level3MapData
+518b390 [BFS-73d4] Animation frame data (pointeur table)
+68cf2d8 [BFS-73be] Animation frame data (séquence XTRNJ)
+1f5af30 [BFS-73ab] Animation frame data
+4f2dd0d [BFS-7379] Tile data référencée par Level3MapData
+ca55edd [BFS-7372] Animation frame structure
+3e145f0 [BFS-72BC] Tile data référencée par Level3MapData
+df8af47 [BFS-71FC] Tile data référencée par Level3MapData
+c90c3ab [BFS-7170] Animation frame structure
+9264b03 [BFS-7123] Tile data référencée par Level3MapData
+a67520e [BFS-704E] Animation frame structure
+8752a85 [BFS-7038] Tile data référencée par Level3MapData
+c89ec30 [BFS-6F60] Tile data référencée par Level3MapData
+0e6996e [BFS-6EA6] Tile data référencée par Level3MapData
+17636ec [BFS-6DDB] Tile data référencée par toutes les tables Level3
+42c35e7 [BFS-6C81] Tile data référencée par toutes les tables Level3
+63f754e [BFS-6C1B] Tile data référencée par Level3TilesetData/MapData
+e7ed722 [BFS-6B51] Tile data référencée par Level3TilesetData
+2ddb4bf [BFS-6AA0] Tile data référencée par Level3TilesetData
+06ecc07 [BFS-69E2] Tile data référencée par Level3TilesetData/MapData
+4a53210 [BFS-691C] Tile data référencée par Level3TilesetData/MapData
+6b63687 [BFS-6882] Tile data référencée par Level3TilesetData/MapData
+0dc8440 [BFS-67BF] Tile data référencée par Level3TilesetData/MapData
+03ca46a [BFS-66A1] Tile data référencée par Level3TilesetData
+c9910bd [BFS-6670] Séquence d'inputs démo pour bank 2
+9b5c4fa [BFS-6665] Animation frame structure
+ed87557 [BFS-65E0] Séquence d'inputs démo pour bank 1
+79cf632 [BFS-65D3] Tile data référencée par Level3TilesetData
+41c88e7 [BFS-6564] Animation frame structure
+9aef292 [BFS-4AB3] DemoSequencePointersTable contenant le pointeur vers $6550
+fe2c911 [BFS-4AA7] Routine .loadNextDemoInput qui lit cette séquence
+7d76162 [BFS-6550] Séquence d'inputs démo pour bank 0
+d51c410 [BFS-5219] Tilemap_5219 contexte 11
+c648636 [BFS-5206] Tilemap_5206 contexte 10
+c5f632b [BFS-51EA] Tilemap_51EA contexte 9
+8da9c6e [BFS-51D7] Tilemap_51D7 contexte 8
+6ef9b51 [BFS-51C4] Tilemap_51C4 contexte 7
+bfe48f1 [BFS-51B7] Tilemap_51B7 contexte 6
+aba2b92 [BFS-51A7] Tilemap_51A7 contexte 5
+32b1e0f [BFS-5191] Tilemap_5191 contexte 4
+e57ccdc [BFS-5175] Tilemap_5175 contexte 3
+ec32e57 [BFS-515C] Tilemap_515C contexte 2
+a63d2a7 [BFS-514F] Tilemap_514F contexte 1
+d6ca75f [BFS-513F] Tilemap_513F contexte 0
+fa317a9 [BFS-6536] ROM_TILEMAP_POINTERS_B - Table de pointeurs vers tilemaps en bank 3
+e0a4bca [BFS-651c] ROM_TILEMAP_POINTERS_A - Table de pointeurs vers les données de tilemap
+20710f3 [BFS-22F0] SearchTilemapExit - sortie de la routine parente UpdateTilemapScrolling
+12580a1 [BFS-22E9] SearchTilemapEntry_Exit - restaure la bank et sort (pas trouvé ou trouvé)
+3cec26a [BFS-22D4] SearchTilemapEntry_CheckY - vérifie la coordonnée Y si X correspond
+46aa0be [BFS-22CD] SearchTilemapEntry_NextEntry - avance de 5 bytes pour passer à l'entrée suivante
+777e2f8 [BFS-22C2] SearchTilemapEntry_CheckX - recherche une entrée dans un tilemap
+4c773fb [BFS-513D] Point de rebouclage interne après .loadAndLoop (res 0,e; écrit 0)
+c0b8a47 [BFS-5154] LoadPointerFromMemory - routine suivant immédiatement Tilemap_513E
+2283102 [BFS-513E] Tilemap pour contexte rendu 11
+dd0582b [BFS-5132] Tilemap pour contexte rendu 10
+14c5809 [BFS-5125] Tilemap pour contexte rendu 9
+8d26be0 [BFS-510B] Tilemap pour contexte rendu 7
+dec7f00 [BFS-50FE] Tilemap pour contexte rendu 6
+c3e47c5 [BFS-50FD] Tilemap pour contexte rendu 5
+9bb129a [BFS-50F1] Tilemap pour contexte rendu 4
+7b8dadb [BFS-50E4] Tilemap pour contexte rendu 3
+9a4e33e [BFS-50D7] Tilemap pour contexte rendu 2
+42b9404 [BFS-50D6] Tilemap pour contexte rendu 1
+5e072a6 [BFS-50CA] Tilemap pour contexte rendu 0
+b515e32 [BFS-651C] ROM_TILEMAP_POINTERS_A - Table de pointeurs vers les tilemaps (bank 3)
+0aee9b3 [BFS-650D] Entity definition data
+a5a9bf6 [BFS-6463] Animation frame structure
+8843391 [BFS-640D] Entity definition data
+00467d0 [BFS-634E] Animation frame structure
+5fca653 [BFS-6327] Entity definition data
+a0e6294 [BFS-5EC4] Pointeur 2 - données additionnelles entité
+dc988cf [BFS-4A5D] Pointeur 1 - possiblement comportement/sprite entité
+428c359 [BFS-6272] Entity definition data
+db2959c [BFS-61DA] Données niveau (variante D)
+4f4b907 [BFS-61B8] Entity definition data
+4d185e9 [BFS-61B7] Données niveau (variante C)
+5ed78fe [BFS-6192] Données niveau (variante B)
+5714380 [BFS-6190] Données niveau (variante A)
+de40364 [BFS-6100] Entity definition data
+85e580d [BFS-6048] Tile graphique (8 bytes)
+d106d80 [BFS-5a66] ExitSpriteHandler - Sortie du handler sprite
+bc8f898 [BFS-5a62] SpriteAnimationStatePurge - Purge état animation sprite
+415e2f5 [BFS-5a37] SpriteAnimationCounterDecrement - Décrémente compteur animation
+b6cb2a1 [BFS-5a15] SpriteAnimationMultiplexHandler - Traitement multiplex animation
+6b326c3 [BFS-5a05] SpriteSlot3_AnimationCheck - Gestion compteur animation slot 3
+b86c18b [BFS-5FAD] Tile data référencée par map
+921fd3e [BFS-5F44] Tile data référencée par map
+ab3a07d [BFS-5E32] Tile data référencée par map
+5c3cf06 [BFS-5D8A] Tile data référencée par map
+f69a807 [BFS-5D3C] TileTypeCommonExit - Finalise le dispatch en écrivant $0D à $DFE8
+72ab6b9 [BFS-5D62] TileTypeE5_InitPaletteWrite - Initialise palette write pour tile E5
+63c13ee [BFS-5D5F] Table handlers animation type $FF
+d744084 [BFS-5D58] Table handlers animation type $08
+1376844 [BFS-5D57] Table handlers animation type $80
+178647e [BFS-5D32] Tile graphique (8 bytes)
+4236ea0 [BFS-5CA6] Tile data référencée par map
+76e1770 [BFS-5C9D] Table de données référencée dans les routines d'animation sprite
+787446c [BFS-5C93] SetState17_AfterAnimation - change le game state à $17
+51d8e72 [BFS-5C73] SpriteAnimationCompletionCheck - vérifie la complétion d'un cycle
+7a88e78 [BFS-5C69] SpriteAnimationDataAdvance - avance dans la séquence d'animation
+6ce7e6c [BFS-5C58] Table handlers animation type $05
+18b4fcc [BFS-5C57] SpriteAnimationCountdown - Table handlers animation type $50
+94a59c3 [BFS-5C22] Tile data référencée par map
+0036789 [BFS-5BA3] Tile data référencée par map
+fcfa361 [BFS-5B58] Table handlers animation type $04
+e0b0091 [BFS-5B57] Table handlers animation type $40
+ee3a7b3 [BFS-5ABB] Tile graphique (8 bytes)
+82d207a [BFS-5A66] ExitSpriteHandler/SpriteAnimationLoopExit - Sort du handler ou itère au slot suivant
+680fcbe [BFS-5A62] SpriteAnimationStatePurge - Purge état animation d'un slot
+27614be [BFS-5A60] PatternData_5a60 - Données de pattern qui suivent la routine
+01db8fa [BFS-5A5B] Cible de la boucle (jr nz) dans ClearMemoryRangeWRAM
+85b5a2c [BFS-5A5F] Tile graphique (8 bytes)
+7559dda [BFS-5A58] Table handlers animation type $02
+b37ed4c [BFS-5A57] Table handlers animation type $20
+bb4a35d [BFS-5A37] SpriteAnimationCounterDecrement - Décrémente compteur animation et réinitialise
+8a1353d [BFS-5A15] SpriteAnimationMultiplexHandler - Multiplex animation avec compteurs et états
+fb60d80 [BFS-5A05] SpriteSlot3_AnimationCheck - Gestion animation slot 3 (wSpriteTemp+$48)
+0fe6546 [BFS-59f3] SpriteSlot2_AnimationCheck - Gestion compteur animation slot 2
+23dee95 [BFS-59e0] SpriteSlot1_AnimationCheck - Gestion compteur animation slot 1
+94c0a83 [BFS-59a8] SpriteAnimationDispatch_ByType - Boucle traitement slots
+ffe9073 [BFS-59a5] ProcessSpriteAnimation - Traite animation sprite (appelé par UpdateSpriteAnimationFrame)
+1bb6247 [BFS-59a2] AnimationDispatch_SelectPalette - Sélection palette animation
+25d128c [BFS-59F3] SpriteSlot2_AnimationCheck - Gestion animation slot 2 (wSpriteTemp+$40)
+30a9d01 [BFS-59EE] Tile graphique (8 bytes)
+c5d7690 [BFS-59E0] SpriteSlot1_AnimationCheck - Gestion animation slot 1 (wSpriteTemp+$38)
+2ef6ce7 [BFS-59A8] SpriteAnimationDispatch_ByType - Boucle de traitement par slot sprite
+46ae6c7 [BFS-59A5] SpriteAnimationDispatchEntry - Point d'entrée dispatch animation sprite
+b3292af [BFS-59A2] AnimationDispatch_SelectPalette - Appelle AddScore puis traite animation sprite
+ed46ccc [BFS-596E] Tile graphique (8 bytes)
+14155da [BFS-5958] Table handlers animation type $01
+061014d [BFS-5957] Table handlers animation type $10
+50ab083 [BFS-5950] AnimationDispatch_SetAndJump - Configure handler animation avec adresse calculée
+7e28936 [BFS-5909] AnimationDispatch_SelectHandler - Dispatch handler animation selon bank type
+78ed6a8 [BFS-58FE] Tile graphique (8 bytes)
+1d2d4b7 [BFS-5892] UpdateSpriteAnimationFrame - Met à jour frame animation sprite
+cfd788e [BFS-5886] SetTimerForAlternateCase - Configure timer quand c=1
+cec0dca [BFS-587b] SetTimerForSpecialCase - Configure timer quand BCD=$50
+a0aaccc [BFS-586b] CounterStateDispatcher - Dispatch selon valeur timer BCD
+9820f0b [BFS-586F] Tile graphique (8 bytes)
+e4b22ee [BFS-584b] DecrementGameTimer - Décrémente timer BCD
+6691283 [BFS-5844] UpdateGameTimersAndAnimation - Timers et anim (bank 2)
+3a86df6 [BFS-5841] State1A_Handler - (Bank 1, zone données)
+f15bb53 [BFS-583E] State19_Handler - (Bank 1, zone données)
+2fe189b [BFS-583B] State18_Handler - (Bank 1, zone données)
+bd02cb5 [BFS-5838] State17_Handler - (Bank 1, zone données)
+6ca03ce [BFS-5835] State15_Handler - (Bank 1, zone données)
+ef55026 [BFS-5832] State14_Handler - (Bank 1, zone données)
+166d7af [BFS-57EB] Tile graphique (8 bytes)
+ce65f5f [BFS-574A] Tile graphique (8 bytes)
+43c5bd4 [BFS-56CD] Tile graphique (8 bytes)
+4211cd5 [BFS-5694] Entities data niveau 3
+64df86f [BFS-5665] Map data niveau 3
+cd9faed [BFS-5630] Tileset data niveau 3
+b04835c [BFS-5605] Entities data partagée niveaux 0-2
+39d5171 [BFS-55E2] Map data partagée niveaux 0-2
+de14cba [BFS-55BB] Tileset data partagée niveaux 0-2,4
+391f768 [BFS-54D5] Tileset data partagée niveaux 5,7,8
+413355f [BFS-5405] Entities data partagée niveaux 4,6,7
+4c5271b [BFS-5311] Map/Entities data partagée niveaux 4,6,7
+0a2bf1e [BFS-529B] Tileset data niveau 6
+3d489a3 [BFS-5222] Entities data niveau 5
+f8a92ae [BFS-5179] Map data niveau 5
+b6967cd [BFS-5168] ResetGameStateInit - Réinitialise le jeu (game state = $01)
+217145c [BFS-515E] Call Bank 1 - Final update (non nommé)
+bcc8647 [BFS-5118] Call Bank 1 - Update sprites (non nommé)
+76c5068 [BFS-5107] TriggerSpecialCollisionEvent - Événement collision spéciale (tuyau/pipe)
+317c6dd [BFS-50d8] CollisionCheckOffsetLoop - Boucle principale de test collision
+b36111d [BFS-5101] DecrementOffsetAndRetryCollision - Ajuste offset Y et retente collision
+295bc88 [BFS-50D8] CollisionCheckOffsetLoop - Boucle de test collision avec offsets variables
+ef2ea44 [BFS-50CC] Helper function appelée avec paramètre c=$08
+47115a6 [BFS-50C0] Level 4 extra pointer (données spécifiques?)
+a48defd [BFS-509B] Level 0-3 handler 3 (probablement render)
+ab79808 [BFS-5089] CheckSpriteCollision - Détection collision sprite
+a2967f5 [BFS-5074] Level 0-3 handler 2 (probablement update)
+7f08a2d [BFS-5046] CheckPlayerCollisionWithTile - Vérifie collision joueur avec tiles (2 points test)
+8f0e27d [BFS-503F] Level 0-3 handler 1 (probablement init)
+0ee01f7 [BFS-5034] HandleJoypadButtonB_CheckCollision - Gestion collision bouton B
+c60b915 [BFS-5014] CheckCollisionWithPositiveOffset - Gestion collision mouvement droite avec offset +8
+5c655c6 [BFS-4FF6] HandleJoypadAndCollision - Gestion joypad et collisions directionnelles
+a4cc4b8 [BFS-5022] CheckSpriteCollisionSimple - Vérification collision simple bouton A
+c2537e7 [BFS-4E6D] PaddingZone_003_4e6d - Zone de padding/code inaccessible
+87e6a56 [BFS-4E44] Animation frame structure
+991cd88 [BFS-4E35] Animation frame structure
+f7007b3 [BFS-4E2A] Animation frame structure
+860d67d [BFS-4E1F] Animation frame structure
+360c470 [BFS-4E14] Animation frame structure
+fd5e52e [BFS-4E09] Animation frame structure
+894f4ca [BFS-4E02] Animation frame structure
+d8bf857 [BFS-4DFB] Animation frame structure
+11d8675 [BFS-4DF4] Animation frame structure
+4d6a1c2 [BFS-4DED] Animation frame structure
+c21f6dd [BFS-4DE6] Animation frame structure
+ff5519a [BFS-4DDF] Animation frame structure
+5603475 [BFS-4DD8] Animation frame structure
+093b1c6 [BFS-4DD1] Animation frame structure
+7343d33 [BFS-4DCA] Animation frame structure
+0cf4491 [BFS-4DC3] Animation frame structure
+ee12eee [BFS-4DBC] Animation frame structure
+64a0a0f [BFS-4DB5] Animation frame structure
+bd78405 [BFS-4DAE] Animation frame structure
+9e80558 [BFS-4DA7] Animation frame structure
+826ec7c [BFS-4DA0] Animation frame structure
+e444e98 [BFS-4D99] Animation frame structure
+d5c5de5 [BFS-4D92] Animation frame structure
+0fa93ed [BFS-4D8B] Animation frame structure
+51118c9 [BFS-4D84] Animation frame structure
+744ff63 [BFS-4D7D] Animation frame structure
+62ff459 [BFS-4D76] Animation frame structure
+d959720 [BFS-4D71] Nœud adjacent dans table mal désassemblée
+13426e8 [BFS-4D6F] Animation frame structure
+fb879f8 [BFS-4D6D] Nœud adjacent dans table mal désassemblée
+5204e91 [BFS-4D69] Nœud adjacent dans table mal désassemblée (suite données accélération)
+67a0012 [BFS-4D68] Animation frame structure
+5c72f66 [BFS-4D65] Nœud adjacent dans bloc tile graphics mal désassemblé
+bee4bb0 [BFS-4D61] Animation frame structure
+afe4694 [BFS-4D5D] Animation frame structure
+09e0e7e [BFS-4D56] Animation frame structure
+6b2b0cd [BFS-4D4F] Animation frame structure
+56dabac [BFS-4D48] Animation frame structure
+410db9d [BFS-4D41] Animation frame structure
+6a9dd81 [BFS-4D3A] Animation frame structure
+531406a [BFS-4D33] Animation frame structure
+75a31d4 [BFS-4D2C] Animation frame structure
+3d6e6e5 [BFS-4D25] Animation frame structure
+70bfc50 [BFS-4D21] Animation frame structure
+b5e5847 [BFS-4D1D] Animation frame structure
+10d48e1 [BFS-4D19] Animation frame structure
+5afb135 [BFS-4D15] Animation frame structure
+2a44768 [BFS-4D11] Animation frame structure
+d596173 [BFS-4D0D] Animation frame structure
+90a4e51 [BFS-4D09] Animation frame structure
+f5bde2b [BFS-4D05] Animation frame structure
+2ea15dc [BFS-4D01] Animation frame structure
+1459e57 [BFS-4CFD] Animation frame structure
+d604cc5 [BFS-4CF9] Animation frame structure
+3c0dea2 [BFS-4CF5] Animation frame structure
+5347b2f [BFS-4CF1] Animation frame structure
+05fa546 [BFS-4CED] Animation frame structure
+1b74d6e [BFS-4CE9] Animation frame structure
+7bf8faa [BFS-4CE5] Animation frame structure
+2920d96 [BFS-4CE1] Animation frame structure
+e6ff539 [BFS-4CDD] Animation frame structure
+e76ecbe [BFS-4CD9] Animation frame structure
+62c8c94 [BFS-4CD5] Animation frame structure
+45d0458 [BFS-4CD1] Animation frame structure
+f403ffd [BFS-4CCD] Animation frame structure
+eac5284 [BFS-4CC9] Animation frame structure
+7c5f92d [BFS-4CC5] Animation frame structure
+0a2841d [BFS-4CC1] Animation frame structure
+0cec939 [BFS-4CBD] Animation frame structure
+4e71699 [BFS-4CB9] Animation frame structure
+06a10ef [BFS-4CB5] Animation frame structure
+f577757 [BFS-4CB1] Animation frame structure
+9a2db27 [BFS-4CAD] Animation frame structure
+43b293b [BFS-4CA9] Animation frame structure
+cae2423 [BFS-4CA5] Animation frame structure
+b7bc3ff [BFS-4CA1] Animation frame structure
+b88ba98 [BFS-4C9D] Animation frame structure
+e33c1bc [BFS-4C99] Animation frame structure
+d4579d3 [BFS-4C95] Animation frame structure
+6c17124 [BFS-4C91] Animation frame structure
+c6793e6 [BFS-4C8D] Animation frame structure
+3cdb9a4 [BFS-44FF] Animation frame structure
+4d378aa [BFS-4c37] AnimFramePointerTable - Table de pointeurs vers structures d'animation
+8210158 [BFS-4FEC] Call Bank 1 - Update objects (non nommé)
+a88b23c [BFS-4FD8] Level 4-7 handler 3
+c46f267 [BFS-4FB2] Call Bank 1 - Update level (non nommé)
+5f13671 [BFS-4F41] Saut conditionnel vers PaddingZone_003_4f41
+d49245c [BFS-4F1D] Level 4-7 handler 2
+9a9d01c [BFS-4E74] Level 4-7 handler 1
+638cf81 [BFS-4BC2] Palette graphique monde 3 (bank 1)
+ed057d9 [BFS-4BB5] CheckTimerAux2 - Timer auxiliaire 2 (bank 3)
+a3c997f [BFS-4BA4] TimerInitializeAux - Initialise mode pipe quand timer1=0
+4a5b992 [BFS-4B8A] CheckTimerAux1 - Timer auxiliaire 1 (bank 3)
+7042aea [BFS-4B6F] CheckPlayerBounds - Vérif limites joueur (bank 3)
+e3f426b [BFS-4B3C] CheckBlockCollision - Collisions avec blocs (bank 3)
+ec38b5b [BFS-4AEA] InitRenderLoop - Init boucle rendu (bank 3)
+ff9d553 [BFS-4AE4] Table de pointeurs vers séquences d'inputs démo (1 pointeur 16-bit par bank ROM)
+0adfc92 [BFS-4A94] CheckUnlockState - Vérifie déblocages (bank 3)
+edebf52 [BFS-4A7F] HandleJoypadInputDelay - Gère délai input en mode gameplay
+3587eae [BFS-49FD] ValidateAndProcessGameState_CheckLock - Vérifie verrouillage et compteur accélération
+865c2ad [BFS-49BA] ValidateAndProcessGameState - Valide état jeu et vérifie verrouillage
+867efb9 [BFS-4A77] ResetMenuStateToIdle - Réinitialise état menu (bit 7 joypad)
+8991fb6 [BFS-4A0C] InitializeSpriteTransferBuffer - Prépare buffer sprites OAM
+4a455ca [BFS-498B] ProcessGameStateInput - Gère input gameplay (bank 3)
+508c3a6 [BFS-490d] ProcessObjectData - Routine qui lit cette table pour calculer vitesses/priorités objets
+969350c [BFS-490D] ProcessObjectData - Init données objet (bank 3, appelé 5×)
+e91bceb [BFS-48FC] CheckObjectState - Vérifie état objets (bank 3)
+af138a6 [BFS-4823] AnimationHandler
+ae38b1e [BFS-47F2] JoypadReadHandler
+98bd115 [BFS-4402] Palette graphique monde 1 et 2 (bank 1)
+213ade1 [BFS-4032] Tiles graphiques monde 1 et 2 (bank 1)
+4a7442c [BFS-401A] ROM_AUDIO_INDEX_TABLE - Table index audio en bank 1
+bba97f1 [BFS-3efe] GetSpritePosFromTileAddr - Calcul position sprite depuis adresse tile
+3dadb37 [BFS-3FAF] AnimTilesFrames - Table ROM des frames d'animation (eau/lave)
+da10fa2 [BFS-3F87] ROM_HUD_TILEMAP - Données tilemap du HUD (40 bytes, 2 lignes)
+80212de [BFS-3F38] ConvertBCDToTiles - Convertit score BCD en tiles pour affichage
+fb24b00 [BFS-3F24] UpdateScoreDisplay - Mise à jour de l'affichage du score
+30a58d6 [BFS-3EFE] GetSpritePosFromTileAddr - Convertit adresse tile → position sprite
+8594409 [BFS-3ED1] GetTileAddrFromSprite - Calcule adresse VRAM du tile sous le sprite
+0226651 [BFS-3E9E] State16_CopyTilemapData - Copie données tilemap
+e4f039a [BFS-3DCE] State13_DrawEndBorder - Dessin bordure fin
+0c3e6fc [BFS-3D8E] State12_EndLevelSetup - Setup fin de niveau
+614575a [BFS-3D75] DisplayLevelBCDScore - Affiche le score BCD du niveau à l'écran
+2ef52e7 [BFS-3D61] UpdateLevelScore - Mise à jour du score du niveau
+3110936 [BFS-3D11] InitLevelData - Initialise données du niveau
+6252a6d [BFS-35AB] Séquence de commandes audio pour son 5
+143ee90 [BFS-35A1] Séquence de commandes audio pour son 4
+0036e3a [BFS-3594] Séquence de commandes audio pour son 3
+7928402 [BFS-356D] Séquence de commandes audio pour son 2
+bfe4536 [BFS-3565] Séquence de commandes audio pour son 1
+13afe38 [BFS-355B] Séquence de commandes audio pour son 0
+d4c12cc [BFS-3495] ROM_AUDIO_POINTERS - Table des pointeurs vers données audio (2 octets par entrée)
+b2d28e0 [BFS-33ac] Zone de données non étiquetée après AudioConfigTable, potentiellement table audio supplémentaire
+20caf93 [BFS-336c] ROM_AUDIO_CONFIG - Table de configuration audio (3 octets par son)
+6fef608 [BFS-336C] AudioConfigTable - Table de configuration audio (3 bytes/son)
+39c4724 [BFS-317d] ROM_OBJECT_SOUND_TABLE - Table des sons objets (5 octets par entrée)
+feabc6f [BFS-2D4C] AudioCmdSeq_12 - Séquence audio 12
+1937993 [BFS-2D41] AudioCmdSeq_11 - Séquence audio 11
+c4febb0 [BFS-2D3B] AudioCmdSeq_10 - Séquence audio 10
+733f5a8 [BFS-2D18] AudioCmdSeq_07 - Séquence audio 7
+d141a2d [BFS-2D14] AudioCmdSeq_06 - Séquence audio 6
+b9ab560 [BFS-30AB] ROM_AUDIO_CHANNEL_TABLE_2 - Table de pointeurs vers commandes audio (option 2)
+0bd2c25 [BFS-2d95] AudioAnimDataBulk - Zone de données brutes d'animation/graphiques (580 bytes)
+8e667db [BFS-2d91] AudioCmdSeq_15Alt - Séquence audio 15 (canal alternatif)
+eb131af [BFS-2d8e] AudioCmdSeq_14Alt - Séquence audio 14 (canal alternatif)
+fef841b [BFS-2d8b] AudioCmdSeq_13Alt - Séquence audio 13 (canal alternatif)
+dbb2fc6 [BFS-2d88] AudioCmdSeq_12Alt - Séquence audio 12 (canal alternatif)
+ce8b8f0 [BFS-2d86] AudioCmdSeq_11Alt - Séquence audio 11 (canal alternatif)
+c3f83c5 [BFS-2d83] AudioCmdSeq_10Alt - Séquence audio 10 (canal alternatif)
+fc0af69 [BFS-2d81] AudioCmdSeq_09Alt - Séquence audio 9 (canal alternatif)
+6ab9a64 [BFS-2d7f] AudioCmdSeq_08Alt - Séquence audio 8 (canal alternatif)
+7749476 [BFS-2d7d] AudioCmdSeq_07Alt - Séquence audio 7 (canal alternatif)
+6c9ee55 [BFS-2d7b] AudioCmdSeq_06Alt - Séquence audio 6 (canal alternatif)
+7b5747e [BFS-2d72] AudioCmdSeq_05Alt - Séquence audio 5 (canal alternatif)
+eb0dca7 [BFS-2d69] AudioCmdSeq_04Alt - Séquence audio 4 (canal alternatif)
+f1360d8 [BFS-2d65] AudioAnimData_08 - Séquence audio 3 (données animation)
+454559d [BFS-2d5f] AudioCmdSeq_01_02_Shared - Séquence audio partagée 1/2
+2f1e46f [BFS-2d5b] AudioCmdSeq_00Alt - Séquence audio 0 (canal alternatif)
+4690565 [BFS-2ff9] AudioChannelCommandTable1Alt - Table alternative de pointeurs vers séquences audio (canal alternatif)
+ca57414 [BFS-2d57] AudioCmdSeq_15 - Séquence de commandes audio n°15
+e59c1ba [BFS-2d55] AudioCmdSeq_14 - Séquence de commandes audio n°14
+0758773 [BFS-2d50] AudioCmdSeq_13 - Séquence de commandes audio n°13
+632c815 [BFS-2d47] AudioCmdSeq_12 - Séquence de commandes audio n°12
+d9a2f19 [BFS-2d34] AudioCmdSeq_11 - Séquence de commandes audio n°11
+b04f799 [BFS-2d2d] AudioCmdSeq_10 - Séquence de commandes audio n°10
+a80a9f4 [BFS-2d28] AudioCmdSeq_09 - Séquence de commandes audio n°9
+bb0ef23 [BFS-2d26] AudioCmdSeq_08 - Séquence de commandes audio n°8
+0629fa9 [BFS-2d21] AudioCmdSeq_07 - Séquence de commandes audio n°7
+1e667e9 [BFS-25b7] ProcessAudioChannelData - Fonction qui utilise la table pour charger les séquences audio
+493a72c [BFS-2d1c] AudioCmdSeq_06 - Séquence de commandes audio n°6
+514d606 [BFS-2d18] AudioAnimData_02 - Séquence de 4 octets pour animation audio
+4b04811 [BFS-2d14] AudioAnimData_01 - Séquence de 4 octets pour animation audio
+e03a111 [BFS-2d12] AudioAnimData_00 - Données d'animation audio (partage les octets $94, $FF)
+b2f8274 [BFS-2d0f] AudioCmdSeq_05 - Séquence de commandes audio n°5
+371c239 [BFS-2d0a] AudioCmdSeq_04 - Séquence de commandes audio n°4
+3ff4154 [BFS-2d07] AudioCmdSeq_03 - Séquence de commandes audio n°3
+a3e041c [BFS-2d05] AudioCmdSeq_02 - Séquence de commandes audio n°2
+08aada0 [BFS-2d02] AudioCmdSeq_01 - Séquence de commandes audio n°1
+09f5a61 [BFS-2fd9] AudioChannelCommandTable1 - Table de pointeurs vers séquences audio canal 1 (référence cette séquence en entrée 0)
+ce8d18b [BFS-286a] AudioCommand_Default - Traitement par défaut des commandes audio
+3faacf2 [BFS-285e] CheckAudioCommand_FD - Vérifie la commande audio $FD (fall-through)
+43c464b [BFS-2856] ProcessAudioChannelData - Routine qui lit et traite les séquences de commandes audio
+f4a2b9f [BFS-2d00] AudioCmdSeq_00 - Début des séquences de commandes audio (table 1)
+6bbb0c8 [BFS-2cf4] SaveSoundDataToHL - Fall-through direct, copie les données audio vers HL
+5eb5fa5 [BFS-2cee] SaveSoundDataToSlot - Sauvegarde données audio dans un slot
+d31a1bd [BFS-2cb2] InitSoundSlot - Initialise un slot audio avec les paramètres préparés
+2d404d5 [BFS-2c96] OffsetSpritesX - Applique un offset horizontal aux sprites
+1ca031f [BFS-2c18] CheckObjectTileTop - Vérifie collision avec tile en haut
+b89e3f5 [BFS-2bf5] CheckObjectTileBottomRight - Vérifie collision tuile en bas à droite
+45e6808 [BFS-2bdb] CheckObjectTileBottom - Vérifie collision tuile en bas
+8324964 [BFS-2bb2] CheckObjectTileBottomLeft - Vérifie collision avec tile en bas à gauche de l'objet
+9f06421 [BFS-2b91] CheckObjectTileRight - Vérifie collision tuile à droite
+282e630 [BFS-2b7b] CheckObjectTileBase - Vérifie collision tuile de base (gauche)
+56c9a6f [BFS-2afd] LoadAudioSlotConfiguration - Charge config audio pour slot objet
+75dcb48 [BFS-2a3b] TriggerObjectSound - Déclenche son associé à l'objet
+2ffc636 [BFS-2a1a] CheckObjectBottomCollision - Vérifie collision bas objet
+7105a80 [BFS-2FF9] AudioChannelCommandTable1Alt - Table de pointeurs vers séquences audio (canal 2)
+6ec6b1f [BFS-2D95] AudioAnimData_10 - Début de zone de données d'animation audio non encore reconstruite
+2554926 [BFS-2D91] Audio command sequence 15 (table 1 alt)
+a5b9875 [BFS-2D8E] Audio command sequence 14 (table 1 alt)
+e929e60 [BFS-2D8B] Audio command sequence 13 (table 1 alt)
+ec11550 [BFS-2D88] Audio command sequence 12 (table 1 alt)
+cb598ff [BFS-2D86] Audio command sequence 11 (table 1 alt)
+7a4da68 [BFS-2D83] Audio command sequence 10 (table 1 alt)
+c077d0a [BFS-2D81] Audio command sequence 9 (table 1 alt)
+ce22134 [BFS-2D7F] Audio command sequence 8 (table 1 alt)
+10a06ad [BFS-2D7D] Audio command sequence 7 (table 1 alt)
+b2c45fa [BFS-2D7B] Audio command sequence 6 (table 1 alt)
+1138fde [BFS-2D72] Audio command sequence 5 (table 1 alt)
+2b7a85c [BFS-2D69] Audio command sequence 4 (table 1 alt)
+97d138a [BFS-2D65] Audio command sequence 3 (table 1 alt)
+689636c [BFS-2D5F] Audio command sequence 1/2 (table 1 alt, shared)
+1c345e5 [BFS-2D5B] Audio command sequence 0 (table 1 alt)
+47d7682 [BFS-2D57] Audio command sequence 15 (table 1)
+11788d5 [BFS-2D55] Audio command sequence 14 (table 1)
+83d9aa4 [BFS-2D50] Audio command sequence 13 (table 1)
+3454d98 [BFS-2D47] Audio command sequence 12 (table 1)
+8252145 [BFS-2D34] Audio command sequence 11 (table 1)
+2a1f8a5 [BFS-2D2D] Audio command sequence 10 (table 1)
+90c31d2 [BFS-2D28] Audio command sequence 9 (table 1)
+8965886 [BFS-2D26] Audio command sequence 8 (table 1)
+3fba3c1 [BFS-2D21] Audio command sequence 7 (table 1)
+3cd09ca [BFS-2D1C] Audio command sequence 6 (table 1)
+e635a05 [BFS-2D12] AudioAnimData_00 - partage les octets $94, $FF avec AudioCmdSeq_05
+1aa42f3 [BFS-2D0F] Audio command sequence 5 (table 1)
+5ade04a [BFS-2D0A] Audio command sequence 4 (table 1)
+95c846a [BFS-2D07] Audio command sequence 3 (table 1)
+82343ca [BFS-2D05] Audio command sequence 2 (table 1)
+fff2974 [BFS-2D02] Audio command sequence 1 (table 1)
+770255b [BFS-2D00] Audio command sequence 0 (table 1)
+1d5defc [BFS-2FD9] ROM_AUDIO_CHANNEL_TABLE_1 - Table de pointeurs vers commandes audio (option 1)
+d2b0124 [BFS-2CF4] SaveSoundDataToHL - Sauvegarde les données audio depuis HRAM vers HL
+52f048d [BFS-2CEE] SaveSoundDataToSlot - Sauvegarde les données audio dans le slot
+e3c1209 [BFS-2CE2] LoadSoundDataFromHL - Charge les données audio depuis HL vers HRAM
+615564c [BFS-2CDC] LoadSoundDataFromSlot - Charge les données audio depuis le slot
+346c48e [BFS-2CB2] InitSoundSlot - Initialise un slot sonore avec config depuis ROM_AUDIO_CONFIG
+b152529 [BFS-2C96] OffsetSpritesX - Applique offset horizontal aux sprites
+a325621 [BFS-2BB2] CheckObjectTileBottomLeft - Vérifie la tile en bas à gauche d'un objet
+c1608d8 [BFS-2B4D] StoreAudioChannel4 - Stocke 0 dans hSoundCh4 et 1 dans wStateFinal
+b6b70c6 [BFS-2B21] DestroyAllObjects - Détruit tous les objets actifs
+5f71ccc [BFS-2AA4] HandleGameplayObjectSound - Gère sons des objets en gameplay
+56c5dad [BFS-2A5F] DecrementObjectAnimationCounter - Décrémente compteur animation objet
+84b2b9e [BFS-2A1A] CheckObjectBottomCollision - Vérifie collision bas objet avec joueur
+9757e43 [BFS-29f8] GetAnimationDataPointer - Obtient pointeur vers données animation
+95f0c3c [BFS-29f4] CollisionEnd - Termine traitement collision, reset hSoundVar4
+bd8e6b4 [BFS-29eb] ClearSoundCh1AndVar1_Collision2 - Label intermédiaire teste état audio 30
+2ad1b48 [BFS-29d7] CheckObjectTileBottomLeft_Alternatives - Teste alternatives collision tile bas-gauche (bits 4-5)
+e60e350 [BFS-29bd] AddSoundFlagToParam1 - Ajoute vélocité collision à param1 et wPlayerX
+bfb3f3c [BFS-29b8] CheckObjectTileBottomLeft_Path - Chemin collision tile bas-gauche
+0560287 [BFS-29ad] CollisionPhysics_SoundChannelControl - Contrôle canaux son collision (bits 6-7 = $C0)
+6352278 [BFS-29F8] GetAnimationDataPointer - Récupère pointeur vers données animation objet
+e3bef7a [BFS-297e] SubtractSoundFlagFromParam1 - Soustrait nibble haut de hSoundFlag de hSoundParam1
+dc62ea3 [BFS-2998] CheckObjectTileTop_Alternatives - Teste alternatives collision tile haut (bits 6-7)
+c051428 [BFS-296c] UpdatePhysicsCollision - Met à jour l'état physique après collision
+677caad [BFS-1ecb] ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites
+ddf2815 [BFS-1b3c] TriggerBlockCollisionSound - Déclenche son collision bloc avec rebond ($F2)
+261855a [BFS-1b1a] HandlePlayerSlideCollision - Gère collision avec glissade ($77)
+0751ea7 [BFS-1b05] HandlePlayerSpikeCollision - Gère collision avec tuyau/spike ($F4)
+92f9db1 [BFS-1af2] CollisionDefaultHandler - Handler collision par défaut pour tiles normaux
+7d9b443 [BFS-1aa4] CheckPlayerSideCollision - Vérifie collision latérale du joueur
+09cc512 [BFS-2870] ProcessSoundCollisionCheck - Traite la vérification de collision sonore
+85f0b72 [BFS-286E] AudioCommand_CompleteExit - Termine le traitement d'une commande audio (pop hl + ret)
+d6c7e99 [BFS-27E2] CheckAudioCommand_F6 - Vérifie et traite la commande audio F6 (player position check)
+da82d70 [BFS-2780] AudioQueueProcessDone - Fin du traitement de la queue audio
+8fe5ecd [BFS-276d] CheckAudioQueueBit4 - Traite le bit 4 de la queue audio
+c42e3af [BFS-266d] ProcessSoundAnimationLoop - Continue la boucle d'animation sonore
+d9320e8 [BFS-26ac] AudioQueueProcessing - Continue le traitement de la file d'attente audio
+710ce95 [BFS-275a] CheckAudioQueueBit5 - Traite le bit 5 de la queue audio
+88ff82d [BFS-2759] CheckAudioCommand_F1 - Traitement de la commande audio F1 (redirigé aléatoirement)
+13e3d39 [BFS-2435] AudioQueueProcessing - Continue le traitement de la file d'attente audio
+b596617 [BFS-27DB] CheckAudioCommand_F5 - Vérifie et traite la commande audio F5
+2e6aba0 [BFS-27CE] CheckAudioCommand_F4 - Vérifie et traite la commande audio F4
+2934535 [BFS-27A6] CheckAudioCommand_F3 - Vérifie et traite la commande audio F3
+a316962 [BFS-2799] CheckAudioCommand_F2 - Vérifie et traite la commande audio F2
+6202a00 [BFS-2502] InitAudioChannels - Initialise les canaux audio avec la config chargée
+c412c3d [BFS-24CD] LoadQueuedAudioConfig - Charge la configuration audio en file d'attente
+7790390 [BFS-2784] CheckAudioCommand_F1 - Vérifie et traite la commande audio F1
+2aaa790 [BFS-26AC] ProcessAudioQueue_Loop - Boucle de traitement de la file audio
+253e461 [BFS-266D] ProcessSoundAnimation - Traite l'animation sonore pour un objet
+bf9211e [BFS-263F] UpdateAllObjectSounds - Met à jour les sons de tous les objets
+a069c2c [BFS-25B7] ProcessAudioChannelData - Traite les données des canaux audio
+3ed5b6a [BFS-255F] ProcessAudioSlots - Traite les slots audio actifs
+dd692a1 [BFS-2544] PlaySound - Joue un effet sonore
+befd77e [BFS-24e6] InitSoundConditional - Initialise un son de manière conditionnelle avec les paramètres calculés
+ed495a8 [BFS-24c4] StoreAudioState - Point d'entrée alternatif qui sauvegarde le pointeur et reboucle vers UpdateAudioState
+113b89c [BFS-2492] UpdateAudioState - Met à jour l'état audio en traitant wAudioState
+98d7248 [BFS-2488] UpdateAudio - Met à jour audio/musique
+8a4384d [BFS-247E] ClearObjectBuffer_Loop - Boucle interne qui réinitialise wObjectBuffer avec $FF
+efc187f [BFS-2453] FindAudioTableEntry - Trouve entrée table audio
+72ede3b [BFS-2439] InitAudioAndAnimContext - Init contexte audio et animations
+d2e01e3 [BFS-242D] AnimFlagTable - Table des flags d'activation animation par contexte
+7494953 [BFS-23F8] UpdateAnimTiles - Mise à jour des tiles animées
+7cdb9a7 [BFS-236D] State0D_GameplayFull - Gameplay avec objets
+904e6ac [BFS-235A] ApplyLevelConfig - Applique config niveau
+7770325 [BFS-2318] LoadLevelTilemap - Charge la tilemap du niveau
+f64d1a1 [BFS-22a0] UpdateTilemapScrolling - Met à jour le scrolling de la tilemap
+415549b [BFS-22F4] ProcessRenderQueue - Traite queue de rendu
+53e17ff [BFS-22A0] UpdateTilemapScrolling - Met à jour le scrolling de la tilemap
+f90a633 [BFS-224F] UpdateScrollColumn - Mise à jour du scroll colonne
+9880829 [BFS-2246] CopyTileDataLoop - Boucle de copie des données de tiles
+ba2e151 [BFS-2245] TilemapDataCopyLoop - Boucle de copie des données tilemap
+efed36a [BFS-2239] UpdateTilemapScrollConfig - Met à jour la config de scroll tilemap
+dd5a45e [BFS-2227] StoreTilemapScrollOffsets - Sauvegarde les offsets de scroll tilemap
+5ac25cc [BFS-2222] UpdateCollisionFlag - Incrémente le flag de collision
+746db01 [BFS-221c] ProcessColumnAnimation_End - Fin du traitement, incrémente de/décrémente b et boucle
+e6c5cc7 [BFS-221C] ProcessColumnAnimation_End - Fin du traitement d'animation de colonne
+e4f2bf3 [BFS-2207] ProcessColumnAnimation - Traite commandes LOAD1/LOAD2/LOAD3
+685156a [BFS-21f6] TilemapDataCopyStart - Retour au début de la boucle de copie (via ProcessColumnAnimation_End)
+ed3e226 [BFS-21f5] TilemapDataNibbleNonZero - Point d'entrée quand nibble bas non-zéro
+d4555af [BFS-21df] ProcessScrollEntry - Traite l'entrée suivante dans les données de scroll
+685a12f [BFS-2205] TilemapDataNotScrollUpdate - Traite tiles non-scroll
+f1291d3 [BFS-21F6] TilemapDataCopyStart - Début copie données tilemap
+5a4aedf [BFS-21F5] TilemapDataNibbleNonZero - Gestion nombre de tiles depuis nibble bas
+03d1ef5 [BFS-21DF] ProcessScrollEntry - Traite une entrée de données tilemap
+dde57df [BFS-21C0] InitFromRenderContext - Initialise depuis le contexte de rendu
+9efa55b [BFS-21A8] InitScrollBuffer - Initialise le buffer de scroll pour une colonne
+5556fa8 [BFS-217F] ResetScrollPhase - Reset la phase de scroll
+cdd76f0 [BFS-218F] UpdateScroll - Gère défilement écran
+cdd321f [BFS-2164] ROM_OBJECT_INIT_DATA - Table init objets (vitesses/priorités)
+f12345f [BFS-2114] ROM_LEVEL_INIT_DATA - Table des données d'initialisation du niveau (81 octets)
+96a36b1 [BFS-210A] LoadDemoInput - Charge input démo/replay
+b59bd7b [BFS-208E] HandleBlockCollision - Gère collision avec blocs spéciaux
+0c45be7 [BFS-2001] ProcessObjectCollisions - Gère collisions objets avec buffer d'objets
+8cc891b [BFS-1bf6] CollectCoin - Collecte pièce et efface tile
+7d831de [BFS-1bf2] ProcessBlockCollision_Special - Gère blocs spéciaux (type $C0)
+56c232e [BFS-1bb4] ProcessBlockCollision_CommonExit - Finalise collision bloc (efface tile, vérifie tuyau spécial)
+aa109b2 [BFS-1bee] BlockCollision_CoinProcess - Traite collision bloc pièce (type $02)
+7d4a39e [BFS-1b7d] ProcessBlockCollision - Traite collision selon hBlockHitType ($C0=special)
+9bf3020 [BFS-1aa2] World5_SpecialTiles - Tiles spéciaux monde 5 ($7C,$FD)
+681beda [BFS-1aa0] World4_SpecialTiles - Tiles spéciaux monde 4 ($7C,$FD)
+9f29111 [BFS-1a9e] World3_SpecialTiles - Tiles spéciaux monde 3 ($7C,$FD)
+661ddf3 [BFS-1a99] World2_SpecialTiles - Tiles spéciaux monde 2 ($60,$61,$63,$7C,$FD)
+19286fb [BFS-1a94] World1_SpecialTiles - Tiles spéciaux monde 1 ($68,$69,$6A,$7C,$FD)
+fa01af2 [BFS-1a8a] ROM_WORLD_TILE_TABLE - Table de pointeurs vers listes de tiles spéciaux
+6dec9f4 [BFS-1a62] ClassifyTileType - Classifie type de tile pour collision
+1e7b5bc [BFS-0a24] HandleObjectAnimationOnBlockHit - Lit hBlockHitType pour gérer animation objet
+35d65f9 [BFS-1a4e] CollisionHandler_SpecialF4_Setup - Setup collision pipe/tuyau
+55efd6e [BFS-1FC9] CheckTileForCoin - Vérifie si tile est pièce et gère collecte
+816304a [BFS-0AA6] CheckBoundingBoxCollision - Teste collision boîtes englobantes
+886fbc1 [BFS-1F24] ProcessAllObjectCollisions - Collisions tous objets
+2fdd3a6 [BFS-1EFA] UpdatePlayerInvulnBlink - Clignotement invulnérabilité
+5e9e3f8 [BFS-1ECB] ClearOamAndSpriteBuffers - Nettoie buffers OAM et sprites
+2b7628d [BFS-1EC5] OscillationTable - Table de 6 valeurs pour effet d'oscillation
+63fb685 [BFS-1EAB] GetOscillatingOffset - Calcule offset d'oscillation pour mouvement fluide
+fcb1c93 [BFS-1E9B] OffsetSpritesY - Applique offset vertical aux sprites
+3903c25 [BFS-1E96] DecrementOscillationYCounter - Décrémente compteur Y oscillation
+f0fc4c0 [BFS-1E8E] ApplyOscillationNegOffset - Applique offset négatif d'oscillation
+d1373b5 [BFS-1E82] CheckOscillationCounter - Vérifie compteur d'oscillation
+15c121f [BFS-1E58] HandlePlayerMovement - Applique le mouvement horizontal avec gestion d'oscillation
+5821d26 [BFS-1E3F] HandleJoypadRight_Setup - Setup initial mouvement droite
+c0f6124 [BFS-1E37] HandleJoypadRight - Gère mouvement du joueur vers la droite
+d8eabf9 [BFS-1AF2] CollisionDefaultHandler - Handler de collision par défaut
+1580fa1 [BFS-1B1A] HandlePlayerSlideCollision - Gère collision avec glissade
+548bc1c [BFS-1B05] HandlePlayerSpikeCollision - Gère collision avec tuyau/spike
+9c3cd87 [BFS-1A8A] ROM_WORLD_TILE_TABLE - Table de pointeurs vers tiles spéciaux par monde
+e94edf8 [BFS-1A62] ClassifyTileType - Classifie type de tile
+1b1652b [BFS-1AA4] CheckPlayerSideCollision - Vérifie collision latérale du joueur
+b33a184 [BFS-1D1D] ProcessAnimationState - Traite l'état d'animation du joueur
+151b267 [BFS-1D0B] ROM_TEXT_WINDOW_DATA - 9 octets de données texte pour la window
+7eb55a1 [BFS-1CE7] State3B_WindowSetup - Setup window
+cfcb487 [BFS-1CDF] State3A_Handler - 4 bytes avant State3A_WindowUpdate
+049abc1 [BFS-1CDB] State3B_WindowSetup - Setup window
+1a7a5d6 [BFS-1CCE] ROM_TEXT_GAME_OVER - Texte 'GAME OVER' (17 octets)
+9a82e02 [BFS-1CA8] InitScrollBuffer - Remplit buffer scroll avec tiles vides
+827273f [BFS-1C73] State39_GameOver - Game Over
+a28f94d [BFS-1C49] DisplayLivesDAA - Applique DAA pour corriger le résultat BCD
+57207db [BFS-1C6C] DisplayLivesDecrement - Décrémente les vies en BCD
+a3f0d78 [BFS-1C63] DisplayLivesGameOver - Déclenche Game Over si vies=0
+3d7387e [BFS-1C5E] ClearUpdateCounter - Réinitialise wUpdateCounter
+f4e3b44 [BFS-1C4D] DisplayLivesCount - Affiche le nombre de vies
+9353493 [BFS-1C2A] UpdateLivesDisplay - Mise à jour de l'affichage des vies
+a637602 [BFS-1C12] UpdateCoinDisplay - Affiche le compteur de pièces
+176f673 [BFS-1BF6] CollectCoin - Collecte une pièce et met à jour le score/compteur
+c205102 [BFS-1BF2] ProcessBlockCollision_Special - Gère les blocs spéciaux (type $C0) en collectant une pièce
+2a660a6 [BFS-1BB4] ProcessBlockCollision_CommonExit - Traitement commun de fin de collision bloc (copie tile vide, traite spécial)
+26abe77 [BFS-1BEE] BlockCollision_CoinProcess - Traite spécifiquement les blocs pièce (état $03)
+4ae02ca [BFS-1B7D] ProcessBlockCollision - Traitement des collisions avec les blocs
+c304736 [BFS-1B3C] TriggerBlockCollisionSound_TimerDispatch - Déclenche son collision + dispatch timer
+96bbb34 [BFS-19fc] InitializeGameObjects - Initialise 4 objets du jeu (appelable séparément)
+7d05607 [BFS-19d8] HandlePlayerWaterCollision - Gère collision eau joueur
+b405718 [BFS-191a] ApplyAltSpriteAttributeIfConfigSet - Applique attribut sprite alternatif selon config
+2887d8c [BFS-189b] PlatformCollisionSetup - Configure collision plateforme si pas déjà active
+b057ce3 [BFS-1892] TileC0Handler - Gère blocs spéciaux (tile $C0) avec contenu
+dfe3cc1 [BFS-195d] HandlePlayerUpCollision - Gère collision vers le haut
+a00bdc0 [BFS-192e] SetupSpriteProperties - Configure propriétés sprite après collision tile
+4e8dbf1 [BFS-1916] PlaySoundExit - Point d'entrée pour jouer un son avant retour
+fa33d46 [BFS-18be] HandleNonC0TileValue - Gère tiles avec valeur != $C0
+794e696 [BFS-18b7] HandleTileValueF0 - Gère tile valeur $F0 (seuil spécial)
+71978a3 [BFS-187f] CollisionHandler_Platform_Entry - Handler plateforme
+13b4a58 [BFS-1872] CollisionHandler_Type5F_Entry - Handler collision tile $5F
+eed3919 [BFS-1983] CheckPlayerFeetCollision - Collisions pieds joueur
+7013237 [BFS-1854] PlayerXPositionReset - Reset/init position X du joueur
+024aebc [BFS-1815] CheckBlockProperties_OnCollide - Vérifie propriétés bloc en collision
+9198c14 [BFS-09D7] StartGameplayPhase - Démarre phase de jeu
+b867008 [BFS-17F8] HandleBlockType_Collision - Label local: gère collision avec bloc solide
+4b6c381 [BFS-17EC] CalcOffsetLoop_BlockHit - Label local: calcule offset collision hitbox
+5c17ca5 [BFS-175C] CheckJoypadUp_GameplayLoop - Continue gameplay avec input haut
+df15585 [BFS-1752] TileE1CollisionHandler - Handler collision tile E1 (warp/transition)
+adf6e05 [BFS-0153] ReadTileUnderSprite - Lit tile sous sprite
+615c438 [BFS-17B3] CheckPlayerHeadCollision - Collisions tête joueur
+4b1abd4 [BFS-172D] SwitchBankAndCallBank3Handler - Appelle handler en bank 3 avec params spécifiques
+81927f3 [BFS-16EC] UpdatePipeAnimation - Animation tuyaux
+3ce8564 [BFS-16D1] State0C_PipeExitLeft - Sortie tuyau gauche
+5fa37eb [BFS-1663] State0B_PipeEnterDown - Descente tuyau
+0ca511c [BFS-1655] ClearTilemapBuffer - Nettoie buffer tilemap
+d8dc743 [BFS-1626] State0A_LoadSubLevel - Chargement sous-niveau
+934df81 [BFS-1612] State09_PipeEnterRight - Entrée tuyau droite
+8c1cd6a [BFS-154E] TextData_CreditsStaff - Table texte crédits (54 bytes)
+fb9d003 [BFS-1547] AnimateCreditsFrame - Anime sprites et appelle bank 3
+7a0e377 [BFS-1527] SetupCreditsState - Configure bank et état du jeu pour mode démo
+ce7b5c4 [BFS-1520] InitializeCreditsMode - Initialise mode démo si touche pressée
+55ee8b3 [BFS-14D3] State38_CreditsAnimation - Animation crédits
+09bf194 [BFS-14BB] ROM_TILEMAP_END_DATA - Table données tilemap écran final (24 bytes)
+8eda07c [BFS-147F] State37_FinalSpriteAnimation - Animation sprite finale
+666603c [BFS-147C] SetGameStateRegister - Helper local pour écrire dans hGameState
+768f8de [BFS-145D] State36_CreditsFinalTransition - Transition finale crédits
+db248ac [BFS-1451] State35_WaitTimer - Attente timer
+9749490 [BFS-1438] State34_WaitCreditsCounter - Attente compteur crédits
+b9ae4a6 [BFS-13E7] State33_DisplayCreditsText - Affichage texte crédits
+e8388b7 [BFS-13BB] UpdateCreditsStars - Met à jour animation des étoiles crédits
+d09e37a [BFS-1385] State32_CreditsScroll - Scroll crédits
+89cc226 [BFS-1376] SpriteEndData - Tables config sprites écran final (3x5 octets)
+21d2889 [BFS-136D] Copy5Bytes - Copie 5 bytes ROM→RAM (appelé 3x par SetupFinalScreen)
+ffb292a [BFS-1345] ClearScrollBuffer - Efface buffer scroll et lignes VRAM (appelé par SetupFinalScreen)
+7482787 [BFS-1343] PopAndReturn - Restaure af et retourne
+d9abeb8 [BFS-130F] SetupFinalScreen - Configure écran final cutscene (appelé 2x si SCX=$FE ou $FF)
+01b3b1e [BFS-1305] AnimateAndCallBank3 - Toggle animation + appel bank 3
+11916ce [BFS-12E8] State31_HorizontalScroll - Scroll horizontal
+5cf5912 [BFS-12DD] ToggleAnimFrame - Toggle frame d'animation (fonction locale réutilisée)
+81174bf [BFS-12B9] State30_WalkLeft - Marche gauche
+5503db4 [BFS-1298] State2F_TransferSpriteData - Transfert données sprite
+8202955 [BFS-124B] State2E_DuoAnimation - Animation duo
+1e22b57 [BFS-1236] TextData_QuestOver - Texte 'YOUR QUEST IS OVER!'
+449d96a [BFS-1212] State2D_DisplayText2 - Affichage texte 2
+e0861b6 [BFS-11C7] State2C_SpriteOscillation - Oscillation sprite
+1c6afb3 [BFS-11B6] TextData_ThankYouMario - Texte 'THANK YOU MARIO!'
+cb5f9a3 [BFS-118B] State2B_PrincessDescending - Princesse descendante
+5de0169 [BFS-117A] Table de texte 'OH! DAISY' affichée en fin de niveau
+797f660 [BFS-115C] State2A_DisplayEndText - Affichage texte fin
+c7f4f30 [BFS-0808] InitScrollState - Initialise buffer de scroll
+fb11c0f [BFS-05BE] FillTilemapLoop - Remplit tilemap avec bc octets
+873bb04 [BFS-110D] State29_SetupEndScreen - Setup écran fin
+83251bc [BFS-10FE] ResetCollisionFlags - Reset flags collision et passe à l'état suivant
+ed666ab [BFS-1090] State27_PlayerOscillation - Oscillation joueur
+bdfd37e [BFS-104C] State26_PrincessRising - Princesse montante
+b302fd0 [BFS-1020] Copy16BytesToOam - Copie 16 octets de données sprite vers OAM
+df7e14d [BFS-0adf] ReturnZero - Retourne 0 (pas de collision)
+c20ca0e [BFS-0ad1] Loop_AddValueByEightV2 - Boucle addition par 8 pixels (calcul hauteur hitbox)
+c7c2029 [BFS-0ab6] Loop_SubtractValueByEight - Boucle soustraction par 8 pixels (calcul largeur hitbox)
+1830bc2 [BFS-0aa6] CheckBoundingBoxCollision - Vérifie collision entre hitboxes joueur/objet
+aa8330b [BFS-0a20] AnimBankTable - Table de mapping bits 7-6 vers bank ROM ($01/$04/$08/$50)
+846abf3 [BFS-0a07] SelectAnimationBank - Sélectionne la bank pour les données d'animation
+65e244c [BFS-0FF4] State25_SpriteBlinkAnimation - Animation clignotante
+5f8fb58 [BFS-0FD8] TextData_ThankYou - Table de texte 'THANK YOU MARIO! ♥OH! DAISY'
+c7c9529 [BFS-0F81] WriteCharToVRAM - Écrit caractère texte en VRAM
+0b73532 [BFS-0F61] State24_DisplayText - Affichage texte
+d6d3254 [BFS-0F1D] CutsceneAnimationContinuePath - Continue animation cutscene
+5c67850 [BFS-0F2A] State23_WalkToDoor - Marche vers porte
+2247035 [BFS-0F21] CutsceneEndPath - Termine cutscene et passe à l'état suivant
+635e0af [BFS-0F09] State22_ScrollCutscene - Scroll cutscene
+2f88c4a [BFS-0EDE] ResetPlayerForCutscene - Reset position et données joueur pour cutscene
+2dc46e8 [BFS-0ECB] ClearOamAndSpriteBuffers - Réinitialise buffers OAM et sprites
+0da0d9f [BFS-0EC4] State21_SetupEndCutscene - Setup cutscene fin
+daea9f1 [BFS-0EB2] AutoMovePlayerRight - Simule input droite pour déplacer automatiquement le joueur
+d9e595a [BFS-0EA0] State20_WaitPlayerPosition - Attente position joueur
+347f97c [BFS-0E8D] State1F_EnableVBlankMode - Active mode VBlank
+08c02c1 [BFS-0E54] State1E_ClearTilemapColumn - Clear colonne tilemap
+16fceb2 [BFS-0E28] State1D_SetupVRAMPointer - Setup pointeur VRAM
+9927d3a [BFS-0E1F] TimerExpiredPath - Chemin quand timer expiré (interne)
+ecb7e93 [BFS-0E0C] State1C_WaitTimerGameplay - Attente timer gameplay
+9f7e49b [BFS-0DF0] State1B_Handler - 1 byte avant State1B_BonusComplete
+a57c6ce [BFS-0DEA] GraphicsTableB - Table de pointeurs vers palettes mondes
+df5931f [BFS-0DE4] GraphicsTableA - Table de pointeurs vers tiles mondes
+29da1af [BFS-0DCA] GameplayInitStart - Initialise le gameplay après chargement graphiques
+93f252e [BFS-0D82] LoadAnimTilesWithBank - Point d'entrée chargement tiles animées
+89ad98d [BFS-0D64] LoadAnimTilesByIndex - Charge tiles animées par index
+850039b [BFS-0D30] LoadGameTilesWithBank - Charge tiles avec bank spécifique
+de95dc1 [BFS-0D40] State08_WorldProgress - Progression monde/niveau
+2e6450a [BFS-0CC2] State06_PostLevel - Transition post-niveau
+f817526 [BFS-0166] AddScore - Ajoute 10 points de bonus au score
+fa1e1d5 [BFS-0C6A] State05_SpecialLevel - Niveau spécial gestion
+b227397 [BFS-0C37] State07_WaitBank3 - Attente + bank 3
+2937105 [BFS-0C22] AnimTransitionTableData - Table 21 bytes des vitesses d'animation Y
+29f15f7 [BFS-0C0D] SetGameStateValue - Écrit nouvel état dans hGameState
+a7a5666 [BFS-0C07] SetGameStateSpecialPath - Configure timer et passe à état RESET
+55eecb5 [BFS-0BF2] SpriteAnimationOAMLoop - Boucle d'itération sur 4 sprites OAM
+9cbadfd [BFS-0BEA] UpdateSpriteAnimationPath - Mise à jour position Y sprites OAM
+0b64565 [BFS-0BCD] State04_AnimTransition - Animation transition
+85f1694 [BFS-0B84] State03_SetupTransition - Setup sprites transition
+c450471 [BFS-0AE1] CheckPlayerObjectCollision - Collision joueur-objet
+de36344 [BFS-0A20] AnimBankTable - Table de 4 bytes mappant index→bank ROM ($01/$04/$08/$50)
+9535a48 [BFS-0A07] SelectAnimationBank - Sélectionne la bank d'animation selon hAnimObjSubState
+d6805b7 [BFS-0A24] HandleObjectAnimationOnBlockHit - Anim objet sur bloc
+c95b659 [BFS-09e8] InitGameState - Initialise état de jeu (game over / transition)
+41ef58a [BFS-09d7] StartGameplayPhase - Démarre phase de gameplay après dégâts
+a98fafe [BFS-09E8] InitGameState - Initialise l'état de jeu (appelé quand wSpecialState == 3)
+ad4ad5d [BFS-0837] UpdateAnimatedObjectState - Met à jour animations objets
+a30076e [BFS-07b7] ROM_RENDER_TABLE - Table indexée par hRenderContext
+4642bcf [BFS-07F0] LoadLevelData - Charge les données du niveau en mémoire
+97fbca1 [BFS-07C3] CheckInputAndPause - Vérifie input pour soft reset (A+B+Start+Select) ou toggle pause
+cadef06 [BFS-07B7] ROM_RENDER_TABLE - Table de contexte de rendu indexée par hRenderContext
+b59479d [BFS-078C] RenderPlayerUpdate - Met à jour rendu du joueur
+487a3b9 [BFS-06C5] State02_PrepareRender - Préparation rendu
+043cf3c [BFS-06A5] State01_WaitClearObjects - Reset objets
+d95bf1b [BFS-0610] State00_MainGameplay - Init/main gameplay
+dd6db75 [BFS-05F8] CopyHudTilemap - Copie tilemap du HUD
+dea99ce [BFS-05D0] LoadGameTiles - Charge les tiles du jeu en VRAM
+645f9e5 [BFS-05C7] MemCopy - Copie BC octets de HL vers DE
+bb13749 [BFS-05B8] ClearBGTilemap - Efface la tilemap background
+923d8cb [BFS-05B7] State10_Noop - Vide (placeholder)
+68602a8 [BFS-055F] State11_LevelStart - Démarrage niveau
+08325bf [BFS-0558] FillTilemapRow - Remplit une ligne de tilemap avec la tile A
+6468167 [BFS-0552] ROM_ATTRACT_INDEX_TABLE - Table index attract mode par ROM bank
+5434679 [BFS-053D] InitLevelStartFull - Initialise complètement le démarrage du niveau
+a23e103 [BFS-0530] InitLevelStartWithAttractMode - Démarre niveau avec mode attract activé
+690273e [BFS-0519] InitAttractModeDisplay - Fall-through qui initialise mode attract si timer=0
+860e7de [BFS-04CE] UpdateLevelSelectDisplay - Mise à jour affichage menu sélection
+1bd122b [BFS-04A2] ResetRenderForHighLevels - Réinitialise contexte rendu pour niveaux élevés
+0490de8 [BFS-049D] ApplyRenderContext - Applique contexte de rendu
+363ef74 [BFS-049C] SelectTileIndexForLevel - Sélectionne index tuile niveau
+3f16904 [BFS-046D] InitLevelStartFull - Init complète démarrage niveau (état $11)
+aaf779f [BFS-03E4] HandleSelectButtonLevelSelect - Gère bouton Select (toggle sprite Y)
+b8819b3 [BFS-0394] StartSelectedLevel - Lance niveau sélectionné (bouton Start)
+8d4d8be [BFS-04C3] State0F_LevelSelect - Menu sélection
+f100087 [BFS-0322] State0E_LevelInit - Init niveau + HUD
+d420d7b [BFS-02A3] StateDispatcher - Dispatch vers le handler d'état via jump table (60 états possibles)
+6055f84 [BFS-0150] AfterHeader - Jump intermédiaire vers SystemInit
+ee5dcbb [BFS-00CD] LCDStat_PopAndReti - point d'entrée public (pop af + reti)
+b690810 [BFS-00CC] LCDStatHandler_Exit - point de sortie du handler (pop hl puis PopAndReti)
+b2f3a94 [BFS-00C7] LCDStat_SetLYC - point d'entrée public (écrit A dans rLYC+wGameConfigA5)
+3bd7f64 [BFS-00C5] LCDStatHandler_UpdateLYC - incrémente LYC de 8 lignes pour animation window
+bbf7ac6 [BFS-00C3] LCDStat_CheckCarryExit - point d'entrée public (vérifie carry flag)
+b552c9a [BFS-0030] JumpTableDispatcherContinue - Seconde partie du dispatcher
+bbe004a [BFS-4000_3] LevelJumpTable Bank 3
+fce82df [BFS-4000_2] LevelJumpTable Bank 2
+814297f [BFS-4000_1] LevelJumpTable Bank 1
+3b2a2c9 Retirer timeout Claude - laisser tourner sans limite
+837dbac [BFS-02A5] StateJumpTable - 60 états
+f88ec4a [BFS-0226] GameLoop - Boucle principale
+2813d00 [BFS-0185] SystemInit - Init système
+3743daa [BFS-0095] LCDStatHandler
+66929cb [BFS-0060] VBlankHandler
+f096799 [BFS-0100] ROM Entry point
+5916e4c [BFS-0050] Timer interrupt vector
+1dc9809 [BFS-0048] LCD STAT interrupt vector
+aca2463 [BFS-0040] VBlank interrupt vector
+8cae3ea [BFS-0028] RST $28 - Jump table dispatcher
+fad983b [BFS-0000] RST $00 - Soft reset
+acb11c2 BFS explorer: prompt optimisé, streaming détaillé, state dans commits
+e2eabe7 [BFS-0040] VBlank interrupt vector
+a43641a [BFS-0028] RST $28 - Jump table dispatcher
+b09bb24 [BFS-0000] RST $00 - Soft reset
+25064f1 [BFS-0028] RST $28 - Jump table dispatcher
+f7dc470 [BFS-0000] RST $00 - Soft reset
+7b85ef9 Fix nom modèle: utiliser alias 'sonnet' au lieu du nom complet
+e1d69e0 Amélioration BFS explorer: modèle Sonnet, commentaires obligatoires, fix reset
+76ef521 [BFS-0048] LCD STAT interrupt vector
+da6163f [BFS-0040] VBlank interrupt vector
+68f3832 [BFS-0028] RST $28 - Jump table dispatcher
+1bb9e5a [BFS-0000] RST $00 - Soft reset
+3456dce Ajout script BFS explorer + CLAUDE.md compact
+7f93295 [ROADMAP-832] Remplacer adresses WRAM hex par constantes nommées
+b1fa4f2 [ROADMAP-831] Remplacer magic numbers adresses WRAM/HRAM bank_003
+35e6846 [ROADMAP-830] Remplacer magic numbers animation pipe State0C
+88bcb2b [ROADMAP-829] Remplacer suffixes numériques par noms descriptifs
+a74fa3a [ROADMAP-828] Remplacer suffixes adresse par indices numériques
+387da2f [ROADMAP-827] Remplacer magic numbers adresses ROM et tilemap
+e26dfc2 [ROADMAP-826] Remplacer magic numbers collision et audio
+f2b1373 [ROADMAP-825] Remplacer magic numbers animation joueur
+cac4ffc [ROADMAP-824] Remplacer suffixes adresse par indices numériques
+f309ce6 [ROADMAP-823] Remplacer magic numbers audio et conversion sprite
+ba4231e [ROADMAP-822] Remplacer magic numbers état rendu et joueur
+9bb5e1f [ROADMAP-821] Remplacer magic numbers init objets/sprites
+61fd6c3 [ROADMAP-820] Remplacer magic numbers structure objet et stride
+3c37a72 [ROADMAP-819] Remplacer magic numbers collision et VRAM
+0ab5336 [ROADMAP-818] Remplacer magic numbers états audio par constantes
+00d8bb2 [ROADMAP-817] Remplacer magic numbers par constantes nommées
+ba17bab [ROADMAP-816] Remplacer magic number $01 par FLAG_TRUE
+223fb40 [ROADMAP-815] Remplacer magic numbers masques de bits par constantes
+5041058 [ROADMAP-814] Remplacer magic numbers audio par constantes
+6c129b3 [ROADMAP-813] Remplacer magic numbers limites Y sprite par constantes
+fc8bbf4 [ROADMAP-812] Renommer labels trompeurs en nomenclature cohérente
+cfe830d [ROADMAP-811] Remplacer magic numbers DMA et objets par constantes
+897fa59 [ROADMAP-810] Remplacer magic numbers initialisation niveau par constantes
+5a034ae [ROADMAP-809] Remplacer magic numbers mouvement joueur par constantes
+6f5f825 [ROADMAP-808] Ajouter constantes TEXT_CHAR_* pour encodage texte
+45685b6 [ROADMAP-807] Remplacer magic numbers LCD/niveau par constantes nommées
+0f328d4 [ROADMAP-806] Remplacer magic numbers timer/scroll par constantes nommées
+7ed0372 [ROADMAP-805] Remplacer magic numbers WRAM joueur bank_003.asm par constantes
+bf8d5fa [ROADMAP-804] Remplacer magic numbers graphiques/audio par constantes nommées
+1c0228c [ROADMAP-803] Remplacer magic numbers collision latérale et crédits par constantes
+676a99c [ROADMAP-802] Remplacer magic numbers collision/buffer par constantes nommées
+573e945 [ROADMAP-801] Remplacer magic numbers WRAM joueur par constantes nommées
+139adaa [ROADMAP-800] Ajouter constantes buffer animation HRAM ($FF86-$FF8C)
+f8be8d5 [ROADMAP-799] Remplacer magic numbers bordure écran fin par constantes nommées
+f30363f [ROADMAP-798] Remplacer magic numbers toggle/seuils par constantes nommées
+37e181b [ROADMAP-797] Remplacer magic numbers audio/state/direction par constantes nommées
+8b6f769 [ROADMAP-796] Remplacer magic numbers collision/tiles/config par constantes nommées
+986d5eb [ROADMAP-795] Remplacer magic numbers audio/animation par constantes nommées
+a1819d6 [ROADMAP-794] Remplacer magic numbers objets/animation par constantes nommées
+63f765d [ROADMAP-793] Remplacer magic numbers scroll/state par constantes nommées
+36826e2 [ROADMAP-792] Remplacer magic numbers collision/audio par constantes nommées
+e094772 [ROADMAP-791] Remplacer magic numbers score/stride par constantes nommées
+470c421 [ROADMAP-790] Remplacer magic numbers collision/audio par constantes nommées
+146ba76 [ROADMAP-789] Remplacer magic numbers états/objets par constantes nommées
+7a5c6b2 [ROADMAP-788] Remplacer magic numbers OAM/LCD/Bank par constantes nommées
+0c2f1f7 [ROADMAP-787] Remplacer magic numbers Game Over/Window par constantes nommées
+b8cb1f2 [ROADMAP-786] Remplacer magic numbers HUD/score par constantes nommées
+fee4880 [ROADMAP-785] Remplacer magic numbers OAM/VRAM par constantes nommées
+1d12d91 [ROADMAP-784] Remplacer magic numbers crédits/collision par constantes nommées
+32d3271 [ROADMAP-783] Remplacer magic numbers scroll/buffer par constantes nommées
+d05678f [ROADMAP-782] Remplacer adresses objets $c2XX par constantes nommées
+bc1b7e1 [ROADMAP-781] Remplacer magic numbers crédits/pipe/VRAM par constantes nommées
+6fc03e4 [ROADMAP-780] Remplacer adresses WRAM $daXX/$dfXX par constantes nommées
+a77c646 [ROADMAP-779] Remplacer adresses joueur $c205/$c20d/$c20f par constantes
+404f069 [ROADMAP-778] Remplacer magic number $7e par constante CUTSCENE_PLAYER_X
+934d307 [ROADMAP-777] Remplacer magic numbers tilemap size par constantes SCRN_SIZE*
+7434e66 [ROADMAP-776] Remplacer magic numbers audio par constantes AUDIO_CMD_*
+c76d8e6 [ROADMAP-775] Remplacer magic numbers collision par constantes nommées
+5470919 [ROADMAP-774] Remplacer magic numbers par constantes nommées
+a2db35f [ROADMAP-773] Remplacer magic number $f4 par constante TILEMAP_CMD_PIPE
+26f6609 [ROADMAP-772] Remplacer magic numbers tilemap par constantes TILEMAP_CMD_*
+ca604ef [ROADMAP-771] Renommer StateHandler_00-08 vers State0X_* descriptifs
+3e76bb1 [ROADMAP-770] Utiliser STATE_RENDER_STATE_BUFFER au lieu de $0b
+44e788d [ROADMAP-769] Remplacer magic numbers $c0, $05, $10 par constantes nommées
+5d9fb06 [ROADMAP-768] Remplacer magic numbers par constantes masques bitwise
+d6cb041 [ROADMAP-767] Ajouter constantes masques bitwise et remplacer magic numbers
+47795d9 [ROADMAP-766] Utiliser constantes OAM_Y_OFS, OAM_X_OFS et TILEMAP_STRIDE
+337d0b1 [ROADMAP-765] Remplacer magic numbers par constantes nommées
+d256077 [ROADMAP-764] Utiliser constantes FRAME_MASK_2 et SCROLL_ALIGN_MASK
+87d663f [ROADMAP-763] Ajouter constante TILE_ALIGN_MASK et remplacer and $f8
+1c73da1 [ROADMAP-762] Ajouter constante SCROLL_ALIGN_MASK et remplacer and $fc
+dad34f1 [ROADMAP-761] Ajouter constante TILEMAP_COLUMN_MASK et remplacer and $1f
+eb601b5 [ROADMAP-760] Ajouter constante FRAME_MASK_8 et remplacer and $07
+f4ae2c5 [ROADMAP-759] Ajouter constante FRAME_MASK_2 et remplacer and $01
+86cffd3 [ROADMAP-758] Ajouter constantes GAME_STATE_* crédits et remplacer magic numbers
+cfef505 [ROADMAP-757] Remplacer and $03 par constante FRAME_MASK_4
+2b554af [ROADMAP-756] Remplacer magic numbers crédits/buffer par constantes symboliques
+adbd6a9 [ROADMAP-755] Remplacer magic numbers animation/cutscene par constantes symboliques
+9ad8500 [ROADMAP-754] Remplacer magic numbers sprites transition par constantes symboliques
+3d45808 [ROADMAP-753] Remplacer and $f0/$0f par constantes NIBBLE_HIGH_MASK/NIBBLE_LOW_MASK
+007aa8c [ROADMAP-752] Remplacer magic numbers bordure texte/animation par constantes symboliques
+c1576e6 [ROADMAP-751] Remplacer magic numbers cutscene/texte/animation par constantes symboliques
+21e8546 [ROADMAP-750] Remplacer magic numbers tiles BCD par constantes symboliques
+8f0901c [ROADMAP-749] Remplacer magic numbers mémoire/bank/VRAM par constantes symboliques
+bd31145 [ROADMAP-748] Remplacer magic numbers cutscenes fin de jeu par constantes symboliques
+4d52777 [ROADMAP-747] Remplacer magic numbers flags/retours par constantes symboliques
+f3cea74 [ROADMAP-746] Remplacer magic numbers cutscene/animation par constantes symboliques
+2bdd152 [ROADMAP-745] Remplacer magic numbers joypad/nibble par constantes symboliques
+e94004c [ROADMAP-744] Remplacer magic numbers collision/monde par constantes symboliques
+feec893 [ROADMAP-743] Remplacer magic numbers VRAM/pause/render par constantes symboliques
+1ce868d [ROADMAP-742] Remplacer magic numbers gameplay par constantes symboliques
+9b894aa [ROADMAP-741] Remplacer magic numbers animation tiles par constantes symboliques
+884861e [ROADMAP-740] Remplacer magic numbers collision/tiles par constantes symboliques
+9313455 [ROADMAP-739] Remplacer magic numbers scroll/animation par constantes symboliques
+8b18b7f [ROADMAP-738] Ajouter constante LYC_SCANLINE_STRIDE et clarifier commentaires StateJumpTable
+47a8914 [ROADMAP-737] Remplacer magic numbers données niveau par constantes symboliques
+52a12fb [ROADMAP-736] Remplacer magic numbers bank switch par constantes BANK_DEMO/BANK_AUDIO
+ed85c63 [ROADMAP-735] Remplacer magic numbers tilemap/HUD par constantes symboliques
+fe9e24b [ROADMAP-734] Remplacer magic numbers et adresses $C2XX par constantes symboliques
+de8beba [ROADMAP-733] Remplacer adresses brutes StateJumpTable par labels symboliques
+bb580eb [ROADMAP-732] Simplifier labels bank_001 en supprimant suffixes _001_XXXX
+8f2f8d3 [ROADMAP-731] Reconstruire zones data SpriteConfigTable et AnimBankTable
+755b3a6 [ROADMAP-730] Ajouter labels routines bank 3 et constante ROM_OBJECT_INIT_DATA
+92438c3 [ROADMAP-729] Corriger zones texte cutscene mal désassemblées
+ab52933 [ROADMAP-728] Corriger zones data mal désassemblées et ajouter labels routines
+f7c0867 [ROADMAP-727] Remplacer magic numbers appels routines et banks
+416e110 [ROADMAP-726] Ajouter constantes score BCD, OAM titre et seuils niveau
+8f77543 [ROADMAP-725] Remplacer magic numbers VRAM/MBC par constantes nommées
+76bc5c7 [ROADMAP-724] Ajouter constantes ROM/VRAM et remplacer magic numbers graphiques
+3e06b97 [ROADMAP-723] Ajouter constantes audio/tilemap et remplacer magic numbers
+680f4af [ROADMAP-722] Remplacer magic numbers états/contextes et boucles objets
+f12ecb5 [ROADMAP-721] Renommer variables OAM et ajouter constantes niveaux/rendu
+97d0ab9 [ROADMAP-720] Ajouter constantes commandes tilemap et renommer labels génériques
+6c638e5 [ROADMAP-719] Ajouter constantes GAME_STATE pour états manquants
+288f12b [ROADMAP-718] Remplacer magic numbers types objets/tiles par constantes nommées
+3cddec7 [ROADMAP-717] Remplacer magic numbers menu/DMA par constantes nommées
+ffc7dba [ROADMAP-716] Remplacer magic numbers états/animation par constantes nommées
+04e4d9d [ROADMAP-715] Remplacer magic numbers GAME_STATE par constantes nommées
+c251a72 [ROADMAP-714] Remplacer magic numbers états/positions joueur par constantes nommées
+ddc44de [ROADMAP-713] Remplacer magic numbers joypad/dest par constantes nommées
+59fdc38 [ROADMAP-712] Remplacer magic numbers $2c/$9f par constantes nommées
+e562640 [ROADMAP-711] Remplacer magic numbers LCD par constantes nommées
+9e0b7bd [ROADMAP-710] Remplacer magic numbers registres/états par constantes nommées
+f65030e [ROADMAP-709] Remplacer magic numbers $ff/$0d/$30 par constantes nommées
+3c0dc8f [ROADMAP-708] Renommer 10 labels PaddingZone_002_* en noms explicites
+d66acf8 [ROADMAP-707] Remplacer magic numbers $c208-$c248 et $c030 par constantes nommées
+58ec204 [ROADMAP-706] Renommer 23 labels DataZone_00X en UnreachableCodeData_*
+985f26f [ROADMAP-704] Renommer 12 labels SpriteAnimation_002 et DataZone_002/003 en noms explicites
+7181d81 [ROADMAP-705] Renommer 21 labels génériques en noms explicites
+5f58174 [ROADMAP-704] Renommer 5 labels Call_* génériques
+51cdf20 [ROADMAP-703] Renommer 3 labels InfiniteLoop_* en ErrorTrap_*
+b4ae507 [ROADMAP-703] Renommer 32 labels DataTable en noms explicites
+9c05191 [ROADMAP-703] Renommer 6 labels DataZone/DataTable sprite graphics en noms explicites
+b44cbbf [ROADMAP-703] Renommer 79 DispatchEntry_* en PaddingZone_*
+00066c7 [ROADMAP-703] Renommer 9 DispatchTableEntry_* avec valeurs cp identifiables
+e10edaa [ROADMAP-703] Renommer 9 DispatchTableEntry_* avec valeurs cp identifiables
+6be87c7 [ROADMAP-703] Documenter phase 7.3 - 48 labels renommés
+b3eeac2 [ROADMAP-703] Renommer 15 labels Audio_* en AudioData_*
+c0aba40 [ROADMAP-703] Renommer 7 labels ConstTable_* en DataTable_*
+d1b8090 [ROADMAP-703] Renommer 10 labels MusicDispatchEntry_* en AudioDispatchData_*
+daffc76 [ROADMAP-703] Renommer 16 labels SkipPadding_* en PaddingZone_*
+66ed037 [ROADMAP-703] Renommer les 40 labels UnknownCode_* restants avec noms explicites
+ad4c175 [ROADMAP-703] Renommer 33 labels évidents (Dispatch/Data/Padding)
+dea43e8 [ROADMAP-703] Renommer 12 labels UnknownCode_003 en noms contextuels
+3bdaa7d [ROADMAP-703] Renommer 63 labels UnknownCode_002/003_XXXX en noms contextuels
+2b0fa97 [ROADMAP-703] Renommer 63 labels évidents (DispatchEntry + SkipPadding)
+66f61a7 [ROADMAP-703] Renommer 39 labels évidents (SpriteAnimation + Audio handlers)
+f69898a [ROADMAP-703] Renommer 15 labels évidents (DataZone + ErrorLoop)
+abc8d6b [ROADMAP-703] Documenter phase 7.2 - Renommages PaddingZone/DataZone
+7522ecf [ROADMAP-703] Renommer 19 labels évidents (17 PaddingZone + 2 DataZone)
+40fc0e5 [ROADMAP-703] Renommer 17 labels évidents (PaddingZone + DataZone)
+a606ba4 [ROADMAP-703] Renommer 43 UnknownCode_00X_XXXX en labels explicites
+ff7422c [ROADMAP-703] Renommer 6 UnknownCode_002_XXXX entries en ConstTableA_Entry5-10
+64c6225 [ROADMAP] Phase 7.1 completed - 46 labels renamed
+7c9b721 [ROADMAP-702] Renommer 9 joypad input entries (UnknownCode → JoypadInputEntry_*)
+cc12986 [ROADMAP-702] Renommer 20 audio dispatch entries (UnknownCode → AudioDispatchEntry_*)
+56ddc29 [ROADMAP] Phase 7.1 - Padding Zones completed
+8a796c2 [ROADMAP-702] Renommer 17 padding zones (UnknownCode → PaddingZone_*)
+33f9573 [ROADMAP] Documenter completion Phase 7.0 - Session renommages Call_000_/jr_000_/labels génériques
+8ca06b5 [ASM] Renommer UnknownCode_002_4685 → InfiniteLoop_002_4685
+ac7b625 [ASM] Renommer 3 labels UnknownData_ vers noms contextuels explicites
+8b9ca05 [ASM] Renommer 7 labels génériques vers noms contextuels
+c9b5d57 [ASM] Renommer 18 labels génériques vers noms explicites
+14520dc [ROADMAP] Documenter completion Phase 7.0 - Audit labels Call_000_/jr_000_
+c5bd5a6 [ANALYSIS] Audit des labels Call_000_XXXX et jr_000_XXXX
+3854ba9 [ASM] Renommer 7 labels audio UnknownCode_003_XXXX avec noms explicites
+532590b [ASM] Renommer 383 labels SkipPadding_00[23]_XXXX → UnknownCode_00[23]_XXXX
+8c46082 [ASM] Renommer 4 labels AudioRoutine_Jump_* → noms contextuels explicites
+1dd4a1d [ASM] Renommer 800 labels jr_00[23]_XXXX → SkipPadding_00[23]_XXXX
+85f84f7 [ASM] Renommer 2 labels jr_002_XXXX avec noms contextuels explicites
+d767034 [ASM] Renommer 6 labels jr_002_XXXX avec noms contextuels explicites
+8e2e22e [ASM] Renommer 6 labels jr_002/jr_003_XXXX avec noms contextuels explicites
+106ec08 [ASM] Renommer 3 labels jr_002_XXXX avec noms contextuels explicites
+683d47b [ASM] Renommer 22 labels jr_003_XXXX avec noms contextuels explicites
+b947745 [ASM] Renommer 3 labels Call_002_XXXX avec noms contextuels explicites
+33a9af9 [ASM] Renommer 12 labels jr_003_XXXX avec noms contextuels explicites
+ff7d94b [ASM] Renommer 19 labels jr_002_XXXX et jr_003_XXXX avec noms contextuels explicites
+8595f11 [ASM] Renommer 2 labels Call_Stack_Frame_Init_* avec noms contextuels explicites
+c7b8662 [ASM] Renommer 10 labels AudioData et AudioTable avec noms contextuels explicites
+7bcde39 [ASM] Renommer 26 labels jr_003_XXXX avec noms contextuels explicites
+68bc701 [ASM] Renommer 35 labels Call_002_ et jr_002_XXXX avec noms contextuels explicites
+dec4ebe [ASM] Renommer 20 labels jr_002_XXXX avec noms contextuels explicites
+b2348f5 [ASM] Renommer 8 labels jr_002_XXXX avec noms contextuels explicites
+b574530 [ASM] Renommer 5 labels Jump_/Call_* avec noms contextuels explicites
+fbffdb0 [ASM] Renommer 3 routines de contrôle de volume audio dans Bank 3
+bfce23b [ASM] Renommer 2 routines audio clés dans Bank 3
+049a2c1 [ASM] Renommer jr_003_4823 en AnimationHandler
+eb6b8c9 [ASM] Renommer 12 labels Jump_/Call_* avec noms contextuels explicites
+dd755ef [ASM] Renommer 8 labels Jump_003_XXXX avec noms contextuels explicites
+c135daf [ASM] Renommer 10 labels jr_002/jr_003_XXXX avec noms contextuels explicites
+df089c2 [ASM] Renommer 4 labels Call_001_XXXX avec noms contextuels explicites
+987b058 [ASM] Renommer 12 labels jr_001_XXXX avec noms contextuels explicites
+fda586a [ASM] Renommer 12 labels jr_001_XXXX avec noms contextuels explicites
+56071bd [ASM] Renommer 10 labels jr_001_XXXX avec noms contextuels explicites
+4910cf5 [ASM] Renommer 8 labels Call_001/jr_001 avec noms contextuels explicites
+0c0c381 [ASM] Renommer 12 labels Jump_002 avec noms contextuels explicites
+9d7c132 [ASM] Renommer 13 labels jr_001_XXXX avec noms contextuels explicites
+50e3c68 [ASM] Renommer 5 labels jr_001 avec noms contextuels explicites
+341bb4b [ASM] Renommer 5 labels Call/jr_001 avec noms contextuels explicites
+f9d1a96 [ASM] Renommer 10 labels Call_001/jr_001 avec noms contextuels explicites
+f7405d7 [ASM] Renommer 6 labels Call_001/jr_001 avec noms contextuels explicites
+8d4f125 [ASM] Renommer 6 labels jr_001/Call_001 avec noms contextuels explicites
+f6188f4 [ASM] Renommer 8 labels jr_001_XXXX avec noms contextuels explicites
+0ea82da [ASM] Renommer 5 labels jr_001 avec noms contextuels explicites
+0a76ff9 [ASM] Renommer 5 labels jr_001_XXXX avec noms contextuels explicites
+561d691 [ASM] Renommer 10 labels audio Bank 3 avec noms contextuels explicites
+242a233 [ASM] Renommer 7 labels audio Bank 3 avec noms contextuels explicites
+95c869e [ASM] Renommer 5 labels audio Bank 3 avec noms contextuels explicites
+0b04775 [ASM] Renommer 20 labels Call_/Jump_ avec noms contextuels explicites
+7fa7288 [ASM] Renommer 9 labels Call_/jr_ avec noms contextuels explicites
+f209985 [ASM] Renommer 3 Call/Jump_000_XXXX avec noms contextuels explicites
+a7b92a6 [ASM] Renommer 5 labels Jump_000_XXXX avec noms contextuels explicites
+1f08ebe [ASM] Renommer 14 labels Jump_000_XXXX avec noms contextuels explicites
+936a521 [ASM] Renommer 15 labels Call_* et jr_* les plus évidents avec noms contextuels
+5a04fc2 [ASM] Renommer Jump_000_0024 → RST_24 (handler RST inutilisé)
+77eda28 [ASM] Renommer 15 labels Jump_000_XXXX haute confiance
+752dd2c [ASM] Renommer 10 labels jr_003_XXXX dans AnimationHandler et StateHandler
+2c34c0d [ROADMAP] Marquer la phase 4.4.1 comme complétée - Tous les labels jr_000_XXXX et Call_000_XXXX renommés
+ee11510 [ASM] Renommer 23 labels jr_000_XXXX et Call_000_XXXX avec noms explicites
+d61c4b6 [ASM] Renommer 9 labels Call_000_XXXX et jr_000_XXXX avec noms explicites
+acef62f [ASM] Renommer 4 labels Call_000_XXXX et jr_000_XXXX avec noms explicites
+c65828d [ASM] Analyser les labels jr_000_XXXX et Call_000_XXXX restants
+89c5d60 [ASM] Renommer 8 labels jr_000_XXXX et jr_000_XXXX dans les routines audio des animations et objects
+d893463 [ASM] Renommer 8 labels jr_000_XXXX avec noms contextuels explicites
+9dabee5 [ASM] Renommer 2 labels jr_000_XXXX avec noms contextuels explicites
+a94f97f [ASM] Renommer 16 labels jr_000_XXXX avec noms contextuels explicites
+1e415ba [ASM] Renommer 24 labels jr_000_XXXX et Call_000_XXXX avec noms contextuels explicites
+485364b [ASM] Renommer 7 labels jr_000_XXXX avec noms contextuels explicites
+660fc5d [ASM] Renommer 10 labels jr_000_XXXX avec noms contextuels explicites
+99dd63d [ASM] Renommer 11 labels jr_000_XXXX avec noms contextuels explicites
+b9c16d2 [ASM] Renommer 10 labels jr_000_XXXX avec noms contextuels explicites
+d551b16 [ASM] Renommer 6 labels jr_000_XXXX avec noms contextuels explicites
+bb4194a [ASM] Renommer 21 labels jr_000_XXXX avec noms contextuels explicites
+c5583d7 [ASM] Renommer 17 labels jr_000_XXXX et optimiser noms contextuels
+a015529 [ASM] Renommer 8 labels jr_000_XXXX avec noms contextuels explicites
+c2e4b78 [ASM] Renommer 15 labels jr_000_XXXX avec noms contextuels explicites
+694900f [ASM] Renommer 10 labels jr_000_XXXX avec noms explicites
+f12122f [ASM] Renommer 10 labels jr_000_XXXX avec noms explicites contextuels
+2108228 [ASM] Renommer 8 labels jr_000_XXXX avec contexte logique explicite
+ce16549 [ASM] Renommer 30 labels jr_000_XXXX avec contexte explicite (États $25-$27, $2B-$2C, $2E, $32-$33, $37, $39, $3B, $0C)
+1b8af22 [ASM] Renommer 14 labels jr_000_XXXX avec noms explicites
+1d30949 [ASM] Renommer 14 labels jr_000_XXXX et Call_000_XXXX avec noms explicites
+5606539 [ASM] Renommer 7 labels jr_000_XXXX avec noms explicites
+f4a5e57 [ASM] Renommer 18 labels jr_000_XXXX avec noms explicites
+81be225 [ASM] Renommer 10 labels jr_000_XXXX avec noms explicites
+c8545d7 [ASM] Renommer 6 labels Call_000_XXXX et jr_000_XXXX
+4543e47 [ASM] Renommer 7 labels Call_000_XXXX et jr_000_XXXX
+76d684d [ASM] Renommer Call_000_18fc, Call_000_1f7c, Call_000_22a0, Call_000_22f4
+b55ad29 [ASM] Renommer EnterGameplayState, ProcessColumnAnimation, LoadLevelTilemap
+4ad7acb [ASM] Renommer jr_000_0519 en InitAttractModeDisplay
+5b9f1cb [ASM] Renommer Call_000_2afd en LoadAudioSlotConfiguration
+3826e37 [ASM] Renommer Call_000_255f en ProcessAudioSlots
+e92d70f [ASM] Renommer Call_000_2492 en UpdateAudioState
+97bb118 [ASM] Renommer Call_000_2a5f en DecrementObjectAnimationCounter
+b2dee71 [ASM] Renommer jr_000_04b4 et jr_000_04ce en HandleSelectButtonLevelSelect et UpdateLevelSelectDisplay
+31b70b8 [ASM] Renommer Call_000_19fc en InitializeGameObjects
+af4861e [ASM] Renommer Call_000_2b4d en StoreAudioChannel4
+b2385ef [ASM] Renommer Call_000_0cdb en CheckPlayerCenterPosition
+302765a [ASM] Renommer Call_000_24c4 en StoreAudioState
+598b2d4 [ASM] Renommer Call_000_24cd en LoadQueuedAudioConfig
+1eecfa0 [ASM] Renommer Call_000_1f24 en ProcessAllObjectCollisions
+6d588d5 [ASM] Renommer Call_000_0ae1 en CheckPlayerObjectCollision
+676ef53 [ASM] Renommer Call_000_263f en UpdateAllObjectSounds
+7a357fa [ASM] Renommer jr_000_049c en SelectTileIndexForLevel
+db4617b [ASM] Renommer Call_000_2a1a en CheckObjectBottomCollision
+d6841e2 [ASM] Renommer Call_000_0f8f en ValidateAndWriteTextCharToVram
+ee220f7 [ASM] Renommer Call_000_1b3c en TriggerBlockCollisionSound
+52db61e [ASM] Renommer Call_000_2a3b en TriggerObjectSound
+90e5d4d [ASM] Renommer jr_000_05f0 en LoadGameTiles_TileCopyLoop
+30b66a2 [ASM] Renommer jr_000_041f, jr_000_03fe, jr_000_0406 en labels explicites
+bb53dcb [ASM] Renommer Call_000_0a24 en HandleObjectAnimationOnBlockHit
+17008ae [ASM] Renommer Call_000_235a en ApplyLevelConfig
+3fc9c34 [ASM] Renommer Call_000_29f8 en GetAnimationDataPointer
+a4403d1 [ASM] Renommer Call_000_09d7 en StartGameplayPhase
+404d6d1 [ASM] Renommer jr_000_0450 en StartSelectedLevel
+2bcf127 [ASM] Renommer Call_000_1eab en GetOscillatingOffset
+b934e37 [ASM] Renommer jr_000_03d4 en CopyScoreBCD et jr_000_03e2 en CompareBCDScoresToDisplay
+b3673df [ASM] Renommer Call_000_1520 en InitializeCreditsMode
+2e5e2a4 [ASM] Renommer Call_000_078c en RenderPlayerUpdate
+4f6d06f [ASM] Renommer Call_000_208e en HandleBlockCollision
+0c8f621 [ASM] Renommer Call_000_0878 en CheckPlayerCollisionWithObject
+9d05400 [ASM] Renommer jr_000_03dc en CopyScoreBCDPreviousLoop
+11de77b [ASM] Renommer Call_000_2453 en FindAudioTableEntry
+a526c5b [ASM] Renommer Call_000_2488 en UpdateAudio
+b1d3a98 [ASM] Renommer jr_000_03c7 en CompareBCDScoresLoop
+5666d80 [ASM] Renommer jr_000_0368 en SelectLevelAudioTable
+6a645b8 [ASM] Renommer jr_000_032d en ClearOamLoop
+0ee6580 [ASM] Renommer Call_000_0837 en UpdateAnimatedObjectState
+f4ebe3a [ASM] Renommer Call_000_2b21 en DestroyAllObjects
+a8051d2 [ASM] Renommer Call_000_0d64 en LoadAnimTilesByIndex
+69b9648 [ASM] Renommer Call_000_24e6 en InitSoundConditional
+7bc9fcb [ASM] Renommer Call_000_0a07 en SelectAnimationBank
+da1eb6b [ASM] Renommer Call_000_2001 en ProcessObjectCollisions
+bc73a81 [ASM] Renommer Call_000_2544 en PlaySound
+570de6a [ASM] Renommer Call_000_2cb2 en InitSoundSlot
+78e578b [ASM] Renommer Call_000_210a en LoadDemoInput
+e7a50f4 [ASM] Renommer Call_000_0aa6 en CheckBoundingBoxCollision
+8af15eb [ASM] Renommer Call_000_3d11 en InitLevelData
+86e8950 [ASM] Renommer Call_000_1efa en UpdatePlayerInvulnBlink
+c21878b [ASM] Renommer Call_000_07f0 en LoadLevelData
+1d68194 [ASM] Renommer Call_000_2c96 en OffsetSpritesX
+e87ad67 [ASM] Renommer Call_000_1e9b en OffsetSpritesY
+4da1773 [ASM] Renommer Call_000_05f8 en CopyHudTilemap
+e83afaa [ASM] Renommer Call_000_1527 en SetupCreditsState
+eebfe90 [ASM] Renommer Call_000_130f en SetupFinalScreen
+68d3d44 [ASM] Renommer Call_000_1547 en AnimateCreditsFrame
+6771000 [ASM] Renommer Call_000_13bb en UpdateCreditsStars
+25cc6c3 [ASM] Renommer Call_000_1020 en Copy16BytesToOam
+4afbdec [ASM] Renommer Call_000_0ede en ResetPlayerForCutscene
+0030ccf [ASM] Renommer Call_000_1305 en AnimateAndCallBank3
+720424e [ASM] Renommer Call_000_136d en Copy5Bytes
+6f881c9 [ASM] Renommer Call_000_1345 en ClearScrollBuffer
+584be09 [ASM] Renommer Call_000_12dd en ToggleAnimFrame
+3e082ef [ASM] Renommer Call_000_0f81 en WriteCharToVRAM
+6698431 [ASM] Renommer Call_000_05d0 en LoadGameTiles
+d9db907 [ASM] Renommer Call_000_218f en UpdateScroll
+5753b06 [ASM] Renommer Call_000_0808 en InitScrollState
+101e47a [ASM] Renommer Call_000_083c en DecAnimObjCount
+219c062 [ASM] Renommer Call_000_0eb2 en AutoMovePlayerRight
+1da4ffd [ASM] Renommer Call_000_2cee en SaveSoundDataToSlot
+769b4bf [ASM] Renommer Call_000_2cdc en LoadSoundDataFromSlot
+34cd74e [ASM] Renommer Call_000_2ce2 en LoadSoundDataFromHL
+0af1539 [ASM] Renommer Call_000_2cf4 en SaveSoundDataToHL
+1246179 [ASM] Renommer Call_000_0558 en FillTilemapRow
+3dbe037 [ASM] Renommer Call_000_3d75 en DisplayLevelBCDScore
+b90e1dd [ASM] Renommer Call_000_1c4d en DisplayLivesCount
+1e6f4d6 [ASM] Renommer Call_000_21a8 en InitScrollBuffer
+52607dd [ASM] Renommer Call_000_05b8/05be en ClearBGTilemap/FillTilemapLoop
+2bda852 [ASM] Renommer Call_000_3f38 en ConvertBCDToTiles
+4549036 [ASM] Renommer Call_000_05c7 en MemCopy
+f45432f [ASM] Renommer labels dans LCDStatHandler
+218df72 [ASM] Renommer labels dans VBlankHandler
+24897c4 [ASM] Refactorer GameLoop en macros documentées
+5865b46 [ASM] Documenter GameLoop et Attract Mode
+04a3bf2 [ASM] Renommer fonctions collision/tile supplémentaires
+a59c4c6 [ASM] Renommer fonctions collision joueur
+21b0303 [ASM] Renommer fonctions collision objet CheckObjectTile*
+a0d2d9f [ASM] Renommer Call_000_3efe en GetSpritePosFromTileAddr
+964af09 [ASM] Renommer Call_000_0153 en ReadTileUnderSprite
+1d181af [ASM] Renommer Call_000_3ed1 en GetTileAddrFromSprite
+d5856d3 [ASM] Ajouter macro WAIT_FOR_HBLANK
+1355aa1 [ASM] Ajouter macros guard clause hUpdateLockFlag
+c44f82c [ASM] Renommer flags système pièces
+fe17b30 [ASM] Renommer UpdateCoinDisplay et constantes VRAM pièces
+5f84469 [ASM] Ajouter constante POINTS_PER_COIN
+196cb2b [ASM] Renommer fonctions collision bloc/pièce
+1c65f95 [ASM] Corriger désassemblage VBlankHandler - call $1b7d
+9eadf5b [ASM] Corriger désassemblage Timer handler ($0050-$005F)
+190509f [DOCS] Synchroniser exploration.md avec CLAUDE.md
+3b483b6 [DOCS] Corriger statistiques exploration.md - 285 constantes
+4678ef4 [DOCS] Compléter exploration.md - Constantes, macros et structures
+9a83a92 [DOCS] Compléter exploration.md - Conventions et outils
+a594918 [DOCS] Finaliser documentation exploration - Résumé complet
+b10a9cc [DOCS] Compléter Phase 5 - Exploration Banks 1-3 (36/36)
+825e413 [ROADMAP] Mettre à jour progression Phase 4.5 (exploration 100%)
+92b157b [DOCS] Compléter exploration.md - 100% analysé (102/102)
+16ec4b2 [DOCS] Documenter handlers d'état $12-$3B (complétion 94%)
+4a99199 [DOCS] Documenter handlers d'état $0D-$11
+2809048 [DOCS] Documenter système de tuyaux (états $09-$0C)
+3a56256 [DOCS] Documenter handlers d'état $03-$08
+1f30970 [DOCS] Documenter interruptions et handlers état $00-$02
+a28625b [DOCS] Marquer 12 routines comme analysées dans exploration.md
+c360aec [DOCS] Corriger table handlers d'état dans exploration.md
+faa8617 [DOCS] Documenter handlers RST ($0000-$0038)
+f4bdea3 [REFACTOR] Éliminer tous les magic values $c0xx de bank_000.asm
+7e516c2 [DOCS] Ajouter protocole d'exploration systématique
+093a446 [REFACTOR] Reconstruire tables audio/animation (Phase 4.4)
+7c6c492 [REFACTOR] Reconstruire jump table StateDispatcher ($02A5)
+9fabdc7 [DOCS] Compléter documentation analyse données + nouvelles tâches
+dce4b5d [DOCS] Documenter technique xxd + Phase 4.4 reconstruction données
+cec9996 [REFACTOR] Ajouter constantes ROM tables + VRAM (Phase 4.2/4.3)
+f21bfa6 [REFACTOR] Éliminer 96 magic values WRAM $C0xx/$D0xx
+3180be5 [ROADMAP] Refonte complète - 10 phases vers reverse engineering total
+dc12c21 [REFACTOR] Renommer 70+ variables Unknown → noms explicites
+3c2a613 [REFACTOR] Ajout constantes WRAM + structure joueur
+71e1e29 [REFACTOR] Remplacer adresses HRAM hex par constantes nommées
+756b273 [ROADMAP] Renommer 11 labels clés → noms explicites
+ad8a6a4 [ROADMAP] Ajout 25+ nouvelles constantes HRAM/WRAM
+27e4d7c [ROADMAP] Documentation routines VBlank + jump table StateDispatcher
+6e65c10 [ROADMAP] Mise à jour Phase 2-3 + constantes nommées
+887ea5a [REFACTOR] Remplacer magic values par constantes nommées
+8988160 [ROADMAP] Mise à jour Phase 2 + ajout Phases 3-4
+2477fc5 [REFACTOR] Documentation Call_000_07c3, Call_000_02a3, Call_000_3f24
+eb9bb41 [REFACTOR] Documentation Call_000_09e8 et Call_000_172d
+e34d9dc [REFACTOR] Décomposition GameLoop et VBlankHandler
+2906cd5 [REFACTOR] Décomposition de SystemInit en macros "free function"
+a42b801 [GOUVERNANCE] Convention macros "free function" pour décomposition algorithmique
+06a3b06 [DOC] Documentation complète des macros (QUOI + POURQUOI)
+be75bdc [REFACTOR] Abstraction des patterns répétitifs via macros RGBASM
+108b50e [GOUVERNANCE] Checklist de début de session
+7db256b [GOUVERNANCE] Convention de fin de session
+baec2ed [GOUVERNANCE] Documentation pour futurs contributeurs
+c08427d [GOUVERNANCE] Reframing pédagogique + hook pre-commit
+dbbf877 [GOUVERNANCE] Correction des défauts et simplification
+eaee397 [ROADMAP-000004] Créer Makefile (build + verify) et valider recompilation bit-perfect
+910b5bd [ROADMAP-000003] Désassembler rom.gb avec mgbdis
+d284f64 [ROADMAP-000002] Calculer et stocker hash original (SHA256 + MD5)
+8b83d59 [GOUVERNANCE] Convention de nommage des scripts : verbe + objet
+3b6537e [GOUVERNANCE] Principe fondamental et capitalisation des découvertes
+e9b186a [ROADMAP-000001] Créer scripts setup cross-platform
+4f55110 [ROADMAP-000000] Setup projet avec CLAUDE.md et ROADMAP.md
