@@ -9712,7 +9712,15 @@ DispatchAudioWave_Entry:
 ; Usage: Chargé dans hl par DispatchAudioWave_Setup avant dispatch vers DispatchAudioCommand
 AudioWaveformPattern_69F1:
     db $00, $30, $F0, $A7, $C7  ; Séquence 1: note $A7
-    db $00, $30, $F0, $B1, $C7  ; Séquence 2: note $B1
+
+; ChannelConfigData_Type1
+; -----------------------
+; Description: Configuration audio pour canal pulse wave type 1 (5 octets)
+; Format: Identique à séquence 2 du pattern waveform ($00 $30 $F0 $B1 $C7)
+; Usage: Pointeur chargé par ChannelType_01_PulseWave avant InitSquareChannel1
+; Note: Double usage - fait partie de AudioWaveformPattern_69F1 et pointeur autonome
+ChannelConfigData_Type1:
+    db $00, $30, $F0, $B1, $C7  ; Séquence 2: note $B1 / Config Type1
     db $00, $30, $F0, $BA, $C7  ; Séquence 3: note $BA
     db $00, $30, $F0, $C4, $C7  ; Séquence 4: note $C4
     db $00, $30, $F0, $D4, $C7  ; Séquence 5: note $D4
@@ -9744,7 +9752,7 @@ AudioWaveformPattern_69F1:
 
 
 ChannelType_01_PulseWave:
-    ld hl, $69f6
+    ld hl, ChannelConfigData_Type1
     jr ChannelInitDispatcher
 
 ChannelType_02_PulseWave:
@@ -9771,16 +9779,16 @@ ChannelInitDispatcher:
 ; Cette section contient des données de configuration audio (5 bytes chacune) qui
 ; se chevauchent avec du code exécutable. Les adresses suivantes sont référencées:
 ;
-; - $69F6: ChannelConfigData_Type1 (utilisé par ChannelType_01_PulseWave)
-; - $69FB: ChannelConfigData_Type2 (utilisé par ChannelType_02_PulseWave)
-; - $6A00: ChannelConfigData_Type3 (utilisé par ChannelType_03_WaveMemory)
-; - $6A05: ChannelConfigData_Type4 (utilisé par ChannelType_04_Noise)
-; - $6A0A: ChannelConfigData_Type5 (utilisé par ChannelType_05_Master)
-; - $6A0F: AudioChannel1Routine_6A0F (référencé dans AudioChannel1PointerTable[7])
+; - $69F6: ChannelConfigData_Type1 ✓ FAIT (utilisé par ChannelType_01_PulseWave)
+; - $69FB: ChannelConfigData_Type2 TODO (utilisé par ChannelType_02_PulseWave)
+; - $6A00: ChannelConfigData_Type3 TODO (utilisé par ChannelType_03_WaveMemory)
+; - $6A05: ChannelConfigData_Type4 TODO (utilisé par ChannelType_04_Noise)
+; - $6A0A: ChannelConfigData_Type5 TODO (utilisé par ChannelType_05_Master)
+; - $6A0F: AudioChannel1Routine_6A0F TODO (référencé dans AudioChannel1PointerTable[7])
 ;          WARNING: Cette adresse pointe AU MILIEU de l'instruction "ld a,[$c202]"!
 ;          C'est soit un bug du jeu original, soit une entrée jamais utilisée.
 ;
-; TODO: Cette zone nécessite une reconstruction propre avec labels appropriés
+; TODO: Les zones non-marquées nécessitent reconstruction avec labels appropriés
 ;       tout en préservant le hash SHA256/MD5 identique.
 ;
 ; Références sortantes identifiées depuis $6A0F:

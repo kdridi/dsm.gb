@@ -6057,6 +6057,46 @@
       "priority": 3
     },
     {
+      "address": "$69F6",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 5 - Sous-pattern s\u00e9quence 2 (note $B1)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$69FB",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 10 - Sous-pattern s\u00e9quence 3 (note $BA)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A00",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 15 - Sous-pattern s\u00e9quence 4 (note $C4)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A05",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 20 - Sous-pattern s\u00e9quence 5 (note $D4)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A0A",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 25 - Sous-pattern s\u00e9quence 6 (note $CB)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6A0F",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -7007,46 +7047,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$69F6",
-      "node_type": "data",
-      "description": "AudioWaveformPattern_69F1 + 5 - Sous-pattern s\u00e9quence 2 (note $B1)",
-      "source": "$69F1",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$69FB",
-      "node_type": "data",
-      "description": "AudioWaveformPattern_69F1 + 10 - Sous-pattern s\u00e9quence 3 (note $BA)",
-      "source": "$69F1",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A00",
-      "node_type": "data",
-      "description": "AudioWaveformPattern_69F1 + 15 - Sous-pattern s\u00e9quence 4 (note $C4)",
-      "source": "$69F1",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A05",
-      "node_type": "data",
-      "description": "AudioWaveformPattern_69F1 + 20 - Sous-pattern s\u00e9quence 5 (note $D4)",
-      "source": "$69F1",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$6A0A",
-      "node_type": "data",
-      "description": "AudioWaveformPattern_69F1 + 25 - Sous-pattern s\u00e9quence 6 (note $CB)",
-      "source": "$69F1",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7231,6 +7231,7 @@
     "$0EC4",
     "$4CD5",
     "$2d91",
+    "$69F6",
     "$2FF9",
     "$4B8A",
     "$2453",
@@ -7858,6 +7859,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 807
+  "commits_since_push": 2,
+  "total_explored": 808
 }
