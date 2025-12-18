@@ -8944,9 +8944,22 @@ UnreachableCodeData_003_07:
 
 ; AudioChannel1StatusTable
 ; ------------------------
-; Description: Table de pointeurs de statut pour le canal audio 1
-; In:  Index via IndexAudioTable
-; Out: Pointeur vers routine de statut
+; Description: Table de 11 pointeurs de statut pour le canal audio 1
+; In:  Index via IndexAudioTable (0-10)
+; Out: Pointeur vers routine de statut correspondante
+;
+; Index -> Routine:
+;  0 -> AudioChannel1Routine_68AE (dispatch $10 vers $6886 + init graphics state)
+;  1 -> AudioChannel1Routine_68E3 (dispatch $03 vers $688B si game state ok)
+;  2 -> AudioChannel1Routine_6936 (dispatch $08 vers $692C si game state ok)
+;  3 -> AudioChannel1Routine_6973 (init wave command avec $10)
+;  4 -> AudioChannel1Routine_690C (dispatch séquence audio si pas ANIMATION)
+;  5 -> AudioChannel1Routine_69BD (dispatch $06 vers $69AA si pas CENTER)
+;  6 -> AudioChannel1Routine_699E (dispatch $08 vers $6999 si game state ok)
+;  7 -> DispatchAudioWave_Setup (dispatch $06 vers $69F1)
+;  8 -> AudioChannel1Routine_687A (dispatch $0E vers $6875 si game state ok)
+;  9 -> AudioChannel1Routine_686D (dispatch $03 vers $6868)
+; 10 -> AudioChannel1Routine_6961 (init wave command avec $60)
 AudioChannel1StatusTable:
     dw $68AE, $68E3, $6936, $6973, $690C
     dw $69BD, $699E, $69E9, $687A, $686D, $6961
@@ -9227,6 +9240,14 @@ InitializeWaveAudio_ResetWave:
     ld d, e
     add b
     rst $00
+
+; AudioChannel1Routine_686D
+; --------------------------
+; Description: Routine audio canal 1 - Dispatch commande audio $03 vers $6868
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_686D:
     ld a, $03
     ld hl, $6868
     jp DispatchAudioCommand
@@ -9237,6 +9258,14 @@ InitializeWaveAudio_ResetWave:
     and b
     ld d, b
     add h
+
+; AudioChannel1Routine_687A
+; --------------------------
+; Description: Routine audio canal 1 - Dispatch commande audio $0E vers $6875 si game state valide
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_687A:
     call SkipIfGameState05
     ret z
 
@@ -9451,7 +9480,13 @@ SetupAudioConfiguration:
 AudioData_Unknown_692C:
     db $57, $96, $8C, $30, $C7, $57, $96, $8C, $35
 
-ProcessAudioFrame:
+; AudioChannel1Routine_6936
+; --------------------------
+; Description: Routine audio canal 1 - Dispatch commande audio $08 vers $692C si game state valide
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_6936:
     rst $00
     call SkipIfGameState05
     ret z
@@ -9459,6 +9494,9 @@ ProcessAudioFrame:
     ld a, $08
     ld hl, $692c
     jp DispatchAudioCommand
+
+; Alias pour compatibilité (référencée ailleurs dans le code)
+DEF ProcessAudioFrame EQU AudioChannel1Routine_6936
 
 
     call UpdateAudioFrameCounter
@@ -9487,6 +9525,13 @@ SquareChannel1_Setup:
     sbc d
     jr nz, @-$77
 
+; AudioChannel1Routine_6961
+; --------------------------
+; Description: Routine audio canal 1 - Initialise wave command avec valeur $60
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_6961:
     ld a, $60
 
 DispatchAudioWaveCommand:
@@ -9501,6 +9546,14 @@ DispatchAudioWaveCommand:
     adc d
     db $10
     add [hl]
+
+; AudioChannel1Routine_6973
+; --------------------------
+; Description: Routine audio canal 1 - Initialise wave command avec valeur $10
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_6973:
     ld a, $10
     ld [wStateVar6], a
     ld a, $05
@@ -9536,6 +9589,14 @@ AudioData_003_6980:
     db $d3
     ld b, b
     add h
+
+; AudioChannel1Routine_699E
+; --------------------------
+; Description: Routine audio canal 1 - Dispatch commande audio $08 vers $6999 si game state valide
+; In:  (none)
+; Out: (none)
+; Modifie: af, hl
+AudioChannel1Routine_699E:
     call SkipIfGameState05
     ret z
 
@@ -9564,13 +9625,13 @@ AudioData_003_6980:
     inc de
     nop
 
-; AudioChannel1Routine_699E
+; AudioChannel1Routine_69BD
 ; --------------------------
 ; Description: Routine audio canal 1 - Dispatch commande audio $06 si game state n'est pas CENTER ($08)
 ; In:  wStateDisplay = État du jeu actuel
 ; Out: (none - side effects: peut déclencher commande audio via DispatchAudioCommand)
 ; Modifie: af, hl (via appels)
-AudioChannel1Routine_699E:
+AudioChannel1Routine_69BD:
     ld a, [wStateDisplay]
     cp $08
     ret z
