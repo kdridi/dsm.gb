@@ -7871,6 +7871,14 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
+    },
+    {
+      "address": "$6A4C",
+      "node_type": "data",
+      "description": "Pointeur vers sous-donn\u00e9es audio",
+      "source": "$761C",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -8149,6 +8157,7 @@
     "$6AF2",
     "$47F2",
     "$04C3",
+    "$761C",
     "$75D4",
     "$6700",
     "$4D99",
@@ -8779,6 +8788,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 904
+  "commits_since_push": 4,
+  "total_explored": 905
 }
