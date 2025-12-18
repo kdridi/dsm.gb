@@ -9293,23 +9293,35 @@ AudioChannel1Routine_687A:
     add a
 
 ; SkipIfGameState04
-; -----------------
-; Description: Charge wStateDisplay et saute vers la routine de dispatch qui teste plusieurs états
+; ------------------
+; Description: Charge wStateDisplay et saute vers AudioChannelDispatchCase_05 pour tester plusieurs états
 ; In:  (none)
-; Out: z flag = 1 si GameState correspond à ANIMATION, POST_LEVEL, CENTER ou PIPE_DOWN
+; Out: z flag = 1 si wStateDisplay correspond à ANIMATION, POST_LEVEL, CENTER ou PIPE_DOWN
 ; Modifie: a
 SkipIfGameState04:
     ld a, [wStateDisplay]
     jr AudioChannelDispatchCase_05
 
+; SkipIfGameState03
+; ------------------
+; Description: Vérifie si wStateDisplay = GAME_STATE_SETUP_TRANSITION ($03), retourne z=1 si vrai
+; In:  (none)
+; Out: z flag = 1 si wStateDisplay = $03, sinon z=0
+; Modifie: a
 SkipIfGameState03:
     ld a, [wStateDisplay]
-    cp $03
+    cp GAME_STATE_SETUP_TRANSITION ; $03
     ret z
 
+; SkipIfGameState05
+; ------------------
+; Description: Vérifie si wStateDisplay = GAME_STATE_SPECIAL_LEVEL ($05), retourne z=1 si vrai, sinon continue vers AudioChannelDispatchCase_05
+; In:  (none)
+; Out: z flag = 1 si wStateDisplay = $05, sinon z=0 et continue le test avec autres états
+; Modifie: a
 SkipIfGameState05:
     ld a, [wStateDisplay]
-    cp $05
+    cp GAME_STATE_SPECIAL_LEVEL ; $05
     ret z
 
 ; AudioChannelDispatchCase_05
