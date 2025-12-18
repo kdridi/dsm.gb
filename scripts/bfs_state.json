@@ -7177,6 +7177,14 @@
       "priority": 3
     },
     {
+      "address": "$7735",
+      "node_type": "data",
+      "description": "Sous-pattern audio non document\u00e9",
+      "source": "$75C8",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$775A",
       "node_type": "data",
       "description": "Entity data r\u00e9f\u00e9renc\u00e9e par Level3EntitiesData",
@@ -7817,10 +7825,34 @@
       "priority": 3
     },
     {
-      "address": "$7735",
+      "address": "$761C",
       "node_type": "data",
-      "description": "Sous-pattern audio non document\u00e9",
-      "source": "$75C8",
+      "description": "Sous-pattern audio manquant (12 bytes: $9D $37 $70 $20 $A5...) - NON LABELLIS\u00c9",
+      "source": "$75D4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$76B5",
+      "node_type": "data",
+      "description": "Sous-pattern audio r\u00e9f\u00e9renc\u00e9 6\u00d7 dans pattern $75D4 (boucle) - NON LABELLIS\u00c9",
+      "source": "$75D4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$76D6",
+      "node_type": "data",
+      "description": "Sous-pattern audio alternatif r\u00e9f\u00e9renc\u00e9 2\u00d7 dans pattern $75D4 - NON LABELLIS\u00c9",
+      "source": "$75D4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7773",
+      "node_type": "data",
+      "description": "Sous-pattern audio final dans pattern $75D4 - NON LABELLIS\u00c9",
+      "source": "$75D4",
       "bank": 3,
       "priority": 3
     }
@@ -8099,6 +8131,7 @@
     "$6AF2",
     "$47F2",
     "$04C3",
+    "$75D4",
     "$6700",
     "$4D99",
     "$74B9",
@@ -8726,6 +8759,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 899
+  "commits_since_push": 4,
+  "total_explored": 900
 }
