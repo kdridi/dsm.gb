@@ -7815,6 +7815,14 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
+    },
+    {
+      "address": "$7735",
+      "node_type": "data",
+      "description": "Sous-pattern audio non document\u00e9",
+      "source": "$75C8",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7904,6 +7912,7 @@
     "$0C22",
     "$24c4",
     "$3565",
+    "$75C8",
     "$5a15",
     "$22C2",
     "$336c",
@@ -8717,6 +8726,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 898
+  "commits_since_push": 3,
+  "total_explored": 899
 }
