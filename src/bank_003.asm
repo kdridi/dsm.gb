@@ -9958,24 +9958,45 @@ AudioChannel4Routine_6A75:
     ret
 
 
-    nop
-    ld l, l
-    ld d, h
-    add b
+; AudioNoiseConfigData_Type7
+; ---------------------------
+; Description: Configuration audio noise type 7 pour canal 4
+; Format: 4 bytes (NR41, NR42, NR43, NR44 ou paramètres similaires)
+AudioNoiseConfigData_Type7:
+    db $00, $6D, $54, $80
+
+; AudioChannel4Routine_6A90
+; --------------------------
+; Description: Routine audio canal 4 index 3 (référencée depuis AudioChannel4StatusTable[3])
+;              Dispatch commande audio $16 vers configuration noise type 7
+; In:  Appelé via jp hl depuis CheckAudioChannel4 (branch wStateFinal != 0)
+; Out: Dispatch vers DispatchAudioCommand avec a=$16, hl=AudioNoiseConfigData_Type7
+; Modifie: a, hl, (et tout ce que DispatchAudioCommand modifie)
+AudioChannel4Routine_6A90:
     ld a, $16
-    ld hl, $6a8c
+    ld hl, AudioNoiseConfigData_Type7
     jp DispatchAudioCommand
 
+; AudioNoiseConfigData_Type8
+; ---------------------------
+; Description: Configuration audio noise type 8 pour canal 4
+; Format: 4 bytes (NR41, NR42, NR43, NR44 ou paramètres similaires)
+AudioNoiseConfigData_Type8:
+    db $00, $F2, $55, $80
 
-    nop
-    ldh a, [c]
-    ld d, l
-    add b
+; AudioChannel4Routine_6A9C
+; --------------------------
+; Description: Routine audio canal 4 index 1 (référencée depuis AudioChannel4StatusTable[1])
+;              Dispatch commande audio $15 vers configuration noise type 8
+; In:  Appelé via jp hl depuis CheckAudioChannel4 (branch wStateFinal != 0)
+; Out: Dispatch vers DispatchAudioCommand avec a=$15, hl=AudioNoiseConfigData_Type8
+; Modifie: a, hl, (et tout ce que DispatchAudioCommand modifie)
+AudioChannel4Routine_6A9C:
     call CheckAudioActive
     ret z
 
     ld a, $15
-    ld hl, $6a98
+    ld hl, AudioNoiseConfigData_Type8
     jp DispatchAudioCommand
 
 
