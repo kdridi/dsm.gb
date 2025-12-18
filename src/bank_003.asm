@@ -10441,6 +10441,12 @@ LookupAudioEnvelope:
     ret
 
 
+; UpdateAudioPan
+; --------------
+; Description: Met à jour le panoramique audio sur NR51 ($FF25) en fonction du bit 1 de [hl]
+; In:  hl = pointeur vers paramètre audio (bit 1 = activer panoramique complet)
+; Out: NR51 mis à jour (AUDTERM_PAN_LIMITED si bit désactivé, AUDTERM_PAN_FULL si activé)
+; Modifie: a, c
 UpdateAudioPan:
     ld a, [wStateEnd]
     cp $01
@@ -10448,10 +10454,10 @@ UpdateAudioPan:
 
     ld a, [hl]
     bit 1, a
-    ld a, $f7
+    ld a, AUDTERM_PAN_LIMITED
     jr z, .panUpdateDisabled
 
-    ld a, $7f
+    ld a, AUDTERM_PAN_FULL
 
 .panUpdateDisabled:
     call WriteAudioRegisterNr24

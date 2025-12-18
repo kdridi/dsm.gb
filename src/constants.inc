@@ -60,6 +60,8 @@ DEF PALETTE_SPRITE_ALT  EQU $54 ; %01010100 - palette alternative sprites
 
 DEF AUDVOL_MAX      EQU $77     ; Volume max gauche ($7) et droite ($7)
 DEF AUDTERM_ALL     EQU $FF     ; Tous canaux (1-4) sur sorties L et R
+DEF AUDTERM_PAN_LIMITED  EQU $F7     ; Panoramique limité NR51 (tous canaux sauf Ch3-L)
+DEF AUDTERM_PAN_FULL     EQU $7F     ; Panoramique complet sur canaux droits
 DEF AUDIO_BUFFER_FILL_VALUE EQU $b4 ; Valeur remplissage buffer audio
 DEF AUDIO_PARAM2_DEFAULT    EQU $70 ; Paramètre audio 2 par défaut
 DEF WAVE_RAM_SIZE   EQU $10     ; Taille Wave RAM canal 3 (16 octets, $FF30-$FF3F)
