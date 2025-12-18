@@ -6295,6 +6295,30 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$6AFA",
+      "node_type": "code",
+      "description": "SetAudioStatus - D\u00e9finit le statut audio global",
+      "source": "$6AF2",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6AFD",
+      "node_type": "code",
+      "description": "IndexAudioTable - Indexe table de pointeurs audio",
+      "source": "$6AF2",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6B0C",
+      "node_type": "code",
+      "description": "UpdateAudioFrameCounter - Met \u00e0 jour compteur de frames audio",
+      "source": "$6AF2",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6405,6 +6429,7 @@
     "$29ad",
     "$2D21",
     "$2D8B",
+    "$6AF2",
     "$6536",
     "$513E",
     "$1BF2",
@@ -7050,6 +7075,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 0,
-  "total_explored": 751
+  "commits_since_push": 1,
+  "total_explored": 752
 }

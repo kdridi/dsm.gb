@@ -9777,29 +9777,36 @@ DispatchAudioCommand:
     jr z, ConfigureAudioWave_Entry
 
     cp $fd
-    jr z, AudioData_003_6aed
+    jr z, ConfigureAudioNoise
 
     ret
 
 
+; ConfigureAudioSe
+; ----------------
+; Description: Configure le canal audio 1 (square wave) pour les effets sonores (SE)
+;              Transfère 5 octets depuis HL vers les registres NR10-NR14
+; In:  hl = pointeur vers données audio (5 octets: sweep, pattern, envelope, freq low, freq high)
+; Out: Registres audio NR10-NR14 ($FF10-$FF14) configurés
+; Modifie: a, bc, hl
 ConfigureAudioSe:
 InitSquareChannel1:
 ConfigureAudioSe_Entry:
     push bc
-    ld c, $10
-    ld b, $05
+    ld c, LOW(rNR10)            ; c = NR10 ($FF10) - Canal 1 Sweep
+    ld b, $05                   ; 5 octets à transférer
     jr AudioRegisterTransferLoop
 
 ; ConfigureAudioBgm
 ; ----------------
 ; Description: Configure le canal audio 2 (pulse wave) pour la musique (BGM)
-;              Transfère 4 octets depuis HL vers les registres NR22-NR25
-; In:  hl = pointeur vers données audio (4 octets: envelope, freq low, freq high, control)
-; Out: Registres audio NR22-NR25 ($FF16-$FF19) configurés
+;              Transfère 4 octets depuis HL vers les registres NR21-NR24
+; In:  hl = pointeur vers données audio (4 octets: length, envelope, freq low, freq high)
+; Out: Registres audio NR21-NR24 ($FF16-$FF19) configurés
 ; Modifie: a, bc, hl
 ConfigureAudioBgm:
     push bc
-    ld c, $16                   ; c = NR22 ($FF16) - Canal 2 Envelope
+    ld c, LOW(rNR21)            ; c = NR21 ($FF16) - Canal 2 Length/Pattern
     ld b, $04                   ; 4 octets à transférer
     jr AudioRegisterTransferLoop
 
@@ -9817,11 +9824,29 @@ ConfigureAudioWave_Entry:
     ld b, $05                   ; 5 octets à transférer
     jr AudioRegisterTransferLoop
 
-AudioData_003_6aed:
+; ConfigureAudioNoise
+; -------------------
+; Description: Configure le canal audio 4 (noise) pour les effets sonores
+;              Transfère 4 octets depuis HL vers les registres NR41-NR44
+; In:  hl = pointeur vers données audio (4 octets: length, envelope, poly, control)
+; Out: Registres audio NR41-NR44 ($FF20-$FF23) configurés
+; Modifie: a, bc, hl
+ConfigureAudioNoise:
     push bc
-    ld c, $20
-    ld b, $04
+    ld c, LOW(rNR41)            ; c = NR41 ($FF20) - Canal 4 Length
+    ld b, $04                   ; 4 octets à transférer
 
+; AudioRegisterTransferLoop
+; -------------------------
+; Description: Boucle générique de transfert de données vers registres audio hardware
+;              Copie B octets depuis [HL] vers registres séquentiels depuis [$FF00+C]
+; In:  hl = pointeur source vers données audio
+;      b = nombre d'octets à transférer
+;      c = offset registre de départ (sera additionné à $FF00)
+; Out: hl = pointeur avancé de B positions
+;      c = offset registre final + 1
+; Modifie: a, b, c, hl
+; Note: Utilisé par ConfigureAudioSe, ConfigureAudioBgm, ConfigureAudioWave, etc.
 AudioRegisterTransferLoop:
     ld a, [hl+]
     ldh [c], a
@@ -9833,10 +9858,29 @@ AudioRegisterTransferLoop:
     ret
 
 
+; SetAudioStatus
+; --------------
+; Description: Définit le statut audio global dans hAudioStatus
+; In:  a = nouveau statut audio à définir
+;      e = pointeur (sera incrémenté)
+; Out: [hAudioStatus] = a
+;      e = e + 1
+; Modifie: e
 SetAudioStatus:
     inc e
     ldh [hAudioStatus], a
 
+; IndexAudioTable
+; ---------------
+; Description: Indexe une table de pointeurs (words) et charge le pointeur résultant dans HL
+;              Calcule offset = (a-1)*2, puis charge word à [hl+offset] dans HL
+; In:  hl = adresse de base de la table de pointeurs
+;      a = index (1-based: 1 = première entrée)
+;      e = pointeur (sera incrémenté)
+; Out: hl = pointeur chargé depuis la table [hl + (a-1)*2]
+;      a = h (high byte du pointeur chargé)
+;      e = e + 1
+; Modifie: a, bc, e, hl
 IndexAudioTable:
     inc e
     dec a
