@@ -5657,6 +5657,14 @@
       "priority": 3
     },
     {
+      "address": "$67CA",
+      "node_type": "code",
+      "description": "ProcessAudioSnapshot_SetupSeData charge cette table dans HL",
+      "source": "$67F0",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$67EC",
       "node_type": "data",
       "description": "AudioConfigBgmData - Donn\u00e9es config BGM (4 octets)",
@@ -6233,10 +6241,10 @@
       "priority": 3
     },
     {
-      "address": "$67CA",
+      "address": "$67C5",
       "node_type": "code",
-      "description": "ProcessAudioSnapshot_SetupSeData charge cette table dans HL",
-      "source": "$67F0",
+      "description": "ProcessAudioSnapshot_ConfigureBgm - Point d'entr\u00e9e configuration audio",
+      "source": "$67CA",
       "bank": 3,
       "priority": 3
     }
@@ -6966,6 +6974,7 @@
     "$0C0D",
     "$2d1c",
     "$5605",
+    "$67CA",
     "$172D",
     "$7123",
     "$1a9e",
@@ -6987,6 +6996,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 3,
-  "total_explored": 744
+  "commits_since_push": 4,
+  "total_explored": 745
 }

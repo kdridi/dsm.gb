@@ -9110,6 +9110,12 @@ ProcessAudioSnapshot_ConfigureBgm:
     call ConfigureAudioBgm
     jr ProcessAudioSnapshot_ClearStateAndReturn
 
+; ProcessAudioSnapshot_SetupSeData
+; --------------------------------
+; Description: Configure les données audio SE (Sound Effects) pour le snapshot courant
+; In:  Aucun
+; Out: Saute vers ProcessAudioSnapshot_ConfigureBgm avec HL = AudioConfigSeData
+; Modifie: HL
 ProcessAudioSnapshot_SetupSeData:
     ld hl, AudioConfigSeData
     jr ProcessAudioSnapshot_ConfigureBgm
