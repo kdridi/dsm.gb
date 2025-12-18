@@ -9690,39 +9690,29 @@ AudioData_003_69e4:
     ret
 
 
+; DispatchAudioWave_Setup
+; ------------------------
+; Description: Configure et dispatche une commande audio waveform avec pattern à $69F1
+; In:  de = pointeur contexte audio channel
+; Out: Dispatch vers DispatchAudioCommand avec a=$06, hl=$69F1
+; Modifie: a, hl
 DispatchAudioWave_Setup:
-    ld a, $06
-    ld hl, $69f1
+    ld a, $06                   ; Command ID = $06
+    ld hl, AudioWaveformPattern_69F1
 
 DispatchAudioWave_Entry:
     jp DispatchAudioCommand
 
 
-    nop
-    jr nc, AudioData_003_69e4
+; AudioWaveformPattern_69F1
+; -------------------------
+; Description: Pattern de données audio pour commande waveform $06
+; Format: 30 octets de séquence audio (patterns répétés)
+AudioWaveformPattern_69F1:
+    db $00, $30, $F0, $A7, $C7, $00, $30, $F0, $B1, $C7
+    db $00, $30, $F0, $BA, $C7, $00, $30, $F0, $C4, $C7
+    db $00, $30, $F0, $D4, $C7, $00, $30, $F0, $CB, $C7
 
-    and a
-    rst $00
-    nop
-    jr nc, DispatchAudioWave_Setup
-
-    or c
-    rst $00
-    nop
-    jr nc, DispatchAudioWave_Entry
-
-    cp d
-    rst $00
-    nop
-    jr nc, @-$0e
-
-    call nz, LCDStat_SetLYC
-    jr nc, @-$0e
-
-    call nc, LCDStat_SetLYC
-    jr nc, @-$0e
-
-    set 0, a
     call UpdateAudioFrameCounter
     and a
     ret nz
