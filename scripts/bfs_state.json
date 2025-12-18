@@ -6049,6 +6049,14 @@
       "priority": 3
     },
     {
+      "address": "$69F1",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 - Pattern audio 30 octets pour waveform",
+      "source": "$69E9",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6A0F",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -7001,10 +7009,42 @@
       "priority": 3
     },
     {
-      "address": "$69F1",
+      "address": "$69F6",
       "node_type": "data",
-      "description": "AudioWaveformPattern_69F1 - Pattern audio 30 octets pour waveform",
-      "source": "$69E9",
+      "description": "AudioWaveformPattern_69F1 + 5 - Sous-pattern s\u00e9quence 2 (note $B1)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$69FB",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 10 - Sous-pattern s\u00e9quence 3 (note $BA)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A00",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 15 - Sous-pattern s\u00e9quence 4 (note $C4)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A05",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 20 - Sous-pattern s\u00e9quence 5 (note $D4)",
+      "source": "$69F1",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6A0A",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_69F1 + 25 - Sous-pattern s\u00e9quence 6 (note $CB)",
+      "source": "$69F1",
       "bank": 3,
       "priority": 3
     }
@@ -7557,6 +7597,7 @@
     "$6961",
     "$69E9",
     "$5838",
+    "$69F1",
     "$221c",
     "$0028",
     "$7442",
@@ -7817,6 +7858,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 806
+  "commits_since_push": 1,
+  "total_explored": 807
 }

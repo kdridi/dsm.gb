@@ -9706,12 +9706,17 @@ DispatchAudioWave_Entry:
 
 ; AudioWaveformPattern_69F1
 ; -------------------------
-; Description: Pattern de données audio pour commande waveform $06
-; Format: 30 octets de séquence audio (patterns répétés)
+; Description: Pattern de données audio pour commande waveform $06 (30 octets)
+; Format: 6 séquences de 5 octets avec structure répétée: $00 $30 $F0 <note> $C7
+; Notes: $A7, $B1, $BA, $C4, $D4, $CB (variation mélodique)
+; Usage: Chargé dans hl par DispatchAudioWave_Setup avant dispatch vers DispatchAudioCommand
 AudioWaveformPattern_69F1:
-    db $00, $30, $F0, $A7, $C7, $00, $30, $F0, $B1, $C7
-    db $00, $30, $F0, $BA, $C7, $00, $30, $F0, $C4, $C7
-    db $00, $30, $F0, $D4, $C7, $00, $30, $F0, $CB, $C7
+    db $00, $30, $F0, $A7, $C7  ; Séquence 1: note $A7
+    db $00, $30, $F0, $B1, $C7  ; Séquence 2: note $B1
+    db $00, $30, $F0, $BA, $C7  ; Séquence 3: note $BA
+    db $00, $30, $F0, $C4, $C7  ; Séquence 4: note $C4
+    db $00, $30, $F0, $D4, $C7  ; Séquence 5: note $D4
+    db $00, $30, $F0, $CB, $C7  ; Séquence 6: note $CB
 
     call UpdateAudioFrameCounter
     and a
