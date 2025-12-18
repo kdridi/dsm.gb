@@ -9629,16 +9629,25 @@ AudioChannel1Routine_699E:
     jp DispatchAudioCommand
 
 
-; AudioData_003_69AA
-; -------------------
-; Description: Pattern audio (5 bytes) + table d'envelope (14 bytes)
-;              - $69AA-$69AE: Pattern audio utilisé par DispatchAudioCommand (commande $06)
-;              - $69AF-$69BC: Table d'envelope lue par AudioChannel1Routine_69CB via wStateGraphics
-AudioData_003_69AA:
-    db $3A, $80, $E3, $20, $86          ; $69AA-$69AE: Audio pattern data
-    db $F3, $B3, $A3, $93, $83          ; $69AF-$69B3: Envelope sequence (index 0-4)
-    db $73, $63, $53, $43, $33          ; $69B4-$69B8: Envelope sequence (index 5-9)
-    db $23, $23, $13, $00               ; $69B9-$69BC: Envelope sequence (index 10-13, $00 = end)
+    ld a, [hl-]
+    add b
+    db $e3
+    jr nz, ProcessAudioFrame
+
+    di
+    or e
+    and e
+    sub e
+    add e
+    ld [hl], e
+    ld h, e
+    ld d, e
+    ld b, e
+    inc sp
+    inc hl
+    inc hl
+    inc de
+    nop
 
 ; AudioChannel1Routine_69BD
 ; --------------------------
@@ -9655,6 +9664,16 @@ AudioChannel1Routine_69BD:
     ld hl, AudioData_003_69AA
     jp DispatchAudioCommand
 
+; AudioData_003_69AA
+; -------------------
+; Description: Pattern audio (5 bytes) + table d'envelope (14 bytes)
+;              - $69AA-$69AE: Pattern audio utilisé par DispatchAudioCommand (commande $06)
+;              - $69AF-$69BC: Table d'envelope lue par AudioChannel1Routine_69CB via wStateGraphics
+AudioData_003_69AA:
+    db $3A, $80, $E3, $20, $86          ; $69AA-$69AE: Audio pattern data
+    db $F3, $B3, $A3, $93, $83          ; $69AF-$69B3: Envelope sequence (index 0-4)
+    db $73, $63, $53, $43, $33          ; $69B4-$69B8: Envelope sequence (index 5-9)
+    db $23, $23, $13, $00               ; $69B9-$69BC: Envelope sequence (index 10-13, $00 = end)
 
 ; AudioChannel1Routine_69CB
 ; --------------------------

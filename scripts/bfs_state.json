@@ -6991,6 +6991,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$69AA",
+      "node_type": "data",
+      "description": "AudioData_003_69AA - Pattern audio (5 bytes) + table envelope (14 bytes)",
+      "source": "$69BD",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7092,6 +7100,7 @@
     "$02A3",
     "$650D",
     "$6999",
+    "$69BD",
     "$2d0a",
     "$0E28",
     "$4DA0",
@@ -7798,6 +7807,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 2,
-  "total_explored": 803
+  "commits_since_push": 3,
+  "total_explored": 804
 }
