@@ -11596,7 +11596,7 @@ AnimationFrameData_73ab:  ; Annotation originale [$73ab], adresse logique désas
     db $01, $32, $01  ; IDs tiles
     db $9d, $30, $00  ; Terminateur + padding (26 bytes total)
 
-PaddingZone_003_73c1:  ; [$73be] AnimationFrameData_73be
+AnimationFrameData_73be:  ; [$73be] Animation sequence (226 bytes of tile commands)
     add b        ; $80
     and c        ; $a1
     ld e, b      ; $58 = 'X'
