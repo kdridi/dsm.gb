@@ -11854,43 +11854,31 @@ AudioSequencePattern_728E:
     dw $FFFF                   ; $7290: Séparateur/marqueur de fin
     dw $728E                   ; $7292: Auto-référence (boucle?)
 
-; Continuation du bloc mal désassemblé - données audio brutes
-    dw $739D                   ; $7294: Pointeur ou données audio
-    db $00
-    add b
-    xor c
-    ld bc, $1aa2
-    ld bc, $1022
-    inc d
-    jr @+$1c
-
-    ld bc, $2228
-    ld bc, $1a01
-    ld bc, $1022
-    inc d
-    jr @+$1c
-
-    ld bc, $01a3
-    xor c
-    ld bc, $0001
-    sbc l
-    sub e
-    nop
-    add b
-    and d
-    ld a, [de]
-    ld bc, $1022
-    inc d
-    jr @+$1c
-
-    ld bc, $2228
-    ld bc, $1a01
-    ld bc, $1022
-    inc d
-    jr @+$1c
-
-    ld bc, $01a4
-    nop
+; AudioPattern_7294
+; -----------------
+; Description: Pattern audio - Table de configuration avec pointeur et paramètres
+; Format: [Pointeur 16-bit] [Bytes de configuration/paramètres audio]
+; In:  Référencé par AudioSequencePattern_7282
+; Out: Pointeur vers $739D
+; Utilisation: Structure de données pour le moteur audio
+AudioPattern_7294:
+    dw $739D                   ; $7294-7295: Pointeur vers données audio à $739D
+    db $00, $80, $A9           ; $7296-7298: Paramètres audio (flags/config)
+    db $01, $A2, $1A           ; $7299-729B: Configuration
+    db $01, $22, $10, $14      ; $729C-729F: Paramètres
+    db $18, $1A, $01, $28      ; $72A0-72A3: Données
+    db $22, $01, $01, $1A      ; $72A4-72A7: Pattern
+    db $01, $22, $10, $14      ; $72A8-72AB: Configuration
+    db $18, $1A, $01, $A3      ; $72AC-72AF: Paramètres
+    db $01, $A9, $01, $01      ; $72B0-72B3: Données
+    db $00, $9D, $93, $00      ; $72B4-72B7: Config (note: $9D93 pourrait être un pointeur)
+    db $80, $A2, $1A, $01      ; $72B8-72BB: Paramètres
+    db $22, $10, $14, $18      ; $72BC-72BF: Configuration
+    db $1A, $01, $28, $22      ; $72C0-72C3: Données
+    db $01, $01, $1A, $01      ; $72C4-72C7: Pattern
+    db $22, $10, $14, $18      ; $72C8-72CB: Configuration
+    db $1A, $01, $A4, $01      ; $72CC-72CF: Paramètres
+    db $00                     ; $72D0: Terminateur ou padding (61 bytes total)
 
 ; AudioDataRaw_003_72d1
 ; ---------------------
