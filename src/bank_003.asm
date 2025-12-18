@@ -11534,10 +11534,10 @@ AudioMusicSequence_70D6:
 ; In:  Accédée via AudioDataPointerTable[7] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (5 patterns audio)
 ; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
-; Références sortantes: AudioSequencePattern_7077 ($7077), $70EC, AudioSequencePattern_70F8, AudioSequencePattern_7104, $7110
+; Références sortantes: AudioSequencePattern_7077 ($7077), $70EC, AudioSequencePattern_70F8, AudioSequencePattern_7104, AudioSequencePattern_7110
 AudioMusicSequence_70E1:
     db $00
-    dw AudioSequencePattern_7077, $70EC, AudioSequencePattern_70F8, AudioSequencePattern_7104, $7110
+    dw AudioSequencePattern_7077, $70EC, AudioSequencePattern_70F8, AudioSequencePattern_7104, AudioSequencePattern_7110
     jr @+$73
 
     ld b, b
@@ -11567,6 +11567,17 @@ AudioSequencePattern_70F8:
 ; Utilisation: Données audio lues par le moteur sonore via ProcessAudioRequest
 AudioSequencePattern_7104:
     db $30, $71, $E2, $71, $E2, $71, $13, $72, $FF, $FF, $06, $71
+
+; AudioSequencePattern_7110
+; -------------------------
+; Description: Pattern audio #5 pour séquence musicale #7
+; Format: Données audio mal désassemblées comme du code (77 bytes)
+; In:  Référencé par AudioMusicSequence_70E1[5]
+; Utilisation: Données audio lues par le moteur sonore via ProcessAudioRequest
+; WARNING: Les instructions ci-dessous ne sont PAS du code exécutable mais des
+;          DONNÉES AUDIO mal désassemblées. Les opcodes générés correspondent
+;          aux bytes audio attendus pour préserver le hash du binaire.
+AudioSequencePattern_7110:
     ld h, l
     ld [hl], d
     ld [hl], h
