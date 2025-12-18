@@ -7113,6 +7113,14 @@
       "priority": 3
     },
     {
+      "address": "$75D6",
+      "node_type": "data",
+      "description": "Sous-pattern audio (donn\u00e9es musicales brutes)",
+      "source": "$75EC",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$75EC",
       "node_type": "data",
       "description": "Audio pattern data r\u00e9f\u00e9renc\u00e9 par s\u00e9quence #5",
@@ -7141,6 +7149,14 @@
       "node_type": "data",
       "description": "Sous-pattern audio manquant (12 bytes: $9D $37 $70 $20 $A5...) - NON LABELLIS\u00c9",
       "source": "$75D4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7624",
+      "node_type": "data",
+      "description": "Sous-pattern audio (donn\u00e9es musicales brutes)",
+      "source": "$75EC",
       "bank": 3,
       "priority": 3
     },
@@ -7855,22 +7871,6 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
-    },
-    {
-      "address": "$75D6",
-      "node_type": "data",
-      "description": "Sous-pattern audio (donn\u00e9es musicales brutes)",
-      "source": "$75EC",
-      "bank": 3,
-      "priority": 3
-    },
-    {
-      "address": "$7624",
-      "node_type": "data",
-      "description": "Sous-pattern audio (donn\u00e9es musicales brutes)",
-      "source": "$75EC",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7961,6 +7961,7 @@
     "$24c4",
     "$3565",
     "$75C8",
+    "$75D6",
     "$5a15",
     "$22C2",
     "$336c",
@@ -8776,6 +8777,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 901
+  "commits_since_push": 1,
+  "total_explored": 902
 }

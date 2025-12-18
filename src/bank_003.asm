@@ -12519,17 +12519,18 @@ AudioSequencePattern_75BE:       ; [$75BE] - Sous-pattern partagé (référencé
 ; AudioSequencePattern_75C6
 ; -------------------------
 ; Description: Pattern audio pour séquence musicale (table de pointeurs vers sous-patterns)
-; Format: 6 pointeurs (word) vers sous-patterns audio + terminateur $FFFF
-; In:  Référencé par AudioMusicSequence_70CB[3] via pointeur $75C8
+; Format: 5 pointeurs (word) vers sous-patterns audio + terminateur $FFFF
+; In:  Point d'entrée via $75C8 (AudioMusicSequence_70CB[3])
 ; Out: Consommé par le moteur audio pour séquencer les patterns
 ; Modifie: Utilisé par le moteur audio pour accéder aux patterns
-; Note: Utilise AudioSequencePattern_75BE comme premier sous-pattern (optimisation mémoire)
+; Note: Structure avec 3 points d'entrée: $75C6, $75C8 (référencé), $75CA (référencé par AudioSequencePattern_75D2)
 ; Références sortantes: AudioSequencePattern_75BE, $75F4, $7677, $7735
 AudioSequencePattern_75C6:       ; [$75C6]
     dw AudioSequencePattern_75BE ; Pointeur vers sous-pattern partagé $75BE
 AudioSequencePattern_75C8:       ; [$75C8] - Point d'entrée alternatif (référencé par AudioMusicSequence_70CB[3])
-    dw $75F4, $7677, $7677       ; Pointeurs vers sous-patterns (note: $7677 répété 2×)
-    dw $7735                     ; Dernier pointeur
+    dw $75F4                     ; Pointeur vers sous-pattern
+AudioSequencePattern_75CA:       ; [$75CA] - Point d'entrée alternatif (référencé par AudioSequencePattern_75D2[0])
+    dw $7677, $7677, $7735       ; Pointeurs vers sous-patterns ($7677 répété 2×)
     db $ff, $ff                  ; Terminateur
 
 ; AudioSequencePattern_75D2
@@ -12539,12 +12540,13 @@ AudioSequencePattern_75C8:       ; [$75C8] - Point d'entrée alternatif (référ
 ; In:  Référencé par AudioMusicSequence_70CB[4] via pointeur $75D4
 ; Out: Consommé par le moteur audio pour séquencer les patterns
 ; Modifie: Utilisé par le moteur audio pour accéder aux patterns
-; Note: Pattern long avec $76B5 répété 5× (boucle audio?)
-; Références sortantes: $75CA, $761C, $76B5, $76D6, $7773
+; Note: Pattern long avec $76B5 répété 6× (boucle audio)
+; Références sortantes: AudioSequencePattern_75CA, $761C, $76B5, $76D6, $7773
 AudioSequencePattern_75D2:       ; [$75D2]
-    dw $75CA                     ; Pointeur vers sous-pattern
+    dw AudioSequencePattern_75CA ; Pointeur vers sous-pattern partagé $75CA
 AudioSequencePattern_75D4:       ; [$75D4] - Point d'entrée alternatif (référencé par AudioMusicSequence_70CB[4])
     dw $761C                     ; Pointeur vers sous-pattern
+AudioSequencePattern_75D6:       ; [$75D6] - Point d'entrée alternatif (référencé par AudioSequencePattern_75EA[0])
     dw $76B5, $76B5, $76B5       ; Pointeur $76B5 répété 3× (boucle)
     dw $76D6                     ; Pointeur vers autre sous-pattern
     dw $76B5, $76B5, $76B5       ; Pointeur $76B5 répété 3× (boucle)
@@ -12559,9 +12561,9 @@ AudioSequencePattern_75D4:       ; [$75D4] - Point d'entrée alternatif (référ
 ; Out: Consommé par le moteur audio pour séquencer les patterns
 ; Modifie: Utilisé par le moteur audio pour accéder aux patterns
 ; Note: AudioSequencePattern_75EC partage les 6 derniers bytes (optimisation mémoire)
-; Références sortantes: $75D6, $7624, $77BD
+; Références sortantes: AudioSequencePattern_75D6, $7624, $77BD
 AudioSequencePattern_75EA:       ; [$75EA]
-    dw $75D6                     ; Pointeur vers sous-pattern
+    dw AudioSequencePattern_75D6 ; Pointeur vers sous-pattern partagé $75D6
 AudioSequencePattern_75EC:       ; [$75EC] - Point d'entrée alternatif (référencé par AudioMusicSequence_70CB[5])
     dw $7624, $77BD              ; Pointeurs vers sous-patterns (partagés avec 75EA)
     db $ff, $ff                  ; Terminateur
