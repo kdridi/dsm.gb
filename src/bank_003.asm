@@ -11487,40 +11487,42 @@ AudioMusicSequence_70AA:
 AudioMusicSequence_70B5:
     db $00                     ; Index de séquence
     dw $7077, $7282, $7288, $0000, $728E
-    nop
-    ld d, a
-    ld [hl], b
 
-PaddingZone_003_70c3:
-    inc hl
+; AudioMusicSequence_70C0
+; ------------------------
+; Description: Séquence musicale #4 - Liste de pointeurs vers patterns/notes audio
+; Format: [index_byte] [dw ptr1, dw ptr2, dw ptr3, dw ptr4, dw ptr5]
+; In:  Accédée via AudioDataPointerTable[4] par ProcessAudioRequest
+; Out: Pointeurs vers données audio (5 patterns audio)
+; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
+; Références sortantes: AudioSequencePattern_7057 ($7057), $7423, $742F, $743B, $7447
+AudioMusicSequence_70C0:
+    db $00
+    dw AudioSequencePattern_7057, $7423, $742F, $743B, $7447
 
-PaddingZone_003_70c4:
-    ld [hl], h
-    cpl
-    ld [hl], h
-    dec sp
-    ld [hl], h
-    ld b, a
-    ld [hl], h
-    nop
-    ld h, d
-    ld [hl], b
-    cp h
-    ld [hl], l
-    ret z
+; AudioMusicSequence_70CB
+; ------------------------
+; Description: Séquence musicale #5 - Liste de pointeurs vers patterns/notes audio
+; Format: [index_byte] [dw ptr1, dw ptr2, dw ptr3, dw ptr4, dw ptr5]
+; In:  Accédée via AudioDataPointerTable[5] par ProcessAudioRequest
+; Out: Pointeurs vers données audio (5 patterns audio)
+; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
+; Références sortantes: $7062, $75BC, $75C8, $75D4, $75EC
+AudioMusicSequence_70CB:
+    db $00
+    dw $7062, $75BC, $75C8, $75D4, $75EC
 
-    ld [hl], l
-    call nc, $ec75
-    ld [hl], l
-    nop
-    ld h, d
-    ld [hl], b
-    jp nc, $dc77
-
-    ld [hl], a
-    and $77
-    ldh a, [c]
-    ld [hl], a
+; AudioMusicSequence_70D6
+; ------------------------
+; Description: Séquence musicale #6 - Liste de pointeurs vers patterns/notes audio
+; Format: [index_byte] [dw ptr1, dw ptr2, dw ptr3, dw ptr4, dw ptr5]
+; In:  Accédée via AudioDataPointerTable[6] par ProcessAudioRequest
+; Out: Pointeurs vers données audio (5 patterns audio)
+; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
+; Références sortantes: $7062, $77D2, $77DC, $77E6, $77F2
+AudioMusicSequence_70D6:
+    db $00
+    dw $7062, $77D2, $77DC, $77E6, $77F2
     nop
     ld [hl], a
     ld [hl], b
