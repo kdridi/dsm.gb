@@ -11871,7 +11871,17 @@ AudioPattern_7294:
     db $01, $22, $10, $14      ; $72A8-72AB: Configuration
     db $18, $1A, $01, $A3      ; $72AC-72AF: Paramètres
     db $01, $A9, $01, $01      ; $72B0-72B3: Données
-    db $00, $9D, $93, $00      ; $72B4-72B7: Config (note: $9D93 pourrait être un pointeur)
+    db $00                     ; $72B4: Byte de contrôle/terminateur
+; AudioSubPattern_72B5
+; --------------------
+; Description: Sous-pattern audio référencé par AudioSequencePattern_7288
+; Format: Pointeur 16-bit suivi de bytes de configuration audio
+; In:  Référencé par AudioSequencePattern_7288[$7288]
+; Out: Pointeur vers $939D (données audio non encore explorées)
+; Utilisation: Sous-pattern dans la séquence audio
+AudioSubPattern_72B5:
+    dw $939D                   ; $72B5-72B6: Pointeur vers données audio à $939D
+    db $00                     ; $72B7: Byte de contrôle
     db $80, $A2, $1A, $01      ; $72B8-72BB: Paramètres
     db $22, $10, $14, $18      ; $72BC-72BF: Configuration
     db $1A, $01, $28, $22      ; $72C0-72C3: Données
