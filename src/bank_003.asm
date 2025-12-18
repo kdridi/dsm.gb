@@ -9259,7 +9259,7 @@ InitializeWaveAudio_ResetWave:
 ; -----------------
 ; Description: Charge wStateDisplay et saute vers la routine de dispatch qui teste plusieurs états
 ; In:  (none)
-; Out: z flag = 1 si GameState est 4, 6, 8 ou $0B (via AudioChannelDispatchCase_05)
+; Out: z flag = 1 si GameState correspond à ANIMATION, POST_LEVEL, CENTER ou PIPE_DOWN
 ; Modifie: a
 SkipIfGameState04:
     ld a, [wStateDisplay]
@@ -9277,21 +9277,21 @@ SkipIfGameState05:
 
 ; AudioChannelDispatchCase_05
 ; ---------------------------
-; Description: Teste si wStateDisplay vaut 4, 6, 8 ou $0B et retourne avec z=1 si match
+; Description: Teste si wStateDisplay correspond à des états de transition/animation
 ; In:  a = valeur de wStateDisplay
-; Out: z flag = 1 si a vaut $04, $06, $08 ou $0B, sinon z=0
+; Out: z flag = 1 si a vaut ANIMATION, POST_LEVEL, CENTER ou PIPE_DOWN, sinon z=0
 ; Modifie: (none sauf flags)
 AudioChannelDispatchCase_05:
-    cp $04
+    cp GAME_STATE_ANIMATION ; $04 - Animation transition
     ret z
 
-    cp $06
+    cp GAME_STATE_POST_LEVEL ; $06 - Transition post-niveau
     ret z
 
-    cp $08
+    cp GAME_STATE_CENTER ; $08 - Joueur au centre
     ret z
 
-    cp $0b
+    cp GAME_STATE_PIPE_DOWN ; $0B - Descente tuyau
     ret z
 
     ret

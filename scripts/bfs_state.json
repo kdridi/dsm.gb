@@ -5753,6 +5753,14 @@
       "priority": 3
     },
     {
+      "address": "$68A1",
+      "node_type": "code",
+      "description": "AudioChannelDispatchCase_05 - Routine de dispatch qui teste si wStateDisplay vaut 4, 6, 8 ou $0B",
+      "source": "$6890",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$68C3",
       "node_type": "code",
       "description": "Routine audio canal 1 r\u00e9f\u00e9renc\u00e9e depuis AudioChannel1PointerTable",
@@ -6655,14 +6663,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$68A1",
-      "node_type": "code",
-      "description": "AudioChannelDispatchCase_05 - Routine de dispatch qui teste si wStateDisplay vaut 4, 6, 8 ou $0B",
-      "source": "$6890",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7209,6 +7209,7 @@
     "$19fc",
     "$4FEC",
     "$2d8b",
+    "$68A1",
     "$29b8",
     "$1626",
     "$5206",
@@ -7430,6 +7431,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 2,
-  "total_explored": 763
+  "commits_since_push": 3,
+  "total_explored": 764
 }
