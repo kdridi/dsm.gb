@@ -11510,10 +11510,10 @@ AudioMusicSequence_70C0:
 ; In:  Accédée via AudioDataPointerTable[5] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (5 patterns audio)
 ; Utilisation: Séquence de 5 patterns audio pour musique/effets sonores
-; Références sortantes: AudioPatternData_7062, $75BC, $75C8, $75D4, $75EC
+; Références sortantes: AudioPatternData_7062, AudioSequencePattern_75BC, $75C8, $75D4, $75EC
 AudioMusicSequence_70CB:
     db $00
-    dw AudioPatternData_7062, $75BC, $75C8, $75D4, $75EC
+    dw AudioPatternData_7062, AudioSequencePattern_75BC, $75C8, $75D4, $75EC
 
 ; AudioMusicSequence_70D6
 ; ------------------------
@@ -12501,9 +12501,19 @@ AudioSubPattern_75A3:       ; [$75A3]
     db $a9, $06, $01, $06        ; Commande $A9 + param $06 + params $01/$06
     db $00                       ; Terminateur
 
-    db $08, $76, $28, $76        ; Données de transition (possibles pointeurs ou padding)
-    db $28, $76, $f7, $76        ; Continuation transition pattern
-    db $ff, $ff                  ; Marqueur de fin
+; AudioSequencePattern_75BC
+; -------------------------
+; Description: Pattern audio pour séquence musicale #5 (référencé par AudioMusicSequence_70CB[2])
+; Format: 12 bytes de données audio (pointeurs et séparateurs)
+; In:  Référencé par AudioMusicSequence_70CB[2] via pointeur $75BC
+; Out: Consommé par le moteur audio
+; Modifie: Utilisé par le moteur audio pour accéder aux patterns
+; Note: Structure optimisée avec possibles pointeurs vers sous-patterns
+; Références sortantes: (aucune directe - données de contrôle)
+AudioSequencePattern_75BC:       ; [$75BC]
+    db $08, $76, $28, $76        ; Possibles pointeurs: dw $7608, dw $7628
+    db $28, $76, $f7, $76        ; Suite: dw $7628, dw $76F7
+    db $ff, $ff                  ; Terminateur/séparateur $FFFF
 
 PaddingZone_003_75c6:
     cp [hl]

@@ -7799,6 +7799,22 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
+    },
+    {
+      "address": "$7628",
+      "node_type": "data",
+      "description": "Pointeur vers pattern audio (r\u00e9f\u00e9renc\u00e9 2\u00d7)",
+      "source": "$75BC",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$76F7",
+      "node_type": "data",
+      "description": "Pointeur vers pattern audio (non labellis\u00e9)",
+      "source": "$75BC",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -8340,6 +8356,7 @@
     "$6AB9",
     "$0C07",
     "$4CC5",
+    "$75BC",
     "$2207",
     "$208E",
     "$4D56",
@@ -8699,6 +8716,6 @@
     "$4D6D",
     "$147F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 896
+  "commits_since_push": 1,
+  "total_explored": 897
 }
