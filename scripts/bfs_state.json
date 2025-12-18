@@ -6255,6 +6255,46 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$6AE6",
+      "node_type": "code",
+      "description": "ConfigureAudioWave - Copie 5 octets config vers NR30-NR34",
+      "source": "$67F4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6B19",
+      "node_type": "code",
+      "description": "LoadAudioRegisterRange - Copie 16 octets waveform vers $FF30-$FF3F",
+      "source": "$67F4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$6803",
+      "node_type": "data",
+      "description": "WaveAudioConfigData - Config NR30-NR34 (5 octets)",
+      "source": "$67F4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$7047",
+      "node_type": "data",
+      "description": "WaveAudioPattern - Waveform pattern (16 octets)",
+      "source": "$67F4",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$DF3F",
+      "node_type": "data",
+      "description": "Flag/\u00e9tat audio (bit 7 = canal wave actif)",
+      "source": "$67F4",
+      "bank": null,
+      "priority": 3
     }
   ],
   "visited": [
@@ -6380,6 +6420,7 @@
     "$3565",
     "$2D91",
     "$2d26",
+    "$67F4",
     "$4AE4",
     "$4D69",
     "$4000:3",
@@ -7006,6 +7047,6 @@
     "$049D",
     "$1CDB"
   ],
-  "commits_since_push": 1,
-  "total_explored": 747
+  "commits_since_push": 2,
+  "total_explored": 748
 }

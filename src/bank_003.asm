@@ -9177,10 +9177,17 @@ AudioConfigBgmData:
 AudioConfigSeData:
     db $b2, $e3, $c1, $c7          ; Config SE: Envelope=$b2, Freq=$03e3, Control=$c7 (variant)
 
+; InitializeWaveAudio
+; -------------------
+; Description: Initialise et contrôle le canal wave (canal 3) de l'audio Game Boy
+; In:  wStateVar10 = flag d'initialisation ($01 = init complète)
+;      wStateVar11 = flag d'animation ($01 = mode animation fréquence)
+; Out: Canal wave configuré avec pattern et registres NR30-NR34
+; Modifie: a, bc, hl, wStateVar14, wStateVar15
 InitializeWaveAudio:
     ld a, [wStateVar10]
     cp $01
-    jr z, @+$0f
+    jr z, InitializeWaveAudio_InitWave
 
     ld a, [wStateVar11]
     cp $01
@@ -9188,20 +9195,19 @@ InitializeWaveAudio:
 
     ret
 
+    ; Données de config wave NR30-NR34 (5 octets)
+WaveAudioConfigData:
+    db $80, $3a, $20, $b0, $c6
 
-    add b
-    ld a, [hl-]
-    jr nz, @-$4e
-
-    add $ea
-    pop af
-    rst $18
+InitializeWaveAudio_InitWave:
+    ; Active le canal wave et configure la waveform
+    ld [wStateVar11], a
     ld hl, $df3f
     set 7, [hl]
     xor a
     ld [wStateVar14], a
     ldh [rNR30], a
-    ld hl, $7047
+    ld hl, WaveAudioPattern
     call LoadAudioRegisterRange
     ldh a, [rDIV]
     and AUDIO_POSITION_MASK
@@ -9209,9 +9215,8 @@ InitializeWaveAudio:
     ld a, $d0
     add b
     ld [wStateVar15], a
-    ld hl, $6803
+    ld hl, WaveAudioConfigData
     jp ConfigureAudioWave
-
 
 InitializeWaveAudio_ConfigureWave:
     ldh a, [rDIV]
@@ -10930,20 +10935,11 @@ HandleAudioConditionalLogic:  ; Alias pour compatibilité
     cp $c9
     add l
     ld b, d
-    ld de, $0100
-    inc hl
-    ld b, l
-    ld h, a
-    adc c
-    xor e
-    call z, LCDStat_PopAndReti
-    inc c
-    or b
-    cp e
-    nop
-    ei
-    cp e
-    cp e
+    db $11, $00  ; Partie de "ld de, $0100" (2 premiers octets)
+WaveAudioPattern:  ; $7047 - Pattern wave RAM (16 octets) chargé dans $FF30-$FF3F
+    db $01, $23, $45, $67, $89, $ab, $cc, $cd  ; Première moitié du waveform
+    db $00, $0c, $b0, $bb, $00, $fb, $bb, $bb  ; Seconde moitié du waveform
+    ; Fin du pattern wave à $7057 - reprise du code mal désassemblé
     nop
     inc bc
     ld b, $0c
