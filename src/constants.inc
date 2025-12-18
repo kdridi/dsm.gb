@@ -451,6 +451,7 @@ DEF wStateVar16     EQU $DFF6   ; Variable état 16
 DEF wStateVar17     EQU $DFF7   ; Variable état 17
 DEF wStateFinal     EQU $DFF8   ; Flag final état
 DEF wStateEnd       EQU $DFF9   ; Marqueur fin état
+DEF wAudioFrameCounter EQU $DFFC   ; Compteur de frame audio canal 4 (noise)
 
 ; === Adresses ROM ===
 

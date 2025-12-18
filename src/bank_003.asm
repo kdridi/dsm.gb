@@ -9920,7 +9920,7 @@ AudioChannel4Routine_6A75:
     and a
     ret nz
 
-    ld hl, $dffc        ; Pointeur vers compteur de frame audio ($DFFC)
+    ld hl, wAudioFrameCounter
     ld c, [hl]
     inc [hl]            ; Incrémente le compteur
     ld b, $00
@@ -10276,13 +10276,23 @@ CheckAudioChannel1:
     ret
 
 
+; CheckAudioChannel4
+; ------------------
+; Description: Vérifie et dispatche l'état du canal audio 4 (noise) selon wStateFinal/wStateEnd
+;              Si wStateFinal != 0, active le bit 7 de wComplexState4F et route via AudioChannel4StatusTable
+;              Sinon, indexe AudioChannel4PointerTable selon wStateEnd pour dispatcher la routine appropriée
+; In:  de = wStateFinal
+;      [wStateFinal] = flag final (0 = utilise wStateEnd, !=0 = utilise status table)
+;      [wStateEnd] = index dans AudioChannel4PointerTable si wStateFinal==0
+; Out: Saute vers routine canal 4 appropriée ou retourne si fin
+; Modifie: af, de, hl (via SetAudioStatus/IndexAudioTable)
 CheckAudioChannel4:
     ld de, wStateFinal
     ld a, [de]
     and a
     jr z, .audioChannel4Path
 
-    ld hl, $df4f
+    ld hl, wComplexState4F
     set 7, [hl]
     ld hl, AudioChannel4StatusTable
     call SetAudioStatus
