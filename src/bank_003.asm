@@ -8950,7 +8950,7 @@ UnreachableCodeData_003_07:
 ;
 ; Index -> Routine:
 ;  0 -> AudioChannel1Routine_68AE (dispatch $10 vers $6886 + init graphics state)
-;  1 -> AudioChannel1Routine_68E3 (dispatch $03 vers $688B si game state ok)
+;  1 -> AudioChannel1Routine_68E3 (dispatch $03 vers AudioConfigData_688B si game state ok)
 ;  2 -> AudioChannel1Routine_6936 (dispatch $08 vers $692C si game state ok)
 ;  3 -> AudioChannel1Routine_6973 (init wave command avec $10)
 ;  4 -> AudioChannel1Routine_690C (dispatch séquence audio si pas ANIMATION)
@@ -9285,9 +9285,10 @@ AudioChannel1Routine_687A:
 ; --------------------
 ; Description: Configuration audio canal 1 - Séquence de patterns waveform
 ; Format: Séries de 5 bytes [NR10 sweep, NR11 pattern, NR12 envelope, NR13 freq_low, NR14 freq_high]
-; Référencée par: AudioChannel1Routine_68AE
+; Référencée par: AudioChannel1Routine_68AE (entry 0), AudioChannel1Routine_68E3 (entry 1)
 AudioConfigData_6886:
     db $00, $80, $D2, $0A, $86  ; sweep=$00, pattern=$80, envelope=$D2, freq=$860A
+AudioConfigData_688B:
     db $3D, $80, $A3, $09, $87  ; sweep=$3D, pattern=$80, envelope=$A3, freq=$8709
 
 ; SkipIfGameState04
@@ -9404,7 +9405,7 @@ AudioChannel1Routine_68E3:
     ret z
 
     ld a, $03
-    ld hl, $688b
+    ld hl, AudioConfigData_688B
     jp DispatchAudioCommand
 
 ; AudioChannel1Routine_68EF
