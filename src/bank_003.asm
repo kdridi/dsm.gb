@@ -11464,20 +11464,16 @@ AudioMusicSequence_709F:
     dw AudioSequencePattern_7077, $73A3, $73A7, $73A9
     dw $0000                   ; Terminateur
 
-; AudioMusicSequence_70AA (index 2) - zone mal désassemblée suivante
-    nop
-    ld h, d
-
-AudioDataRaw_003_70ac:
-    ld [hl], b
-    jp hl
-
-
-    ld [hl], d
-    push af
-    ld [hl], d
-    ld bc, $1573
-    ld [hl], e
+; AudioMusicSequence_70AA
+; ------------------------
+; Description: Séquence musicale #2 - Données audio brutes (format différent des index 0/1)
+; Format: 11 octets de données brutes au lieu de pointeurs
+; In:  Accédée via AudioDataPointerTable[2] par ProcessAudioRequest
+; Out: Données audio directes (pas de pointeurs vers patterns)
+; Utilisation: Séquence courte pour effets sonores ou patterns simples
+; Note: Format atypique - pas de pointeurs ni de terminateur $0000
+AudioMusicSequence_70AA:
+    db $00, $62, $70, $E9, $72, $F5, $72, $01, $73, $15, $73
     nop
     ld [hl], a
     ld [hl], b
