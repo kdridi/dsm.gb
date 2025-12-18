@@ -10408,324 +10408,66 @@ Level3EntityData12:  ; $7C0E
     db $FD, $F4, $E2, $6A, $6F, $FE, $02, $6F
     db $69, $73, $FD, $F4, $E2, $69, $6F, $FE
     db $02, $6F, $6A, $73
+DataShim_7c52:  ; $7C52 - Label pour compatibilité avec code mal désassemblé
+    db $FD, $F4, $E2
+LevelData_7c55:  ; $7C55 - Label pour compatibilité avec code mal désassemblé
+    db $6A, $6F, $FE, $02, $6F, $69, $73, $FD
+    db $F4, $E2, $69, $6F, $FE, $02, $6F, $6A
+    db $73, $FD, $F4, $E2, $6A, $6F, $FE, $07
+    db $6F, $69, $6D, $6D, $6D, $6D, $6B, $A6
+    db $69, $69, $69, $69, $69, $6F, $FE, $07
+    db $6F, $6A, $6E, $6E, $6E, $6E, $6C, $A6
+    db $6A, $6A, $6A, $6A, $6A, $6F, $FE, $07
+    db $6F, $69, $6D, $6D, $6D, $6D, $6B, $A6
+    db $69, $69, $69, $69, $69, $6F, $FE, $07
+    db $6F, $6A, $6E, $6E, $6E, $6E, $6C, $A6
+    db $6A, $6A, $6A, $6A, $6A, $6F, $FE, $07
+    db $6F, $69, $69, $69, $69, $69, $69, $A6
+    db $69, $69, $69, $69, $69, $6F, $FE, $07
+    db $6F, $6A, $6A, $6A, $6A, $6A, $6A, $A6
+    db $6A, $6A, $6A, $6A, $6A, $6F, $FE, $00
+    db $6F, $69, $6F, $6F, $6F, $6F, $6F, $82
+    db $82, $82, $6F, $6F, $6F, $6F, $69, $6F
+    db $FE, $02, $6F, $6A, $E2, $6A, $6F, $FE
+    db $02, $6F, $69, $E2, $69, $6F, $FE, $02
+    db $6F, $6A, $E2, $6A, $6F, $FE, $02, $6F
+    db $69, $E2, $69, $6F, $FE, $02, $6F, $6A
+    db $E2, $6A, $6F, $FE
 
-DataShim_7c52:
-    db $fd
-    db $f4
-    ldh [c], a
+; Level3EntityData13
+; ------------------
+; Description: Données d'entités pour la room 26 du niveau 3
+; Taille: 173 bytes ($7D01-$7DAD)
+; Format: Séquences [count] [tile_pattern...] [attrib] $FE=séparateur
+; Référencé par: Level3EntitiesData[26]
+Level3EntityData13:  ; $7D01
+    db $00, $6F, $69, $5F, $5F, $5F, $5F, $5F
+    db $5F, $5F, $5F, $5F, $5F, $5F, $5F, $69
+    db $6F, $FE, $02, $6F, $6A, $E2, $6A, $6F
+    db $FE, $02, $6F, $69, $E2, $69, $6F, $FE
+    db $02, $6F, $6A, $E2, $6A, $6F, $FE, $02
+    db $6F, $69, $E2, $69, $6F, $FE, $02, $6F
+    db $6A, $E2, $6A, $6F, $FE, $02, $6F, $69
+    db $E2, $69, $6F, $FE, $02, $6F, $6A, $E2
+    db $6A, $6F, $FE, $02, $6F, $69, $E2, $69
+    db $6F, $FE, $02, $6F, $6A, $E2, $6A, $6F
+    db $FE, $02, $6F, $69, $E2, $69, $6F, $FE
+    db $02, $6F, $6A, $E2, $6A, $6F, $FE, $02
+    db $6F, $69, $E2, $69, $6F, $FE, $02, $6F
+    db $6A, $E2, $6A, $6F, $FE, $02, $6F, $69
+    db $E2, $69, $6F, $FE, $02, $6F, $6A, $E2
+    db $6A, $6F, $FE, $02, $6F, $69, $E2, $69
+    db $6F, $FE, $02, $6F, $6A, $E2, $6A, $6F
+    db $FE, $00, $6F, $69, $69, $69, $69, $69
+    db $69, $69, $69, $69, $69, $69, $69, $69
+    db $69, $6F, $FE, $00, $6F, $6A, $6A, $6A
+    db $6A, $6A, $6A, $6A, $6A, $6A, $6A, $6A
+    db $6A, $6A, $6A, $6F, $FE
 
-LevelData_7c55:
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ld [hl], e
-    db $fd
-    db $f4
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ld [hl], e
-    db $fd
-    db $f4
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $07
-    ld l, a
-    ld l, c
-    ld l, l
-    ld l, l
-    ld l, l
-    ld l, l
-    ld l, e
-    and [hl]
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, a
-    cp $07
-    ld l, a
-    ld l, d
-    ld l, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld l, h
-    and [hl]
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, a
-    cp $07
-    ld l, a
-    ld l, c
-    ld l, l
-    ld l, l
-    ld l, l
-    ld l, l
-    ld l, e
-    and [hl]
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, a
-    cp $07
-    ld l, a
-    ld l, d
-    ld l, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld l, [hl]
-    ld l, h
-    and [hl]
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, a
-    cp $07
-    ld l, a
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    and [hl]
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, a
-    cp $07
-    ld l, a
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    and [hl]
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, a
-    cp $00
-    ld l, a
-    ld l, c
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    add d
-    add d
-    add d
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $00
-    ld l, a
-    ld l, c
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld e, a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, c
-    ldh [c], a
-    ld l, c
-    ld l, a
-    cp $02
-    ld l, a
-    ld l, d
-    ldh [c], a
-    ld l, d
-    ld l, a
-    cp $00
-    ld l, a
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, c
-    ld l, a
-    cp $00
-    ld l, a
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, d
-    ld l, a
-    cp $ff
+; ==============================================================================
+; Padding de fin de bank 1 ($7DAE+)
+; ==============================================================================
+    db $FF  ; Début du padding ($7DAE)
     rst $38
     rst $38
     rst $38
