@@ -11140,19 +11140,18 @@ AudioDataRaw_003_70f8:
     xor c
     ld bc, $01a5
     nop
-    and h
-    ld bc, $3ea9
-    ld bc, $013e
-    ld bc, $013e
-    ld bc, $0101
-    ld bc, $a33a
-    ld [hl], $34
-    xor c
-    jr nc, PaddingZone_003_7173
+; AnimationFrameData_7162
+; ------------------------
+; Description: Fragment de données d'animation (frames de sprite)
+; Format: Paires de bytes [tile_id, attributes] pour chaque frame
+; Référencée par: AnimationFrameData_703C via animation handler ($4C37)
+AnimationFrameData_7162:
+    db $A4, $01, $A9, $3E, $01, $3E, $01, $01, $3E, $01, $01, $01, $01, $01, $3A  ; $7162-$7170
 
-    inc [hl]
+AnimationFrameData_7170:  ; Nœud BFS $7170
+    db $A3, $36, $34, $A9, $30, $01, $34  ; $7170-$7176
 
-PaddingZone_003_7173:
+AnimationFrameData_7177:
     ld bc, $4201
     and h
     ld bc, $01a5
