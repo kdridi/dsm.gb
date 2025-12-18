@@ -6169,6 +6169,14 @@
       "priority": 3
     },
     {
+      "address": "$6A4B",
+      "node_type": "code",
+      "description": "ChannelInitDispatcher - Point d'entr\u00e9e commun pour init canal (fall-through)",
+      "source": "$6A46",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$6A63",
       "node_type": "data",
       "description": "Table de s\u00e9quence audio pour canal 4 (noise) - bytes de configuration NR43",
@@ -7103,14 +7111,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$6A4B",
-      "node_type": "code",
-      "description": "ChannelInitDispatcher - Point d'entr\u00e9e commun pour init canal (fall-through)",
-      "source": "$6A46",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7759,6 +7759,7 @@
     "$6048",
     "$1a99",
     "$5605",
+    "$6A49",
     "$5957",
     "$2d95",
     "$2BB2",
@@ -7934,6 +7935,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 819
+  "commits_since_push": 4,
+  "total_explored": 820
 }
