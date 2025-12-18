@@ -6001,6 +6001,14 @@
       "priority": 3
     },
     {
+      "address": "$69AA",
+      "node_type": "data",
+      "description": "AudioData_003_69AA - Pattern audio (5 bytes) + table envelope (14 bytes)",
+      "source": "$69BD",
+      "bank": 3,
+      "priority": 3
+    },
+    {
       "address": "$69AF",
       "node_type": "data",
       "description": "Table de s\u00e9quence audio (bytes) pour configuration NR12",
@@ -6991,14 +6999,6 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
-    },
-    {
-      "address": "$69AA",
-      "node_type": "data",
-      "description": "AudioData_003_69AA - Pattern audio (5 bytes) + table envelope (14 bytes)",
-      "source": "$69BD",
-      "bank": 3,
-      "priority": 3
     }
   ],
   "visited": [
@@ -7091,6 +7091,7 @@
     "$50FD",
     "$1AA4",
     "$02A5",
+    "$69AA",
     "$0837",
     "$7471",
     "$0394",
@@ -7807,6 +7808,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 3,
-  "total_explored": 804
+  "commits_since_push": 4,
+  "total_explored": 805
 }
