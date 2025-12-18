@@ -9758,6 +9758,16 @@ ChannelConfigData_Type4:
 ChannelConfigData_Type5:
     db $00, $30, $F0, $CB, $C7  ; Séquence 6: note $CB / Config Type5
 
+; AudioChannel1Routine_6A0F
+; --------------------------
+; Description: Routine audio canal 1 - Dispatch basé sur compteur wStateGraphics
+;              Incrémente wStateGraphics et route vers ChannelType_XX selon valeur (1-5)
+;              Appelée depuis AudioChannel1PointerTable[2] pendant lecture audio canal 1
+; In:  wStateGraphics = compteur de séquence audio (incremented 0->1->2->3->4->5)
+; Out: Saute vers ChannelType_XX approprié ou ResetPulseChannel si >5
+;      wStateGraphics incrémenté de 1
+; Modifie: af, hl (via appels aux ChannelType)
+AudioChannel1Routine_6A0F:
     call UpdateAudioFrameCounter
     and a
     ret nz
@@ -9816,18 +9826,11 @@ ChannelInitDispatcher:
 ; - $6A00: ChannelConfigData_Type3 ✓ FAIT (utilisé par ChannelType_03_WaveMemory)
 ; - $6A05: ChannelConfigData_Type4 ✓ FAIT (utilisé par ChannelType_04_Noise)
 ; - $6A0A: ChannelConfigData_Type5 ✓ FAIT (utilisé par ChannelType_05_Master)
-; - $6A0F: AudioChannel1Routine_6A0F TODO (référencé dans AudioChannel1PointerTable[7])
-;          WARNING: Cette adresse pointe AU MILIEU de l'instruction "ld a,[$c202]"!
-;          C'est soit un bug du jeu original, soit une entrée jamais utilisée.
+; - $6A0F: AudioChannel1Routine_6A0F ✓ FAIT (référencé dans AudioChannel1PointerTable[2])
+;          Routine de dispatch basée sur wStateGraphics, route vers ChannelType_XX
 ;
 ; TODO: Les zones non-marquées nécessitent reconstruction avec labels appropriés
 ;       tout en préservant le hash SHA256/MD5 identique.
-;
-; Références sortantes identifiées depuis $6A0F:
-; - $0166: AddScore (appel direct)
-; - $c201, $c202, $c222, $c242, $c238, $c248: Variables WRAM
-; - $c207, $dff8: Variables d'état
-; - $ffa4, $fff3: Registres HRAM
 
     nop
     db $f4
