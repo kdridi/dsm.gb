@@ -9778,7 +9778,7 @@ AudioChannel4Routine_6A75:
     add hl, bc          ; Indexe dans la table de séquence
     ld a, [hl]
     and a               ; Test si fin de séquence (0)
-    jr z, AudioData_003_6aad
+    jr z, AudioChannel4Routine_6AA8.disableChannel
 
     ldh [rNR43], a      ; Écrit la valeur dans registre NR43 (noise polynomial)
     ret
@@ -9805,15 +9805,23 @@ AudioChannel4Routine_6A75:
     jp DispatchAudioCommand
 
 
+; AudioChannel4Routine_6AA8
+; --------------------------
+; Description: Routine audio canal 4 indices 0, 1, 3 (désactivation/arrêt canal)
+;              Appelée pour éteindre le canal 4 (noise) après fin de séquence
+; In:  Appelé via jp hl depuis CheckAudioChannel4 (.audioChannel4Path)
+; Out: Canal 4 désactivé (NR42=0, wStateEnd=0, bit 7 de $df4f resetté)
+; Modifie: a, hl
+AudioChannel4Routine_6AA8:
     call UpdateAudioFrameCounter
     and a
     ret nz
 
-AudioData_003_6aad:
+.disableChannel:
     xor a
     ld [wStateEnd], a
     ldh [rNR42], a
-    ld hl, $df4f
+    ld hl, wComplexState4F
     res 7, [hl]
     ret
 
