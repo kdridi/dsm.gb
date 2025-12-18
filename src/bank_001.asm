@@ -7376,18 +7376,19 @@ Level3TileData8:  ; $7038 - Point d'entrée alternatif dans Level3TileData5
     db $02, $31, $67, $A6, $FD, $67, $FE  ; $703D - Fin Level3TileData5
 
 ; ==============================================================================
-; ZONE MAL DÉSASSEMBLÉE: $703E-$7122 (229 octets de tile data compressées)
+; ZONE MAL DÉSASSEMBLÉE: $703E-$757B (tile data compressées niveau 3)
 ; ==============================================================================
 ; ATTENTION: Les instructions ci-dessous sont en réalité des DONNÉES tile
 ; compressées mal interprétées comme du code.
 ; TODO BFS: Reconstruire avec des 'db' statements
 ; Prochains points d'entrée référencés par Level3MapData:
-;   $7123 (Level3TileData11) - entrées #11, #12, #18
-;   $71FC (Level3TileData14) - entrées #13, #15
-;   $72BC (Level3TileData16) - entrées #14, #16
-;   $7379 (Level3TileData17) - entrées #17, #19
-;   $7442 (Level3TileData20) - entrée #20
+;   $7123 (Level3TileData11, 217 bytes) - entrées #11, #12, #18
+;   $71FC (Level3TileData14, 192 bytes) - entrées #13, #15
+;   $72BC (Level3TileData16, 189 bytes) - entrées #14, #16
+;   $7379 (Level3TileData17, 201 bytes) - entrées #17, #19
+;   $7442 (Level3TileData20, 314 bytes) - entrée #20 [ANALYSÉ: RLE tiles]
 ;   $757C (Level3TileData27) - entrée #21
+; Format: Séquences RLE - $FE + COUNT + TILE_DATA (références tile $02-$F4)
 ; ==============================================================================
     db $08
     ld [hl-], a
