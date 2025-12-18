@@ -10014,16 +10014,23 @@ AudioFrameCounter_Exit:
     ret
 
 
+; LoadAudioRegisterRange
+; ----------------
+; Description: Copie 16 octets depuis [HL] vers les registres waveform ($FF30-$FF3F)
+;              utilisés par le canal 3 (wave) pour définir la forme d'onde custom
+; In:  hl = pointeur source vers données waveform (16 octets)
+; Out: -
+; Modifie: a, c, hl (incrémenté de 16)
 LoadAudioRegisterRange:
     push bc
-    ld c, $30
+    ld c, LOW(rWave0)    ; $30 - début de la plage wave RAM
 
 .audioRegisterLoop:
-    ld a, [hl+]
-    ldh [c], a
+    ld a, [hl+]          ; Lit un octet de waveform
+    ldh [c], a           ; Écrit vers $FF30+c (registres wave)
     inc c
     ld a, c
-    cp $40
+    cp LOW(rWave0) + WAVE_RAM_SIZE  ; $40 - fin de la plage (16 octets)
     jr nz, .audioRegisterLoop
 
     pop bc

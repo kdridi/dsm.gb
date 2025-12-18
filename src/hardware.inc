@@ -407,6 +407,13 @@ DEF rAUD3LOW EQU rNR33
 DEF rNR34 EQU $FF1E
 DEF rAUD3HIGH EQU rNR34
 
+; --
+; -- Wave Pattern RAM ($FF30-$FF3F)
+; -- 16 bytes defining custom waveform for channel 3
+; -- Each byte = 2 samples (4 bits each)
+; --
+DEF rWave0 EQU $FF30
+
 
 ; --
 ; -- AUD4LEN/NR41 ($FF20)
