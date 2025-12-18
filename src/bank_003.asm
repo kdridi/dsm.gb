@@ -9891,9 +9891,18 @@ CheckAudioActive:
     ret
 
 
-    nop
-    inc l
-    ld e, $80
+; AudioNoiseConfigData_Type6
+; --------------------------
+; Description: Configuration canal 4 (noise) pour commande audio $06
+;              4 bytes transférés vers NR41-NR44 par ConfigureAudioNoise
+; Référencé par: AudioChannel4Routine_6A69 (via DispatchAudioCommand avec a=$06, hl=$6A5F)
+; Format:
+;   Byte 0 ($00) -> NR41 ($FF20): Sound length = 0 (durée max 64 steps)
+;   Byte 1 ($2C) -> NR42 ($FF21): Volume envelope (initial vol=$2, direction=decrease, sweep=12)
+;   Byte 2 ($1E) -> NR43 ($FF22): Polynomial counter (shift=1, width=7-bit, ratio=6)
+;   Byte 3 ($80) -> NR44 ($FF23): Trigger + no length enable
+AudioNoiseConfigData_Type6:
+    db $00, $2C, $1E, $80
 
 ; AudioNoiseSequenceData
 ; ----------------------
@@ -9910,16 +9919,16 @@ AudioNoiseSequenceData:
 ; AudioChannel4Routine_6A69
 ; --------------------------
 ; Description: Routine audio canal 4 index 2 (référencée depuis AudioChannel4StatusTable[2])
-;              Dispatch commande audio $06 vers handler $6A5F si audio actif
+;              Dispatch commande audio $06 vers configuration noise type 6
 ; In:  Appelé via jp hl depuis CheckAudioChannel4 (.audioChannel4Path)
-; Out: Dispatch vers DispatchAudioCommand avec a=$06, hl=$6A5F
+; Out: Dispatch vers DispatchAudioCommand avec a=$06, hl=AudioNoiseConfigData_Type6
 ; Modifie: a, hl, (et tout ce que DispatchAudioCommand modifie)
 AudioChannel4Routine_6A69:
     call CheckAudioActive
     ret z
 
     ld a, $06
-    ld hl, $6a5f
+    ld hl, AudioNoiseConfigData_Type6
     jp DispatchAudioCommand
 
 

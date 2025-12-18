@@ -7041,6 +7041,14 @@
       "priority": 3
     },
     {
+      "address": "$DFF9",
+      "node_type": "data",
+      "description": "wStateEnd - Marqueur fin \u00e9tat audio (1=termin\u00e9/inactif, 0=actif)",
+      "source": "$6A58",
+      "bank": 0,
+      "priority": 3
+    },
+    {
       "address": "$F6FE",
       "node_type": "data",
       "description": "Table handlers animation - valeur par d\u00e9faut",
@@ -7173,14 +7181,6 @@
       "node_type": "data",
       "description": "hOAMIndex - index OAM pour animation",
       "source": "$0095",
-      "bank": 0,
-      "priority": 3
-    },
-    {
-      "address": "$DFF9",
-      "node_type": "data",
-      "description": "wStateEnd - Marqueur fin \u00e9tat audio (1=termin\u00e9/inactif, 0=actif)",
-      "source": "$6A58",
       "bank": 0,
       "priority": 3
     }
@@ -7888,6 +7888,7 @@
     "$69CB",
     "$4DC3",
     "$6B19",
+    "$6A5F",
     "$4CDD",
     "$1BF2",
     "$4D6F",
@@ -8013,6 +8014,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 0,
-  "total_explored": 826
+  "commits_since_push": 1,
+  "total_explored": 827
 }
