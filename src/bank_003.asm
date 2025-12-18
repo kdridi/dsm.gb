@@ -9495,13 +9495,17 @@ SetupAudioConfiguration:
     call ConfigureAudioSe
     ret
 
-; Données audio (9 octets)
-AudioData_Unknown_692C:
+; AudioWaveformPattern_692C
+; --------------------------
+; Description: Pattern waveform audio pour commande dispatch $08
+; Format: 9 octets de données audio (forme d'onde, enveloppe, fréquence)
+; Utilisé par: AudioChannel1Routine_6936
+AudioWaveformPattern_692C:
     db $57, $96, $8C, $30, $C7, $57, $96, $8C, $35
 
 ; AudioChannel1Routine_6936
 ; --------------------------
-; Description: Routine audio canal 1 - Dispatch commande audio $08 vers $692C si game state valide
+; Description: Routine audio canal 1 - Dispatch commande audio $08 avec waveform pattern si game state valide
 ; In:  (none)
 ; Out: (none)
 ; Modifie: af, hl
@@ -9511,7 +9515,7 @@ AudioChannel1Routine_6936:
     ret z
 
     ld a, $08
-    ld hl, $692c
+    ld hl, AudioWaveformPattern_692C
     jp DispatchAudioCommand
 
 ; Alias pour compatibilité (référencée ailleurs dans le code)

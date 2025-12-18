@@ -6951,6 +6951,14 @@
       "source": "$0095",
       "bank": 0,
       "priority": 3
+    },
+    {
+      "address": "$692C",
+      "node_type": "data",
+      "description": "AudioWaveformPattern_692C - Pattern waveform audio (9 octets)",
+      "source": "$6936",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -7607,6 +7615,7 @@
     "$50CC",
     "$5D62",
     "$16EC",
+    "$6936",
     "$2d7f",
     "$59a5",
     "$5FAD",
@@ -7750,6 +7759,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 4,
-  "total_explored": 795
+  "commits_since_push": 0,
+  "total_explored": 796
 }
