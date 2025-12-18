@@ -7592,8 +7592,17 @@ Level3TileData8:  ; $7038 - Point d'entrée alternatif dans Level3TileData5
 ; Structure example: $05 $31 $7F $69... $FE (5-count sequence)
 ; Note: Code below is DISASSEMBLED DATA - should be reconstructed as db statements
 ; TODO BFS: Reconstruire avec db statements lors d'une passe de nettoyage globale
+;
+; NOTE: Level3TileData16 ($72BC-$7378, 189 bytes) suit immédiatement et est
+;       également mal désassemblé. Le désassemblage chevauche la frontière:
+;       le byte $FE à $72BB (dernier de TileData14) et le byte $05 à $72BC
+;       (premier de TileData16) sont interprétés comme "cp $05".
+;       Level3TileData16 contient 20 séquences RLE référencées par Level3MapData
+;       entrées #14 et #16 (ligne 3367-3368).
 ; ==============================================================================
 Level3TileData14:  ; $71FC - Tile data (mal désassemblée)
+; [Level3TileData16 commence à $72BC ci-dessous, mais n'a pas de label propre
+;  à cause du chevauchement du désassemblage - voir commentaire ci-dessus]
     cp $05
     ld sp, $697f
     ld a, a
