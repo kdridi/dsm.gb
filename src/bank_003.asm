@@ -12174,10 +12174,11 @@ AudioPatternData_73D4:  ; [$73D4] Audio pattern principal + sous-patterns
 ; Description: Pattern audio #2 pour séquence musicale #0 (index $7094[2])
 ; Format: Séquence de bytes bruts (probablement pointeur little-endian + terminateur)
 ; In:  Référencé par AudioMusicSequence_7094 comme 2e pattern de la séquence
-; Out: 4 bytes de données ($ED $73 $00 $00) - possiblement pointeur vers $73ED
+; Out: 4 bytes de données ($ED $73 $00 $00) - pointeur vers AudioSubPattern_DualTempo ($73ED)
 ; Modifie: Consommé par le moteur audio
+; Références sortantes: AudioSubPattern_DualTempo ($73ED)
 AudioSequencePattern_73E5:       ; [$73E5]
-    db $ed, $73, $00, $00        ; Pattern court: dw $73ED, dw $0000 (pointeur + terminateur?)
+    db $ed, $73, $00, $00        ; Pattern court: dw AudioSubPattern_DualTempo ($73ED), dw $0000 (terminateur)
 
 ; AudioSequencePattern_73E9
 ; -------------------------
@@ -12192,16 +12193,25 @@ AudioSequencePattern_73E9:       ; [$73E9]
     db $ff, $73                  ; 2 bytes initiaux (marqueur? ou dw $73FF inversé)
 AudioSequencePattern_73EB:       ; [$73EB] Label partagé (mid-pattern, comme PaddingZone)
     dw AudioSequencePattern_7411 ; Pointeur vers pattern audio complexe
-AudioSequencePattern_73ED:       ; [$73ED] Sous-pattern pointé par _73E5
-    db $9d, $60, $00, $80        ; Commande $9D $60 (tempo/volume)
-    db $a8, $52, $a2, $52        ; Commandes $A8, $A2 + note R
-    db $01, $52, $01, $52        ; Répétitions note R
-    db $01, $a8, $56, $58        ; Commande $A8 + notes V,X
-    db $5a, $00, $9d, $83        ; Note Z + terminateur, commande $9D $83
-    db $00, $80, $a8, $4a        ; Params + commande $A8 + note J
-    db $a2, $4a, $01, $4a        ; Commande $A2 + répétitions J
-    db $01, $4a, $01, $a8        ; Répétitions + commande $A8
-    db $4e, $50, $52, $00        ; Notes N,P,R + terminateur
+; AudioSubPattern_DualTempo
+; --------------------------
+; Description: Sous-pattern audio avec deux sections distinctes à tempos différents
+; Format: Commande $9D (tempo/vol) + séquence notes + nouvelle commande $9D + nouvelle séquence
+; In:  Référencé par AudioSequencePattern_73E5 via pointeur dw $73ED
+; Out: Séquence de commandes et notes audio (terminateurs $00)
+; Modifie: Consommé par le moteur audio
+; Note: Section 1 = tempo $60 avec notes R-V-X-Z, Section 2 = tempo $83 avec notes J-N-P-R
+; Références sortantes: (aucune - données pures)
+AudioSubPattern_DualTempo:       ; [$73ED] Sous-pattern pointé par _73E5
+    db $9d, $60, $00, $80        ; Commande $9D $60: tempo/volume section 1
+    db $a8, $52, $a2, $52        ; Commandes $A8, $A2 + note R ($52)
+    db $01, $52, $01, $52        ; Répétitions note R (3x)
+    db $01, $a8, $56, $58        ; Commande $A8 + notes V ($56), X ($58)
+    db $5a, $00, $9d, $83        ; Note Z ($5A) + terminateur, commande $9D $83: tempo/volume section 2
+    db $00, $80, $a8, $4a        ; Params + commande $A8 + note J ($4A)
+    db $a2, $4a, $01, $4a        ; Commande $A2 + répétitions J (2x)
+    db $01, $4a, $01, $a8        ; Répétitions J + commande $A8
+    db $4e, $50, $52, $00        ; Notes N ($4E), P ($50), R ($52) + terminateur
 
 ; AudioSequencePattern_7411
 ; -------------------------
