@@ -11486,10 +11486,10 @@ AudioMusicSequence_70AA:
 ; Out: Pointeurs vers données audio
 ; Utilisation: Séquence de patterns audio pour musique/effets sonores
 ; Note: Format particulier avec terminateur $0000 avant le dernier pointeur
-; Références sortantes: $7077 (AudioSequencePattern_7077), $7282, $7288, $728E
+; Références sortantes: AudioSequencePattern_7077, AudioSequencePattern_7282, AudioSequencePattern_7288, AudioSequencePattern_728E
 AudioMusicSequence_70B5:
     db $00                     ; Index de séquence
-    dw $7077, $7282, $7288, $0000, $728E
+    dw AudioSequencePattern_7077, AudioSequencePattern_7282, AudioSequencePattern_7288, $0000, AudioSequencePattern_728E
 
 ; AudioMusicSequence_70C0
 ; ------------------------
@@ -11826,27 +11826,37 @@ ProcessInputState_Bank3_Part1:
 ;          DONNÉES AUDIO mal désassemblées. Les opcodes générés correspondent
 ;          aux bytes audio attendus pour préserver le hash du binaire.
 AudioSequencePattern_7282:
-    sub h                      ; $7282: $94
-    ld [hl], d                 ; $7283: $72
-    rst $38
-    rst $38
-    add d
-    ld [hl], d
-    or l
-    ld [hl], d
-    rst $38
-    rst $38
-    adc b
-    ld [hl], d
-    pop de
-    ld [hl], d
-    rst $38
-    rst $38
-    adc [hl]
-    ld [hl], d
-    sbc l
-    ld [hl], e
-    nop
+    dw $7294                   ; $7282: Pointeur vers sous-pattern audio
+    dw $FFFF                   ; $7284: Séparateur/marqueur de fin
+    dw $7282                   ; $7286: Pointeur vers sous-pattern audio
+
+; AudioSequencePattern_7288
+; -------------------------
+; Description: Pattern audio pour séquence musicale #3 (sous-pattern #3)
+; Format: Table de 3 words - pointeur vers données, séparateur, auto-référence
+; In:  Référencé par AudioMusicSequence_70B5[3]
+; Out: Pointeurs vers sous-patterns audio ($72B5, $7288)
+; Utilisation: Structure de contrôle pour le moteur audio
+AudioSequencePattern_7288:
+    dw $72B5                   ; $7288: Pointeur vers sous-pattern audio
+    dw $FFFF                   ; $728A: Séparateur/marqueur de fin
+    dw $7288                   ; $728C: Auto-référence (boucle?)
+
+; AudioSequencePattern_728E
+; -------------------------
+; Description: Pattern audio pour séquence musicale #3 (sous-pattern #5)
+; Format: Table de 3 words - pointeur vers données, séparateur, auto-référence
+; In:  Référencé par AudioMusicSequence_70B5[5]
+; Out: Pointeurs vers sous-patterns audio ($72D1, $728E)
+; Utilisation: Structure de contrôle pour le moteur audio
+AudioSequencePattern_728E:
+    dw $72D1                   ; $728E: Pointeur vers sous-pattern audio
+    dw $FFFF                   ; $7290: Séparateur/marqueur de fin
+    dw $728E                   ; $7292: Auto-référence (boucle?)
+
+; Continuation du bloc mal désassemblé - données audio brutes
+    dw $739D                   ; $7294: Pointeur ou données audio
+    db $00
     add b
     xor c
     ld bc, $1aa2
