@@ -12215,39 +12215,53 @@ AudioSubPattern_DualTempo:       ; [$73ED] Sous-pattern pointé par _73E5
 
 ; AudioSequencePattern_7411
 ; -------------------------
-; Description: Pattern audio complexe avec commandes et table de pointeurs
-; Format: Commandes audio ($9D, $A8, $A2...) suivies d'une table de pointeurs
-; In:  Référencé par AudioSequencePattern_73EB comme pointeur target
-; Out: Séquence de commandes audio et table de pointeurs vers sous-patterns
-; Modifie: Consommé par le moteur audio
-; Note: Contient table de pointeurs vers $745F, $7491, $7518, etc.
-; Références sortantes: $745F, $7491, $7518, $7425, $744F, $74B9, $7548, $7431, $746F, $74EF, $7578, $743D, $7485, $75A3, $7449
+; Description: Pattern audio complexe avec commandes, notes et table de 15 pointeurs vers sous-patterns
+; Format:
+;   - Prélude: Commandes $9D/$A8/$A2 + notes + terminateur $00
+;   - Table: 15 pointeurs word vers sous-patterns (séparés par $FF $FF tous les 4 pointeurs)
+;   - Séquences: 3 séquences de notes avec commandes $9D/$A2/$A5 + terminateurs $00
+; In:  Référencé par AudioSequencePattern_73EB (dw $7411)
+; Out: Exécuté par le moteur audio, branches vers 15 sous-patterns
+; Modifie: Registres audio via commandes du moteur
+; Références sortantes: AudioSubPattern_745F, _7491, _7518, _7425, _744F, _74B9, _7548, _7431, _746F, _74EF, _7578, _743D, _7485, _75A3, _7449
 AudioSequencePattern_7411:       ; [$7411]
-    db $9d, $17, $70, $21        ; Commande $9D $17 + params
-    db $a8, $70, $a2, $70        ; Commande $A8 + note P, $A2 + P
-    db $01, $70, $01, $70        ; Répétitions P
-    db $01, $a8, $74, $76        ; Commande $A8 + paramètres
-    db $78, $00, $5f, $74        ; Paramètre + terminateur, pointeur $745F
-    db $91, $74, $91, $74        ; Pointeurs $7491, $7491
-    db $18, $75, $ff, $ff        ; Pointeur $7518 + séparateur $FF $FF
-    db $25, $74, $4f, $74        ; Pointeurs $7425, $744F
-    db $b9, $74, $b9, $74        ; Pointeurs $74B9, $74B9
-    db $48, $75, $ff, $ff        ; Pointeur $7548 + séparateur $FF $FF
-    db $31, $74, $6f, $74        ; Pointeurs $7431, $746F
-    db $ef, $74, $ef, $74        ; Pointeurs $74EF, $74EF
-    db $78, $75, $ff, $ff        ; Pointeur $7578 + séparateur $FF $FF
-    db $3d, $74, $85, $74        ; Pointeurs $743D, $7485
-    db $a3, $75, $ff, $ff        ; Pointeur $75A3 + séparateur $FF $FF
-    db $49, $74, $9d, $a2        ; Pointeur $7449, commande $9D $A2
-    db $00, $80, $a2, $40        ; Params + commande $A2 + note @
-    db $44, $01, $48, $01        ; Notes D,H + répétitions
-    db $44, $01, $40, $a5        ; Notes D,@ + commande $A5
-    db $3c, $00, $9d, $82        ; Param $3C + terminateur, commande $9D $82
-    db $00, $80, $a2, $4a        ; Params + commande $A2 + note J
-    db $4a, $01, $4a, $01        ; Répétitions J
-    db $4a, $01, $4a, $a5        ; Répétitions + commande $A5
-    db $44, $00, $9d, $37        ; Param $44 + terminateur, commande $9D $37
-    db $70, $a0, $a2             ; Params + commande $A2 (tronquée)
+    ; Prélude: Séquence d'initialisation avec commandes et notes
+    db $9d, $17, $70, $21        ; Commande $9D $17: tempo/volume + params $70 $21
+    db $a8, $70, $a2, $70        ; $A8: commande note, $70: note P, $A2: répétition, $70: note P
+    db $01, $70, $01, $70        ; Répétitions note P (4x total)
+    db $01, $a8, $74, $76        ; Répétition + $A8: commande + params $74 $76
+    db $78, $00                  ; Param $78 + terminateur $00
+    ; Table de pointeurs vers sous-patterns (18 entrées, séparateurs $FF $FF tous les 4-5)
+    db $5f, $74                  ; Pointeur 1 → $745F (AudioSubPattern_745F)
+    db $91, $74, $91, $74        ; Pointeurs 2-3 → $7491, $7491 (pattern répété)
+    db $18, $75                  ; Pointeur 4 → $7518
+    db $ff, $ff                  ; Séparateur groupe 1
+    db $25, $74, $4f, $74        ; Pointeurs 5-6 → $7425, $744F
+    db $b9, $74, $b9, $74        ; Pointeurs 7-8 → $74B9, $74B9 (pattern répété)
+    db $48, $75                  ; Pointeur 9 → $7548
+    db $ff, $ff                  ; Séparateur groupe 2
+    db $31, $74, $6f, $74        ; Pointeurs 10-11 → $7431, $746F
+    db $ef, $74, $ef, $74        ; Pointeurs 12-13 → $74EF, $74EF (pattern répété)
+    db $78, $75                  ; Pointeur 14 → $7578
+    db $ff, $ff                  ; Séparateur groupe 3
+    db $3d, $74, $85, $74        ; Pointeurs 15-16 → $743D, $7485
+    db $a3, $75                  ; Pointeur 17 → $75A3
+    db $ff, $ff                  ; Séparateur groupe 4
+    db $49, $74                  ; Pointeur 18 → $7449
+    ; Séquence 1: Notes avec commandes $9D/$A2/$A5
+    db $9d, $a2                  ; Commande $9D $A2: changement tempo/mode
+    db $00, $80, $a2, $40        ; Params $00 $80 + $A2: répétition + note @ ($40)
+    db $44, $01, $48, $01        ; Note D ($44) + rép $01, note H ($48) + rép $01
+    db $44, $01, $40, $a5        ; Note D + rép, note @ + $A5: commande spéciale
+    db $3c, $00                  ; Param $3C + terminateur $00
+    ; Séquence 2: Série de notes J
+    db $9d, $82                  ; Commande $9D $82: changement tempo/mode
+    db $00, $80, $a2, $4a        ; Params $00 $80 + $A2: répétition + note J ($4A)
+    db $4a, $01, $4a, $01        ; Répétitions note J (4x total)
+    db $4a, $01, $4a, $a5        ; Répétitions J + $A5: commande spéciale
+    db $44, $00                  ; Note D ($44) + terminateur $00
+    ; Séquence 3: Finale
+    db $9d, $37                  ; Commande $9D $37: tempo/mode final (fin pattern)
 
 ; AnimationFrameData_7471
 ; -----------------------
@@ -12257,6 +12271,7 @@ AudioSequencePattern_7411:       ; [$7411]
 ; Out: Consommé par le moteur de rendu sprite
 ; Note: Zone de données d'animation séparée (après AudioPatternData_73BE)
 AnimationFrameData_7471:  ; [$7471] Frame animation command sequence
+    db $70, $a0, $a2             ; Commande $A0 + params
     ld d, d
     ld d, h
     ld bc, $0158
