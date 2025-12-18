@@ -11460,10 +11460,10 @@ PaddingZone_003_709b:  ; Label fantôme au milieu du dernier pointeur (pour comp
 ; In:  Accédée via AudioDataPointerTable[1] par ProcessAudioRequest
 ; Out: Pointeurs vers données audio (4 patterns audio)
 ; Utilisation: Séquence de 4 patterns audio pour musique/effets sonores
-; Références sortantes: AudioSequencePattern_7077, AudioSequencePattern_73A3, $73A7, $73A9
+; Références sortantes: AudioSequencePattern_7077, AudioSequencePattern_73A3, AudioSequencePattern_73A7, AudioSequencePattern_73A9
 AudioMusicSequence_709F:
     db $00                     ; Index de séquence
-    dw AudioSequencePattern_7077, AudioSequencePattern_73A3, $73A7, $73A9
+    dw AudioSequencePattern_7077, AudioSequencePattern_73A3, AudioSequencePattern_73A7, AudioSequencePattern_73A9
     dw $0000                   ; Terminateur
 
 ; AudioMusicSequence_70AA
@@ -12103,33 +12103,52 @@ AudioPattern_739D:
     nop          ; $73A2: $00 (terminateur)
 
 ; AudioSequencePattern_73A3
-; --------------------------
-; Description: Pattern audio #2 - Table de pointeurs (2 entrées) pour séquence musicale index 1
-; Format: [dw ptr1] [dw terminateur]
+; -------------------------
+; Description: Pattern audio #2 pour séquence musicale index 1
+; Format: [dw ptr1, dw terminateur]
 ; In:  Référencé par AudioMusicSequence_709F[1] via pointeur $73A3
 ; Out: Pointeur vers AnimationFrameData_73be ($73BE) suivi de terminateur NULL
 ; Modifie: Utilisé par le moteur audio pour accéder aux données de pattern
 AudioSequencePattern_73A3:
-    dw $73BE                     ; $73A3-73A4: Pointeur vers AnimationFrameData_73be à $73BE
-    dw $0000                     ; $73A5-73A6: Terminateur NULL
+    dw $73BE                     ; Pointeur vers AnimationFrameData_73be à $73BE
+    dw $0000                     ; Terminateur NULL
+
+; AudioSequencePattern_73A7
+; -------------------------
+; Description: Pattern audio #3 pour séquence musicale index 1 (pointeur simple)
+; Format: [dw ptr]
+; In:  Référencé par AudioMusicSequence_709F[2] via pointeur $73A7
+; Out: Pointeur vers AnimationFrameData_73ab
+; Modifie: Utilisé par le moteur audio pour accéder aux données de pattern
+AudioSequencePattern_73A7:
+    dw AnimationFrameData_73ab   ; Pointeur vers AnimationFrameData_73ab
+
+; AudioSequencePattern_73A9
+; -------------------------
+; Description: Pattern audio #4 pour séquence musicale index 1 (pointeur simple)
+; Format: [dw ptr]
+; In:  Référencé par AudioMusicSequence_709F[3] via pointeur $73A9
+; Out: Pointeur vers AnimationFrameData_73d4
+; Modifie: Utilisé par le moteur audio pour accéder aux données de pattern
+AudioSequencePattern_73A9:
+    dw AnimationFrameData_73d4   ; Pointeur vers AnimationFrameData_73d4
+
 ; AnimationFrameData_73ab
 ; -----------------------
 ; Description: Données d'animation (séquences de tile IDs + drapeaux de contrôle)
 ; Format: [count] [tile_id]* [flags] [terminator] répété
-; In:  Pointeur depuis table d'animation référençante
+; In:  Référencé par AudioSequencePattern_73A7 via pointeur $73AB
 ; Out: Données consommées par le moteur de rendu de sprites
 ; Modifie: Aucun (zone DATA pure)
-AnimationFrameData_73ab:  ; Annotation originale [$73ab], adresse logique désassembleur
-    db $ab, $73  ; Pointeur vers AnimationFrameData (little-endian)
-    db $d4, $73  ; Pointeur vers autre frame data
-    db $9d, $a1  ; Bytes de contrôle/flags
-    db $00       ; Terminateur ou padding
-    db $80       ; Flag/contrôle
-    db $a0, $01, $a1, $58  ; Données frame (IDs tiles)
-    db $54, $52, $4e, $4a  ; "TRNJ" (tile IDs ou marqueur ASCII)
-    db $a6, $01, $a2, $40  ; Suite données
-    db $01, $32, $01  ; IDs tiles
-    db $9d, $30, $00  ; Terminateur + padding (26 bytes total)
+AnimationFrameData_73ab:
+    db $9d, $a1                  ; Bytes de contrôle/flags
+    db $00                       ; Terminateur ou padding
+    db $80                       ; Flag/contrôle
+    db $a0, $01, $a1, $58        ; Données frame (IDs tiles)
+    db $54, $52, $4e, $4a        ; "TRNJ" (tile IDs ou marqueur ASCII)
+    db $a6, $01, $a2, $40        ; Suite données
+    db $01, $32, $01             ; IDs tiles
+    db $9d, $30, $00             ; Terminateur + padding
 
 AnimationFrameData_73be:  ; [$73be] Animation sequence (226 bytes of tile commands)
     add b        ; $80
@@ -12147,6 +12166,16 @@ AnimationFrameData_73be:  ; [$73be] Animation sequence (226 bytes of tile comman
     ld c, [hl]   ; $4e
     ld bc, $0152 ; $01, $52, $01
     nop
+
+; AnimationFrameData_73d4
+; -----------------------
+; Description: Données d'animation (sous-section de AnimationFrameData_73be)
+; Format: Séquence de commandes d'animation et tile IDs
+; In:  Référencé par AudioSequencePattern_73A9 via pointeur $73D4
+; Out: Données consommées par le moteur de rendu de sprites
+; Modifie: Aucun (zone DATA pure)
+; Note: Partie de la grande structure AnimationFrameData_73be ($73BE-$74A0, 226 bytes)
+AnimationFrameData_73d4:  ; [$73d4] Frame animation command sequence
     sbc l
     scf
     ld [hl], b

@@ -7615,6 +7615,22 @@
       "source": "$7282",
       "bank": 3,
       "priority": 3
+    },
+    {
+      "address": "$73AB",
+      "node_type": "data",
+      "description": "AnimationFrameData_73ab - Donn\u00e9es d'animation (tiles IDs + flags)",
+      "source": "$73A7",
+      "bank": 3,
+      "priority": 3
+    },
+    {
+      "address": "$73D4",
+      "node_type": "data",
+      "description": "AnimationFrameData_73d4 - Donn\u00e9es d'animation (sous-section de AnimationFrameData_73be)",
+      "source": "$73A7",
+      "bank": 3,
+      "priority": 3
     }
   ],
   "visited": [
@@ -8291,6 +8307,7 @@
     "$235A",
     "$7294",
     "$4A7F",
+    "$73A7",
     "$1FC9",
     "$1A8A",
     "$2d57",
@@ -8486,6 +8503,6 @@
     "$4F41",
     "$255F"
   ],
-  "commits_since_push": 1,
-  "total_explored": 867
+  "commits_since_push": 2,
+  "total_explored": 868
 }
