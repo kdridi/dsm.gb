@@ -1,0 +1,133 @@
+Consulte le [script]("../scripts/bfs_explorer.py") qui a permis de générer ces informations
+
+Je souhaite pouvoir améliorer ce script en te laissant constater les résultats qu'il a  produit
+
+Voici le commentaire git
+<CommentaireGit>
+[BFS-5841] State1A_Handler - (Bank 1, zone données)
+</CommentaireGit>
+
+Le diff git
+<DiffGit>
+diff --git a/-p b/-p
+new file mode 100644
+index 0000000..aaa25c3
+--- /dev/null
++++ b/-p
+@@ -0,0 +1,58 @@
++000056cb: 0000 f15d fef1 5dfe e260 5dfe 7239 3de2  ...]..]..`].r9=.
++000056db: 615d fe54 3336 3a3e e261 5dfe 5b34 3741  a].T36:>.a].[47A
++000056eb: 5859 5959 5959 615d fe54 3538 3b3f e261  XYYYYYa].T58;?.a
++000056fb: 5dfe 723c 40e2 615d fee2 615d fee2 615d  ].r<@.a]..a]..a]
++0000570b: fee2 615d fee2 615d fec4 605a 615d fec1  ..a]..a]..`Za]..
++0000571b: 61e2 635d fec1 61f1 5dfe 8560 5a5a 5a61  a.c]..a.]..`ZZZa
++0000572b: f15d fe81 61c4 6331 315d fe81 61f1 5dfe  .]..a.c11]..a.].
++0000573b: 8161 f15d fe88 6331 3131 3131 315d fe6a  .a.]..c111111].j
++0000574b: 605a 5a5a 5a5a 5a5a 5a5d fe61 61f1 5dfe  `ZZZZZZZZ].aa.].
++0000575b: 2181 6161 f15d fe21 8261 61e2 605d fe21  !.aa.].!.aa.`].!
++0000576b: 8161 61e2 615d fe6a 6331 3131 3131 3131  .aa.a].jc1111111
++0000577b: 615d fee2 615d fee2 615d fee2 615d fea6  a]..a]..a]..a]..
++0000578b: 605a 5a5a 615d fea1 61e2 635d fe6a 605a  `ZZZa]..a.c].j`Z
++0000579b: 5a5a 6331 3131 315d fe3d 605a 5a63 3131  ZZc1111].=`ZZc11
++000057ab: 3131 3131 3131 5dfe 22f4 61f1 5dfe 3161  111111].".a.].1a
++000057bb: 815f c460 5a5a 5dfe 22f4 61c1 61f1 5dfe  ._.`ZZ].".a.a.].
++000057cb: 3161 c463 3131 5dfe 22f4 61f1 5dfe 3d63  1a.c11].".a.].=c
++000057db: 3131 3131 3131 3131 3131 315d fef1 5dfe  11111111111]..].
++000057eb: f15d fec4 605a 5a5d fec1 61f1 5dfe c463  .]..`ZZ]..a.]..c
++000057fb: 3131 5dfe f15d fef1 5dfe a660 5a5a 5a5a  11]..]..]..`ZZZZ
++0000580b: 5dfe a161 f15d fea6 6331 3131 315d fef1  ]..a.]..c1111]..
++0000581b: 5dfe 7960 5a5a 5a5a 5a5a 5a5d fe71 61f1  ].y`ZZZZZZZ].qa.
++0000582b: 5dfe 7963 3131 3131 3131 315d fef1 5dfe  ].yc1111111]..].
++0000583b: 4c60 5a5a 5a5a 5a5a 5a5a 5a5a 5dfe 4161  L`ZZZZZZZZZZ].Aa
++0000584b: f15d fe4c 6331 3131 3160 5a5a 5a5a 5a5d  .].Lc1111`ZZZZZ]
++0000585b: fe91 61f1 5dfe 9161 f15d fe97 6331 3131  ..a.]..a.]..c111
++0000586b: 3131 5dfe e260 5dfe e261 5dfe b570 7272  11]..`]..a]..prr
++0000587b: 615d feb5 7173 7361 5dfe e261 5dfe e261  a]..qssa]..a]..a
++0000588b: 5dfe e261 5dfe b560 5a5a 615d feb1 61e2  ]..a]..`ZZa]..a.
++0000589b: 615d fe31 8175 605a 5a5a 61e2 615d fe75  a].1.u`ZZZa.a].u
++000058ab: 6331 3131 61e2 635d feb1 61f1 5dfe 4860  c111a.c]..a.].H`
++000058bb: 5a5a 5a5a 5a5a 61f1 5dfe 32f4 61b1 61f1  ZZZZZZa.].2.a.a.
++000058cb: 5dfe 32f4 6188 f460 5a63 3131 315d fe46  ].2.a..`Zc111].F
++000058db: 6331 3131 3161 f15d fe82 f461 f15d fe91  c1111a.]...a.]..
++000058eb: 61f1 5dfe 82f4 61f1 5dfe 9763 3131 3131  a.]...a.]..c1111
++000058fb: 315d fe71 64f1 5dfe 7164 f15d fe71 64f1  1].qd.].qd.].qd.
++0000590b: 5dfe 51f4 7164 f15d fe51 f471 64f1 5dfe  ].Q.qd.].Q.qd.].
++0000591b: 51f4 7164 f15d fe71 64f1 5dfe 7164 f15d  Q.qd.].qd.].qd.]
++0000592b: fe71 64f1 5dfe 7164 f15d fe71 64f1 5dfe  .qd.].qd.].qd.].
++0000593b: 7164 f15d fe51 f471 64f1 5dfe 51f4 7164  qd.].Q.qd.].Q.qd
++0000594b: f15d fe51 f471 64f1 5dfe 7164 f15d fe71  .].Q.qd.].qd.].q
++0000595b: 64f1 5dfe 7164 f15d fe31 f4f1 5dfe 31f4  d.].qd.].1..].1.
++0000596b: f15d fef1 5dfe 7960 5a5a 5a5a 5a5a 5a5d  .]..].y`ZZZZZZZ]
++0000597b: fe79 6331 3131 3131 3131 5dfe b17f f15d  .yc1111111]....]
++0000598b: feb1 7ff1 5dfe b560 5a5a 5a5d feb5 6331  ....]..`ZZZ]..c1
++0000599b: 3131 5dfe f15d fef1 5dfe 9760 5a5a 5a5a  11]..]..]..`ZZZZ
++000059ab: 5a5d fe97 6331 3131 3131 5dfe 917f f15d  Z]..c11111]....]
++000059bb: fe91 7ff1 5dfe 917f f15d fe91 7ff1 5dfe  ....]....]....].
++000059cb: 917f f15d fe91 7ff1 5dfe 917f f15d fe88  ...]....]....]..
++000059db: 605a 5a5a 5a5a 5a5d fe88 6331 3131 3131  `ZZZZZZ]..c11111
++000059eb: 315d fe31 45f1 5dfe 2242 46f1 5dfe 2243  1].1E.]."BF.]."C
++000059fb: 47e2 645d fe22 4448 e264 5dfe e264 5dfe  G.d]."DH.d]..d].
++00005a0b: e264 5dfe f15d fef1 5dfe 2281 82f1 5dfe  .d]..]..]."...].
++00005a1b: f15d fef1 5dfe 3182 b17f f15d fe35 82f4  .]..].1....].5..
++00005a2b: f4f4 82f1 5dfe 44f4 f4f4 82f1 5dfe 3582  ....].D.....].5.
++00005a3b: f4f4 f482 f15d fe11 4535 fd82 f15d fe02  .....]..E5...]..
++00005a4b: 4246 f15d fe02 4347 f15d fe02 4448 f15d  BF.]..CG.]..DH.]
++00005a5b: fef1 5dfe                                ..].
+diff --git a/scripts/bfs_state.json b/scripts/bfs_state.json
+index 8ff2928..d3104d3 100644
+--- a/scripts/bfs_state.json
++++ b/scripts/bfs_state.json
+@@ -5875,6 +5875,7 @@
+     "$4DC3",
+     "$12DD",
+     "$4D48",
++    "$5841",
+     "$1EAB",
+     "$0EB2",
+     "$2B4D",
+@@ -5997,6 +5998,6 @@
+     "$4CD9",
+     "$07B7"
+   ],
+-  "commits_since_push": 0,
+-  "total_explored": 586
++  "commits_since_push": 1,
++  "total_explored": 587
+ }
+\ No newline at end of file
+
+</DiffGit>
+
+Tes réflexions produites dans la production finale. Ces commenentaires ont été coupés.
+<ReflexionAgent>
+
+ │ Je vais analyser le nœud à l'adresse $5892 dans bank_002.asm.
+│ Je vois l'adresse $5892 dans le fichier .sym : `02:5892 UpdateSpriteAnimationFrame`. Laissez-moi lir
+│ Je dois chercher l'adresse $5892 plus précisément. Laissez-moi chercher par le label.
+│ Parfait! J'ai trouvé le code à l'adresse $5892. Laissez-moi lire la section complète pour analyser l
+│ Maintenant, laissez-moi voir la suite pour identifier toutes les références sortantes.
+│ 1. Ajouter un commentaire de fonction complet
+│ 2. Remplacer les magic numbers par des constantes
+│ 3. Renommer les labels "PaddingZone" qui sont en réalité du code
+│ - $50 = limite haute buffer sprite
+│ - $30, $38, $40, $48 = offsets dans le buffer sprite
+│ - $5958 = ProcessSpriteAnimation (ligne 6060)
+│ Maintenant je dois ajouter les constantes manquantes dans constants.inc :
+│ Je dois ajouter les constantes. Laissez-moi trouver un bon endroit dans constants.inc :
+│ Parfait, maintenant je vais ajouter les nouvelles constantes près des constantes OAM existantes :
+│ Parfait! Maintenant, vérifions que le code compile et que le hash est identique :
+│ Excellent! Le hash est correct mais j'ai deux warnings de troncation. Cela arrive parce que `wSprite
+│ 2. **AnimationDispatch_SelectHandler** (lignes 6104, 6120, 6136, 6149) - appelé à la fin de chaque c
+│ Laissez-moi vérifier l'adresse de ProcessSpriteAnimation :
+│   "summary": "Parcourt 4 slots sprites ($30/$38/$40/$48) avec wrap-around, configure wLevelParam sel
+│ }
+│ ```
+
+</ReflexionAgent>
+
+Je veux que tu améliores le [fichier des conseils](../recommendations.md) en y insérant :
+- des critiques sur le prompt initial
+- des pistes d'améliorations
+- les découvertes que tu pourrais faire
+
+Dans ce meme fichier, je souhaite que tu établisses une note de réalisation pour cette étape

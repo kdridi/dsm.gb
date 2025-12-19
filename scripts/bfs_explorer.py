@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-BFS Explorer - Parcours automatique du code ASM Game Boy
-=========================================================
+BFS Explorer V2 - Orchestrateur ultime pour décompilation Game Boy
+===================================================================
 
-Ce script orchestre l'exploration systématique du code en utilisant Claude
-pour analyser chaque nœud (adresse/routine), puis valide avec make verify
-et commit les changements.
+Architecture en 4 phases avec agents spécialisés :
+1. ANALYZE  : Lecture seule, identification du type et références
+2. DOCUMENT : Ajout de commentaires (code/handler seulement)
+3. VALIDATE : make verify obligatoire
+4. RECONSTRUCT : Reconstruction data (optionnel, séparé)
+
+Principes :
+- Prompts atomiques (une seule tâche claire)
+- JSON strict (validation du format)
+- Fail fast (abandonner plutôt que battre)
+- Stratégie par type (code vs data vs table)
 
 Usage:
-    python scripts/bfs_explorer.py [--dry-run] [--max-nodes N] [--push-every N]
+    python scripts/bfs_explorer.py [--dry-run] [--max-nodes N] [--phase PHASE]
 """
 
 import subprocess
@@ -20,17 +28,35 @@ import re
 import time
 import argparse
 import threading
-import select
 from pathlib import Path
 from dataclasses import dataclass, field
-from typing import Set, List, Optional
+from typing import Set, List, Optional, Dict, Any
 from enum import Enum
+from datetime import datetime
 
-# Configuration
-CLAUDE_MODEL = "sonnet"  # Alias pour la dernière version de Sonnet
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+
+CLAUDE_MODEL = "sonnet"
 STATE_FILE = "scripts/bfs_state.json"
-PUSH_EVERY = 5  # Push tous les N commits
+PUSH_EVERY = 10
+MAX_PROMPT_TIME = 120  # Timeout agressif en secondes
 
+# Couleurs terminal
+class Colors:
+    RESET = "\033[0m"
+    RED = "\033[31m"
+    GREEN = "\033[32m"
+    YELLOW = "\033[33m"
+    BLUE = "\033[34m"
+    MAGENTA = "\033[35m"
+    CYAN = "\033[36m"
+    GRAY = "\033[90m"
+
+# ============================================================================
+# TYPES ET STRUCTURES
+# ============================================================================
 
 class NodeType(str, Enum):
     CODE = "code"
@@ -39,16 +65,21 @@ class NodeType(str, Enum):
     TABLE = "table"
     UNKNOWN = "unknown"
 
+class Phase(str, Enum):
+    ANALYZE = "analyze"
+    DOCUMENT = "document"
+    VALIDATE = "validate"
+    RECONSTRUCT = "reconstruct"
 
 @dataclass
 class Node:
-    """Un nœud à explorer dans le graphe de code."""
-    address: str  # Ex: "$0185" ou "SystemInit"
+    """Un noeud à explorer dans le graphe de code."""
+    address: str
     node_type: NodeType
     description: str
-    source: str  # D'où vient cette référence
+    source: str
     bank: int = 0
-    priority: int = 0  # Plus bas = plus prioritaire
+    priority: int = 0
 
     def to_dict(self) -> dict:
         return {
@@ -64,13 +95,24 @@ class Node:
     def from_dict(cls, d: dict) -> "Node":
         return cls(
             address=d["address"],
-            node_type=NodeType(d["node_type"]),
-            description=d["description"],
-            source=d["source"],
+            node_type=NodeType(d.get("node_type", "unknown")),
+            description=d.get("description", ""),
+            source=d.get("source", ""),
             bank=d.get("bank", 0),
             priority=d.get("priority", 0)
         )
 
+@dataclass
+class AnalysisResult:
+    """Résultat de la phase ANALYZE."""
+    address: str
+    type_confirmed: NodeType
+    label_current: Optional[str]
+    label_suggested: Optional[str]
+    references_out: List[Dict[str, Any]]
+    summary: str
+    needs_reconstruction: bool = False
+    raw_json: Optional[dict] = None
 
 @dataclass
 class ExplorerState:
@@ -79,170 +121,180 @@ class ExplorerState:
     visited: Set[str] = field(default_factory=set)
     commits_since_push: int = 0
     total_explored: int = 0
+    failed_nodes: Set[str] = field(default_factory=set)
 
     def save(self, path: str):
-        """Sauvegarde l'état dans un fichier JSON."""
         data = {
             "frontier": [n.to_dict() for n in self.frontier],
             "visited": list(self.visited),
+            "failed_nodes": list(self.failed_nodes),
             "commits_since_push": self.commits_since_push,
             "total_explored": self.total_explored
         }
         with open(path, 'w') as f:
             json.dump(data, f, indent=2)
-        print(f"\n💾 [STATE] Sauvegardé: {len(self.frontier)} en frontière, {len(self.visited)} visités")
+        print(f"{Colors.GRAY}💾 État sauvegardé: {len(self.frontier)} frontière, {len(self.visited)} visités{Colors.RESET}")
 
     @classmethod
     def load(cls, path: str) -> "ExplorerState":
-        """Charge l'état depuis un fichier JSON."""
         if not os.path.exists(path):
             return cls()
-
         with open(path, 'r') as f:
             data = json.load(f)
-
         state = cls()
         state.frontier = [Node.from_dict(n) for n in data.get("frontier", [])]
         state.visited = set(data.get("visited", []))
+        state.failed_nodes = set(data.get("failed_nodes", []))
         state.commits_since_push = data.get("commits_since_push", 0)
         state.total_explored = data.get("total_explored", 0)
-
-        print(f"📂 [STATE] Chargé: {len(state.frontier)} en frontière, {len(state.visited)} visités")
+        print(f"{Colors.CYAN}📂 État chargé: {len(state.frontier)} frontière, {len(state.visited)} visités{Colors.RESET}")
         return state
 
+# ============================================================================
+# PROMPTS ATOMIQUES
+# ============================================================================
 
-def get_initial_frontier() -> List[Node]:
-    """Points d'entrée initiaux pour le BFS."""
-    return [
-        # Couche 0: Points d'entrée absolus
-        Node("$0000", NodeType.CODE, "RST $00 - Soft reset", "boot", 0, 0),
-        Node("$0028", NodeType.CODE, "RST $28 - Jump table dispatcher", "boot", 0, 0),
-        Node("$0040", NodeType.HANDLER, "VBlank interrupt vector", "boot", 0, 0),
-        Node("$0048", NodeType.HANDLER, "LCD STAT interrupt vector", "boot", 0, 0),
-        Node("$0050", NodeType.HANDLER, "Timer interrupt vector", "boot", 0, 0),
-        Node("$0100", NodeType.CODE, "ROM Entry point", "boot", 0, 0),
-
-        # Couche 1: Handlers principaux
-        Node("$0060", NodeType.HANDLER, "VBlankHandler", "$0040", 0, 1),
-        Node("$0095", NodeType.HANDLER, "LCDStatHandler", "$0048", 0, 1),
-        Node("$0185", NodeType.CODE, "SystemInit - Init système", "$0100", 0, 1),
-        Node("$0226", NodeType.CODE, "GameLoop - Boucle principale", "SystemInit", 0, 1),
-
-        # Couche 2: Tables de dispatch
-        Node("$02A5", NodeType.TABLE, "StateJumpTable - 60 états", "StateDispatcher", 0, 2),
-        Node("$4000:1", NodeType.TABLE, "LevelJumpTable Bank 1", "level loader", 1, 2),
-        Node("$4000:2", NodeType.TABLE, "LevelJumpTable Bank 2", "level loader", 2, 2),
-        Node("$4000:3", NodeType.TABLE, "LevelJumpTable Bank 3", "level loader", 3, 2),
-
-        # Couche 3: Routines Bank 3
-        Node("$47F2", NodeType.CODE, "JoypadReadHandler", "GameLoop", 3, 3),
-        Node("$4823", NodeType.CODE, "AnimationHandler", "CallBank3Handler", 3, 3),
-    ]
-
-
-def build_prompt(node: Node, state: ExplorerState) -> str:
-    """Construit le prompt pour explorer un nœud spécifique."""
-
+def prompt_analyze(node: Node) -> str:
+    """Prompt pour la phase ANALYZE - lecture seule, JSON strict."""
     bank_file = f"bank_00{node.bank}.asm" if node.bank < 10 else f"bank_0{node.bank}.asm"
 
-    base_prompt = f"""Tu explores le code ASM Game Boy dans le cadre d'un parcours BFS systématique.
+    return f"""Tu es un expert en reverse engineering Game Boy. PHASE ANALYZE - LECTURE SEULE.
 
-## Nœud actuel à analyser
+## Cible
+- Adresse: {node.address}
+- Type supposé: {node.node_type.value}
+- Description: {node.description}
+- Bank: {node.bank}
+- Fichier: src/{bank_file}
 
-- **Adresse**: {node.address}
-- **Type**: {node.node_type.value}
-- **Description**: {node.description}
-- **Source**: {node.source}
-- **Bank**: {node.bank}
-- **Fichier**: src/{bank_file}
+## Ta mission (LECTURE SEULE)
+1. Trouve le code/données à cette adresse via grep sur les .asm ou le fichier .sym
+2. Identifie le TYPE RÉEL (code, data, table, handler)
+3. Liste les RÉFÉRENCES SORTANTES (call, jp, ld hl/$XXXX, dw $XXXX)
+4. Note si la zone nécessite RECONSTRUCTION (instructions db/dw mal désassemblées)
 
-## Ta mission
+## CONTRAINTES
+- NE MODIFIE AUCUN FICHIER
+- NE LANCE PAS make verify
+- PRODUIS UNIQUEMENT LE JSON CI-DESSOUS
 
-1. **Trouver le code** - Cherche dans les fichiers source .asm:
-   - Utilise grep pour trouver "SECTION.*{node.address}" ou le label dans src/{bank_file}
-   - Le fichier src/game.sym contient la table adresse→label si besoin
-   - **Privilégie les .asm** - ne lis le binaire (xxd) que pour reconstruire des zones de data mal désassemblées
-2. **Analyser** le code/données:
-   - Si c'est du CODE: comprendre la logique, identifier les calls/jumps sortants
-   - Si c'est une TABLE: identifier les entrées et leurs cibles
-   - Si c'est des DATA: identifier le format (tiles, texte, pointeurs...)
-3. **Améliorer** le code source:
-   - Renommer les labels génériques (Jump_XXXX, Call_XXXX) en noms descriptifs
-   - Remplacer les magic numbers par des constantes de constants.inc
-   - Si c'est une zone mal désassemblée (data comme code), la reconstruire avec db/dw
-   - **Commentaires de fonction OBLIGATOIRES**: Chaque routine/handler doit avoir un bloc commentaire en début:
-     ```asm
-     ; NomDeLaFonction
-     ; ----------------
-     ; Description: Ce que fait la fonction (1-2 lignes)
-     ; In:  a = paramètre1, hl = pointeur vers...
-     ; Out: a = résultat, carry = si erreur
-     ; Modifie: bc, de (si applicable)
-     ```
-   - Vérifier que les commentaires existants sont à jour et cohérents avec le code
-4. **Lister les références sortantes** dans ton output final
-
-## Format de sortie attendu
-
-À la fin de ton analyse, produis un bloc JSON avec les nouvelles adresses découvertes:
-
+## SORTIE OBLIGATOIRE (JSON uniquement)
 ```json
 {{
-  "explored": "{node.address}",
+  "address": "{node.address}",
   "type_confirmed": "code|data|table|handler",
-  "label_renamed": "NouveauNom ou null",
+  "label_current": "NomActuel ou null",
+  "label_suggested": "NomSuggéré ou null",
+  "needs_reconstruction": false,
   "references_out": [
-    {{"address": "$XXXX", "type": "code|data|table", "description": "...", "bank": 0}},
-    ...
+    {{"address": "$XXXX", "type": "code|data|table", "description": "...", "bank": 0}}
   ],
-  "summary": "Résumé en une phrase de ce que fait ce code"
+  "summary": "Une phrase décrivant ce que fait ce code/données"
 }}
 ```
 
-## Règles importantes
-
-- **TOUJOURS** terminer par `make verify` pour valider que le hash est identique
-- Ne fais qu'UN SEUL nœud à la fois
-- Si tu découvres des zones de données mal désassemblées, note-les mais ne les reconstruis que si c'est le nœud actuel
-- NE PAS faire de git commit, le script s'en charge
-
-## Contexte du projet
-
-- Fichier CLAUDE.md contient les conventions du projet
-- `make verify` doit toujours passer (hash SHA256+MD5 identique)
-- Labels: CamelCase pour routines, SNAKE_CASE pour constantes
-- Préfixes: h pour HRAM, w pour WRAM, r pour registres hardware
-"""
-
-    return base_prompt
+IMPORTANT: Ta réponse doit contenir UNIQUEMENT le bloc JSON ci-dessus, rien d'autre."""
 
 
-def stream_output(pipe, prefix: str, color: str = ""):
-    """Lit et affiche un flux en temps réel."""
-    reset = "\033[0m" if color else ""
-    for line in iter(pipe.readline, ''):
-        if line:
-            print(f"{color}{prefix}{reset} {line.rstrip()}")
-            sys.stdout.flush()
+def prompt_document(node: Node, analysis: AnalysisResult) -> str:
+    """Prompt pour la phase DOCUMENT - ajout de commentaires seulement."""
+    bank_file = f"bank_00{node.bank}.asm" if node.bank < 10 else f"bank_0{node.bank}.asm"
+
+    return f"""Tu es un expert en reverse engineering Game Boy. PHASE DOCUMENT - COMMENTAIRES SEULEMENT.
+
+## Cible
+- Adresse: {node.address}
+- Type: {analysis.type_confirmed.value}
+- Label actuel: {analysis.label_current or 'générique'}
+- Fichier: src/{bank_file}
+
+## Analyse précédente
+{analysis.summary}
+
+## Ta mission
+1. Ajoute un BLOC COMMENTAIRE au début de la routine/zone:
+```asm
+; NomFonction
+; -----------
+; Description: Ce que fait la fonction
+; In:  registres d'entrée
+; Out: registres de sortie
+; Modifie: registres modifiés
+```
+
+2. Si le label est générique (Jump_XXXX, Call_XXXX), renomme-le en nom descriptif
+
+## CONTRAINTES
+- NE MODIFIE QUE les commentaires et labels
+- NE TOUCHE PAS aux instructions assembleur
+- NE RECONSTRUIT PAS les données mal désassemblées
+- Termine par `make verify`
+
+## SORTIE OBLIGATOIRE (JSON après les modifications)
+```json
+{{
+  "address": "{node.address}",
+  "label_renamed": "NouveauNom ou null",
+  "comments_added": true,
+  "make_verify": "success|failed"
+}}
+```"""
 
 
-def run_claude_streaming(prompt: str) -> tuple[bool, str]:
-    """Lance Claude avec streaming de l'output en temps réel."""
+def prompt_reconstruct(node: Node, analysis: AnalysisResult) -> str:
+    """Prompt pour la phase RECONSTRUCT - reconstruction de données."""
+    bank_file = f"bank_00{node.bank}.asm" if node.bank < 10 else f"bank_0{node.bank}.asm"
+
+    return f"""Tu es un expert en reverse engineering Game Boy. PHASE RECONSTRUCT - RECONSTRUCTION DATA.
+
+## Cible
+- Adresse: {node.address}
+- Type: {analysis.type_confirmed.value}
+- Fichier: src/{bank_file}
+
+## Analyse précédente
+{analysis.summary}
+
+## Ta mission
+1. Lis les bytes bruts avec: xxd -s 0x{node.address.replace('$', '')} -l 64 src/game.gb
+2. Compare avec le code .asm actuel
+3. Si la zone est mal désassemblée (db au lieu de dw, instructions impossibles):
+   - Reconstruit avec db/dw appropriés
+   - GARDE LE MÊME NOMBRE DE BYTES
+4. Vérifie avec make verify
+
+## RÈGLES CRITIQUES
+- Si le hash change après ta modification: ANNULE TOUT avec `git checkout .`
+- Ne bataille PAS avec les bytes plus de 2 tentatives
+- Si ça ne marche pas, ABANDONNE et note le problème
+
+## SORTIE OBLIGATOIRE (JSON)
+```json
+{{
+  "address": "{node.address}",
+  "reconstruction_attempted": true,
+  "reconstruction_success": true|false,
+  "bytes_changed": 0,
+  "make_verify": "success|failed|abandoned"
+}}
+```"""
+
+# ============================================================================
+# EXÉCUTION CLAUDE
+# ============================================================================
+
+def run_claude(prompt: str, timeout: int = MAX_PROMPT_TIME) -> tuple[bool, str, Optional[dict]]:
+    """Lance Claude avec streaming et parse le JSON de sortie."""
 
     cmd = [
         "claude",
         "-p", prompt,
         "--model", CLAUDE_MODEL,
         "--dangerously-skip-permissions",
-        "--verbose",
         "--output-format", "stream-json"
     ]
 
-    print(f"\n🤖 [CLAUDE] Lancement...")
-    print("─" * 60)
-
     full_text = []
-    current_tool = None
 
     try:
         process = subprocess.Popen(
@@ -250,22 +302,18 @@ def run_claude_streaming(prompt: str) -> tuple[bool, str]:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            bufsize=1,
-            cwd=os.getcwd()
+            bufsize=1
         )
 
-        # Thread pour stderr
-        def read_stderr():
-            for line in iter(process.stderr.readline, ''):
-                if line:
-                    print(f"\033[33m⚠ {line.rstrip()}\033[0m")
-                    sys.stdout.flush()
+        start_time = time.time()
 
-        stderr_thread = threading.Thread(target=read_stderr)
-        stderr_thread.start()
-
-        # Lire stdout en temps réel (stream-json)
+        # Lire stdout en streaming
         while True:
+            if time.time() - start_time > timeout:
+                process.terminate()
+                print(f"{Colors.RED}⏱️ Timeout après {timeout}s{Colors.RESET}")
+                return False, "Timeout", None
+
             line = process.stdout.readline()
             if not line:
                 if process.poll() is not None:
@@ -280,158 +328,82 @@ def run_claude_streaming(prompt: str) -> tuple[bool, str]:
                 msg = json.loads(line)
                 msg_type = msg.get("type", "")
 
-                # Message texte assistant
                 if msg_type == "assistant":
                     content = msg.get("message", {}).get("content", [])
                     for block in content:
                         if block.get("type") == "text":
                             text = block.get("text", "")
                             full_text.append(text)
-                            for l in text.split('\n')[-3:]:
-                                if l.strip():
-                                    print(f"\033[36m│\033[0m {l[:100]}")
-                            sys.stdout.flush()
+                            # Afficher un résumé
+                            for l in text.split('\n')[-2:]:
+                                if l.strip() and not l.startswith('```'):
+                                    print(f"{Colors.GRAY}│ {l[:80]}{Colors.RESET}")
 
-                # Utilisation d'outil - afficher avec l'input
                 elif msg_type == "tool_use":
-                    tool_name = msg.get("tool", "")
-                    tool_input = msg.get("input", {})
-                    # Résumé de l'input
-                    if tool_name == "Read":
-                        info = tool_input.get("file_path", "")[-40:]
-                    elif tool_name == "Grep":
-                        info = tool_input.get("pattern", "")[:30]
-                    elif tool_name == "Glob":
-                        info = tool_input.get("pattern", "")[:30]
-                    elif tool_name == "Edit":
-                        info = tool_input.get("file_path", "")[-40:]
-                    elif tool_name == "Bash":
-                        info = tool_input.get("command", "")[:40]
-                    else:
-                        info = ""
-                    print(f"\033[35m🔧 {tool_name}: {info}\033[0m")
-                    sys.stdout.flush()
+                    tool = msg.get("tool", "")
+                    print(f"{Colors.MAGENTA}🔧 {tool}{Colors.RESET}")
 
-                # Résultat d'outil
-                elif msg_type == "tool_result":
-                    tool_name = msg.get("tool", "")
-                    print(f"\033[32m✓ {tool_name}\033[0m")
-                    sys.stdout.flush()
-
-                # Résultat final
                 elif msg_type == "result":
                     result_text = msg.get("result", "")
                     if result_text:
                         full_text.append(result_text)
 
-                # Debug: afficher les types inconnus
-                elif msg_type and msg_type not in ["system", "user"]:
-                    print(f"\033[90m[{msg_type}]\033[0m")
-                    sys.stdout.flush()
-
             except json.JSONDecodeError:
-                print(f"│ {line[:100]}")
-                sys.stdout.flush()
+                pass
 
-        stderr_thread.join(timeout=5)
-        print("─" * 60)
-
-        success = process.returncode == 0
+        process.wait()
         output = '\n'.join(full_text)
 
-        if success:
-            print("✅ [CLAUDE] Terminé avec succès")
-        else:
-            print(f"❌ [CLAUDE] Échec (code {process.returncode})")
+        # Parser le JSON de sortie
+        json_result = extract_json_from_output(output)
 
-        return success, output
-
-    except Exception as e:
-        print(f"💥 [CLAUDE] Erreur: {e}")
-        return False, str(e)
-
-
-def run_make_verify() -> bool:
-    """Lance make verify et retourne True si le hash est vérifié."""
-
-    print("\n🔍 [VERIFY] Lancement de make verify...")
-
-    try:
-        result = subprocess.run(
-            ["make", "verify"],
-            capture_output=True,
-            text=True,
-            timeout=60
-        )
-
-        output = result.stdout + result.stderr
-
-        # Afficher la sortie
-        for line in output.split('\n'):
-            if line.strip():
-                if "VERIFIED" in line or "OK" in line:
-                    print(f"  \033[32m✓\033[0m {line}")
-                elif "FAIL" in line or "ERROR" in line:
-                    print(f"  \033[31m✗\033[0m {line}")
-                else:
-                    print(f"  │ {line}")
-
-        success = "VERIFICATION REUSSIE" in output or "HASH VERIFIED" in output or "[OK]" in output
-
-        if success:
-            print("✅ [VERIFY] Build vérifié")
-        else:
-            print("❌ [VERIFY] ÉCHEC - Hash différent!")
-
-        return success
+        success = process.returncode == 0
+        return success, output, json_result
 
     except Exception as e:
-        print(f"💥 [VERIFY] Erreur: {e}")
-        return False
+        print(f"{Colors.RED}💥 Erreur: {e}{Colors.RESET}")
+        return False, str(e), None
 
 
-def git_status_clean() -> bool:
-    """Vérifie si le repo est clean (pas de changements non commités)."""
-    result = subprocess.run(
-        ["git", "status", "--porcelain"],
-        capture_output=True,
-        text=True
-    )
-    return len(result.stdout.strip()) == 0
+def extract_json_from_output(output: str) -> Optional[dict]:
+    """Extrait le bloc JSON de la sortie Claude."""
 
+    # Chercher un bloc ```json ... ```
+    json_match = re.search(r'```json\s*(\{[\s\S]*?\})\s*```', output)
+    if json_match:
+        try:
+            return json.loads(json_match.group(1))
+        except json.JSONDecodeError:
+            pass
+
+    # Chercher un JSON brut
+    json_match = re.search(r'\{[\s\S]*"address"[\s\S]*\}', output)
+    if json_match:
+        try:
+            return json.loads(json_match.group(0))
+        except json.JSONDecodeError:
+            pass
+
+    return None
+
+# ============================================================================
+# GIT OPERATIONS
+# ============================================================================
 
 def git_has_changes() -> List[str]:
     """Retourne la liste des fichiers modifiés."""
-    result = subprocess.run(
-        ["git", "status", "--porcelain"],
-        capture_output=True,
-        text=True
-    )
-    files = []
-    for line in result.stdout.strip().split('\n'):
-        if line.strip():
-            files.append(line.strip())
-    return files
+    result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
+    return [l.strip() for l in result.stdout.strip().split('\n') if l.strip()]
 
 
-def git_commit(node: Node) -> bool:
-    """Commit les changements avec un message formaté."""
-
+def git_commit(node: Node, phase: Phase) -> bool:
+    """Commit les changements."""
     changes = git_has_changes()
     if not changes:
-        print("📝 [GIT] Rien à commiter")
         return True
 
-    print(f"\n📝 [GIT] Fichiers modifiés:")
-    for f in changes[:5]:
-        print(f"  │ {f}")
-    if len(changes) > 5:
-        print(f"  │ ... et {len(changes) - 5} autres")
-
-    # Stage all changes
     subprocess.run(["git", "add", "-A"], check=True)
 
-    # Commit
     addr_clean = node.address.replace("$", "").replace(":", "_")
     msg = f"[BFS-{addr_clean}] {node.description}"
 
@@ -439,286 +411,297 @@ def git_commit(node: Node) -> bool:
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"""
+Co-Authored-By: Claude Sonnet <noreply@anthropic.com>"""
 
     try:
-        result = subprocess.run(
-            ["git", "commit", "-m", commit_body],
-            capture_output=True,
-            text=True
-        )
+        result = subprocess.run(["git", "commit", "-m", commit_body], capture_output=True, text=True)
         if result.returncode == 0:
-            print(f"✅ [GIT] Commit créé: {msg[:50]}...")
+            print(f"{Colors.GREEN}✅ Commit: {msg[:50]}...{Colors.RESET}")
             return True
         else:
-            print(f"❌ [GIT] Échec commit: {result.stderr}")
+            print(f"{Colors.RED}❌ Commit échoué: {result.stderr}{Colors.RESET}")
             return False
     except Exception as e:
-        print(f"💥 [GIT] Erreur: {e}")
+        print(f"{Colors.RED}💥 Erreur git: {e}{Colors.RESET}")
         return False
+
+
+def git_restore():
+    """Annule tous les changements."""
+    subprocess.run(["git", "checkout", "."], capture_output=True)
+    subprocess.run(["git", "clean", "-fd"], capture_output=True)
+    print(f"{Colors.YELLOW}🔄 Fichiers restaurés{Colors.RESET}")
 
 
 def git_push() -> bool:
-    """Push les commits vers origin."""
+    """Push vers origin."""
+    try:
+        result = subprocess.run(["git", "push"], capture_output=True, text=True, timeout=60)
+        if result.returncode == 0:
+            print(f"{Colors.GREEN}🚀 Push réussi{Colors.RESET}")
+            return True
+        return False
+    except Exception:
+        return False
 
-    print("\n🚀 [GIT] Push vers origin...")
+# ============================================================================
+# PHASES D'EXPLORATION
+# ============================================================================
+
+def phase_analyze(node: Node) -> Optional[AnalysisResult]:
+    """Phase 1: Analyse en lecture seule."""
+    print(f"\n{Colors.CYAN}📖 PHASE ANALYZE: {node.address}{Colors.RESET}")
+
+    prompt = prompt_analyze(node)
+    success, output, json_result = run_claude(prompt, timeout=60)
+
+    if not success or not json_result:
+        print(f"{Colors.RED}❌ Échec analyse - pas de JSON valide{Colors.RESET}")
+        return None
 
     try:
-        result = subprocess.run(
-            ["git", "push"],
-            capture_output=True,
-            text=True,
-            timeout=60
+        return AnalysisResult(
+            address=json_result.get("address", node.address),
+            type_confirmed=NodeType(json_result.get("type_confirmed", "unknown")),
+            label_current=json_result.get("label_current"),
+            label_suggested=json_result.get("label_suggested"),
+            references_out=json_result.get("references_out", []),
+            summary=json_result.get("summary", ""),
+            needs_reconstruction=json_result.get("needs_reconstruction", False),
+            raw_json=json_result
         )
+    except Exception as e:
+        print(f"{Colors.RED}❌ Erreur parsing: {e}{Colors.RESET}")
+        return None
 
-        if result.returncode == 0:
-            print("✅ [GIT] Push réussi")
+
+def phase_document(node: Node, analysis: AnalysisResult) -> bool:
+    """Phase 2: Documentation (commentaires + labels)."""
+    # Skip si c'est des données pures
+    if analysis.type_confirmed in [NodeType.DATA, NodeType.TABLE]:
+        print(f"{Colors.YELLOW}⏭️ Skip documentation pour {analysis.type_confirmed.value}{Colors.RESET}")
+        return True
+
+    print(f"\n{Colors.BLUE}📝 PHASE DOCUMENT: {node.address}{Colors.RESET}")
+
+    prompt = prompt_document(node, analysis)
+    success, output, json_result = run_claude(prompt, timeout=90)
+
+    if not success:
+        print(f"{Colors.RED}❌ Échec documentation{Colors.RESET}")
+        git_restore()
+        return False
+
+    # Vérifier make verify
+    if json_result and json_result.get("make_verify") == "failed":
+        print(f"{Colors.RED}❌ make verify échoué{Colors.RESET}")
+        git_restore()
+        return False
+
+    return True
+
+
+def phase_validate() -> bool:
+    """Phase 3: Validation avec make verify."""
+    print(f"\n{Colors.GREEN}✔️ PHASE VALIDATE{Colors.RESET}")
+
+    try:
+        result = subprocess.run(["make", "verify"], capture_output=True, text=True, timeout=60)
+        output = result.stdout + result.stderr
+
+        if "VERIFICATION REUSSIE" in output or "[OK]" in output:
+            print(f"{Colors.GREEN}✅ Hash vérifié{Colors.RESET}")
             return True
         else:
-            print(f"❌ [GIT] Échec push: {result.stderr}")
+            print(f"{Colors.RED}❌ Hash différent{Colors.RESET}")
             return False
-
     except Exception as e:
-        print(f"💥 [GIT] Erreur push: {e}")
+        print(f"{Colors.RED}💥 Erreur: {e}{Colors.RESET}")
         return False
 
 
-def git_restore() -> bool:
-    """Annule tous les changements non commités."""
-    print("🔄 [GIT] Restauration des fichiers...")
-    try:
-        subprocess.run(["git", "checkout", "."], check=True)
-        subprocess.run(["git", "clean", "-fd"], check=True)
-        print("✅ [GIT] Fichiers restaurés")
+def phase_reconstruct(node: Node, analysis: AnalysisResult) -> bool:
+    """Phase 4: Reconstruction (optionnelle, pour data/tables)."""
+    if not analysis.needs_reconstruction:
         return True
-    except Exception as e:
-        print(f"💥 [GIT] Erreur restauration: {e}")
+
+    print(f"\n{Colors.MAGENTA}🔨 PHASE RECONSTRUCT: {node.address}{Colors.RESET}")
+
+    prompt = prompt_reconstruct(node, analysis)
+    success, output, json_result = run_claude(prompt, timeout=120)
+
+    if not success:
+        git_restore()
         return False
 
+    if json_result and json_result.get("make_verify") != "success":
+        git_restore()
+        return False
 
-def parse_references_from_output(output: str) -> List[Node]:
-    """Parse les références découvertes depuis l'output de Claude."""
+    return True
 
-    # Chercher le bloc JSON dans l'output
-    json_match = re.search(r'```json\s*(\{[\s\S]*?\})\s*```', output)
+# ============================================================================
+# EXPLORATION PRINCIPALE
+# ============================================================================
 
-    if not json_match:
-        print("⚠️  [PARSE] Pas de bloc JSON trouvé dans l'output")
-        return []
-
-    try:
-        data = json.loads(json_match.group(1))
-        refs = data.get("references_out", [])
-
-        nodes = []
-        for ref in refs:
-            node = Node(
-                address=ref.get("address", ""),
-                node_type=NodeType(ref.get("type", "unknown")),
-                description=ref.get("description", ""),
-                source=data.get("explored", "unknown"),
-                bank=ref.get("bank", 0),
-                priority=3  # Références découvertes = priorité basse
-            )
-            nodes.append(node)
-
-        if nodes:
-            print(f"📍 [PARSE] {len(nodes)} nouvelles références trouvées:")
-            for n in nodes[:5]:
-                print(f"  │ {n.address} ({n.node_type.value}) - {n.description[:40]}")
-            if len(nodes) > 5:
-                print(f"  │ ... et {len(nodes) - 5} autres")
-
-        return nodes
-
-    except json.JSONDecodeError as e:
-        print(f"⚠️  [PARSE] Erreur JSON: {e}")
-        return []
-
-
-def explore_node(node: Node, state: ExplorerState, dry_run: bool = False) -> bool:
-    """Explore un nœud unique."""
+def explore_node(node: Node, state: ExplorerState, skip_reconstruct: bool = True) -> bool:
+    """Explore un noeud complet avec le pipeline de phases."""
 
     print(f"\n{'═'*60}")
-    print(f"🎯 EXPLORATION: {node.address}")
-    print(f"   Type: {node.node_type.value} | Bank: {node.bank} | Priorité: {node.priority}")
+    print(f"{Colors.CYAN}🎯 EXPLORATION: {node.address}{Colors.RESET}")
+    print(f"   Type: {node.node_type.value} | Bank: {node.bank}")
     print(f"   {node.description}")
-    print(f"   Source: {node.source}")
     print(f"{'═'*60}")
 
     if node.address in state.visited:
-        print("⏭️  [SKIP] Déjà visité")
+        print(f"{Colors.YELLOW}⏭️ Déjà visité{Colors.RESET}")
         return True
 
-    # Construire le prompt
-    prompt = build_prompt(node, state)
-
-    if dry_run:
-        print("\n📋 [DRY-RUN] Prompt généré:")
-        print("─" * 40)
-        print(prompt[:800] + "..." if len(prompt) > 800 else prompt)
-        print("─" * 40)
-        state.visited.add(node.address)
+    if node.address in state.failed_nodes:
+        print(f"{Colors.YELLOW}⏭️ Déjà échoué précédemment{Colors.RESET}")
         return True
 
-    # Lancer Claude avec streaming
-    success, output = run_claude_streaming(prompt)
-
-    if not success:
-        print(f"❌ [EXPLORE] Échec pour {node.address}")
-        git_restore()
+    # Phase 1: ANALYZE
+    analysis = phase_analyze(node)
+    if not analysis:
+        state.failed_nodes.add(node.address)
         return False
 
-    # Vérifier le hash
-    if not run_make_verify():
-        print("❌ [EXPLORE] Hash invalide - annulation des changements")
-        git_restore()
-        return False
+    print(f"{Colors.GREEN}✓ Analyse: {analysis.type_confirmed.value} - {analysis.summary[:60]}...{Colors.RESET}")
+    print(f"  Références trouvées: {len(analysis.references_out)}")
 
-    # Parser les nouvelles références
-    new_refs = parse_references_from_output(output)
-    for ref in new_refs:
-        if ref.address not in state.visited:
-            # Éviter les doublons dans la frontière
-            existing = [n for n in state.frontier if n.address == ref.address]
+    # Phase 2: DOCUMENT (seulement pour code/handler)
+    if analysis.type_confirmed in [NodeType.CODE, NodeType.HANDLER]:
+        if not phase_document(node, analysis):
+            state.failed_nodes.add(node.address)
+            return False
+
+    # Phase 3: VALIDATE
+    if git_has_changes():
+        if not phase_validate():
+            git_restore()
+            state.failed_nodes.add(node.address)
+            return False
+
+    # Phase 4: RECONSTRUCT (optionnelle)
+    if not skip_reconstruct and analysis.needs_reconstruction:
+        phase_reconstruct(node, analysis)
+        if not phase_validate():
+            git_restore()
+
+    # Ajouter les nouvelles références à la frontière
+    for ref in analysis.references_out:
+        ref_addr = ref.get("address", "")
+        if ref_addr and ref_addr not in state.visited and ref_addr not in state.failed_nodes:
+            existing = [n for n in state.frontier if n.address == ref_addr]
             if not existing:
-                state.frontier.append(ref)
+                new_node = Node(
+                    address=ref_addr,
+                    node_type=NodeType(ref.get("type", "unknown")),
+                    description=ref.get("description", ""),
+                    source=node.address,
+                    bank=ref.get("bank", 0),
+                    priority=3
+                )
+                state.frontier.append(new_node)
+                print(f"{Colors.GRAY}  + {ref_addr}: {ref.get('description', '')[:40]}{Colors.RESET}")
 
     # Marquer comme visité
     state.visited.add(node.address)
     state.total_explored += 1
 
-    # Sauvegarder l'état AVANT le commit pour l'inclure
+    # Sauvegarder l'état
     state.save(STATE_FILE)
 
-    # Commit si changements (inclut bfs_state.json)
+    # Commit si changements
     if git_has_changes():
-        if not git_commit(node):
-            git_restore()
-            return False
-        state.commits_since_push += 1
+        if git_commit(node, Phase.DOCUMENT):
+            state.commits_since_push += 1
 
     return True
 
 
+def get_initial_frontier() -> List[Node]:
+    """Points d'entrée initiaux pour le BFS."""
+    return [
+        # Vecteurs d'interruption
+        Node("$0000", NodeType.CODE, "RST $00 - Soft reset", "boot", 0, 0),
+        Node("$0040", NodeType.HANDLER, "VBlank interrupt vector", "boot", 0, 0),
+        Node("$0048", NodeType.HANDLER, "LCD STAT interrupt vector", "boot", 0, 0),
+        Node("$0050", NodeType.HANDLER, "Timer interrupt vector", "boot", 0, 0),
+        Node("$0100", NodeType.CODE, "ROM Entry point", "boot", 0, 0),
+
+        # Handlers principaux
+        Node("$0060", NodeType.HANDLER, "VBlankHandler", "$0040", 0, 1),
+        Node("$0095", NodeType.HANDLER, "LCDStatHandler", "$0048", 0, 1),
+        Node("$0185", NodeType.CODE, "SystemInit", "$0100", 0, 1),
+        Node("$0226", NodeType.CODE, "GameLoop", "SystemInit", 0, 1),
+    ]
+
+
 def print_banner():
-    """Affiche une bannière de bienvenue."""
-    print("""
-╔═══════════════════════════════════════════════════════════════╗
+    print(f"""
+{Colors.CYAN}╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║   🎮  BFS EXPLORER - Game Boy ASM Code Analysis  🎮          ║
+║   🎮  BFS EXPLORER V2 - Orchestrateur Ultime  🎮              ║
 ║                                                               ║
-║   Parcours automatique du code avec Claude                    ║
+║   Pipeline: ANALYZE → DOCUMENT → VALIDATE → [RECONSTRUCT]     ║
 ║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
+╚═══════════════════════════════════════════════════════════════╝{Colors.RESET}
 """)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="BFS Explorer pour code ASM Game Boy")
-    parser.add_argument("--dry-run", action="store_true", help="Afficher les prompts sans exécuter")
-    parser.add_argument("--max-nodes", type=int, default=10, help="Nombre max de nœuds à explorer")
+    parser = argparse.ArgumentParser(description="BFS Explorer V2 - Orchestrateur ultime")
+    parser.add_argument("--dry-run", action="store_true", help="Afficher sans exécuter")
+    parser.add_argument("--max-nodes", type=int, default=10, help="Nombre max de noeuds")
     parser.add_argument("--push-every", type=int, default=PUSH_EVERY, help="Push tous les N commits")
-    parser.add_argument("--reset", action="store_true", help="Reset l'état et recommencer")
-    parser.add_argument("--show-frontier", action="store_true", help="Afficher la frontière actuelle")
-    parser.add_argument("--no-push", action="store_true", help="Ne pas push automatiquement")
-
+    parser.add_argument("--with-reconstruct", action="store_true", help="Activer la reconstruction")
+    parser.add_argument("--reset", action="store_true", help="Réinitialiser l'état")
     args = parser.parse_args()
 
     print_banner()
 
     # Charger ou initialiser l'état
     if args.reset or not os.path.exists(STATE_FILE):
-        print("🆕 [INIT] Initialisation avec la frontière de départ")
-        state = ExplorerState()
-        state.frontier = get_initial_frontier()
-        state.save(STATE_FILE)  # Sauvegarder immédiatement après reset
+        state = ExplorerState(frontier=get_initial_frontier())
+        print(f"{Colors.GREEN}🆕 Nouvel état initialisé{Colors.RESET}")
     else:
         state = ExplorerState.load(STATE_FILE)
 
-    # Mode affichage
-    if args.show_frontier:
-        print("\n📋 FRONTIÈRE ACTUELLE")
-        print("─" * 60)
+    # Trier la frontière par priorité
+    state.frontier.sort(key=lambda n: n.priority)
 
-        sorted_frontier = sorted(state.frontier, key=lambda n: (n.priority, n.address))
-        for i, node in enumerate(sorted_frontier):
-            status = "✅" if node.address in state.visited else "⬜"
-            print(f"{status} {i+1:3}. [{node.priority}] {node.address:12} ({node.node_type.value:7}) - {node.description[:35]}")
+    nodes_explored = 0
 
-        print("─" * 60)
-        pending = len([n for n in state.frontier if n.address not in state.visited])
-        print(f"📊 Total: {len(state.frontier)} nœuds | {pending} en attente | {len(state.visited)} visités")
-        return
+    while state.frontier and nodes_explored < args.max_nodes:
+        node = state.frontier.pop(0)
 
-    # Vérification initiale
-    print("🔍 Vérification initiale du build...")
-    if not run_make_verify():
-        print("❌ Le build initial échoue. Corrigez avant de continuer.")
-        return
+        if args.dry_run:
+            print(f"\n[DRY-RUN] {node.address}: {node.description}")
+            continue
 
-    # Boucle principale
-    explored = 0
-    start_time = time.time()
+        success = explore_node(node, state, skip_reconstruct=not args.with_reconstruct)
 
-    try:
-        while state.frontier and explored < args.max_nodes:
-            # Trier par priorité et prendre le premier non visité
-            state.frontier.sort(key=lambda n: (n.priority, n.address))
+        if success:
+            nodes_explored += 1
 
-            node = None
-            for n in state.frontier:
-                if n.address not in state.visited:
-                    node = n
-                    break
-
-            if node is None:
-                print("\n🎉 [DONE] Tous les nœuds ont été visités!")
-                break
-
-            # Afficher la progression
-            pending = len([n for n in state.frontier if n.address not in state.visited])
-            print(f"\n📊 Progression: {explored+1}/{args.max_nodes} | En attente: {pending} | Visités: {len(state.visited)}")
-
-            # Explorer le nœud
-            success = explore_node(node, state, args.dry_run)
-
-            if success:
-                explored += 1
-
-                # Push périodique
-                if not args.dry_run and not args.no_push and state.commits_since_push >= args.push_every:
-                    if git_push():
-                        state.commits_since_push = 0
-
-            # Petite pause entre les nœuds
-            if not args.dry_run:
-                time.sleep(2)
-
-    except KeyboardInterrupt:
-        print("\n\n⚠️  [INTERRUPT] Arrêt demandé par l'utilisateur")
-
-    finally:
-        # Sauvegarder l'état final
-        state.save(STATE_FILE)
-
-        # Push final si nécessaire
-        if not args.dry_run and not args.no_push and state.commits_since_push > 0:
-            print("\n🚀 [FINAL] Push des commits restants...")
-            git_push()
+        # Push périodique
+        if state.commits_since_push >= args.push_every:
+            if git_push():
+                state.commits_since_push = 0
+            state.save(STATE_FILE)
 
     # Résumé final
-    elapsed = time.time() - start_time
-    print(f"""
-╔═══════════════════════════════════════════════════════════════╗
-║                       RÉSUMÉ FINAL                            ║
-╠═══════════════════════════════════════════════════════════════╣
-║  🎯 Nœuds explorés cette session:  {explored:3}                        ║
-║  ✅ Total visités:                 {len(state.visited):3}                        ║
-║  ⬜ En attente dans frontière:     {len([n for n in state.frontier if n.address not in state.visited]):3}                        ║
-║  ⏱️  Temps écoulé:                 {elapsed/60:.1f} min                     ║
-╚═══════════════════════════════════════════════════════════════╝
-""")
+    print(f"\n{'═'*60}")
+    print(f"{Colors.GREEN}📊 RÉSUMÉ{Colors.RESET}")
+    print(f"   Noeuds explorés cette session: {nodes_explored}")
+    print(f"   Total explorés: {state.total_explored}")
+    print(f"   Frontière restante: {len(state.frontier)}")
+    print(f"   Échecs: {len(state.failed_nodes)}")
+    print(f"{'═'*60}")
+
+    state.save(STATE_FILE)
 
 
 if __name__ == "__main__":

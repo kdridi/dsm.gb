@@ -1,0 +1,69 @@
+================================================================================
+PASS 1 : EXTRACTION MASSIVE - RAPPORT
+================================================================================
+
+TOTAL REPORTS ANALYSÉS: 907
+TAUX DE SUCCÈS GLOBAL: 5.8%
+
+SUCCÈS PAR TYPE:
+  code: 5.5% (25/453)
+  handler: 2.8% (3/106)
+  table: 7.6% (9/118)
+  data: 7.0% (16/230)
+
+TOP ANTIPATTERNS (à éviter):
+  [high] bad_disassembly: 322 occurrences
+  [high] problem_generic: 265 occurrences
+  [high] error_generic: 172 occurrences
+  [high] missing_something: 146 occurrences
+  [high] deleted_wrongly: 107 occurrences
+  [high] offset_error: 59 occurrences
+  [medium] byte_by_byte: 33 occurrences
+  [medium] hash_changed: 29 occurrences
+  [low] hash_different: 14 occurrences
+  [low] inverted: 8 occurrences
+
+RÈGLES DÉCOUVERTES:
+  COMPLEXITY_IMPACT
+    → Les noeuds simples réussissent à 6.2% vs 9.1% pour les cauchemars
+    ★ Décomposer les tâches complexes en sous-tâches simples
+  AVOID_BAD_DISASSEMBLY
+    → Le problème "bad_disassembly" cause 96.0% d'échecs
+    ★ Éviter ou abandonner rapidement si bad_disassembly détecté
+  AVOID_PROBLEM_GENERIC
+    → Le problème "problem_generic" cause 94.7% d'échecs
+    ★ Éviter ou abandonner rapidement si problem_generic détecté
+  AVOID_ERROR_GENERIC
+    → Le problème "error_generic" cause 95.3% d'échecs
+    ★ Éviter ou abandonner rapidement si error_generic détecté
+  AVOID_MISSING_SOMETHING
+    → Le problème "missing_something" cause 95.2% d'échecs
+    ★ Éviter ou abandonner rapidement si missing_something détecté
+  AVOID_DELETED_WRONGLY
+    → Le problème "deleted_wrongly" cause 93.5% d'échecs
+    ★ Éviter ou abandonner rapidement si deleted_wrongly détecté
+  CODE_STRATEGY
+    → Les noeuds code sont généralement medium
+    ★ Adapter la stratégie pour le type code
+  HANDLER_STRATEGY
+    → Les noeuds handler sont généralement simple
+    ★ Adapter la stratégie pour le type handler
+  DATA_STRATEGY
+    → Les noeuds data sont généralement simple
+    ★ Adapter la stratégie pour le type data
+  TABLE_STRATEGY
+    → Les noeuds table sont généralement simple
+    ★ Adapter la stratégie pour le type table
+
+SÉQUENCES D'OUTILS EFFICACES:
+  make_verify
+  make_verify → xxd
+  xxd
+  Edit → make_verify
+  grep → make_verify → xxd
+
+VOCABULAIRE SUCCÈS (top 20):
+  maintenant, l'adresse, données, analyser, fichier, vérifions, cette, parfait, références, pattern, fonction, ligne, contexte, sortantes, structure, identique, maintenant,, table, `make, commentaire
+
+VOCABULAIRE ÉCHEC (top 20):
+  maintenant, l'adresse, données, cette, fichier, analyser, vérifions, ligne, label, bytes, parfait, autour, références, table, vérifier, contexte, constantes, structure, fonction, adresses
