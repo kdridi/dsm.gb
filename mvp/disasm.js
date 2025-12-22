@@ -3,7 +3,7 @@
  * Game Boy ROM Disassembler - Ultimate Edition
  * 
  * ROADMAP DES AMÉLIORATIONS (du plus simple au plus complexe) :
- * 1. [ ] Hardware Mapping : Nommer les registres I/O ($FF40 -> rLCDC, etc.)
+ * 1. [x] Hardware Mapping : Nommer les registres I/O ($FF40 -> rLCDC, etc.)
  * 2. [ ] Détection de Strings : Identifier les séquences ASCII/Charsets.
  * 3. [ ] Identification Data : Repérer automatiquement les blocs GFX (Tiles) et Audio.
  * 4. [ ] Résolution JP HL : Utiliser l'émulation pour suivre les Jump Tables.
@@ -782,10 +782,11 @@ class FlowAnalyzer {
 // ============================================================================
 
 class InstructionFormatter {
-	constructor(rom, opcodes, symbols) {
+	constructor(rom, opcodes, symbols, hardware) {
 		this.rom = rom;
 		this.opcodes = opcodes;
 		this.symbols = symbols;
+		this.hardware = hardware;
 	}
 
 	format(romIdx, currentBank) {
@@ -845,6 +846,10 @@ class InstructionFormatter {
 
 		// High RAM address (LDH)
 		if (mnemonic.includes('{a8}')) {
+			const hwName = this.hardware?.getName(0xFF00 + val);
+			if (hwName) {
+				return mnemonic.replace('{a8}', hwName);
+			}
 			return mnemonic.replace('{a8}', `$ff00+$${val.toString(16).padStart(2, '0')}`);
 		}
 
@@ -870,6 +875,13 @@ class InstructionFormatter {
 						.replace('{d16}', label);
 				}
 			}
+		}
+
+		const hwName = this.hardware?.getName(val);
+		if (hwName) {
+			return mnemonic
+				.replace('{a16}', hwName)
+				.replace('{d16}', hwName);
 		}
 
 		// Regular 16-bit value
@@ -900,6 +912,7 @@ class ASMWriter {
 
 		const lines = [];
 		lines.push(this._bankHeader(bankIndex));
+		lines.push('INCLUDE "hardware.inc"');
 		lines.push('');
 
 		let addr = start;
@@ -1000,6 +1013,41 @@ class ASMWriter {
 }
 
 // ============================================================================
+// HARDWARE SYMBOLS
+// ============================================================================
+
+class HardwareSymbols {
+	constructor() {
+		this.symbols = new Map(); // address -> name
+	}
+
+	async load(filepath) {
+		try {
+			const content = await fs.readFile(filepath, 'utf8');
+			const lines = content.split('\n');
+			for (const line of lines) {
+				// Match: DEF rNAME EQU $addr or rNAME EQU $addr or Name = $addr
+				const match = line.match(/^\s*(?:DEF\s+)?([a-zA-Z0-9_]+)\s+(?:EQU|=)\s+\$([0-9a-fA-F]+)/i);
+				if (match) {
+					const name = match[1];
+					const addr = parseInt(match[2], 16);
+					// Prefer 'r' names for registers
+					if (!this.symbols.has(addr) || name.startsWith('r')) {
+						this.symbols.set(addr, name);
+					}
+				}
+			}
+		} catch (err) {
+			// hardware.inc not found or unreadable, ignore
+		}
+	}
+
+	getName(addr) {
+		return this.symbols.get(addr);
+	}
+}
+
+// ============================================================================
 // DISASSEMBLER (Main Orchestrator)
 // ============================================================================
 
@@ -1008,6 +1056,7 @@ class Disassembler {
 		this.options = {
 			outputDir: options.outputDir || '.',
 			verbose: options.verbose ?? true,
+			dumpBytes: options.dumpBytes || 0,
 			...options
 		};
 	}
@@ -1023,6 +1072,12 @@ class Disassembler {
 		// Initialize components
 		const opcodes = new OpcodeTable();
 		const symbols = new SymbolTable();
+		const hardware = new HardwareSymbols();
+		await hardware.load(path.join(path.dirname(romPath), 'hardware.inc'));
+		// Also try current directory
+		if (hardware.symbols.size === 0) {
+			await hardware.load('hardware.inc');
+		}
 
 		// Build entry points
 		const entryPoints = this._buildEntryPoints();
@@ -1032,7 +1087,7 @@ class Disassembler {
 		const analyzer = new FlowAnalyzer(rom, opcodes, symbols);
 		const { codeMap, warnings } = analyzer.analyze(entryPoints);
 
-		this.log(`Found ${codeMap.size} code bytes, ${symbols.labels.size} labels`);
+		this.log(`Found ${codeMap.size} code bytes, ${symbols.labels.size} labels, ${hardware.symbols.size} hardware symbols`);
 
 		if (warnings.length > 0) {
 			this.log(`\nWarnings (${warnings.length}):`);
@@ -1044,13 +1099,24 @@ class Disassembler {
 
 		// Write output
 		this.log(`\nGenerating assembly files...`);
-		const formatter = new InstructionFormatter(rom, opcodes, symbols);
+		const formatter = new InstructionFormatter(rom, opcodes, symbols, hardware);
 		const writer = new ASMWriter(rom, codeMap, symbols, formatter, {
 			dumpBytes: this.options.dumpBytes
 		});
 		writer.opcodes = opcodes; // Inject dependency
 
 		await fs.mkdir(this.options.outputDir, { recursive: true });
+
+		// Copy hardware.inc to output directory if it exists
+		try {
+			const hwSrc = path.join(path.dirname(romPath), 'hardware.inc');
+			const hwDst = path.join(this.options.outputDir, 'hardware.inc');
+			await fs.copyFile(hwSrc, hwDst);
+		} catch (e) {
+			try {
+				await fs.copyFile('hardware.inc', path.join(this.options.outputDir, 'hardware.inc'));
+			} catch (e2) { }
+		}
 
 		let totalBytes = 0;
 		for (let i = 0; i < rom.numBanks; i++) {
