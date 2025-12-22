@@ -6,7 +6,7 @@
  * 1. [x] Hardware Mapping : Nommer les registres I/O ($FF40 -> rLCDC, etc.)
  * 2. [x] Identification Data : Repérer les blocs GFX/Audio via Data XRefs.
  * 3. [x] Résolution JP HL : Suivre les sauts indirects via l'émulation.
- * 4. [ ] Analyse de Pile : Suivre SP pour déduire les signatures de fonctions.
+ * 4. [x] Analyse de Pile : Suivre SP pour déduire les signatures de fonctions.
  * 5. [ ] Export CFG : Générer des graphes de flux (DOT/Graphviz).
  * 6. [ ] Support Charmaps : Permettre l'usage de tables de caractères (RGBDS).
  * 
@@ -481,12 +481,18 @@ class CPUState {
 		this.regs = new Uint8Array(8); // B, C, D, E, H, L, [HL], A
 		this.bank = bank;
 		this.known = new Uint8Array(8).fill(0);
+		this.sp = 0xFFFE; // Default SP
+		this.spKnown = false;
+		this.stack = new Map(); // address -> { val, known, bank }
 	}
 
 	clone() {
 		const newState = new CPUState(this.bank);
 		newState.regs.set(this.regs);
 		newState.known.set(this.known);
+		newState.sp = this.sp;
+		newState.spKnown = this.spKnown;
+		newState.stack = new Map(this.stack);
 		return newState;
 	}
 
@@ -522,6 +528,17 @@ class CPUState {
 	setBC(val) { this.set16(0, 1, val); }
 	setDE(val) { this.set16(2, 3, val); }
 	setHL(val) { this.set16(4, 5, val); }
+
+	push(val, bank) {
+		this.sp = (this.sp - 2) & 0xFFFF;
+		this.stack.set(this.sp, { val, known: true, bank: bank || this.bank });
+	}
+
+	pop() {
+		const entry = this.stack.get(this.sp);
+		this.sp = (this.sp + 2) & 0xFFFF;
+		return entry || { val: 0, known: false };
+	}
 }
 
 // ============================================================================
@@ -687,7 +704,7 @@ class FlowAnalyzer {
 					queue.push({
 						addr: target.memAddr,
 						bank: target.bank,
-						state: state.clone()
+						state: target.state || state.clone()
 					});
 					this.symbols.addLabel(target.romIdx, target.bank, target.memAddr);
 				}
@@ -793,6 +810,58 @@ class FlowAnalyzer {
 			}
 			state.invalidate(7);
 		}
+		// PUSH rr
+		else if ((opcode & 0xCF) === 0xC5) {
+			const rr = (opcode >> 4) & 3;
+			let val = 0, known = false;
+			if (rr === 0) { val = state.getBC(); known = state.isKnown(0) && state.isKnown(1); }
+			else if (rr === 1) { val = state.getDE(); known = state.isKnown(2) && state.isKnown(3); }
+			else if (rr === 2) { val = state.getHL(); known = state.isKnown(4) && state.isKnown(5); }
+			else if (rr === 3) { val = state.getReg(7) << 8; known = state.isKnown(7); } // A (F is 0)
+
+			if (known) state.push(val, state.bank);
+			else {
+				state.sp = (state.sp - 2) & 0xFFFF;
+				state.stack.delete(state.sp); // Invalidate
+			}
+		}
+		// POP rr
+		else if ((opcode & 0xCF) === 0xC1) {
+			const rr = (opcode >> 4) & 3;
+			const entry = state.pop();
+			if (entry.known) {
+				if (rr === 0) state.setBC(entry.val);
+				else if (rr === 1) state.setDE(entry.val);
+				else if (rr === 2) state.setHL(entry.val);
+				else if (rr === 3) state.setReg(7, (entry.val >> 8) & 0xFF);
+			} else {
+				if (rr === 0) { state.invalidate(0); state.invalidate(1); }
+				else if (rr === 1) { state.invalidate(2); state.invalidate(3); }
+				else if (rr === 2) { state.invalidate(4); state.invalidate(5); }
+				else if (rr === 3) { state.invalidate(7); }
+			}
+		}
+		// LD SP, nn
+		else if (opcode === 0x31) {
+			state.sp = this.rom.readWord(romIdx + 1);
+			state.spKnown = true;
+		}
+		// ADD SP, s8
+		else if (opcode === 0xE8) {
+			const offset = this.rom.readSignedByte(romIdx + 1);
+			state.sp = (state.sp + offset) & 0xFFFF;
+		}
+		// LD HL, SP+s8
+		else if (opcode === 0xF8) {
+			const offset = this.rom.readSignedByte(romIdx + 1);
+			state.setHL((state.sp + offset) & 0xFFFF);
+		}
+		// LD SP, HL
+		else if (opcode === 0xF9) {
+			const hl = state.getHL();
+			if (hl !== null) state.sp = hl;
+			else state.spKnown = false;
+		}
 		// ALU ops on A
 		else if ((opcode & 0xC0) === 0x80 || (opcode & 0xC7) === 0xC6) {
 			state.invalidate(7);
@@ -803,13 +872,17 @@ class FlowAnalyzer {
 		const targets = [];
 
 		switch (op.flow) {
-			case FlowType.RST:
+			case FlowType.RST: {
+				const targetState = state.clone();
+				targetState.sp = (targetState.sp - 2) & 0xFFFF;
 				targets.push({
 					memAddr: op.target,
 					bank: 0,
-					romIdx: op.target
+					romIdx: op.target,
+					state: targetState
 				});
 				break;
+			}
 
 			case FlowType.JR:
 			case FlowType.JR_COND: {
@@ -833,10 +906,13 @@ class FlowAnalyzer {
 				const targetMemAddr = this.rom.readWord(romIdx + 1);
 				if (targetMemAddr !== null && targetMemAddr < Memory.VRAM_START) {
 					const targetBank = targetMemAddr < Memory.ROMX_START ? 0 : state.bank;
+					const targetState = state.clone();
+					targetState.sp = (targetState.sp - 2) & 0xFFFF;
 					targets.push({
 						memAddr: targetMemAddr,
 						bank: targetBank,
-						romIdx: this.rom.memToRomIndex(targetMemAddr, targetBank)
+						romIdx: this.rom.memToRomIndex(targetMemAddr, targetBank),
+						state: targetState
 					});
 				}
 				break;
@@ -849,10 +925,16 @@ class FlowAnalyzer {
 					targets.push({
 						memAddr: hl,
 						bank: bank,
-						romIdx: this.rom.memToRomIndex(hl, bank)
+						romIdx: this.rom.memToRomIndex(hl, bank),
+						state: state.clone()
 					});
 					this.symbols.addComment(romIdx, `Jump to HL = $${hl.toString(16).padStart(4, '0')}`);
 				}
+				break;
+			}
+
+			case FlowType.RET: {
+				state.sp = (state.sp + 2) & 0xFFFF;
 				break;
 			}
 		}
