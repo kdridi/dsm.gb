@@ -574,7 +574,8 @@ class FlowAnalyzer {
 								bank: actualBank,
 								romIdx: this.rom.memToRomIndex(targetAddr, actualBank)
 							}],
-							consumed: config.consumed || 0
+							consumed: config.consumed || 0,
+							isTerminal: config.terminal || false
 						};
 					}
 					return null;
@@ -599,7 +600,7 @@ class FlowAnalyzer {
 						this.symbols.markAsData(baseRomIdx + i * 2, bank, hl + i * 2, romIdx);
 						this.symbols.markAsData(baseRomIdx + i * 2 + 1, bank, hl + i * 2 + 1, romIdx);
 					}
-					return { targets, consumed: 0 };
+					return { targets, consumed: 0, isTerminal: config.terminal || false };
 				});
 			}
 		}
@@ -681,14 +682,25 @@ class FlowAnalyzer {
 			if (hookResult) {
 				for (const target of hookResult.targets) {
 					if (target.romIdx < this.rom.length) {
+						this.flowEdges.push({
+							from: currentRomIdx,
+							to: target.romIdx,
+							type: op.flow
+						});
+
 						queue.push({
 							addr: target.memAddr,
 							bank: target.bank,
-							state: state.clone()
+							state: target.state || state.clone()
 						});
 						this.symbols.addLabel(target.romIdx, target.bank, target.memAddr);
 					}
 				}
+
+				if (hookResult.isTerminal) {
+					break;
+				}
+
 				// Skip hook parameters in the sweep
 				currentRomIdx += instrLength + hookResult.consumed;
 				currentMemAddr += instrLength + hookResult.consumed;
