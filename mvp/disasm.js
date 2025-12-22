@@ -275,11 +275,12 @@ class OpcodeTable {
 	}
 
 	_set(opcode, mnemonic, length, flow = FlowType.NORMAL) {
-		this.main.set(opcode, { mnemonic, length, flow });
+		this.main.set(opcode, { opcode, mnemonic, length, flow });
 	}
 
 	_setRST(opcode, target) {
 		this.main.set(opcode, {
+			opcode,
 			mnemonic: `rst $${target.toString(16).padStart(2, '0')}`,
 			length: 1,
 			flow: FlowType.RST,
@@ -289,6 +290,7 @@ class OpcodeTable {
 
 	_setInvalid(opcode) {
 		this.main.set(opcode, {
+			opcode,
 			mnemonic: `db $${opcode.toString(16).padStart(2, '0')}`,
 			length: 1,
 			flow: FlowType.INVALID
@@ -478,21 +480,39 @@ class SymbolTable {
 class CPUState {
 	constructor(bank = 1) {
 		this.regs = new Uint8Array(8); // B, C, D, E, H, L, [HL], A
+		this.f = 0; // Flags: Z, N, H, C (top 4 bits)
 		this.bank = bank;
 		this.known = new Uint8Array(8).fill(0);
-		this.sp = 0xFFFE; // Default SP
+		this.fKnown = false;
+		this.sp = 0xFFFE;
 		this.spKnown = false;
-		this.stack = new Map(); // address -> { val, known, bank }
+		this.stack = new Map();
 	}
 
 	clone() {
 		const newState = new CPUState(this.bank);
 		newState.regs.set(this.regs);
+		newState.f = this.f;
 		newState.known.set(this.known);
+		newState.fKnown = this.fKnown;
 		newState.sp = this.sp;
 		newState.spKnown = this.spKnown;
 		newState.stack = new Map(this.stack);
 		return newState;
+	}
+
+	get Z() { return (this.f & 0x80) !== 0; }
+	get N() { return (this.f & 0x40) !== 0; }
+	get H() { return (this.f & 0x20) !== 0; }
+	get C() { return (this.f & 0x10) !== 0; }
+
+	setFlags(z, n, h, c) {
+		this.f = 0;
+		if (z) this.f |= 0x80;
+		if (n) this.f |= 0x40;
+		if (h) this.f |= 0x20;
+		if (c) this.f |= 0x10;
+		this.fKnown = true;
 	}
 
 	setReg(idx, val) {
@@ -785,7 +805,6 @@ class FlowAnalyzer {
 				}
 				state.invalidate(dst);
 			} else if (dst === 6) { // LD [HL], r
-				// Track bank switching
 				const hl = state.getHL();
 				if (hl !== null && hl >= 0x2000 && hl <= 0x3FFF) {
 					if (state.isKnown(src)) {
@@ -798,19 +817,12 @@ class FlowAnalyzer {
 				else state.invalidate(dst);
 			}
 		}
-		// LD HL, nn
-		else if (opcode === 0x21) {
-			state.setHL(this.rom.readWord(romIdx + 1));
-		}
-		// LD DE, nn
-		else if (opcode === 0x11) {
-			state.setDE(this.rom.readWord(romIdx + 1));
-		}
-		// LD BC, nn
-		else if (opcode === 0x01) {
-			state.setBC(this.rom.readWord(romIdx + 1));
-		}
-		// LD A, [nnnn]
+		// LD HL/DE/BC, nn
+		else if (opcode === 0x21) state.setHL(this.rom.readWord(romIdx + 1));
+		else if (opcode === 0x11) state.setDE(this.rom.readWord(romIdx + 1));
+		else if (opcode === 0x01) state.setBC(this.rom.readWord(romIdx + 1));
+
+		// LD A, [nnnn] / LD [nnnn], A
 		else if (opcode === 0xFA) {
 			const addr = this.rom.readWord(romIdx + 1);
 			if (addr < Memory.VRAM_START) {
@@ -820,14 +832,11 @@ class FlowAnalyzer {
 			}
 			state.invalidate(7);
 		}
-		// LD [nnnn], A
 		else if (opcode === 0xEA) {
 			const addr = this.rom.readWord(romIdx + 1);
-			if (addr >= 0x2000 && addr <= 0x3FFF) {
-				if (state.isKnown(7)) {
-					const val = state.getReg(7) & 0x1F;
-					state.bank = val === 0 ? 1 : val;
-				}
+			if (addr >= 0x2000 && addr <= 0x3FFF && state.isKnown(7)) {
+				const val = state.getReg(7) & 0x1F;
+				state.bank = val === 0 ? 1 : val;
 			}
 		}
 		// LD A, [hl+] / [hl-]
@@ -843,22 +852,17 @@ class FlowAnalyzer {
 			}
 			state.invalidate(7);
 		}
-		// PUSH rr
+		// PUSH/POP
 		else if ((opcode & 0xCF) === 0xC5) {
 			const rr = (opcode >> 4) & 3;
 			let val = 0, known = false;
 			if (rr === 0) { val = state.getBC(); known = state.isKnown(0) && state.isKnown(1); }
 			else if (rr === 1) { val = state.getDE(); known = state.isKnown(2) && state.isKnown(3); }
 			else if (rr === 2) { val = state.getHL(); known = state.isKnown(4) && state.isKnown(5); }
-			else if (rr === 3) { val = state.getReg(7) << 8; known = state.isKnown(7); } // A (F is 0)
-
+			else if (rr === 3) { val = (state.getReg(7) << 8) | state.f; known = state.isKnown(7) && state.fKnown; }
 			if (known) state.push(val, state.bank);
-			else {
-				state.sp = (state.sp - 2) & 0xFFFF;
-				state.stack.delete(state.sp); // Invalidate
-			}
+			else { state.sp = (state.sp - 2) & 0xFFFF; state.stack.delete(state.sp); }
 		}
-		// POP rr
 		else if ((opcode & 0xCF) === 0xC1) {
 			const rr = (opcode >> 4) & 3;
 			const entry = state.pop();
@@ -866,54 +870,164 @@ class FlowAnalyzer {
 				if (rr === 0) state.setBC(entry.val);
 				else if (rr === 1) state.setDE(entry.val);
 				else if (rr === 2) state.setHL(entry.val);
-				else if (rr === 3) state.setReg(7, (entry.val >> 8) & 0xFF);
+				else if (rr === 3) { state.setReg(7, entry.val >> 8); state.f = entry.val & 0xF0; state.fKnown = true; }
 			} else {
 				if (rr === 0) { state.invalidate(0); state.invalidate(1); }
 				else if (rr === 1) { state.invalidate(2); state.invalidate(3); }
 				else if (rr === 2) { state.invalidate(4); state.invalidate(5); }
-				else if (rr === 3) { state.invalidate(7); }
+				else if (rr === 3) { state.invalidate(7); state.fKnown = false; }
 			}
 		}
-		// LD SP, nn
-		else if (opcode === 0x31) {
-			state.sp = this.rom.readWord(romIdx + 1);
-			state.spKnown = true;
-		}
-		// ADD SP, s8
-		else if (opcode === 0xE8) {
-			const offset = this.rom.readSignedByte(romIdx + 1);
-			state.sp = (state.sp + offset) & 0xFFFF;
-		}
-		// LD HL, SP+s8
-		else if (opcode === 0xF8) {
-			const offset = this.rom.readSignedByte(romIdx + 1);
-			state.setHL((state.sp + offset) & 0xFFFF);
-		}
-		// LD SP, HL
-		else if (opcode === 0xF9) {
-			const hl = state.getHL();
-			if (hl !== null) state.sp = hl;
-			else state.spKnown = false;
-		}
-		// ALU ops on A
+		// ALU Operations
 		else if ((opcode & 0xC0) === 0x80 || (opcode & 0xC7) === 0xC6) {
+			const op = (opcode >> 3) & 7;
+			const src = opcode & 7;
+			let val = 0, known = false;
+
+			if (opcode === 0xC6 || opcode === 0xCE || opcode === 0xD6 || opcode === 0xDE || opcode === 0xE6 || opcode === 0xEE || opcode === 0xF6 || opcode === 0xFE) {
+				val = this.rom.readByte(romIdx + 1);
+				known = val !== null;
+			} else if (src !== 6) {
+				val = state.getReg(src);
+				known = state.isKnown(src);
+			}
+
+			if (known && state.isKnown(7)) {
+				const a = state.getReg(7);
+				let res = a;
+				switch (op) {
+					case 0: // ADD
+						res = a + val;
+						state.setFlags((res & 0xFF) === 0, false, (a & 0xF) + (val & 0xF) > 0xF, res > 0xFF);
+						state.setReg(7, res);
+						break;
+					case 1: // ADC
+						const carry = state.fKnown && state.C ? 1 : 0;
+						res = a + val + carry;
+						state.setFlags((res & 0xFF) === 0, false, (a & 0xF) + (val & 0xF) + carry > 0xF, res > 0xFF);
+						state.setReg(7, res);
+						break;
+					case 2: // SUB
+					case 7: // CP
+						res = a - val;
+						state.setFlags((res & 0xFF) === 0, true, (a & 0xF) < (val & 0xF), a < val);
+						if (op === 2) state.setReg(7, res);
+						break;
+					case 3: // SBC
+						const bcarry = state.fKnown && state.C ? 1 : 0;
+						res = a - val - bcarry;
+						state.setFlags((res & 0xFF) === 0, true, (a & 0xF) < (val & 0xF) + bcarry, a < val + bcarry);
+						state.setReg(7, res);
+						break;
+					case 4: // AND
+						res = a & val;
+						state.setFlags(res === 0, false, true, false);
+						state.setReg(7, res);
+						break;
+					case 5: // XOR
+						res = a ^ val;
+						state.setFlags(res === 0, false, false, false);
+						state.setReg(7, res);
+						break;
+					case 6: // OR
+						res = a | val;
+						state.setFlags(res === 0, false, false, false);
+						state.setReg(7, res);
+						break;
+				}
+			} else {
+				state.invalidate(7);
+				state.fKnown = false;
+			}
+		}
+		// INC/DEC r
+		else if ((opcode & 0xC7) === 0x04 || (opcode & 0xC7) === 0x05) {
+			const r = (opcode >> 3) & 7;
+			const isDec = (opcode & 1) !== 0;
+			if (state.isKnown(r)) {
+				const v = state.getReg(r);
+				const nv = isDec ? (v - 1) : (v + 1);
+				state.setReg(r, nv);
+				// Actually flags are affected too, but Z, N, H only. Carry is not touched.
+				state.fKnown = false;
+			} else {
+				state.invalidate(r);
+				state.fKnown = false;
+			}
+		}
+		// XOR A (Common idiom)
+		else if (opcode === 0xAF) {
+			state.setReg(7, 0);
+			state.setFlags(true, false, false, false);
+		}
+		// CB-prefix instructions
+		else if (opcode === 0xCB) {
+			const cbOpcode = this.rom.readByte(romIdx + 1);
+			const op = (cbOpcode >> 3) & 7;
+			const r = cbOpcode & 7;
+
+			if (cbOpcode <= 0x3F) { // Rotates and Shifts
+				if (state.isKnown(r) || r === 6) {
+					// Minimal implementation: just invalidate or handle common ones
+					state.invalidate(r);
+					state.fKnown = false;
+				}
+			} else if (cbOpcode >= 0x40 && cbOpcode <= 0x7F) { // BIT n, r
+				const bit = (cbOpcode >> 3) & 7;
+				if (state.isKnown(r)) {
+					const val = state.getReg(r);
+					const isSet = (val & (1 << bit)) !== 0;
+					// BIT updates Z, N=0, H=1. Carry is untouched.
+					if (state.fKnown) {
+						state.setFlags(!isSet, false, true, state.C);
+					} else {
+						state.fKnown = false;
+					}
+				} else {
+					state.fKnown = false;
+				}
+			} else { // SET/RES
+				state.invalidate(r);
+			}
+		}
+		// Rotates on A (non-CB)
+		else if (opcode === 0x07 || opcode === 0x0F || opcode === 0x17 || opcode === 0x1F) {
 			state.invalidate(7);
+			state.fKnown = false;
+		}
+		// DAA, CPL, SCF, CCF
+		else if (opcode === 0x27) { // DAA
+			state.invalidate(7);
+			state.fKnown = false;
+		} else if (opcode === 0x2F) { // CPL
+			if (state.isKnown(7)) {
+				state.setReg(7, ~state.getReg(7));
+				if (state.fKnown) state.setFlags(state.Z, true, true, state.C);
+			} else {
+				state.fKnown = false;
+			}
+		} else if (opcode === 0x37) { // SCF
+			if (state.fKnown) state.setFlags(state.Z, false, false, true);
+		} else if (opcode === 0x3F) { // CCF
+			if (state.fKnown) state.setFlags(state.Z, false, false, !state.C);
+		}
+		// DI, EI
+		else if (opcode === 0xF3 || opcode === 0xFB) {
+			// No direct effect on registers we track
 		}
 	}
 
 	_getFlowTargets(romIdx, memAddr, currentBank, state, op) {
 		const targets = [];
 
+		const nextRomIdx = romIdx + (op.opcode === 0xCB ? 2 : op.length);
+		const nextMemAddr = memAddr + (op.opcode === 0xCB ? 2 : op.length);
+
 		switch (op.flow) {
 			case FlowType.RST: {
 				const targetState = state.clone();
 				targetState.sp = (targetState.sp - 2) & 0xFFFF;
-				targets.push({
-					memAddr: op.target,
-					bank: 0,
-					romIdx: op.target,
-					state: targetState
-				});
+				targets.push({ memAddr: op.target, bank: 0, romIdx: op.target, state: targetState });
 				break;
 			}
 
@@ -923,11 +1037,19 @@ class FlowAnalyzer {
 				if (offset !== null) {
 					const targetMemAddr = memAddr + 2 + offset;
 					const targetBank = targetMemAddr < Memory.ROMX_START ? 0 : state.bank;
-					targets.push({
-						memAddr: targetMemAddr,
-						bank: targetBank,
-						romIdx: this.rom.memToRomIndex(targetMemAddr, targetBank)
-					});
+					const targetRomIdx = this.rom.memToRomIndex(targetMemAddr, targetBank);
+
+					let taken = true, skip = false;
+					if (op.flow === FlowType.JR_COND && state.fKnown) {
+						const cond = (op.opcode >> 3) & 3;
+						if (cond === 0) { taken = !state.Z; skip = state.Z; } // JR NZ
+						else if (cond === 1) { taken = state.Z; skip = !state.Z; } // JR Z
+						else if (cond === 2) { taken = !state.C; skip = state.C; } // JR NC
+						else if (cond === 3) { taken = state.C; skip = !state.C; } // JR C
+					}
+
+					if (taken) targets.push({ memAddr: targetMemAddr, bank: targetBank, romIdx: targetRomIdx, state: state.clone() });
+					if (!skip && op.flow === FlowType.JR_COND) targets.push({ memAddr: nextMemAddr, bank: currentBank, romIdx: nextRomIdx, state: state.clone() });
 				}
 				break;
 			}
@@ -939,14 +1061,24 @@ class FlowAnalyzer {
 				const targetMemAddr = this.rom.readWord(romIdx + 1);
 				if (targetMemAddr !== null && targetMemAddr < Memory.VRAM_START) {
 					const targetBank = targetMemAddr < Memory.ROMX_START ? 0 : state.bank;
-					const targetState = state.clone();
-					targetState.sp = (targetState.sp - 2) & 0xFFFF;
-					targets.push({
-						memAddr: targetMemAddr,
-						bank: targetBank,
-						romIdx: this.rom.memToRomIndex(targetMemAddr, targetBank),
-						state: targetState
-					});
+					const targetRomIdx = this.rom.memToRomIndex(targetMemAddr, targetBank);
+
+					let taken = true, skip = false;
+					const isCond = (op.flow === FlowType.JUMP_COND || op.flow === FlowType.CALL_COND);
+					if (isCond && state.fKnown) {
+						const cond = (op.opcode >> 3) & 3;
+						if (cond === 0) { taken = !state.Z; skip = state.Z; }
+						else if (cond === 1) { taken = state.Z; skip = !state.Z; }
+						else if (cond === 2) { taken = !state.C; skip = state.C; }
+						else if (cond === 3) { taken = state.C; skip = !state.C; }
+					}
+
+					if (taken) {
+						const targetState = state.clone();
+						if (op.flow === FlowType.CALL || op.flow === FlowType.CALL_COND) targetState.sp = (targetState.sp - 2) & 0xFFFF;
+						targets.push({ memAddr: targetMemAddr, bank: targetBank, romIdx: targetRomIdx, state: targetState });
+					}
+					if (!skip && isCond) targets.push({ memAddr: nextMemAddr, bank: currentBank, romIdx: nextRomIdx, state: state.clone() });
 				}
 				break;
 			}
@@ -955,12 +1087,7 @@ class FlowAnalyzer {
 				const hl = state.getHL();
 				if (hl !== null && hl < Memory.VRAM_START) {
 					const bank = hl < Memory.ROMX_START ? 0 : state.bank;
-					targets.push({
-						memAddr: hl,
-						bank: bank,
-						romIdx: this.rom.memToRomIndex(hl, bank),
-						state: state.clone()
-					});
+					targets.push({ memAddr: hl, bank: bank, romIdx: this.rom.memToRomIndex(hl, bank), state: state.clone() });
 					this.symbols.addComment(romIdx, `Jump to HL = $${hl.toString(16).padStart(4, '0')}`);
 				}
 				break;
