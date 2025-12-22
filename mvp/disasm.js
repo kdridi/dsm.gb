@@ -4,11 +4,11 @@
  * 
  * ROADMAP DES AMÉLIORATIONS (du plus simple au plus complexe) :
  * 1. [x] Hardware Mapping : Nommer les registres I/O ($FF40 -> rLCDC, etc.)
- * 2. [ ] Détection de Strings : Identifier les séquences ASCII/Charsets.
- * 3. [ ] Identification Data : Repérer automatiquement les blocs GFX (Tiles) et Audio.
- * 4. [ ] Résolution JP HL : Utiliser l'émulation pour suivre les Jump Tables.
- * 5. [ ] Analyse de Pile : Suivre SP pour déduire les signatures de fonctions.
- * 6. [ ] Export CFG : Générer des graphes de flux (DOT/Graphviz).
+ * 2. [ ] Identification Data : Repérer automatiquement les blocs GFX (Tiles) et Audio.
+ * 3. [ ] Résolution JP HL : Utiliser l'émulation pour suivre les Jump Tables.
+ * 4. [ ] Analyse de Pile : Suivre SP pour déduire les signatures de fonctions.
+ * 5. [ ] Export CFG : Générer des graphes de flux (DOT/Graphviz).
+ * 6. [ ] Support Charmaps : Permettre l'usage de tables de caractères (RGBDS).
  * 
  * Features:
  * - Recursive descent flow analysis
