@@ -4,8 +4,8 @@
  * 
  * ROADMAP DES AMÉLIORATIONS (du plus simple au plus complexe) :
  * 1. [x] Hardware Mapping : Nommer les registres I/O ($FF40 -> rLCDC, etc.)
- * 2. [ ] Identification Data : Repérer automatiquement les blocs GFX (Tiles) et Audio.
- * 3. [ ] Résolution JP HL : Utiliser l'émulation pour suivre les Jump Tables.
+ * 2. [x] Identification Data : Repérer les blocs GFX/Audio via Data XRefs.
+ * 3. [x] Résolution JP HL : Suivre les sauts indirects via l'émulation.
  * 4. [ ] Analyse de Pile : Suivre SP pour déduire les signatures de fonctions.
  * 5. [ ] Export CFG : Générer des graphes de flux (DOT/Graphviz).
  * 6. [ ] Support Charmaps : Permettre l'usage de tables de caractères (RGBDS).
@@ -408,14 +408,26 @@ class ROMReader {
 
 class SymbolTable {
 	constructor() {
-		this.labels = new Map();  // romIndex -> label name
-		this.comments = new Map(); // romIndex -> comment
+		this.labels = new Map();     // romIndex -> label name
+		this.comments = new Map();    // romIndex -> comment
+		this.dataMap = new Set();    // romIndex -> is data
+		this.xrefs = new Map();      // romIndex -> Set of romIndex (code referencing this)
 	}
 
-	addLabel(romIndex, bank, memAddr) {
+	addLabel(romIndex, bank, memAddr, isData = false) {
+		if (isData) this.dataMap.add(romIndex);
 		if (!this.labels.has(romIndex)) {
-			const prefix = this._getLabelPrefix(memAddr);
-			this.labels.set(romIndex, `${prefix}${bank.toString(16)}_${memAddr.toString(16).padStart(4, '0')}`);
+			const prefix = isData ? 'DATA_' : this._getLabelPrefix(memAddr);
+			this.labels.set(romIndex, `${prefix}${bank.toString(16).padStart(2, '0')}_${memAddr.toString(16).padStart(4, '0')}`);
+		}
+	}
+
+	markAsData(romIndex, bank, memAddr, fromRomIdx) {
+		this.dataMap.add(romIndex);
+		this.addLabel(romIndex, bank, memAddr, true);
+		if (fromRomIdx !== undefined) {
+			if (!this.xrefs.has(romIndex)) this.xrefs.set(romIndex, new Set());
+			this.xrefs.get(romIndex).add(fromRomIdx);
 		}
 	}
 
@@ -466,9 +478,9 @@ class SymbolTable {
 
 class CPUState {
 	constructor(bank = 1) {
-		this.regs = new Uint8Array(8); // B, C, D, E, H, L, (HL), A
+		this.regs = new Uint8Array(8); // B, C, D, E, H, L, [HL], A
 		this.bank = bank;
-		this.known = new Uint8Array(8).fill(0); // Bitmask: 1 if value is known
+		this.known = new Uint8Array(8).fill(0);
 	}
 
 	clone() {
@@ -479,7 +491,7 @@ class CPUState {
 	}
 
 	setReg(idx, val) {
-		if (idx === 6) return; // Ignore [HL] for now
+		if (idx === 6) return;
 		this.regs[idx] = val & 0xFF;
 		this.known[idx] = 1;
 	}
@@ -489,25 +501,27 @@ class CPUState {
 		this.known[idx] = 0;
 	}
 
-	isKnown(idx) {
-		return this.known[idx] === 1;
-	}
+	isKnown(idx) { return this.known[idx] === 1; }
+	getReg(idx) { return this.regs[idx]; }
 
-	getReg(idx) {
-		return this.regs[idx];
-	}
-
-	getHL() {
-		if (this.isKnown(4) && this.isKnown(5)) {
-			return (this.regs[4] << 8) | this.regs[5];
+	get16(hIdx, lIdx) {
+		if (this.isKnown(hIdx) && this.isKnown(lIdx)) {
+			return (this.regs[hIdx] << 8) | this.regs[lIdx];
 		}
 		return null;
 	}
 
-	setHL(val) {
-		this.setReg(4, (val >> 8) & 0xFF);
-		this.setReg(5, val & 0xFF);
+	set16(hIdx, lIdx, val) {
+		this.setReg(hIdx, (val >> 8) & 0xFF);
+		this.setReg(lIdx, val & 0xFF);
 	}
+
+	getBC() { return this.get16(0, 1); }
+	getDE() { return this.get16(2, 3); }
+	getHL() { return this.get16(4, 5); }
+	setBC(val) { this.set16(0, 1, val); }
+	setDE(val) { this.set16(2, 3, val); }
+	setHL(val) { this.set16(4, 5, val); }
 }
 
 // ============================================================================
@@ -515,7 +529,7 @@ class CPUState {
 // ============================================================================
 
 class FlowAnalyzer {
-	constructor(rom, opcodes, symbols) {
+	constructor(rom, opcodes, symbols, config = {}) {
 		this.rom = rom;
 		this.opcodes = opcodes;
 		this.symbols = symbols;
@@ -524,29 +538,54 @@ class FlowAnalyzer {
 		this.warnings = [];
 		this.hooks = new Map();         // targetAddress -> Function
 
-		this._setupDefaultHooks();
+		this._setupHooks(config.hooks || []);
 	}
 
-	_setupDefaultHooks() {
-		// Example: Super Mario Land Inter-bank Call (RST $28)
-		// It takes 3 bytes of parameters: bank (1 byte), address (2 bytes)
-		this.hooks.set(0x0028, (romIdx, memAddr, bank, state) => {
-			const targetBank = this.rom.readByte(romIdx + 1);
-			const targetAddr = this.rom.readWord(romIdx + 2);
+	_setupHooks(hookConfigs) {
+		for (const config of hookConfigs) {
+			const addr = parseInt(config.address, 16);
 
-			if (targetBank !== null && targetAddr !== null) {
-				const actualBank = targetBank === 0 ? 1 : targetBank;
-				return {
-					targets: [{
-						memAddr: targetAddr,
-						bank: actualBank,
-						romIdx: this.rom.memToRomIndex(targetAddr, actualBank)
-					}],
-					consumed: 3 // consumed 3 bytes after the RST instruction
-				};
+			if (config.type === 'rst_interbank') {
+				this.hooks.set(addr, (romIdx, memAddr, bank, state) => {
+					const targetBank = this.rom.readByte(romIdx + 1);
+					const targetAddr = this.rom.readWord(romIdx + 2);
+					if (targetBank !== null && targetAddr !== null) {
+						const actualBank = targetBank === 0 ? 1 : targetBank;
+						return {
+							targets: [{
+								memAddr: targetAddr,
+								bank: actualBank,
+								romIdx: this.rom.memToRomIndex(targetAddr, actualBank)
+							}],
+							consumed: config.consumed || 0
+						};
+					}
+					return null;
+				});
 			}
-			return null;
-		});
+			else if (config.type === 'hl_jump_table') {
+				this.hooks.set(addr, (romIdx, memAddr, bank, state) => {
+					if (config.bank !== undefined && bank !== config.bank) return null;
+					const hl = state.getHL();
+					if (hl === null || hl >= Memory.VRAM_START) return null;
+
+					const targets = [];
+					const baseRomIdx = this.rom.memToRomIndex(hl, bank);
+					for (let i = 0; i < (config.maxEntries || 32); i++) {
+						const targetAddr = this.rom.readWord(baseRomIdx + i * 2);
+						if (targetAddr === null || targetAddr < Memory.ROMX_START || targetAddr >= Memory.VRAM_START) break;
+						targets.push({
+							memAddr: targetAddr,
+							bank: bank,
+							romIdx: this.rom.memToRomIndex(targetAddr, bank)
+						});
+						this.symbols.markAsData(baseRomIdx + i * 2, bank, hl + i * 2, romIdx);
+						this.symbols.markAsData(baseRomIdx + i * 2 + 1, bank, hl + i * 2 + 1, romIdx);
+					}
+					return { targets, consumed: 0 };
+				});
+			}
+		}
 	}
 
 	analyze(entryPoints) {
@@ -676,33 +715,60 @@ class FlowAnalyzer {
 	}
 
 	_emulate(opcode, romIdx, state) {
-		// LD r, n
+		const { addr: memAddr } = this.rom.romIndexToMem(romIdx);
+
+		// LD r, n (8-bit immediate)
 		if ((opcode & 0xC7) === 0x06) {
 			state.setReg((opcode >> 3) & 7, this.rom.readByte(romIdx + 1));
 		}
-		// LD r, r
+		// LD r, r (register transfer)
 		else if ((opcode & 0xC0) === 0x40 && opcode !== 0x76) {
 			const dst = (opcode >> 3) & 7;
 			const src = opcode & 7;
-			if (state.isKnown(src)) {
-				state.setReg(dst, state.getReg(src));
-			} else {
+
+			if (src === 6) { // LD r, [HL]
+				const hl = state.getHL();
+				if (hl !== null && hl < Memory.VRAM_START) {
+					const bank = hl < Memory.ROMX_START ? 0 : state.bank;
+					const targetRomIdx = this.rom.memToRomIndex(hl, bank);
+					this.symbols.markAsData(targetRomIdx, bank, hl, romIdx);
+				}
 				state.invalidate(dst);
+			} else if (dst === 6) { // LD [HL], r
+				// Track bank switching
+				const hl = state.getHL();
+				if (hl !== null && hl >= 0x2000 && hl <= 0x3FFF) {
+					if (state.isKnown(src)) {
+						const val = state.getReg(src) & 0x1F;
+						state.bank = val === 0 ? 1 : val;
+					}
+				}
+			} else {
+				if (state.isKnown(src)) state.setReg(dst, state.getReg(src));
+				else state.invalidate(dst);
 			}
 		}
 		// LD HL, nn
 		else if (opcode === 0x21) {
 			state.setHL(this.rom.readWord(romIdx + 1));
 		}
-		// LD [HL], A
-		else if (opcode === 0x77) {
-			const hl = state.getHL();
-			if (hl !== null && hl >= 0x2000 && hl <= 0x3FFF) {
-				if (state.isKnown(7)) {
-					const val = state.getReg(7) & 0x1F;
-					state.bank = val === 0 ? 1 : val;
-				}
+		// LD DE, nn
+		else if (opcode === 0x11) {
+			state.setDE(this.rom.readWord(romIdx + 1));
+		}
+		// LD BC, nn
+		else if (opcode === 0x01) {
+			state.setBC(this.rom.readWord(romIdx + 1));
+		}
+		// LD A, [nnnn]
+		else if (opcode === 0xFA) {
+			const addr = this.rom.readWord(romIdx + 1);
+			if (addr < Memory.VRAM_START) {
+				const bank = addr < Memory.ROMX_START ? 0 : state.bank;
+				const targetRomIdx = this.rom.memToRomIndex(addr, bank);
+				this.symbols.markAsData(targetRomIdx, bank, addr, romIdx);
 			}
+			state.invalidate(7);
 		}
 		// LD [nnnn], A
 		else if (opcode === 0xEA) {
@@ -714,7 +780,20 @@ class FlowAnalyzer {
 				}
 			}
 		}
-		// ALU ops affect A
+		// LD A, [hl+] / [hl-]
+		else if (opcode === 0x2A || opcode === 0x3A) {
+			const hl = state.getHL();
+			if (hl !== null && hl < Memory.VRAM_START) {
+				const bank = hl < Memory.ROMX_START ? 0 : state.bank;
+				const targetRomIdx = this.rom.memToRomIndex(hl, bank);
+				this.symbols.markAsData(targetRomIdx, bank, hl, romIdx);
+				state.setHL(opcode === 0x2A ? hl + 1 : hl - 1);
+			} else {
+				state.invalidate(4); state.invalidate(5);
+			}
+			state.invalidate(7);
+		}
+		// ALU ops on A
 		else if ((opcode & 0xC0) === 0x80 || (opcode & 0xC7) === 0xC6) {
 			state.invalidate(7);
 		}
@@ -759,6 +838,20 @@ class FlowAnalyzer {
 						bank: targetBank,
 						romIdx: this.rom.memToRomIndex(targetMemAddr, targetBank)
 					});
+				}
+				break;
+			}
+
+			case FlowType.JUMP_HL: {
+				const hl = state.getHL();
+				if (hl !== null && hl < Memory.VRAM_START) {
+					const bank = hl < Memory.ROMX_START ? 0 : state.bank;
+					targets.push({
+						memAddr: hl,
+						bank: bank,
+						romIdx: this.rom.memToRomIndex(hl, bank)
+					});
+					this.symbols.addComment(romIdx, `Jump to HL = $${hl.toString(16).padStart(4, '0')}`);
 				}
 				break;
 			}
@@ -963,13 +1056,30 @@ class ASMWriter {
 
 		// Check if this is code
 		if (this.codeMap.has(romIdx)) {
-			return this._formatCodeLine(romIdx, bankIndex, bankEnd, labelStr);
+			const line = this._formatCodeLine(romIdx, bankIndex, bankEnd, labelStr);
+			const comment = this.symbols.getComment(romIdx);
+			if (comment) {
+				line.text += ` ; ${comment}`;
+			}
+			return line;
 		}
 
 		// Data byte
 		const byte = this.rom.readByte(romIdx);
+		let text = `${labelStr}db $${byte.toString(16).padStart(2, '0')}`;
+
+		// Add XRef comments for data
+		const xrefs = this.symbols.xrefs.get(romIdx);
+		if (xrefs) {
+			const refs = Array.from(xrefs).map(idx => {
+				const { addr, bank } = this.rom.romIndexToMem(idx);
+				return `${bank.toString(16).padStart(2, '0')}:${addr.toString(16).padStart(4, '0')}`;
+			}).join(', ');
+			text += ` ; XRef from ${refs}`;
+		}
+
 		return {
-			text: `${labelStr}db $${byte.toString(16).padStart(2, '0')}`,
+			text,
 			length: 1
 		};
 	}
@@ -1074,17 +1184,28 @@ class Disassembler {
 		const symbols = new SymbolTable();
 		const hardware = new HardwareSymbols();
 		await hardware.load(path.join(path.dirname(romPath), 'hardware.inc'));
-		// Also try current directory
 		if (hardware.symbols.size === 0) {
 			await hardware.load('hardware.inc');
 		}
 
+		// Load Config if provided
+		let config = {};
+		if (this.options.configFile) {
+			try {
+				const configContent = await fs.readFile(this.options.configFile, 'utf8');
+				config = JSON.parse(configContent);
+				this.log(`  Loaded project config: ${config.name || this.options.configFile}`);
+			} catch (err) {
+				this.log(`  Warning: Could not load config ${this.options.configFile}: ${err.message}`);
+			}
+		}
+
 		// Build entry points
-		const entryPoints = this._buildEntryPoints();
+		const entryPoints = this._buildEntryPoints(config.entryPoints || []);
 		this.log(`\nStarting flow analysis from ${entryPoints.length} entry points...`);
 
 		// Analyze code flow
-		const analyzer = new FlowAnalyzer(rom, opcodes, symbols);
+		const analyzer = new FlowAnalyzer(rom, opcodes, symbols, config);
 		const { codeMap, warnings } = analyzer.analyze(entryPoints);
 
 		this.log(`Found ${codeMap.size} code bytes, ${symbols.labels.size} labels, ${hardware.symbols.size} hardware symbols`);
@@ -1140,7 +1261,7 @@ class Disassembler {
 		};
 	}
 
-	_buildEntryPoints() {
+	_buildEntryPoints(extraPoints = []) {
 		const points = [];
 
 		// Main entry point
@@ -1154,6 +1275,12 @@ class Disassembler {
 		// Interrupt vectors
 		for (const addr of EntryPoints.INTERRUPT_VECTORS) {
 			points.push({ addr, bank: 0 });
+		}
+
+		// Config entry points
+		for (const ep of extraPoints) {
+			const addr = typeof ep.addr === 'string' ? parseInt(ep.addr, 16) : ep.addr;
+			points.push({ addr, bank: ep.bank || 0 });
 		}
 
 		return points;
@@ -1203,13 +1330,14 @@ Usage: node gb-disassembler.js <rom.gb> [options]
 
 Options:
   -o, --output <dir>   Output directory (default: current directory)
+  -c, --config <file>  Project configuration file (JSON)
   -d, --dump <N>       Append hex dump of N bytes to each line
   -q, --quiet          Suppress output
   -h, --help           Show this help
 
 Examples:
   node gb-disassembler.js game.gb
-  node gb-disassembler.js game.gb -o ./disasm --dump 8
+  node gb-disassembler.js game.gb -o ./disasm -c sml.json
 `);
 		process.exit(0);
 	}
@@ -1218,10 +1346,13 @@ Examples:
 	let outputDir = '.';
 	let verbose = true;
 	let dumpBytes = 0;
+	let configFile = null;
 
 	for (let i = 1; i < args.length; i++) {
 		if ((args[i] === '-o' || args[i] === '--output') && args[i + 1]) {
 			outputDir = args[++i];
+		} else if ((args[i] === '-c' || args[i] === '--config') && args[i + 1]) {
+			configFile = args[++i];
 		} else if ((args[i] === '-d' || args[i] === '--dump') && args[i + 1]) {
 			dumpBytes = parseInt(args[++i], 10);
 		} else if (args[i] === '-q' || args[i] === '--quiet') {
@@ -1236,7 +1367,7 @@ Examples:
 		process.exit(1);
 	}
 
-	const disassembler = new Disassembler({ outputDir, verbose, dumpBytes });
+	const disassembler = new Disassembler({ outputDir, verbose, dumpBytes, configFile });
 
 	try {
 		await disassembler.disassemble(romPath);

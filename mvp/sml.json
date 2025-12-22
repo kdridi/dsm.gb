@@ -1,0 +1,26 @@
+{
+  "name": "Super Mario Land",
+  "entryPoints": [],
+  "hooks": [
+    {
+      "address": "0x0028",
+      "type": "rst_interbank",
+      "consumed": 3,
+      "description": "SML Inter-bank call"
+    },
+    {
+      "address": "0x6afa",
+      "bank": 3,
+      "type": "hl_jump_table",
+      "maxEntries": 32,
+      "description": "SML Jump Table Resolver 1"
+    },
+    {
+      "address": "0x6afd",
+      "bank": 3,
+      "type": "hl_jump_table",
+      "maxEntries": 32,
+      "description": "SML Jump Table Resolver 2"
+    }
+  ]
+}
