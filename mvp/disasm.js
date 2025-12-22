@@ -7,7 +7,7 @@
  * 2. [x] Identification Data : Repérer les blocs GFX/Audio via Data XRefs.
  * 3. [x] Résolution JP HL : Suivre les sauts indirects via l'émulation.
  * 4. [x] Analyse de Pile : Suivre SP pour déduire les signatures de fonctions.
- * 5. [ ] Export CFG : Générer des graphes de flux (DOT/Graphviz).
+ * 5. [x] Export CFG : Générer des graphes de flux (DOT/Graphviz).
  * 6. [ ] Support Charmaps : Permettre l'usage de tables de caractères (RGBDS).
  * 
  * Features:
@@ -554,6 +554,7 @@ class FlowAnalyzer {
 		this.visited = new Map();       // romIdx -> Set of banks visited here
 		this.warnings = [];
 		this.hooks = new Map();         // targetAddress -> Function
+		this.flowEdges = [];            // { fromRomIdx, toRomIdx, type }
 
 		this._setupHooks(config.hooks || []);
 	}
@@ -625,7 +626,8 @@ class FlowAnalyzer {
 
 		return {
 			codeMap: this.codeMap,
-			warnings: this.warnings
+			warnings: this.warnings,
+			flowEdges: this.flowEdges
 		};
 	}
 
@@ -701,12 +703,32 @@ class FlowAnalyzer {
 			const targets = this._getFlowTargets(currentRomIdx, currentMemAddr, currentBank, state, op);
 			for (const target of targets) {
 				if (target.romIdx < this.rom.length) {
+					this.flowEdges.push({
+						from: currentRomIdx,
+						to: target.romIdx,
+						type: op.flow
+					});
+
 					queue.push({
 						addr: target.memAddr,
 						bank: target.bank,
 						state: target.state || state.clone()
 					});
 					this.symbols.addLabel(target.romIdx, target.bank, target.memAddr);
+				}
+			}
+
+			// Implicit fall-through edge
+			if (!this._isFlowTerminator(op.flow)) {
+				const nextRomIdx = currentRomIdx + instrLength;
+				if (nextRomIdx < this.rom.length && !this._isFlowTerminator(op.flow)) {
+					// We only record fall-through if it's not a terminator
+					// but actually we should check if the next instruction is also code
+					this.flowEdges.push({
+						from: currentRomIdx,
+						to: nextRomIdx,
+						type: FlowType.NORMAL
+					});
 				}
 			}
 
@@ -1240,6 +1262,72 @@ class HardwareSymbols {
 }
 
 // ============================================================================
+// CFG WRITER
+// ============================================================================
+
+class CFGWriter {
+	constructor(rom, symbols, edges) {
+		this.rom = rom;
+		this.symbols = symbols;
+		this.edges = edges;
+	}
+
+	generateDOT() {
+		const dot = [];
+		dot.push('digraph CFG {');
+		dot.push('  node [shape=box, fontname="Courier", fontsize=10];');
+		dot.push('  edge [fontname="Courier", fontsize=8];');
+		dot.push('');
+
+		// Nodes (Labels)
+		for (const [romIdx, label] of this.symbols.labels) {
+			const isData = this.symbols.dataMap.has(romIdx);
+			const color = isData ? 'lightgray' : 'lightblue';
+			dot.push(`  n${romIdx} [label="${label}", style=filled, fillcolor=${color}];`);
+		}
+
+		// Edges
+		for (const edge of this.edges) {
+			const fromLabel = this._findSourceLabel(edge.from);
+			const toLabel = this.symbols.getLabel(edge.to) || `L_${edge.to.toString(16)}`;
+
+			if (fromLabel) {
+				const color = this._getEdgeColor(edge.type);
+				const label = edge.type !== FlowType.NORMAL ? edge.type : '';
+				dot.push(`  n${fromLabel.idx} -> n${edge.to} [color="${color}", label="${label}"];`);
+			}
+		}
+
+		dot.push('}');
+		return dot.join('\n');
+	}
+
+	_findSourceLabel(romIdx) {
+		// Find the nearest label at or before romIdx
+		let bestIdx = -1;
+		for (const [idx] of this.symbols.labels) {
+			if (idx <= romIdx && idx > bestIdx) {
+				bestIdx = idx;
+			}
+		}
+		if (bestIdx !== -1) return { idx: bestIdx, name: this.symbols.getLabel(bestIdx) };
+		return null;
+	}
+
+	_getEdgeColor(type) {
+		switch (type) {
+			case FlowType.CALL: return 'red';
+			case FlowType.JUMP: return 'blue';
+			case FlowType.JR: return 'blue';
+			case FlowType.JR_COND: return 'green';
+			case FlowType.JUMP_COND: return 'green';
+			case FlowType.RST: return 'purple';
+			default: return 'black';
+		}
+	}
+}
+
+// ============================================================================
 // DISASSEMBLER (Main Orchestrator)
 // ============================================================================
 
@@ -1249,6 +1337,8 @@ class Disassembler {
 			outputDir: options.outputDir || '.',
 			verbose: options.verbose ?? true,
 			dumpBytes: options.dumpBytes || 0,
+			configFile: options.configFile || null,
+			exportCFG: options.exportCFG || false,
 			...options
 		};
 	}
@@ -1288,7 +1378,7 @@ class Disassembler {
 
 		// Analyze code flow
 		const analyzer = new FlowAnalyzer(rom, opcodes, symbols, config);
-		const { codeMap, warnings } = analyzer.analyze(entryPoints);
+		const { codeMap, warnings, flowEdges } = analyzer.analyze(entryPoints);
 
 		this.log(`Found ${codeMap.size} code bytes, ${symbols.labels.size} labels, ${hardware.symbols.size} hardware symbols`);
 
@@ -1330,6 +1420,14 @@ class Disassembler {
 
 		// Write symbol file
 		await this._writeSymbols(symbols, rom, this.options.outputDir);
+
+		// Write CFG if requested
+		if (this.options.exportCFG) {
+			this.log(`  Writing CFG...`);
+			const cfgWriter = new CFGWriter(rom, symbols, flowEdges);
+			const dotContent = cfgWriter.generateDOT();
+			await fs.writeFile(path.join(this.options.outputDir, 'flow.dot'), dotContent);
+		}
 
 		const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 		this.log(`\nComplete! ${rom.numBanks} banks, ${totalBytes} bytes in ${elapsed}s`);
@@ -1414,6 +1512,7 @@ Options:
   -o, --output <dir>   Output directory (default: current directory)
   -c, --config <file>  Project configuration file (JSON)
   -d, --dump <N>       Append hex dump of N bytes to each line
+  --cfg                Export Control Flow Graph (DOT format)
   -q, --quiet          Suppress output
   -h, --help           Show this help
 
@@ -1429,12 +1528,15 @@ Examples:
 	let verbose = true;
 	let dumpBytes = 0;
 	let configFile = null;
+	let exportCFG = false;
 
 	for (let i = 1; i < args.length; i++) {
 		if ((args[i] === '-o' || args[i] === '--output') && args[i + 1]) {
 			outputDir = args[++i];
 		} else if ((args[i] === '-c' || args[i] === '--config') && args[i + 1]) {
 			configFile = args[++i];
+		} else if (args[i] === '--cfg') {
+			exportCFG = true;
 		} else if ((args[i] === '-d' || args[i] === '--dump') && args[i + 1]) {
 			dumpBytes = parseInt(args[++i], 10);
 		} else if (args[i] === '-q' || args[i] === '--quiet') {
@@ -1449,7 +1551,7 @@ Examples:
 		process.exit(1);
 	}
 
-	const disassembler = new Disassembler({ outputDir, verbose, dumpBytes, configFile });
+	const disassembler = new Disassembler({ outputDir, verbose, dumpBytes, configFile, exportCFG });
 
 	try {
 		await disassembler.disassemble(romPath);
