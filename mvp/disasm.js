@@ -8,7 +8,6 @@
  * 3. [x] Résolution JP HL : Suivre les sauts indirects via l'émulation.
  * 4. [x] Analyse de Pile : Suivre SP pour déduire les signatures de fonctions.
  * 5. [x] Export CFG : Générer des graphes de flux (DOT/Graphviz).
- * 6. [ ] Support Charmaps : Permettre l'usage de tables de caractères (RGBDS).
  * 
  * Features:
  * - Recursive descent flow analysis
