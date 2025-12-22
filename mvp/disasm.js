@@ -2,19 +2,20 @@
 /**
  * Game Boy ROM Disassembler - Ultimate Edition
  * 
- * A professional-grade disassembler for Game Boy ROMs that produces
- * RGBDS-compatible assembly files with intelligent code/data separation.
+ * ROADMAP DES AMÉLIORATIONS (du plus simple au plus complexe) :
+ * 1. [ ] Hardware Mapping : Nommer les registres I/O ($FF40 -> rLCDC, etc.)
+ * 2. [ ] Détection de Strings : Identifier les séquences ASCII/Charsets.
+ * 3. [ ] Identification Data : Repérer automatiquement les blocs GFX (Tiles) et Audio.
+ * 4. [ ] Résolution JP HL : Utiliser l'émulation pour suivre les Jump Tables.
+ * 5. [ ] Analyse de Pile : Suivre SP pour déduire les signatures de fonctions.
+ * 6. [ ] Export CFG : Générer des graphes de flux (DOT/Graphviz).
  * 
  * Features:
  * - Recursive descent flow analysis
  * - Multi-bank ROM support with MBC detection
  * - Configurable entry points
  * - Symbol table generation
- * - Comprehensive error handling
- * - Clean, modular architecture
- * 
- * @author Claude (Anthropic)
- * @license MIT
+ * - Professional RGBDS output
  */
 
 const fs = require('fs').promises;
@@ -883,12 +884,14 @@ class InstructionFormatter {
 // ============================================================================
 
 class ASMWriter {
-	constructor(rom, codeMap, symbols, formatter) {
+	constructor(rom, codeMap, symbols, formatter, options = {}) {
 		this.rom = rom;
 		this.codeMap = codeMap;
 		this.symbols = symbols;
 		this.formatter = formatter;
 		this.labelWidth = 16;
+		this.dumpBytes = options.dumpBytes || 0;
+		this.dumpPadding = 40;
 	}
 
 	async writeBank(bankIndex, outputDir) {
@@ -902,7 +905,21 @@ class ASMWriter {
 		let addr = start;
 		while (addr < end) {
 			const line = this._formatLine(addr, bankIndex, end);
-			lines.push(line.text);
+
+			let text = line.text;
+			if (this.dumpBytes > 0) {
+				const { addr: memAddr, bank } = this.rom.romIndexToMem(addr);
+				const bytes = [];
+				for (let i = 0; i < this.dumpBytes; i++) {
+					const b = this.rom.readByte(addr + i);
+					if (b === null) break;
+					bytes.push(b.toString(16).padStart(2, '0').toUpperCase());
+				}
+				const dump = `; ${bank.toString(16).padStart(2, '0')}:${memAddr.toString(16).padStart(4, '0')}  ${bytes.join(' ')}`;
+				text = text.padEnd(this.dumpPadding) + dump;
+			}
+
+			lines.push(text);
 			addr += line.length;
 		}
 
@@ -1028,7 +1045,9 @@ class Disassembler {
 		// Write output
 		this.log(`\nGenerating assembly files...`);
 		const formatter = new InstructionFormatter(rom, opcodes, symbols);
-		const writer = new ASMWriter(rom, codeMap, symbols, formatter);
+		const writer = new ASMWriter(rom, codeMap, symbols, formatter, {
+			dumpBytes: this.options.dumpBytes
+		});
 		writer.opcodes = opcodes; // Inject dependency
 
 		await fs.mkdir(this.options.outputDir, { recursive: true });
@@ -1118,12 +1137,13 @@ Usage: node gb-disassembler.js <rom.gb> [options]
 
 Options:
   -o, --output <dir>   Output directory (default: current directory)
+  -d, --dump <N>       Append hex dump of N bytes to each line
   -q, --quiet          Suppress output
   -h, --help           Show this help
 
 Examples:
   node gb-disassembler.js game.gb
-  node gb-disassembler.js game.gb -o ./disasm
+  node gb-disassembler.js game.gb -o ./disasm --dump 8
 `);
 		process.exit(0);
 	}
@@ -1131,10 +1151,13 @@ Examples:
 	const romPath = args[0];
 	let outputDir = '.';
 	let verbose = true;
+	let dumpBytes = 0;
 
 	for (let i = 1; i < args.length; i++) {
 		if ((args[i] === '-o' || args[i] === '--output') && args[i + 1]) {
 			outputDir = args[++i];
+		} else if ((args[i] === '-d' || args[i] === '--dump') && args[i + 1]) {
+			dumpBytes = parseInt(args[++i], 10);
 		} else if (args[i] === '-q' || args[i] === '--quiet') {
 			verbose = false;
 		}
@@ -1147,7 +1170,7 @@ Examples:
 		process.exit(1);
 	}
 
-	const disassembler = new Disassembler({ outputDir, verbose });
+	const disassembler = new Disassembler({ outputDir, verbose, dumpBytes });
 
 	try {
 		await disassembler.disassemble(romPath);
